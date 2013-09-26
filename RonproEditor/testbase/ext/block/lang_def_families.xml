@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BlockFamily>
+	<FamilyMember>fd</FamilyMember>
+	<FamilyMember>bk</FamilyMember>
+</BlockFamily>
+<BlockFamily>
+	<FamilyMember>rt</FamilyMember>
+	<FamilyMember>lt</FamilyMember>
+</BlockFamily>
+<BlockFamily>
+	<FamilyMember>up</FamilyMember>
+	<FamilyMember>down</FamilyMember>
+</BlockFamily>
+
+<BlockFamily>
+	<FamilyMember>true</FamilyMember>
+	<FamilyMember>false</FamilyMember>
+</BlockFamily>
+<BlockFamily>
+	<FamilyMember>min</FamilyMember>
+	<FamilyMember>max</FamilyMember>
+</BlockFamily>
+<BlockFamily>
+	<FamilyMember>sin</FamilyMember>
+	<FamilyMember>cos</FamilyMember>
+	<FamilyMember>tan</FamilyMember>
+</BlockFamily>
+<BlockFamily>
+	<FamilyMember>log</FamilyMember>
+	<FamilyMember>ln</FamilyMember>
+</BlockFamily>
+
+
+<BlockFamily>
+	<!-- <FamilyMember>random-color</FamilyMember> -->
+	<FamilyMember>black</FamilyMember>
+	<FamilyMember>blue</FamilyMember>
+	<!-- <FamilyMember>brown</FamilyMember> -->
+	<FamilyMember>cyan</FamilyMember>
+	<FamilyMember>gray</FamilyMember>
+	<FamilyMember>lightGray</FamilyMember>
+	<FamilyMember>darkGray</FamilyMember>
+	<FamilyMember>green</FamilyMember>
+	<!-- <FamilyMember>lime</FamilyMember> -->
+	<FamilyMember>magenta</FamilyMember>
+	<FamilyMember>orange</FamilyMember>
+	<FamilyMember>pink</FamilyMember>
+	<!-- <FamilyMember>purple</FamilyMember> -->
+	<FamilyMember>red</FamilyMember>
+	<!-- <FamilyMember>sky</FamilyMember> -->
+	<!-- <FamilyMember>turquoise</FamilyMember> -->
+	<FamilyMember>white</FamilyMember>
+	<FamilyMember>yellow</FamilyMember>
+</BlockFamily>
+
+<BlockFamily>
+	<FamilyMember>equals-number</FamilyMember>
+	<FamilyMember>not-equals-number</FamilyMember>
+	<FamilyMember>lessthan</FamilyMember>
+	<FamilyMember>greaterthan</FamilyMember>
+	<FamilyMember>lessthanorequalto</FamilyMember>
+	<FamilyMember>greaterthanorequalto</FamilyMember>
+</BlockFamily>
+
+<BlockFamily>
+	<FamilyMember>equals-number-double</FamilyMember>
+	<FamilyMember>not-equals-number-double</FamilyMember>
+	<FamilyMember>lessthan-double</FamilyMember>
+	<FamilyMember>greaterthan-double</FamilyMember>
+	<FamilyMember>lessthanorequalto-double</FamilyMember>
+	<FamilyMember>greaterthanorequalto-double</FamilyMember>
+</BlockFamily>
+
+<!--
+<BlockFamily>
+	<FamilyMember>equals-string</FamilyMember>
+	<FamilyMember>not-equals-string</FamilyMember>
+</BlockFamily>
+-->
+
+<BlockFamily>
+	<FamilyMember>equals-boolean</FamilyMember>
+	<FamilyMember>not-equals-boolean</FamilyMember>
+</BlockFamily>
+
+<BlockFamily>
+	<FamilyMember>and</FamilyMember>
+	<FamilyMember>or</FamilyMember>
+</BlockFamily>
+
+<BlockFamily>
+	<FamilyMember>sum</FamilyMember>
+	<FamilyMember>difference</FamilyMember>
+	<FamilyMember>quotient</FamilyMember>
+	<FamilyMember>product</FamilyMember>
+	<FamilyMember>remainder</FamilyMember>
+</BlockFamily>
+
+<BlockFamily>
+	<FamilyMember>sum-double</FamilyMember>
+	<FamilyMember>difference-double</FamilyMember>
+	<FamilyMember>quotient-double</FamilyMember>
+	<FamilyMember>product-double</FamilyMember>
+	<FamilyMember>remainder-double</FamilyMember>
+</BlockFamily>
+
+
+
+

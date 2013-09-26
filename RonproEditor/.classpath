@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CommonLibrary"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PresCore"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CSwing"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BlockEditor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BlockConverter"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/fcfw"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CPreferenceFW"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/TrialAndErrorAnalytics"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/NoviceDebugger"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

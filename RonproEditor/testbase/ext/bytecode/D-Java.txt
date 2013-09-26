@@ -1,0 +1,61 @@
+Greetings fellow backwards-java lovers. 
+
+D-Java is a class file disassembler written in C. 
+
+Running D-Java
+
+Options
+
+             -f   Don't output method bodies.
+                  Ignored for "jasmin" output.
+             -h   Display detailed help screen.
+             -v   Verbose output.
+             -n   Don't output debugging info.
+                  The value "lnt" or "lvt" must follow.
+                  To exclude both the number table and local variable table debugging info, this switch
+                  must be placed twice. For example, to exclude both the line number table and the local
+                  variable table, "-n lnt -n lvt" is needed.
+             -o   Output in a particular format.
+                  Right now, the only legal values are "jasmin" and "default". "default" is the default if this
+                  option isn't specified. All but the last occurence of this switch is ignored.
+             --   Signal end of options.
+                  Everything after this switch is considered a file name.
+             -    This special switch must come after all the other options. If specified, D-Java takes its
+                  input from stdin. For example, "cat Animator.class |D-Java -fv -" will
+                  disassemble Animator.class and output to the screen.
+
+
+Some Worthwhile Information
+
+DOS users
+
+D-Java was made with DJGPP so it needs a DPMI server. This means that you either need to run it in a DOS shell, or provide
+your own server. 
+
+Other notes
+
+I could use some recommendations regarding my default output. I would like to note that it is slightly different than that output
+by javap. There is no standard output format for java bytecode. 
+
+The .class extension is optional for any filename. It will be appended automatically, so D-Java will complain if it cannot find
+"SomeCode.ext.class". I have no idea why I did that. Just one of those things. 
+
+Plans
+
+     Decompiler 
+     Lots more command-line switches 
+
+Downloading
+
+There are two binaries available right now. One is for Solaris and the other for DOS. 
+
+     D-Java.solaris.zip 
+     D-Java.zip 
+
+[Note: D-Java is provided as-is, with no warranty, etc., etc., .. I'm not responsible for any damages, etc., etc., .. I'm not a
+lawyer, etc., etc.] 
+
+Any questions or suggestions can be directed to umsilve1@cc.umanitoba.ca. 
+
+Later,
+        -Shawn

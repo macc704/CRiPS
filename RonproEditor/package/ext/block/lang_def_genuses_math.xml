@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BlockGenus name="cui-random" kind="function" initlabel="(CUI)0から1未満の乱数を作り、その値"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="round" kind="function" initlabel="四捨五入する"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="round"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="min" kind="function" initlabel="小さい方"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"
+			position-type="bottom"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"
+			position-type="bottom"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="min"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="max" kind="function" initlabel="大きい方"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"
+			position-type="bottom"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"
+			position-type="bottom"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="max"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="pow" kind="function" initlabel="power"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"
+			position-type="bottom"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"
+			position-type="bottom"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="power"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="abs" kind="function" initlabel="絶対値にする"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="abs"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="sqrt" kind="function" initlabel="平方根にする"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="double-number">
+			<DefaultArg genus-name="double-number" label="4.0"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="sqrt"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="sin" kind="function" initlabel="sin" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector label="degs" connector-kind="socket"
+			connector-type="double-number">
+			<DefaultArg genus-name="toRadians" label="ラジアンにする"/>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="sin"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="cos" kind="function" initlabel="cos" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector label="degs" connector-kind="socket"
+			connector-type="double-number">
+			<DefaultArg genus-name="toRadians" label="ラジアンにする"/>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="cos"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="tan" kind="function" initlabel="tan" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector label="degs" connector-kind="socket"
+			connector-type="double-number">
+			<DefaultArg genus-name="toRadians" label="ラジアンにする"/>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="tan"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="atan" kind="function" initlabel="atan"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+		<BlockConnector label="x" connector-kind="socket"
+			connector-type="number"></BlockConnector>
+		<BlockConnector label="y" connector-kind="socket"
+			connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="atan"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="asin" kind="function" initlabel="asin"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="asin"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="acos" kind="function" initlabel="acos"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="acos"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="log" kind="function" initlabel="log" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="double-number">
+			<DefaultArg genus-name="double-number" label="10.0"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="log"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="ln" kind="function" initlabel="ln" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="ln"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="toRadians" kind="function" initlabel="ラジアンにする" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector connector-kind="socket" label="度" connector-type="double-number">
+			<DefaultArg genus-name="double-number" label="90.0"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="ln"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+

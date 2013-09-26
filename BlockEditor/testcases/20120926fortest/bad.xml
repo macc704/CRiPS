@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<CODEBLOCKS>
+	<Pages>
+		<Page page-name="NewClass2" page-color=" 40 40 40" page-width="4000"
+			page-infullview="yes" page-drawer="NewClass2" page-superClass="Turtle">
+			<PageBlocks>
+				<Block id="249" genus-name="number">
+					<Label>0</Label>
+					<Location>
+						<X>50</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" con-block-id="248" />
+					</Plug>
+				</Block>
+				<Block id="248" genus-name="local-var-int-number">
+					<Label>i</Label>
+					<HeaderLabel>int</HeaderLabel>
+					<Location>
+						<X>50</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>246</BeforeBlockId>
+					<AfterBlockId>250</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="socket"
+							connector-type="number" init-type="number" label=""
+							position-type="single" con-block-id="249" />
+					</Sockets>
+				</Block>
+				<BlockStub>
+					<StubParentName>i</StubParentName>
+					<StubParentGenus>local-var-int-number</StubParentGenus>
+					<Block id="252" genus-name="getterlocal-var-int-number">
+						<Label>i</Label>
+						<Location>
+							<X>50</X>
+							<Y>20</Y>
+						</Location>
+						<Plug>
+							<BlockConnector connector-kind="plug"
+								connector-type="number" init-type="number" label=""
+								position-type="mirror" con-block-id="251" />
+						</Plug>
+					</Block>
+				</BlockStub>
+				<Block id="253" genus-name="number">
+					<Label>3</Label>
+					<Location>
+						<X>50</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" con-block-id="251" />
+					</Plug>
+				</Block>
+				<Block id="251" genus-name="lessthan">
+					<Location>
+						<X>50</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="boolean" init-type="boolean" label=""
+							position-type="mirror" con-block-id="250" />
+					</Plug>
+					<Sockets num-sockets="2">
+						<BlockConnector connector-kind="sockets"
+							connector-type="number" init-type="number" label=""
+							position-type="bottom" con-block-id="252" />
+						<BlockConnector connector-kind="sockets"
+							connector-type="number" init-type="number" label=""
+							position-type="bottom" con-block-id="253" />
+					</Sockets>
+				</Block>
+				<Block id="255" genus-name="number">
+					<Label>100</Label>
+					<Location>
+						<X>50</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" con-block-id="254" />
+					</Plug>
+				</Block>
+				<Block id="254" genus-name="fd">
+					<Location>
+						<X>50</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>250</BeforeBlockId>
+					<AfterBlockId>256</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="sockets"
+							connector-type="number" init-type="number" label=""
+							position-type="single" con-block-id="255" />
+					</Sockets>
+				</Block>
+				<Block id="257" genus-name="number">
+					<Label>1</Label>
+					<Location>
+						<X>50</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" con-block-id="256" />
+					</Plug>
+				</Block>
+				<BlockStub>
+					<StubParentName>i</StubParentName>
+					<StubParentGenus>local-var-int-number</StubParentGenus>
+					<Block id="256" genus-name="inclocal-var-int-number">
+						<Label>i</Label>
+						<Location>
+							<X>50</X>
+							<Y>20</Y>
+						</Location>
+						<Sockets num-sockets="1">
+							<BlockConnector connector-kind="sockets"
+								connector-type="number" init-type="number" label=""
+								position-type="single" con-block-id="257" />
+						</Sockets>
+					</Block>
+				</BlockStub>
+				<Block id="250" genus-name="while">
+					<Location>
+						<X>50</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>248</BeforeBlockId>
+					<Sockets num-sockets="2">
+						<BlockConnector connector-kind="sockets"
+							connector-type="boolean" init-type="boolean" label=""
+							position-type="single" con-block-id="251" />
+						<BlockConnector connector-kind="sockets"
+							connector-type="cmd" init-type="cmd" label="" position-type="single"
+							con-block-id="254" />
+					</Sockets>
+				</Block>
+				<Block id="246" genus-name="abstraction">
+					<Label>for</Label>
+					<Location>
+						<X>50</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>245</BeforeBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="sockets"
+							connector-type="cmd" init-type="cmd" label="" position-type="single"
+							con-block-id="248" />
+					</Sockets>
+				</Block>
+				<Block id="245" genus-name="procedure">
+					<Label>start</Label>
+					<Location>
+						<X>50</X>
+						<Y>20</Y>
+					</Location>
+					<AfterBlockId>246</AfterBlockId>
+				</Block>
+			</PageBlocks>
+		</Page>
+	</Pages>
+</CODEBLOCKS>

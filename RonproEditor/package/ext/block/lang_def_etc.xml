@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Pages drawer-with-page="yes">
+	<Page page-name="BlockEditor" page-width="400"></Page>
+</Pages>
+
+<TrashCan>
+	<OpenTrashImage>/ext/block/images/trash_open.png</OpenTrashImage>
+	<ClosedTrashImage>/ext/block/images/trash.png</ClosedTrashImage>
+</TrashCan>
+
+<BreedShapeMappings>
+	<BtoSMapping>
+		<BreedName>Turtles</BreedName>
+		<BreedShape>animals/turtle-default</BreedShape>
+	</BtoSMapping>
+</BreedShapeMappings>
+	

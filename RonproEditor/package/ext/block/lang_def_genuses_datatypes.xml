@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- End of Stub Genuses -->
+
+<BlockGenus name="number" kind="data" initlabel="1"
+	editable-label="yes" is-label-value="yes" color="255 0 255">
+	<description>
+		<text>
+			記述した値を使用します。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="double-number" kind="data" initlabel="1.0"
+	editable-label="yes" is-label-value="yes" color="255 0 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="string" kind="data" initlabel="あいうえお"
+	editable-label="yes" is-label-value="yes" color="255 0 255">
+	<description>
+		<text>
+			記述したテキストを使用します。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="true" kind="data" initlabel="真" color="255 0 255">
+	<!--<description> <text> 真値です。 </text> </description> -->
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="true"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="false" kind="data" initlabel="偽" color="255 0 255">
+	<!--<description> <text> 偽値です。 </text> </description> -->
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="false"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- COLORS -->
+
+<BlockGenus name="red" kind="data" initlabel="赤" color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="15"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="black" kind="data" initlabel="黒" color="0 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="0"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="white" kind="data" initlabel="白" color="255 255 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="9"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="gray" kind="data" initlabel="灰色" color="128 128 128">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="5"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="lightGray" kind="data" initlabel="ライトグレイ"
+	color="211 211 211">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="5"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="darkGray" kind="data" initlabel="ダークグレイ"
+	color="169 169 169">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="5"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="orange" kind="data" initlabel="オレンジ" color="255 165 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="25"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="brown" kind="data" initlabel="茶" color="165 42 42">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="35"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="yellow" kind="data" initlabel="黄" color="255 255 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="45"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="green" kind="data" initlabel="緑" color="50 205 50">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="55"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="lime" kind="data" initlabel="ライム" color="0 255 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="65"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="turquoise" kind="data" initlabel="turquoise"
+	color="64 224 208">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="75"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="cyan" kind="data" initlabel="シアン" color="0 255 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="85"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="purple" kind="data" initlabel="紫" color="128 0 128">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="115"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="magenta" kind="data" initlabel="マゼンタ"
+	color="255 0 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="125"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="sky" kind="data" initlabel="空色" color="135 206 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="95"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="blue" kind="data" initlabel="青" color="0 0 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="105"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="pink" kind="data" initlabel="ピンク" color="255 192 203">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="special-value" value="135"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- 型変換（松澤） -->
+
+<BlockGenus name="toInt" kind="function" initlabel="int型に変換する"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="poly">
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="number"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="toDouble" kind="function" initlabel="double型に変換する"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="poly"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="double-number"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="toBoolean" kind="function" initlabel="真偽値型に変換する"
+	color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="poly"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="boolean"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="toString" kind="function" initlabel="文字列型に変換する"
+	color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="poly"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="string"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="toIntFromDouble" kind="function" initlabel="int型に変換する"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="double-number">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="toIntFromString" kind="function" initlabel="int型に変換する"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="string">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="toDoubleFromInt" kind="function" initlabel="double型に変換する"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="toDoubleFromString" kind="function"
+	initlabel="double型に変換する" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="string">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="toStringFromInt" kind="function" initlabel="文字列型に変換する"
+	color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="toStringFromDouble" kind="function"
+	initlabel="文字列型に変換する" color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="double-number"></BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="toStringFromObject" kind="function"
+	initlabel="文字列型に変換する" color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="object"></BlockConnector>
+	</BlockConnectors>
+</BlockGenus>

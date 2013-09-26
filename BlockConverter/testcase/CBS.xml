@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CODEBLOCKS><Pages><Page page-name="House" page-color="40 40 40" page-width="1920" page-infullview="yes" page-drawer="House" ><PageBlocks><Block id="245" genus-name="procedure" ><Label>Procedure</Label><PageLabel>House</PageLabel><Location><X>57</X><Y>76</Y></Location><Sockets num-sockets="1" ><BlockConnector connector-kind="socket" connector-type="poly" init-type="poly" label="" is-expandable="yes" position-type="single" ></BlockConnector></Sockets></Block></PageBlocks></Page></Pages></CODEBLOCKS>

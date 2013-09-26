@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<CODEBLOCKS>
+	<Pages>
+		<Page page-name="BlockEditor" page-color="40 40 40" page-width="1440"
+			page-infullview="yes" page-drawer="BlockEditor">
+			<PageBlocks>
+				<BlockStub>
+					<StubParentName>i</StubParentName>
+					<StubParentGenus>local-var-int-number</StubParentGenus>
+					<Block id="125" genus-name="inclocal-var-int-number">
+						<Label>i</Label>
+						<Location>
+							<X>235</X>
+							<Y>257</Y>
+						</Location>
+						<BeforeBlockId>121</BeforeBlockId>
+						<Sockets num-sockets="1">
+							<BlockConnector connector-kind="socket"
+								connector-type="number" init-type="number" label="値"
+								position-type="single" con-block-id="127"></BlockConnector>
+						</Sockets>
+					</Block>
+				</BlockStub>
+				<Block id="127" genus-name="number">
+					<Label>1</Label>
+					<Location>
+						<X>335</X>
+						<Y>260</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" con-block-id="125"></BlockConnector>
+					</Plug>
+				</Block>
+				<Block id="121" genus-name="fd">
+					<Location>
+						<X>235</X>
+						<Y>227</Y>
+					</Location>
+					<BeforeBlockId>107</BeforeBlockId>
+					<AfterBlockId>125</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="socket"
+							connector-type="number" init-type="number" label="歩数"
+							position-type="single" con-block-id="123"></BlockConnector>
+					</Sockets>
+				</Block>
+				<Block id="123" genus-name="number">
+					<Label>50</Label>
+					<Location>
+						<X>319</X>
+						<Y>230</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" con-block-id="121"></BlockConnector>
+					</Plug>
+				</Block>
+				<Block id="111" genus-name="number">
+					<Label>1</Label>
+					<Location>
+						<X>392</X>
+						<Y>300</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror"></BlockConnector>
+					</Plug>
+				</Block>
+				<Block id="113" genus-name="number">
+					<Label>3</Label>
+					<Location>
+						<X>353</X>
+						<Y>197</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" con-block-id="109"></BlockConnector>
+					</Plug>
+				</Block>
+				<BlockStub>
+					<StubParentName>i</StubParentName>
+					<StubParentGenus>local-var-int-number</StubParentGenus>
+					<Block id="119" genus-name="getterlocal-var-int-number">
+						<Label>i</Label>
+						<Location>
+							<X>248</X>
+							<Y>197</Y>
+						</Location>
+						<Plug>
+							<BlockConnector connector-kind="plug"
+								connector-type="number" init-type="number" label=""
+								position-type="mirror" con-block-id="109"></BlockConnector>
+						</Plug>
+					</Block>
+				</BlockStub>
+				<Block id="115" genus-name="local-var-int-number">
+					<Label>i</Label>
+					<HeaderLabel>int型の変数を作り、</HeaderLabel>
+					<Location>
+						<X>104</X>
+						<Y>161</Y>
+					</Location>
+					<BeforeBlockId>105</BeforeBlockId>
+					<AfterBlockId>107</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="socket"
+							connector-type="number" init-type="number" label="初期値"
+							position-type="single" con-block-id="117"></BlockConnector>
+					</Sockets>
+				</Block>
+				<Block id="117" genus-name="number">
+					<Label>1</Label>
+					<Location>
+						<X>390</X>
+						<Y>164</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" con-block-id="115"></BlockConnector>
+					</Plug>
+				</Block>
+				<Block id="107" genus-name="while">
+					<Location>
+						<X>104</X>
+						<Y>191</Y>
+					</Location>
+					<BeforeBlockId>115</BeforeBlockId>
+					<Sockets num-sockets="2">
+						<BlockConnector connector-kind="socket"
+							connector-type="boolean" init-type="boolean" label="かどうか調べて"
+							position-type="single" con-block-id="109"></BlockConnector>
+						<BlockConnector connector-kind="socket"
+							connector-type="cmd" init-type="cmd" label="真の間" position-type="single"
+							con-block-id="121"></BlockConnector>
+					</Sockets>
+				</Block>
+				<Block id="109" genus-name="lessthanorequalto">
+					<Location>
+						<X>238</X>
+						<Y>194</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="boolean" init-type="boolean" label=""
+							position-type="mirror" con-block-id="107"></BlockConnector>
+					</Plug>
+					<Sockets num-sockets="2">
+						<BlockConnector connector-kind="socket"
+							connector-type="number" init-type="number" label=""
+							position-type="bottom" con-block-id="119"></BlockConnector>
+						<BlockConnector connector-kind="socket"
+							connector-type="number" init-type="number" label=""
+							position-type="bottom" con-block-id="113"></BlockConnector>
+					</Sockets>
+				</Block>
+				<Block id="105" genus-name="abstraction">
+					<Label>XXをYYする。</Label>
+					<Location>
+						<X>95</X>
+						<Y>130</Y>
+					</Location>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="socket"
+							connector-type="cmd" init-type="cmd" label="" position-type="single"
+							con-block-id="115"></BlockConnector>
+					</Sockets>
+				</Block>
+			</PageBlocks>
+		</Page>
+	</Pages>
+</CODEBLOCKS>

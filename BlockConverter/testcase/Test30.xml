@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<CODEBLOCKS>
+	<Pages>
+		<Page page-name="Test30" page-color=" 40 40 40" page-width="1920" page-infullview="yes" page-drawer="Test30">
+			<PageBlocks>
+				<Block id="245" genus-name="procedure">
+					<Label>test</Label>
+					<Location>
+						<X>20</X>
+						<Y>40</Y>
+					</Location>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="sockets" connector-type="poly" init-type="poly" label="" position-type="single"/>
+					</Sockets>
+				</Block>
+			</PageBlocks>
+		</Page>
+	</Pages>
+</CODEBLOCKS>

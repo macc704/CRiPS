@@ -1,0 +1,27 @@
+import java.util.*;
+
+/**
+ * プログラム名：
+ * 作成者： 
+ * 作成日： 日付
+ */
+public class CLASSNAME{
+
+	//起動処理
+	public static void main(String[] args) {
+		CLASSNAME main = new CLASSNAME();
+		main.run();
+	}
+
+	//メイン処理
+	public void run() {
+	}
+
+}
+
+
+
+
+
+
+

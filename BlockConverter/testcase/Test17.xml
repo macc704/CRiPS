@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<CODEBLOCKS>
+	<Pages>
+		<Page page-name="Test17" page-color="40 40 40" page-width="1920" page-infullview="yes" page-drawer="Test17">
+			<PageBlocks>
+				<Block id="246" genus-name="local-var-number">
+					<Label>i</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>245</BeforeBlockId>
+					<AfterBlockId>247</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector  connector-kind="socket" connector-type="number" init-type="number" label="" position-type="single"/>
+					</Sockets>
+				</Block>
+				<Block id="249" genus-name="number">
+					<Label>1</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector  connector-kind="plug" connector-type="number" init-type="number" label="" position-type="mirror" con-block-id="248"/>
+					</Plug>
+				</Block>
+				<BlockStub>
+					<StubParentName>i</StubParentName>
+					<StubParentGenus>local-var-number</StubParentGenus>
+					<Block id="248" genus-name="setterlocal-var-number">
+						<Label>i</Label>
+						<Location>
+							<X>20</X>
+							<Y>20</Y>
+						</Location>
+						<BeforeBlockId>247</BeforeBlockId>
+						<Sockets num-sockets="1">
+							<BlockConnector  connector-kind="socket" connector-type="number" init-type="number" label="" position-type="single" con-block-id="249"/>
+						</Sockets>
+					</Block>
+				</BlockStub>
+				<Block id="247" genus-name="abstract">
+					<Label>おめおめ</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>246</BeforeBlockId>
+					<Sockets num-sockets="1">
+							<BlockConnector  connector-kind="socket" connector-type="cmd" init-type="cmd" label="do" position-type="single" con-block-id="248"/>
+					</Sockets>
+				</Block>
+				<Block id="245" genus-name="procedure">
+					<Label>test</Label>
+					<Location>
+						<X>20</X>
+						<Y>40</Y>
+					</Location>
+					<AfterBlockId>246</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector  connector-kind="socket" connector-type="poly" init-type="poly" label="" is-expandable="yes" position-type="single"/>
+					</Sockets>
+				</Block>
+			</PageBlocks>
+		</Page>
+	</Pages>
+</CODEBLOCKS>

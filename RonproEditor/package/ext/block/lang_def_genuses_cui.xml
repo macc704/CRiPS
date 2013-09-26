@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- CUI -->
+
+<BlockGenus name="cui-print" kind="command" initlabel="(CUI)出力する"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="string">
+			<DefaultArg genus-name="string" label="あいうえお"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="cui-println" kind="command" initlabel="(CUI)出力して改行する"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="string">
+			<DefaultArg genus-name="string" label="あいうえお"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-Scanner" kind="local-variable"
+	initlabel="scanner" header-label="Scanner型の変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object-withobject" label="Scanner"></DefaultArg>
+			<!-- <DefaultArg genus-name="special-expression" label="new Scanner(System.in)"></DefaultArg> -->
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="next" kind="function" initlabel="入力を受け取る(文字列型)"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="nextInt" kind="function" initlabel="入力を受け取る(int型)"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="nextDouble" kind="function" initlabel="入力を受け取る(double型)"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="hashCode" kind="function" initlabel="ハッシュ値を求める"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"/>
+		<BlockConnector connector-kind="socket" connector-type="string"/>
+	</BlockConnectors>
+</BlockGenus>

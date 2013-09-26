@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<CODEBLOCKS>
+	<Pages>
+		<Page page-name="Test02" page-color=" 40 40 40" page-width="1920" page-infullview="yes" page-drawer="Test02">
+			<PageBlocks>
+				<Block id="246" genus-name="local-var-boolean">
+				<Label>i</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>245</BeforeBlockId>
+					<AfterBlockId>247</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="sockets" connector-type="boolean" init-type="boolean" label="" position-type="single"/>
+					</Sockets>
+				</Block>
+				<Block id="248" genus-name="true">
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector  connector-kind="plug" connector-type="boolean" init-type="boolean" label="" position-type="mirror" con-block-id="247"/>
+					</Plug>
+				</Block>
+				<BlockStub>
+					<StubParentName>i</StubParentName>
+					<StubParentGenus>local-var-boolean</StubParentGenus>
+					<Block id="247" genus-name="setterlocal-var-boolean">
+						<Label>i</Label>
+						<Location>
+							<X>20</X>
+							<Y>20</Y>
+						</Location>
+						<BeforeBlockId>246</BeforeBlockId>
+						<Sockets num-sockets="1">
+							<BlockConnector connector-kind="sockets" connector-type="boolean" init-type="boolean" label="" position-type="single" con-block-id="248"/>
+						</Sockets>
+					</Block>
+				</BlockStub>
+				<Block id="245" genus-name="procedure">
+					<Label>test01</Label>
+					<Location>
+						<X>20</X>
+						<Y>40</Y>
+					</Location>
+					<AfterBlockId>246</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="sockets" connector-type="poly" init-type="poly" label="" position-type="single"/>
+					</Sockets>
+				</Block>
+			</PageBlocks>
+		</Page>
+	</Pages>
+</CODEBLOCKS>

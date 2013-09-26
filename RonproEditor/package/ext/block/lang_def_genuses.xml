@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Stubは先に読み込まれている必要がある -->
+&lang_def_genuses_stubs;
+
+<!-- そのほか -->
+&lang_def_genuses_datatypes;
+&lang_def_genuses_variable;
+&lang_def_genuses_calc;
+&lang_def_genuses_procedure;
+&lang_def_genuses_object;
+&lang_def_genuses_math;
+&lang_def_genuses_cui;
+&lang_def_genuses_turtle;
+&lang_def_genuses_class;
+
+<!-- LOGIC -->
+
+<BlockGenus name="ifelse" kind="command" initlabel="分岐"
+	color="255 80 0">
+	<BlockConnectors>
+		<BlockConnector label="かどうか調べて" connector-kind="socket"
+			connector-type="boolean">
+			<DefaultArg genus-name="equals-number" label="等しい"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="真のとき" connector-kind="socket"
+			connector-type="cmd">
+		</BlockConnector>
+		<BlockConnector label="偽のとき" connector-kind="socket"
+			connector-type="cmd"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="ifelse"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="while" kind="command" initlabel="繰返" color="255 80 0">
+	<BlockConnectors>
+		<BlockConnector label="かどうか調べて" connector-kind="socket"
+			connector-type="boolean">
+			<DefaultArg genus-name="lessthanorequalto" label="≤"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="真の間" connector-kind="socket"
+			connector-type="cmd"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="repeat"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="dowhile" kind="command" initlabel="1回以上繰返" color="255 80 0">
+	<BlockConnectors>
+		<BlockConnector label="真の間" connector-kind="socket"
+			connector-type="cmd"></BlockConnector>	
+		<BlockConnector label="かどうか調べて" connector-kind="socket"
+			connector-type="boolean">
+			<DefaultArg genus-name="lessthanorequalto" label="≤"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="repeat"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="break" kind="command" color="255 80 0"
+	initlabel="繰返脱出" editable-label="no" is-label-value="yes">
+</BlockGenus>
+
+<BlockGenus name="continue" kind="command" color="255 80 0"
+	initlabel="繰返継続" editable-label="no" is-label-value="yes">
+</BlockGenus>
+
+<!-- 抽象化ブロック -->
+
+<BlockGenus name="abstraction" kind="abstraction" initlabel="XXをYYする。"
+	editable-label="yes" is-label-value="yes" color="255 255 255">
+	<description>
+		<text>
+			プログラムを段階的に抽象化。ブロック上部にはその抽象化ブロックの中にあるプログラムの目的を記述。
+		</text>
+		<arg-description n="1" name="agents" doc-name="breed">
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="cmd"></BlockConnector>
+	</BlockConnectors>
+	<Images>
+		<Image block-location="southwest" image-editable="yes" width="15"
+			height="15">
+			<FileLocation>support/forever_switch_on.png</FileLocation>
+		</Image>
+	</Images>
+</BlockGenus>
+
+<!-- スペシャルJavaブロック -->
+
+<BlockGenus name="special" kind="command" color="255 0 0"
+	initlabel="special block" editable-label="no" is-label-value="yes">
+</BlockGenus>
+
+<BlockGenus name="special-expression" kind="function" color="255 0 0"
+	initlabel="special block" editable-label="no" is-label-value="yes">
+	<BlockConnectors>
+		<BlockConnector connector-type="poly" connector-kind="plug" />
+	</BlockConnectors>
+</BlockGenus>
+
+<!-- Emptyブロック -->
+
+<BlockGenus name="empty" kind="command" color="20 20 20"
+	initlabel="何もしない" editable-label="no" is-label-value="yes">
+</BlockGenus>
+

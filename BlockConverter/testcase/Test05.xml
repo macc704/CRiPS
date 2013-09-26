@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+<CODEBLOCKS>
+	<Pages>
+		<Page page-name="Test02" page-color=" 40 40 40" page-width="1920" page-infullview="yes" page-drawer="Test02">
+			<PageBlocks>
+				<Block id="246" genus-name="local-var-number">
+				<Label>i</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>245</BeforeBlockId>
+					<AfterBlockId>247</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="sockets" connector-type="number" init-type="number" label="" position-type="single"/>
+					</Sockets>
+				</Block>
+				<Block id="247" genus-name="local-var-number">
+				<Label>j</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>246</BeforeBlockId>
+					<AfterBlockId>249</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="sockets" connector-type="number" init-type="number" label="" position-type="single"/>
+					</Sockets>
+				</Block>
+				<Block id="248" genus-name="number">
+					<Label>1</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector  connector-kind="plug" connector-type="number" init-type="number" label="" position-type="mirror" con-block-id="249"/>
+					</Plug>
+				</Block>
+				<BlockStub>
+					<StubParentName>i</StubParentName>
+					<StubParentGenus>local-var-number</StubParentGenus>
+					<Block id="249" genus-name="setterlocal-var-number">
+						<Label>i</Label>
+						<Location>
+							<X>20</X>
+							<Y>20</Y>
+						</Location>
+						<BeforeBlockId>247</BeforeBlockId>
+						<AfterBlockId>251</AfterBlockId>
+						<Sockets num-sockets="1">
+							<BlockConnector connector-kind="sockets" connector-type="number" init-type="number" label="" position-type="single" con-block-id="248"/>
+						</Sockets>
+					</Block>
+				</BlockStub>
+				<Block id="250" genus-name="number">
+					<Label>3</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector  connector-kind="plug" connector-type="number" init-type="number" label="" position-type="mirror" con-block-id="251"/>
+					</Plug>
+				</Block>
+				<BlockStub>
+					<StubParentName>j</StubParentName>
+					<StubParentGenus>local-var-number</StubParentGenus>
+					<Block id="251" genus-name="setterlocal-var-number">
+						<Label>j</Label>
+						<Location>
+							<X>20</X>
+							<Y>20</Y>
+						</Location>
+						<Sockets num-sockets="1">
+							<BlockConnector connector-kind="sockets" connector-type="number" init-type="number" label="" position-type="single" con-block-id="250"/>
+						</Sockets>
+					</Block>
+				</BlockStub>
+				<Block id="250" genus-name="number">
+					<Label>3</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector  connector-kind="plug" connector-type="number" init-type="number" label="" position-type="mirror" con-block-id="251"/>
+					</Plug>
+				</Block>
+				<BlockStub>
+					<StubParentName>j</StubParentName>
+					<StubParentGenus>local-var-number</StubParentGenus>
+					<Block id="251" genus-name="setterlocal-var-number">
+						<Label>j</Label>
+						<Location>
+							<X>20</X>
+							<Y>20</Y>
+						</Location>
+						<Sockets num-sockets="1">
+							<BlockConnector connector-kind="sockets" connector-type="number" init-type="number" label="" position-type="single" con-block-id="250"/>
+						</Sockets>
+					</Block>
+				</BlockStub>
+				<BlockStub>
+					<StubParentName>j</StubParentName>
+					<StubParentGenus>local-var-number</StubParentGenus>
+					<Block id="252" genus-name="getterlocal-var-number">
+						<Label>j</Label>
+						<Location>
+							<X>20</X>
+							<Y>20</Y>
+						</Location>
+						<Plug>
+							<BlockConnector  connector-kind="plug" connector-type="number" init-type="number" label="" position-type="mirror" con-block-id="253"/>
+						</Plug>
+					</Block>
+				</BlockStub>
+				<BlockStub>
+					<StubParentName>i</StubParentName>
+					<StubParentGenus>local-var-number</StubParentGenus>
+					<Block id="253" genus-name="setterlocal-var-number">
+						<Label>i</Label>
+						<Location>
+							<X>20</X>
+							<Y>20</Y>
+						</Location>
+						<BeforeBlockId>251</BeforeBlockId>
+						<Sockets num-sockets="1">
+							<BlockConnector connector-kind="sockets" connector-type="number" init-type="number" label="" position-type="single" con-block-id="252"/>
+						</Sockets>
+					</Block>
+				</BlockStub>
+				<Block id="245" genus-name="procedure">
+					<Label>test01</Label>
+					<Location>
+						<X>20</X>
+						<Y>40</Y>
+					</Location>
+					<AfterBlockId>246</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="sockets" connector-type="poly" init-type="poly" label="" position-type="single"/>
+					</Sockets>
+				</Block>
+			</PageBlocks>
+		</Page>
+	</Pages>
+</CODEBLOCKS>

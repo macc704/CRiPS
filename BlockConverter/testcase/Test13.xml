@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CODEBLOCKS>
+	<Pages>
+		<Page page-name="Test12" page-color="40 40 40" page-width="1920" page-infullview="yes" page-drawer="Test12">
+			<PageBlocks>
+				<Block id="245" genus-name="true">
+					<Label>true</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector  connector-kind="plug" connector-type="boolean" init-type="boolean" label="" position-type="mirror" con-block-id="244"/>
+					</Plug>
+				</Block>
+				<Block id="247" genus-name="number">
+					<Label>100</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector  connector-kind="plug" connector-type="number" init-type="number" label="" position-type="mirror" con-block-id="246"/>
+					</Plug>
+				</Block>
+				<Block id="246" genus-name="fd">
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<AfterBlockId>248</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector  connector-kind="socket" connector-type="number" init-type="number" label="steps" position-type="single" con-block-id="247"/>
+					</Sockets>
+				</Block>
+				<Block id="249" genus-name="false">
+					<Label>false</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector  connector-kind="plug" connector-type="boolean" init-type="boolean" label="" position-type="mirror" con-block-id="248"/>
+					</Plug>
+				</Block>
+				<Block id="251" genus-name="number">
+					<Label>90</Label>
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<Plug>
+						<BlockConnector  connector-kind="plug" connector-type="number" init-type="number" label="" position-type="mirror" con-block-id="250"/>
+					</Plug>
+				</Block>
+				<Block id="250" genus-name="rt">
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<Sockets num-sockets="1">
+						<BlockConnector  connector-kind="socket" connector-type="number" init-type="number" label="degs" position-type="single" con-block-id="251"/>
+					</Sockets>
+				</Block>
+				<Block id="248" genus-name="if">
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>246</BeforeBlockId>
+					<Sockets num-sockets="2">
+							<BlockConnector  connector-kind="socket" connector-type="boolean" init-type="boolean" label="test" position-type="single" con-block-id="249"/>
+													<BlockConnector  connector-kind="socket" connector-type="cmd" init-type="cmd" label="then" position-type="single" con-block-id="250"/>
+											</Sockets>
+				</Block>
+				<Block id="244" genus-name="while">
+					<Location>
+						<X>20</X>
+						<Y>20</Y>
+					</Location>
+					<BeforeBlockId>243</BeforeBlockId>
+					<Sockets num-sockets="2">
+							<BlockConnector  connector-kind="socket" connector-type="boolean" init-type="boolean" label="test" position-type="single" con-block-id="245"/>
+													<BlockConnector  connector-kind="socket" connector-type="cmd" init-type="cmd" label="do" position-type="single" con-block-id="246"/>
+											</Sockets>
+				</Block>
+				<Block id="243" genus-name="procedure">
+					<Label>test01</Label>
+					<PageLabel>Test12</PageLabel>
+					<Location>
+						<X>20</X>
+						<Y>40</Y>
+					</Location>
+					<AfterBlockId>244</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector  connector-kind="socket" connector-type="poly" init-type="poly" label="" is-expandable="yes" position-type="single"/>
+					</Sockets>
+				</Block>
+			</PageBlocks>
+		</Page>
+	</Pages>
+</CODEBLOCKS>

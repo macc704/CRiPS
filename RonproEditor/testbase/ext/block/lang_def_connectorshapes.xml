@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BlockConnectorShape shape-type="number"
+	shape-number="1"></BlockConnectorShape>
+<BlockConnectorShape shape-type="double-number"
+	shape-number="2"></BlockConnectorShape>
+<BlockConnectorShape shape-type="number-inv"
+	shape-number="3"></BlockConnectorShape>
+<BlockConnectorShape shape-type="boolean"
+	shape-number="4"></BlockConnectorShape>
+<BlockConnectorShape shape-type="boolean-list"
+	shape-number="5"></BlockConnectorShape>
+<BlockConnectorShape shape-type="boolean-inv"
+	shape-number="6"></BlockConnectorShape>
+<BlockConnectorShape shape-type="string"
+	shape-number="7"></BlockConnectorShape>
+<BlockConnectorShape shape-type="string-list"
+	shape-number="8"></BlockConnectorShape>
+<BlockConnectorShape shape-type="string-inv"
+	shape-number="9"></BlockConnectorShape>
+<!-- polyはpolymorphismという特殊な形で，なんでも入る． -->
+<BlockConnectorShape shape-type="poly" shape-number="10"></BlockConnectorShape>
+<BlockConnectorShape shape-type="poly-list"
+	shape-number="11"></BlockConnectorShape>
+<BlockConnectorShape shape-type="poly-inv"
+	shape-number="12"></BlockConnectorShape>
+<BlockConnectorShape shape-type="proc-param"
+	shape-number="13"></BlockConnectorShape>
+<BlockConnectorShape shape-type="cmd" shape-number="14"></BlockConnectorShape>
+<BlockConnectorShape shape-type="object"
+	shape-number="16"></BlockConnectorShape>

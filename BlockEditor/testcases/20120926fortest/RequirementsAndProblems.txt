@@ -1,0 +1,17 @@
+==================================
+2012.09.27for文の問題
+==================================
+＜症状＞
+Java->Block変換で，i++ブロックが外せない．
+
+＜原因＞
+bad.xmlの方の，「i++」ブロックに，<BeforeBlockId>が入っていない．
+そもそも，
+InfixExpression#ResolveBeforeAfterBlock(getParent().getParent()); // 2012.09.27 #matsuzawa
+に構造的な問題あり．
+getParent().getParent()をしなければならない理由
+i++;の場合は，Block->ExpressionStatement->PostfixExpressionになる．
+for(;;i++)の場合は，for(updater)->PostfixExpressionになる． <=この場合はParentなので
+
+getBlockParent()でひとまず解決することにする．
+=================================================

@@ -1,0 +1,12 @@
+#0 授業中　不明
+#1 fixed
+#2 fixed
+#3 src src_shooting
+#4 pres.logに変な改行 
+#5 ファイル在るのに，無いことになっている（pres.logには記録されとるのに．．）
+#6 class ファイルをコピーすると，コンパイル対象以外のソースが変更されてもリコンパイルされない問題が起きるため
+#7 （最後に）実行出来ない
+#8 部分的なNORange(プロジェクトの名前変更などを何度もして出来たファイル)
+#9 NoRangeError遡及しているが，再現できない
+#10 game.javaをGame.javaに変えた場合，windowsではgame.javaフォルダが引き続き採用される，がGame.javaでの読み込みができない．
+#11　// bug#11 PPProjectViewerFrame#Collections.sort　時にu1.getStart()で例外　

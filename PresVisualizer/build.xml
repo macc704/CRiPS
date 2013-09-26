@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><project default="create_run_jar" name="Create Runnable Jar for Project kce">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+		<tstamp>
+			<format property="now.time" pattern="yyyyMMddHHmm"/>
+		</tstamp>
+        <jar destfile="package/ppv.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="ppv.app.PPresVisualizerMain"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="bin"/>
+        	<fileset dir="../CommonLibrary/bin"/>
+        	<zipfileset excludes="META-INF/*.SF" src="../CommonLibrary/lib/commons-csv-20070730.jar"/>
+        	<zipfileset excludes="META-INF/*.SF" src="../CommonLibrary/lib/CEncodingDetector.jar"/>        	
+        	<fileset dir="../CSwing/bin"/>
+        	<fileset dir="../CTable/bin"/>
+        	<fileset dir="../CTimeLineView/bin"/>
+        	<fileset dir="../Pres/bin"/>
+        	<fileset dir="../TrialAndErrorAnalytics/bin"/>
+       	</jar>
+    	
+    	<copy todir="package/ppv.lib">
+    		<fileset dir="./ppv.lib"/>
+    	</copy>
+    	
+        <zip destfile="packages/ppv-${now.time}.zip" encoding="UTF-8">
+        	<!-- <fileset dir="package"/> -->
+        	<zipfileset dir="package" filemode="755"/>
+        </zip>
+    </target>
+</project>
+

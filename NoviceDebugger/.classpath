@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CSwing"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CommonLibrary"/>
+	<classpathentry kind="lib" path="lib/tools1.7.0_mac.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BlockConverter"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BlockEditor"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
