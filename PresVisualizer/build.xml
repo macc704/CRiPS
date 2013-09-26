@@ -11,14 +11,14 @@
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="bin"/>
-        	<fileset dir="../CommonLibrary/bin"/>
-        	<zipfileset excludes="META-INF/*.SF" src="../CommonLibrary/lib/commons-csv-20070730.jar"/>
-        	<zipfileset excludes="META-INF/*.SF" src="../CommonLibrary/lib/CEncodingDetector.jar"/>        	
-        	<fileset dir="../CSwing/bin"/>
-        	<fileset dir="../CTable/bin"/>
-        	<fileset dir="../CTimeLineView/bin"/>
-        	<fileset dir="../Pres/bin"/>
-        	<fileset dir="../TrialAndErrorAnalytics/bin"/>
+        	<fileset dir="../../commonlibrary/CommonLibrary/bin"/>
+        	<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/commons-csv-20070730.jar"/>
+        	<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/CEncodingDetector.jar"/>        	
+        	<fileset dir="../../commonlibrary/CSwing/bin"/>
+        	<fileset dir="../../commonlibrary/CTable/bin"/>
+        	<fileset dir="../../commonlibrary/CTimeLineView/bin"/>
+        	<fileset dir="../PresCore/bin"/>
+        	<fileset dir="../CompileErrorAnalytics/bin"/>
        	</jar>
     	
     	<copy todir="package/ppv.lib">
