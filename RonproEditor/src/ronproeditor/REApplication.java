@@ -57,6 +57,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 /*
  * Ronpro Editor Application
  * 
+ * 
  * 2007/09/21 version 1.0.0 リリース 
  * 2007/09/21 version 1.0.1 -cp が動かない環境があるのを修正 -classpathに 
  * 2007/09/21 version 1.0.2 コンパイル時にコンソールをクリアするように修正
