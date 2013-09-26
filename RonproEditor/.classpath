@@ -7,9 +7,9 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/CSwing"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BlockEditor"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BlockConverter"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/fcfw"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/FlowViewer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CPreferenceFW"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/TrialAndErrorAnalytics"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CompileErrorAnalytics"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NoviceDebugger"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

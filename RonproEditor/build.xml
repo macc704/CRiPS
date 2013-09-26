@@ -14,16 +14,16 @@
     		<fileset dir="bin"/>
         	<!-- <zipfileset excludes="META-INF/*.SF" src="lib/tools.jar"/> -->   
     		
-    		<fileset dir="../CommonLibrary/bin"/>
-    		<zipfileset excludes="META-INF/*.SF" src="../CommonLibrary/lib/CEncodingDetector.jar"/>
-    		<zipfileset excludes="META-INF/*.SF" src="../CommonLibrary/lib/commons-csv-20070730.jar"/>    		
-    		<fileset dir="../CSwing/bin"/>
-        	<fileset dir="../CPreferenceFW/bin"/>    		
+    		<fileset dir="../../commonlibrary/CommonLibrary/bin"/>
+    		<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/CEncodingDetector.jar"/>
+    		<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/commons-csv-20070730.jar"/>    		
+    		<fileset dir="../../commonlibrary/CSwing/bin"/>
+        	<fileset dir="../../commonlibrary/CPreferenceFW/bin"/>    		
 
-    		<fileset dir="../Pres/bin"/>   		
+    		<fileset dir="../PresCore/bin"/>   		
     		<fileset dir="../PresVisualizer/bin"/>
     			
-    		<fileset dir="../fcfw/bin"/>
+    		<fileset dir="../FlowViewer/bin"/>
 
         	<fileset dir="../BlockEditor/bin"/>
             <zipfileset excludes="META-INF/*.SF" src="../BlockEditor/lib/jcommon-1.0.0-rc1.jar"/>
@@ -31,7 +31,8 @@
             <zipfileset excludes="META-INF/*.SF" src="../BlockEditor/lib/JimiProClasses.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="../BlockEditor/lib/slcodeblocks.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="../BlockEditor/lib/starlogotng.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="../BlockEditor/lib/TableLayout.jar"/>    		
+            <zipfileset excludes="META-INF/*.SF" src="../BlockEditor/lib/TableLayout.jar"/>
+    		
         	<fileset dir="../BlockConverter/bin"/>    		
     		<zipfileset excludes="META-INF/*.SF" src="../BlockConverter/lib/org.apache.commons.logging_1.0.4.v201101211617.jar"/>
     		<zipfileset excludes="META-INF/*.SF" src="../BlockConverter/lib/org.eclipse.core.contenttype_3.4.100.v20110207.jar"/>
@@ -44,10 +45,11 @@
     		<zipfileset excludes="META-INF/*.SF" src="../BlockConverter/lib/org.eclipse.osgi_3.7.0.v20110304.jar"/>
     		<zipfileset excludes="META-INF/*.SF" src="../BlockConverter/lib/org.eclipse.text_3.5.100.v20110301-0545.jar"/>
     		
-    		<fileset dir="../TrialAndErrorAnalytics/bin"/>
+    		<fileset dir="../CompileErrorAnalytics/bin"/>
     		
     		<fileset dir="../NoviceDebugger/bin"/>
     		<zipfileset excludes="META-INF/*.SF,com/sun/tools/example/**/*" src="../NoviceDebugger/lib/tools1.7.0_mac.jar"/>
+    		
     		<!--<fileset dir="../ReflectionSupportSystem/bin"/>-->
         </jar>
 
