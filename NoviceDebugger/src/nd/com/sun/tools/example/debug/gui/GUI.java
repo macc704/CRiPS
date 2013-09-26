@@ -96,7 +96,7 @@ public class GUI extends JPanel {
 	// private NBlockViewTool blockTool;
 	
 	// ÀsŠÂ‹«
-	private final static Environment env = new Environment();
+	private final Environment env = new Environment();
 	
 	//
 	private JPanel executiionView;
