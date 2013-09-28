@@ -176,7 +176,7 @@ public class CTable extends JPanel{
         JButton button2 = new JButton("save data");
         button2.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                System.out.println(c.getCSV());
+                //System.out.println(c.getCSV());
             }
         });
         f.add(button2, BorderLayout.NORTH);

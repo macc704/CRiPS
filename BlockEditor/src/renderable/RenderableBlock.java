@@ -185,9 +185,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	// the values of the x and y coordinates of block when zoom = 1.0
 	private double unzoomedX;
 	private double unzoomedY;
-	
+
 	//#ohata added 
 	private String loadComment;
+
 	/**
 	 * Constructs a new RenderableBlock instance with the specified parent
 	 * WorkspaceWidget and Long blockID of its associated Block
@@ -243,7 +244,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 														// delegate
 		addMouseListener(this);
 		addMouseMotionListener(this);
-		
+
 		// initialize tags, labels, and sockets:
 		this.plugTag = new ConnectorTag(getBlock().getPlug());
 		this.afterTag = new ConnectorTag(getBlock().getAfterConnector());
@@ -272,7 +273,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				&& (parent == null || !(parent instanceof FactoryManager))) {
 			this.collapseLabel = new ProcedureCollapseLabel(blockID);
 			this.add(collapseLabel);
-			//xml読み込みで、open/close
 		} else if (getBlock().isAbstractionBlock()
 				&& (parent == null || !(parent instanceof FactoryManager))) {
 			this.collapseLabel = new AbstractionBlockCollapseLabel(blockID);
@@ -1182,8 +1182,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			Block curBlock = Block.getBlock(curBlockID);
 			// System.out.println("evaluating block :" +
 			// curBlock.getBlockLabel());
+
 			RenderableBlock curRenderableBlock = RenderableBlock
-					.getRenderableBlock(curBlockID);
+					.getRenderableBlock(curBlockID);//curRenderableblockがnullになる　ID 1004,
 			Dimension curRBSize = curRenderableBlock.getBlockSize();
 
 			// add height
@@ -1237,6 +1238,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 */
 	public void redrawFromTop() {
 		isLoading = false;
+		
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(getBlock())) {
 
@@ -1249,7 +1251,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							+ curBlockID);
 					continue;
 				}
-
+				
 				RenderableBlock.getRenderableBlock(curBlockID).redrawFromTop();
 
 				// add dimension to the mapping
@@ -1813,24 +1815,29 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							.equals(renderable.getBlock().getBlockLabel()
 									+ "を増やす")) {
 				rb.highlighter.resetHighlight();
-			} else if (rb
-					.getBlock()
-					.getBlockLabel()
-					.equals("get"
-							+ renderable.getBlock().getBlockLabel()
-									.toUpperCase().charAt(0)
-							+ renderable.getBlock().getBlockLabel()
-									.substring(1))) {
-				rb.highlighter.resetHighlight();
-			} else if (rb
-					.getBlock()
-					.getBlockLabel()
-					.equals("set"
-							+ renderable.getBlock().getBlockLabel()
-									.toUpperCase().charAt(0)
-							+ renderable.getBlock().getBlockLabel()
-									.substring(1))) {
-				rb.highlighter.resetHighlight();
+			} else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在するため
+				if (rb.getBlock()
+						.getBlockLabel()
+						.equals("get"
+								+ renderable.getBlock().getBlockLabel()
+										.toUpperCase().charAt(0)
+								+ renderable.getBlock().getBlockLabel()
+										.substring(1))) {
+					rb.resetHighlight();
+				} else if (rb
+						.getBlock()
+						.getBlockLabel()
+						.equals("set"
+								+ renderable.getBlock().getBlockLabel()
+										.toUpperCase().charAt(0)
+								+ renderable.getBlock().getBlockLabel()
+										.substring(1))) {
+					rb.resetHighlight();
+				} else if (rb.getGenus().contains("callActionMethod")
+						&& rb.getBlock().getBlockLabel()
+								.equals(renderable.getBlock().getBlockLabel())) {
+					rb.resetHighlight();
+				}
 			}
 		}
 
@@ -1904,26 +1911,29 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							.equals(renderable.getBlock().getBlockLabel()
 									+ "を増やす")) {
 				rb.highlighter.setHighlightColor(Color.yellow);
-			} else if (rb
-					.getBlock()
-					.getBlockLabel()
-					.equals("get"
-							+ renderable.getBlock().getBlockLabel()
-									.toUpperCase().charAt(0)
-							+ renderable.getBlock().getBlockLabel()
-									.substring(1))) {
-				rb.highlighter.setHighlightColor(Color.yellow);
-			} else if (rb
-					.getBlock()
-					.getBlockLabel()
-					.equals("set"
-							+ renderable.getBlock().getBlockLabel()
-									.toUpperCase().charAt(0)
-							+ renderable.getBlock().getBlockLabel()
-									.substring(1))) {
-				rb.highlighter.setHighlightColor(Color.yellow);
-			}  else if(rb.getGenus().contains("callActionMethod") && rb.getBlock().getBlockLabel().equals( renderable.getBlock().getBlockLabel() )){
-				rb.highlighter.setHighlightColor(Color.yellow);
+			} else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在する
+				if (rb.getBlock()
+						.getBlockLabel()
+						.equals("get"
+								+ renderable.getBlock().getBlockLabel()
+										.toUpperCase().charAt(0)
+								+ renderable.getBlock().getBlockLabel()
+										.substring(1))) {
+					rb.highlighter.setHighlightColor(Color.yellow);
+				} else if (rb
+						.getBlock()
+						.getBlockLabel()
+						.equals("set"
+								+ renderable.getBlock().getBlockLabel()
+										.toUpperCase().charAt(0)
+								+ renderable.getBlock().getBlockLabel()
+										.substring(1))) {
+					rb.highlighter.setHighlightColor(Color.yellow);
+				} else if (rb.getGenus().contains("callActionMethod")
+						&& rb.getBlock().getBlockLabel()
+								.equals(renderable.getBlock().getBlockLabel())) {
+					rb.highlighter.setHighlightColor(Color.yellow);
+				}
 			}
 
 		}
@@ -2187,22 +2197,22 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			return getBlock().getSaveString(descale(this.getX()),
 					descale(this.getY()), this.comment.getSaveString(),
 					isCollapsed(), getLoadComment());
-			
+
 		else
-/*			return getBlock().getSaveString(descale(this.getX()),
-					descale(this.getY()), null, isCollapsed());*/
-			return getBlock().getSaveString(descale(this.getX()),
-					descale(this.getY()), null, isCollapsed(), getLoadComment());
+			/*			return getBlock().getSaveString(descale(this.getX()),
+								descale(this.getY()), null, isCollapsed());*/
+			return getBlock()
+					.getSaveString(descale(this.getX()), descale(this.getY()),
+							null, isCollapsed(), getLoadComment());
 	}
-	
-	public void setLoadComment(String str){
+
+	public void setLoadComment(String str) {
 		loadComment = str;
 	}
-	
-	public String getLoadComment(){
+
+	public String getLoadComment() {
 		return loadComment;
 	}
-	
 
 	/**
 	 * Returns whether or not this is still loading data.
@@ -2212,8 +2222,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public boolean isLoading() {
 		return isLoading;
 	}
-	
-
 
 	/**
 	 * Loads a RenderableBlock and its related Block instance from the specified
@@ -2256,13 +2264,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			Point blockLoc = new Point(0, 0);
 			NodeList children = blockNode.getChildNodes();
 			Node child;
-
 			for (int i = 0; i < children.getLength(); i++) {
 				child = children.item(i);
-				if(child.getNodeName().equals("LineComment")){
+				if (child.getNodeName().equals("LineComment")) {
 					rb.setLoadComment(child.getTextContent());
-				}
-				else if (child.getNodeName().equals("Location")) {
+				} else if (child.getNodeName().equals("Location")) {
 					// extract location information
 					extractLocationInfo(child, blockLoc);
 				} else if (child.getNodeName().equals("Comment")) {
@@ -2272,8 +2278,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 								.getJComponent());
 					}
 				} else if (child.getNodeName().equals("Collapsed")) {
-					rb.callBlockCollapse();
-					//rb.setCollapsed(true);
+					rb.setCollapsed(true);
 				}
 			}
 			// set location from info

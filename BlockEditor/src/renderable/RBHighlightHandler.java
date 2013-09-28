@@ -162,7 +162,7 @@ public class RBHighlightHandler extends JComponent implements ComponentListener,
 	 */
 	private void updateBounds() {
 		if(this.getParent() == null){
-			System.out.println();
+			//System.out.println();
 		}
 		Point rbLoc = SwingUtilities.convertPoint(rb.getParent(), rb.getLocation(), this.getParent());
 		this.setBounds(rbLoc.x-HIGHLIGHT_STROKE_WIDTH/2, rbLoc.y-HIGHLIGHT_STROKE_WIDTH/2, rb.getBlockWidth()+HIGHLIGHT_STROKE_WIDTH, rb.getBlockHeight()+HIGHLIGHT_STROKE_WIDTH);

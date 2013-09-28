@@ -89,8 +89,10 @@ public class StVariableDeclarationModel extends StatementModel implements
 			// parent
 			makeIndent(out, indent + 1);
 			ElementModel p = getParent() instanceof StExpressionModel ? getParent()
-					.getParent() : getParent();
-			out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
+					.getParent() : getParent();		
+			if(p!=null){//ohata privateÇ…ParentÇÕë∂ç›ÇµÇ»Ç¢ÇΩÇﬂÅAÇ±Ç±Ç≈Ç ÇÈÇ€Ç≈Ç‹Ç∑Å@
+				out.println("<ParentBlock>" + p.getId() + "</ParentBlock>"); 		
+			}
 		}
 		
 		// location

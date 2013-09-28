@@ -49,7 +49,8 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 	// 抽象化ブロックが開閉されたとき関係するブロックをリフォームする
 	// 2012.09.25 ループしていたのでひとまず消去（なくてもなんとかなりそう） #matsuzawa
 	// 2012.10.05 これがないと抽象化ブロックを閉めたときに親の大きさが変わらない．
-	// initial時にreformするとFWがエラーを出すため．
+	// 2013.09.27 抽象化ブロックが2つ並んだ際に、2つ目の抽象化ブロックがclose状態である場合にNullPointerException発生
+
 	private void reformRelatedBlocks() {
 		try {
 			Block topBlock = getTopBlock();
@@ -58,6 +59,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 			}
 			RenderableBlock topFigure = RenderableBlock
 					.getRenderableBlock(topBlock.getBlockID());
+			//RenderableBlock.getRenderableBlock()
 			topFigure.redrawFromTop();
 		} catch (Exception ex) {
 			ex.printStackTrace();

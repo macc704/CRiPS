@@ -82,7 +82,6 @@ public class CPopupMenu extends JPopupMenu implements ActionListener{
 			}
 		});
 		c.add(menu);
-		System.out.println(menu.getParent());
 	}
 	
 	/*	protected void paintComponent(Graphics g){

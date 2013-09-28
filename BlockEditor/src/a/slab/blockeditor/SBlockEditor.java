@@ -242,7 +242,7 @@ import controller.WorkspaceController;
  *  	・ListTurtleに対応中
  *  2013.01.09 2.12.0
  *  	・ListTurtleに対応
- *  	・オブジェクトシステムを大幅刷新　
+ *  	・オブジェクトシステムを大幅刷新
  *  2013.01.09 2.13.0
  *  	・doWhile, break, continueに対応　
  *  2013.01.09 2.13.1
@@ -255,7 +255,10 @@ import controller.WorkspaceController;
  *  	・メソッドの開閉状態の追加（未完　バグあり）
  *  	・変数ハイライトの追加
  *  	・ゲッター/セッター/コンストラクタの追加
- *  	
+ *  2013.09.28 2.14.1 Ohata
+ *  	・ハイライトされないブロックが発生する問題を修正
+ *  	・抽象化ブロック生成時にNull Pointer Exceptionが発生する問題を修正
+ * 	 	・javaからブロックを生成時、private変数のラインナンバーをxmlに書き出す際の問題を修正
  *  						
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
@@ -276,7 +279,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "2.14.0";
+	public final static String VERSION = "2.14.1";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;

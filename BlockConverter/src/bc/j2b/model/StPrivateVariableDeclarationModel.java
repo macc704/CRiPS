@@ -16,8 +16,5 @@ public class StPrivateVariableDeclarationModel extends StVariableDeclarationMode
 		}
 		return "private-var-" + genusName;
 	}
-	
-	
-
 
 }
