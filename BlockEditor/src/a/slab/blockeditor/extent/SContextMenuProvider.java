@@ -432,7 +432,7 @@ public class SContextMenuProvider {
 
 	//#ohata
 	private void createNewGetterMethod(String name) {
-		
+
 		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
 				name);
 		RenderableBlock returnBlock = createNewBlock(rb.getParentWidget(),
@@ -444,15 +444,16 @@ public class SContextMenuProvider {
 		methodBlock.setBlockLabel("get"
 				+ rb.getKeyword().toUpperCase().charAt(0)
 				+ rb.getKeyword().substring(1));
-		
+
 		newCommandRBlock.getParentWidget().blockDropped(returnBlock);
 		newCommandRBlock.getParentWidget().blockDropped(getter);
 
 		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
-		returnBlock.setLocation(rb.getX() + 20, rb.getY() + newCommandRBlock.getHeight()); //無理やり座標指定...
-		
+		returnBlock.setLocation(rb.getX() + 20,
+				rb.getY() + newCommandRBlock.getHeight()); //無理やり座標指定...
+
 		connectByPlug(returnBlock, 0, getter);
-		newCommandRBlock.getNearbyLink().connect();
+		//newCommandRBlock.getNearbyLink().connect();
 	}
 
 	private void createNewSetterMethod(String name) {//#ohata
@@ -465,35 +466,44 @@ public class SContextMenuProvider {
 				+ rb.getKeyword().toUpperCase().charAt(0)
 				+ rb.getKeyword().substring(1));
 
-		RenderableBlock setter = SStubCreator.createStub("setter",rb);
+		RenderableBlock setter = SStubCreator.createStub("setter", rb);
 		setter.setLocation(rb.getX() + 20, rb.getY() + 40);
 		newCommandRBlock.getNearbyLink().connect();
-		
+
 		if (rb.getGenus().endsWith("string")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-string");
 			connectByPlug(newCommandRBlock, 0, param);
+			newCommandRBlock.getParentWidget().blockDropped(param);
 		} else if (rb.getGenus().endsWith("boolean")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-boolean");
 			connectByPlug(newCommandRBlock, 0, param);
+			newCommandRBlock.getParentWidget().blockDropped(param);
 		} else if (rb.getGenus().endsWith("double-number")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-double-number");
 			connectByPlug(newCommandRBlock, 0, param);
+			newCommandRBlock.getParentWidget().blockDropped(param);
 		} else if (rb.getGenus().endsWith("number")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-number");
 			connectByPlug(newCommandRBlock, 0, param);
-		} else if(rb.getGenus().endsWith("TextTurtle")){
+			newCommandRBlock.getParentWidget().blockDropped(param);
+		} else if (rb.getGenus().endsWith("TextTurtle")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-TextTurtle");
 			connectByPlug(newCommandRBlock, 0, param);
-		} else if(rb.getGenus().endsWith("Turtle")){
+			newCommandRBlock.getParentWidget().blockDropped(param);
+		} else if (rb.getGenus().endsWith("Turtle")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-Tertle");
 			connectByPlug(newCommandRBlock, 0, param);
-		}  
+			newCommandRBlock.getParentWidget().blockDropped(param);
+		}
+
+		newCommandRBlock.getParentWidget().blockDropped(newCommandRBlock);
+		newCommandRBlock.getParentWidget().blockDropped(setter);
 	}
 
 	private static RenderableBlock createActionGetterBlock(
@@ -547,6 +557,7 @@ public class SContextMenuProvider {
 				new WorkspaceEvent(parent.getParentWidget(), link,
 						WorkspaceEvent.BLOCKS_CONNECTED));
 	}
+
 	public static void connectBySocket(RenderableBlock parent, int socketIndex,
 			RenderableBlock child) {
 		BlockLink link = BlockLink.getBlockLink(parent.getBlock(),

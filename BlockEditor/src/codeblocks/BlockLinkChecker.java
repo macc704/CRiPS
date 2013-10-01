@@ -480,6 +480,7 @@ public class BlockLinkChecker {
 			else if (!canLink)
 				return false;
 		}
+		
 		return foundRule;
 	}
 

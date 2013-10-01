@@ -259,7 +259,11 @@ import controller.WorkspaceController;
  *  	・ハイライトされないブロックが発生する問題を修正
  *  	・抽象化ブロック生成時にNull Pointer Exceptionが発生する問題を修正
  * 	 	・javaからブロックを生成時、private変数のラインナンバーをxmlに書き出す際の問題を修正
- *  						
+ *  2013.10.01 2.14.2 Ohata
+ *  	・ハイライト対象を書き込みブロック、参照ブロックのみに変更
+ *  	・インスタンス変数、オブジェクト変数の隠蔽			
+ *  	
+ *  			
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
  * ・引数の使用時にスコープのチェック
@@ -279,7 +283,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "2.14.1";
+	public final static String VERSION = "2.14.2";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;

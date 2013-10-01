@@ -40,22 +40,22 @@ public class BlockToJavaAnalyzer {
 	private ProgramModel programModel = new ProgramModel();
 	private static Map<Integer, BlockModel> blockModels = new HashMap<Integer, BlockModel>();
 	private String fileURI;// #ohata constructorblockにURLを渡したいので変数を用意
-	
-	//private static LinkedList privateNumberIdList = new LinkedList(); 
-	
+
+	// private static LinkedList privateNumberIdList = new LinkedList(); aaaaa
+
 	public BlockToJavaAnalyzer() {
 	}
 
-	public BlockToJavaAnalyzer(String uri){// #ohata コンストラクタでファイル名をセットする　ファイル名はコンストラクタブロックの分析の際利用s 
+	public BlockToJavaAnalyzer(String uri) {// #ohata
+											// コンストラクタでファイル名をセットする　ファイル名はコンストラクタブロックの分析の際利用s
 		int index = uri.indexOf(".");
-		fileURI = new String(uri.substring(0,index));
+		fileURI = new String(uri.substring(0, index));
 	}
-	
+
 	public static BlockModel getBlock(int id) {
 		return blockModels.get(id);
 	}
 
-	
 	/**
 	 * 
 	 * @return
@@ -86,7 +86,7 @@ public class BlockToJavaAnalyzer {
 		Node page = node;
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
-		
+
 		while (page.getNodeName() != "Page") {
 			page = page.getFirstChild();
 		}
@@ -128,12 +128,12 @@ public class BlockToJavaAnalyzer {
 	private void resolveBlock(Node node, PageModel pageModel) {
 
 		Node blockNode = node;
-		
+
 		while (blockNode.getNodeName() != "Block"
 				&& blockNode.getNodeName() != "BlockStub") {
 			blockNode = blockNode.getFirstChild();
 		}
-		
+
 		while (blockNode != null) {
 			Node block = blockNode;
 
@@ -148,24 +148,26 @@ public class BlockToJavaAnalyzer {
 			NamedNodeMap BlockAttrs = block.getAttributes();
 			String genus_name = BlockAttrs.getNamedItem("genus-name")
 					.getNodeValue();
-			
+
 			if ("procedure".equals(genus_name)) {
 				ProcedureBlockModel model = new ProcedureBlockModel();
 				parseBlock(block, model);
 				pageModel.addProcedure(model);
 				blockNode = blockNode.getNextSibling();
-			} else if("constructor".equals(genus_name)){// #ohata コンストラクタブロックの処理
+			} else if ("constructor".equals(genus_name)) {// #ohata
+															// コンストラクタブロックの処理
 				ConstructorBlockModel model = new ConstructorBlockModel();
 				parseBlock(block, model);
 				model.setLabel(fileURI);
 				model.setURI(fileURI);
 				pageModel.addConstructor(model);
 				blockNode = blockNode.getNextSibling();
-			} else if("private-procedure".equals(genus_name)){// #ohata 使わない　プライベート変数宣言用の手続き型ブロック 
+			} else if ("private-procedure".equals(genus_name)) {// #ohata
+																// 使わない　プライベート変数宣言用の手続き型ブロック
 				BCSystem.out.println("private procedure");
 				PrivateProcedureBlockModel model = new PrivateProcedureBlockModel();
 				parseBlock(block, model);
-				//pageModel.addPrivateProcedure(model);
+				// pageModel.addPrivateProcedure(model);
 				blockNode = blockNode.getNextSibling();
 			} else if (genus_name.startsWith("proc-param")) {
 				ProcedureParamBlockModel model = new ProcedureParamBlockModel();
@@ -188,12 +190,12 @@ public class BlockToJavaAnalyzer {
 				LocalVariableBlockModel model = new LocalVariableBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
-			} else if(genus_name.startsWith("private-var-")){// #ohata 
+			} else if (genus_name.startsWith("private-var-")) {// #ohata
 				PrivateVariableBlockModel model = new PrivateVariableBlockModel();
 				parseBlock(block, model);
 				pageModel.addPrivateVariableBlock(model);
 				blockNode = blockNode.getNextSibling();
-			}else if (genus_name.startsWith("setter")) {
+			} else if (genus_name.startsWith("setter")) {
 				SetterVariableBlockModel model = new SetterVariableBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -312,12 +314,11 @@ public class BlockToJavaAnalyzer {
 
 		model.setName(blockName);
 		model.setId(blockId);
-		
+
 		Node blockInfo = node.getFirstChild();
-		
-		while (blockInfo != null) {			
+
+		while (blockInfo != null) {
 			if (blockInfo.getNodeName() == "Label") {
-				BCSystem.out.println("blockInfo.getTextContent():" + blockInfo.getTextContent());
 				model.setLabel(blockInfo.getTextContent());
 			} else if (blockInfo.getNodeName() == "HeaderLabel") {
 				model.setType(blockInfo.getTextContent());
@@ -331,12 +332,15 @@ public class BlockToJavaAnalyzer {
 				BlockConnectorModel conn = parseBlockConnector(blockInfo
 						.getFirstChild());
 				model.setPlug(conn);
-			} else if(blockInfo.getNodeName() == "LineComment") {//#ohata added
+			} else if (blockInfo.getNodeName() == "LineComment") {// #ohata
+																	// added
 				model.setComment(blockInfo.getTextContent());
-			} else if(blockInfo.getNodeName() == "Location") {
-				int x = Integer.parseInt(blockInfo.getFirstChild().getTextContent());
-				int y = Integer.parseInt(blockInfo.getLastChild().getTextContent());
-				model.setPosition(x,y);
+			} else if (blockInfo.getNodeName() == "Location") {
+				int x = Integer.parseInt(blockInfo.getFirstChild()
+						.getTextContent());
+				int y = Integer.parseInt(blockInfo.getLastChild()
+						.getTextContent());
+				model.setPosition(x, y);
 			} else if (blockInfo.getNodeName() == "Sockets") {
 				Node blockConnectorInfo = blockInfo.getFirstChild();
 				while (blockConnectorInfo != null) {
@@ -353,7 +357,7 @@ public class BlockToJavaAnalyzer {
 			 * model.setText(blockCommentInfo.getTextContent()); } } }
 			 */
 			blockInfo = blockInfo.getNextSibling();
-		}				
+		}
 		blockModels.put(model.getId(), model);
 	}
 

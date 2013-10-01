@@ -28,6 +28,7 @@ public class SocketRule implements LinkRule {
 	private final String[] colorLeterals = { "blue", "cyan", "green",
 			"magenta", "orange", "pink", "red", "white", "yellow", "gray",
 			"lightGray", "darkGray", "black", };
+	
 
 	public boolean canLink(Block block1, Block block2, BlockConnector socket1,
 			BlockConnector socket2) {
@@ -111,8 +112,17 @@ public class SocketRule implements LinkRule {
 				.getBlockID());
 		RenderableBlock socketRb = RenderableBlock.getRenderableBlock(socket
 				.getBlockID());
-		socketRb.setLocation(socketRb.getX() + rb.getBlockWidth(),
-				socketRb.getY());
+	//	socketRb.setLocation(socketRb.getX() + rb.getBlockWidth(),
+		//		socketRb.getY());//Ç±Ç±Ç≈ÉuÉçÉbÉNÇÃà⁄ìÆÇÇµÇƒÇ¢ÇÈ
+		if(!BlockAnimationThread.isRun()){
+			BlockAnimationThread t1 = new BlockAnimationThread(socketRb.getX() + rb.getBlockWidth()*2,  socketRb);
+			t1.start();			
+		}
+		/*int end = socketRb.getX() + rb.getBlockWidth();
+		while(socketRb.getX() < end){
+			socketRb.setLocation(socketRb.getX() + 1, socketRb.getY());
+		}*/
+		
 		socketRb.setParentWidget(rb.getParentWidget());
 		rb.getParentWidget().addBlock(socketRb);
 	}

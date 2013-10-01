@@ -1238,7 +1238,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 */
 	public void redrawFromTop() {
 		isLoading = false;
-		
+
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(getBlock())) {
 
@@ -1251,7 +1251,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							+ curBlockID);
 					continue;
 				}
-				
+
 				RenderableBlock.getRenderableBlock(curBlockID).redrawFromTop();
 
 				// add dimension to the mapping
@@ -1756,7 +1756,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			WorkspaceWidget widget) {
 		renderable.pickedUp = true;
 		renderable.lastDragWidget = widget;
-		//System.out.println("move block :" + renderable.getBlock().getBlockLabel());
 		if (renderable.hasComment()) {
 			renderable.comment.setConstrainComment(false);
 		}
@@ -1796,51 +1795,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		// stop rendering as transparent
 		renderable.dragging = false;
 		//#ohata addedゲッターとセッターのハイライトを消す  
-		for (RenderableBlock rb : widget.getBlocks()) {
-			if (rb.getGenus().equals("getter" + renderable.getGenus())
-					&& rb.getBlock()
-							.getBlockLabel()
-							.equals(renderable.getBlock().getBlockLabel()
-									+ "の値")) {
-				rb.highlighter.resetHighlight();
-			} else if (rb.getGenus().equals("setter" + renderable.getGenus())
-					&& rb.getBlock()
-							.getBlockLabel()
-							.equals(renderable.getBlock().getBlockLabel()
-									+ "に書き込む")) {
-				rb.highlighter.resetHighlight();
-			} else if (rb.getGenus().equals("inc" + renderable.getGenus())
-					&& rb.getBlock()
-							.getBlockLabel()
-							.equals(renderable.getBlock().getBlockLabel()
-									+ "を増やす")) {
-				rb.highlighter.resetHighlight();
-			} else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在するため
-				if (rb.getBlock()
-						.getBlockLabel()
-						.equals("get"
-								+ renderable.getBlock().getBlockLabel()
-										.toUpperCase().charAt(0)
-								+ renderable.getBlock().getBlockLabel()
-										.substring(1))) {
-					rb.resetHighlight();
-				} else if (rb
-						.getBlock()
-						.getBlockLabel()
-						.equals("set"
-								+ renderable.getBlock().getBlockLabel()
-										.toUpperCase().charAt(0)
-								+ renderable.getBlock().getBlockLabel()
-										.substring(1))) {
-					rb.resetHighlight();
-				} else if (rb.getGenus().contains("callActionMethod")
-						&& rb.getBlock().getBlockLabel()
-								.equals(renderable.getBlock().getBlockLabel())) {
-					rb.resetHighlight();
-				}
-			}
-		}
-
+		catchBlockResetHighlight(renderable, widget);
 		// move comment
 		if (renderable.hasComment()) {
 			if (renderable.getParentWidget() != null) {
@@ -1892,26 +1847,80 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			}
 		}
 		//#ohata added 持ってるブロックのゲッター、セッターをハイライトする
+		catchBlockHighlight(renderable, widget);
+	}
+
+	public static void catchBlockResetHighlight(RenderableBlock catchedBlock,
+			WorkspaceWidget widget) {
 		for (RenderableBlock rb : widget.getBlocks()) {
-			if (rb.getGenus().equals("getter" + renderable.getGenus())
+			if (rb.getGenus().equals("getter" + catchedBlock.getGenus())
 					&& rb.getBlock()
 							.getBlockLabel()
-							.equals(renderable.getBlock().getBlockLabel()
+							.equals(catchedBlock.getBlock().getBlockLabel()
+									+ "の値")) {
+				rb.highlighter.resetHighlight();
+			} else if (rb.getGenus().equals("setter" + catchedBlock.getGenus())
+					&& rb.getBlock()
+							.getBlockLabel()
+							.equals(catchedBlock.getBlock().getBlockLabel()
+									+ "に書き込む")) {
+				rb.highlighter.resetHighlight();
+			} else if (rb.getGenus().equals("inc" + catchedBlock.getGenus())
+					&& rb.getBlock()
+							.getBlockLabel()
+							.equals(catchedBlock.getBlock().getBlockLabel()
+									+ "を増やす")) {
+				rb.highlighter.resetHighlight();
+			} /*else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在するため
+				if (rb.getBlock()
+						.getBlockLabel()
+						.equals("get"
+								+ renderable.getBlock().getBlockLabel()
+										.toUpperCase().charAt(0)
+								+ renderable.getBlock().getBlockLabel()
+										.substring(1))) {
+					rb.resetHighlight();
+				} else if (rb
+						.getBlock()
+						.getBlockLabel()
+						.equals("set"
+								+ renderable.getBlock().getBlockLabel()
+										.toUpperCase().charAt(0)
+								+ renderable.getBlock().getBlockLabel()
+										.substring(1))) {
+					rb.resetHighlight();
+				} else if (rb.getGenus().contains("callActionMethod")
+						&& rb.getBlock().getBlockLabel()
+								.equals(renderable.getBlock().getBlockLabel())) {
+					rb.resetHighlight();
+				}
+				}*/
+		}
+
+	}
+
+	private static void catchBlockHighlight(RenderableBlock catchedBlock,
+			WorkspaceWidget widget) {
+		for (RenderableBlock rb : widget.getBlocks()) {
+			if (rb.getGenus().equals("getter" + catchedBlock.getGenus())
+					&& rb.getBlock()
+							.getBlockLabel()
+							.equals(catchedBlock.getBlock().getBlockLabel()
 									+ "の値")) {
 				rb.highlighter.setHighlightColor(Color.yellow);
-			} else if (rb.getGenus().equals("setter" + renderable.getGenus())
+			} else if (rb.getGenus().equals("setter" + catchedBlock.getGenus())
 					&& rb.getBlock()
 							.getBlockLabel()
-							.equals(renderable.getBlock().getBlockLabel()
+							.equals(catchedBlock.getBlock().getBlockLabel()
 									+ "に書き込む")) {
 				rb.highlighter.setHighlightColor(Color.yellow);
-			} else if (rb.getGenus().equals("inc" + renderable.getGenus())
+			} else if (rb.getGenus().equals("inc" + catchedBlock.getGenus())
 					&& rb.getBlock()
 							.getBlockLabel()
-							.equals(renderable.getBlock().getBlockLabel()
+							.equals(catchedBlock.getBlock().getBlockLabel()
 									+ "を増やす")) {
 				rb.highlighter.setHighlightColor(Color.yellow);
-			} else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在する
+			} /*else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在する
 				if (rb.getBlock()
 						.getBlockLabel()
 						.equals("get"
@@ -1934,10 +1943,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 								.equals(renderable.getBlock().getBlockLabel())) {
 					rb.highlighter.setHighlightColor(Color.yellow);
 				}
-			}
-
+				}*/
 		}
-
 	}
 
 	// /////////////////
