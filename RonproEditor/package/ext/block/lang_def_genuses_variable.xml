@@ -305,7 +305,8 @@
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
-<!--  ohata added -->
+<!-- Ohata added. This is use for  OOP Block Editor-->
+<!--  
 <BlockGenus name="private-var-int-number" kind="global-variable"
 	initlabel="i" header-label="int型の変数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255">
@@ -468,6 +469,5 @@
 		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
-</BlockGenus>
-
+</BlockGenus>		-->
 

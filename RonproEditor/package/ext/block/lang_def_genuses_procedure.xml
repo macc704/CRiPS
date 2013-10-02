@@ -206,6 +206,8 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<!-- Ohata added. This is use for  OOP Block Editor-->
+<!-- 
 <BlockGenus name="constructor" kind="procedure" initlabel="コンストラクタ"
 	editable-label="no" label-unique="yes" is-starter="yes" color="200 200 200">
 	<BlockConnectors>
@@ -229,5 +231,5 @@
 		<LangSpecProperty key="is-breed-set-by-canvas" value="yes"></LangSpecProperty>
 		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
 	</LangSpecProperties>
-</BlockGenus>
+</BlockGenus>	 -->
 
