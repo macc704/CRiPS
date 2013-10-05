@@ -5,12 +5,14 @@ import renderable.RenderableBlock;
 public class BlockAnimationThread extends Thread {
 
 	private int endX;
-	private RenderableBlock socket;
+	private RenderableBlock block;
 	private static boolean isRun = false;
+	private int distance;
 
-	public BlockAnimationThread(int x, RenderableBlock sock) {
-		endX = x;
-		socket = sock;
+	public BlockAnimationThread(int end, RenderableBlock targetBlock) {
+		endX = end;
+		block = targetBlock;
+		distance = endX - block.getX();
 	}
 
 	public static boolean isRun() {
@@ -20,17 +22,28 @@ public class BlockAnimationThread extends Thread {
 	public void run() {
 		isRun = true;
 
-		int initX = socket.getX();
-		int x = socket.getX() + 1;
-		int y = socket.getY();
-		int distance = endX - socket.getX();
+		int initX = block.getX();
+		int x = block.getX() + 1;
+		int y = block.getY();
+
 		double realWaitTime = 1.0;
+
+		for (BlockConnector socket : BlockLinkChecker
+				.getSocketEquivalents(block.getBlock())) {
+			if (socket.hasBlock()) {
+				RenderableBlock rb = RenderableBlock.getRenderableBlock(socket
+						.getBlockID());
+				BlockAnimationThread t1 = new BlockAnimationThread(rb.getX()
+						+ distance, rb);
+				t1.start();
+			}
+		}
 
 		long waitTime = 1;
 		try {
-			while (socket.getX() < endX) {
-				socket.setLocation(x, y);
-				if ((int) (((socket.getX() - initX) * 100 / distance)) % 25 == 24) {
+			while (block.getX() < endX) {
+				block.setLocation(x, y);
+				if ((int) (((block.getX() - initX) * 100 / distance)) % 25 == 24) {
 					realWaitTime *= 1.7;
 					waitTime *= realWaitTime;
 				}
@@ -45,6 +58,5 @@ public class BlockAnimationThread extends Thread {
 		}
 		isRun = false;
 	}
-
 
 }

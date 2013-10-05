@@ -445,15 +445,13 @@ public class SContextMenuProvider {
 				+ rb.getKeyword().toUpperCase().charAt(0)
 				+ rb.getKeyword().substring(1));
 
-		newCommandRBlock.getParentWidget().blockDropped(returnBlock);
-		newCommandRBlock.getParentWidget().blockDropped(getter);
-
 		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
 		returnBlock.setLocation(rb.getX() + 20,
 				rb.getY() + newCommandRBlock.getHeight()); //無理やり座標指定...
 
 		connectByPlug(returnBlock, 0, getter);
-		//newCommandRBlock.getNearbyLink().connect();
+
+		newCommandRBlock.getNearbyLink().connect();
 	}
 
 	private void createNewSetterMethod(String name) {//#ohata
@@ -468,54 +466,57 @@ public class SContextMenuProvider {
 
 		RenderableBlock setter = SStubCreator.createStub("setter", rb);
 		setter.setLocation(rb.getX() + 20, rb.getY() + 40);
-		newCommandRBlock.getNearbyLink().connect();
+
+		BlockLink link = newCommandRBlock.getNearbyLink();
+
+		link.connect();
 
 		if (rb.getGenus().endsWith("string")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-string");
 			connectByPlug(newCommandRBlock, 0, param);
-			newCommandRBlock.getParentWidget().blockDropped(param);
 		} else if (rb.getGenus().endsWith("boolean")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-boolean");
 			connectByPlug(newCommandRBlock, 0, param);
-			newCommandRBlock.getParentWidget().blockDropped(param);
 		} else if (rb.getGenus().endsWith("double-number")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-double-number");
 			connectByPlug(newCommandRBlock, 0, param);
-			newCommandRBlock.getParentWidget().blockDropped(param);
 		} else if (rb.getGenus().endsWith("number")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-number");
 			connectByPlug(newCommandRBlock, 0, param);
-			newCommandRBlock.getParentWidget().blockDropped(param);
+
 		} else if (rb.getGenus().endsWith("TextTurtle")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-TextTurtle");
 			connectByPlug(newCommandRBlock, 0, param);
-			newCommandRBlock.getParentWidget().blockDropped(param);
+
 		} else if (rb.getGenus().endsWith("Turtle")) {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-Tertle");
 			connectByPlug(newCommandRBlock, 0, param);
-			newCommandRBlock.getParentWidget().blockDropped(param);
+
 		}
 
-		newCommandRBlock.getParentWidget().blockDropped(newCommandRBlock);
-		newCommandRBlock.getParentWidget().blockDropped(setter);
+		//		newCommandRBlock.getParentWidget().blockDropped(newCommandRBlock);
+		//	newCommandRBlock.getParentWidget().blockDropped(setter);
 	}
 
 	private static RenderableBlock createActionGetterBlock(
 			RenderableBlock parent, String genusName) {
+
 		RenderableBlock newCallRBlock = createNewBlock(
 				parent.getParentWidget(), genusName);
+
 		newCallRBlock.setLocation(parent.getX() + 20, parent.getY() + 20); // 新しく生成するブロックのポジション
 
 		RenderableBlock newValueBlock = SStubCreator.createStub("getter",
 				parent);
 
 		connectByPlug(newCallRBlock, 0, newValueBlock);
+
 		return newCallRBlock;
 	}
 

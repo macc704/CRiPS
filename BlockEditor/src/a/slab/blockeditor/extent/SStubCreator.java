@@ -31,7 +31,6 @@ public class SStubCreator {
 		RenderableBlock newRB = createStub(stubName, rb);
 	}
 
-	
 	public static RenderableBlock createStub(String stubName, RenderableBlock rb) {
 		Block b = rb.getBlock();
 		for (String stubGenus : b.getStubList()) {
@@ -39,9 +38,12 @@ public class SStubCreator {
 				Block createB = b.createFreshStub(stubGenus);
 				RenderableBlock newRB = new RenderableBlock(null,
 						createB.getBlockID());
-				
+
 				newRB.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
+
 				newRB.setParentWidget(rb.getParentWidget());
+				//所属するprocedureブロックのid
+				newRB.setParentProcedureID(rb.getParentProcedureID());
 				//書いてあるブロックコネクターを読み込む仕組み
 				//newRB.getBlock().getSocketAt
 				/*if(stubGenus.startsWith("setter")){//#ohata とりあえず
@@ -71,7 +73,6 @@ public class SStubCreator {
 				//	newRB.getNearbyLink().connect();
 				}*/
 
-				
 				rb.getParentWidget().addBlock(newRB);
 				return newRB;
 			}

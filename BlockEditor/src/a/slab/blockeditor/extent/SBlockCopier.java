@@ -70,6 +70,8 @@ public class SBlockCopier {
 			copyValueAndConnect(srcCon, newBlock, newCon);
 		}
 
+		newRBlock.setParentProcedureID(srcRBlock.getParentProcedureID());
+
 		return newRBlock;
 	}
 

@@ -28,7 +28,6 @@ public class SocketRule implements LinkRule {
 	private final String[] colorLeterals = { "blue", "cyan", "green",
 			"magenta", "orange", "pink", "red", "white", "yellow", "gray",
 			"lightGray", "darkGray", "black", };
-	
 
 	public boolean canLink(Block block1, Block block2, BlockConnector socket1,
 			BlockConnector socket2) {
@@ -94,11 +93,28 @@ public class SocketRule implements LinkRule {
 				&& ((block.getPlug().getBlockID() == Block.NULL && sBlock
 						.getBlockID() != Block.NULL) || (block.getPlug()
 						.getBlockID() != Block.NULL && sBlock.getBlockID() == Block.NULL))
-				&& block.getKind().equals(sBlock.getKind())) {
+				&& block.getKind().equals(sBlock.getKind())
+				&& checkParentProcedureBlockID(block, socket)) {
 			replaceBlock(block, socket);
 			return true;
 		}
 		return false;
+	}
+
+	//ohata added
+	private boolean checkParentProcedureBlockID(Block block,
+			BlockConnector socket) {
+		if ((block.getGenusName().startsWith("getter") || block.getGenusName()
+				.startsWith("setter"))
+				&& (RenderableBlock.getRenderableBlock(block.getBlockID())
+						.getParentProcedureID() != RenderableBlock
+						.getRenderableBlock(socket.getBlockID())
+						.getParentProcedureID())
+				&& RenderableBlock.getRenderableBlock(block.getBlockID())
+						.getParentProcedureID() != -2) {
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -112,17 +128,19 @@ public class SocketRule implements LinkRule {
 				.getBlockID());
 		RenderableBlock socketRb = RenderableBlock.getRenderableBlock(socket
 				.getBlockID());
-	//	socketRb.setLocation(socketRb.getX() + rb.getBlockWidth(),
-		//		socketRb.getY());//ここでブロックの移動をしている
-		if(!BlockAnimationThread.isRun()){
-			BlockAnimationThread t1 = new BlockAnimationThread(socketRb.getX() + rb.getBlockWidth()*2,  socketRb);
-			t1.start();			
+		//socketRb.setLocation(socketRb.getX() + rb.getBlockWidth(),
+		//	socketRb.getY());//ここでブロックの移動をしている
+		if (!BlockAnimationThread.isRun()) {
+			BlockAnimationThread t1 = new BlockAnimationThread(socketRb.getX()
+					+ rb.getBlockWidth() * 2, socketRb);
+			t1.start();
 		}
+
 		/*int end = socketRb.getX() + rb.getBlockWidth();
 		while(socketRb.getX() < end){
 			socketRb.setLocation(socketRb.getX() + 1, socketRb.getY());
 		}*/
-		
+
 		socketRb.setParentWidget(rb.getParentWidget());
 		rb.getParentWidget().addBlock(socketRb);
 	}

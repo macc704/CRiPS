@@ -49,6 +49,7 @@ import workspace.WorkspaceWidget;
 import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.extent.SAbstractionBlockShape;
 import codeblocks.Block;
+import codeblocks.BlockAnimationThread;
 import codeblocks.BlockConnector;
 import codeblocks.BlockConnectorShape;
 import codeblocks.BlockLink;
@@ -188,6 +189,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	//#ohata added 
 	private String loadComment;
+	private long parentProcedureBlockID = -2;//-1:親がない(procedure,private) -2:親未定
 
 	/**
 	 * Constructs a new RenderableBlock instance with the specified parent
@@ -273,6 +275,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				&& (parent == null || !(parent instanceof FactoryManager))) {
 			this.collapseLabel = new ProcedureCollapseLabel(blockID);
 			this.add(collapseLabel);
+			this.parentProcedureBlockID = -1;
 		} else if (getBlock().isAbstractionBlock()
 				&& (parent == null || !(parent instanceof FactoryManager))) {
 			this.collapseLabel = new AbstractionBlockCollapseLabel(blockID);
@@ -1783,6 +1786,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			WorkspaceWidget widget) {
 		if (!renderable.dragging)
 			throw new RuntimeException("dropping without prior dragging?");
+
 		// notify children
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(renderable.getBlock())) {
@@ -1811,6 +1815,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
+	public void setParentProcedureID(long id) {
+		parentProcedureBlockID = id;
+	}
+
+	public long getParentProcedureID() {
+		return parentProcedureBlockID;
+	}
+
 	private static void drag(RenderableBlock renderable, int dx, int dy,
 			WorkspaceWidget widget, boolean isTopLevelBlock) {
 		if (!renderable.pickedUp)
@@ -1832,6 +1844,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			}
 			widget.blockDragged(renderable);
 			renderable.lastDragWidget = widget;
+			catchBlockHighlight(renderable, widget);
 		}
 
 		// translate highlight along with the block - this would happen
@@ -1847,104 +1860,177 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			}
 		}
 		//#ohata added 持ってるブロックのゲッター、セッターをハイライトする
-		catchBlockHighlight(renderable, widget);
+
 	}
 
-	public static void catchBlockResetHighlight(RenderableBlock catchedBlock,
+	public static void catchBlockResetHighlight(RenderableBlock catchedRBlock,
 			WorkspaceWidget widget) {
-		for (RenderableBlock rb : widget.getBlocks()) {
-			if (rb.getGenus().equals("getter" + catchedBlock.getGenus())
-					&& rb.getBlock()
+		if (catchedRBlock.getGenus().startsWith("getter")
+				|| catchedRBlock.getGenus().startsWith("setter")) {
+			for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターの参照元を探す
+				Block catchedBlock = catchedRBlock.getBlock();
+				int index;
+
+				if ((index = catchedBlock.getBlockLabel().indexOf("に書き込む")) != -1) {
+					if (rb.getBlock()
 							.getBlockLabel()
-							.equals(catchedBlock.getBlock().getBlockLabel()
-									+ "の値")) {
-				rb.highlighter.resetHighlight();
-			} else if (rb.getGenus().equals("setter" + catchedBlock.getGenus())
-					&& rb.getBlock()
+							.equals(catchedBlock.getBlockLabel().substring(0,
+									index))) {
+						rb.highlighter.resetHighlight();
+					}
+				} else if ((index = catchedBlock.getBlockLabel().indexOf("の値")) != -1) {
+					if (rb.getBlock()
 							.getBlockLabel()
-							.equals(catchedBlock.getBlock().getBlockLabel()
-									+ "に書き込む")) {
-				rb.highlighter.resetHighlight();
-			} else if (rb.getGenus().equals("inc" + catchedBlock.getGenus())
-					&& rb.getBlock()
+							.equals(catchedBlock.getBlockLabel().substring(0,
+									index))) {
+						rb.highlighter.resetHighlight();
+					}
+				} else if ((index = catchedBlock.getBlockLabel()
+						.indexOf("を増やす")) != -1) {
+					if (rb.getBlock()
 							.getBlockLabel()
-							.equals(catchedBlock.getBlock().getBlockLabel()
-									+ "を増やす")) {
-				rb.highlighter.resetHighlight();
-			} /*else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在するため
-				if (rb.getBlock()
-						.getBlockLabel()
-						.equals("get"
-								+ renderable.getBlock().getBlockLabel()
-										.toUpperCase().charAt(0)
-								+ renderable.getBlock().getBlockLabel()
-										.substring(1))) {
-					rb.resetHighlight();
-				} else if (rb
-						.getBlock()
-						.getBlockLabel()
-						.equals("set"
-								+ renderable.getBlock().getBlockLabel()
-										.toUpperCase().charAt(0)
-								+ renderable.getBlock().getBlockLabel()
-										.substring(1))) {
-					rb.resetHighlight();
-				} else if (rb.getGenus().contains("callActionMethod")
-						&& rb.getBlock().getBlockLabel()
-								.equals(renderable.getBlock().getBlockLabel())) {
-					rb.resetHighlight();
+							.equals(catchedBlock.getBlockLabel().substring(0,
+									index))) {
+						rb.highlighter.resetHighlight();
+					}
 				}
-				}*/
+
+			}
+		} else {
+			for (RenderableBlock rb : widget.getBlocks()) {
+				if (rb.getGenus().equals("getter" + catchedRBlock.getGenus())
+						&& rb.getBlock()
+								.getBlockLabel()
+								.equals(catchedRBlock.getBlock()
+										.getBlockLabel() + "の値")) {
+					rb.highlighter.resetHighlight();
+				} else if (rb.getGenus().equals(
+						"setter" + catchedRBlock.getGenus())
+						&& rb.getBlock()
+								.getBlockLabel()
+								.equals(catchedRBlock.getBlock()
+										.getBlockLabel() + "に書き込む")) {
+					rb.highlighter.resetHighlight();
+				} else if (rb.getGenus().equals(
+						"inc" + catchedRBlock.getGenus())
+						&& rb.getBlock()
+								.getBlockLabel()
+								.equals(catchedRBlock.getBlock()
+										.getBlockLabel() + "を増やす")) {
+					rb.highlighter.resetHighlight();
+				} /*else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在するため
+					if (rb.getBlock()
+							.getBlockLabel()
+							.equals("get"
+									+ renderable.getBlock().getBlockLabel()
+											.toUpperCase().charAt(0)
+									+ renderable.getBlock().getBlockLabel()
+											.substring(1))) {
+						rb.resetHighlight();
+					} else if (rb
+							.getBlock()
+							.getBlockLabel()
+							.equals("set"
+									+ renderable.getBlock().getBlockLabel()
+											.toUpperCase().charAt(0)
+									+ renderable.getBlock().getBlockLabel()
+											.substring(1))) {
+						rb.resetHighlight();
+					} else if (rb.getGenus().contains("callActionMethod")
+							&& rb.getBlock().getBlockLabel()
+									.equals(renderable.getBlock().getBlockLabel())) {
+						rb.resetHighlight();
+					}
+					}*/
+			}
+
 		}
 
 	}
 
-	private static void catchBlockHighlight(RenderableBlock catchedBlock,
+	private static void catchBlockHighlight(RenderableBlock catchedRBlock,
 			WorkspaceWidget widget) {
-		for (RenderableBlock rb : widget.getBlocks()) {
-			if (rb.getGenus().equals("getter" + catchedBlock.getGenus())
-					&& rb.getBlock()
+		if (catchedRBlock.getGenus().startsWith("getter")
+				|| catchedRBlock.getGenus().startsWith("setter")) {
+			for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターの参照元を探す
+				Block catchedBlock = catchedRBlock.getBlock();
+				int index;
+
+				if ((index = catchedBlock.getBlockLabel().indexOf("に書き込む")) != -1) {
+					if (rb.getBlock()
 							.getBlockLabel()
-							.equals(catchedBlock.getBlock().getBlockLabel()
-									+ "の値")) {
-				rb.highlighter.setHighlightColor(Color.yellow);
-			} else if (rb.getGenus().equals("setter" + catchedBlock.getGenus())
-					&& rb.getBlock()
+							.equals(catchedBlock.getBlockLabel().substring(0,
+									index))) {
+						rb.highlighter.setHighlightColor(Color.yellow);
+					}
+				} else if ((index = catchedBlock.getBlockLabel().indexOf("の値")) != -1) {
+					if (rb.getBlock()
 							.getBlockLabel()
-							.equals(catchedBlock.getBlock().getBlockLabel()
-									+ "に書き込む")) {
-				rb.highlighter.setHighlightColor(Color.yellow);
-			} else if (rb.getGenus().equals("inc" + catchedBlock.getGenus())
-					&& rb.getBlock()
+							.equals(catchedBlock.getBlockLabel().substring(0,
+									index))) {
+						rb.highlighter.setHighlightColor(Color.yellow);
+					}
+				} else if ((index = catchedBlock.getBlockLabel()
+						.indexOf("を増やす")) != -1) {
+					if (rb.getBlock()
 							.getBlockLabel()
-							.equals(catchedBlock.getBlock().getBlockLabel()
-									+ "を増やす")) {
-				rb.highlighter.setHighlightColor(Color.yellow);
-			} /*else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在する
-				if (rb.getBlock()
-						.getBlockLabel()
-						.equals("get"
-								+ renderable.getBlock().getBlockLabel()
-										.toUpperCase().charAt(0)
-								+ renderable.getBlock().getBlockLabel()
-										.substring(1))) {
-					rb.highlighter.setHighlightColor(Color.yellow);
-				} else if (rb
-						.getBlock()
-						.getBlockLabel()
-						.equals("set"
-								+ renderable.getBlock().getBlockLabel()
-										.toUpperCase().charAt(0)
-								+ renderable.getBlock().getBlockLabel()
-										.substring(1))) {
-					rb.highlighter.setHighlightColor(Color.yellow);
-				} else if (rb.getGenus().contains("callActionMethod")
-						&& rb.getBlock().getBlockLabel()
-								.equals(renderable.getBlock().getBlockLabel())) {
-					rb.highlighter.setHighlightColor(Color.yellow);
+							.equals(catchedBlock.getBlockLabel().substring(0,
+									index))) {
+						rb.highlighter.setHighlightColor(Color.yellow);
+					}
 				}
-				}*/
+
+			}
+		} else {
+			for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターメソッドはすべてハイライトする
+				if (rb.getGenus().equals("getter" + catchedRBlock.getGenus())
+						&& rb.getBlock()
+								.getBlockLabel()
+								.equals(catchedRBlock.getBlock()
+										.getBlockLabel() + "の値")) {
+					rb.highlighter.setHighlightColor(Color.yellow);
+				} else if (rb.getGenus().equals(
+						"setter" + catchedRBlock.getGenus())
+						&& rb.getBlock()
+								.getBlockLabel()
+								.equals(catchedRBlock.getBlock()
+										.getBlockLabel() + "に書き込む")) {
+					rb.highlighter.setHighlightColor(Color.yellow);
+				} else if (rb.getGenus().equals(
+						"inc" + catchedRBlock.getGenus())
+						&& rb.getBlock()
+								.getBlockLabel()
+								.equals(catchedRBlock.getBlock()
+										.getBlockLabel() + "を増やす")) {
+					rb.highlighter.setHighlightColor(Color.yellow);
+				} /*else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在する
+					if (rb.getBlock()
+							.getBlockLabel()
+							.equals("get"
+									+ renderable.getBlock().getBlockLabel()
+											.toUpperCase().charAt(0)
+									+ renderable.getBlock().getBlockLabel()
+											.substring(1))) {
+						rb.highlighter.setHighlightColor(Color.yellow);
+					} else if (rb
+							.getBlock()
+							.getBlockLabel()
+							.equals("set"
+									+ renderable.getBlock().getBlockLabel()
+											.toUpperCase().charAt(0)
+									+ renderable.getBlock().getBlockLabel()
+											.substring(1))) {
+						rb.highlighter.setHighlightColor(Color.yellow);
+					} else if (rb.getGenus().contains("callActionMethod")
+							&& rb.getBlock().getBlockLabel()
+									.equals(renderable.getBlock().getBlockLabel())) {
+						rb.highlighter.setHighlightColor(Color.yellow);
+					}
+					}*/
+			}
+
 		}
+
 	}
 
 	// /////////////////
@@ -2008,8 +2094,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					}
 
 					// drop the block and connect its link
+
 					stopDragging(this, widget);
-					link.connect();
+
+					connectBlocks(link, widget);//connect blocks if blocks can connect
+
 					//try {
 					Workspace.getInstance().notifyListeners(
 							new WorkspaceEvent(widget, link,
@@ -2054,6 +2143,79 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			popup.show(this, e.getX(), e.getY());
 		}
 		Workspace.getInstance().getMiniMap().repaint();
+	}
+
+	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
+		//書き込みブロック、参照ブロックの場合は所属するprocedureブロックのidを更新しない
+		if (getBlock().getGenusName().startsWith("getter")
+				|| getBlock().getGenusName().startsWith("setter")) {
+			if (searchParentProcedureBlockID(getRenderableBlock(link
+					.getSocketBlockID())) == parentProcedureBlockID
+					|| parentProcedureBlockID == -2) {
+				//ブロック結合
+				link.connect();
+				//try {
+				Workspace.getInstance().notifyListeners(
+						new WorkspaceEvent(widget, link,
+								WorkspaceEvent.BLOCKS_CONNECTED));
+				//} catch (Exception ex) {
+				//	System.err.println(ex.getMessage()); //応急処置 #matsuzawa
+				//}
+				// wc.saveString(wc.getSaveString());
+				getRenderableBlock(link.getSocketBlockID())
+						.moveConnectedBlocks();
+			} else {
+				blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(
+						blockID).getX()
+						+ RenderableBlock.getRenderableBlock(blockID)
+								.getWidth());
+			}
+		} else {
+			RenderableBlock afterRb = getRenderableBlock(link.getPlugBlockID());
+			//結合先がゲッターセッターの場合はコネクトしない		
+			if (afterRb.getParentProcedureID() != parentProcedureBlockID
+					&& (afterRb.getBlock().getGenusName().startsWith("getter") || afterRb
+							.getBlock().getGenusName().startsWith("setter"))) {
+				blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(
+						blockID).getX()
+						+ RenderableBlock.getRenderableBlock(blockID)
+								.getWidth());
+				return;
+			}
+
+			link.connect();
+
+			//所属するブロックのid更新
+			if (searchParentProcedureBlockID(getRenderableBlock(link
+					.getSocketBlockID())) != -1) {//-1のときに探索失敗　探索失敗の場合はidを書き換えない
+				parentProcedureBlockID = searchParentProcedureBlockID(getRenderableBlock(link
+						.getSocketBlockID()));
+			}
+
+		}
+
+	}
+
+	private void blockSlideMoveAnimetion(int endXPosition) {
+		RenderableBlock rb = RenderableBlock.getRenderableBlock(blockID);
+		BlockAnimationThread th = new BlockAnimationThread(endXPosition, rb);
+		th.start();
+	}
+
+	//ohata
+	private long searchParentProcedureBlockID(RenderableBlock rb) {
+		//procedureまでブロックをたどって、procedureブロックのidを獲得
+		if (rb == null) {
+			return -1;
+		}
+		while (!(rb.getGenus().equals("procedure") || rb.getGenus().equals(
+				"procedure"))) {
+			rb = getRenderableBlock(rb.getBlock().getBeforeBlockID());
+			if (rb == null) {
+				return -1;
+			}
+		}
+		return rb.getBlockID();
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -2160,6 +2322,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mousePressed(MouseEvent e) {
+		//System.out.println("parentProcedure:" + parentProcedureBlockID);
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mousePressed(e);
 			pickedUp = true; // mark this block as currently being picked up
@@ -2286,6 +2449,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					}
 				} else if (child.getNodeName().equals("Collapsed")) {
 					rb.setCollapsed(true);
+				} else if (child.getNodeName().equals("ParentBlock")) {
+					rb.setParentProcedureID(Long.parseLong(child
+							.getTextContent()));
+					rb.replaceParentProcedureBlockID();
 				}
 			}
 			// set location from info
@@ -2298,6 +2465,19 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			return rb;
 		}
 		return null;
+	}
+
+	private void replaceParentProcedureBlockID() {
+		if (getBlock().getGenusName().equals("abstraction")
+				|| getBlock().getGenusName().equals("procedure")) {
+			return;
+		}
+		for (BlockConnector socket : getBlock().getSockets()) {
+			if (RenderableBlock.getRenderableBlock(socket.getBlockID()) != null) {
+				RenderableBlock.getRenderableBlock(socket.getBlockID())
+						.setParentProcedureID(getParentProcedureID());
+			}
+		}
 	}
 
 	/**
