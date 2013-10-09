@@ -93,30 +93,30 @@ public class SocketRule implements LinkRule {
 				&& ((block.getPlug().getBlockID() == Block.NULL && sBlock
 						.getBlockID() != Block.NULL) || (block.getPlug()
 						.getBlockID() != Block.NULL && sBlock.getBlockID() == Block.NULL))
-				&& block.getKind().equals(sBlock.getKind())
-				&& checkParentProcedureBlockID(block, socket)) {
+				&& block.getKind().equals(sBlock.getKind())) {
 			replaceBlock(block, socket);
 			return true;
 		}
 		return false;
 	}
 
-	//ohata added
-	private boolean checkParentProcedureBlockID(Block block,
-			BlockConnector socket) {
-		if ((block.getGenusName().startsWith("getter") || block.getGenusName()
-				.startsWith("setter"))
-				&& (RenderableBlock.getRenderableBlock(block.getBlockID())
-						.getParentProcedureID() != RenderableBlock
-						.getRenderableBlock(socket.getBlockID())
-						.getParentProcedureID())
-				&& RenderableBlock.getRenderableBlock(block.getBlockID())
-						.getParentProcedureID() != -2) {
-			return false;
+	/*
+		//ohata added
+		private boolean checkParentProcedureBlockID(Block block,
+				BlockConnector socket) {
+			if ((block.getGenusName().startsWith("getter") || block.getGenusName()
+					.startsWith("setter"))
+					&& (RenderableBlock.getRenderableBlock(block.getBlockID())
+							.getParentProcedureID() != RenderableBlock
+							.getRenderableBlock(socket.getBlockID())
+							.getParentProcedureID())
+					&& RenderableBlock.getRenderableBlock(block.getBlockID())
+							.getParentProcedureID() != -2) {
+				return false;
+			}
+			return true;
 		}
-		return true;
-	}
-
+	*/
 	/**
 	 * created by sakai lab 2011/11/21
 	 * 
@@ -131,8 +131,8 @@ public class SocketRule implements LinkRule {
 		//socketRb.setLocation(socketRb.getX() + rb.getBlockWidth(),
 		//	socketRb.getY());//Ç±Ç±Ç≈ÉuÉçÉbÉNÇÃà⁄ìÆÇÇµÇƒÇ¢ÇÈ
 		if (!BlockAnimationThread.isRun()) {
-			BlockAnimationThread t1 = new BlockAnimationThread(socketRb.getX()
-					+ rb.getBlockWidth() * 2, socketRb);
+			BlockAnimationThread t1 = new BlockAnimationThread(socketRb,
+					"right");
 			t1.start();
 		}
 

@@ -268,6 +268,11 @@ import controller.WorkspaceController;
  *  	・関数を超えたローカル変数の利用が可能だったのを不可能に
  *  	・アニメーション動作対象を追加	
  *  		・スコープ外の変数の書き込みブロック、値ブロックを利用しようとした場合	
+ *  2013.10.09 2.14.4 Ohata
+ *  	・スコープチェックの追加の途中
+ *  	・アニメーション動作（縦移動）の追加
+ *  	・ハイライト動作の追加（異常ブロックの赤ハイライト）
+ *  	・アニメーション動作の微調整（ブロックの大きさでの移動を、定数に変更）
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
  * ・引数の使用時にスコープのチェック
@@ -287,7 +292,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "2.14.3";
+	public final static String VERSION = "2.14.4";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;

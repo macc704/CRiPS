@@ -4,15 +4,15 @@ import renderable.RenderableBlock;
 
 public class BlockAnimationThread extends Thread {
 
-	private int endX;
 	private RenderableBlock block;
 	private static boolean isRun = false;
-	private int distance;
+	private static int distance = 192;
+	private String animationDirection;
+	private static int heightDistance = 100;
 
-	public BlockAnimationThread(int end, RenderableBlock targetBlock) {
-		endX = end;
+	public BlockAnimationThread(RenderableBlock targetBlock, String direction) {
 		block = targetBlock;
-		distance = endX - block.getX();
+		animationDirection = direction;
 	}
 
 	public static boolean isRun() {
@@ -20,11 +20,65 @@ public class BlockAnimationThread extends Thread {
 	}
 
 	public void run() {
+		System.out.println("animationthread start");
 		isRun = true;
 
+		if (animationDirection.equals("right")) {
+			rightSlideAnimation();
+		} else if (animationDirection.equals("down")) {
+			downSlideAnimation();
+		}
+
+		block.resetHighlight();
+		System.out.println("animation end");
+		isRun = false;
+	}
+
+	private void rightSlideAnimation() {
 		int initX = block.getX();
 		int x = block.getX() + 1;
 		int y = block.getY();
+
+		System.out.println("distance:" + distance);
+		double realWaitTime = 1.0;
+
+		for (BlockConnector socket : BlockLinkChecker
+				.getSocketEquivalents(block.getBlock())) {
+			if (socket.hasBlock()) {
+				RenderableBlock rb = RenderableBlock.getRenderableBlock(socket
+						.getBlockID());
+				BlockAnimationThread t1 = new BlockAnimationThread(rb,
+						animationDirection);
+				t1.start();
+			}
+		}
+
+		long waitTime = 1;
+
+		try {
+			while (block.getX() < initX + distance) {
+				System.out.println("location:" + block.getLocation());
+				System.out.println("waitTime:" + waitTime);
+				block.setLocation(x, y);
+				if ((int) (((block.getX() - initX) * 100 / distance)) % 25 == 24) {
+					if (realWaitTime * 1.7 < 10) {
+						realWaitTime *= 1.7;
+						waitTime *= realWaitTime;
+					}
+				}
+				Thread.sleep(waitTime);
+				x++;
+			}
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void downSlideAnimation() {
+		int initY = block.getY();
+		int x = block.getX();
+		int y = block.getY() + 1;
 
 		double realWaitTime = 1.0;
 
@@ -33,30 +87,28 @@ public class BlockAnimationThread extends Thread {
 			if (socket.hasBlock()) {
 				RenderableBlock rb = RenderableBlock.getRenderableBlock(socket
 						.getBlockID());
-				BlockAnimationThread t1 = new BlockAnimationThread(rb.getX()
-						+ distance, rb);
+				BlockAnimationThread t1 = new BlockAnimationThread(rb,
+						animationDirection);
 				t1.start();
 			}
 		}
 
 		long waitTime = 1;
+
 		try {
-			while (block.getX() < endX) {
+			while (block.getY() < initY + heightDistance) {
 				block.setLocation(x, y);
-				if ((int) (((block.getX() - initX) * 100 / distance)) % 25 == 24) {
+				if ((int) (((block.getY() - initY) * 100 / heightDistance)) % 25 == 24) {
 					realWaitTime *= 1.7;
 					waitTime *= realWaitTime;
 				}
-				//decWaitTime(initX, distance, realWaitTime, waitTime);
-
-				//addWaitTime(initX, distance, realWaitTime, waitTime);
 				Thread.sleep(waitTime);
-				x++;
+				y++;
 			}
+			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		isRun = false;
 	}
 
 }

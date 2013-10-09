@@ -4,3 +4,6 @@
 #*.jar
 *.war
 *.ear
+.pres2
+RonproEditor/testbase/MyProjects
+RonproEditor/testbase/.Trash

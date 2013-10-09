@@ -189,7 +189,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	//#ohata added 
 	private String loadComment;
-	private long parentProcedureBlockID = -2;//-1:親がない(procedure,private) -2:親未定
 
 	/**
 	 * Constructs a new RenderableBlock instance with the specified parent
@@ -275,7 +274,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				&& (parent == null || !(parent instanceof FactoryManager))) {
 			this.collapseLabel = new ProcedureCollapseLabel(blockID);
 			this.add(collapseLabel);
-			this.parentProcedureBlockID = -1;
 		} else if (getBlock().isAbstractionBlock()
 				&& (parent == null || !(parent instanceof FactoryManager))) {
 			this.collapseLabel = new AbstractionBlockCollapseLabel(blockID);
@@ -1798,8 +1796,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		widget.blockDropped(renderable);
 		// stop rendering as transparent
 		renderable.dragging = false;
-		//#ohata addedゲッターとセッターのハイライトを消す  
-		catchBlockResetHighlight(renderable, widget);
 		// move comment
 		if (renderable.hasComment()) {
 			if (renderable.getParentWidget() != null) {
@@ -1813,14 +1809,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.setLocation(renderable.comment.getLocation());
 			renderable.comment.getArrow().updateArrow();
 		}
-	}
-
-	public void setParentProcedureID(long id) {
-		parentProcedureBlockID = id;
-	}
-
-	public long getParentProcedureID() {
-		return parentProcedureBlockID;
 	}
 
 	private static void drag(RenderableBlock renderable, int dx, int dy,
@@ -1844,7 +1832,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			}
 			widget.blockDragged(renderable);
 			renderable.lastDragWidget = widget;
-			catchBlockHighlight(renderable, widget);
 		}
 
 		// translate highlight along with the block - this would happen
@@ -1863,10 +1850,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	}
 
-	public static void catchBlockResetHighlight(RenderableBlock catchedRBlock,
-			WorkspaceWidget widget) {
-		if (catchedRBlock.getGenus().startsWith("getter")
-				|| catchedRBlock.getGenus().startsWith("setter")) {
+	public static void catchedBlockResetHighlight(
+			RenderableBlock catchedRBlock, WorkspaceWidget widget) {
+		if (ScopeChecker.isCompareBlock(catchedRBlock.getBlock())
+				&& ScopeChecker.isAloneBlock(catchedRBlock.getBlock())) {
 			for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターの参照元を探す
 				Block catchedBlock = catchedRBlock.getBlock();
 				int index;
@@ -1948,10 +1935,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	}
 
-	private static void catchBlockHighlight(RenderableBlock catchedRBlock,
+	private static void catchBlockSetHighlight(RenderableBlock catchedRBlock,
 			WorkspaceWidget widget) {
-		if (catchedRBlock.getGenus().startsWith("getter")
-				|| catchedRBlock.getGenus().startsWith("setter")) {
+		if (ScopeChecker.isCompareBlock(catchedRBlock.getBlock())
+				&& ScopeChecker.isAloneBlock(catchedRBlock.getBlock())) {
 			for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターの参照元を探す
 				Block catchedBlock = catchedRBlock.getBlock();
 				int index;
@@ -1979,7 +1966,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 						rb.highlighter.setHighlightColor(Color.yellow);
 					}
 				}
-
 			}
 		} else {
 			for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターメソッドはすべてハイライトする
@@ -2003,30 +1989,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 								.equals(catchedRBlock.getBlock()
 										.getBlockLabel() + "を増やす")) {
 					rb.highlighter.setHighlightColor(Color.yellow);
-				} /*else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正 根本的な原因：ラベルを持たないブロックが存在する
-					if (rb.getBlock()
-							.getBlockLabel()
-							.equals("get"
-									+ renderable.getBlock().getBlockLabel()
-											.toUpperCase().charAt(0)
-									+ renderable.getBlock().getBlockLabel()
-											.substring(1))) {
-						rb.highlighter.setHighlightColor(Color.yellow);
-					} else if (rb
-							.getBlock()
-							.getBlockLabel()
-							.equals("set"
-									+ renderable.getBlock().getBlockLabel()
-											.toUpperCase().charAt(0)
-									+ renderable.getBlock().getBlockLabel()
-											.substring(1))) {
-						rb.highlighter.setHighlightColor(Color.yellow);
-					} else if (rb.getGenus().contains("callActionMethod")
-							&& rb.getBlock().getBlockLabel()
-									.equals(renderable.getBlock().getBlockLabel())) {
-						rb.highlighter.setHighlightColor(Color.yellow);
-					}
-					}*/
+				}
 			}
 
 		}
@@ -2095,6 +2058,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 					// drop the block and connect its link
 
+					//#ohata addedゲッターとセッターのハイライトを消す  
+					catchedBlockResetHighlight(this, widget);
 					stopDragging(this, widget);
 
 					connectBlocks(link, widget);//connect blocks if blocks can connect
@@ -2110,6 +2075,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					getRenderableBlock(link.getSocketBlockID())
 							.moveConnectedBlocks();
 				}
+
+				//#ohata addedゲッターとセッターのハイライトを消す  
+				catchedBlockResetHighlight(this, widget);
 
 				// set the locations for X and Y based on zoom at 1.0
 				this.unzoomedX = this.calculateUnzoomedX(this.getX());
@@ -2146,76 +2114,97 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
-		//書き込みブロック、参照ブロックの場合は所属するprocedureブロックのidを更新しない
-		if (getBlock().getGenusName().startsWith("getter")
-				|| getBlock().getGenusName().startsWith("setter")) {
-			if (searchParentProcedureBlockID(getRenderableBlock(link
-					.getSocketBlockID())) == parentProcedureBlockID
-					|| parentProcedureBlockID == -2) {
-				//ブロック結合
-				link.connect();
-				//try {
-				Workspace.getInstance().notifyListeners(
-						new WorkspaceEvent(widget, link,
-								WorkspaceEvent.BLOCKS_CONNECTED));
-				//} catch (Exception ex) {
-				//	System.err.println(ex.getMessage()); //応急処置 #matsuzawa
-				//}
-				// wc.saveString(wc.getSaveString());
-				getRenderableBlock(link.getSocketBlockID())
-						.moveConnectedBlocks();
-			} else {
-				blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(
-						blockID).getX()
-						+ RenderableBlock.getRenderableBlock(blockID)
-								.getWidth());
+		ScopeChecker scpChecker = new ScopeChecker();
+		boolean scopeCheck = true;
+
+		//結合するブロックのもつすべてのブロックのスコープをチェックしていく 
+		for (Block checkBlock = getBlock(); checkBlock != null; checkBlock = Block
+				.getBlock(checkBlock.getAfterBlockID())) {
+			//抽象化ブロックの場合は、抽象化ブロック内を全てチェックしなければいけない
+			if (checkBlock.getGenusName().equals("abstraction")) {
+				scopeCheck &= checkBlocks(scpChecker, link, checkBlock);
 			}
-		} else {
-			RenderableBlock afterRb = getRenderableBlock(link.getPlugBlockID());
-			//結合先がゲッターセッターの場合はコネクトしない		
-			if (afterRb.getParentProcedureID() != parentProcedureBlockID
-					&& (afterRb.getBlock().getGenusName().startsWith("getter") || afterRb
-							.getBlock().getGenusName().startsWith("setter"))) {
-				blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(
-						blockID).getX()
-						+ RenderableBlock.getRenderableBlock(blockID)
-								.getWidth());
-				return;
-			}
+			//ブロックがソケットをもつ場合は、ソケット内で参照ブロックが使われているかもしれないのでチェック
+			scopeCheck &= checkVariableBlocks(scpChecker, link, checkBlock);
+			scopeCheck &= scpChecker.checkScope(
+					Block.getBlock(link.getSocketBlockID()), checkBlock);
+		}
+
+		if (scopeCheck) {
+			//ブロック結合
+			/*if (BlockLinkChecker.canLink(Block.getBlock(link.getPlugBlockID()),
+					Block.getBlock(link.getSocketBlockID()),
+					Block.getBlock(link.getPlugBlockID()).getPlug(), Block
+							.getBlock(link.getSocketBlockID()).getSocketAt(0)) != null) {*/
 
 			link.connect();
 
-			//所属するブロックのid更新
-			if (searchParentProcedureBlockID(getRenderableBlock(link
-					.getSocketBlockID())) != -1) {//-1のときに探索失敗　探索失敗の場合はidを書き換えない
-				parentProcedureBlockID = searchParentProcedureBlockID(getRenderableBlock(link
-						.getSocketBlockID()));
-			}
-
+			//try {
+			Workspace.getInstance().notifyListeners(
+					new WorkspaceEvent(widget, link,
+							WorkspaceEvent.BLOCKS_CONNECTED));
+			//} catch (Exception ex) {
+			//	System.err.println(ex.getMessage()); //応急処置 #matsuzawa
+			//}
+			// wc.saveString(wc.getSaveString());
+			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
+		} else {
+			blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID)
+					.getY()
+					+ RenderableBlock.getRenderableBlock(blockID).getWidth(),
+					"down");
 		}
-
 	}
 
-	private void blockSlideMoveAnimetion(int endXPosition) {
+	//abstractionブロック内のブロックのスコープをチェックする
+	private boolean checkBlocks(ScopeChecker scpChecker, BlockLink link,
+			Block abstBlock) {
+		boolean scopeCheck = true;
+		//抽象化ブロック内のすべてのブロックのスコープをチェックしていく
+		for (Block checkBlock = Block.getBlock(abstBlock.getSocketAt(0)
+				.getBlockID()); checkBlock != null; checkBlock = Block
+				.getBlock(checkBlock.getAfterBlockID())) {
+			if (checkBlock.getGenusName().equals("abstraction")) {
+				scopeCheck &= checkBlocks(scpChecker, link, checkBlock);
+			}
+
+			scopeCheck &= checkVariableBlocks(scpChecker, link, checkBlock);
+
+			scopeCheck &= scpChecker.checkScope(
+					Block.getBlock(link.getSocketBlockID()), checkBlock);
+		}
+
+		return scopeCheck;
+	}
+
+	//値ブロックのスコープをチェックする　値のスコープが正しい、またはチェックするブロックがない場合はT それ以外はF
+	private boolean checkVariableBlocks(ScopeChecker scpChecker,
+			BlockLink link, Block checkBlock) {
+		boolean scopeCheck = true;
+
+		if (checkBlock.getGenusName().equals("procedure")) {//とりあえず例外に
+			return true;
+		}
+		//すべてのソケットをチェックする
+		for (BlockConnector socket : BlockLinkChecker
+				.getSocketEquivalents(checkBlock)) {
+			if (socket.hasBlock()) {
+				scopeCheck &= checkVariableBlocks(scpChecker, link,
+						Block.getBlock(socket.getBlockID()));//ソケットのブロックのスコープをチェックする
+
+				scopeCheck &= scpChecker.checkScope(
+						Block.getBlock(link.getSocketBlockID()),
+						Block.getBlock(socket.getBlockID()));
+			}
+		}
+
+		return scopeCheck;
+	}
+
+	private void blockSlideMoveAnimetion(int endPosition, String direction) {
 		RenderableBlock rb = RenderableBlock.getRenderableBlock(blockID);
-		BlockAnimationThread th = new BlockAnimationThread(endXPosition, rb);
+		BlockAnimationThread th = new BlockAnimationThread(rb, direction);
 		th.start();
-	}
-
-	//ohata
-	private long searchParentProcedureBlockID(RenderableBlock rb) {
-		//procedureまでブロックをたどって、procedureブロックのidを獲得
-		if (rb == null) {
-			return -1;
-		}
-		while (!(rb.getGenus().equals("procedure") || rb.getGenus().equals(
-				"procedure"))) {
-			rb = getRenderableBlock(rb.getBlock().getBeforeBlockID());
-			if (rb == null) {
-				return -1;
-			}
-		}
-		return rb.getBlockID();
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -2272,6 +2261,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				startDragging(this, widget);
 			}
 
+			catchBlockSetHighlight(this, widget);
 			// drag this block and all attached to it
 			drag(this, dragHandler.dragDX, dragHandler.dragDY, widget, true);
 
@@ -2322,11 +2312,17 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mousePressed(MouseEvent e) {
-		//System.out.println("parentProcedure:" + parentProcedureBlockID);
+		showBlockDetailForDebug();
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mousePressed(e);
 			pickedUp = true; // mark this block as currently being picked up
 		}
+	}
+
+	private void showBlockDetailForDebug() {
+		System.out.println("blockID:" + blockID);
+		System.out.println("genus:" + getGenus());
+		System.out.println("label" + getBlockLabel());
 	}
 
 	// //////////////
@@ -2449,10 +2445,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					}
 				} else if (child.getNodeName().equals("Collapsed")) {
 					rb.setCollapsed(true);
-				} else if (child.getNodeName().equals("ParentBlock")) {
-					rb.setParentProcedureID(Long.parseLong(child
-							.getTextContent()));
-					rb.replaceParentProcedureBlockID();
 				}
 			}
 			// set location from info
@@ -2465,19 +2457,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			return rb;
 		}
 		return null;
-	}
-
-	private void replaceParentProcedureBlockID() {
-		if (getBlock().getGenusName().equals("abstraction")
-				|| getBlock().getGenusName().equals("procedure")) {
-			return;
-		}
-		for (BlockConnector socket : getBlock().getSockets()) {
-			if (RenderableBlock.getRenderableBlock(socket.getBlockID()) != null) {
-				RenderableBlock.getRenderableBlock(socket.getBlockID())
-						.setParentProcedureID(getParentProcedureID());
-			}
-		}
 	}
 
 	/**

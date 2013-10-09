@@ -449,9 +449,14 @@ public class SContextMenuProvider {
 		returnBlock.setLocation(rb.getX() + 20,
 				rb.getY() + newCommandRBlock.getHeight()); //無理やり座標指定...
 
-		connectByPlug(returnBlock, 0, getter);
+		BlockLink link = newCommandRBlock.getNearbyLink();
 
-		newCommandRBlock.getNearbyLink().connect();
+		//これをやらないと形が変わらない
+		Workspace.getInstance().notifyListeners(
+				new WorkspaceEvent(newCommandRBlock.getParentWidget(), link,
+						WorkspaceEvent.BLOCKS_CONNECTED));
+
+		//returnBlock.getNearbyLink().connect();
 	}
 
 	private void createNewSetterMethod(String name) {//#ohata
@@ -512,7 +517,12 @@ public class SContextMenuProvider {
 
 		newCallRBlock.setLocation(parent.getX() + 20, parent.getY() + 20); // 新しく生成するブロックのポジション
 
-		RenderableBlock newValueBlock = SStubCreator.createStub("getter",
+		String genusNameLabel = "getter";
+		if (parent.getGenus().contains("private")) {
+			genusNameLabel += "private";
+		}
+
+		RenderableBlock newValueBlock = SStubCreator.createStub(genusNameLabel,
 				parent);
 
 		connectByPlug(newCallRBlock, 0, newValueBlock);

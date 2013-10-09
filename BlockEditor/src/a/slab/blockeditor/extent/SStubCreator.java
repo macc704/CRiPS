@@ -42,8 +42,6 @@ public class SStubCreator {
 				newRB.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
 
 				newRB.setParentWidget(rb.getParentWidget());
-				//所属するprocedureブロックのid
-				newRB.setParentProcedureID(rb.getParentProcedureID());
 				//書いてあるブロックコネクターを読み込む仕組み
 				//newRB.getBlock().getSocketAt
 				/*if(stubGenus.startsWith("setter")){//#ohata とりあえず
