@@ -201,7 +201,7 @@ public class CommandTool extends JPanel {
 					}
 				} else if (evt instanceof StepEvent) {
 					//diagnostics.putString("Step completed: " + locString);
-					//System.out.println("Step completed: " + locString);
+					// System.out.println("Step completed: " + locString);
 					String clsname = locString.substring(locString.indexOf(" ") + 1, locString.indexOf("."));
 					if(clsname.equals(context.getMainClassName()) ){
 						int num = e.getLocation().lineNumber();	
@@ -210,11 +210,12 @@ public class CommandTool extends JPanel {
 							interpreter.executeCommand("next");
 						}
 						linenum = num;
+						env.setLinenum(linenum);
 						// env.getBlockTool().ExecutionPoint(linenum);
 						if(env.getBlockEditor() != null){
 							env.getBlockEditor().getWorkspace().executionPoint(linenum);
 						}
-						env.setLinenum(linenum);
+						env.getAutoRunTool().bpCheck();
 						env.getVarTool().update();
 					}
 					else{
