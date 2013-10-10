@@ -2060,18 +2060,21 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 					//#ohata addedゲッターとセッターのハイライトを消す  
 					catchedBlockResetHighlight(this, widget);
+
 					stopDragging(this, widget);
 
 					connectBlocks(link, widget);//connect blocks if blocks can connect
-
-					//try {
-					Workspace.getInstance().notifyListeners(
-							new WorkspaceEvent(widget, link,
-									WorkspaceEvent.BLOCKS_CONNECTED));
-					//} catch (Exception ex) {
-					//	System.err.println(ex.getMessage()); //応急処置 #matsuzawa
-					//}
-					// wc.saveString(wc.getSaveString());
+					/*					
+										//try {
+										Workspace.getInstance().notifyListeners(
+												new WorkspaceEvent(widget, link,
+														WorkspaceEvent.BLOCKS_CONNECTED));
+										//} catch (Exception ex) {
+										//	System.err.println(ex.getMessage()); //応急処置 #matsuzawa
+										//}
+										// wc.saveString(wc.getSaveString());
+										 * 
+										 */
 					getRenderableBlock(link.getSocketBlockID())
 							.moveConnectedBlocks();
 				}
