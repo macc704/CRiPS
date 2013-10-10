@@ -60,6 +60,7 @@ import nd.com.sun.tools.example.debug.gui.GUI;
  * 										・速度設定スライダを7段階(仮)にした
  * 										（速度最速だとcontと同等)
  * 2013/10/10 version 0.2.2 hakamata	・ステップ自動実行だとブレークポイントで止まらないのを修正
+ * 2013/10/10 version 0.2.3 hakamata	・変更された変数が黄色でハイライトされるようにした
  *
  * 	・int x = 3;　はＯＫだけど， int y; はダメ．
  * 		Javaの仕様上,宣言のみのプリミティブ型変数はスタックに積まれないのでこれで正しい
@@ -69,7 +70,7 @@ import nd.com.sun.tools.example.debug.gui.GUI;
 public class NNoviceDebugger {
 
 	public static final String NAME = "NoviceDebugger";
-	public static final String VERSION = "0.2.2";
+	public static final String VERSION = "0.2.3";
 	public static final String WINDOWTITLE = "DENO";
 
 	public static void main(String[] args) {
