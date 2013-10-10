@@ -2116,7 +2116,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
 		ScopeChecker scpChecker = new ScopeChecker();
 		boolean scopeCheck = true;
-
 		//結合するブロックのもつすべてのブロックのスコープをチェックしていく 
 		for (Block checkBlock = getBlock(); checkBlock != null; checkBlock = Block
 				.getBlock(checkBlock.getAfterBlockID())) {
@@ -2129,7 +2128,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			scopeCheck &= scpChecker.checkScope(
 					Block.getBlock(link.getSocketBlockID()), checkBlock);
 		}
-
 		if (scopeCheck) {
 			//ブロック結合
 			/*if (BlockLinkChecker.canLink(Block.getBlock(link.getPlugBlockID()),
@@ -2138,7 +2136,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							.getBlock(link.getSocketBlockID()).getSocketAt(0)) != null) {*/
 
 			link.connect();
-
 			//try {
 			Workspace.getInstance().notifyListeners(
 					new WorkspaceEvent(widget, link,
