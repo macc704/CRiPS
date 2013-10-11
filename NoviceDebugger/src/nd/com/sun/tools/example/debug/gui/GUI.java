@@ -41,12 +41,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
@@ -60,6 +63,7 @@ import clib.common.system.CJavaSystem;
 import clib.common.thread.ICTask;
 import clib.view.actions.CAction;
 import clib.view.actions.CActionUtils;
+
 import com.sun.jdi.VirtualMachine;
 
 /*
@@ -412,6 +416,43 @@ public class GUI extends JPanel {
 //						KeyStroke.getKeyStroke(KeyEvent.VK_Q, CTRL_MASK));
 //				menu.add(action);
 //			}
+		}
+		{
+			JMenu menu = new JMenu("表示");
+			menubar.add(menu);
+			{
+				JMenu subMenu = new JMenu("実行位置表示");
+				menu.add(subMenu);
+				ButtonGroup group = new ButtonGroup();
+				{
+					CAction action = CActionUtils.createAction("DENOモード",
+							new ICTask() {
+								public void doTask() {
+									NDebuggerManager.fireChangeAPMode("DENO");
+									env.setAPMode(env.BETWEENMODE);
+									srcTool.repaint();
+								}
+							});
+					JRadioButtonMenuItem radioMenu = new JRadioButtonMenuItem(action);
+					radioMenu.setSelected(true);
+					group.add(radioMenu);
+					subMenu.add(radioMenu);
+				}
+				{
+					CAction action = CActionUtils.createAction("標準モード",
+							new ICTask() {
+								public void doTask() {
+									NDebuggerManager.fireChangeAPMode("DEFAULT");
+									env.setAPMode(env.LINEMODE);
+									srcTool.repaint();
+								}
+							});
+					JRadioButtonMenuItem radioMenu = new JRadioButtonMenuItem(action);
+					radioMenu.setSelected(false);
+					group.add(radioMenu);
+					subMenu.add(radioMenu);
+				}
+			}
 		}
 		frame.setJMenuBar(menubar);
 

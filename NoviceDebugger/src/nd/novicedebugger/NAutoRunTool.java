@@ -242,9 +242,9 @@ public class NAutoRunTool extends JPanel {
 				stepbtn);
 	
 		action.setPreferredSize(action.getPreferredSize());
-		JSplitPane bar = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, radios, action);
-		
-		this.add(bar);
+		this.add(action);
+		// JSplitPane bar = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, radios, action);
+		// this.add(bar);
 	}
 
 	public void bpCheck() {
