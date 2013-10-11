@@ -943,6 +943,7 @@ public class REApplication implements ICFwApplication {
 			}
 		});
 		deno = new GUI();
+		deno.run(args);
 		deno.getFrame().addWindowFocusListener(
 				new WindowFocusListener() {
 					public void windowLostFocus(WindowEvent e) {
@@ -953,7 +954,6 @@ public class REApplication implements ICFwApplication {
 						writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
 					}
 				});
-		deno.run(args);
 		CommandInterpreter cmdint = new CommandInterpreter(deno.getEnv());
 		deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
 		cmdint.executeCommand("run");
