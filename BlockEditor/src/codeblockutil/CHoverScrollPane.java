@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ComponentAdapter;
@@ -24,6 +25,7 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JViewport;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
@@ -340,6 +342,10 @@ public class CHoverScrollPane extends CScrollPane implements KeyListener{
 		});
 	}
 
+	public void setViewPosition(Point p){
+		JViewport viewport = this.scrollviewport.getViewport();
+		viewport.setViewPosition(p);
+	}
 }
 
 /**

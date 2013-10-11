@@ -529,7 +529,6 @@ public class SourceTool extends JPanel {
 		// private int fontDescent;
 		// private int fontLeading;
 
-		// public LineNumberView(JTextArea textArea) {
 		public LineNumberView(SourceTool srcTool) {
 			this.srcTool = srcTool;
 			this.setFontInformation(srcTool.list.getFont());
