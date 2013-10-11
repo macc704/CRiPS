@@ -5,6 +5,8 @@
  */
 package ronproeditor;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -240,7 +242,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 2013/09/26 version 2.18.0 ohata			・BE version 2.14.0と結合
  * 
  * 2013/10/11 version 2.18.1 hakamata		・DENO version0.2.4と統合
- * 											・DENOのBreakpoint, 実行位置表示モードの切り替え, contのログ書き出し
+ * 											・DENOのBreakpoint, 実行位置表示モードの切り替え, cont, Focusのログ書き出し
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
@@ -941,6 +943,16 @@ public class REApplication implements ICFwApplication {
 			}
 		});
 		deno = new GUI();
+		deno.getFrame().addWindowFocusListener(
+				new WindowFocusListener() {
+					public void windowLostFocus(WindowEvent e) {
+						writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
+					}
+
+					public void windowGainedFocus(WindowEvent e) {
+						writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
+					}
+				});
 		deno.run(args);
 		CommandInterpreter cmdint = new CommandInterpreter(deno.getEnv());
 		deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
