@@ -63,6 +63,8 @@ import nd.com.sun.tools.example.debug.gui.GUI;
  * 2013/10/10 version 0.2.3 hakamata	・変更された変数が黄色でハイライトされるようにした
  * 
  * 2013/10/11 version 0.2.4 hakamata	・ブレークポイント，表示モード切り替え，contのログ書き出し
+ * 2013/10/11 version 0.2.5 hakamata	・行番号をテキスト直書きからScrollPaneのヘッダに変更
+ * 										・標準モード(行モード)を今までのアイコンと行塗りつぶしの形に戻した
  *
  * 	・int x = 3;　はＯＫだけど， int y; はダメ．
  * 		Javaの仕様上,宣言のみのプリミティブ型変数はスタックに積まれないのでこれで正しい

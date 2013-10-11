@@ -76,7 +76,7 @@ public class Environment {
 	private boolean turtle;
 	
 	// Actual position mode
-	private int apMode = LINEMODE;
+	private int apMode = BETWEENMODE;
 	
 	int linenum = -1;
 	int startLine = -1;

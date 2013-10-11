@@ -80,9 +80,9 @@ public class NAutoRunTool extends JPanel {
 		// toggle = new JToggleButton("OFF");
 		
 		// radio button
-		lineMode = new JRadioButton("DENOモード");
+		lineMode = new JRadioButton("標準モード");
 		lineMode.setSelected(false);
-		betweenMode = new JRadioButton("標準モード");
+		betweenMode = new JRadioButton("DENOモード");
 		betweenMode.setSelected(true);
 		apModeBtns = new ButtonGroup();
 		apModeBtns.add(lineMode);
