@@ -35,7 +35,6 @@
 package nd.com.sun.tools.example.debug.gui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
@@ -86,7 +85,7 @@ public class GUI extends JPanel {
 
 	// コマンドライン
 	private CommandTool cmdTool;
-	// 実行欄
+	// コンソール
 	private ApplicationTool appTool;
 	// ソースビュー
 	private SourceTool srcTool;
@@ -98,9 +97,9 @@ public class GUI extends JPanel {
 	// 実行環境
 	private final Environment env = new Environment();
 	
-	//
-	private JPanel executiionView;
-	private CardLayout cardLayout;
+	// ブロックビューとソースビューの切り替え表示用
+	// private JPanel executiionView;
+	// private CardLayout cardLayout;
 
 	// ディレクトリツリー
 	// private SourceTreeTool sourceTreeTool;
@@ -122,10 +121,14 @@ public class GUI extends JPanel {
 		// toolbar.setOrientation(JToolBar.VERTICAL);
 		// add(toolbar, BorderLayout.EAST);
 
+		JPanel srcPanel = new JPanel();
+		srcPanel.setLayout(new BorderLayout());
+		srcPanel.setBorder(BorderFactory.createTitledBorder("ソースビュー"));
 		srcTool = new SourceTool(env);
-		srcTool.setPreferredSize(new java.awt.Dimension(500, 300));
-		srcTool.setTextFont(fixedFont);
 		env.setSrcTool(srcTool);
+		srcTool.setTextFont(fixedFont);
+		srcPanel.add(srcTool);
+		srcPanel.setPreferredSize(new java.awt.Dimension(500, 300));
 		
 //		blockTool = new NBlockViewTool(env);
 //		blockTool.setPreferredSize(new java.awt.Dimension(500, 300));
@@ -138,9 +141,6 @@ public class GUI extends JPanel {
 //		executiionView.add(srcTool, "src");
 //		executiionView.add(blockTool, "block");
 //		cardLayout.first(executiionView);
-		
-		varTool = new NVariableTool(env);
-		env.setVarTool(varTool);
 		
 		// stackTool = new StackTraceTool(env);
 		// stackTool.setPreferredSize(new java.awt.Dimension(500, 100));
@@ -176,37 +176,23 @@ public class GUI extends JPanel {
 		appPanel.setLayout(new BorderLayout());
 		appPanel.setBorder(BorderFactory.createTitledBorder("コンソール"));
 		appTool = new ApplicationTool(env);
-		// appTool.setPreferredSize(new java.awt.Dimension(700, 200));
 		appPanel.setPreferredSize(new java.awt.Dimension(500, 200));
 		appPanel.add(appTool);
-
-		// JSplitPane centerBottom = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-		// appTool, cmdTool);
-		// centerBottom.setPreferredSize(new java.awt.Dimension(700, 350));
-
-		// JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-		// srcTool,
-		// centerBottom);
-
-		JSplitPane left = new JSplitPane(JSplitPane.VERTICAL_SPLIT, srcTool,
-				appPanel);
 
 		JPanel varPanel = new JPanel();
 		varPanel.setLayout(new BorderLayout());
 		varPanel.setBorder(BorderFactory.createTitledBorder("変数ビュー"));
+		varTool = new NVariableTool(env);
+		env.setVarTool(varTool);
 		varPanel.add(varTool);
-		//JSplitPane center = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left,
-		//		varPanel);
 
-		// JPanel autoRunPanel = new JPanel();
-		// autoRunPanel.setLayout(new BorderLayout());
-		// autoRunPanel.setBorder(BorderFactory.createTitledBorder("自動実行間隔"));
-		// autoRunPanel.add(autoRunTool);
+		JSplitPane views = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, srcPanel, varPanel);
+		views.setContinuousLayout(true);
+		views.setResizeWeight(0.4d);
+		JSplitPane main = new JSplitPane(JSplitPane.VERTICAL_SPLIT, views, appPanel);
+		main.setContinuousLayout(true);
 		
-		// JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, autoRunPanel, varPanel);
-		JSplitPane center = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, varPanel);
-		
-		add(center, BorderLayout.CENTER);
+		add(main, BorderLayout.CENTER);
 
 	}
 
@@ -414,19 +400,18 @@ public class GUI extends JPanel {
 				menu.add(action);
 			}
 			
-			{
-				CAction action = CActionUtils.createAction("ビュー切り替え", 
-						new ICTask() {
-							public void doTask() {
-								// ログ取る
-								cardLayout.next(executiionView);
-							}
-						});
-				action.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_Q, CTRL_MASK));
-				// menu.add(action);
-				
-			}
+//			{
+//				CAction action = CActionUtils.createAction("ビュー切り替え", 
+//						new ICTask() {
+//							public void doTask() {
+//								// ログ取る
+//								cardLayout.next(executiionView);
+//							}
+//						});
+//				action.putValue(Action.ACCELERATOR_KEY,
+//						KeyStroke.getKeyStroke(KeyEvent.VK_Q, CTRL_MASK));
+//				menu.add(action);
+//			}
 		}
 		frame.setJMenuBar(menubar);
 
