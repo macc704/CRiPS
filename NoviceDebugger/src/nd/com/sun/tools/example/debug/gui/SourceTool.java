@@ -58,10 +58,12 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.ListModel;
+
 import nd.com.sun.tools.example.debug.bdi.ExecutionManager;
 import nd.com.sun.tools.example.debug.bdi.SpecErrorEvent;
 import nd.com.sun.tools.example.debug.bdi.SpecEvent;
 import nd.com.sun.tools.example.debug.bdi.SpecListener;
+import nd.novicedebugger.NDebuggerManager;
 import clib.view.textpane.CJavaCodeDocument;
 import clib.view.textpane.CTextPaneUtils;
 
@@ -476,10 +478,16 @@ public class SourceTool extends JPanel {
 					/ 2);
 		}
 
-		private JMenuItem commandItem(String label, final String cmd) {
+		private JMenuItem commandItem(final String label, final String cmd) {
 			JMenuItem item = new JMenuItem(label);
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					if(label.indexOf("Clear") != -1) {
+						NDebuggerManager.fireBreakpointClear();
+					}
+					if(label.indexOf("Set") != -1) {
+						NDebuggerManager.fireBreakpointSet();
+					}
 					interpreter.executeCommand(cmd);
 				}
 			});

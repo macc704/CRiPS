@@ -80,10 +80,10 @@ public class NAutoRunTool extends JPanel {
 		// toggle = new JToggleButton("OFF");
 		
 		// radio button
-		lineMode = new JRadioButton("行");
-		lineMode.setSelected(true);
-		betweenMode = new JRadioButton("行の間");
-		betweenMode.setSelected(false);
+		lineMode = new JRadioButton("DENOモード");
+		lineMode.setSelected(false);
+		betweenMode = new JRadioButton("標準モード");
+		betweenMode.setSelected(true);
 		apModeBtns = new ButtonGroup();
 		apModeBtns.add(lineMode);
 		apModeBtns.add(betweenMode);
@@ -155,14 +155,14 @@ public class NAutoRunTool extends JPanel {
 		// Listener
 		lineMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// ログ
+				NDebuggerManager.fireChangeAPMode("DEFAULT");
 				env.setAPMode(env.LINEMODE);
 				env.getSourceTool().repaint();
 			}
 		});
 		betweenMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// ログ
+				NDebuggerManager.fireChangeAPMode("DENO");
 				env.setAPMode(env.BETWEENMODE);
 				env.getSourceTool().repaint();
 			}
@@ -194,9 +194,9 @@ public class NAutoRunTool extends JPanel {
 				JToggleButton source = (JToggleButton)e.getSource();
 				// play
 				if(source.isSelected()){
-					NDebuggerManager.firePlayPressed();
 					stepbtn.setEnabled(false);
 					if(sbnum != SLIDER_MIN) {
+						NDebuggerManager.firePlayPressed();
 						if (timer == null) {
 							timer = new Timer(speedTable[sbnum], new TimerListener());
 						} else {

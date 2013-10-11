@@ -424,7 +424,7 @@ public class GUI extends JPanel {
 						});
 				action.putValue(Action.ACCELERATOR_KEY,
 						KeyStroke.getKeyStroke(KeyEvent.VK_Q, CTRL_MASK));
-				menu.add(action);
+				// menu.add(action);
 				
 			}
 		}
