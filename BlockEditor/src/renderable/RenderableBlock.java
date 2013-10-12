@@ -2128,6 +2128,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			}
 			//ブロックがソケットをもつ場合は、ソケット内で参照ブロックが使われているかもしれないのでチェック
 			scopeCheck &= checkVariableBlocks(scpChecker, link, checkBlock);
+
 			scopeCheck &= scpChecker.checkScope(
 					Block.getBlock(link.getSocketBlockID()), checkBlock);
 		}

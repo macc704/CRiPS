@@ -16,20 +16,28 @@ public class ScopeChecker {
 		Block compareBlock = cmpBlock;
 		if (isCompareBlock(cmpBlock)
 				&& !cmpBlock.getGenusName().contains("private")) {
+			//直前のブロックのプラグにブロックがある場合は、それが本流のブロック
+			if (Block.getBlock(beforeBlock.getPlugBlockID()) != null) {
+				beforeBlock = purcePlugBlock(beforeBlock);
+				originBlock = beforeBlock;
+			}
 
-			if (isIndependentBlock(beforeBlock)) {//離れ小島のブロックの場合はtrueを返す
+			//離れ小島のブロックの場合はtrueを返す
+			if (isIndependentBlock(beforeBlock)) {
 				return true;
 			}
 
+			//callActionブロックの場合は、参照ブロックはソケットにくっついているので、そちらを参照ブロックに設定する
 			if (compareBlock.getGenusName().equals("callActionMethod2")
-					|| compareBlock.getGenusName().equals("callGetterMethod2")) {//callActionブロックの場合は、参照ブロックはソケットにくっついているので、そちらを参照ブロックに設定する
+					|| compareBlock.getGenusName().equals("callGetterMethod2")) {
 				compareBlock = Block.getBlock(compareBlock.getSocketAt(0)
 						.getBlockID());
 				if (compareBlock.getGenusName().contains("private")) {//参照ブロックがprivateだった場合はスコープ問わず
 					return true;
 				}
 			}
-			//参照ブロックの名前
+
+			//参照ブロックの名前を取得
 			compareBlockName = compareBlock.getBlockLabel().substring(
 					0,
 					compareBlock.getBlockLabel().indexOf(
@@ -46,14 +54,25 @@ public class ScopeChecker {
 					compareBlockName);
 
 			if (originID == -1) {//参照元の探索に失敗
-				RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
-						.setBlockHighlightColor(Color.RED);
-				return false;
+				originBlock = cmpBlock;
+				originBlock = purcePlugBlock(originBlock);
+				while (Block.getBlock(originBlock.getAfterBlockID()) != null) {
+					originBlock = Block.getBlock(originBlock.getAfterBlockID());
+				}
+				//自分の持ってるブロックの中を探索
+				originID = searchCompareBlockOrigin(originBlock,
+						compareBlockName);
+				//失敗
+				if (originID == -1) {
+					RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
+							.setBlockHighlightColor(Color.RED);
+					return false;
+				}
+				beforeBlock = originBlock;
 			}
 
 			originBlock = Block.getBlock(originID);//参照元ブロック
-
-			//自分の所属場所を確認する
+			//スコープチェックするブロックの所属する親を探す
 			Block compareBlockParent = Block
 					.getBlock(searchParentBlockID(RenderableBlock
 							.getRenderableBlock(beforeBlock.getBlockID())));
@@ -78,10 +97,18 @@ public class ScopeChecker {
 		}
 	}
 
+	private Block purcePlugBlock(Block block) {
+
+		while (Block.getBlock(block.getPlugBlockID()) != null) {
+			block = Block.getBlock(block.getPlugBlockID());
+		}
+		return block;
+	}
+
 	private long searchCompareBlockOrigin(Block originBlock,
 			String compareBlockName) {
 		while (!originBlock.getGenusName().equals("procedure")) {
-			if (originBlock.getBlockLabel().equals(compareBlockName)) {//ラベルを確認して、一致するか　一致したらbreak;
+			if (originBlock.getBlockLabel().equals(compareBlockName)) {//ラベルを確認して、一致するか　
 				return originBlock.getBlockID();
 			}
 
@@ -144,9 +171,9 @@ public class ScopeChecker {
 					return true;
 				}
 			}
-
-			if (block.getGenusName().equals("abstraction")) {
-				if (confirmCompareBlockIsBelongableAtAbstruction(block,
+			//ブロックがソケットを持っていた場合は、そのソケット内を確認する。
+			if (block.getSockets() != null) {//ソケットにブロックを持っている
+				if (confirmCompareBlockIsBelongableAtSockets(block,
 						compareBlockParent)) {
 					return true;
 				}
@@ -164,21 +191,24 @@ public class ScopeChecker {
 		return false;
 	}
 
-	private boolean confirmCompareBlockIsBelongableAtAbstruction(
-			Block originBlock, Block compareBlockParent) {
-		for (Block block = Block.getBlock(originBlock.getSocketAt(0)
-				.getBlockID()); block != null; block = Block.getBlock(block
-				.getAfterBlockID())) {
-			if (compareBlockParent.getBlockID() == block.getBlockID()) {//
-				return true;
-			}
-			if (block.getGenusName().equals("abstraction")) {
-				if (confirmCompareBlockIsBelongableAtAbstruction(block,
-						compareBlockParent)) {
+	//ブロックが所属できるかどうか、abstractionBlockブロック内をすべて探索する。
+	private boolean confirmCompareBlockIsBelongableAtSockets(Block originBlock,
+			Block compareBlockParent) {
+		for (BlockConnector socket : BlockLinkChecker
+				.getSocketEquivalents(originBlock)) {
+			for (Block block = Block.getBlock(socket.getBlockID()); block != null; block = Block
+					.getBlock(block.getAfterBlockID())) {
+				if (compareBlockParent.getBlockID() == block.getBlockID()) {//
 					return true;
 				}
-			}
-		}//abstructionブロック内のすべてのブロックを探索し終えた
+				if (block.getSockets() != null) {//ソケットにブロックを持っている
+					if (confirmCompareBlockIsBelongableAtSockets(block,
+							compareBlockParent)) {
+						return true;
+					}
+				}
+			}//abstructionブロック内のすべてのブロックを探索し終えた			
+		}
 		return false;
 	}
 
@@ -201,7 +231,7 @@ public class ScopeChecker {
 			return -1;
 		}
 
-		while (!(checkRBlock.getGenus().equals("procedure"))) {//procedureまで探索
+		while (Block.getBlock(checkRBlock.getBlock().getBeforeBlockID()) != null) {//直前ブロックがnullになるまで
 			//abstructionの場合、親かもしれないのでチェック
 			if (checkRBlock.getGenus().equals("abstraction")) {
 				if (Block.getBlock(checkRBlock.getBlockID()).getSocketAt(0)
