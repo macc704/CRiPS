@@ -225,10 +225,10 @@ public class ScopeChecker {
 		Block prevBlock = Block.getBlock(prevRBlock.getBlockID());//直前のブロックをとっとく
 
 		if (checkRBlock == null) {
-			if (prevBlock.getGenusName().equals("procedure")) {
-				return prevBlock.getBlockID();
-			}
-			return -1;
+			//if (prevBlock.getGenusName().equals("procedure")) {
+			return prevBlock.getBlockID();
+			//}
+			//return -1;
 		}
 
 		while (Block.getBlock(checkRBlock.getBlock().getBeforeBlockID()) != null) {//直前ブロックがnullになるまで

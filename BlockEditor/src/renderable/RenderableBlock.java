@@ -2313,18 +2313,19 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mousePressed(MouseEvent e) {
-		showBlockDetailForDebug();
+		//showBlockDetailForDebug();
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mousePressed(e);
 			pickedUp = true; // mark this block as currently being picked up
 		}
 	}
 
-	private void showBlockDetailForDebug() {
-		System.out.println("blockID:" + blockID);
-		System.out.println("genus:" + getGenus());
-		System.out.println("label" + getBlockLabel());
-	}
+	/*
+		private void showBlockDetailForDebug() {
+			System.out.println("blockID:" + blockID);
+			System.out.println("genus:" + getGenus());
+			System.out.println("label" + getBlockLabel());
+		}*/
 
 	// //////////////
 	// SEARCHABLE ELEMENT

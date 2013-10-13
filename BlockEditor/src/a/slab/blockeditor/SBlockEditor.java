@@ -277,6 +277,8 @@ import controller.WorkspaceController;
  *  	・関数の引数がひとつの型しか宣言できなくなった不具合を修正
  *  2013.10.12 2.15.0 Ohata
  *  	・スコープチェック機能の追加
+ *  2013.10.12 2.15.1 Ohata
+ *  	・スコープチェック　持っているブロック内の最初で変数宣言されている場合に正しく結合できない問題を修正
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
  * ・引数の使用時にスコープのチェック
@@ -296,7 +298,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "2.15.0";
+	public final static String VERSION = "2.15.1";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;
