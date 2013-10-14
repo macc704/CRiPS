@@ -3,14 +3,21 @@ package ppv.view.parts;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
@@ -19,6 +26,9 @@ import ppv.app.taskdesigner.timeline.PPTaskUnit;
 import ppv.view.frames.PPProjectViewerFrame;
 import ppv.view.parts.timelineview.PPCompositeTimeLineView;
 import pres.loader.model.IPLUnit;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
+import clib.common.filesystem.CPath;
 import clib.view.timeline.model.CTimeModel;
 import clib.view.timeline.pane.CAbstractTimeLinePane;
 
@@ -63,7 +73,14 @@ public class PPTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 		// name label
 		JPanel namePanel = new JPanel(new BorderLayout());
 		namePanel.setOpaque(false);
-		JLabel label = new JLabel(model.getName());
+		// namePanel.addMouseListener(new MouseAdapter() {
+		// @Override
+		// public void mouseClicked(MouseEvent e) {
+		// System.out.println("Hello World!");
+		// }
+		// });
+
+		final JLabel label = new JLabel(model.getName());
 		namePanel.add(label);
 
 		if (model instanceof PPTaskUnit) {
@@ -89,6 +106,11 @@ public class PPTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 
 		panel.add(namePanel);
 
+		// pulling panel と rename panel を置くパネル
+		final JPanel emptyPanel = new JPanel();
+		emptyPanel.setBackground(Color.WHITE);
+		emptyPanel.setPreferredSize(new Dimension(50, 20));
+
 		// pulling panel
 		JPanel pullingPanel = new JPanel();
 		pullingPanel.setBackground(Color.WHITE);
@@ -98,7 +120,129 @@ public class PPTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 		MouseAdapter l = createDragMouseListener(model);
 		pullingPanel.addMouseListener(l);
 		pullingPanel.addMouseMotionListener(l);
-		panel.add(pullingPanel, BorderLayout.WEST);
+		emptyPanel.add(pullingPanel, BorderLayout.WEST);
+		// panel.add(pullingPanel, BorderLayout.WEST);
+
+		// rename panel
+		JPanel renamePanel = new JPanel();
+		renamePanel.setBackground(Color.WHITE);
+		renamePanel.setLayout(new BorderLayout());
+		renamePanel.add(new JLabel("◯", SwingConstants.CENTER));
+		renamePanel.setPreferredSize(new Dimension(20, 20));
+		renamePanel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				if (e.getButton() == 3) {
+					final JPopupMenu renameMenu = new JPopupMenu();
+					// renameMenu.add("rename");
+					final JMenuItem menuItem = new JMenuItem("Rename");
+					menuItem.setLocation(e.getPoint());
+
+					menuItem.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							// System.out.println("Hell World!");
+							String newLabel = showRenameMenu(menuItem
+									.getLocation());
+							if (newLabel != null) {
+
+								try {
+									CPath oldPath = model.getPath();
+									String newName = newLabel;
+									CPath newPath = oldPath.getParentPath()
+											.appendedPath(newName);
+
+									System.out.println(oldPath);
+									System.out.println(newPath);
+									System.out.println(newName);
+
+									// projectの名前を書き換える ファイルアクセス rename to
+									CDirectory basedir = model.getProject()
+											.getProjectBaseDir();
+
+									// head file
+									CFile file = basedir.findFile(oldPath);
+									file.renameTo(newName);
+
+									CDirectory pres2Dir = basedir
+											.findDirectory(new CPath(".pres2"));
+
+									// recorded directory
+									CDirectory recordingDir = pres2Dir
+											.findDirectory(oldPath);
+									recordingDir.copyTo(newName);
+									recordingDir = pres2Dir
+											.findDirectory(oldPath);
+									boolean b = recordingDir.delete();
+									System.out.println(b);
+
+									// pres.logの書き換え
+									CFile logfile = pres2Dir
+											.findFile("pres2.log");
+									String oldKey = "\t" + oldPath.toString();
+									String newKey = "\t" + newPath.toString();
+									List<String> lines = logfile
+											.loadTextAsList();
+									List<String> newLines = new ArrayList<String>();
+									for (String line : lines) {
+										String newLine = line.replace(oldKey,
+												newKey);
+										newLines.add(newLine);
+									}
+									CFile newlogfile = pres2Dir
+											.findOrCreateFile("tmp.log");
+									newlogfile.saveTextFromList(newLines);
+									logfile.delete();
+									newlogfile.copyTo("pres2.log");
+								} catch (Exception ex) {
+									ex.printStackTrace();
+								}
+
+								// CPath newPath = oldPath.getParentPath().a
+								//
+								// CFile file = CFileSystem.(oldPath) ;
+								//
+								// file.renameTo(newLabel);
+								//
+								// System.out.println(dir.getDirectoryChildren()
+								// .get(0).findDirectory(oldLabel));
+
+								// CPath newPath = dir
+								// .getAbsolutePath()
+								// .appendedPath(
+								// model.getPath().getParentPath()
+								// .appendedPath(newLabel));
+								// System.out.println(newPath.toString());
+
+								// System.out.println(dir.getAbsolutePath());
+
+								// 中身の書き換え処理みたいのがいる
+
+							}
+						}
+					});
+
+					renameMenu.add(menuItem);
+
+					renameMenu.show(
+							emptyPanel.getComponentAt(e.getX(), e.getY()),
+							e.getX(), e.getY());
+
+					// renameMenu.addMouseListener(new MouseAdapter() {
+					// @Override
+					// public void mouseClicked(MouseEvent e) {
+					// // super.mouseClicked(e);
+					// System.out.println("Hello World!");
+					// }
+					// });
+				}
+			}
+		});
+		emptyPanel.add(renamePanel, BorderLayout.EAST);
+
+		panel.add(emptyPanel, BorderLayout.WEST);
+
 		return panel;
 	}
 
@@ -143,5 +287,16 @@ public class PPTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 	 */
 	public boolean isDrawRightSide() {
 		return drawRightSide;
+	}
+
+	private String showRenameMenu(Point point) {
+		String result = JOptionPane.showInputDialog(null, "ファイル名を入力してください。",
+				"ファイル名の変更", JOptionPane.OK_CANCEL_OPTION);
+		return result;
+
+		// JFrame frame = new JFrame();
+		// frame.setTitle("まいたきゃわわ");
+		// frame.setBounds(point.x, point.y, 300, 400);
+		// frame.setVisible(true);
 	}
 }
