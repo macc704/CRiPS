@@ -66,17 +66,26 @@ public class PPCompositeTimeLineView extends PPAbstractTimeLineView {
 		boxedLayoutPanel.setOpaque(false);
 		add(boxedLayoutPanel);
 
-		boxedLayoutPanel.add(new PPEventLineView(getTimeModel(), getUnit()));// dummy
-		boxedLayoutPanel.add(new PPEventLineView(getTimeModel(), getUnit(),
-				"START_RUN", Color.BLUE));
-		// boxedLayoutPanel.add(new PPSubtypeStateLineView(getTimeModel(),
-		// getUnit(), Color.BLUE, "START_RUN", "STOP_RUN"));
-		boxedLayoutPanel.add(new PPEventLineView(getTimeModel(), getUnit(),
-				"COMPILE", Color.RED));
-		 boxedLayoutPanel.add(new PPCompileErrorStateLineView(getTimeModel(),
-		 getUnit(), Color.RED));
+		{// dummy
+			boxedLayoutPanel
+					.add(new PPEventLineView(getTimeModel(), getUnit()));
+		}
 
-		{
+		{// Run
+			boxedLayoutPanel.add(new PPEventLineView(getTimeModel(), getUnit(),
+					"START_RUN", Color.BLUE));
+			// boxedLayoutPanel.add(new PPSubtypeStateLineView(getTimeModel(),
+			// getUnit(), Color.BLUE, "START_RUN", "STOP_RUN"));
+		}
+
+		{// Compilation Error
+			boxedLayoutPanel.add(new PPEventLineView(getTimeModel(), getUnit(),
+					"COMPILE", Color.RED));
+			boxedLayoutPanel.add(new PPCompileErrorStateLineView(
+					getTimeModel(), getUnit(), Color.RED));
+		}
+
+		{// BlockEditor StateLine
 			PPNewStateLineView lineview = new PPNewStateLineView(
 					getTimeModel(), getUnit());
 			lineview.addData(Color.ORANGE.darker(),
@@ -85,15 +94,27 @@ public class PPCompositeTimeLineView extends PPAbstractTimeLineView {
 			boxedLayoutPanel.add(lineview);
 		}
 
-		{
+		{// DENO使用StateLine
+			PPNewStateLineView lineview = new PPNewStateLineView(
+					getTimeModel(), getUnit());
+			lineview.addData(Color.RED.darker(), new PLWorkingTimeCalculator()
+					.calculateForND(getUnit()).getWorkingTimes());
+			boxedLayoutPanel.add(lineview);
+		}
+
+		{// Working StateLine
 			PPNewStateLineView lineview = new PPNewStateLineView(
 					getTimeModel(), getUnit());
 			lineview.addData(Color.CYAN.darker(), new PLWorkingTimeCalculator()
 					.calculate(getUnit()).getWorkingTimes());
 			boxedLayoutPanel.add(lineview);
 		}
-		boxedLayoutPanel.add(new PPSubtypeStateLineView(getTimeModel(),
-				getUnit(), Color.GREEN.darker(), "FOCUS_GAINED", "FOCUS_LOST"));
+
+		{// Focus StateLine
+			boxedLayoutPanel.add(new PPSubtypeStateLineView(getTimeModel(),
+					getUnit(), Color.GREEN.darker(), "FOCUS_GAINED",
+					"FOCUS_LOST"));
+		}
 
 		// boxedLayoutPanel.add(new PPDevelopingStateLineView(getTimeModel(),
 		// getUnit(), Color.GREEN));
@@ -126,13 +147,6 @@ public class PPCompositeTimeLineView extends PPAbstractTimeLineView {
 			lineview.addEvents(separator.getSeparated(), Color.ORANGE.darker());
 			add(lineview);
 		}
-		// デバッガ関連
-		{
-			PPNewStateLineView lineview = new PPNewStateLineView(getTimeModel(), getUnit());
-			lineview.addData(Color.RED.darker(), new PLWorkingTimeCalculator().calculateForND(getUnit()).getWorkingTimes());
-			boxedLayoutPanel.add(lineview);
-			
-			
-		} 
+
 	}
 }

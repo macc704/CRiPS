@@ -46,6 +46,6 @@ public interface IPLUnit extends IPLFileProvider {
 	 * @param sourceName
 	 * @return
 	 */
-	public boolean hasSource(String sourceName);
+	//public boolean hasSource(String sourceName);
 
 }

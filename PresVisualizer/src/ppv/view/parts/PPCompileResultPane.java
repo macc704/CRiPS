@@ -100,9 +100,14 @@ public class PPCompileResultPane extends JPanel {
 			List<String> results = new ArrayList<String>();
 			for (CDiagnostic diag : diags) {
 				String x = "";
-				x += diag.getNoPathSourceName();
-				x += "(Line:" + diag.getLineNumber() + ") ";
+				// sakakibara
+				// x += diag.getNoPathSourceName();
+				// x += "(Line:" + diag.getLineNumber() + ") ";
+				// x += getMessage(diag);
+				
+				// matsuzawa
 				x += getMessage(diag);
+				x += " (Line:" + diag.getLineNumber() + ") ";
 				results.add(x);
 			}
 			list.setList(results);
@@ -110,7 +115,10 @@ public class PPCompileResultPane extends JPanel {
 	}
 
 	private String getMessage(CDiagnostic diag) {
+		// sakakibara
 		return diag.getMessageParser().getErrorMessage();
+
+		// matsuzawa
 		// String original = diag.getErrorMessage();
 		// String[] splitted = original.split(": ");
 		// if (splitted.length > 1) {

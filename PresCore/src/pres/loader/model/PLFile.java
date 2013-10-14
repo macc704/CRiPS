@@ -264,11 +264,12 @@ public class PLFile extends PLAbstractUnit {
 		return points;
 	}
 
-	/* (non-Javadoc)
-	 * @see pres.loader.model.IPLUnit#hasSource(java.lang.String)
-	 */
-	public boolean hasSource(String sourceName) {
-		// TODO 仮の実装 	getName()でパスがとれる
-		return getFileName().toString().equals(sourceName);
-	}
+//	/* (non-Javadoc)
+//	 * @see pres.loader.model.IPLUnit#hasSource(java.lang.String)
+//	 */
+//	public boolean hasSource(String sourceName) {
+//		// TODO 仮の実装 	getName()でパスがとれる
+//		return getFileName().toString().equals(sourceName);
+//	}
+	
 }

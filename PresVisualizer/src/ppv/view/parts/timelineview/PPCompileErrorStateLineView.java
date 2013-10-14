@@ -13,6 +13,7 @@ import pres.loader.logmodel.PLLog;
 import pres.loader.model.IPLUnit;
 import clib.common.compiler.CCompileResult;
 import clib.common.compiler.CDiagnostic;
+import clib.common.filesystem.CPath;
 import clib.common.utils.ICChecker;
 import clib.view.timeline.model.CTimeTransformationModel;
 
@@ -62,12 +63,17 @@ public class PPCompileErrorStateLineView extends PPAbstractStateLineView {
 		if (result.isSuccess()) {
 			return false;
 		} else {
+			// このIPLUnitに含まれているかどうか
+			// 注：パスも含めて比較したいが，diag.getSourceName()がファイル絶対パスを返し，基底ディレクトリが分からないため
+			// ひとまずファイル名だけ比較する．
+			String unitPath = getUnit().getPath().toString();
 			for (CDiagnostic diag : result.getDiagnostics()) {
-				if (getUnit().hasSource(diag.getSourceName())) {
+				String errorSrcPath = new CPath(diag.getSourceName()).getName().toString();
+				if(unitPath.indexOf(errorSrcPath) != -1){
 					return true;
 				}
 			}
+			return false;
 		}
-		return false;
 	}
 }

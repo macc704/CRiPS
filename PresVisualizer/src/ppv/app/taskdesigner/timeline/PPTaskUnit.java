@@ -187,15 +187,15 @@ public class PPTaskUnit<T extends PPRangeTask> implements IPLUnit {
 		return 0;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see pres.loader.model.IPLUnit#hasSource(java.lang.String)
-	 */
-	@Override
-	public boolean hasSource(String sourceName) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//	/*
+//	 * (non-Javadoc)
+//	 * 
+//	 * @see pres.loader.model.IPLUnit#hasSource(java.lang.String)
+//	 */
+//	@Override
+//	public boolean hasSource(String sourceName) {
+//		// TODO Auto-generated method stub
+//		return false;
+//	}
 
 }

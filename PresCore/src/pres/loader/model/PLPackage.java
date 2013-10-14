@@ -214,16 +214,16 @@ public class PLPackage extends PLAbstractUnit {
 		return count;
 	}
 
-	/* (non-Javadoc)
-	 * @see pres.loader.model.IPLUnit#hasSource(java.lang.String)
-	 */
-	public boolean hasSource(String sourceName) {
-		for (IPLUnit unit : getChildren()) {
-			if (unit.hasSource(sourceName)) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	/* (non-Javadoc)
+//	 * @see pres.loader.model.IPLUnit#hasSource(java.lang.String)
+//	 */
+//	public boolean hasSource(String sourceName) {
+//		for (IPLUnit unit : getChildren()) {
+//			if (unit.hasSource(sourceName)) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 }
