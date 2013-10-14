@@ -73,8 +73,8 @@ public class PPCompositeTimeLineView extends PPAbstractTimeLineView {
 		// getUnit(), Color.BLUE, "START_RUN", "STOP_RUN"));
 		boxedLayoutPanel.add(new PPEventLineView(getTimeModel(), getUnit(),
 				"COMPILE", Color.RED));
-		// boxedLayoutPanel.add(new PPCompileErrorStateLineView(getTimeModel(),
-		// getUnit(), Color.RED));
+		 boxedLayoutPanel.add(new PPCompileErrorStateLineView(getTimeModel(),
+		 getUnit(), Color.RED));
 
 		{
 			PPNewStateLineView lineview = new PPNewStateLineView(

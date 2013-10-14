@@ -38,7 +38,7 @@ import ronproeditor.RESourceManager;
 import ronproeditor.helpers.ConsoleTextPane;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
-import clib.view.actions.CActionUtils;
+import clib.view.app.javainfo.CJavaInfoPanels;
 
 /**
  * REFrame
@@ -307,7 +307,7 @@ public class REFrame extends JFrame {
 		menuBar.add(menuHelp);
 		// menuHelp.add(actionMakeLog);
 		menuHelp.add(actionOpenPreference);
-		menuHelp.add(CActionUtils.createJavaInformationAction());
+		menuHelp.add(CJavaInfoPanels.createJavaInformationAction());
 		menuHelp.addSeparator();
 		menuHelp.add(actionAbout);
 

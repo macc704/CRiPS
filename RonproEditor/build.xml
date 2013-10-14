@@ -18,6 +18,7 @@
     		<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/CEncodingDetector.jar"/>
     		<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/commons-csv-20070730.jar"/>    		
     		<fileset dir="../../commonlibrary/CSwing/bin"/>
+    		<fileset dir="../../commonlibrary/CSwingApp/bin"/>
         	<fileset dir="../../commonlibrary/CPreferenceFW/bin"/>    		
 
     		<fileset dir="../PresCore/bin"/>   		
