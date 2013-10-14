@@ -33,6 +33,7 @@ import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileElement;
 import clib.common.filesystem.CFileSystem;
 import clib.common.utils.CDate;
+import clib.view.app.javainfo.CJavaInfoPanels;
 import clib.view.dnd.CFileDropInDataTransferHandler;
 import clib.view.dnd.ICFileDroppedListener;
 import clib.view.list.CDirectoryListModel;
@@ -128,6 +129,12 @@ public class PPDataManagerFrame extends JFrame {
 				});
 				menu.add(item);
 			}
+		}
+		
+		{
+			JMenu menu = new JMenu("Info");
+			getJMenuBar().add(menu);
+			menu.add(CJavaInfoPanels.createJavaInformationAction());
 		}
 	}
 

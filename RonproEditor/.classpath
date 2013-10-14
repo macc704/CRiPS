@@ -11,5 +11,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/CPreferenceFW"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CompileErrorAnalytics"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NoviceDebugger"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CSwingApp"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

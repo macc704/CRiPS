@@ -9,7 +9,7 @@ import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileSystem;
 
 /**
- * 
+ * mac 1.7以上では，-Dsun.jnu.encoding=UTF-8オプションをつけて実行すること
  */
 public class PPresVisualizerMainTest {
 
@@ -19,6 +19,12 @@ public class PPresVisualizerMainTest {
 	public static void main(String[] args) {
 		CDirectory dir = CFileSystem.getHomeDirectory().findOrCreateDirectory(
 				".ppvdata");
+		// System.out.println(System.getProperty("sun.jnu.encoding"));
+		// Map<String, String> env = System.getenv();
+		// for(String key :env.keySet()){
+		// String value = env.get(key);
+		// System.out.println(key+" = " +value);
+		// }
 		new PPresVisualizer().run(dir);
 	}
 

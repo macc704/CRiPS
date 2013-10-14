@@ -5,6 +5,7 @@
  */
 package ppv.app;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import ppv.app.datamanager.PPDataManager;
@@ -21,6 +22,9 @@ import clib.common.filesystem.CFileSystem;
  * @ ファイルの削除に対応したい（コンパイル時に問題となる）
  * @ bug06 コンパイルの対象をどうするべきか．　一覧から実行したとき困る！
  * @ RUNは，ひとまず，直近のパスでFQCNを決めるようにしている，が，それでよいか（PRESできっちりとれてたっけ？）
+ * 
+ * 1.6.3 2013.10.13 matsuzawa
+ * ・Java Information
  * 
  * 1.6.2 2013.09.24 matsuzawa
  * ・PLPackageがload時にsubdirectoryをloadしない問題を修正（Ronproでやっていたので問題なかった）
@@ -212,27 +216,26 @@ import clib.common.filesystem.CFileSystem;
  */
 public class PPresVisualizer {
 
-	public static final String VERSION = "1.6.2";
+	public static final String VERSION = "1.6.3";
 
 	protected PPresVisualizer() {
 	}
 
 	void run() {
-		String path = System.getProperty("sun.boot.library.path");
-		if (!CJavaCompilerFactory.hasEmbededJavaCompiler()) {
-			JOptionPane.showMessageDialog(null,
-					"Your JVM has no Embedded JavaCompiler. Use Javac Compiler. Your path = "
-							+ path);
-
-		}
-		// else {
-		// JOptionPane.showMessageDialog(null,
-		// "Your JVM has Embedded JavaCompiler. Your path = " + path);
-		// }
 		run(CFileSystem.getExecuteDirectory());
 	}
 
 	void run(CDirectory dir) {
+		String path = System.getProperty("sun.boot.library.path");
+		if (!CJavaCompilerFactory.hasEmbededJavaCompiler()) {
+			JOptionPane.showMessageDialog(null, new JLabel(""
+					+ "<html><pre>Your JVM has no Embedded JavaCompiler.\n"
+					+ "The system uses external javac compiler but it works extremely slow.\n"
+					+ "Your JVM path = "+ path
+					+ "</pre></html>"
+					));
+
+		}
 		PPDataManager manager = new PPDataManager(dir);
 		PPDataManagerFrame frame = new PPDataManagerFrame(manager);
 		frame.setBounds(100, 100, 300, 300);

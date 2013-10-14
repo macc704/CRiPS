@@ -15,6 +15,7 @@
         	<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/commons-csv-20070730.jar"/>
         	<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/CEncodingDetector.jar"/>        	
         	<fileset dir="../../commonlibrary/CSwing/bin"/>
+        	<fileset dir="../../commonlibrary/CSwingApp/bin"/>        	
         	<fileset dir="../../commonlibrary/CTable/bin"/>
         	<fileset dir="../../commonlibrary/CTimeLineView/bin"/>
         	<fileset dir="../PresCore/bin"/>

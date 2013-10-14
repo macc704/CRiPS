@@ -10,5 +10,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/CTable"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CompileErrorAnalytics"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CSwingApp"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
