@@ -66,6 +66,8 @@ import nd.com.sun.tools.example.debug.gui.GUI;
  * 2013/10/11 version 0.2.5 hakamata	・行番号をテキスト直書きからScrollPaneのヘッダに変更
  * 										・標準モード(行モード)を今までのアイコンと行塗りつぶしの形に戻した
  * 2013/10/11 version 0.2.6 hakamata	・ビューの配置を変更(上の左：ソース，上の右：変数，下：コンソール)
+ * 2013/10/15 version 0.2.7 hakamata	・Breakpointを一旦OFFにした
+ * 										・変更があった変数だけでなく，新しい変数も黄色ハイライトされるようにした
  *
  * 	・int x = 3;　はＯＫだけど， int y; はダメ．
  * 		Javaの仕様上,宣言のみのプリミティブ型変数はスタックに積まれないのでこれで正しい
@@ -75,7 +77,7 @@ import nd.com.sun.tools.example.debug.gui.GUI;
 public class NNoviceDebugger {
 
 	public static final String NAME = "NoviceDebugger";
-	public static final String VERSION = "0.2.6";
+	public static final String VERSION = "0.2.7";
 	public static final String WINDOWTITLE = "DENO";
 
 	public static void main(String[] args) {

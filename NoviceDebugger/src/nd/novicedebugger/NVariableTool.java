@@ -76,7 +76,7 @@ public class NVariableTool extends JPanel {
 						if (!currentStackFrameRows.contains(row)) {
 							c.setBackground(Color.lightGray);
 						}
-						if(changeVariableRows.contains(row)) {
+						if(changeVariableRows.contains(row) && column == 1) {
 							c.setBackground(Color.yellow);
 						}
 						return c;
@@ -127,12 +127,19 @@ public class NVariableTool extends JPanel {
 						addVariable(var, frame);
 						if (currentFlag) {
 							currentStackFrameRows.add(row);
+							boolean f = true;
 							for(Object[] data : beforeCurrentVariables) {
 								if(data[3].equals(toString(frame))) {
 									if(data[0].equals(var.name()) && !data[1].equals(frame.getValue(var).toString())) {
 										changeVariableRows.add(row);
 									}
 								}
+								if(data[0].equals(var.name()) && data[3].equals(toString(frame))){
+									f = false;
+								}
+							}
+							if(f) {
+								changeVariableRows.add(row);
 							}
 						}
 						row++;
@@ -148,12 +155,19 @@ public class NVariableTool extends JPanel {
 						addVariable(var, frame);
 						if (currentFlag) {
 							currentStackFrameRows.add(row);
+							boolean f = true;
 							for(Object[] data : beforeCurrentVariables) {
 								if(data[3].equals(toString(frame))) {
 									if(data[0].equals(var.name()) && !data[1].equals(frame.getValue(var).toString())) {
 										changeVariableRows.add(row);
 									}
 								}
+								if(data[0].equals(var.name()) && data[3].equals(toString(frame))){
+									f = false;
+								}
+							}
+							if(f) {
+								changeVariableRows.add(row);
 							}
 						}
 						row++;
@@ -204,9 +218,7 @@ public class NVariableTool extends JPanel {
 		Object data[] = { varName, valString, typeName + "Œ^",
 				toString(stackFrame) };
 		tableModel.addRow(data);
-		if(currentFlag) {
-			currentVariables.add(data);
-		}
+		currentVariables.add(data);
 	}
 
 	private String toString(StackFrame frame) {

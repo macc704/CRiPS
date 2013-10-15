@@ -94,6 +94,8 @@ public class CommandTool extends JPanel {
 	
 	int linenum = -1;
 	int startLine = -1;
+	
+	boolean variableUpdateFlag = true;
 
 	// コンストラクタ
 	public CommandTool(Environment env) {
@@ -206,7 +208,8 @@ public class CommandTool extends JPanel {
 					if(clsname.equals(context.getMainClassName()) ){
 						int num = e.getLocation().lineNumber();	
 						if(linenum == num){
-							//System.out.println("same line");
+							// System.out.println("same line");
+							variableUpdateFlag = false;
 							interpreter.executeCommand("next");
 						}
 						linenum = num;
@@ -216,7 +219,10 @@ public class CommandTool extends JPanel {
 							env.getBlockEditor().getWorkspace().executionPoint(linenum);
 						}
 						env.getAutoRunTool().bpCheck();
-						env.getVarTool().update();
+						if(variableUpdateFlag) {
+							env.getVarTool().update();
+						}
+						variableUpdateFlag = true;
 					}
 					else{
 						//System.out.println("Not own methods");
