@@ -642,7 +642,7 @@ public class WorkspaceController {
 		JPanel topPane = new JPanel();
 
 		{// create save button
-			JButton saveButton = new JButton("toJavaAndSave");
+			JButton saveButton = new JButton("Save as Java");
 			saveButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					wc.convertToJava(wc.getSaveString(), enc);
