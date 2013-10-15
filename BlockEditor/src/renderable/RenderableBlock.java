@@ -48,6 +48,7 @@ import workspace.WorkspaceEvent;
 import workspace.WorkspaceWidget;
 import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.extent.SAbstractionBlockShape;
+import bc.BCSystem;
 import codeblocks.Block;
 import codeblocks.BlockConnector;
 import codeblocks.BlockConnectorShape;
@@ -1247,7 +1248,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				long curBlockID = socket.getBlockID();
 				// this is a patch, but we need to fix the root of the problem!
 				if (RenderableBlock.getRenderableBlock(curBlockID) == null) {
-					System.out.println("does not exist yet, block: "
+					BCSystem.out.println("does not exist yet, block: "
 							+ curBlockID);
 					continue;
 				}
