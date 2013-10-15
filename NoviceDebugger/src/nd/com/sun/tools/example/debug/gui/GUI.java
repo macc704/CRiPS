@@ -97,6 +97,8 @@ public class GUI extends JPanel {
 	private NVariableTool varTool;
 	// ブロックビュー
 	// private NBlockViewTool blockTool;
+	// ビュー
+	private JSplitPane views;
 	
 	// 実行環境
 	private final Environment env = new Environment();
@@ -190,11 +192,12 @@ public class GUI extends JPanel {
 		env.setVarTool(varTool);
 		varPanel.add(varTool);
 
-		JSplitPane views = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, srcPanel, varPanel);
+		views = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, srcPanel, varPanel);
 		views.setContinuousLayout(true);
 		views.setResizeWeight(0.4d);
 		JSplitPane main = new JSplitPane(JSplitPane.VERTICAL_SPLIT, views, appPanel);
 		main.setContinuousLayout(true);
+		main.setResizeWeight(0.7d);
 		
 		add(main, BorderLayout.CENTER);
 
