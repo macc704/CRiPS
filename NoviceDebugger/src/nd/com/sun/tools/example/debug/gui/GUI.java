@@ -393,19 +393,6 @@ public class GUI extends JPanel {
 						KeyStroke.getKeyStroke(KeyEvent.VK_S, CTRL_MASK));
 				menu.add(action);
 			}
-
-			{
-				CAction action = CActionUtils.createAction("変数順序反転",
-						new ICTask() {
-							public void doTask() {
-								getVarTool().setReversed(
-										!getVarTool().isReversed());
-							}
-						});
-				action.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK));
-				menu.add(action);
-			}
 			
 //			{
 //				CAction action = CActionUtils.createAction("ビュー切り替え", 
@@ -421,7 +408,7 @@ public class GUI extends JPanel {
 //			}
 		}
 		{
-			JMenu menu = new JMenu("表示");
+			JMenu menu = new JMenu("表示形式");
 			menubar.add(menu);
 			{
 				JMenu subMenu = new JMenu("実行位置表示");
@@ -454,6 +441,18 @@ public class GUI extends JPanel {
 					radioMenu.setSelected(false);
 					group.add(radioMenu);
 					subMenu.add(radioMenu);
+				}
+				{
+					CAction action = CActionUtils.createAction("変数順序反転",
+							new ICTask() {
+								public void doTask() {
+									getVarTool().setReversed(
+											!getVarTool().isReversed());
+								}
+							});
+					action.putValue(Action.ACCELERATOR_KEY,
+							KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK));
+					menu.add(action);
 				}
 			}
 		}
