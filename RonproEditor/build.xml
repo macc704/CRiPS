@@ -57,11 +57,20 @@
     		<!--<fileset dir="../ReflectionSupportSystem/bin"/>-->
         </jar>
     	
-    	<!--
-    	<copy file="./class/test.class" todir="./package">
+    	<delete dir="./package/lib"/>    	
+    	<copy todir="./package/lib">
     		<fileset dir="./testbase/lib"/>
-    	</copy>
-    	-->
+    	</copy>	
+    	
+    	<delete dir="./package/ext"/>    	
+    	<copy todir="./package/ext">
+    		<fileset dir="./testbase/ext"/>
+    	</copy>	 
+    	
+    	<delete dir="./package/templates"/>    	
+    	<copy todir="./package/templates">
+    		<fileset dir="./testbase/templates"/>
+    	</copy>	    	
 
 	    <zip destfile="packages/RonproEditor-${now.time}.zip" encoding="MS932">
 	    	<!-- <fileset excludes="MyProjects" dir="package"/> -->
