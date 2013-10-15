@@ -23,7 +23,6 @@
 		<BlockGenusMember>proc-param-boolean</BlockGenusMember>
 		<BlockGenusMember>proc-param-string</BlockGenusMember>
 		<BlockGenusMember>return</BlockGenusMember>
-		<BlockGenusMember>constructor</BlockGenusMember>
 	</BlockDrawer>
 	
 	<BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20">
@@ -114,16 +113,7 @@
 		<BlockGenusMember>local-var-object</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Text</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Image</BlockGenusMember>
-		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>
-		<BlockGenusMember>private-var-int-number</BlockGenusMember>
-		<BlockGenusMember>private-var-double-number</BlockGenusMember>
-		<BlockGenusMember>private-var-string</BlockGenusMember>
-		<BlockGenusMember>private-var-boolean</BlockGenusMember>
-		<!--  <BlockGenusMember>private-procedure</BlockGenusMember>-->
-		<BlockGenusMember>private-var-object</BlockGenusMember>
-		<BlockGenusMember>private-var-object-Text</BlockGenusMember>
-		<BlockGenusMember>private-var-object-Image</BlockGenusMember>
-		<BlockGenusMember>private-var-object-Sound</BlockGenusMember>		
+		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>	 	
 	</BlockDrawer>
 
 	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
