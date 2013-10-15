@@ -29,8 +29,10 @@ public class OutputSourceModel {
 	private CompilationUnit unit; // cash
 
 	private Map<String, String> requests = new LinkedHashMap<String, String>();
-	private Map<String, String> constructorRequests = new LinkedHashMap<String, String>();//ohata added
-	private Map<String, String> privateRequests = new LinkedHashMap<String, String>();//ohata added
+	private Map<String, String> constructorRequests = new LinkedHashMap<String, String>();// ohata
+																							// added
+	private Map<String, String> privateRequests = new LinkedHashMap<String, String>();// ohata
+																						// added
 
 	public OutputSourceModel(File file, String enc, String[] classpaths) {
 		this.file = file;
@@ -51,7 +53,7 @@ public class OutputSourceModel {
 		replace();
 	}
 
-	//#ohata added
+	// #ohata added
 	private void replacePrivateValues() throws Exception {
 
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
@@ -115,7 +117,7 @@ public class OutputSourceModel {
 		ps.close();
 	}
 
-	private void createPrivateValues() throws Exception {//#ohata added
+	private void createPrivateValues() throws Exception {// #ohata added
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		// check
 		List<String> newNames = calcNewPrivateValueNames();
@@ -137,7 +139,8 @@ public class OutputSourceModel {
 		createNewMethods(newNames);
 	}
 
-	private void createNewPrivateValue(List<String> newNames) throws Exception {//#ohata added
+	private void createNewPrivateValue(List<String> newNames) throws Exception {// #ohata
+																				// added
 		String src = FileReader.readFile(file, enc);
 		int cursor = getFirstPrivateVariableStartPosition();
 
@@ -154,7 +157,7 @@ public class OutputSourceModel {
 		ps.close();
 	}
 
-	private int getFirstPrivateVariableStartPosition() {//#ohata added
+	private int getFirstPrivateVariableStartPosition() {// #ohata added
 		int cursor;
 
 		List<FieldDeclaration> privateValues = getPrivateValues();
@@ -167,28 +170,24 @@ public class OutputSourceModel {
 		return cursor;
 	}
 
-/*	private int getLastPrivateValueEndPosition() {
-		int cursor;
-		List<FieldDeclaration> privateValues = getPrivateValues();
-		JavaCommentManager cm = new JavaCommentManager(file, enc);
-
-		if (privateValues.size() <= 0) {
-			return -1;
-		} else {
-			//int len = privateValues.get(privateValues.size() - 1).getLength();
-			int start = privateValues.get(privateValues.size() - 1)
-					.getStartPosition();
-			cursor = cm.getLineCommentEndPosition(start);
-		}
-
-		return cursor;
-
-	}
-*/
+	/*
+	 * private int getLastPrivateValueEndPosition() { int cursor;
+	 * List<FieldDeclaration> privateValues = getPrivateValues();
+	 * JavaCommentManager cm = new JavaCommentManager(file, enc);
+	 * 
+	 * if (privateValues.size() <= 0) { return -1; } else { //int len =
+	 * privateValues.get(privateValues.size() - 1).getLength(); int start =
+	 * privateValues.get(privateValues.size() - 1) .getStartPosition(); cursor =
+	 * cm.getLineCommentEndPosition(start); }
+	 * 
+	 * return cursor;
+	 * 
+	 * }
+	 */
 	private void createNewMethods(List<String> newNames) throws Exception {
 		String src = FileReader.readFile(file, enc);
 
-		int cursor = getLastMethodFinishPosition(); 
+		int cursor = getLastMethodFinishPosition();
 
 		for (String newName : newNames) {
 			String newStub = "\n\n" + "void " + newName + "(){}";
@@ -314,7 +313,7 @@ public class OutputSourceModel {
 					.get(0).toString());
 			BCSystem.out.println("fragmentsValue:" + fragmentsValue + "value:"
 					+ value);
-			System.out
+			BCSystem.out
 					.println("getPrivateValueName(variable.fragments().get(0).toString()):"
 							+ getPrivateValueName(privateValue.fragments()
 									.get(0).toString()));
