@@ -35,19 +35,21 @@
 package nd.com.sun.tools.example.debug.gui;
 
 import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
@@ -61,6 +63,7 @@ import clib.common.system.CJavaSystem;
 import clib.common.thread.ICTask;
 import clib.view.actions.CAction;
 import clib.view.actions.CActionUtils;
+
 import com.sun.jdi.VirtualMachine;
 
 /*
@@ -86,7 +89,7 @@ public class GUI extends JPanel {
 
 	// コマンドライン
 	private CommandTool cmdTool;
-	// 実行欄
+	// コンソール
 	private ApplicationTool appTool;
 	// ソースビュー
 	private SourceTool srcTool;
@@ -94,13 +97,15 @@ public class GUI extends JPanel {
 	private NVariableTool varTool;
 	// ブロックビュー
 	// private NBlockViewTool blockTool;
+	// ビュー
+	private JSplitPane views;
 	
 	// 実行環境
-	private final static Environment env = new Environment();
+	private final Environment env = new Environment();
 	
-	//
-	private JPanel executiionView;
-	private CardLayout cardLayout;
+	// ブロックビューとソースビューの切り替え表示用
+	// private JPanel executiionView;
+	// private CardLayout cardLayout;
 
 	// ディレクトリツリー
 	// private SourceTreeTool sourceTreeTool;
@@ -122,10 +127,14 @@ public class GUI extends JPanel {
 		// toolbar.setOrientation(JToolBar.VERTICAL);
 		// add(toolbar, BorderLayout.EAST);
 
+		JPanel srcPanel = new JPanel();
+		srcPanel.setLayout(new BorderLayout());
+		srcPanel.setBorder(BorderFactory.createTitledBorder("ソースビュー"));
 		srcTool = new SourceTool(env);
-		srcTool.setPreferredSize(new java.awt.Dimension(500, 300));
-		srcTool.setTextFont(fixedFont);
 		env.setSrcTool(srcTool);
+		srcTool.setTextFont(fixedFont);
+		srcPanel.add(srcTool);
+		srcPanel.setPreferredSize(new java.awt.Dimension(500, 300));
 		
 //		blockTool = new NBlockViewTool(env);
 //		blockTool.setPreferredSize(new java.awt.Dimension(500, 300));
@@ -138,9 +147,6 @@ public class GUI extends JPanel {
 //		executiionView.add(srcTool, "src");
 //		executiionView.add(blockTool, "block");
 //		cardLayout.first(executiionView);
-		
-		varTool = new NVariableTool(env);
-		env.setVarTool(varTool);
 		
 		// stackTool = new StackTraceTool(env);
 		// stackTool.setPreferredSize(new java.awt.Dimension(500, 100));
@@ -176,37 +182,24 @@ public class GUI extends JPanel {
 		appPanel.setLayout(new BorderLayout());
 		appPanel.setBorder(BorderFactory.createTitledBorder("コンソール"));
 		appTool = new ApplicationTool(env);
-		// appTool.setPreferredSize(new java.awt.Dimension(700, 200));
 		appPanel.setPreferredSize(new java.awt.Dimension(500, 200));
 		appPanel.add(appTool);
-
-		// JSplitPane centerBottom = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-		// appTool, cmdTool);
-		// centerBottom.setPreferredSize(new java.awt.Dimension(700, 350));
-
-		// JSplitPane center = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-		// srcTool,
-		// centerBottom);
-
-		JSplitPane left = new JSplitPane(JSplitPane.VERTICAL_SPLIT, srcTool,
-				appPanel);
 
 		JPanel varPanel = new JPanel();
 		varPanel.setLayout(new BorderLayout());
 		varPanel.setBorder(BorderFactory.createTitledBorder("変数ビュー"));
+		varTool = new NVariableTool(env);
+		env.setVarTool(varTool);
 		varPanel.add(varTool);
-		//JSplitPane center = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left,
-		//		varPanel);
 
-		// JPanel autoRunPanel = new JPanel();
-		// autoRunPanel.setLayout(new BorderLayout());
-		// autoRunPanel.setBorder(BorderFactory.createTitledBorder("自動実行間隔"));
-		// autoRunPanel.add(autoRunTool);
+		views = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, srcPanel, varPanel);
+		views.setContinuousLayout(true);
+		views.setResizeWeight(0.4d);
+		JSplitPane main = new JSplitPane(JSplitPane.VERTICAL_SPLIT, views, appPanel);
+		main.setContinuousLayout(true);
+		main.setResizeWeight(0.7d);
 		
-		// JSplitPane right = new JSplitPane(JSplitPane.VERTICAL_SPLIT, autoRunPanel, varPanel);
-		JSplitPane center = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, left, varPanel);
-		
-		add(center, BorderLayout.CENTER);
+		add(main, BorderLayout.CENTER);
 
 	}
 
@@ -414,18 +407,54 @@ public class GUI extends JPanel {
 				menu.add(action);
 			}
 			
+//			{
+//				CAction action = CActionUtils.createAction("ビュー切り替え", 
+//						new ICTask() {
+//							public void doTask() {
+//								// ログ取る
+//								cardLayout.next(executiionView);
+//							}
+//						});
+//				action.putValue(Action.ACCELERATOR_KEY,
+//						KeyStroke.getKeyStroke(KeyEvent.VK_Q, CTRL_MASK));
+//				menu.add(action);
+//			}
+		}
+		{
+			JMenu menu = new JMenu("表示");
+			menubar.add(menu);
 			{
-				CAction action = CActionUtils.createAction("ビュー切り替え", 
-						new ICTask() {
-							public void doTask() {
-								// ログ取る
-								cardLayout.next(executiionView);
-							}
-						});
-				action.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_Q, CTRL_MASK));
-				menu.add(action);
-				
+				JMenu subMenu = new JMenu("実行位置表示");
+				menu.add(subMenu);
+				ButtonGroup group = new ButtonGroup();
+				{
+					CAction action = CActionUtils.createAction("DENOモード",
+							new ICTask() {
+								public void doTask() {
+									NDebuggerManager.fireChangeAPMode("DENO");
+									env.setAPMode(env.BETWEENMODE);
+									srcTool.repaint();
+								}
+							});
+					JRadioButtonMenuItem radioMenu = new JRadioButtonMenuItem(action);
+					radioMenu.setSelected(true);
+					group.add(radioMenu);
+					subMenu.add(radioMenu);
+				}
+				{
+					CAction action = CActionUtils.createAction("標準モード",
+							new ICTask() {
+								public void doTask() {
+									NDebuggerManager.fireChangeAPMode("DEFAULT");
+									env.setAPMode(env.LINEMODE);
+									srcTool.repaint();
+								}
+							});
+					JRadioButtonMenuItem radioMenu = new JRadioButtonMenuItem(action);
+					radioMenu.setSelected(false);
+					group.add(radioMenu);
+					subMenu.add(radioMenu);
+				}
 			}
 		}
 		frame.setJMenuBar(menubar);
@@ -480,5 +509,11 @@ public class GUI extends JPanel {
 
 	public JFrame getFrame() {
 		return frame;
+	}
+	
+	public void beMode() {
+		frame.setSize((int)(frame.getWidth() * 0.6), (int)(frame.getHeight() * 0.8));
+		views.setDividerLocation(views.getLeftComponent().getMinimumSize().width);
+		views.repaint();
 	}
 }

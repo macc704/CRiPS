@@ -47,6 +47,11 @@ public class NVariableTool extends JPanel {
 
 	private List<Integer> currentStackFrameRows = new ArrayList<Integer>();
 
+	private boolean currentFlag = false;
+	private List<Object[]> beforeCurrentVariables = new ArrayList<Object[]>();
+	private List<Object[]> currentVariables = new ArrayList<Object[]>();
+	private List<Integer> changeVariableRows = new ArrayList<Integer>();
+	
 	public NVariableTool(Environment env) {
 		this.env = env;
 		this.context = this.env.getContextManager();
@@ -70,6 +75,9 @@ public class NVariableTool extends JPanel {
 										isSelected, hasFocus, row, column);
 						if (!currentStackFrameRows.contains(row)) {
 							c.setBackground(Color.lightGray);
+						}
+						if(changeVariableRows.contains(row) && column == 1) {
+							c.setBackground(Color.yellow);
 						}
 						return c;
 					}
@@ -112,25 +120,55 @@ public class NVariableTool extends JPanel {
 									// 変数順はそのまま）
 				Collections.reverse(frames);
 				for (StackFrame frame : frames) {
+					currentFlag = frame == currentFrame;
 					List<LocalVariable> vars = new ArrayList<LocalVariable>(
 							frame.visibleVariables());
 					for (LocalVariable var : vars) {
 						addVariable(var, frame);
-						if (frame == currentFrame) {
+						if (currentFlag) {
 							currentStackFrameRows.add(row);
+							boolean f = true;
+							for(Object[] data : beforeCurrentVariables) {
+								if(data[3].equals(toString(frame))) {
+									if(data[0].equals(var.name()) && !data[1].equals(frame.getValue(var).toString())) {
+										changeVariableRows.add(row);
+									}
+								}
+								if(data[0].equals(var.name()) && data[3].equals(toString(frame))){
+									f = false;
+								}
+							}
+							if(f) {
+								changeVariableRows.add(row);
+							}
 						}
 						row++;
 					}
 				}
 			} else {// 新しいものから上->下（メソッド順はそのまま，変数順は逆順に）
 				for (StackFrame frame : frames) {
+					currentFlag = frame == currentFrame;
 					List<LocalVariable> vars = new ArrayList<LocalVariable>(
 							frame.visibleVariables());
 					Collections.reverse(vars);
 					for (LocalVariable var : vars) {
 						addVariable(var, frame);
-						if (frame == currentFrame) {
+						if (currentFlag) {
 							currentStackFrameRows.add(row);
+							boolean f = true;
+							for(Object[] data : beforeCurrentVariables) {
+								if(data[3].equals(toString(frame))) {
+									if(data[0].equals(var.name()) && !data[1].equals(frame.getValue(var).toString())) {
+										changeVariableRows.add(row);
+									}
+								}
+								if(data[0].equals(var.name()) && data[3].equals(toString(frame))){
+									f = false;
+								}
+							}
+							if(f) {
+								changeVariableRows.add(row);
+							}
 						}
 						row++;
 					}
@@ -170,7 +208,7 @@ public class NVariableTool extends JPanel {
 		}
 	}
 
-	private String[] columnNames = { "変数", "値", "型", "位置" };
+	private String[] columnNames = { "変数名", "値", "型", "位置" };
 
 	private void addVariable(StackFrame stackFrame, String varName,
 			String typeName, Object value) {
@@ -180,6 +218,7 @@ public class NVariableTool extends JPanel {
 		Object data[] = { varName, valString, typeName + "型",
 				toString(stackFrame) };
 		tableModel.addRow(data);
+		currentVariables.add(data);
 	}
 
 	private String toString(StackFrame frame) {
@@ -221,7 +260,10 @@ public class NVariableTool extends JPanel {
 
 	public void update() {
 		tableModel.setRowCount(0);
+		beforeCurrentVariables = currentVariables;
+		currentVariables = new ArrayList<Object[]>();
 		currentStackFrameRows.clear();
+		changeVariableRows.clear();
 		refreshVariableTable();
 	}
 

@@ -199,6 +199,11 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
 	 */
 	public void scrollToShowBlock(RenderableBlock block) {
 		//not yet implemented
+		CHoverScrollPane scroll = (CHoverScrollPane) scrollPane;
+		Point p = new Point();
+		p.x = block.getX() - scroll.getWidth() / 4 < 0 ? 0 : block.getX() - scroll.getWidth() / 4;
+		p.y = block.getY() - scroll.getHeight() / 2 < 0 ? 0 : block.getY() - scroll.getHeight() / 2;
+		scroll.setViewPosition(p);
 	}
 
 	public void scrollToComponent(JComponent c) {

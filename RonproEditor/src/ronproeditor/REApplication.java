@@ -5,6 +5,8 @@
  */
 package ronproeditor;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
@@ -239,6 +241,9 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 
  * 2013/09/26 version 2.18.0 ohata			・BE version 2.14.0と結合
  * 
+ * 2013/10/11 version 2.18.1 hakamata		・DENO version0.2.4と統合
+ * 											・DENOのBreakpoint, 実行位置表示モードの切り替え, cont, Focusのログ書き出し
+ * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
  * ・"}"を押したときのスマートインデント
@@ -255,8 +260,8 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.18.0";
-	public static final String BUILD_DATE = "2013/09/26";
+	public static final String VERSION = "2.18.1";
+	public static final String BUILD_DATE = "2013/10/11";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2012 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
@@ -920,11 +925,40 @@ public class REApplication implements ICFwApplication {
 			public void speedSet(int speed) {
 				writePresLog(PRCommandLog.SubType.DEBUG_SPEED, speed);
 			}
+			
+			public void contPressed() {
+				writePresLog(PRCommandLog.SubType.DEBUG_CONT);
+			}
+			
+			public void breakpointSet() {
+				writePresLog(PRCommandLog.SubType.DEBUG_BPSET);
+			}
+			
+			public void breakpointClear() {
+				writePresLog(PRCommandLog.SubType.DEBUG_BPCLR);
+			}
+			
+			public void changeAPMode(String mode) {
+				writePresLog(PRCommandLog.SubType.DEBUG_CHANGEMODE, mode);
+			}
 		});
 		deno = new GUI();
 		deno.run(args);
+		deno.getFrame().addWindowFocusListener(
+				new WindowFocusListener() {
+					public void windowLostFocus(WindowEvent e) {
+						writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
+					}
+
+					public void windowGainedFocus(WindowEvent e) {
+						writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
+					}
+				});
 		CommandInterpreter cmdint = new CommandInterpreter(deno.getEnv());
 		deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
+		if(blockManager.getBlockEditor() != null) {
+			deno.beMode();
+		}
 		cmdint.executeCommand("run");
 	}
 

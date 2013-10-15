@@ -34,7 +34,6 @@
 
 package nd.com.sun.tools.example.debug.gui;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 class Icons {
@@ -211,8 +210,8 @@ class Icons {
 		return bytes;
 	}
 
-	static Icon stopSignIcon = new ImageIcon(wordsToBytes(stopSignWords)); 
-	static Icon blankIcon = new ImageIcon(wordsToBytes(blank)); 
+	static ImageIcon stopSignIcon = new ImageIcon(wordsToBytes(stopSignWords)); 
+	static ImageIcon blankIcon = new ImageIcon(wordsToBytes(blank)); 
 
-	static Icon execIcon = new ImageIcon(wordsToBytes(exec)); 
+	static ImageIcon execIcon = new ImageIcon(wordsToBytes(exec)); 
 }
