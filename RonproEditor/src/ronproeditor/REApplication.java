@@ -956,6 +956,9 @@ public class REApplication implements ICFwApplication {
 				});
 		CommandInterpreter cmdint = new CommandInterpreter(deno.getEnv());
 		deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
+		if(blockManager.getBlockEditor() != null) {
+			deno.beMode();
+		}
 		cmdint.executeCommand("run");
 	}
 

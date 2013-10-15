@@ -510,4 +510,10 @@ public class GUI extends JPanel {
 	public JFrame getFrame() {
 		return frame;
 	}
+	
+	public void beMode() {
+		frame.setSize((int)(frame.getWidth() * 0.6), (int)(frame.getHeight() * 0.8));
+		views.setDividerLocation(views.getLeftComponent().getMinimumSize().width);
+		views.repaint();
+	}
 }

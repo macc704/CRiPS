@@ -68,6 +68,7 @@ import nd.com.sun.tools.example.debug.gui.GUI;
  * 2013/10/11 version 0.2.6 hakamata	・ビューの配置を変更(上の左：ソース，上の右：変数，下：コンソール)
  * 2013/10/15 version 0.2.7 hakamata	・Breakpointを一旦OFFにした
  * 										・変更があった変数だけでなく，新しい変数も黄色ハイライトされるようにした
+ * 2013/10/15 version 0.2.8 hakamata	・BEから起動時はウィンドウ縮小＆ソースビュー最小化
  *
  * 	・int x = 3;　はＯＫだけど， int y; はダメ．
  * 		Javaの仕様上,宣言のみのプリミティブ型変数はスタックに積まれないのでこれで正しい
