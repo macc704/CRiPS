@@ -69,7 +69,6 @@ public class SBlockCopier {
 			BlockConnector newCon = newBlock.getAfterConnector();
 			copyValueAndConnect(srcCon, newBlock, newCon);
 		}
-
 		return newRBlock;
 	}
 

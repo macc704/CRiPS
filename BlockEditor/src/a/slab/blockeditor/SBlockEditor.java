@@ -262,8 +262,23 @@ import controller.WorkspaceController;
  *  2013.10.01 2.14.2 Ohata
  *  	・ハイライト対象を書き込みブロック、参照ブロックのみに変更
  *  	・インスタンス変数、オブジェクト変数の隠蔽			
- *  	
- *  			
+ *  2013.10.05 2.14.3 Ohata	
+ *  	・ハイライトの対象を追加
+ *  		・書き込みブロック、値ブロックの参照元をハイライト対象に追加
+ *  	・関数を超えたローカル変数の利用が可能だったのを不可能に
+ *  	・アニメーション動作対象を追加	
+ *  		・スコープ外の変数の書き込みブロック、値ブロックを利用しようとした場合	
+ *  2013.10.09 2.14.4 Ohata
+ *  	・スコープチェックの追加の途中
+ *  	・アニメーション動作（縦移動）の追加
+ *  	・ハイライト動作の追加（異常ブロックの赤ハイライト）
+ *  	・アニメーション動作の微調整（ブロックの大きさでの移動を、定数に変更）
+ *  2013.10.10 2.14.5 Ohata
+ *  	・関数の引数がひとつの型しか宣言できなくなった不具合を修正
+ *  2013.10.12 2.15.0 Ohata
+ *  	・スコープチェック機能の追加
+ *  2013.10.12 2.15.1 Ohata
+ *  	・スコープチェック　持っているブロック内の最初で変数宣言されている場合に正しく結合できない問題を修正
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
  * ・引数の使用時にスコープのチェック
@@ -283,7 +298,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "2.14.2";
+	public final static String VERSION = "2.15.1";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;

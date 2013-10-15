@@ -346,10 +346,10 @@ public class REBlockEditorManager {
 			ex.printStackTrace();
 		}
 	}
-	
-	//20130926 DENOがBlockEditorを直接参照する設計は暫定
+
+	// 20130926 DENOがBlockEditorを直接参照する設計は暫定
 	public WorkspaceController getBlockEditor() {
-		if(isWorkspaceOpened()){
+		if (isWorkspaceOpened()) {
 			return blockEditor;
 		}
 		return null;
