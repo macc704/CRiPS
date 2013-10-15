@@ -28,6 +28,7 @@ import ppv.view.parts.timelineview.PPCompositeTimeLineView;
 import pres.loader.model.IPLUnit;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileElement;
 import clib.common.filesystem.CPath;
 import clib.view.timeline.model.CTimeModel;
 import clib.view.timeline.pane.CAbstractTimeLinePane;
@@ -146,7 +147,6 @@ public class PPTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 							String newLabel = showRenameMenu(menuItem
 									.getLocation());
 							if (newLabel != null) {
-
 								try {
 									CPath oldPath = model.getPath();
 									String newName = newLabel;
@@ -161,40 +161,49 @@ public class PPTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 									CDirectory basedir = model.getProject()
 											.getProjectBaseDir();
 
-									// head file
-									CFile file = basedir.findFile(oldPath);
-									file.renameTo(newName);
-
 									CDirectory pres2Dir = basedir
 											.findDirectory(new CPath(".pres2"));
+									// 名前既存のディレクトリに同名ファイルがあるかどうかの確認
+									if (isExistingName(pres2Dir, newName)) {
+										// 存在するため、ポップアップを表示し、書き換えるかどうかを聞く
+										mergeFile(oldPath, newPath, basedir, pres2Dir, newName);
 
-									// recorded directory
-									CDirectory recordingDir = pres2Dir
-											.findDirectory(oldPath);
-									recordingDir.copyTo(newName);
-									recordingDir = pres2Dir
-											.findDirectory(oldPath);
-									boolean b = recordingDir.delete();
-									System.out.println(b);
+									} else {
+										//既存ディレクトリに同名ファイルが存在しないため、マージしないで処理
+										// head file
+										CFile file = basedir.findFile(oldPath);
+										file.renameTo(newName);
 
-									// pres.logの書き換え
-									CFile logfile = pres2Dir
-											.findFile("pres2.log");
-									String oldKey = "\t" + oldPath.toString();
-									String newKey = "\t" + newPath.toString();
-									List<String> lines = logfile
-											.loadTextAsList();
-									List<String> newLines = new ArrayList<String>();
-									for (String line : lines) {
-										String newLine = line.replace(oldKey,
-												newKey);
-										newLines.add(newLine);
+										// recorded directory
+										CDirectory recordingDir = pres2Dir
+												.findDirectory(oldPath);
+										recordingDir.copyTo(newName);
+										recordingDir = pres2Dir
+												.findDirectory(oldPath);
+										boolean b = recordingDir.delete();
+										System.out.println(b);
+
+										// pres.logの書き換え
+										CFile logfile = pres2Dir
+												.findFile("pres2.log");
+										String oldKey = "\t"
+												+ oldPath.toString();
+										String newKey = "\t"
+												+ newPath.toString();
+										List<String> lines = logfile
+												.loadTextAsList();
+										List<String> newLines = new ArrayList<String>();
+										for (String line : lines) {
+											String newLine = line.replace(
+													oldKey, newKey);
+											newLines.add(newLine);
+										}
+										CFile newlogfile = pres2Dir
+												.findOrCreateFile("tmp.log");
+										newlogfile.saveTextFromList(newLines);
+										logfile.delete();
+										newlogfile.copyTo("pres2.log");
 									}
-									CFile newlogfile = pres2Dir
-											.findOrCreateFile("tmp.log");
-									newlogfile.saveTextFromList(newLines);
-									logfile.delete();
-									newlogfile.copyTo("pres2.log");
 								} catch (Exception ex) {
 									ex.printStackTrace();
 								}
@@ -218,7 +227,6 @@ public class PPTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 								// System.out.println(dir.getAbsolutePath());
 
 								// 中身の書き換え処理みたいのがいる
-
 							}
 						}
 					});
@@ -287,6 +295,53 @@ public class PPTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 	 */
 	public boolean isDrawRightSide() {
 		return drawRightSide;
+	}
+
+	private boolean isExistingName(CDirectory pres2Dir, String newName) {
+		for (CFileElement file : pres2Dir.getChildren()) {
+			if (file.getNameByString().equals(newName)) {
+				// popupの表示
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void mergeFile(CPath oldPath, CPath newPath, CDirectory basedir, CDirectory pres2Dir, String newName){
+		//ダイアログ表示
+		int num = JOptionPane.showConfirmDialog(null, "ファイルをマージしますか？");
+		System.out.println("num::"  + num);
+		if(num==0){			
+			// recorded directory
+			CDirectory recordingDir = pres2Dir
+					.findDirectory(oldPath);
+			recordingDir.copyTo(newName);
+			recordingDir = pres2Dir
+					.findDirectory(oldPath);
+			boolean b = recordingDir.delete();
+			System.out.println(b);
+
+			// pres.logの書き換え
+			CFile logfile = pres2Dir
+					.findFile("pres2.log");
+			String oldKey = "\t"
+					+ oldPath.toString();
+			String newKey = "\t"
+					+ newPath.toString();
+			List<String> lines = logfile
+					.loadTextAsList();
+			List<String> newLines = new ArrayList<String>();
+			for (String line : lines) {
+				String newLine = line.replace(
+						oldKey, newKey);
+				newLines.add(newLine);
+			}
+			CFile newlogfile = pres2Dir
+					.findOrCreateFile("tmp.log");
+			newlogfile.saveTextFromList(newLines);
+			logfile.delete();
+			newlogfile.copyTo("pres2.log");
+		}
 	}
 
 	private String showRenameMenu(Point point) {
