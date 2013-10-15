@@ -57,7 +57,7 @@ public class RECreateFileNameDialog extends RECreateNameDialog {
 
 	@Override
 	protected String getInputTitle() {
-		return "ファイル（クラス）名を入力してください";
+		return "クラス名（.javaを除いた名前）を入力してください";
 	}
 
 }

@@ -33,6 +33,7 @@ public class RECreateFileNameDialogWithType extends RECreateFileNameDialog {
 		panel.setBorder(BorderFactory.createTitledBorder("テンプレート："));
 		combobox.setPreferredSize(new Dimension(150, 27));
 		panel.add(combobox);
+
 		getContentPane().add(panel);
 
 		pack();
@@ -43,7 +44,13 @@ public class RECreateFileNameDialogWithType extends RECreateFileNameDialog {
 		for (RESourceTemplate template : getApplication().getTemplateManager()
 				.getTemplates()) {
 			combobox.addItem(template);
+
+			// Turtleがあればそれに初期化する
+			if (template.getName().equals("Turtle")) {
+				combobox.setSelectedItem(template);
+			}
 		}
+
 		super.open();
 	}
 
