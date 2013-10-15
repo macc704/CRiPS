@@ -69,6 +69,9 @@ import nd.com.sun.tools.example.debug.gui.GUI;
  * 2013/10/15 version 0.2.7 hakamata	・Breakpointを一旦OFFにした
  * 										・変更があった変数だけでなく，新しい変数も黄色ハイライトされるようにした
  * 2013/10/15 version 0.2.8 hakamata	・BEから起動時はウィンドウ縮小＆ソースビュー最小化
+ * 
+ * 2013/10/16 version 0.2.9 hakamata	・JRE1.7.0_25でvmが起動しないエラーに暫定対応
+ * 										・変数順序反転を表示形式メニューへ移動
  *
  * 	・int x = 3;　はＯＫだけど， int y; はダメ．
  * 		Javaの仕様上,宣言のみのプリミティブ型変数はスタックに積まれないのでこれで正しい
@@ -78,7 +81,7 @@ import nd.com.sun.tools.example.debug.gui.GUI;
 public class NNoviceDebugger {
 
 	public static final String NAME = "NoviceDebugger";
-	public static final String VERSION = "0.2.7";
+	public static final String VERSION = "0.2.9";
 	public static final String WINDOWTITLE = "DENO";
 
 	public static void main(String[] args) {
