@@ -76,7 +76,9 @@ public class RECreateFileNameDialogForCopy extends RERefactoringFileNameDialog {
 		RESourceManager manager = getApplication().getSourceManager();
 		for (CDirectory dir : manager.getCRootDirectory()
 				.getDirectoryChildren()) {
-			combobox.addItem(dir.getNameByString());
+			if (!dir.getNameByString().startsWith(".")) {
+				combobox.addItem(dir.getNameByString());
+			}
 		}
 		CDirectory current = manager.getCCurrentProject();
 		combobox.setSelectedItem(current.getNameByString());
