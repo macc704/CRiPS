@@ -276,7 +276,7 @@ public class REFrame extends JFrame {
 		// ƒAƒNƒVƒ‡ƒ“‚Ì’Ç‰Á
 		menuJava.add(actionCompile);
 		menuJava.add(actionRun);
-		// menuJava.add(actionDebugRun);
+		menuJava.add(actionDebugRun);
 		menuJava.add(actionKill);
 		menuJava.addSeparator();
 		menuJava.add(actionFormat);

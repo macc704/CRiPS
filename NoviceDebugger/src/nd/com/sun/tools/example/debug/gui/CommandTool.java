@@ -94,6 +94,8 @@ public class CommandTool extends JPanel {
 	
 	int linenum = -1;
 	int startLine = -1;
+	
+	boolean variableUpdateFlag = true;
 
 	// コンストラクタ
 	public CommandTool(Environment env) {
@@ -201,21 +203,26 @@ public class CommandTool extends JPanel {
 					}
 				} else if (evt instanceof StepEvent) {
 					//diagnostics.putString("Step completed: " + locString);
-					//System.out.println("Step completed: " + locString);
+					// System.out.println("Step completed: " + locString);
 					String clsname = locString.substring(locString.indexOf(" ") + 1, locString.indexOf("."));
 					if(clsname.equals(context.getMainClassName()) ){
 						int num = e.getLocation().lineNumber();	
 						if(linenum == num){
-							//System.out.println("same line");
+							// System.out.println("same line");
+							variableUpdateFlag = false;
 							interpreter.executeCommand("next");
 						}
 						linenum = num;
+						env.setLinenum(linenum);
 						// env.getBlockTool().ExecutionPoint(linenum);
 						if(env.getBlockEditor() != null){
 							env.getBlockEditor().getWorkspace().executionPoint(linenum);
 						}
-						env.setLinenum(linenum);
-						env.getVarTool().update();
+						env.getAutoRunTool().bpCheck();
+						if(variableUpdateFlag) {
+							env.getVarTool().update();
+						}
+						variableUpdateFlag = true;
 					}
 					else{
 						//System.out.println("Not own methods");

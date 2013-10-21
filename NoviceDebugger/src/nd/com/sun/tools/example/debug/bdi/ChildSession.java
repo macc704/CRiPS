@@ -41,8 +41,8 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-
 import com.sun.jdi.Bootstrap;
 import com.sun.jdi.VirtualMachine;
 import com.sun.jdi.VirtualMachineManager;
@@ -195,7 +195,8 @@ class ChildSession extends Session {
 			diagnostics.putString("Starting child.");
 			vm = connector.launch(arguments);
 		} catch (IOException ioe) {
-			diagnostics.putString("Unable to start child: " + ioe.getMessage());
+			// diagnostics.putString("Unable to start child: " + ioe.getMessage());
+			JOptionPane.showMessageDialog(null, String.format("ƒvƒƒOƒ‰ƒ€‚ª‹N“®‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½\nJRE1.7.0_25‚Å‚Í‚¤‚Ü‚­“®ì‚µ‚Ü‚¹‚ñ"));
 		} catch (IllegalConnectorArgumentsException icae) {
 			diagnostics
 					.putString("Unable to start child: " + icae.getMessage());

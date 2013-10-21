@@ -1096,6 +1096,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 		for(RenderableBlock rb : getRenderableBlocks()){
 			if (rb.getBlock().getLineNumber() == lineNumber){
 				rb.setBlockHighlightColor(Color.WHITE);
+				getBlockCanvas().scrollToShowBlock(rb);
 				bufrb.add(rb);
 				RenderableBlock parentBlock = RenderableBlock.getRenderableBlock(rb.getBlock().getParentBlockID());
 				while(!parentBlock.getGenus().equals("procedure")){

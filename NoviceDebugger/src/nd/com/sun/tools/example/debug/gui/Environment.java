@@ -35,7 +35,9 @@
 package nd.com.sun.tools.example.debug.gui;
 
 import java.io.PrintWriter;
+
 import nd.com.sun.tools.example.debug.bdi.ExecutionManager;
+import nd.novicedebugger.NAutoRunTool;
 // import nd.novicedebugger.NBlockViewTool;
 import nd.novicedebugger.NVariableTool;
 
@@ -62,6 +64,8 @@ public class Environment {
 	private NVariableTool varTool;
 	// BlockTool
 	// private NBlockViewTool blockTool;
+	// ActionTool
+	private NAutoRunTool autoRunTool;
 	
 	// BlockEditor
 	private WorkspaceController blockEditor;
@@ -72,7 +76,7 @@ public class Environment {
 	private boolean turtle;
 	
 	// Actual position mode
-	private int apMode = LINEMODE;
+	private int apMode = BETWEENMODE;
 	
 	int linenum = -1;
 	int startLine = -1;
@@ -249,4 +253,12 @@ public class Environment {
 		return blockEditor;
 	}
 	
+	
+	public void setAutoRunTool(NAutoRunTool target) {
+		this.autoRunTool = target;
+	}
+	
+	public NAutoRunTool getAutoRunTool() {
+		return autoRunTool;
+	}
 }

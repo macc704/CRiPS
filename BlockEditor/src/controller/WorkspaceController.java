@@ -705,7 +705,7 @@ public class WorkspaceController {
 					ronproEditor.blockDebugRun();
 				}
 			});
-			// topPane.add(runButton);
+			topPane.add(runButton);
 		}
 
 		JMenuBar menuBar = new JMenuBar();

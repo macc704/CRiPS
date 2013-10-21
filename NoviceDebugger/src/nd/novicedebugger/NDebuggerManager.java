@@ -57,5 +57,28 @@ public class NDebuggerManager {
 			listener.stepPressed();
 		}
 	}
+	
+	public static void fireContPressed() {
+		for (NDebuggerListener listener : listeners) {
+			listener.contPressed();
+		}
+	}
+	
+	public static void fireBreakpointSet() {
+		for (NDebuggerListener listener : listeners) {
+			listener.breakpointSet();
+		}
+	}
 
+	public static void fireBreakpointClear() {
+		for (NDebuggerListener listener : listeners) {
+			listener.breakpointClear();
+		}
+	}
+	
+	public static void fireChangeAPMode(String mode) {
+		for (NDebuggerListener listener : listeners) {
+			listener.changeAPMode(mode);
+		}
+	}
 }

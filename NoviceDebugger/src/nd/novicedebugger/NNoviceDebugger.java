@@ -56,6 +56,22 @@ import nd.com.sun.tools.example.debug.gui.GUI;
  * 										・GUIクラスのstaticを解除
  * 										・ブレークポイントの復活
  * 										・選択方式の変更と右クリックメニューの仕組み変更
+ * 2013/10/03 version 0.2.1 hakamata	・操作ボタンを2つにした
+ * 										・速度設定スライダを7段階(仮)にした
+ * 										（速度最速だとcontと同等)
+ * 2013/10/10 version 0.2.2 hakamata	・ステップ自動実行だとブレークポイントで止まらないのを修正
+ * 2013/10/10 version 0.2.3 hakamata	・変更された変数が黄色でハイライトされるようにした
+ * 
+ * 2013/10/11 version 0.2.4 hakamata	・ブレークポイント，表示モード切り替え，contのログ書き出し
+ * 2013/10/11 version 0.2.5 hakamata	・行番号をテキスト直書きからScrollPaneのヘッダに変更
+ * 										・標準モード(行モード)を今までのアイコンと行塗りつぶしの形に戻した
+ * 2013/10/11 version 0.2.6 hakamata	・ビューの配置を変更(上の左：ソース，上の右：変数，下：コンソール)
+ * 2013/10/15 version 0.2.7 hakamata	・Breakpointを一旦OFFにした
+ * 										・変更があった変数だけでなく，新しい変数も黄色ハイライトされるようにした
+ * 2013/10/15 version 0.2.8 hakamata	・BEから起動時はウィンドウ縮小＆ソースビュー最小化
+ * 
+ * 2013/10/16 version 0.2.9 hakamata	・JRE1.7.0_25でvmが起動しないエラーに暫定対応
+ * 										・変数順序反転を表示形式メニューへ移動
  *
  * 	・int x = 3;　はＯＫだけど， int y; はダメ．
  * 		Javaの仕様上,宣言のみのプリミティブ型変数はスタックに積まれないのでこれで正しい
@@ -65,7 +81,7 @@ import nd.com.sun.tools.example.debug.gui.GUI;
 public class NNoviceDebugger {
 
 	public static final String NAME = "NoviceDebugger";
-	public static final String VERSION = "0.2.0";
+	public static final String VERSION = "0.2.9";
 	public static final String WINDOWTITLE = "DENO";
 
 	public static void main(String[] args) {

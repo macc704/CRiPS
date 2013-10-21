@@ -21,5 +21,12 @@ public interface NDebuggerListener {
 	public void speedSet(int speed);
 
 	public void debugFinished();
+	
+	public void contPressed();
+	
+	public void breakpointSet();
+	
+	public void breakpointClear();
 
+	public void changeAPMode(String mode);
 }

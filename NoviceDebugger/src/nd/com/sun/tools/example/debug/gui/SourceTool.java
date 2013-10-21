@@ -39,29 +39,37 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Rectangle;
+// import java.awt.event.ActionEvent;
+// import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+// import java.awt.event.MouseListener;
 import java.io.File;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.JComponent;
 import javax.swing.JList;
-import javax.swing.JMenuItem;
+// import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
+// import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.ListModel;
+
+import nd.com.sun.tools.example.debug.bdi.EventRequestSpec;
 import nd.com.sun.tools.example.debug.bdi.ExecutionManager;
+import nd.com.sun.tools.example.debug.bdi.LineBreakpointSpec;
 import nd.com.sun.tools.example.debug.bdi.SpecErrorEvent;
 import nd.com.sun.tools.example.debug.bdi.SpecEvent;
 import nd.com.sun.tools.example.debug.bdi.SpecListener;
+// import nd.novicedebugger.NDebuggerManager;
 import clib.view.textpane.CJavaCodeDocument;
 import clib.view.textpane.CTextPaneUtils;
 
@@ -87,6 +95,7 @@ public class SourceTool extends JPanel {
 
 	private JList list;
 	private ListModel sourceModel;
+	private LineNumberView lineNumberView;
 
 	// Information on source file that is on display, or failed to be
 	// displayed due to inaccessible source. Used to update display
@@ -95,7 +104,7 @@ public class SourceTool extends JPanel {
 	private String sourceName; // relative path name, if showSourceFile
 	private Location sourceLocn; // location, if showSourceForLocation
 
-	private CommandInterpreter interpreter;
+	// private CommandInterpreter interpreter;
 
 	public JList getList(){
 		return list;
@@ -110,7 +119,7 @@ public class SourceTool extends JPanel {
 		runtime = this.env.getExecutionManager();
 		sourceManager = this.env.getSourceManager();
 		this.context = this.env.getContextManager();
-		this.interpreter = new CommandInterpreter(env, true);
+		// this.interpreter = new CommandInterpreter(env, true);
 
 		sourceModel = new DefaultListModel(); // empty
 
@@ -124,15 +133,21 @@ public class SourceTool extends JPanel {
 		runtime.addSpecListener(listener);
 		sourceManager.addSourceListener(listener);
 
-		MouseListener squeek = new STMouseListener();
-		list.addMouseListener(squeek);
+		// MouseListener squeek = new STMouseListener();
+		// list.addMouseListener(squeek);
 
-		add(new JScrollPane(list));
+		this.lineNumberView = new LineNumberView(this);
+		JScrollPane scroll = new JScrollPane(list);
+		scroll.setRowHeaderView(lineNumberView);
+		add(scroll);
+		
+		// add(new JScrollPane());
 	}
 
 	public void setTextFont(Font f) {
 		list.setFont(f);
 		list.setPrototypeCellValue(SourceModel.prototypeCellValue);
+		lineNumberView.setFontInformation(f);
 	}
 
 	private class SourceToolListener implements ContextListener,
@@ -330,19 +345,24 @@ public class SourceTool extends JPanel {
 				int index, boolean isSelected, boolean cellHasFocus) {
 			// matsuzawa version (Textpane)
 			SourceModel.Line line = (SourceModel.Line) value;
-			String linenum = String.format("%4d: ", index + 1);// <-ずれてない?
-			String text = linenum + line.text;
+			// String linenum = String.format("%4d: ", index + 1);// <-ずれてない?
+			String text = line.text;
 			try {
 				MyJTextPane pane = new MyJTextPane(new CJavaCodeDocument());
 				// pane.setLineNumber(index + 1);
 				boolean isExecution = env.linenum == index + 1;
-				boolean hasBreakpoint = line.hasBreakpoint;
+				// boolean hasBreakpoint = line.hasBreakpoint;
+				boolean hasBreakpoint = false;
 				pane.setExecution(isExecution);
+				if(isExecution && env.getAPMode() == env.LINEMODE){
+					pane.setForeground(list.getSelectionForeground());
+					pane.setBackground(list.getSelectionBackground());
+				}
 				pane.hasBreakpoint(hasBreakpoint);
 				pane.setFont(list.getFont());
 				CTextPaneUtils.setTabs(pane, 2);
 				pane.setText(text);
-				pane.setMargin(new Insets(0, 0, 0, 0));
+				pane.setMargin(new Insets(0, 5, 0, 0));
 				return pane;
 			} catch (Exception ex) {
 				setText(text);
@@ -412,10 +432,10 @@ public class SourceTool extends JPanel {
 				int green = !(hasBreakpoint || isExecution) ? 255 : 0;
 				int blue = isExecution || !(hasBreakpoint || isExecution) ? 255 : 0;
 				g.setColor(new Color(red, green, blue));
-				if (env.getAPMode() == env.LINEMODE) {
-					g.drawRect(0, 0,
-							env.getSourceTool().getPreferredSize().width, getPreferredSize().height - 1);
-				}
+//				if (env.getAPMode() == env.LINEMODE) {
+//					g.drawRect(0, 0,
+//							env.getSourceTool().getPreferredSize().width, getPreferredSize().height - 1);
+//				}
 				if (env.getAPMode() == env.BETWEENMODE) {
 					g.drawLine(0, 0,
 							env.getSourceTool().getPreferredSize().width, 0);
@@ -435,6 +455,7 @@ public class SourceTool extends JPanel {
 
 	}
 
+	/*
 	private class STMouseListener extends MouseAdapter implements MouseListener {
 		public void mousePressed(MouseEvent e) {
 			if (e.isPopupTrigger()) {
@@ -450,9 +471,6 @@ public class SourceTool extends JPanel {
 
 		private void showPopupMenu(Component invoker, int x, int y) {
 			JList list = (JList) invoker;
-			// int ln = list.getSelectedIndex() + 1;
-			// SourceModel.Line line = (SourceModel.Line) list.getSelectedValue();
-			/* 右クリックした座標から行，要素を取得 */
 			int ln = list.locationToIndex(new Point(x, y)) + 1;
 			SourceModel.Line line = (SourceModel.Line) list.getModel().getElementAt(ln - 1);
 			JPopupMenu popup = new JPopupMenu();
@@ -476,15 +494,115 @@ public class SourceTool extends JPanel {
 					/ 2);
 		}
 
-		private JMenuItem commandItem(String label, final String cmd) {
+		private JMenuItem commandItem(final String label, final String cmd) {
 			JMenuItem item = new JMenuItem(label);
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					if(label.indexOf("Clear") != -1) {
+						NDebuggerManager.fireBreakpointClear();
+					}
+					if(label.indexOf("Set") != -1) {
+						NDebuggerManager.fireBreakpointSet();
+					}
 					interpreter.executeCommand(cmd);
 				}
 			});
 			return item;
 		}
+	}
+	*/
+	
+	public class LineNumberView extends JComponent {
 
+		private static final long serialVersionUID = 1L;
+
+		private static final int MARGIN = 5;
+		private static final int DEBUG_BUTTON_MARGIN = 20;
+		
+		private final SourceTool srcTool;
+
+		private FontMetrics fontMetrics;
+		private int topInset;
+		private int fontAscent;
+		private int fontHeight;
+		// private int fontDescent;
+		// private int fontLeading;
+
+		public LineNumberView(SourceTool srcTool) {
+			this.srcTool = srcTool;
+			this.setFontInformation(srcTool.list.getFont());
+			setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
+
+			this.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent e) {
+					int pos = getLineAtPoint(e.getY());
+					pos = pos + 1;
+				}
+			});
+
+		}
+
+		public void setFontInformation(Font font) {
+			fontMetrics = getFontMetrics(font);
+			fontHeight = fontMetrics.getHeight();
+			fontAscent = fontMetrics.getAscent();
+			topInset = srcTool.getInsets().top;
+		}
+
+		public FontMetrics getFontMetrics() {
+			return fontMetrics;
+		}
+
+		private int getComponentWidth() {
+			return DEBUG_BUTTON_MARGIN + getLineTextWidth();
+		}
+
+		private int getLineTextWidth() {
+			int lineCount = srcTool.list.getModel().getSize();
+			int maxDigits = Math.max(3, String.valueOf(lineCount).length());
+			return maxDigits * fontMetrics.stringWidth("0") + MARGIN * 2;
+		}
+
+		private int getLineAtPoint(int y) {
+			return srcTool.list.locationToIndex(new Point(0, y));
+		}
+
+		public Dimension getPreferredSize() {
+			return new Dimension(getComponentWidth(), srcTool.getHeight());
+		}
+
+		public void paintComponent(Graphics g) {
+			Rectangle clip = g.getClipBounds();
+			g.setColor(getBackground());
+			g.fillRect(clip.x, clip.y, clip.width, clip.height);
+			g.setColor(getForeground());
+			Rectangle src = srcTool.list.getBounds();
+			int base = -src.y - topInset;
+			int start = getLineAtPoint(base);
+			int end = getLineAtPoint(base + clip.height);
+			int rest = base % fontHeight == 0 ? 0 : base % fontHeight + (fontHeight - fontAscent);
+			int y = topInset + clip.y - rest;
+			for (int i = start; i <= end; i++) {
+				String text = String.valueOf(i + 1);
+				int x = DEBUG_BUTTON_MARGIN + getLineTextWidth() - MARGIN
+						- fontMetrics.stringWidth(text);
+				if(env.getAPMode() == env.LINEMODE){
+					for(EventRequestSpec evt : env.getExecutionManager().eventRequestSpecs()){
+						if(evt instanceof LineBreakpointSpec){
+							LineBreakpointSpec levt = (LineBreakpointSpec) evt;
+							if(levt.lineNumber() == i + 1){
+								g.drawImage(Icons.stopSignIcon.getImage(), (DEBUG_BUTTON_MARGIN - fontHeight) / 2, y + 1, fontHeight, fontHeight, this);
+							}
+						}
+					}
+				}
+				y = y + fontHeight;
+				g.drawString(text, x, y);
+			}
+			g.setColor(Color.black);
+			g.drawLine(DEBUG_BUTTON_MARGIN, 0, DEBUG_BUTTON_MARGIN, srcTool.getHeight());
+			g.setColor(Color.blue);
+
+		}
 	}
 }
