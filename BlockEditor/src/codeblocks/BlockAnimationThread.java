@@ -1,6 +1,7 @@
 package codeblocks;
 
 import renderable.RenderableBlock;
+import bc.BCSystem;
 
 public class BlockAnimationThread extends Thread {
 
@@ -20,7 +21,7 @@ public class BlockAnimationThread extends Thread {
 	}
 
 	public void run() {
-		System.out.println("animationthread start");
+		BCSystem.out.println("animationthread start");
 		isRun = true;
 
 		if (animationDirection.equals("right")) {
@@ -30,7 +31,7 @@ public class BlockAnimationThread extends Thread {
 		}
 
 		block.resetHighlight();
-		System.out.println("animation end");
+		BCSystem.out.println("animation end");
 		isRun = false;
 	}
 
@@ -39,7 +40,7 @@ public class BlockAnimationThread extends Thread {
 		int x = block.getX() + 1;
 		int y = block.getY();
 
-		System.out.println("distance:" + distance);
+		BCSystem.out.println("distance:" + distance);
 		double realWaitTime = 1.0;
 
 		for (BlockConnector socket : BlockLinkChecker
@@ -57,8 +58,8 @@ public class BlockAnimationThread extends Thread {
 
 		try {
 			while (block.getX() < initX + distance) {
-				System.out.println("location:" + block.getLocation());
-				System.out.println("waitTime:" + waitTime);
+				BCSystem.out.println("location:" + block.getLocation());
+				BCSystem.out.println("waitTime:" + waitTime);
 				block.setLocation(x, y);
 				if ((int) (((block.getX() - initX) * 100 / distance)) % 25 == 24) {
 					if (realWaitTime * 1.7 < 10) {

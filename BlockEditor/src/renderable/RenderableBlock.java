@@ -1786,6 +1786,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (!renderable.dragging)
 			throw new RuntimeException("dropping without prior dragging?");
 
+		//reset hilight 応急処置
+		renderable.highlighter.resetHighlight();
 		// notify children
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(renderable.getBlock())) {
@@ -1851,6 +1853,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	}
 
+	//もってるブロックの書き込みブロック、値ブロック、増やすブロックを光らせる　とりあえず
 	public static void catchedBlockResetHighlight(
 			RenderableBlock catchedRBlock, WorkspaceWidget widget) {
 		if (ScopeChecker.isCompareBlock(catchedRBlock.getBlock())
@@ -2127,11 +2130,24 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			if (checkBlock.getGenusName().equals("abstraction")) {
 				scopeCheck &= checkBlocks(scpChecker, link, checkBlock);
 			}
-			//ブロックがソケットをもつ場合は、ソケット内で参照ブロックが使われているかもしれないのでチェック
-			scopeCheck &= checkVariableBlocks(scpChecker, link, checkBlock);
 
-			scopeCheck &= scpChecker.checkScope(
+			boolean check = true;
+			//ブロックがソケットをもつ場合は、ソケット内で参照ブロックが使われているかもしれないのでチェック
+			check &= checkVariableBlocks(scpChecker, link, checkBlock);
+			scopeCheck &= check;
+			if (check == false) {
+				RenderableBlock.getRenderableBlock(checkBlock.getBlockID())
+						.setBlockHighlightColor(Color.RED);
+			}
+			check = true;
+			check &= scpChecker.checkScope(
 					Block.getBlock(link.getSocketBlockID()), checkBlock);
+			scopeCheck &= check;
+			if (check == false) {
+				RenderableBlock.getRenderableBlock(checkBlock.getBlockID())
+						.setBlockHighlightColor(Color.RED);
+			}
+
 		}
 		if (scopeCheck) {
 			//ブロック結合
@@ -2190,6 +2206,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		//すべてのソケットをチェックする
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(checkBlock)) {
+			//ソケットのブロックの中でも、参照ブロック（getter)のみをチェックする。それ以外は素通し
 			if (socket.hasBlock()) {
 				scopeCheck &= checkVariableBlocks(scpChecker, link,
 						Block.getBlock(socket.getBlockID()));//ソケットのブロックのスコープをチェックする
