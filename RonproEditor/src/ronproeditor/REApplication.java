@@ -35,7 +35,6 @@ import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
-import ronproeditor.helpers.CFrameUtils;
 import ronproeditor.helpers.FileSystemUtil;
 import ronproeditor.helpers.JavaEnv;
 import ronproeditor.helpers.NewZipUtil;
@@ -243,7 +242,10 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 
  * 2013/10/11 version 2.18.1 hakamata		・DENO version0.2.4と統合
  * 											・DENOのBreakpoint, 実行位置表示モードの切り替え, cont, Focusのログ書き出し 
- * 2013/10/16 version 2.19.0 matsuzawa		・上記新バージョンを統合したweek3用バージョン．	
+ * 2013/10/16 version 2.19.0 matsuzawa		・上記新バージョンを統合したweek3用バージョン．
+ * 2013/10/22 version 2.19.1 matsuzawa		・ファイルコピーの不具合修正
+ * 											・BE スコープ判定機能
+ * 											・DENO Blockエディタ版を削除	
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
@@ -261,10 +263,10 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.19.0";
-	public static final String BUILD_DATE = "2013/10/11";
+	public static final String VERSION = "2.19.1";
+	public static final String BUILD_DATE = "2013/10/22";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
-	public static final String COPYRIGHT = "Copyright(c) 2007-2012 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
+	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
 	public static final String SRC_ENCODING = "SJIS";
 	// public static final String SRC_ENCODING = "UTF-8"; // for test
@@ -870,8 +872,11 @@ public class REApplication implements ICFwApplication {
 		}
 		
 		if (deno != null && deno.isRunning()) {
-			CFrameUtils.toFront(deno.getFrame());
+			JOptionPane.showMessageDialog(frame, "前のデバッグ画面が開きっぱなしです", "実行できません",
+					JOptionPane.ERROR_MESSAGE);
 			return;
+			//CFrameUtils.toFront(deno.getFrame());
+			//return;
 		}
 
 		// パス等取得
@@ -956,10 +961,10 @@ public class REApplication implements ICFwApplication {
 					}
 				});
 		CommandInterpreter cmdint = new CommandInterpreter(deno.getEnv());
-		deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
-		if(blockManager.getBlockEditor() != null) {
-			deno.beMode();
-		}
+		//deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
+		//if(blockManager.getBlockEditor() != null) {
+		//	deno.beMode();
+		//}
 		cmdint.executeCommand("run");
 	}
 
