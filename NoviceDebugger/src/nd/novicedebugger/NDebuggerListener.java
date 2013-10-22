@@ -29,4 +29,8 @@ public interface NDebuggerListener {
 	public void breakpointClear();
 
 	public void changeAPMode(String mode);
+	
+	public void locusOn();
+	
+	public void locusOff();
 }

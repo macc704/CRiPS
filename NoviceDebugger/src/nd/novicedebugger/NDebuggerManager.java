@@ -81,4 +81,16 @@ public class NDebuggerManager {
 			listener.changeAPMode(mode);
 		}
 	}
+	
+	public static void fireLocusOn() {
+		for (NDebuggerListener listener : listeners) {
+			listener.locusOn();
+		}
+	}
+	
+	public static void fireLocusOff() {
+		for (NDebuggerListener listener : listeners) {
+			listener.locusOff();
+		}
+	}
 }

@@ -35,6 +35,8 @@
 package nd.com.sun.tools.example.debug.gui;
 
 import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.List;
 
 import nd.com.sun.tools.example.debug.bdi.ExecutionManager;
 import nd.novicedebugger.NAutoRunTool;
@@ -42,7 +44,6 @@ import nd.novicedebugger.NAutoRunTool;
 import nd.novicedebugger.NVariableTool;
 
 import com.sun.jdi.Location;
-
 import controller.WorkspaceController;
 
 public class Environment {
@@ -80,6 +81,8 @@ public class Environment {
 	
 	int linenum = -1;
 	int startLine = -1;
+	private Queue<Integer> lineHistory = new Queue<Integer>();
+	final int HISTORY_SIZE = 5;
 
 	public Environment() {
 		this.classManager = new ClassManager(this);
@@ -89,6 +92,9 @@ public class Environment {
 		this.contextManager = new ContextManager(this);
 		this.monitorListModel = new MonitorListModel(this);
 		turtle = false;
+		for(int i=0;i<HISTORY_SIZE;i++){
+			lineHistory.enqueue(-1);
+		}
 	}
 
 	// Services used by debugging tools.
@@ -238,6 +244,7 @@ public class Environment {
 	
 	public void setLinenum(int n) {
 		linenum = n;
+		lineHistory.enqueue(n);
 		getSourceTool().repaint();
 	}
 	
@@ -260,5 +267,58 @@ public class Environment {
 	
 	public NAutoRunTool getAutoRunTool() {
 		return autoRunTool;
+	}
+	
+	private class Queue<T> {
+		final int SIZE = HISTORY_SIZE;
+		private List<T> values = new LinkedList<T>();
+		
+		boolean enqueue(T data) {
+			if(data == null) return false;
+			if(values.size() == SIZE) {
+				this.dequeue();
+			}
+			values.add(data);
+			return true;
+		}
+
+		T dequeue(){
+			T data = null;
+			if(!isEmpty()){
+				data = values.remove(0);
+			}
+			return data;
+		}
+		
+		boolean isEmpty() {
+			return values.size() == 0;
+		}
+		
+		/*
+		void print() {
+			System.out.println("*****Queue*****");
+			for(T data : values) {
+				System.out.println("   :" + data.toString());
+			}
+			System.out.println("***************");
+		}
+		*/
+		
+		int lastIndex(T data) {
+			int i = 0;
+			int index = -1;
+			for(T d : values) {
+				if(d.equals(data)) {
+					index = i;
+				}
+				i++;
+			}
+			return index;
+		}
+		
+	}
+	
+	public int checkLineHistory(int l) {
+		return lineHistory.lastIndex(l);
 	}
 }

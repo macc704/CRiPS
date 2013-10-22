@@ -947,6 +947,14 @@ public class REApplication implements ICFwApplication {
 			public void changeAPMode(String mode) {
 				writePresLog(PRCommandLog.SubType.DEBUG_CHANGEMODE, mode);
 			}
+			
+			public void locusOn() {
+				writePresLog(PRCommandLog.SubType.DEBUG_LOCUSON);
+			}
+			
+			public void locusOff() {
+				writePresLog(PRCommandLog.SubType.DEBUG_LOCUSOFF);
+			}
 		});
 		deno = new GUI();
 		deno.run(args);

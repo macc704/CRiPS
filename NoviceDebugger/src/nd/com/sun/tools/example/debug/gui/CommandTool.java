@@ -95,7 +95,7 @@ public class CommandTool extends JPanel {
 	int linenum = -1;
 	int startLine = -1;
 	
-	boolean variableUpdateFlag = true;
+	boolean updateFlag = true;
 
 	// コンストラクタ
 	public CommandTool(Environment env) {
@@ -209,25 +209,26 @@ public class CommandTool extends JPanel {
 						int num = e.getLocation().lineNumber();	
 						if(linenum == num){
 							// System.out.println("same line");
-							variableUpdateFlag = false;
+							updateFlag = false;
 							interpreter.executeCommand("next");
 						}
-						linenum = num;
-						env.setLinenum(linenum);
-						// env.getBlockTool().ExecutionPoint(linenum);
-						if(env.getBlockEditor() != null){
-							env.getBlockEditor().getWorkspace().executionPoint(linenum);
-						}
-						env.getAutoRunTool().bpCheck();
-						if(variableUpdateFlag) {
+						if(updateFlag) {
+							linenum = num;
+							env.setLinenum(linenum);
+							// env.getBlockTool().ExecutionPoint(linenum);
+							if(env.getBlockEditor() != null){
+								env.getBlockEditor().getWorkspace().executionPoint(linenum);
+							}
+							env.getAutoRunTool().bpCheck();
 							env.getVarTool().update();
 						}
-						variableUpdateFlag = true;
 					}
 					else{
 						//System.out.println("Not own methods");
+						updateFlag = false;
 						interpreter.executeCommand("next");
 					}
+					updateFlag = true;
 				} else if (evt instanceof MethodEntryEvent) {
 					diagnostics.putString("Method entered: " + locString);
 				} else if (evt instanceof MethodExitEvent) {

@@ -69,6 +69,7 @@ import nd.com.sun.tools.example.debug.bdi.LineBreakpointSpec;
 import nd.com.sun.tools.example.debug.bdi.SpecErrorEvent;
 import nd.com.sun.tools.example.debug.bdi.SpecEvent;
 import nd.com.sun.tools.example.debug.bdi.SpecListener;
+import nd.novicedebugger.NDebuggerManager;
 // import nd.novicedebugger.NDebuggerManager;
 import clib.view.textpane.CJavaCodeDocument;
 import clib.view.textpane.CTextPaneUtils;
@@ -105,6 +106,10 @@ public class SourceTool extends JPanel {
 	private Location sourceLocn; // location, if showSourceForLocation
 
 	// private CommandInterpreter interpreter;
+	
+	private Color[] fColorTable;
+	private Color[] bColorTable;
+	private boolean historyFlag = false;
 
 	public JList getList(){
 		return list;
@@ -120,7 +125,7 @@ public class SourceTool extends JPanel {
 		sourceManager = this.env.getSourceManager();
 		this.context = this.env.getContextManager();
 		// this.interpreter = new CommandInterpreter(env, true);
-
+		
 		sourceModel = new DefaultListModel(); // empty
 
 		list = new JList(sourceModel);
@@ -142,12 +147,36 @@ public class SourceTool extends JPanel {
 		add(scroll);
 		
 		// add(new JScrollPane());
+		
+		// make Color 
+		fColorTable = new Color[env.HISTORY_SIZE];
+		bColorTable = new Color[env.HISTORY_SIZE];
+		Color f = list.getSelectionForeground();
+		// Color b = new Color(255, 234, 50);
+		Color b = list.getSelectionBackground();
+		for(int i=0;i<env.HISTORY_SIZE;i++) {
+			int fa = (int)(f.getAlpha() * ((i+1) / (double)env.HISTORY_SIZE));
+			int ba = (int)(b.getAlpha() * ((i+1) / (double)env.HISTORY_SIZE));
+			if(i != env.HISTORY_SIZE - 2) {
+				fColorTable[i] = new Color(f.getRed(), f.getGreen(), f.getBlue(), fa);
+				bColorTable[i] = new Color(b.getRed(), b.getGreen(), b.getBlue(), ba);
+			}
+			else {
+				fColorTable[i] = new Color(f.getRed(), f.getGreen(), f.getBlue(), fa);
+				bColorTable[i] = new Color(255, 234, 50);
+			}
+		}
 	}
 
 	public void setTextFont(Font f) {
 		list.setFont(f);
 		list.setPrototypeCellValue(SourceModel.prototypeCellValue);
 		lineNumberView.setFontInformation(f);
+	}
+	
+	public boolean hasBreakPointAtLinenum(int n) {
+		SourceModel.Line line = (SourceModel.Line)list.getModel().getElementAt(n);
+		return line.hasBreakpoint();
 	}
 
 	private class SourceToolListener implements ContextListener,
@@ -354,10 +383,15 @@ public class SourceTool extends JPanel {
 				// boolean hasBreakpoint = line.hasBreakpoint;
 				boolean hasBreakpoint = false;
 				pane.setExecution(isExecution);
-				if(isExecution && env.getAPMode() == env.LINEMODE){
-					pane.setForeground(list.getSelectionForeground());
-					pane.setBackground(list.getSelectionBackground());
+				int qi = env.checkLineHistory(index + 1);
+				if(!historyFlag) {
+					qi = qi == env.HISTORY_SIZE-1 ? qi : -1;
 				}
+				if(qi != -1 && env.getAPMode() == env.LINEMODE){
+					pane.setForeground(fColorTable[qi]);
+					pane.setBackground(bColorTable[qi]);
+				}
+				// System.out.println("   " + (index + 1) + ":" + env.checkLineHistory(index + 1));
 				pane.hasBreakpoint(hasBreakpoint);
 				pane.setFont(list.getFont());
 				CTextPaneUtils.setTabs(pane, 2);
@@ -596,6 +630,14 @@ public class SourceTool extends JPanel {
 						}
 					}
 				}
+				if(env.getLinenum() == i + 1) {
+					if(env.getAPMode() == env.BETWEENMODE) {
+						g.drawImage(Icons.execIcon.getImage(), (DEBUG_BUTTON_MARGIN - fontHeight) / 2, y + 1 - fontHeight / 2, fontHeight, fontHeight, this);
+					}
+					if(env.getAPMode() == env.LINEMODE) {
+						g.drawImage(Icons.execIcon.getImage(), (DEBUG_BUTTON_MARGIN - fontHeight) / 2, y + 1, fontHeight, fontHeight, this);
+					}
+				}
 				y = y + fontHeight;
 				g.drawString(text, x, y);
 			}
@@ -604,5 +646,21 @@ public class SourceTool extends JPanel {
 			g.setColor(Color.blue);
 
 		}
+	}
+	
+	public void historyOn() {
+		NDebuggerManager.fireLocusOn();
+		historyFlag = true;
+		this.repaint();
+	}
+	
+	public void historyOff() {
+		NDebuggerManager.fireLocusOff();
+		historyFlag = false;
+		this.repaint();
+	}
+	
+	public boolean getHistoryFlag() {
+		return historyFlag;
 	}
 }

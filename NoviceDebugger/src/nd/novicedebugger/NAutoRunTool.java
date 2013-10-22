@@ -20,8 +20,8 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import nd.com.sun.tools.example.debug.bdi.EventRequestSpec;
-import nd.com.sun.tools.example.debug.bdi.LineBreakpointSpec;
+// import nd.com.sun.tools.example.debug.bdi.EventRequestSpec;
+// import nd.com.sun.tools.example.debug.bdi.LineBreakpointSpec;
 import nd.com.sun.tools.example.debug.gui.CommandInterpreter;
 import nd.com.sun.tools.example.debug.gui.Environment;
 
@@ -36,9 +36,9 @@ public class NAutoRunTool extends JPanel {
 	// private final int DELAY_MAX = 3000;
 	// private final int DELAY_DEFAULT = 500;
 	// private final int DELAY_MIN = 100;
-	private final int SLIDER_MAX = 6;
-	private final int SLIDER_DEFAULT = 3;
-	private final int SLIDER_MIN = 0;
+	public final int SLIDER_MAX = 6;
+	public final int SLIDER_DEFAULT = 3;
+	public final int SLIDER_MIN = 0;
 
 	private Environment env;
 	// private VariableTool varTool;
@@ -199,19 +199,21 @@ public class NAutoRunTool extends JPanel {
 						NDebuggerManager.firePlayPressed();
 						if (timer == null) {
 							timer = new Timer(speedTable[sbnum], new TimerListener());
+							timer.setRepeats(false);
 						} else {
 							timer.setDelay(speedTable[sbnum]);
+							timer.setInitialDelay(speedTable[sbnum]);
 						}
 						timer.start();
 					}
 					else {
-						// ÉçÉOÇ∆ÇËïKóv
-						interpreter.executeCommand("cont");
-						source.setSelected(false);
-						stepbtn.setEnabled(true);
 						if (timer != null) {
 							timer.stop();
 						}
+						NDebuggerManager.fireContPressed();
+						source.setSelected(false);
+						stepbtn.setEnabled(true);
+						interpreter.executeCommand("cont");
 					}
 				}
 				// pause
@@ -248,6 +250,7 @@ public class NAutoRunTool extends JPanel {
 	}
 
 	public void bpCheck() {
+		/*
 		if(timer != null){
 			for(EventRequestSpec evt : env.getExecutionManager().eventRequestSpecs()){
 				if(evt instanceof LineBreakpointSpec){
@@ -257,6 +260,19 @@ public class NAutoRunTool extends JPanel {
 						runbtn.setSelected(false);
 						stepbtn.setEnabled(true);
 					}
+				}
+			}
+		}
+		*/
+		if(runbtn.isSelected()){
+			if(timer != null) {
+				if(env.getSourceTool().hasBreakPointAtLinenum(env.getLinenum() - 1)) {
+					timer.stop();
+					runbtn.setSelected(false);
+					stepbtn.setEnabled(true);
+				}
+				else {
+					timer.start();
 				}
 			}
 		}
@@ -290,12 +306,30 @@ public class NAutoRunTool extends JPanel {
 
 	private class TimerListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			interpreter.executeCommand("step");
-			// sbnum = -scroll.getValue();
-			// System.out.println(env.getLinenum());
+			timer.stop();
 			sbnum = slider.getValue();
-			timer.setDelay(speedTable[sbnum]);
+			if(sbnum != SLIDER_MIN){
+				timer.setDelay(speedTable[sbnum]);
+				timer.setInitialDelay(speedTable[sbnum]);
+				interpreter.executeCommand("step");
+			}
+			else {
+				NDebuggerManager.fireContPressed();
+				runbtn.setSelected(false);
+				stepbtn.setEnabled(true);
+				interpreter.executeCommand("cont");
+			}
+			// sbnum = -scroll.getValue();
 		}
 	}
 
+	
+	public int getSliderValue() {
+		return sbnum;
+	}
+	
+	public void setSliderValue(int n) {
+		sbnum = n;
+		slider.setValue(n);
+	}
 }

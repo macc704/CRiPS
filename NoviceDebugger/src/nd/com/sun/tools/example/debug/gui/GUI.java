@@ -36,15 +36,22 @@ package nd.com.sun.tools.example.debug.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -86,6 +93,7 @@ public class GUI extends JPanel {
 	}
 
 	private static JFrame frame;
+	private Preferences prefs;
 
 	// コマンドライン
 	private CommandTool cmdTool;
@@ -118,7 +126,7 @@ public class GUI extends JPanel {
 
 
 	public GUI() {
-		
+		prefs = Preferences.userNodeForPackage(getClass());
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -374,6 +382,17 @@ public class GUI extends JPanel {
 		// ウィンドウ生成
 		frame = new JFrame();
 
+		int ap = prefs.getInt("DENO_"+"ap", env.BETWEENMODE);
+		env.setAPMode(ap);
+		boolean history = prefs.getBoolean("DENO_"+"HISTORY", env.getSourceTool().getHistoryFlag());
+		if(history){
+			env.getSourceTool().historyOn();
+		} else {
+			env.getSourceTool().historyOff();
+		}
+		int sv = prefs.getInt("DENO_"+"SPEED", env.getAutoRunTool().SLIDER_DEFAULT);
+		env.getAutoRunTool().setSliderValue(sv);
+		
 		// added by matsuzawa
 		JMenuBar menubar = new JMenuBar();
 		{
@@ -424,7 +443,7 @@ public class GUI extends JPanel {
 								}
 							});
 					JRadioButtonMenuItem radioMenu = new JRadioButtonMenuItem(action);
-					radioMenu.setSelected(true);
+					radioMenu.setSelected(env.getAPMode() == env.BETWEENMODE);
 					group.add(radioMenu);
 					subMenu.add(radioMenu);
 				}
@@ -438,7 +457,7 @@ public class GUI extends JPanel {
 								}
 							});
 					JRadioButtonMenuItem radioMenu = new JRadioButtonMenuItem(action);
-					radioMenu.setSelected(false);
+					radioMenu.setSelected(env.getAPMode() == env.LINEMODE);
 					group.add(radioMenu);
 					subMenu.add(radioMenu);
 				}
@@ -452,6 +471,21 @@ public class GUI extends JPanel {
 							});
 					action.putValue(Action.ACCELERATOR_KEY,
 							KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK));
+					menu.add(action);
+				}
+				{
+					JCheckBoxMenuItem action = new JCheckBoxMenuItem("軌跡", env.getSourceTool().getHistoryFlag());
+					action.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							JCheckBoxMenuItem target = (JCheckBoxMenuItem) e.getSource();
+							if(target.isSelected()){
+								env.getSourceTool().historyOn();
+							}
+							else {
+								env.getSourceTool().historyOff();
+							}
+						}
+					});
 					menu.add(action);
 				}
 			}
@@ -476,6 +510,18 @@ public class GUI extends JPanel {
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				// env.terminate();
+				prefs.putInt("DENO_"+"locx", frame.getX());
+				prefs.putInt("DENO_"+"locy", frame.getY());
+				prefs.putInt("DENO_"+"dimw", frame.getWidth());
+				prefs.putInt("DENO_"+"dimh", frame.getHeight());
+				prefs.putInt("DENO_"+"ap", env.getAPMode());
+				prefs.putInt("DENO_"+"SPEED", env.getAutoRunTool().getSliderValue());
+				prefs.putBoolean("DENO_"+"HISTORY", env.getSourceTool().getHistoryFlag());
+				try {
+					prefs.flush();
+				} catch (BackingStoreException e1) {
+					// e1.printStackTrace();
+				}
 				env.getExecutionManager().endSession();
 			}
 		});
@@ -483,7 +529,11 @@ public class GUI extends JPanel {
 		// 内部領域からサイズ設定
 		frame.pack();
 		// 表示位置設定
-		frame.setBounds(305, frame.getY(), frame.getWidth(), frame.getHeight());
+		int locx = prefs.getInt("DENO_"+"locx", 305);
+		int locy = prefs.getInt("DENO_"+"locy", frame.getY());
+		int dimw = prefs.getInt("DENO_"+"dimw", frame.getWidth());
+		int dimh = prefs.getInt("DENO_"+"dimh", frame.getHeight());
+		frame.setBounds(locx, locy, dimw, dimh);
 		// 表示
 		// frame.show();
 		NDebuggerManager.fireDebugStarted();
@@ -511,8 +561,11 @@ public class GUI extends JPanel {
 	}
 	
 	public void beMode() {
-		frame.setSize((int)(frame.getWidth() * 0.6), (int)(frame.getHeight() * 0.8));
-		views.setDividerLocation(views.getLeftComponent().getMinimumSize().width);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		// frame.setSize((int)(frame.getWidth() * 0.6), (int)(frame.getHeight() * 0.8));
+		frame.setBounds(d.width/2, 0, d.width/2, d.height);
+		// views.setDividerLocation(views.getLeftComponent().getMinimumSize().width);
+		views.setDividerLocation(0);
 		views.repaint();
 	}
 }

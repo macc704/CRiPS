@@ -72,6 +72,16 @@ import nd.com.sun.tools.example.debug.gui.GUI;
  * 
  * 2013/10/16 version 0.2.9 hakamata	・JRE1.7.0_25でvmが起動しないエラーに暫定対応
  * 										・変数順序反転を表示形式メニューへ移動
+ * 2013/10/18 version 0.2.10 hakamata	・自動実行時のブレークポイント判定を修正
+ * 2013/10/18 version 0.2.11 hakamata	・自作メソッドでない場合のスキップ時も実行位置や変数ビューの更新をしていたのを修正
+ * 
+ * 2013/10/20 version 0.2.12 hakamata	・BEから起動時のウィンドウ位置，サイズ調整
+ * 										・前回終了時のパラメータ記憶＆次回起動時に読み込み
+ * 										・軌跡モードの追加
+ * 2013/10/21 version 0.2.13 hakamata	・軌跡モードの初期値をOFFに変更
+ * 2013/10/21 version 0.2.14 hakamata	・軌跡モードの設定値を読み込む際のデフォルト値がfalseになってなかったので修正
+ * 										・一度自動実行を行ったら．以降は再生を停止していてもBreakpointチェックを行っていたのを修正
+ * 2013/10/21 version 0.2.15 hakamata	・continueのログを一箇所取り忘れていたのを修正
  *
  * 	・int x = 3;　はＯＫだけど， int y; はダメ．
  * 		Javaの仕様上,宣言のみのプリミティブ型変数はスタックに積まれないのでこれで正しい
@@ -81,7 +91,7 @@ import nd.com.sun.tools.example.debug.gui.GUI;
 public class NNoviceDebugger {
 
 	public static final String NAME = "NoviceDebugger";
-	public static final String VERSION = "0.2.9";
+	public static final String VERSION = "0.2.15";
 	public static final String WINDOWTITLE = "DENO";
 
 	public static void main(String[] args) {
