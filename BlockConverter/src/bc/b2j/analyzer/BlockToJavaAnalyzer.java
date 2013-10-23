@@ -9,6 +9,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import ClassBlockFileModel.MethodBlockModel;
+import ClassBlockFileModel.SelDefClassModel;
 import bc.BCSystem;
 import bc.BlockConverter;
 import bc.b2j.model.AbstractionBlockModel;
@@ -40,6 +42,8 @@ public class BlockToJavaAnalyzer {
 	private ProgramModel programModel = new ProgramModel();
 	private static Map<Integer, BlockModel> blockModels = new HashMap<Integer, BlockModel>();
 	private String fileURI;// #ohata constructorblockにURLを渡したいので変数を用意
+	private SelDefClassModel classModel = new SelDefClassModel("name", "kind",
+			"initialLabel", "headerLabel", "footerLabel", "color");
 
 	// private static LinkedList privateNumberIdList = new LinkedList(); aaaaa
 
@@ -62,6 +66,10 @@ public class BlockToJavaAnalyzer {
 	 */
 	public ProgramModel getProgramModel() {
 		return programModel;
+	}
+
+	public SelDefClassModel getSelDefClassModel() {
+		return classModel;
 	}
 
 	/*************************
@@ -154,6 +162,12 @@ public class BlockToJavaAnalyzer {
 				parseBlock(block, model);
 				pageModel.addProcedure(model);
 				blockNode = blockNode.getNextSibling();
+
+				// 自作クラスのブロック作成用のxmlに書き出すための準備
+				MethodBlockModel methodModel = new MethodBlockModel("name",
+						"initialLabel", "kind", "headerLabel", "footerLabel",
+						"color");
+				classModel.addMethod(methodModel);
 			} else if ("constructor".equals(genus_name)) {// #ohata
 															// コンストラクタブロックの処理
 				ConstructorBlockModel model = new ConstructorBlockModel();
@@ -265,6 +279,7 @@ public class BlockToJavaAnalyzer {
 						+ genus_name);
 			}
 		}
+
 	}
 
 	private boolean isDataBlock(String blockName) {

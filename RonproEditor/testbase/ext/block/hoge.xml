@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BlockGenus> name="name" kind ="kind" initialLabel ="null" headerLabel ="headerLabel" footerLabel ="footerLabel" 
+	<description>
+		<text>
+			description about class
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="test" connector-kind="socket" connector-type = "object">
+			<DefaultArg genus-name="new-object" label="null"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+	</Stubs>
+	<LangSpecProperties>
+	</LangSpecProperties>
+</BlockGenus>
+
