@@ -284,6 +284,4 @@
 		<BlockGenusMember>fontsize</BlockGenusMember>
 	</BlockDrawer>
 	
-	<BlockDrawer name="selfDefineClass" type="factory" button-color="255 255 100">
-	</BlockDrawer>
 </BlockDrawerSet>

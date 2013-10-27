@@ -158,18 +158,18 @@ public class WorkspaceController {
 		Document doc;
 		try {
 			builder = factory.newDocumentBuilder();
-			
+
 			String langDefLocation = /* workingDirectory + */LANG_DEF_FILEPATH;
 			doc = builder.parse(new File(langDefLocation));
-			
+
 			BCSystem.out.println("langDefLocation:" + langDefLocation);
-			
+
 			langDefRoot = doc.getDocumentElement();
 
 			// set the dirty flag for the language definition file
 			// to true now that a new file has been set
 			langDefDirty = true;
-			
+
 			BCSystem.out.println("langdeffile:" + langDefLocation);
 
 		} catch (ParserConfigurationException e) {
@@ -373,14 +373,28 @@ public class WorkspaceController {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
 		Document doc;
+		Document selDefBlock;
+		Document selDefBlockGenus;
 		try {
 			synchronized (frame.getTreeLock()) {
 				builder = factory.newDocumentBuilder();
+				File file = new File(path);
+				doc = builder.parse(file);
 
-				doc = builder.parse(new File(path));
+				System.out.println(file.getParent()
+						+ "/lang_def_menu_project.xml");
+				selDefBlock = builder.parse(new File(file.getParent()
+						+ "/lang_def_menu_project.xml"));
+				System.out.println(file.getParent() + "/lang_def_guneses_"
+						+ file.getName());
+				selDefBlockGenus = builder.parse(new File(file.getParent()
+						+ "/lang_def_guneses_" + file.getName()));
 
 				Element projectRoot = doc.getDocumentElement();
 
+				Element projectDefBlockRoot = selDefBlock.getDocumentElement();
+				Element projectDefBlockGunes = selDefBlockGenus
+						.getDocumentElement();
 				// load the canvas (or pages and page blocks if any) blocks from
 				// the
 				// save file
@@ -392,6 +406,9 @@ public class WorkspaceController {
 				// from
 				// langDefRoot
 				workspace.loadWorkspaceFrom(projectRoot, langDefRoot);//左のブロック読み込み
+
+				BlockGenus.loadBlockGenera(projectDefBlockGunes);
+				workspace.loadClassBlock(projectDefBlockRoot);//プロジェクトの自作クラスを読み込む
 
 				workspaceLoaded = true;
 
@@ -918,7 +935,7 @@ public class WorkspaceController {
 	}
 
 	private void convertToJava0(String saveString, String enc) throws Exception {
-		
+
 		if (state == COMPILE_ERROR) {
 			throw new RuntimeException("Javaファイルにコンパイルエラーがあり、ブロック構築できません。");
 		}
@@ -930,7 +947,7 @@ public class WorkspaceController {
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(xmlFileName),
 				SBlockEditor.ENCODING_BLOCK_XML));
-		
+
 		bw.write(saveString);
 		bw.flush();
 		bw.close();
@@ -1006,9 +1023,9 @@ public class WorkspaceController {
 			}
 		}
 	}
-	
-	public Workspace getWorkspace(){
+
+	public Workspace getWorkspace() {
 		return workspace;
 	}
-	
+
 }

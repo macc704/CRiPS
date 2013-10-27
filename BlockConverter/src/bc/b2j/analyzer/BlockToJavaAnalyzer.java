@@ -1,6 +1,8 @@
 package bc.b2j.analyzer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,8 +44,8 @@ public class BlockToJavaAnalyzer {
 	private ProgramModel programModel = new ProgramModel();
 	private static Map<Integer, BlockModel> blockModels = new HashMap<Integer, BlockModel>();
 	private String fileURI;// #ohata constructorblockにURLを渡したいので変数を用意
-	private SelDefClassModel classModel = new SelDefClassModel("name", "kind",
-			"initialLabel", "headerLabel", "footerLabel", "color");
+
+	private List<SelDefClassModel> selDefClassModels = new ArrayList<SelDefClassModel>();
 
 	// private static LinkedList privateNumberIdList = new LinkedList(); aaaaa
 
@@ -68,8 +70,8 @@ public class BlockToJavaAnalyzer {
 		return programModel;
 	}
 
-	public SelDefClassModel getSelDefClassModel() {
-		return classModel;
+	public List<SelDefClassModel> getSelDefClassModels() {
+		return selDefClassModels;
 	}
 
 	/*************************
@@ -94,6 +96,9 @@ public class BlockToJavaAnalyzer {
 		Node page = node;
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
+
+		setLocalSelDefClass();
+		setGlobalSelDefClass();
 
 		while (page.getNodeName() != "Page") {
 			page = page.getFirstChild();
@@ -124,6 +129,24 @@ public class BlockToJavaAnalyzer {
 			programModel.addPage(model);
 			page = page.getNextSibling();
 		}
+	}
+
+	private void setLocalSelDefClass() {
+		SelDefClassModel classModel = new SelDefClassModel("local-var-object-"
+				+ fileURI, "local-var-object", "initname",
+				fileURI + "型の変数をつくり", "と名付ける", "230 0 255 ");
+		// 定義クラスブロックのプロパティをセットする
+		classModel.setClassName(fileURI);
+		selDefClassModels.add(classModel);
+	}
+
+	private void setGlobalSelDefClass() {
+		SelDefClassModel classModel = new SelDefClassModel("global-var-object-"
+				+ fileURI, "global-var-object", "initname", fileURI
+				+ "型の変数をつくり", "と名付ける", "230 0 255");
+		// 定義クラスブロックのプロパティをセットする
+		classModel.setClassName(fileURI);
+		selDefClassModels.add(classModel);
 	}
 
 	/**
@@ -164,10 +187,11 @@ public class BlockToJavaAnalyzer {
 				blockNode = blockNode.getNextSibling();
 
 				// 自作クラスのブロック作成用のxmlに書き出すための準備
-				MethodBlockModel methodModel = new MethodBlockModel("name",
-						"initialLabel", "kind", "headerLabel", "footerLabel",
-						"color");
-				classModel.addMethod(methodModel);
+				MethodBlockModel methodModel = new MethodBlockModel("tes",
+						"initialLabel", "kind", "headerLabel", "と名付ける", "color");
+				for (SelDefClassModel classModel : selDefClassModels) {
+					classModel.addMethod(methodModel);
+				}
 			} else if ("constructor".equals(genus_name)) {// #ohata
 															// コンストラクタブロックの処理
 				ConstructorBlockModel model = new ConstructorBlockModel();

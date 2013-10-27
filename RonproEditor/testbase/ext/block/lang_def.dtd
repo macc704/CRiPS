@@ -179,5 +179,5 @@
 <!ENTITY lang_def_genuses_turtle SYSTEM "lang_def_genuses_turtle.xml">
 <!ENTITY lang_def_families SYSTEM "lang_def_families.xml">
 <!ENTITY lang_def_etc SYSTEM "lang_def_etc.xml">
-<!ENTITY lang_def_class SYSTEM "lang_def_class/xml"><!-- added by Ohata-->
+<!ENTITY lang_def_class SYSTEM "lang_def_genuses_Condition.xml"><!-- added by Ohata-->
 

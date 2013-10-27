@@ -19,6 +19,7 @@ public class BasicModel {
 			String headerLabel, String footerLabel, String color) {
 		this.name = name;
 		this.kind = kind;
+		this.initialLabel = initialLabel;
 		this.headerLabel = headerLabel;
 		this.footerLabel = footerLabel;
 		this.color = color;

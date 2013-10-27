@@ -2,10 +2,7 @@ package bc.apps;
 
 import java.io.File;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 import ClassBlockFileModel.OutputSelDefClassPageModel;
 import bc.b2j.analyzer.BlockToJavaAnalyzer;
@@ -37,22 +34,21 @@ public class BlockToJavaMain {
 
 		OutputSourceModel sourceModel = new OutputSourceModel(javaFile, enc,
 				classpaths);
-		File classDefFile = new File("ext/block/lang_def_genuses_hoge.xml");
-		// 自作クラスブロック定義ファイル
+
+		// projectのxmlファイルを作成する
+		File classDefFile = new File(openBlockXmlFile.getParentFile().getPath()
+				+ "/lang_def_guneses_" + openBlockXmlFile.getName());
+		// menu情報のxmlを作成、（or追加)
+		File projectMenuFile = new File(openBlockXmlFile.getParentFile()
+				.getPath() + "/lang_def_menu_project.xml");
+
 		OutputSelDefClassPageModel selfDefModel = new OutputSelDefClassPageModel(
-				classDefFile, enc, classpaths);
+				classDefFile, projectMenuFile);
+		// モデルに追加するクラスをセットする
+		selfDefModel.setSelDefClassModel(visitor.getSelDefClassModels());
 
-		selfDefModel.setSelDefClassModel(visitor.getSelDefClassModel());
+		// クラスのブロック情報を出力する
 		selfDefModel.print();
-
-		// 既存のxmlに追加で書き出しする>>lang_def_menu_に追加書き出し
-
-		Document menuDocument = DocumentBuilderFactory.newInstance()
-				.newDocumentBuilder().parse(new File("hoge.xml"));
-
-		Element test = menuDocument.createElement("KANI");
-		menuDocument.appendChild(test);
-		System.out.println(menuDocument.getLastChild().toString());
 
 		ResolveSyntaxError resolveError = new ResolveSyntaxError();
 
