@@ -1159,6 +1159,9 @@ public class REApplication implements ICFwApplication {
 		}
 	}
 
+	public void doOpenPPV() {
+	}
+
 	// private void sourceColoringTest(){
 	// try {
 	// List<JTextPane> panes = new ArrayList<JTextPane>();
