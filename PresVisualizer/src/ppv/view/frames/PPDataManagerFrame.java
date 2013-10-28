@@ -46,6 +46,7 @@ import clib.view.list.CListPanel;
 public class PPDataManagerFrame extends JFrame {
 
 	public static final boolean AUTO_LOAD = false;
+	public static final boolean AUTO_COMPILE = false;
 
 	private static final long serialVersionUID = 1L;
 
@@ -71,7 +72,7 @@ public class PPDataManagerFrame extends JFrame {
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() == 2) {
 					CDirectory dir = listPanel.getSelectedElement();
-					manager.openProjectSet(dir, AUTO_LOAD);
+					manager.openProjectSet(dir.getNameByString(), AUTO_LOAD, AUTO_COMPILE);
 				}
 				if (e.getButton() == MouseEvent.BUTTON3
 						&& e.getClickCount() == 1) {

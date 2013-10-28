@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ronproeditor.helpers.FileSystemUtil;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFileElement;
+import clib.common.filesystem.CFileSystem;
 import clib.common.system.CJavaSystem;
 
 /**
@@ -25,6 +28,15 @@ public class RELibraryManager {
 			dir.mkdir();
 		}
 		this.dir = dir;
+	}
+
+	public CDirectory getDir() {
+		try {
+			CFileElement element = CFileSystem.convertToCFile(dir);
+			return (CDirectory) element;
+		} catch (Exception ex) {
+			throw new RuntimeException(ex);
+		}
 	}
 
 	public String[] getLibsAsArray() {
