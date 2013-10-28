@@ -41,10 +41,12 @@ public class PPDataManager {
 
 	private CPanelProcessingMonitor monitor = new CPanelProcessingMonitor();
 	private CDirectory baseDir;
+	private CDirectory libDir;
 
 	public PPDataManager(CDirectory baseDir) {
 		this.baseDir = baseDir;
 		current = this;
+		this.libDir = getBaseDir().findOrCreateDirectory(WORKLIB_DIR);
 	}
 
 	/**
@@ -78,8 +80,12 @@ public class PPDataManager {
 		return getBaseDir().findOrCreateDirectory(TMP_DIR);
 	}
 
+	public void setLibDir(CDirectory libDir) {
+		this.libDir = libDir;
+	}
+
 	public CDirectory getLibDir() {
-		return getBaseDir().findOrCreateDirectory(WORKLIB_DIR);
+		return this.libDir;
 	}
 
 	public static CDirectory getProjectDir(CDirectory dir) {
@@ -96,25 +102,45 @@ public class PPDataManager {
 	 * ProjectSetを開く処理
 	 *********************************************************/
 
-	public void openProjectSet(final CDirectory dir, final boolean load) {
+	public PPProjectSet openProjectSet(String projectSetName, boolean load,
+			boolean compile) {
+		if (getDataDir().findDirectory(projectSetName) == null) {
+			throw new RuntimeException(
+					"openProjectSet そのような名前のProjectSetはありません．projectSetName = "
+							+ projectSetName);
+		}
+		CDirectory projectSetDir = getDataDir().findDirectory(projectSetName);
+		return openProjectSet2(projectSetDir, load, compile);
+	}
+
+	@Deprecated
+	public PPProjectSet openProjectSet(final CDirectory projectSetDir,
+			boolean load) {
+		return openProjectSet2(projectSetDir, load, false);
+	}
+
+	private PPProjectSet openProjectSet2(final CDirectory projectSetDir,
+			final boolean load, final boolean compile) {
+		final PPProjectSet projectSet = new PPProjectSet(projectSetDir);
 		monitor.doTaskWithDialog(new ICTask() {
 			public void doTask() {
 				try {
-					openProjectSetInternal(monitor, dir, load);
+					openProjectSetInternal(monitor, projectSet, load, compile);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					CErrorDialog.show(null, "", ex);
 				}
 			}
 		});
+		return projectSet;
 	}
 
 	private void openProjectSetInternal(CPanelProcessingMonitor monitor,
-			CDirectory baseDir, boolean load) throws IOException {
+			PPProjectSet projectSet, boolean load, boolean compile)
+			throws IOException {
 
 		// create a projectset
-		PPProjectSet projectSet = new PPProjectSet(baseDir);
-		List<CDirectory> dirs = baseDir.getDirectoryChildren();
+		List<CDirectory> dirs = projectSet.getDir().getDirectoryChildren();
 		monitor.setWorkTitle("Loading Projects");
 		monitor.setMax(dirs.size());
 		for (CDirectory dir : dirs) {
@@ -140,6 +166,9 @@ public class PPDataManager {
 		// load and prone
 		if (load) {
 			loadAllProjects(projectSet, monitor);
+			if (compile) {
+				createCompileCash(projectSet, monitor);
+			}
 		}
 
 		// open view

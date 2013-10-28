@@ -35,6 +35,7 @@ import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
+import ronproeditor.ext.REPresVisualizerManager;
 import ronproeditor.helpers.FileSystemUtil;
 import ronproeditor.helpers.JavaEnv;
 import ronproeditor.helpers.NewZipUtil;
@@ -313,8 +314,9 @@ public class REApplication implements ICFwApplication {
 
 	private PresProjectManager presManager;
 	private REBlockEditorManager blockManager;
-	private REFlowViewerManager flowManager;
+	private REFlowViewerManager flowManager;	
 	private REGeneRefManager generefManager;
+	private REPresVisualizerManager ppvManager;
 	private GUI deno;
 
 	/***********************
@@ -332,6 +334,7 @@ public class REApplication implements ICFwApplication {
 		blockManager = new REBlockEditorManager(this);
 		flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
+		ppvManager = new REPresVisualizerManager(this);
 
 		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
 				"*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
@@ -1157,6 +1160,15 @@ public class REApplication implements ICFwApplication {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void doOpenPPV() {
+		try {
+			ppvManager.openPresVisualizer();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "OpenPPVíÜÇ…ÉGÉâÅ[Ç™î≠ê∂ÇµÇ‹ÇµÇΩÅD", ex);
+		}		
 	}
 
 	// private void sourceColoringTest(){

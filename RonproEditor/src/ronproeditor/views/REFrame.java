@@ -197,6 +197,7 @@ public class REFrame extends JFrame {
 	private Action actionOpenFlowViewer;
 	private Action actionOpenGeneRefBrowser;
 	// private JCheckBoxMenuItem useRSSystem;
+	private Action actionOpenPPV;
 	private Action actionBytecode;
 
 	// ÅuHelpÅv
@@ -295,6 +296,7 @@ public class REFrame extends JFrame {
 		menuTools.add(actionOpenFlowViewer);
 		menuTools.add(actionOpenGeneRefBrowser);
 		// menuTools.add(useRSSystem);
+		menuTools.add(actionOpenPPV);
 		if (CJavaSystem.getInstance().isWindows()) {
 			menuTools.addSeparator();
 			menuTools.add(actionBytecode);
@@ -596,6 +598,19 @@ public class REFrame extends JFrame {
 		// }
 		// });
 		// useRSSystem.setEnabled(true);
+		
+		{
+			Action action = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doOpenPPV();
+				}
+			};
+			action.putValue(Action.NAME, "Open PPV");
+			//action.putValue(Action.ACCELERATOR_KEY,
+			//		KeyStroke.getKeyStroke(KeyEvent.VK_B, CTRL_MASK));
+			action.setEnabled(true);
+			actionOpenPPV = action;
+		}
 
 		// --ByteCode
 		actionBytecode = new AbstractAction() {
