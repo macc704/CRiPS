@@ -13,14 +13,17 @@ public class OutputSelDefClassPageModel {
 
 	private File file;
 	private File menuFile;
-
+	private String fileName;
 	// private String[] classpaths;
 
 	private List<SelDefClassModel> requestClass = new ArrayList<SelDefClassModel>();
 
-	public OutputSelDefClassPageModel(File file, File menuFile) {
+	public OutputSelDefClassPageModel(File file, File menuFile, String fileName) {
 		this.file = file;
 		this.menuFile = menuFile;
+		this.fileName = fileName.substring(0, fileName.indexOf('.'));
+		setLocalSelDefClass();
+		setGlobalSelDefClass();
 		// this.classpaths = classpaths;
 	}
 
@@ -28,6 +31,24 @@ public class OutputSelDefClassPageModel {
 		for (SelDefClassModel model : models) {
 			requestClass.add(model);
 		}
+	}
+
+	public void setLocalSelDefClass() {
+		SelDefClassModel classModel = new SelDefClassModel("local-var-object-"
+				+ fileName, "local-var-object", "initname", fileName
+				+ "型の変数をつくり", "と名付ける", "230 0 255 ");
+		// 定義クラスブロックのプロパティをセットする
+		classModel.setClassName(fileName);
+		requestClass.add(classModel);
+	}
+
+	public void setGlobalSelDefClass() {
+		SelDefClassModel classModel = new SelDefClassModel("global-var-object-"
+				+ fileName, "global-var-object", "initname", fileName
+				+ "型の変数をつくり", "と名付ける", "230 0 255");
+		// 定義クラスブロックのプロパティをセットする
+		classModel.setClassName(fileName);
+		requestClass.add(classModel);
 	}
 
 	public void print() throws Exception {

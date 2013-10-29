@@ -908,10 +908,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	}
 
 	public void loadClassBlock(Element root) {
-
-		System.out.println(root.getNodeName());
 		PageDrawerLoadingUtils.loadBlockDrawerSets(root, factory);
-
 	}
 
 	/**

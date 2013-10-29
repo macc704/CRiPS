@@ -218,8 +218,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			privateVariableModel.setPosX(getX(position, x));
 			privateVariableModel.setPosY(getY(position, y));
 			// コメントの追加
-				privateVariableModel.setComment(lineComment.substring(0,
-						getCommentEndIndex(lineComment)));
+			privateVariableModel.setComment(lineComment.substring(0,
+					getCommentEndIndex(lineComment)));
 			model.addPrivateVariable(privateVariableModel);
 			return true;
 		}
@@ -530,13 +530,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			StLocalVariableModel argModel = createLocalVariableModel(arg
 					.getType().toString(), arg.getName().toString(),
 					arg.getInitializer(), true);
-			argModel.setLineNumber(compilationUnit.getLineNumber(arg.getStartPosition()));
+			argModel.setLineNumber(compilationUnit.getLineNumber(arg
+					.getStartPosition()));
 			model.addArgument(argModel);
 		}
 		// SingleVariableDeclaration
 		model.setName(node.getName().toString());
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		// currentClass.addMethod(model);
 
 		// メソッドの中身
@@ -586,7 +588,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			} else if (stmt instanceof EmptyStatement) {
 				StEmptyStatementModel empty = new StEmptyStatementModel();
 				empty.setId(idCounter.getNextId());
-				empty.setLineNumber(compilationUnit.getLineNumber(stmt.getStartPosition()));
+				empty.setLineNumber(compilationUnit.getLineNumber(stmt
+						.getStartPosition()));
 				return empty;
 			}
 			throw new RuntimeException(
@@ -610,7 +613,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private StatementModel analyzeReturnStatement(ReturnStatement stmt) {
 		StReturnModel model = new StReturnModel();
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(stmt.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(stmt
+				.getStartPosition()));
 		if (stmt.getExpression() != null) {
 			model.setReturnValue(parseExpression(stmt.getExpression()));
 		}
@@ -620,14 +624,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private StatementModel analyzeBreakStatement(BreakStatement stmt) {
 		StBreakStatementModel model = new StBreakStatementModel("break");
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(stmt.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(stmt
+				.getStartPosition()));
 		return model;
 	}
 
 	private StatementModel analyzeContinueStatement(ContinueStatement stmt) {
 		StBreakStatementModel model = new StBreakStatementModel("continue");
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(stmt.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(stmt
+				.getStartPosition()));
 		return model;
 	}
 
@@ -659,7 +665,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private StAbstractionBlockModel parseAbstractionBlock(Block block) {
 		StAbstractionBlockModel model = new StAbstractionBlockModel();
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(block.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(block
+				.getStartPosition()));
 		for (int i = 1; i <= 2; i++) {
 			if (abstractionComments.get(block.getStartPosition() + i) != null) {
 				String aComments = abstractionComments.get(block
@@ -694,7 +701,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	public StIfElseModel parseIfStatement(IfStatement node) {
 		StIfElseModel model = new StIfElseModel();
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		Expression testClause = node.getExpression();
 		if (testClause != null) {
 			model.setTestClause(parseExpression(testClause));
@@ -730,7 +738,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			Statement bodyClause, boolean isDo) {
 		StWhileModel model = new StWhileModel(isDo);
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(testClause.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(testClause
+				.getStartPosition()));
 		if (testClause != null) {
 			model.setTestClause(parseExpression(testClause));
 		}
@@ -767,7 +776,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		StAbstractionBlockModel block = new StAbstractionBlockModel();
 		block.setCommnent("for");
 		block.setId(idCounter.getNextId());
-		block.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		block.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		// Initializer
 		for (Object o : node.initializers()) {
 			Expression exp = (Expression) o;
@@ -886,10 +896,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		String typeString = typeString(node.getType());
 		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 				.fragments().get(0);
-		StatementModel model = createLocalVariableModel(typeString, fragment.getName()
-				.toString(), fragment.getInitializer(), false);
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
-		return model; 
+		StatementModel model = createLocalVariableModel(typeString, fragment
+				.getName().toString(), fragment.getInitializer(), false);
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		return model;
 	}
 
 	private StLocalVariableModel parseVariableDeclarationExpression(
@@ -902,9 +913,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		String typeString = typeString(node.getType());
 		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 				.fragments().get(0);
-		StLocalVariableModel model = createLocalVariableModel(typeString, fragment.getName()
-				.toString(), fragment.getInitializer(), false);
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));	
+		StLocalVariableModel model = createLocalVariableModel(typeString,
+				fragment.getName().toString(), fragment.getInitializer(), false);
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		return model;
 	}
 
@@ -959,9 +971,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					|| node instanceof StringLiteral) {
 				return (ExpressionModel) parseLeteralExpression(node);
 			} else if (node instanceof SimpleName) {
-				ExpressionModel model = (ExpressionModel) parseVariableGetterExpression(((SimpleName) node).toString());
-				model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
-				return 	model;
+				ExpressionModel model = (ExpressionModel) parseVariableGetterExpression(((SimpleName) node)
+						.toString());
+				model.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+				return model;
 			} else if (node instanceof Assignment) {
 				return parseAssignementExpression((Assignment) node);
 			} else if (node instanceof MethodInvocation) {
@@ -987,7 +1001,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			ExSpecialExpressionModel special = new ExSpecialExpressionModel(
 					node.toString());
 			special.setId(idCounter.getNextId());
-			special.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+			special.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
 			return special;
 		}
 	}
@@ -1010,7 +1025,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		String name = node.getLeftHandSide().toString();
 		model.setVariable(variableResolver.resolve(name));
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		return model;
 	}
 
@@ -1026,7 +1042,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		String name = node.getOperand().toString();
 		model.setVariable(variableResolver.resolve(name));
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		ExLeteralModel leteral = new ExLeteralModel();
 		leteral.setType("number");
 		if (node.getOperator().toString().equals("++")) {
@@ -1036,7 +1053,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 		leteral.setId(idCounter.getNextId());
 		leteral.setParent(model);
-		leteral.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		leteral.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		model.setPostfix(leteral);
 
 		return model;
@@ -1052,14 +1070,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (node.getOperator().toString().equals("!")) {
 			ExNotModel model = new ExNotModel();
 			model.setId(idCounter.getNextId());
-			model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
 			model.setExpression(parseExpression(node.getOperand()));
 			return model;
 		}
 		if (node.getOperator().toString().equals("-")) {
 			ExLeteralModel model = new ExLeteralModel();
 			model.setId(idCounter.getNextId());
-			model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
 			model.setType(getLeteralType(node.getOperand()));
 			model.setValue("-" + node.getOperand());
 			return model;
@@ -1152,7 +1172,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			Expression arg = (Expression) node.arguments().get(0);
 			ExInfixModel model = new ExInfixModel();
 			model.setId(idCounter.getNextId());
-			model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
 			model.setOperator("equals");
 			model.setLeftExpression(parseExpression(receiver));
 			model.setRightExpression(parseExpression(arg));
@@ -1178,7 +1199,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			if (variable != null) {
 				receiverModel = parseVariableGetterExpression(variable
 						.getName());
-				receiverModel.setLineNumber(compilationUnit.getLineNumber(receiver.getStartPosition()));
+				receiverModel.setLineNumber(compilationUnit
+						.getLineNumber(receiver.getStartPosition()));
 			}
 			return parseCallActionMethodExpression2(node, receiverModel);
 
@@ -1223,7 +1245,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setName(name);
 		model.setType(methodResolver.getReturnType(node));
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		// 引数
 		for (int i = 0; i < node.arguments().size(); i++) {
 			ExpressionModel arg = parseExpression((Expression) node.arguments()
@@ -1255,11 +1278,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 		model.setVariable(variable);
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		// #matsuzawa 2012.11.13 ここ根本的な治療が必要！
 		StBlockModel block = new StBlockModel();
 		block.setId(model.getId());
-		block.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		block.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		// if (node.getExpression() instanceof QualifiedName) {
 		// throw new RuntimeException("not supported two or more substitution");
 		// }
@@ -1282,7 +1307,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			MethodInvocation node, ExpressionModel receiverModel) {
 		ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		ExCallMethodModel callMethod = parseMethodCallExpression(node);
 		model.setReceiver(receiverModel);
 		model.setCallMethod(callMethod);
@@ -1300,7 +1326,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		String name = node.getExpression().toString();
 		model.setVariable(variableResolver.resolve(name));
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		if (node.getExpression() instanceof QualifiedName) {
 			throw new RuntimeException("not supported two or more substitution");
 		}
@@ -1339,7 +1366,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setType(getLeteralType(node));
 		model.setValue(node.toString());
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		return model;
 	}
 
@@ -1381,7 +1409,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		ExInfixModel model = new ExInfixModel();
 		model.setOperator(oparator);
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		// model.setLeftExpression(numberToStringConverter(type,parseExpression(node.getLeftOperand())));
 		// model.setRightExpression(numberToStringConverter(type,parseExpression(node.getRightOperand())));
 		model.setLeftExpression(parseExpression(node.getLeftOperand()));
@@ -1392,7 +1421,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			Expression exp = (Expression) o;
 			ExInfixModel newmodel = new ExInfixModel();
 			newmodel.setId(idCounter.getNextId());
-			newmodel.setLineNumber(compilationUnit.getLineNumber(exp.getStartPosition()));
+			newmodel.setLineNumber(compilationUnit.getLineNumber(exp
+					.getStartPosition()));
 			newmodel.setOperator(oparator);
 			newmodel.setLeftExpression(model);
 			// newmodel.setRightExpression(numberToStringConverter(type,
@@ -1525,7 +1555,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private ExpressionModel parseQualifiedName(QualifiedName node) {
 		ExLeteralModel model = new ExLeteralModel();
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		// #matsuzawa 2012.11.24
 		if (isColorBlock(node)) {
 			model.setType("color");
@@ -1562,7 +1593,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
 		model.setValue(typeString(node.getType()));
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		// 引数
 		for (int i = 0; i < node.arguments().size(); i++) {
 			ExpressionModel arg = parseExpression((Expression) node.arguments()
@@ -1581,7 +1613,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		ExCastModel model = new ExCastModel();
 		model.setType(node.getType().toString());
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		// 引数
 		model.addArgument(parseExpression(node.getExpression()));
 		return model;

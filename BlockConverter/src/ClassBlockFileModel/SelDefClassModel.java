@@ -84,7 +84,7 @@ public class SelDefClassModel extends BasicModel {
 		makeIndent(out, lineNumber);
 		out.println("</BlockGenus>");
 
-		menuPrinter.print(menuOut, lineNumber + 4, getName());
+		// menuPrinter.print(menuOut, lineNumber + 4, getName());
 	}
 
 	private void printBlockConnectors(PrintStream out, int lineNumber,

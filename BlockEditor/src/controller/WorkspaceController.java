@@ -381,20 +381,8 @@ public class WorkspaceController {
 				File file = new File(path);
 				doc = builder.parse(file);
 
-				System.out.println(file.getParent()
-						+ "/lang_def_menu_project.xml");
-				selDefBlock = builder.parse(new File(file.getParent()
-						+ "/lang_def_menu_project.xml"));
-				System.out.println(file.getParent() + "/lang_def_guneses_"
-						+ file.getName());
-				selDefBlockGenus = builder.parse(new File(file.getParent()
-						+ "/lang_def_guneses_" + file.getName()));
-
 				Element projectRoot = doc.getDocumentElement();
 
-				Element projectDefBlockRoot = selDefBlock.getDocumentElement();
-				Element projectDefBlockGunes = selDefBlockGenus
-						.getDocumentElement();
 				// load the canvas (or pages and page blocks if any) blocks from
 				// the
 				// save file
@@ -407,8 +395,20 @@ public class WorkspaceController {
 				// langDefRoot
 				workspace.loadWorkspaceFrom(projectRoot, langDefRoot);//左のブロック読み込み
 
-				BlockGenus.loadBlockGenera(projectDefBlockGunes);
-				workspace.loadClassBlock(projectDefBlockRoot);//プロジェクトの自作クラスを読み込む
+				//ohata 自作クラスのブロックを作成する
+				File sdBlockFile = new File(file.getParent()
+						+ "/lang_def_menu_project.xml");
+				if (sdBlockFile != null) {
+					selDefBlock = builder.parse(sdBlockFile);
+					selDefBlockGenus = builder.parse(new File(file.getParent()
+							+ "/lang_def_geneses_" + file.getName()));
+					Element projectDefBlockRoot = selDefBlock
+							.getDocumentElement();
+					Element projectDefBlockGunes = selDefBlockGenus
+							.getDocumentElement();
+					BlockGenus.loadBlockGenera(projectDefBlockGunes);
+					workspace.loadClassBlock(projectDefBlockRoot);//プロジェクトの自作クラスを読み込む
+				}
 
 				workspaceLoaded = true;
 
