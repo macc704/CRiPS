@@ -1184,7 +1184,17 @@ public class REApplication implements ICFwApplication {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			CErrorDialog.show(frame, "OpenPPVíÜÇ…ÉGÉâÅ[Ç™î≠ê∂ÇµÇ‹ÇµÇΩÅD", ex);
-		}		
+		}
+	}
+
+	public void doCreateCocoData() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void doOpenCocoViewer() {
+		// TODO Auto-generated method stub
+
 	}
 
 	// private void sourceColoringTest(){
