@@ -187,6 +187,7 @@ public class RESourceViewer extends JPanel {
 			fontHeight = fontMetrics.getHeight();
 			fontAscent = fontMetrics.getAscent();
 			topInset = text.getInsets().top;
+			setFont(font);
 		}
 
 		public FontMetrics getFontMetrics() {
@@ -217,7 +218,7 @@ public class RESourceViewer extends JPanel {
 
 		public void paintComponent(Graphics g) {
 
-			Rectangle clip = g.getClipBounds();
+			Rectangle clip = g.getClipBounds();			
 			g.setColor(getBackground());
 			g.fillRect(clip.x, clip.y, clip.width, clip.height);
 			g.setColor(getForeground());
