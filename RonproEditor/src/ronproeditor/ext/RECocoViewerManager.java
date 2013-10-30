@@ -10,6 +10,8 @@ public class RECocoViewerManager {
 	REApplication application;
 
 	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvフォルダに展開する
+	private static String KINDS_FILE = "MyErrorKinds.csv";
+	private static String DATA_FILE = "CompileErrorLog.csv";
 
 	public RECocoViewerManager(REApplication application) {
 		this.application = application;
@@ -26,9 +28,10 @@ public class RECocoViewerManager {
 				manager);
 		String ppvRootPath = application.getSourceManager().getCRootDirectory()
 				.findOrCreateDirectory(PPV_ROOT_DIR).getAbsolutePath()
-				.toString();
-		kindLoader.load(ppvRootPath + "/MyErrorKinds.csv");
+				.toString()
+				+ "/";
+		kindLoader.load(ppvRootPath + KINDS_FILE);
 		CCCompileErrorLoader errorLoader = new CCCompileErrorLoader(manager);
-		errorLoader.load(ppvRootPath + "/CompileErrorLog.csv");
+		errorLoader.load(ppvRootPath + DATA_FILE);
 	}
 }
