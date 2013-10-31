@@ -1,5 +1,6 @@
 package ronproeditor.ext;
 
+import ppv.app.datamanager.PPDataManager;
 import ronproeditor.REApplication;
 import coco.controller.CCAddCompileErrorKinds;
 import coco.controller.CCCompileErrorConverter;
@@ -21,9 +22,20 @@ public class RECreateCocoDataManager {
 
 	public void createCocoData() {
 		// CompileError.csvを自動的にエクスポートする
+		autoExportCompileErrorCSV();
 
 		// 自動的にエクスポートしたファイルをCoco用データに変換する
 		convertCompileErrorData();
+	}
+
+	private void autoExportCompileErrorCSV() {
+		REPresVisualizerManager ppvManager = new REPresVisualizerManager(
+				application);
+		ppvManager.exportAndImportAll();
+		PPDataManager ppDataManager = ppvManager.getPPDataManager();
+		ppDataManager.setLibDir(application.getLibraryManager().getDir());
+		// TODO Hardcoding
+		ppDataManager.openProjectSet("hoge", true, true, true);
 	}
 
 	private void convertCompileErrorData() {
@@ -32,6 +44,8 @@ public class RECreateCocoDataManager {
 				.findOrCreateDirectory(PPV_ROOT_DIR).getAbsolutePath()
 				.toString()
 				+ "/";
+
+		checkAllFileExist();
 
 		// エラーの種類データをロード
 		CCCompileErrorKindLoader kindloader = new CCCompileErrorKindLoader(
@@ -57,5 +71,17 @@ public class RECreateCocoDataManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void checkAllFileExist() {
+		checkOneFileExist(DATA_FILE);
+		checkOneFileExist(KINDS_FILE);
+		checkOneFileExist(ORIGINAL_DATA_FILE);
+		checkOneFileExist(ORIGINAL_KINDS_FILE);
+	}
+
+	private void checkOneFileExist(String filename) {
+		application.getSourceManager().getCRootDirectory()
+				.findOrCreateDirectory(PPV_ROOT_DIR).findOrCreateFile(filename);
 	}
 }

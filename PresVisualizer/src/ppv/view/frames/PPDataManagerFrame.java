@@ -72,7 +72,8 @@ public class PPDataManagerFrame extends JFrame {
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() == 2) {
 					CDirectory dir = listPanel.getSelectedElement();
-					manager.openProjectSet(dir.getNameByString(), AUTO_LOAD, AUTO_COMPILE);
+					manager.openProjectSet(dir.getNameByString(), AUTO_LOAD,
+							AUTO_COMPILE, false);
 				}
 				if (e.getButton() == MouseEvent.BUTTON3
 						&& e.getClickCount() == 1) {
@@ -131,7 +132,7 @@ public class PPDataManagerFrame extends JFrame {
 				menu.add(item);
 			}
 		}
-		
+
 		{
 			JMenu menu = new JMenu("Info");
 			getJMenuBar().add(menu);

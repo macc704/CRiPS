@@ -29,6 +29,16 @@ public class REPresVisualizerManager {
 		this.application = application;
 	}
 
+	public void openPresVisualizer() {
+		exportAndImportAll();
+		ppDataManager.setLibDir(application.getLibraryManager().getDir());
+		ppDataManager.openProjectSet(PPV_PROJECTSET_NAME, true, true, false);
+	}
+
+	public PPDataManager getPPDataManager() {
+		return ppDataManager;
+	}
+
 	public void exportAndImportAll() {
 		CDirectory ppvRoot = application.getSourceManager().getCRootDirectory()
 				.findOrCreateDirectory(PPV_ROOT_DIR);
@@ -69,11 +79,5 @@ public class REPresVisualizerManager {
 
 	private void importOneProject(CDirectory projectSetDir, CFile zipfile) {
 		ppDataManager.loadOneFile(zipfile, projectSetDir, RONPRO_PPV_ROADER);
-	}
-
-	public void openPresVisualizer() {
-		exportAndImportAll();
-		ppDataManager.setLibDir(application.getLibraryManager().getDir());
-		ppDataManager.openProjectSet(PPV_PROJECTSET_NAME, true, true);
 	}
 }
