@@ -6,14 +6,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import bc.apps.ProjectLangDefMenuPrinter;
-
 public class SelDefClassModel extends BasicModel {
 
 	private List<MethodBlockModel> methods = new ArrayList<MethodBlockModel>();
 	private String className;
 	private Map<String, String> langSpecProperties = new LinkedHashMap<String, String>();
-	private ProjectLangDefMenuPrinter menuPrinter = new ProjectLangDefMenuPrinter();
 
 	public SelDefClassModel(String name, String kind, String initialLabel,
 			String headerLabel, String footerLabel, String color) {
@@ -36,76 +33,74 @@ public class SelDefClassModel extends BasicModel {
 		methods.add(method);
 	}
 
-	public void print(PrintStream out, int lineNumber, PrintStream menuOut)
-			throws Exception {
-		lineNumber += 1;
-		makeIndent(out, lineNumber);
+	public void print(PrintStream out, int lineNumber) throws Exception {
 		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" "
 				+ "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\""
 				+ getInitialLabel() + "\"");
-		makeIndent(out, lineNumber + 1);
+		makeIndent(out, ++lineNumber);
 		out.println(" header-Label=" + "\"" + getHeaderLabel() + "\" "
 				+ "footer-Label=" + "\"" + getFooterLabel() + "\" "
 				+ "editable-label=\"yes\" " + "label-unique=\"yes\" "
 				+ "color=\"" + getColor() + "\">");
 
-		makeIndent(out, lineNumber + 1);
+		makeIndent(out, lineNumber);
 		out.println("<description>");
 
-		makeIndent(out, lineNumber + 2);
+		makeIndent(out, ++lineNumber);
 		out.println("<text>");
 
-		makeIndent(out, lineNumber + 2);
+		makeIndent(out, ++lineNumber);
+		out.println("disctiption");
+
+		makeIndent(out, --lineNumber);
 		out.println("</text>");
 
-		makeIndent(out, lineNumber + 1);
+		makeIndent(out, --lineNumber);
 		out.println("</description>");
 
-		printBlockConnectors(out, lineNumber, "socket", "object", "new-object",
-				getClassName());
+		printBlockConnectors(out, lineNumber + 1, "socket", "object",
+				"new-object", getClassName());
 
-		makeIndent(out, lineNumber + 1);
+		makeIndent(out, lineNumber);
 		out.println("<Stubs>");
 
-		makeIndent(out, lineNumber + 1);
+		makeIndent(out, lineNumber);
 		out.println("</Stubs>");
 
-		makeIndent(out, lineNumber + 1);
+		makeIndent(out, lineNumber);
 		out.println("<LangSpecProperties>");
 
 		for (String langSpecProperty : langSpecProperties.keySet()) {
-			printLangSpecProperty(out, lineNumber + 2, langSpecProperty,
+			printLangSpecProperty(out, lineNumber + 1, langSpecProperty,
 					langSpecProperties.get(langSpecProperty));
 		}
 
-		makeIndent(out, lineNumber + 1);
+		makeIndent(out, lineNumber);
 		out.println("</LangSpecProperties>");
 
-		makeIndent(out, lineNumber);
 		out.println("</BlockGenus>");
-
-		// menuPrinter.print(menuOut, lineNumber + 4, getName());
+		out.println();
 	}
 
 	private void printBlockConnectors(PrintStream out, int lineNumber,
 			String connectorKind, String connectorType,
 			String defaultGenusName, String DefaultLabel) {
-		makeIndent(out, lineNumber + 1);
+		makeIndent(out, lineNumber);
 		out.println("<BlockConnectors>");
 
-		makeIndent(out, lineNumber + 2);
+		makeIndent(out, ++lineNumber);
 		out.println("<BlockConnector label=\"‰Šú’l\" connector-kind=\""
-				+ connectorKind + "\" connector-type = \"" + connectorType
+				+ connectorKind + "\" connector-type=\"" + connectorType
 				+ "\">");
 
-		makeIndent(out, lineNumber + 3);
+		makeIndent(out, ++lineNumber);
 		out.println("<DefaultArg genus-name=\"" + defaultGenusName
 				+ "\" label=\"" + DefaultLabel + "\"></DefaultArg>");
 
-		makeIndent(out, lineNumber + 2);
+		makeIndent(out, --lineNumber);
 		out.println("</BlockConnector>");
 
-		makeIndent(out, lineNumber + 1);
+		makeIndent(out, --lineNumber);
 		out.println("</BlockConnectors>");
 	}
 
@@ -115,4 +110,10 @@ public class SelDefClassModel extends BasicModel {
 		out.println("<LangSpecProperty key=\"" + key + "\" value=\"" + value
 				+ "\"></LangSpecProperty>");
 	}
+
+	public void printMenuItem(PrintStream out, int lineNumber) {
+		makeIndent(out, lineNumber);
+		out.println("<BlockGenusMember>" + getName() + "</BlockGenusMember>");
+	}
+
 }

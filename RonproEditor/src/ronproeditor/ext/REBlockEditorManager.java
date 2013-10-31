@@ -253,6 +253,9 @@ public class REBlockEditorManager {
 						blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 					}
 
+					blockEditor.setLangDefFilePath(javaFile.getParentFile()
+							.getPath() + "/lang_def_project.xml");
+
 					// blockEditor.resetLanguage();
 					// blockEditor.setLangDefDirty(true);
 					blockEditor.resetWorkspace();

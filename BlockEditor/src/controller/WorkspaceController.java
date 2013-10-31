@@ -393,23 +393,22 @@ public class WorkspaceController {
 				// loaded
 				// from
 				// langDefRoot
-				workspace.loadWorkspaceFrom(projectRoot, langDefRoot);//左のブロック読み込み
+				workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
+				/*
+								//ohata 自作クラスのブロックを作成する
+								File sdBlockFile = new File(file.getParent()
+										+ "/lang_def_project.xml");
+								if (sdBlockFile.exists()) {
+									selDefBlock = builder.parse(sdBlockFile);
+									Element projectDefBlockRoot = selDefBlock
+											.getDocumentElement();
 
-				//ohata 自作クラスのブロックを作成する
-				File sdBlockFile = new File(file.getParent()
-						+ "/lang_def_menu_project.xml");
-				if (sdBlockFile != null) {
-					selDefBlock = builder.parse(sdBlockFile);
-					selDefBlockGenus = builder.parse(new File(file.getParent()
-							+ "/lang_def_geneses_" + file.getName()));
-					Element projectDefBlockRoot = selDefBlock
-							.getDocumentElement();
-					Element projectDefBlockGunes = selDefBlockGenus
-							.getDocumentElement();
-					BlockGenus.loadBlockGenera(projectDefBlockGunes);
-					workspace.loadClassBlock(projectDefBlockRoot);//プロジェクトの自作クラスを読み込む
-				}
-
+									selDefBlockGenus = builder.parse(new File(file.getParent()
+											+ "/lang_def_menu_project.xml"));
+									Element projectDefBlockGunes = selDefBlockGenus
+											.getDocumentElement();
+								}
+				*/
 				workspaceLoaded = true;
 
 				setFrameTitle(path);

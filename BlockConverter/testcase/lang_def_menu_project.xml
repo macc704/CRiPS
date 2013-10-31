@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BlockLangDef>
-	<BlockDrawerSet name="factory" type="stack" location="southwest" window-per-drawer="no" drawer-draggable="no">
-		<BlockDrawer name="self-def-class" type="factory" button-color="247 0 0">
-					<BlockGenusMember>local-var-object-Test32</BlockGenusMember>
-					<BlockGenusMember>global-var-object-Test32</BlockGenusMember>
-		</BlockDrawer>
-	</BlockDrawerSet>
-</BlockLangDef>
+<BlockDrawerSet name="factory" type="stack" location="southwest" window-per-drawer="no" drawer-draggable="no">
+	<BlockDrawer name="self-def-class" type="factory" button-color="247 0 0">
+		<BlockGenusMember>local-var-object-Test32</BlockGenusMember>
+		<BlockGenusMember>global-var-object-Test32</BlockGenusMember>
+	</BlockDrawer>
+</BlockDrawerSet>
