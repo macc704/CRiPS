@@ -32,6 +32,7 @@ import pres.loader.model.PLProject;
 import tea.analytics.CompileErrorAnalyzerList;
 import tea.analytics.CompileErrorListFile;
 import tea.analytics.model.TCompilePoint;
+import clib.common.filesystem.CDirectory;
 import clib.common.thread.ICTask;
 import clib.view.dialogs.CErrorDialog;
 import clib.view.progress.CPanelProcessingMonitor;
@@ -154,7 +155,7 @@ public class PPProjectSetViewerFrame extends JFrame {
 				item.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						printCompileErrorAnalysis();
+						printCompileErrorAnalysis(new File("/CompileError.csv"));
 					}
 				});
 				menu.add(item);
@@ -222,7 +223,13 @@ public class PPProjectSetViewerFrame extends JFrame {
 		});
 	}
 
-	private void printCompileErrorAnalysis() {
+	// for CocoViewer by hirao
+	public void doPrintCompileErrorCSV(CDirectory baseDir) {
+		printCompileErrorAnalysis(new File(baseDir.getAbsolutePath().toString()
+				+ "/CompileError.csv"));
+	}
+
+	private void printCompileErrorAnalysis(File outfile) {
 		// CompileErrorAnalysis
 		List<CompileErrorAnalyzerList> analyzers = new ArrayList<CompileErrorAnalyzerList>();
 		for (PLProject project : projectSet.getProjects()) {
@@ -235,8 +242,9 @@ public class PPProjectSetViewerFrame extends JFrame {
 
 		// FileOutput
 		CompileErrorListFile file = new CompileErrorListFile(analyzers);
+
 		try {
-			file.outputErrorList();
+			file.outputErrorList(outfile);
 			file.outputPatternList();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

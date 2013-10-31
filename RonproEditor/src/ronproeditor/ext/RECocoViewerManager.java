@@ -15,6 +15,7 @@ public class RECocoViewerManager {
 
 	public RECocoViewerManager(REApplication application) {
 		this.application = application;
+
 	}
 
 	public void openCocoViewer() {

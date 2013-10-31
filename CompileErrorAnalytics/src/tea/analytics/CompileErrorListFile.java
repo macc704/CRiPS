@@ -42,8 +42,8 @@ public class CompileErrorListFile {
 	 * Output
 	 ****************************************************/
 
-	public void outputErrorList() throws IOException, FileNotFoundException {
-		File file = new File("./CompileError.csv");
+	public void outputErrorList(File file) throws IOException,
+			FileNotFoundException {
 		makeCSVFile(file);
 
 		PrintWriter pw = new PrintWriter(new BufferedWriter(

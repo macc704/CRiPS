@@ -47,6 +47,7 @@ public class PPDataManagerFrame extends JFrame {
 
 	public static final boolean AUTO_LOAD = false;
 	public static final boolean AUTO_COMPILE = false;
+	public static final boolean COCO_DATA = false;
 
 	private static final long serialVersionUID = 1L;
 
@@ -72,7 +73,8 @@ public class PPDataManagerFrame extends JFrame {
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() == 2) {
 					CDirectory dir = listPanel.getSelectedElement();
-					manager.openProjectSet(dir.getNameByString(), AUTO_LOAD, AUTO_COMPILE);
+					manager.openProjectSet(dir.getNameByString(), AUTO_LOAD,
+							AUTO_COMPILE, COCO_DATA);
 				}
 				if (e.getButton() == MouseEvent.BUTTON3
 						&& e.getClickCount() == 1) {
@@ -131,7 +133,7 @@ public class PPDataManagerFrame extends JFrame {
 				menu.add(item);
 			}
 		}
-		
+
 		{
 			JMenu menu = new JMenu("Info");
 			getJMenuBar().add(menu);
