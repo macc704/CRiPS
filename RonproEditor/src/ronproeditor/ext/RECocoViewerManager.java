@@ -25,13 +25,15 @@ public class RECocoViewerManager {
 	}
 
 	private void loadData(CCCompileErrorManager manager) {
-		CCCompileErrorKindLoader kindLoader = new CCCompileErrorKindLoader(
-				manager);
 		String ppvRootPath = application.getSourceManager().getCRootDirectory()
 				.findOrCreateDirectory(PPV_ROOT_DIR).getAbsolutePath()
 				.toString()
 				+ "/";
+
+		CCCompileErrorKindLoader kindLoader = new CCCompileErrorKindLoader(
+				manager);
 		kindLoader.load(ppvRootPath + KINDS_FILE);
+
 		CCCompileErrorLoader errorLoader = new CCCompileErrorLoader(manager);
 		errorLoader.load(ppvRootPath + DATA_FILE);
 	}

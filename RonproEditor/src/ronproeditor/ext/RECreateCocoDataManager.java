@@ -7,6 +7,7 @@ import coco.controller.CCCompileErrorConverter;
 import coco.controller.CCCompileErrorKindLoader;
 import coco.model.CCCompileErrorManager;
 
+// TODO CompileError.csv‚ğo—Í‚µ‚½Œã‚ÉPPV‚ª‹N“®‚Å‚«‚È‚­‚È‚é•s‹ï‡‚ª‚ ‚é
 public class RECreateCocoDataManager {
 	REApplication application;
 
