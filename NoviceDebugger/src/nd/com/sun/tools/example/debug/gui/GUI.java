@@ -185,11 +185,16 @@ public class GUI extends JPanel {
 
 		cmdTool = new CommandTool(env);
 		cmdTool.setPreferredSize(new java.awt.Dimension(700, 150));
+		JFrame cmdFrame = new JFrame();
+		cmdFrame.add(cmdTool);
+		cmdFrame.pack();
+		//cmdFrame.setVisible(true);
 
 		JPanel appPanel = new JPanel();
 		appPanel.setLayout(new BorderLayout());
 		appPanel.setBorder(BorderFactory.createTitledBorder("ÉRÉìÉ\Å[Éã"));
 		appTool = new ApplicationTool(env);
+		appTool.setFont(fixedFont);
 		appPanel.setPreferredSize(new java.awt.Dimension(500, 200));
 		appPanel.add(appTool);
 
@@ -548,7 +553,7 @@ public class GUI extends JPanel {
 
 	public static void dead() {
 		NDebuggerManager.fireDebugFinished();
-		
+		NDebuggerManager.clearListener();
 		frame.dispose();
 	}
 

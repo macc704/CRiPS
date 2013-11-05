@@ -215,6 +215,7 @@ public class CommandTool extends JPanel {
 						if(updateFlag) {
 							linenum = num;
 							env.setLinenum(linenum);
+							interpreter.resumeEventQueue();
 							// env.getBlockTool().ExecutionPoint(linenum);
 							if(env.getBlockEditor() != null){
 								env.getBlockEditor().getWorkspace().executionPoint(linenum);

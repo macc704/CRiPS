@@ -116,6 +116,18 @@ public class CommandInterpreter {
 		}
 		return threads;
 	}
+	
+	protected void resumeEventQueue() {
+		try {
+			for(ThreadReference t : threads()) {
+				if(t.name().equals("AWT-EventQueue-0")) {
+					t.resume();
+				}
+			}
+		} catch (NoSessionException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private ThreadReference findThread(String idToken) throws NoSessionException {
 		String id;

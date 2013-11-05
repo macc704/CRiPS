@@ -82,6 +82,9 @@ import nd.com.sun.tools.example.debug.gui.GUI;
  * 2013/10/21 version 0.2.14 hakamata	・軌跡モードの設定値を読み込む際のデフォルト値がfalseになってなかったので修正
  * 										・一度自動実行を行ったら．以降は再生を停止していてもBreakpointチェックを行っていたのを修正
  * 2013/10/21 version 0.2.15 hakamata	・continueのログを一箇所取り忘れていたのを修正
+ * 
+ * 2013/11/01 version 0.2.16 hakamata	・AWT-EventQueue-0スレッドをサスペンド後にレジュームするようにした(update問題対策:暫定)
+ * 2013/11/05 version 0.2.17 hakamata	・ログを取るNDebuggerManagerでリスナがstatic修飾付きのリストで管理されていたので，DENO終了時にリストをクリアするように変更
  *
  * 	・int x = 3;　はＯＫだけど， int y; はダメ．
  * 		Javaの仕様上,宣言のみのプリミティブ型変数はスタックに積まれないのでこれで正しい

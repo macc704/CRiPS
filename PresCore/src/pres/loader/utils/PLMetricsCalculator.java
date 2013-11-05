@@ -243,7 +243,7 @@ public class PLMetricsCalculator {
 		}
 		int speeds = 500;
 		for(int i = 0; i < index; i++){
-			speeds += Integer.parseInt("" + aveSpeed.get(i).getArguments().get(0).toString());
+			speeds += Integer.parseInt("" + aveSpeed.get(i).getArguments().get(1).toString());
 		}
 		if(index > 0) {
 			return speeds / index;

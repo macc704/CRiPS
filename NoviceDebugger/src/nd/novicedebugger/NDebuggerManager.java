@@ -21,6 +21,10 @@ public class NDebuggerManager {
 		}
 		listeners.add(listener);
 	}
+	
+	public static void clearListener() {
+		listeners.clear();
+	}
 
 	public static void firePlayPressed() {
 		for (NDebuggerListener listener : listeners) {
