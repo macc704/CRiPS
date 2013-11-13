@@ -2,10 +2,10 @@ package ronproeditor.ext;
 
 import ppv.app.datamanager.PPDataManager;
 import ronproeditor.REApplication;
-import coco.controller.CCAddCompileErrorKinds;
-import coco.controller.CCCompileErrorConverter;
-import coco.controller.CCCompileErrorKindLoader;
-import coco.model.CCCompileErrorManager;
+import src.coco.controller.CCAddCompileErrorKinds;
+import src.coco.controller.CCCompileErrorConverter;
+import src.coco.controller.CCCompileErrorKindLoader;
+import src.coco.model.CCCompileErrorManager;
 
 // TODO CompileError.csv‚ğo—Í‚µ‚½Œã‚ÉPPV‚ª‹N“®‚Å‚«‚È‚­‚È‚é•s‹ï‡‚ª‚ ‚é
 public class RECreateCocoDataManager {

@@ -1,10 +1,10 @@
 package ronproeditor.ext;
 
 import ronproeditor.REApplication;
-import coco.controller.CCCompileErrorKindLoader;
-import coco.controller.CCCompileErrorLoader;
-import coco.model.CCCompileErrorManager;
-import coco.view.CCMainFrame2;
+import src.coco.controller.CCCompileErrorKindLoader;
+import src.coco.controller.CCCompileErrorLoader;
+import src.coco.model.CCCompileErrorManager;
+import src.coco.view.CCMainFrame2;
 
 public class RECocoViewerManager {
 	REApplication application;
