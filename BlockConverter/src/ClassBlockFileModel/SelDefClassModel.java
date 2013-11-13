@@ -38,8 +38,8 @@ public class SelDefClassModel extends BasicModel {
 				+ "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\""
 				+ getInitialLabel() + "\"");
 		makeIndent(out, ++lineNumber);
-		out.println(" header-Label=" + "\"" + getHeaderLabel() + "\" "
-				+ "footer-Label=" + "\"" + getFooterLabel() + "\" "
+		out.println(" header-label=" + "\"" + getHeaderLabel() + "\" "
+				+ "footer-label=" + "\"" + getFooterLabel() + "\" "
 				+ "editable-label=\"yes\" " + "label-unique=\"yes\" "
 				+ "color=\"" + getColor() + "\">");
 

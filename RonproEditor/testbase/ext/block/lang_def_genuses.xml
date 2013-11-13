@@ -13,7 +13,6 @@
 &lang_def_genuses_cui;
 &lang_def_genuses_turtle;
 &lang_def_genuses_class;
-
 <!-- LOGIC -->
 
 <BlockGenus name="ifelse" kind="command" initlabel="分岐"

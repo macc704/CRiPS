@@ -248,8 +248,14 @@ public class REBlockEditorManager {
 					// BlockEditorに反映
 					// lang def ファイル
 					if (isTurtle()) {
+						// lang_def.dtdの書き換え
+						// 最後尾に要素を追加
+
+						// menuの書き換え
 						blockEditor.setLangDefFilePath(LANG_DEF_TURTLE_PATH);
 					} else {
+						// lang_def.dtdの書き換え
+						// menuの書き換え
 						blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 					}
 

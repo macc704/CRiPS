@@ -269,6 +269,7 @@ public class BlockGenus {
 	public boolean isVariableDeclBlock() {
 		return kind.endsWith("variable");
 	}
+
 	// #ohata added
 
 	/**
@@ -278,10 +279,10 @@ public class BlockGenus {
 	 * @return true if this block is a variable declaration block; false
 	 *         otherwise
 	 */
-	public boolean isPrivateVariableBlock(){// ohata added
+	public boolean isPrivateVariableBlock() {// ohata added
 		return kind.equals("global-variable");
 	}
-	
+
 	/**
 	 * created by sakai lab 2011/10/29
 	 * 

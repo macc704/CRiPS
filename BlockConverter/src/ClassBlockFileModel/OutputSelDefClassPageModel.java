@@ -12,30 +12,25 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import bc.utils.DomParserWrapper;
-
 public class OutputSelDefClassPageModel {
 
 	private File file;
-	private File menuFile;
 	private String fileName;
 	// private String[] classpaths;
 
 	private List<SelDefClassModel> requestClass = new ArrayList<SelDefClassModel>();
-	private BufferedReader br;
+	private FileInputStream ldfReader;
+
+	public OutputSelDefClassPageModel(File file, File menuFile) {
+		this.file = file;
+	}
 
 	public OutputSelDefClassPageModel(File file, File menuFile, String fileName) {
 		this.file = file;
-		this.menuFile = menuFile;
 		this.fileName = fileName.substring(0, fileName.indexOf('.'));
+		// オブジェクトブロック追加のリクエスト
 		setLocalSelDefClass();
 		setGlobalSelDefClass();
-		// this.classpaths = classpaths;
 	}
 
 	public void setSelDefClassModel(List<SelDefClassModel> models) {
@@ -54,6 +49,24 @@ public class OutputSelDefClassPageModel {
 	}
 
 	public void setGlobalSelDefClass() {
+		SelDefClassModel classModel = new SelDefClassModel("global-var-object-"
+				+ fileName, "global-variable", "initname", fileName
+				+ "型の変数をつくり", "と名付ける", "230 0 255");
+		// 定義クラスブロックのプロパティをセットする
+		classModel.setClassName(fileName);
+		requestClass.add(classModel);
+	}
+
+	public void setLocalSelDefClass(String fileName) {
+		SelDefClassModel classModel = new SelDefClassModel("local-var-object-"
+				+ fileName, "local-variable", "initname",
+				fileName + "型の変数をつくり", "と名付ける", "230 0 255 ");
+		// 定義クラスブロックのプロパティをセットする
+		classModel.setClassName(fileName);
+		requestClass.add(classModel);
+	}
+
+	public void setGlobalSelDefClass(String fileName) {
 		SelDefClassModel classModel = new SelDefClassModel("global-var-object-"
 				+ fileName, "global-variable", "initname", fileName
 				+ "型の変数をつくり", "と名付ける", "230 0 255");
@@ -84,171 +97,43 @@ public class OutputSelDefClassPageModel {
 		ps.close();
 	}
 
-	public void printMenu(File menuFile) {
+	public void printMenu(File menuFile, File originFile) {
+		BufferedReader br;
+		int lineNum = 0;
 		try {
-			ByteArrayOutputStream menuByteArray = new ByteArrayOutputStream();
-			PrintStream menuPs = new PrintStream(menuByteArray);
-			int lineNum = 0;
+			ldfReader = new FileInputStream(file);
 
-			menuPs.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-			menuPs.println("<BlockDrawerSet name=\"factory\" type=\"stack\" location=\"southwest\" window-per-drawer=\"no\" drawer-draggable=\"no\">");
+			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "UTF-8");
+			br = new BufferedReader(ldfISR);
 
-			makeIndent(menuPs, ++lineNum);
-			menuPs.println("<BlockDrawer name=\"self-def-class\" type=\"factory\" button-color=\"247 0 0\">");
+			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
+			PrintStream ps = new PrintStream(turtleByteArray);
+			// </BlockDrawerSet>までコピー
+			String line;
+			while (!(line = br.readLine()).equals("</BlockDrawerSet>")) {
+				// 一行書き込み >>lang_def.xml
+				System.out.println("line:" + line);
+				ps.println(line);
+			}
 
-			// drawerprint
+			makeIndent(ps, ++lineNum);
+			ps.println("<BlockDrawer name=\"Project-Objects\" type=\"factory\" button-color=\"255 155 64\">");
 			lineNum++;
 			for (SelDefClassModel selDefClass : requestClass) {
-				selDefClass.printMenuItem(menuPs, lineNum);
-			}
-			if (menuFile.exists()) {
-				printExistingMenuItem(menuPs, menuFile.getPath(), lineNum);
+				selDefClass.printMenuItem(ps, lineNum);
 			}
 
-			makeIndent(menuPs, --lineNum);
-			menuPs.println("</BlockDrawer>");
-			makeIndent(menuPs, --lineNum);
-			menuPs.println("</BlockDrawerSet>");
+			makeIndent(ps, --lineNum);
+			ps.println("</BlockDrawer>");
+			makeIndent(ps, --lineNum);
+			ps.println("</BlockDrawerSet>");
 
-			String menuString = menuByteArray.toString();
-			BufferedWriter menuBw = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(menuFile), "UTF-8"));
-
-			menuBw.write(menuString);
-			menuBw.flush();
-			menuBw.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	private void printExistingMenuItem(PrintStream menuPs, String path,
-			int lineNum) {
-		// 既存のプロジェクトメニューファイルを読み込み書き出す 重複項は書き出さない
-		Document document = DomParserWrapper.parse(path);
-		Element root = document.getDocumentElement();
-		NodeList lists = root.getChildNodes();
-		for (int i = 0; i < lists.getLength(); i++) {
-			Node list = lists.item(i);
-			if (list.getNodeName().equals("BlockDrawerSet")) {
-				NodeList factry = list.getChildNodes();
-				for (int j = 0; j < factry.getLength(); j++) {
-					Node drawer = factry.item(j);
-					if (drawer.getNodeName().equals("BlockDrawer")) {
-						for (Node child = drawer.getFirstChild(); child != null; child = child
-								.getNextSibling()) {
-							if (child.getNodeType() != Node.TEXT_NODE) {
-								// 名前を確認する
-								Boolean nameCheck = true;
-								for (SelDefClassModel request : requestClass) {
-									if (request.getName().equals(
-											child.getTextContent())) {
-										nameCheck = false;
-									}
-								}
-								if (nameCheck) {
-									makeIndent(menuPs, lineNum);
-									menuPs.println("<BlockGenusMember>"
-											+ child.getTextContent()
-											+ "</BlockGenusMember>");
-								}
-							}
-						}
-					}
-				}
-			}
-
-		}
-	}
-
-	public void printLangDefFile(File file) {
-		// lang_def_project.xmlの書き出し
-		printXMLFile(file);
-		// lang_def.dtdの書き出し
-		printDtdFile(file);
-	}
-
-	private void printXMLFile(File file) {
-		// lang_def_file.xmlの書き出し　既存のものからコピーして、プロジェクトだけ書き換える
-		try {
-			FileInputStream ldfReader = new FileInputStream(
-					"ext/block/lang_def_turtle.xml");
-
-			// FileReader ldfReader = new FileReader(
-			// "ext/block/lang_def_menu_turtle.xml");
-
-			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "SJIS");
-			br = new BufferedReader(ldfISR);
-
-			// File ldf = new File("/ext/block/lang_def.dtd");
-
-			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
-			PrintStream turtlePs = new PrintStream(turtleByteArray);
-			// すべての行をコピーする
-			String line;
-			while ((line = br.readLine()) != null) {
-				// 一行書き込み >>lang_def.xml
-				if (line.contains("lang_def_menu")) {
-					// メニューの書き換え
-					turtlePs.println("\t\t&lang_def_menu_project;");
-				} else {
-					turtlePs.println(line);
-				}
-			}
-			// menu情報のコピー
 			// psに書きだしたものをすべて文字列に変換する
 			String ldfString = turtleByteArray.toString();
 
-			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile()
-					.getPath() + "/lang_def_project.xml");
-			// FileReader ldfReader = new FileReader(
-			// "ext/block/lang_def_menu_turtle.xml");
-			OutputStreamWriter ldfFOS = new OutputStreamWriter(ldfOS, "SJIS");
-			BufferedWriter ldfWriter = new BufferedWriter(ldfFOS);
+			FileOutputStream ldfOS = new FileOutputStream(menuFile);
 
-			ldfWriter.write(ldfString);
-			ldfWriter.flush();
-			ldfWriter.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void printDtdFile(File file) {
-		// lang_def_file.xmlの書き出し　既存のものからコピーして、プロジェクトだけ書き換える
-		try {
-			FileInputStream ldfReader = new FileInputStream(
-					"ext/block/lang_def.dtd");
-
-			// FileReader ldfReader = new FileReader(
-			// "ext/block/lang_def_menu_turtle.xml");
-
-			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "SJIS");
-			br = new BufferedReader(ldfISR);
-
-			// File ldf = new File("/ext/block/lang_def.dtd");
-
-			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
-			PrintStream turtlePs = new PrintStream(turtleByteArray);
-			// すべての行をコピーする
-			String line;
-			while ((line = br.readLine()) != null) {
-				if (!line.contains("<!ENTITY lang_def_")) {
-					turtlePs.println(line);
-				}
-			}
-			turtlePs.println("<!ENTITY lang_def_menu_project SYSTEM \"lang_def_menu_project.xml\">");
-			turtlePs.println("<!ENTITY lang_def_project SYSTEM \"lang_def_genuses_project.xml\">");
-			// menu情報のコピー
-			// psに書きだしたものをすべて文字列に変換する
-			String ldfString = turtleByteArray.toString();
-
-			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile()
-					.getPath() + "/lang_def.dtd");
-			// FileReader ldfReader = new FileReader(
-			// "ext/block/lang_def_menu_turtle.xml");
-			OutputStreamWriter ldfFOS = new OutputStreamWriter(ldfOS, "SJIS");
+			OutputStreamWriter ldfFOS = new OutputStreamWriter(ldfOS, "UTF-8");
 			BufferedWriter ldfWriter = new BufferedWriter(ldfFOS);
 
 			ldfWriter.write(ldfString);

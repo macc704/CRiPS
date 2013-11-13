@@ -52,7 +52,6 @@ import workspace.WorkspaceEvent;
 import workspace.WorkspaceListener;
 import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.SBlockEditorListener;
-import bc.BCSystem;
 import bc.apps.BlockToJavaMain;
 import bc.apps.JavaToBlockMain;
 import clib.view.dialogs.CErrorDialog;
@@ -162,15 +161,11 @@ public class WorkspaceController {
 			String langDefLocation = /* workingDirectory + */LANG_DEF_FILEPATH;
 			doc = builder.parse(new File(langDefLocation));
 
-			BCSystem.out.println("langDefLocation:" + langDefLocation);
-
 			langDefRoot = doc.getDocumentElement();
 
 			// set the dirty flag for the language definition file
 			// to true now that a new file has been set
 			langDefDirty = true;
-
-			BCSystem.out.println("langdeffile:" + langDefLocation);
 
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -267,6 +262,7 @@ public class WorkspaceController {
 		// MUST load shapes before genuses in order to initialize connectors
 		// within
 		// each block correctly
+
 		BlockConnectorShape.loadBlockConnectorShapes(root);
 
 		// load genuses
@@ -393,22 +389,10 @@ public class WorkspaceController {
 				// loaded
 				// from
 				// langDefRoot
-				workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
-				/*
-								//ohata 自作クラスのブロックを作成する
-								File sdBlockFile = new File(file.getParent()
-										+ "/lang_def_project.xml");
-								if (sdBlockFile.exists()) {
-									selDefBlock = builder.parse(sdBlockFile);
-									Element projectDefBlockRoot = selDefBlock
-											.getDocumentElement();
+				System.out.println("langDefRoot" + langDefRoot.getBaseURI());
 
-									selDefBlockGenus = builder.parse(new File(file.getParent()
-											+ "/lang_def_menu_project.xml"));
-									Element projectDefBlockGunes = selDefBlockGenus
-											.getDocumentElement();
-								}
-				*/
+				workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
+
 				workspaceLoaded = true;
 
 				setFrameTitle(path);
