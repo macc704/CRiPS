@@ -15,7 +15,6 @@ import java.util.List;
 public class OutputSelDefClassPageModel {
 
 	private File file;
-	private String fileName;
 	// private String[] classpaths;
 
 	private List<SelDefClassModel> requestClass = new ArrayList<SelDefClassModel>();
@@ -25,52 +24,30 @@ public class OutputSelDefClassPageModel {
 		this.file = file;
 	}
 
-	public OutputSelDefClassPageModel(File file, File menuFile, String fileName) {
-		this.file = file;
-		this.fileName = fileName.substring(0, fileName.indexOf('.'));
-		// オブジェクトブロック追加のリクエスト
-		setLocalSelDefClass();
-		setGlobalSelDefClass();
-	}
-
 	public void setSelDefClassModel(List<SelDefClassModel> models) {
 		for (SelDefClassModel model : models) {
 			requestClass.add(model);
 		}
 	}
 
-	public void setLocalSelDefClass() {
+	public void setLocalSelDefClass(String fileName,
+			List<MethodBlockModel> methods) {
 		SelDefClassModel classModel = new SelDefClassModel("local-var-object-"
 				+ fileName, "local-variable", "initname",
 				fileName + "型の変数をつくり", "と名付ける", "230 0 255 ");
 		// 定義クラスブロックのプロパティをセットする
+		classModel.setMethods(methods);
 		classModel.setClassName(fileName);
 		requestClass.add(classModel);
 	}
 
-	public void setGlobalSelDefClass() {
-		SelDefClassModel classModel = new SelDefClassModel("global-var-object-"
-				+ fileName, "global-variable", "initname", fileName
-				+ "型の変数をつくり", "と名付ける", "230 0 255");
+	public void setGlobalSelDefClass(String fileName,
+			List<MethodBlockModel> methods) {
+		SelDefClassModel classModel = new SelDefClassModel(
+				"private-var-object-" + fileName, "global-variable",
+				"initname", fileName + "型の変数をつくり", "と名付ける", "230 0 255");
 		// 定義クラスブロックのプロパティをセットする
-		classModel.setClassName(fileName);
-		requestClass.add(classModel);
-	}
-
-	public void setLocalSelDefClass(String fileName) {
-		SelDefClassModel classModel = new SelDefClassModel("local-var-object-"
-				+ fileName, "local-variable", "initname",
-				fileName + "型の変数をつくり", "と名付ける", "230 0 255 ");
-		// 定義クラスブロックのプロパティをセットする
-		classModel.setClassName(fileName);
-		requestClass.add(classModel);
-	}
-
-	public void setGlobalSelDefClass(String fileName) {
-		SelDefClassModel classModel = new SelDefClassModel("global-var-object-"
-				+ fileName, "global-variable", "initname", fileName
-				+ "型の変数をつくり", "と名付ける", "230 0 255");
-		// 定義クラスブロックのプロパティをセットする
+		classModel.setMethods(methods);
 		classModel.setClassName(fileName);
 		requestClass.add(classModel);
 	}
@@ -101,7 +78,7 @@ public class OutputSelDefClassPageModel {
 		BufferedReader br;
 		int lineNum = 0;
 		try {
-			ldfReader = new FileInputStream(file);
+			ldfReader = new FileInputStream(originFile);
 
 			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "UTF-8");
 			br = new BufferedReader(ldfISR);
@@ -112,7 +89,6 @@ public class OutputSelDefClassPageModel {
 			String line;
 			while (!(line = br.readLine()).equals("</BlockDrawerSet>")) {
 				// 一行書き込み >>lang_def.xml
-				System.out.println("line:" + line);
 				ps.println(line);
 			}
 

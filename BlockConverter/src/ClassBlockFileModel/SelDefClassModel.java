@@ -15,7 +15,11 @@ public class SelDefClassModel extends BasicModel {
 	public SelDefClassModel(String name, String kind, String initialLabel,
 			String headerLabel, String footerLabel, String color) {
 		super(name, kind, initialLabel, headerLabel, footerLabel, color);
-		langSpecProperties.put("scope", "local");
+		if (kind.startsWith("local")) {
+			langSpecProperties.put("scope", "local");
+		} else {
+			langSpecProperties.put("scope", "global");
+		}
 		langSpecProperties.put("type", "object");
 		langSpecProperties.put("is-owned-by-breed", "yes");
 		langSpecProperties.put("is-monitorable", "yes");
@@ -29,8 +33,8 @@ public class SelDefClassModel extends BasicModel {
 		return this.className;
 	}
 
-	public void addMethod(MethodBlockModel method) {
-		methods.add(method);
+	public void setMethods(List<MethodBlockModel> methods) {
+		this.methods = methods;
 	}
 
 	public void print(PrintStream out, int lineNumber) throws Exception {
@@ -64,6 +68,77 @@ public class SelDefClassModel extends BasicModel {
 		makeIndent(out, lineNumber);
 		out.println("<Stubs>");
 
+		printStubs(
+				"<Stub stub-genus=\"callActionMethod\">",
+				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>",
+				"<LangSpecProperty key=\"scope\" value=\""
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>", out, lineNumber);
+		printStubs(
+				"<Stub stub-genus=\"callGetterMethod\">",
+				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>",
+				"<LangSpecProperty key=\"scope\" value=\""
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>", out, lineNumber);
+
+		printStubs(
+				"<Stub stub-genus=\"callBooleanMethod\">",
+				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>",
+				"<LangSpecProperty key=\"scope\" value=\""
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>", out, lineNumber);
+
+		printStubs(
+				"<Stub stub-genus=\"callDoubleMethod\">",
+				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>",
+				"<LangSpecProperty key=\"scope\" value=\""
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>", out, lineNumber);
+
+		printStubs(
+				"<Stub stub-genus=\"callStringMethod\">",
+				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>",
+				"<LangSpecProperty key=\"scope\" value=\""
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>", out, lineNumber);
+
+		printStubs(
+				"<Stub stub-genus=\"callObjectMethod\">",
+				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>",
+				"<LangSpecProperty key=\"scope\" value=\""
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>", out, lineNumber);
+
+		printStubs(
+				"<Stub stub-genus=\"getter\">",
+				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>",
+				"<LangSpecProperty key=\"scope\" value=\""
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>", out, lineNumber);
+
+		printStubs(
+				"<Stub stub-genus=\"setter\">",
+				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>",
+				"<LangSpecProperty key=\"scope\" value=\""
+						+ langSpecProperties.get("scope")
+						+ "\"></LangSpecProperty>", out, lineNumber);
+
 		makeIndent(out, lineNumber);
 		out.println("</Stubs>");
 
@@ -77,6 +152,10 @@ public class SelDefClassModel extends BasicModel {
 
 		makeIndent(out, lineNumber);
 		out.println("</LangSpecProperties>");
+
+		for (MethodBlockModel method : methods) {
+			method.print(out, lineNumber);
+		}
 
 		out.println("</BlockGenus>");
 		out.println();
@@ -102,6 +181,27 @@ public class SelDefClassModel extends BasicModel {
 
 		makeIndent(out, --lineNumber);
 		out.println("</BlockConnectors>");
+	}
+
+	private void printStubs(String stub, String property1, String property2,
+			PrintStream out, int lineNumber) {
+		makeIndent(out, ++lineNumber);
+		out.println(stub);
+
+		makeIndent(out, ++lineNumber);
+		out.println("<LangSpecProperties>");
+
+		makeIndent(out, ++lineNumber);
+		out.println(property1);
+		makeIndent(out, lineNumber);
+		out.println(property2);
+
+		makeIndent(out, --lineNumber);
+		out.println("</LangSpecProperties>");
+
+		makeIndent(out, --lineNumber);
+		out.println("</Stub>");
+
 	}
 
 	private void printLangSpecProperty(PrintStream out, int lineNumber,
