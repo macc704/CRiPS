@@ -94,6 +94,7 @@ public class PLStampedProject implements ICTimeOrderable {
 			ObjectInputStream ois = new ObjectInputStream(
 					file.openInputStream());
 			CCompileResult result = (CCompileResult) ois.readObject();
+			ois.close();
 			return result;
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);

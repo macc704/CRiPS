@@ -5,6 +5,7 @@ import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.controller.CCCompileErrorLoader;
 import src.coco.model.CCCompileErrorManager;
 import src.coco.view.CCMainFrame2;
+import clib.common.filesystem.CDirectory;
 
 public class RECocoViewerManager {
 	REApplication application;
@@ -21,7 +22,10 @@ public class RECocoViewerManager {
 	public void openCocoViewer() {
 		CCCompileErrorManager manager = new CCCompileErrorManager();
 		loadData(manager);
-		new CCMainFrame2(manager).setVisible(true);
+
+		CDirectory ppvRoot = application.getSourceManager().getCRootDirectory()
+				.findOrCreateDirectory(PPV_ROOT_DIR);
+		new CCMainFrame2(manager, ppvRoot).setVisible(true);
 	}
 
 	private void loadData(CCCompileErrorManager manager) {
