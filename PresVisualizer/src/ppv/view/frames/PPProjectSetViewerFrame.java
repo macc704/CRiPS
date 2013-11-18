@@ -155,7 +155,8 @@ public class PPProjectSetViewerFrame extends JFrame {
 				item.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						printCompileErrorAnalysis(new File("/CompileError.csv"));
+						printCompileErrorAnalysis(
+								new File("./CompileError.csv"), false);
 					}
 				});
 				menu.add(item);
@@ -226,10 +227,10 @@ public class PPProjectSetViewerFrame extends JFrame {
 	// for CocoViewer by hirao
 	public void doPrintCompileErrorCSV(CDirectory baseDir) {
 		printCompileErrorAnalysis(new File(baseDir.getAbsolutePath().toString()
-				+ "/CompileError.csv"));
+				+ "/CompileError.csv"), true);
 	}
 
-	private void printCompileErrorAnalysis(File outfile) {
+	private void printCompileErrorAnalysis(File outfile, boolean coco) {
 		// CompileErrorAnalysis
 		List<CompileErrorAnalyzerList> analyzers = new ArrayList<CompileErrorAnalyzerList>();
 		for (PLProject project : projectSet.getProjects()) {
@@ -244,8 +245,10 @@ public class PPProjectSetViewerFrame extends JFrame {
 		CompileErrorListFile file = new CompileErrorListFile(analyzers);
 
 		try {
-			file.outputErrorList(outfile);
-			file.outputPatternList();
+			file.outputErrorList(outfile, coco);
+			if (!coco) {
+				file.outputPatternList();
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -312,5 +315,4 @@ public class PPProjectSetViewerFrame extends JFrame {
 		// System.out.println(i + ":" + num[i]);
 		// }
 	}
-
 }

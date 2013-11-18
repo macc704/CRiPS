@@ -42,7 +42,7 @@ public class CompileErrorListFile {
 	 * Output
 	 ****************************************************/
 
-	public void outputErrorList(File file) throws IOException,
+	public void outputErrorList(File file, boolean coco) throws IOException,
 			FileNotFoundException {
 		makeCSVFile(file);
 
@@ -93,13 +93,14 @@ public class CompileErrorListFile {
 		pw.println(buf.toString());
 
 		for (CompileErrorAnalyzerList analyze : compileErrorAnalyzes) {
-			writeErrorList(analyze, pw);
+			writeErrorList(analyze, pw, coco);
 		}
 
 		pw.close();
 	}
 
-	private void writeErrorList(CompileErrorAnalyzerList analyze, PrintWriter pw) {
+	private void writeErrorList(CompileErrorAnalyzerList analyze,
+			PrintWriter pw, boolean coco) {
 
 		// 静大
 		String[] line = analyze.getProject().getName().split("-");
@@ -134,17 +135,22 @@ public class CompileErrorListFile {
 			// buf.append(CAMMA);
 
 			/*** どちらでもない **/
-			buf.append("NA");
-			buf.append(CAMMA);
-			buf.append("NA");
-			buf.append(CAMMA);
+			// buf.append("NA");
+			// buf.append(CAMMA);
+			// buf.append("NA");
+			// buf.append(CAMMA);
 
 			// 最初のセグメントのコンパイルエラーを取得
 			CDiagnostic compileError = history.getSegments().getFirst()
 					.getCompileError();
 
-			// ファイル名
-			buf.append(compileError.getNoPathSourceName());
+			// ファイル名 cocoViewerからならフルパス
+			if (coco) {
+				buf.append(compileError.getSourceName());
+			} else {
+				buf.append(compileError.getNoPathSourceName());
+			}
+
 			buf.append(CAMMA);
 
 			CMessageParser parser = compileError.getMessageParser();
