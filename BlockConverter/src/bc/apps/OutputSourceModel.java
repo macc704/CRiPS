@@ -203,13 +203,14 @@ public class OutputSourceModel {
 
 	private int getFirstMethodBeginPosition() {
 		List<MethodDeclaration> methods = getMethods();
+		int start;
 		if (methods.size() <= 0) {// 現状の仕様では，メソッドが一つ以上ないといけない
-			throw new RuntimeException("no any method found.");
+			start = 23;
+		} else {
+			MethodDeclaration last = methods.get(0);
+
+			start = last.getStartPosition();
 		}
-
-		MethodDeclaration last = methods.get(0);
-
-		int start = last.getStartPosition();
 		return start;
 	}
 
