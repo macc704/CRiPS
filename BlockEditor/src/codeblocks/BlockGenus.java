@@ -94,6 +94,12 @@ public class BlockGenus {
 	 * expect a lot of groups in one block.
 	 */
 	private List<List<BlockConnector>> expandGroups = new ArrayList<List<BlockConnector>>();
+	//ohata add
+	private List<Map<String, List<String>>> methods = new ArrayList<Map<String, List<String>>>();
+
+	public List<Map<String, List<String>>> getMethods() {
+		return methods;
+	}
 
 	/**
 	 * Only BlockGenus can create BlockGenus objects, specifically only the
@@ -1072,6 +1078,7 @@ public class BlockGenus {
 		Matcher nameMatcher;
 		Node stub;
 		String stubGenus = "";
+
 		for (int m = 0; m < stubs.getLength(); m++) {
 			stub = stubs.item(m);
 			if (stub.getNodeName().equals("Stub")) {
@@ -1113,6 +1120,75 @@ public class BlockGenus {
 				}
 			}
 		}
+	}
+
+	private static void loadClassMethods(NodeList methods, BlockGenus genus) {
+		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
+		Matcher nameMatcher;
+		Node prop;
+		String methodDecralation;
+		Map<String, List<String>> method = new HashMap<String, List<String>>();
+
+		for (int l = 0; l < methods.getLength(); l++) {
+			prop = methods.item(l);
+			if (prop.getNodeName().equals("MethodProperty")) {
+				if (prop.getAttributes().getLength() > 0) {
+
+					nameMatcher = attrExtractor.matcher(prop.getAttributes()
+							.getNamedItem("name").toString());
+					if (nameMatcher.find()) {// will be true
+						List<String> temp = new ArrayList<String>();
+						temp.add(nameMatcher.group(1).toString());
+						method.put("name", temp);
+					}
+
+					Node opt_item = prop.getAttributes()
+							.getNamedItem("modifer");
+					Node return_type = prop.getAttributes().getNamedItem(
+							"returnType");
+
+					if (opt_item != null) {
+						nameMatcher = attrExtractor
+								.matcher(opt_item.toString());
+						if (nameMatcher.find()) {
+							List<String> temp = new ArrayList<String>();
+							temp.add(nameMatcher.group(1).toString());
+							method.put("modifer", temp);
+						}
+					} else {
+						method.put("modifer", null);
+					}
+
+					if (return_type != null) {
+						nameMatcher = attrExtractor.matcher(return_type
+								.toString());
+						if (nameMatcher.find()) {
+							List<String> temp = new ArrayList<String>();
+							temp.add(nameMatcher.group(1).toString());
+							method.put("returnType", temp);
+
+						}
+					} else {
+						method.put("returnType", null);
+					}
+
+					NodeList parameter_item = prop.getChildNodes();
+					Node parameter;
+					List<String> parameters = new ArrayList<String>();
+					for (int j = 0; j < parameter_item.getLength(); j++) {
+						parameter = parameter_item.item(j);
+						if (parameter.getNodeName().equals("Parameter")) {
+							parameters.add(parameter.getTextContent());
+						}
+					}
+					method.put("parameters", parameters);
+					genus.methods.add(method);
+					//if (key != null && value != null)
+					//genus.properties.put(key, value);
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -1310,7 +1386,11 @@ public class BlockGenus {
 						// / LOAD STUBS INFO AND GENERATE GENUSES FOR EACH STUB ///
 						// ////////////////////////////////////////////////////////
 						loadStubs(genusChild.getChildNodes(), newGenus);
+					} else if (genusChild.getNodeName().equals("ClassMethods")) {
+						//メソッドの読み込み
+						loadClassMethods(genusChild.getChildNodes(), newGenus);
 					}
+
 				}
 
 				// John's code to add command sockets... probably in the wrong place

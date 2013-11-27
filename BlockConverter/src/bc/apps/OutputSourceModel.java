@@ -215,15 +215,26 @@ public class OutputSourceModel {
 
 	private int getLastMethodFinishPosition() {
 		List<MethodDeclaration> methods = getMethods();
-
+		int end;
 		if (methods.size() <= 0) {// 現状の仕様では，メソッドが一つ以上ないといけない
-			throw new RuntimeException("no any method found.");
+			// throw new RuntimeException("no any method found.");
+			List<FieldDeclaration> privateValues = getPrivateValues();
+			if (privateValues.size() <= 0) {
+				end = 23;
+			} else {
+				FieldDeclaration last = privateValues
+						.get(privateValues.size() - 1);
+				int start = last.getStartPosition();
+				int len = last.getLength();
+				end = start + len;
+			}
+		} else {
+			MethodDeclaration last = methods.get(methods.size() - 1);
+			int start = last.getStartPosition();
+			int len = last.getLength();
+			end = start + len;
 		}
 
-		MethodDeclaration last = methods.get(methods.size() - 1);
-		int start = last.getStartPosition();
-		int len = last.getLength();
-		int end = start + len;
 		// the last position
 		return end;
 	}

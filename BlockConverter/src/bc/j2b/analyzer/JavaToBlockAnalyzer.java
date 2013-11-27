@@ -38,6 +38,7 @@ import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.StringLiteral;
+import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
@@ -76,6 +77,7 @@ import bc.j2b.model.StLocalVariableModel;
 import bc.j2b.model.StMethodDeclarationModel;
 import bc.j2b.model.StPrivateVariableDeclarationModel;
 import bc.j2b.model.StReturnModel;
+import bc.j2b.model.StSuperConstructorInvocationModel;
 import bc.j2b.model.StVariableDeclarationModel;
 import bc.j2b.model.StWhileModel;
 import bc.j2b.model.StatementModel;
@@ -591,6 +593,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				empty.setLineNumber(compilationUnit.getLineNumber(stmt
 						.getStartPosition()));
 				return empty;
+			} else if (stmt instanceof SuperConstructorInvocation) {
+				return analyzeSuperConstructorInvocation((SuperConstructorInvocation) stmt);
 			}
 			throw new RuntimeException(
 					"The stmt type has not been supported yet stmt: "
@@ -608,6 +612,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			// stex.setId(idCounter.getNextId());
 			// return stex;
 		}
+	}
+
+	private StatementModel analyzeSuperConstructorInvocation(
+			SuperConstructorInvocation stmt) {
+		StSuperConstructorInvocationModel model = new StSuperConstructorInvocationModel();
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(stmt
+				.getStartPosition()));
+		return model;
 	}
 
 	private StatementModel analyzeReturnStatement(ReturnStatement stmt) {

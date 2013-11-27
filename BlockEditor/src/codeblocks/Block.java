@@ -47,8 +47,8 @@ public class Block implements ISupportMemento {
 	private String headerLabel = null;
 	/** created by sakai lab 2011/11/22 */
 	private String footerLabel = null;
-	private String genusName;	
-	
+	private String genusName;
+
 	// block connection information
 	private List<BlockConnector> sockets;
 	private BlockConnector plug;
@@ -81,6 +81,13 @@ public class Block implements ISupportMemento {
 	// argument descriptions
 	private ArrayList<String> argumentDescriptions;
 
+	//ohata added
+	private List<Map<String, List<String>>> methods = new ArrayList<Map<String, List<String>>>();
+
+	public List<Map<String, List<String>>> getMethods() {
+		return methods;
+	}
+
 	/**
 	 * Constructs a new Block from the specified information. This class
 	 * constructor is protected as block loading from XML content or the
@@ -102,8 +109,7 @@ public class Block implements ISupportMemento {
 					+ label;
 		}
 		this.blockID = id;
-		
-		
+
 		// if this assigned id value equals the next id to automatically assign
 		// a new block, increment the next id value by 1
 		if (id.longValue() == NEXT_ID)
@@ -136,6 +142,8 @@ public class Block implements ISupportMemento {
 			this.genusName = genusName;
 
 			this.label = label;
+
+			this.methods = genus.getMethods();//ohata added
 
 			setHeaderLabel(BlockGenus.getGenusWithName(genusName)
 					.getInitHeaderLabel());
@@ -232,10 +240,9 @@ public class Block implements ISupportMemento {
 	 * 
 	 * @param genusName
 	 *            the name of its associated <code>BlockGenus</code>
-	 * @param 
-	 *            if true, this block can have stubs and be linked to them; if
-	 *            false, then this block even though the genus specifies it will
-	 *            not be linked to stubs
+	 * @param if true, this block can have stubs and be linked to them; if
+	 *        false, then this block even though the genus specifies it will not
+	 *        be linked to stubs
 	 */
 	public Block(String genusName, boolean linkToStubs) {
 		this(genusName, BlockGenus.getGenusWithName(genusName)
@@ -837,8 +844,6 @@ public class Block implements ISupportMemento {
 		return plug;
 	}
 
-	
-	
 	/**
 	 * Sets the plug of this.
 	 * 
@@ -1301,8 +1306,9 @@ public class Block implements ISupportMemento {
 	public boolean isProcedureParamBlock() {
 		return getGenus().isProcedureParamBlock();
 	}
+
 	// #ohata added
-	public boolean isPrivateVariableBlock(){
+	public boolean isPrivateVariableBlock() {
 		return getGenus().isPrivateVariableBlock();
 	}
 
@@ -1669,7 +1675,7 @@ public class Block implements ISupportMemento {
 			saveString.append(escape(pageLabel));
 			saveString.append("</CompilerErrorMsg>");
 		}
-		
+
 		saveString.append("<Location>");
 		saveString.append("<X>");
 		saveString.append(x);
@@ -1777,13 +1783,12 @@ public class Block implements ISupportMemento {
 			saveString.append(escape(pageLabel));
 			saveString.append("</CompilerErrorMsg>");
 		}
-		if(comment != null){
+		if (comment != null) {
 			saveString.append("<LineComment>");
 			saveString.append(comment);
 			saveString.append("</LineComment>");
 		}
-		
-		
+
 		saveString.append("<Location>");
 		saveString.append("<X>");
 		saveString.append(x);
@@ -1853,8 +1858,6 @@ public class Block implements ISupportMemento {
 		return saveString.toString();
 	}
 
-	
-	
 	// may put this in a separate XML writing utility class
 	private void appendAttribute(String att, String value, StringBuffer buf) {
 		buf.append(att);
@@ -1938,9 +1941,9 @@ public class Block implements ISupportMemento {
 				child = children.item(i);
 				if (child.getNodeName().equals("Label")) {
 					label = child.getTextContent();
-				} else if(child.getNodeName().equals("LineNumber")){
+				} else if (child.getNodeName().equals("LineNumber")) {
 					lineNumber = Integer.parseInt(child.getTextContent());
-				} else if(child.getNodeName().equals("ParentBlock")){
+				} else if (child.getNodeName().equals("ParentBlock")) {
 					parentID = Long.parseLong(child.getTextContent());
 				} else if (child.getNodeName().equals("PageLabel")) {
 					pagelabel = child.getTextContent();
@@ -2086,7 +2089,7 @@ public class Block implements ISupportMemento {
 
 			block.setLineNumber(lineNumber);
 			block.setParentBlockID(parentID);
-			
+
 			return block;
 		}
 
@@ -2246,27 +2249,26 @@ public class Block implements ISupportMemento {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * @param lineNumber
 	 */
 	public void setLineNumber(int lineNumber) {
 		this.lineNumber = lineNumber;
 	}
-	
+
 	/**
 	 * @return lineNumber
 	 */
 	public int getLineNumber() {
 		return this.lineNumber;
 	}
-	
-	public void setParentBlockID(Long parent){
+
+	public void setParentBlockID(Long parent) {
 		this.parentID = parent;
 	}
-	
-	public Long getParentBlockID(){
+
+	public Long getParentBlockID() {
 		return parentID;
 	}
 }

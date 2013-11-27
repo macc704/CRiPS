@@ -7,6 +7,9 @@ package a.slab.blockeditor.extent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -37,9 +40,14 @@ public class SContextMenuProvider {
 	private JMenuItem createCallBooleanMethodBlockItem;
 	private JMenuItem createCallStringMethodBlockItem;
 	private JMenuItem createCallerItem;
+	private List<Map<String, List<String>>> method = new ArrayList<Map<String, List<String>>>();
 
 	public SContextMenuProvider(RenderableBlock rb) {
 		this.rb = rb;
+	}
+
+	public void setMethod(List<Map<String, List<String>>> method) {
+		this.method = method;
 	}
 
 	private JMenuItem createBlockCopyMenu() {
@@ -193,6 +201,16 @@ public class SContextMenuProvider {
 		return createCallerItem;
 	}
 
+	public void addClassMethods(JPopupMenu menu) {
+		List<Map<String, List<String>>> methods = rb.getMethods();
+		JMenu category = new JMenu("パブリックメソッド");
+		for (Map<String, List<String>> method : methods) {
+			//TODO メソッドをつくる
+			category.add(createCallClassMethodMenu(method));
+		}
+		menu.add(category);
+	}
+
 	/**
 	 * @return
 	 */
@@ -230,6 +248,8 @@ public class SContextMenuProvider {
 		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
 			menu.add(createActionBlockMenu());
 			menu.add(createGetterBlockMenu());
+			//TODO menuにメソッドを追加
+			addClassMethods(menu);
 			if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
 				{
 					JMenu category = new JMenu("Scanner");
@@ -389,6 +409,38 @@ public class SContextMenuProvider {
 			}
 		});
 		return item;
+	}
+
+	private JMenuItem createCallClassMethodMenu(
+			final Map<String, List<String>> method) {
+
+		String param = "(";
+		for (int i = 0; i < method.get("parameters").size(); i++) {
+			param += method.get("parameters").get(i);
+			if (i + 1 != method.get("parameters").size()) {
+				param += ", ";
+			}
+		}
+
+		param += ")";
+		JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
+		if (method.get("returnType").get(0) == "String") {
+
+		} else if (method.get("returnType").get(0) == "double") {
+
+		} else if (method.get("returnType").get(0) == "int") {
+
+		} else if (method.get("returnType").get(0) == "void") {
+		} else {
+
+		}
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
+		return item;
+
 	}
 
 	/**

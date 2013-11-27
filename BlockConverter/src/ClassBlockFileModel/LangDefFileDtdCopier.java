@@ -38,21 +38,43 @@ public class LangDefFileDtdCopier implements Copier {
 					ps.println(line);
 				}
 			}
+
+			// TODO 相対パスを計算する
+			File tmp = new File(file.getPath());
+			String home = "";
+			while (!tmp.getName().equals("MyProjects")) {
+				System.out.println(tmp.getName());
+				tmp = tmp.getParentFile();
+				home = home + "../";
+			}
+			System.out.println(home);
+
 			ps.println("<!ENTITY lang_def_menu_project SYSTEM \"lang_def_menu_project.xml\">");
 			ps.println("<!ENTITY lang_def_genuses SYSTEM \"lang_def_genuses.xml\">");
 			ps.println("<!ENTITY lang_def_genuses_project SYSTEM \"lang_def_genuses_project.xml\">");
 
-			ps.println("<!ENTITY lang_def_genuses_stubs SYSTEM \"../../ext/block/lang_def_genuses_stubs.xml\">");
-			ps.println("<!ENTITY lang_def_genuses_datatypes SYSTEM \"../../ext/block/lang_def_genuses_datatypes.xml\">");
-			ps.println("<!ENTITY lang_def_genuses_variable SYSTEM \"../../ext/block/lang_def_genuses_variable.xml\">");
-			ps.println("<!ENTITY lang_def_genuses_calc SYSTEM \"../../ext/block/lang_def_genuses_calc.xml\">");
-			ps.println("<!ENTITY lang_def_genuses_procedure SYSTEM \"../../ext/block/lang_def_genuses_procedure.xml\">");
-			ps.println("<!ENTITY lang_def_genuses_object SYSTEM \"../../ext/block/lang_def_genuses_object.xml\">");
-			ps.println("<!ENTITY lang_def_genuses_math SYSTEM \"../../ext/block/lang_def_genuses_math.xml\">");
-			ps.println("<!ENTITY lang_def_genuses_cui SYSTEM \"../../ext/block/lang_def_genuses_cui.xml\">");
-			ps.println("<!ENTITY lang_def_genuses_turtle SYSTEM \"../../ext/block/lang_def_genuses_turtle.xml\">");
-			ps.println("<!ENTITY lang_def_families SYSTEM \"../../ext/block/lang_def_families.xml\">");
-			ps.println("<!ENTITY lang_def_etc SYSTEM \"../../ext/block/lang_def_etc.xml\">");
+			ps.println("<!ENTITY lang_def_genuses_stubs SYSTEM \"" + home
+					+ "ext/block/lang_def_genuses_stubs.xml\">");
+			ps.println("<!ENTITY lang_def_genuses_datatypes SYSTEM \"" + home
+					+ "ext/block/lang_def_genuses_datatypes.xml\">");
+			ps.println("<!ENTITY lang_def_genuses_variable SYSTEM \"" + home
+					+ "ext/block/lang_def_genuses_variable.xml\">");
+			ps.println("<!ENTITY lang_def_genuses_calc SYSTEM \"" + home
+					+ "ext/block/lang_def_genuses_calc.xml\">");
+			ps.println("<!ENTITY lang_def_genuses_procedure SYSTEM \"" + home
+					+ "ext/block/lang_def_genuses_procedure.xml\">");
+			ps.println("<!ENTITY lang_def_genuses_object SYSTEM \"" + home
+					+ "ext/block/lang_def_genuses_object.xml\">");
+			ps.println("<!ENTITY lang_def_genuses_math SYSTEM \"" + home
+					+ "ext/block/lang_def_genuses_math.xml\">");
+			ps.println("<!ENTITY lang_def_genuses_cui SYSTEM \"" + home
+					+ "ext/block/lang_def_genuses_cui.xml\">");
+			ps.println("<!ENTITY lang_def_genuses_turtle SYSTEM \"" + home
+					+ "ext/block/lang_def_genuses_turtle.xml\">");
+			ps.println("<!ENTITY lang_def_families SYSTEM \"" + home
+					+ "ext/block/lang_def_families.xml\">");
+			ps.println("<!ENTITY lang_def_etc SYSTEM \"" + home
+					+ "ext/block/lang_def_etc.xml\">");
 			// menu情報のコピー
 			// psに書きだしたものをすべて文字列に変換する
 			String ldfString = turtleByteArray.toString();
@@ -73,5 +95,4 @@ public class LangDefFileDtdCopier implements Copier {
 		}
 
 	}
-
 }
