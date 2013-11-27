@@ -36,6 +36,8 @@ import ronproeditor.ext.REBlockEditorManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
+import ronproeditor.ext.REGoodSubManager;
+import ronproeditor.helpers.CFrameUtils;
 import ronproeditor.helpers.FileSystemUtil;
 import ronproeditor.helpers.JavaEnv;
 import ronproeditor.helpers.NewZipUtil;
@@ -322,6 +324,7 @@ public class REApplication implements ICFwApplication {
 	private REFlowViewerManager flowManager;
 	private REGeneRefManager generefManager;
 	private REPresVisualizerManager ppvManager;
+	private REGoodSubManager goodsubManager; // GoodSub(kato)
 	private GUI deno;
 
 	/***********************
@@ -344,6 +347,7 @@ public class REApplication implements ICFwApplication {
 		flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
 		ppvManager = new REPresVisualizerManager(this);
+		goodsubManager = new REGoodSubManager(this);
 
 		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
 				"*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
@@ -425,6 +429,8 @@ public class REApplication implements ICFwApplication {
 	}
 
 	/***********************
+	 * 
+	 * 
 	 * Application Method
 	 ***********************/
 
@@ -1152,6 +1158,11 @@ public class REApplication implements ICFwApplication {
 
 	public void doOpenGeneRefBrowser() {
 		generefManager.openGeneRefBrowser();
+	}
+
+	// GoodSub(kato)
+	public void doStartGoodSub() {
+		goodsubManager.startGoodSub();
 	}
 
 	private void copyDatFileToProject() {

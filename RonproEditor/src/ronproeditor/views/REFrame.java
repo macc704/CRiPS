@@ -69,7 +69,7 @@ public class REFrame extends JFrame {
 	 * メニュー・アクション類
 	 **********************/
 
-	// 「ファイル」
+	// // 「ファイル」
 	private Action actionCreateProject;
 	private Action actionCreateFile;
 	private Action actionRefactoring;
@@ -80,14 +80,14 @@ public class REFrame extends JFrame {
 	private Action actionRefresh;
 	private Action actionExit;
 
-	// 「編集」
+	// // 「編集」
 	private Action actionUndo;
 	private Action actionRedo;
 	private Action actionCut = new DefaultEditorKit.CutAction();
 	private Action actionCopy = new DefaultEditorKit.CopyAction();
 	private Action actionPaste = new DefaultEditorKit.PasteAction();
-
-	// 「Java」
+	//
+	// // 「Java」
 	private Action actionCompile;
 	private Action actionRun;
 	private Action actionDebugRun; // add hakamata
@@ -99,6 +99,7 @@ public class REFrame extends JFrame {
 	private Action actionOpenFlowViewer;
 	private Action actionOpenGeneRefBrowser;
 	private Action actionBytecode;
+	private Action actionStartGoodSub; // GoodSub(kato)
 
 	// 「Help」
 	private Action actionOpenPreference;
@@ -198,6 +199,54 @@ public class REFrame extends JFrame {
 					}
 				});
 	}
+
+	/***********************
+	 * メニュー・アクション類
+	 **********************/
+
+	// // 「ファイル」
+	// private JMenu menuFile;
+	// private Action actionCreateProject;
+	// private Action actionCreateFile;
+	// private Action actionRefactoring;
+	// private Action actionDelete;
+	// private Action actionSave;
+	// private Action actionFileCopy;
+	// private Action actionExport;
+	// private Action actionRefresh;
+	// private Action actionExit;
+	//
+	// // 「編集」
+	// private JMenu menuEdit;
+	// private Action actionUndo;
+	// private Action actionRedo;
+	// private Action actionCut = new DefaultEditorKit.CutAction();
+	// private Action actionCopy = new DefaultEditorKit.CopyAction();
+	// private Action actionPaste = new DefaultEditorKit.PasteAction();
+	//
+	// // 「Java」
+	// private JMenu menuJava;
+	// private Action actionCompile;
+	// private Action actionRun;
+	// private Action actionDebugRun; // add hakamata
+	// private Action actionKill;
+	// private Action actionFormat;
+	//
+	// // 「Tools」
+	// private JMenu menuTools;
+	// private Action actionOpenBlockEditor;
+	// private Action actionOpenFlowViewer;
+	// private Action actionOpenGeneRefBrowser;
+	// // private JCheckBoxMenuItem useRSSystem;
+	// private Action actionBytecode;
+	// private Action actionStartGoodSub; // GoodSub(kato)
+	//
+	// // 「Help」
+	// private JMenu menuHelp;
+	// private Action actionOpenPreference;
+	// private Action actionAbout;
+
+	// private Action actionMakeLog;
 
 	/*******************
 	 * メニューの初期化
@@ -368,6 +417,10 @@ public class REFrame extends JFrame {
 			actionUndo.setEnabled(false);
 			menu.add(actionUndo);
 		}
+
+		// 競合
+		// menuTools.add(actionStartGoodSub); // GoodSub(kato)
+		// }
 
 		{// -- Redo
 			actionRedo = new AbstractAction() {
@@ -565,6 +618,22 @@ public class REFrame extends JFrame {
 				menu.add(actionBytecode);
 			}
 		}
+		// };
+		actionBytecode.putValue(Action.NAME, "Lesson Bytecode");
+		actionBytecode.putValue(Action.ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_J, CTRL_MASK));
+		actionBytecode.setEnabled(false);
+
+		// --GoodSub
+		actionStartGoodSub = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				application.doStartGoodSub();
+			}
+		};
+		actionStartGoodSub.putValue(Action.NAME, "Start GoodSub");
+		actionStartGoodSub.setEnabled(true);
+		menu.add(actionStartGoodSub); // GoodSub(kato)
+
 	}
 
 	private void initializeHelpMenu() {
