@@ -23,7 +23,7 @@ public class JavaCommentManager {
 	 * @param abstractBlocks
 	 */
 	public String getLineComment(int position) {
-		if(position < 0){
+		if (position < 0) {
 			return "";
 		}
 		try {
@@ -52,7 +52,7 @@ public class JavaCommentManager {
 	 */
 	public int getLineCommentPosition(int position) {
 		// #ohata added
-		for (int i = 0; i < source.length(); i++) {
+		for (int i = 0; position + i < source.length(); i++) {
 			if (source.charAt(position + i) == '/'
 					&& source.charAt(position + i + 1) == '/') {
 				BCSystem.out.println("position:" + position);
@@ -64,19 +64,21 @@ public class JavaCommentManager {
 		}
 		return -1;
 	}
-//#ohata added
-	public int getLineCommentEndPosition(int position){
+
+	// #ohata added
+	public int getLineCommentEndPosition(int position) {
 		int end = getLineCommentPosition(position);
 		int i = 0;
-		if(end != -1){
-			while (source.charAt(i + end) != '\r' || source.charAt(i + end) != '\n') {
+		if (end != -1) {
+			while (source.charAt(i + end) != '\r'
+					|| source.charAt(i + end) != '\n') {
 				i++;
 			}
-			end  = end + i + 2;
-		}else{
+			end = end + i + 2;
+		} else {
 			end = position;
 		}
-		return end;	
+		return end;
 	}
 
 	public String getBlockComment(int position) {

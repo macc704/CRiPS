@@ -47,7 +47,6 @@ public class LangDefFileDtdCopier implements Copier {
 				tmp = tmp.getParentFile();
 				home = home + "../";
 			}
-			System.out.println(home);
 
 			ps.println("<!ENTITY lang_def_menu_project SYSTEM \"lang_def_menu_project.xml\">");
 			ps.println("<!ENTITY lang_def_genuses SYSTEM \"lang_def_genuses.xml\">");

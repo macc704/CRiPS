@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
@@ -205,7 +207,16 @@ public class OutputSourceModel {
 		List<MethodDeclaration> methods = getMethods();
 		int start;
 		if (methods.size() <= 0) {// 現状の仕様では，メソッドが一つ以上ないといけない
-			start = 23;
+			Pattern p = Pattern
+					.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]+[{]");
+			String src = FileReader.readFile(file, enc);
+			Matcher m = p.matcher(src);
+			if (m.find()) {
+				System.out.println("match!");
+				start = m.group().length();
+			} else {
+				throw new RuntimeException("Class Declaration Not Found.");
+			}
 		} else {
 			MethodDeclaration last = methods.get(0);
 
@@ -218,17 +229,18 @@ public class OutputSourceModel {
 		List<MethodDeclaration> methods = getMethods();
 		int end;
 		if (methods.size() <= 0) {// 現状の仕様では，メソッドが一つ以上ないといけない
-			// throw new RuntimeException("no any method found.");
-			List<FieldDeclaration> privateValues = getPrivateValues();
-			if (privateValues.size() <= 0) {
-				end = 23;
+			// public class hoge{までの文字数を獲得する
+			// (public)? +class + (.)+ +{
+			Pattern p = Pattern
+					.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]+[{]");
+			String src = FileReader.readFile(file, enc);
+			Matcher m = p.matcher(src);
+			if (m.find()) {
+				end = m.group().length();
 			} else {
-				FieldDeclaration last = privateValues
-						.get(privateValues.size() - 1);
-				int start = last.getStartPosition();
-				int len = last.getLength();
-				end = start + len;
+				throw new RuntimeException("Class Declaration Not Found.");
 			}
+
 		} else {
 			MethodDeclaration last = methods.get(methods.size() - 1);
 			int start = last.getStartPosition();

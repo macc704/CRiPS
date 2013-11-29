@@ -2128,6 +2128,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				|| e.isControlDown()) {
 			// add context menu at right click location to provide functionality
 			// for adding new comments and removing comments
+			System.out.println("this:" + getName());
 			JPopupMenu popup = ContextMenu.getContextMenuFor(this);
 			add(popup);
 			popup.show(this, e.getX(), e.getY());

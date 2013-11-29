@@ -54,12 +54,14 @@ public class ProcedureBlockModel extends CommandBlockModel {
 			BlockToJavaAnalyzer.getBlock(getAfterID()).print(out, indent + 1);
 		}
 		makeIndent(out, indent);
-		if(isCollapsed()){
-			out.print("}//" + getComment() + " @(" + getX() + ", " + getY() + ")" + " [close]");	
-		}else{
-			out.print("}//" + getComment() + " @(" + getX() + ", " + getY() + ")" + " [open]");
+		if (isCollapsed()) {
+			out.print("}//" + getComment() + " @(" + getX() + ", " + getY()
+					+ ")" + " [close]");
+		} else {
+			out.print("}//" + getComment() + " @(" + getX() + ", " + getY()
+					+ ")" + " [open]");
 		}
-		
+
 	}
 
 	public String getReturnType() {
@@ -94,5 +96,5 @@ public class ProcedureBlockModel extends CommandBlockModel {
 		}
 		return children;
 	}
-	
+
 }

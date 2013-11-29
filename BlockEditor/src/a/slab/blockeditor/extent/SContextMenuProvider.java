@@ -40,6 +40,7 @@ public class SContextMenuProvider {
 	private JMenuItem createCallBooleanMethodBlockItem;
 	private JMenuItem createCallStringMethodBlockItem;
 	private JMenuItem createCallerItem;
+
 	private List<Map<String, List<String>>> method = new ArrayList<Map<String, List<String>>>();
 
 	public SContextMenuProvider(RenderableBlock rb) {
@@ -201,14 +202,13 @@ public class SContextMenuProvider {
 		return createCallerItem;
 	}
 
-	public void addClassMethods(JPopupMenu menu) {
+	public JMenu createClassMethodsCategory() {
 		List<Map<String, List<String>>> methods = rb.getMethods();
 		JMenu category = new JMenu("パブリックメソッド");
 		for (Map<String, List<String>> method : methods) {
-			//TODO メソッドをつくる
 			category.add(createCallClassMethodMenu(method));
 		}
-		menu.add(category);
+		return category;
 	}
 
 	/**
@@ -249,7 +249,7 @@ public class SContextMenuProvider {
 			menu.add(createActionBlockMenu());
 			menu.add(createGetterBlockMenu());
 			//TODO menuにメソッドを追加
-			addClassMethods(menu);
+			menu.add(createClassMethodsCategory());
 			if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
 				{
 					JMenu category = new JMenu("Scanner");
@@ -424,23 +424,12 @@ public class SContextMenuProvider {
 
 		param += ")";
 		JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
-		if (method.get("returnType").get(0) == "String") {
-
-		} else if (method.get("returnType").get(0) == "double") {
-
-		} else if (method.get("returnType").get(0) == "int") {
-
-		} else if (method.get("returnType").get(0) == "void") {
-		} else {
-
-		}
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				createActionGetterBlock(rb, "callActionMethod2");
 			}
 		});
 		return item;
-
 	}
 
 	/**
@@ -491,22 +480,26 @@ public class SContextMenuProvider {
 				"return");
 		RenderableBlock getter = SStubCreator.createStub("getter", rb);
 
+		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
+
+		returnBlock.setLocation(rb.getX() + 20,
+				rb.getY() + newCommandRBlock.getHeight() + 20); //無理やり座標指定
+
+		getter.setLocation(rb.getX() + returnBlock.getBlockWidth() + 10,
+				rb.getY() + newCommandRBlock.getHeight() + 20);
+
+		connectByPlug(returnBlock, 0, getter);
+
 		//ラベル張替え
 		Block methodBlock = newCommandRBlock.getBlock();
 		methodBlock.setBlockLabel("get"
 				+ rb.getKeyword().toUpperCase().charAt(0)
 				+ rb.getKeyword().substring(1));
 
-		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
-		returnBlock.setLocation(rb.getX() + 20,
-				rb.getY() + newCommandRBlock.getHeight()); //無理やり座標指定...
-
 		BlockLink link = newCommandRBlock.getNearbyLink();
-
-		//これをやらないと形が変わらない
-		Workspace.getInstance().notifyListeners(
-				new WorkspaceEvent(newCommandRBlock.getParentWidget(), link,
-						WorkspaceEvent.BLOCKS_CONNECTED));
+		if (link != null) {
+			link.connect();
+		}
 
 		//returnBlock.getNearbyLink().connect();
 	}
@@ -554,7 +547,6 @@ public class SContextMenuProvider {
 			RenderableBlock param = createNewBlock(rb.getParentWidget(),
 					"proc-param-Tertle");
 			connectByPlug(newCommandRBlock, 0, param);
-
 		}
 
 		//		newCommandRBlock.getParentWidget().blockDropped(newCommandRBlock);

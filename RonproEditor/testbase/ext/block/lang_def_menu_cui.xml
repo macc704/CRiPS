@@ -102,6 +102,15 @@
 		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
 		<!--  <BlockGenusMember>private-var-int-number</BlockGenusMember>-->
 		<!-- <BlockGenusMember>local-var-object</BlockGenusMember> -->
+        
+        <BlockGenusMember>private-var-int-number</BlockGenusMember>
+		<BlockGenusMember>private-var-double-number</BlockGenusMember>
+		<BlockGenusMember>private-var-string</BlockGenusMember>
+		<BlockGenusMember>private-var-boolean</BlockGenusMember>
+		<BlockGenusMember>private-var-object</BlockGenusMember>
+		<BlockGenusMember>private-var-object-Text</BlockGenusMember>
+		<BlockGenusMember>private-var-object-Image</BlockGenusMember>
+		<BlockGenusMember>private-var-object-Sound</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer name="変換" type="factory" button-color="204 0 255">

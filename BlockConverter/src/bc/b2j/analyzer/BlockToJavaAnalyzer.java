@@ -335,7 +335,6 @@ public class BlockToJavaAnalyzer {
 						.getFirstChild());
 				model.setPlug(conn);
 			} else if (blockInfo.getNodeName() == "LineComment") {// #ohata
-																	// added
 				model.setComment(blockInfo.getTextContent());
 			} else if (blockInfo.getNodeName() == "Location") {
 				int x = Integer.parseInt(blockInfo.getFirstChild()
