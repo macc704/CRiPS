@@ -98,8 +98,6 @@ public class REFrame extends JFrame {
 	private Action actionOpenBlockEditor;
 	private Action actionOpenFlowViewer;
 	private Action actionOpenGeneRefBrowser;
-	// private JCheckBoxMenuItem useRSSystem;
-	private Action actionOpenPPV;
 	private Action actionBytecode;
 
 	// 「Help」
@@ -209,379 +207,397 @@ public class REFrame extends JFrame {
 		// -- メニューバーの設定 --
 		setJMenuBar(menuBar);
 
-		{// ファイルメニュー
-			JMenu menu = new JMenu("File");
-			menuBar.add(menu);
+		initializeFileMenu();
+		initializeEditMenu();
+		initializeJavaMenu();
+		initializeToolsMenu();
+		initializeHelpMenu();
+	}
 
-			{// 新規プロジェクト
-				actionCreateProject = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doCreateProject();
-					}
-				};
-				actionCreateProject.putValue(Action.NAME, "New Project");
-				actionCreateProject.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_P, CTRL_MASK));
-				menu.add(actionCreateProject);
-			}
+	private void initializeFileMenu() {
+		JMenu menu = new JMenu("File");
+		menuBar.add(menu);
 
-			{// -- 新規文書
-				actionCreateFile = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doCreateFile();
-					}
-				};
-				actionCreateFile.putValue(Action.NAME, "New File(Class)");
-				actionCreateFile.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_N, CTRL_MASK));
-				menu.add(actionCreateFile);
-			}
-
-			menu.addSeparator();
-
-			{// -- File Copy
-				actionFileCopy = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doFileCopy();
-					}
-				};
-				actionFileCopy.putValue(Action.NAME, "File Copy");
-				actionFileCopy.putValue(
-						Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_C, CTRL_MASK
-								| KeyEvent.SHIFT_MASK));
-				actionFileCopy.setEnabled(false);
-				menu.add(actionFileCopy);
-			}
-
-			{// -- Refactorプロジェクト
-				actionRefactoring = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doRefactoring();
-					}
-				};
-				actionRefactoring.putValue(Action.NAME, "Rename");
-				actionRefactoring.putValue(
-						Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK
-								| KeyEvent.SHIFT_MASK));
-				menu.add(actionRefactoring);
-			}
-
-			menu.addSeparator();
-
-			{// -- Delete
-				actionDelete = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doDelete();
-					}
-				};
-				actionDelete.putValue(Action.NAME, "Delete");
-				actionDelete.putValue(
-						Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_D, CTRL_MASK
-								| KeyEvent.SHIFT_MASK));
-				menu.add(actionDelete);
-			}
-
-			menu.addSeparator();
-
-			{// save
-				actionSave = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doSave();
-					}
-				};
-				actionSave.putValue(Action.NAME, "Save...");
-				actionSave.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_S, CTRL_MASK));
-				actionSave.setEnabled(false);
-				menu.add(actionSave);
-			}
-
-			menu.addSeparator();
-
-			{// -- Export
-				actionExport = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doExport();
-					}
-				};
-				actionExport.putValue(Action.NAME, "Export Project");
-				// actionExport.putValue(Action.ACCELERATOR_KEY,
-				// KeyStroke.getKeyStroke(
-				// KeyEvent.VK_S, CTRL_MASK));
-				actionExport.setEnabled(false);
-				menu.add(actionExport);
-			}
-
-			menu.addSeparator();
-
-			{// -- 更新
-				actionRefresh = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doRefresh();
-					}
-				};
-				actionRefresh.putValue(Action.NAME, "Refresh");
-				actionRefresh.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-				menu.add(actionRefresh);
-			}
-
-			menu.addSeparator();
-
-			{// -- 終了
-				actionExit = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doExit();
-					}
-				};
-				actionExit.putValue(Action.NAME, "Exit");
-				// actionExit.putValue(Action.ACCELERATOR_KEY,
-				// KeyStroke.getKeyStroke(
-				// KeyEvent.VK_Q, CTRL_MASK));
-				menu.add(actionExit);
-			}
-		}
-
-		{// 編集メニューの初期化
-			JMenu menu = new JMenu("Edit");
-			menuBar.add(menu);
-
-			{// -- Undo
-				actionUndo = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						// application.doUndo();
-						editor.doUndo();
-					}
-				};
-				actionUndo.putValue(Action.NAME, "Undo");
-				actionUndo.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_Z, CTRL_MASK));
-				actionUndo.setEnabled(false);
-				menu.add(actionUndo);
-			}
-
-			{// -- Redo
-				actionRedo = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						// application.doRedo();
-						editor.doRedo();
-					}
-				};
-				actionRedo.putValue(Action.NAME, "Redo");
-				actionRedo.putValue(
-						Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_Z, CTRL_MASK
-								| KeyEvent.SHIFT_MASK));
-				actionRedo.setEnabled(false);
-				menu.add(actionRedo);
-			}
-
-			menu.addSeparator();
-
-			{// -- Cut
-				actionCut.putValue(Action.NAME, "Cut");
-				actionCut.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_X, CTRL_MASK));
-				menu.add(actionCut);
-			}
-
-			{// -- Copy
-				actionCopy.putValue(Action.NAME, "Copy");
-				actionCopy.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_C, CTRL_MASK));
-				menu.add(actionCopy);
-			}
-
-			{// -- Paste
-				actionPaste.putValue(Action.NAME, "Paste");
-				actionPaste.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_V, CTRL_MASK));
-				menu.add(actionPaste);
-			}
-		}
-
-		{// Javaメニューの初期化
-			JMenu menu = new JMenu("Java");
-			menuBar.add(menu);
-
-			{// -- Compile
-				actionCompile = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doCompile();
-					}
-				};
-				actionCompile.putValue(Action.NAME, "Compile");
-				actionCompile.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_E, CTRL_MASK));
-				actionCompile.setEnabled(false);
-				menu.add(actionCompile);
-			}
-
-			{// -- Run
-				actionRun = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doRun();
-					}
-				};
-				actionRun.putValue(Action.NAME, "Run");
-				actionRun.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK));
-				actionRun.setEnabled(false);
-				menu.add(actionRun);
-			}
-
-			{// -- DebugRun (added by hakamata)
-				actionDebugRun = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doDebugRun();
-					}
-				};
-				actionDebugRun.putValue(Action.NAME, "DebugRun");
-				actionDebugRun.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_T, CTRL_MASK));
-				actionDebugRun.setEnabled(true);
-				menu.add(actionDebugRun);
-			}
-
-			{// -- Kill
-				actionKill = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doKillAll();
-					}
-				};
-				actionKill.putValue(Action.NAME, "Kill");
-				actionKill.putValue(Action.ACCELERATOR_KEY, KeyStroke
-						.getKeyStroke(KeyEvent.VK_SEMICOLON, CTRL_MASK));
-				actionKill.setEnabled(true);
-				menu.add(actionKill);
-			}
-
-			menu.addSeparator();
-
-			{// -- Format
-				actionFormat = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doFormat();
-					}
-				};
-				actionFormat.putValue(Action.NAME, "Format");
-				actionFormat.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_W, CTRL_MASK));
-				actionFormat.setEnabled(false);
-				menu.add(actionFormat);
-			}
-		}
-
-		{// Toolsメニューの初期化
-			JMenu menu = new JMenu("Tools");
-			menuBar.add(menu);
-
-			{// --BlockEditor
-				actionOpenBlockEditor = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doOpenBlockEditor();
-					}
-				};
-				actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
-				actionOpenBlockEditor.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_MASK));
-				actionOpenBlockEditor.setEnabled(true);
-				menu.add(actionOpenBlockEditor);
-			}
-
-			{// --Flowchart
-				actionOpenFlowViewer = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doOpenFlowViewer();
-					}
-				};
-				actionOpenFlowViewer.putValue(Action.NAME, "Open FlowViewer");
-				actionOpenFlowViewer.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_P, CTRL_MASK));
-				actionOpenFlowViewer.setEnabled(true);
-				menu.add(actionOpenFlowViewer);
-			}
-
-			{// --GeneRef
-				actionOpenGeneRefBrowser = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doOpenGeneRefBrowser();
-					}
-				};
-				actionOpenGeneRefBrowser.putValue(Action.NAME,
-						"Open GeneRefBrowser");
-				actionOpenGeneRefBrowser.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_B, CTRL_MASK));
-				actionOpenGeneRefBrowser.setEnabled(true);
-				menu.add(actionOpenGeneRefBrowser);
-			}
-
-			{// Open PPV
-				Action action = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doOpenPPV();
-					}
-				};
-				action.putValue(Action.NAME, "Open PPV");
-				// action.putValue(Action.ACCELERATOR_KEY,
-				// KeyStroke.getKeyStroke(KeyEvent.VK_B, CTRL_MASK));
-				action.setEnabled(true);
-				actionOpenPPV = action;
-				menu.add(actionOpenPPV);
-			}
-
-			{// --ByteCode
-				actionBytecode = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doShowBytecode();
-					}
-				};
-				actionBytecode.putValue(Action.NAME, "Lesson Bytecode");
-				actionBytecode.putValue(Action.ACCELERATOR_KEY,
-						KeyStroke.getKeyStroke(KeyEvent.VK_J, CTRL_MASK));
-				actionBytecode.setEnabled(false);
-				if (CJavaSystem.getInstance().isWindows()) {
-					menu.addSeparator();
-					menu.add(actionBytecode);
+		{// 新規プロジェクト
+			actionCreateProject = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doCreateProject();
 				}
-			}
+			};
+			actionCreateProject.putValue(Action.NAME, "New Project");
+			actionCreateProject.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_P, CTRL_MASK));
+			menu.add(actionCreateProject);
 		}
 
-		{// Helpメニュー
-			JMenu menu = new JMenu("Help");
-			menuBar.add(menu);
+		{// -- 新規文書
+			actionCreateFile = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doCreateFile();
+				}
+			};
+			actionCreateFile.putValue(Action.NAME, "New File(Class)");
+			actionCreateFile.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_N, CTRL_MASK));
+			menu.add(actionCreateFile);
+		}
 
-			{// preference
-				actionOpenPreference = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						application.doOpenPreferencePage();
-					}
-				};
-				actionOpenPreference.putValue(Action.NAME, "Preference");
-				menu.add(actionOpenPreference);
+		menu.addSeparator();
+
+		{// -- File Copy
+			actionFileCopy = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doFileCopy();
+				}
+			};
+			actionFileCopy.putValue(Action.NAME, "File Copy");
+			actionFileCopy.putValue(
+					Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_C, CTRL_MASK
+							| KeyEvent.SHIFT_MASK));
+			actionFileCopy.setEnabled(false);
+			menu.add(actionFileCopy);
+		}
+
+		{// -- Refactorプロジェクト
+			actionRefactoring = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doRefactoring();
+				}
+			};
+			actionRefactoring.putValue(Action.NAME, "Rename");
+			actionRefactoring.putValue(
+					Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK
+							| KeyEvent.SHIFT_MASK));
+			menu.add(actionRefactoring);
+		}
+
+		menu.addSeparator();
+
+		{// -- Delete
+			actionDelete = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doDelete();
+				}
+			};
+			actionDelete.putValue(Action.NAME, "Delete");
+			actionDelete.putValue(
+					Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_D, CTRL_MASK
+							| KeyEvent.SHIFT_MASK));
+			menu.add(actionDelete);
+		}
+
+		menu.addSeparator();
+
+		{// save
+			actionSave = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doSave();
+				}
+			};
+			actionSave.putValue(Action.NAME, "Save...");
+			actionSave.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_S, CTRL_MASK));
+			actionSave.setEnabled(false);
+			menu.add(actionSave);
+		}
+
+		menu.addSeparator();
+
+		{// -- Export
+			actionExport = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doExport();
+				}
+			};
+			actionExport.putValue(Action.NAME, "Export Project");
+			// actionExport.putValue(Action.ACCELERATOR_KEY,
+			// KeyStroke.getKeyStroke(
+			// KeyEvent.VK_S, CTRL_MASK));
+			actionExport.setEnabled(false);
+			menu.add(actionExport);
+		}
+
+		menu.addSeparator();
+
+		{// -- 更新
+			actionRefresh = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doRefresh();
+				}
+			};
+			actionRefresh.putValue(Action.NAME, "Refresh");
+			actionRefresh.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+			menu.add(actionRefresh);
+		}
+
+		menu.addSeparator();
+
+		{// -- 終了
+			actionExit = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doExit();
+				}
+			};
+			actionExit.putValue(Action.NAME, "Exit");
+			// actionExit.putValue(Action.ACCELERATOR_KEY,
+			// KeyStroke.getKeyStroke(
+			// KeyEvent.VK_Q, CTRL_MASK));
+			menu.add(actionExit);
+		}
+	}
+
+	private void initializeEditMenu() {
+
+		JMenu menu = new JMenu("Edit");
+		menuBar.add(menu);
+
+		{// -- Undo
+			actionUndo = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					// application.doUndo();
+					editor.doUndo();
+				}
+			};
+			actionUndo.putValue(Action.NAME, "Undo");
+			actionUndo.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_Z, CTRL_MASK));
+			actionUndo.setEnabled(false);
+			menu.add(actionUndo);
+		}
+
+		{// -- Redo
+			actionRedo = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					// application.doRedo();
+					editor.doRedo();
+				}
+			};
+			actionRedo.putValue(Action.NAME, "Redo");
+			actionRedo.putValue(
+					Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_Z, CTRL_MASK
+							| KeyEvent.SHIFT_MASK));
+			actionRedo.setEnabled(false);
+			menu.add(actionRedo);
+		}
+
+		menu.addSeparator();
+
+		{// -- Cut
+			actionCut.putValue(Action.NAME, "Cut");
+			actionCut.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_X, CTRL_MASK));
+			menu.add(actionCut);
+		}
+
+		{// -- Copy
+			actionCopy.putValue(Action.NAME, "Copy");
+			actionCopy.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_C, CTRL_MASK));
+			menu.add(actionCopy);
+		}
+
+		{// -- Paste
+			actionPaste.putValue(Action.NAME, "Paste");
+			actionPaste.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_V, CTRL_MASK));
+			menu.add(actionPaste);
+		}
+	}
+
+	private void initializeJavaMenu() {
+		JMenu menu = new JMenu("Java");
+		menuBar.add(menu);
+
+		{// -- Compile
+			actionCompile = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doCompile();
+				}
+			};
+			actionCompile.putValue(Action.NAME, "Compile");
+			actionCompile.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_E, CTRL_MASK));
+			actionCompile.setEnabled(false);
+			menu.add(actionCompile);
+		}
+
+		{// -- Run
+			actionRun = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doRun();
+				}
+			};
+			actionRun.putValue(Action.NAME, "Run");
+			actionRun.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK));
+			actionRun.setEnabled(false);
+			menu.add(actionRun);
+		}
+
+		{// -- DebugRun (added by hakamata)
+			actionDebugRun = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doDebugRun();
+				}
+			};
+			actionDebugRun.putValue(Action.NAME, "DebugRun");
+			actionDebugRun.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_T, CTRL_MASK));
+			actionDebugRun.setEnabled(true);
+			menu.add(actionDebugRun);
+		}
+
+		{// -- Kill
+			actionKill = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doKillAll();
+				}
+			};
+			actionKill.putValue(Action.NAME, "Kill");
+			actionKill.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_SEMICOLON, CTRL_MASK));
+			actionKill.setEnabled(true);
+			menu.add(actionKill);
+		}
+
+		menu.addSeparator();
+
+		{// -- Format
+			actionFormat = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doFormat();
+				}
+			};
+			actionFormat.putValue(Action.NAME, "Format");
+			actionFormat.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_W, CTRL_MASK));
+			actionFormat.setEnabled(false);
+			menu.add(actionFormat);
+		}
+	}
+
+	private void initializeToolsMenu() {
+		JMenu menu = new JMenu("Tools");
+		menuBar.add(menu);
+
+		{// --BlockEditor
+			actionOpenBlockEditor = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doOpenBlockEditor();
+				}
+			};
+			actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
+			actionOpenBlockEditor.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_MASK));
+			actionOpenBlockEditor.setEnabled(true);
+			menu.add(actionOpenBlockEditor);
+		}
+
+		{// --Flowchart
+			actionOpenFlowViewer = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doOpenFlowViewer();
+				}
+			};
+			actionOpenFlowViewer.putValue(Action.NAME, "Open FlowViewer");
+			actionOpenFlowViewer.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_P, CTRL_MASK));
+			actionOpenFlowViewer.setEnabled(true);
+			menu.add(actionOpenFlowViewer);
+		}
+
+		{// --GeneRef
+			actionOpenGeneRefBrowser = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doOpenGeneRefBrowser();
+				}
+			};
+			actionOpenGeneRefBrowser.putValue(Action.NAME,
+					"Open GeneRefBrowser");
+			actionOpenGeneRefBrowser.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_B, CTRL_MASK));
+			actionOpenGeneRefBrowser.setEnabled(true);
+			menu.add(actionOpenGeneRefBrowser);
+		}
+
+		{// Open PPV
+			Action action = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doOpenPPV();
+				}
+			};
+			action.putValue(Action.NAME, "Open PPV");
+			// action.putValue(Action.ACCELERATOR_KEY,
+			// KeyStroke.getKeyStroke(KeyEvent.VK_B, CTRL_MASK));
+			action.setEnabled(true);
+			menu.add(action);
+		}
+
+		// {// Open New RonproEditor(for test)
+		// Action action = new AbstractAction() {
+		// public void actionPerformed(ActionEvent e) {
+		// application.doOpenNewRE(REApplication.DEFAULT_ROOT
+		// + "/.CheCoPro/matsuzawa");
+		// }
+		// };
+		// action.putValue(Action.NAME, "Open New Ronpro");
+		// action.setEnabled(true);
+		// menu.add(action);
+		// }
+
+		{// --ByteCode
+			actionBytecode = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doShowBytecode();
+				}
+			};
+			actionBytecode.putValue(Action.NAME, "Lesson Bytecode");
+			actionBytecode.putValue(Action.ACCELERATOR_KEY,
+					KeyStroke.getKeyStroke(KeyEvent.VK_J, CTRL_MASK));
+			actionBytecode.setEnabled(false);
+			if (CJavaSystem.getInstance().isWindows()) {
+				menu.addSeparator();
+				menu.add(actionBytecode);
 			}
+		}
+	}
 
-			{// javainfo
-				menu.add(CJavaInfoPanels.createJavaInformationAction());
-			}
+	private void initializeHelpMenu() {
+		JMenu menu = new JMenu("Help");
+		menuBar.add(menu);
 
-			menu.addSeparator();
+		{// preference
+			actionOpenPreference = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doOpenPreferencePage();
+				}
+			};
+			actionOpenPreference.putValue(Action.NAME, "Preference");
+			menu.add(actionOpenPreference);
+		}
 
-			{// about
-				actionAbout = new AbstractAction() {
-					public void actionPerformed(ActionEvent e) {
-						showApplicationInformationDialog();
-					}
-				};
-				actionAbout.putValue(Action.NAME, "About");
-				// actionAbout.putValue(Action.ACCELERATOR_KEY,
-				// KeyStroke.getKeyStroke(
-				// KeyEvent.VK_R, CTRL_MASK));
-				menu.add(actionAbout);
-			}
+		{// javainfo
+			menu.add(CJavaInfoPanels.createJavaInformationAction());
+		}
+
+		menu.addSeparator();
+
+		{// about
+			actionAbout = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					showApplicationInformationDialog();
+				}
+			};
+			actionAbout.putValue(Action.NAME, "About");
+			// actionAbout.putValue(Action.ACCELERATOR_KEY,
+			// KeyStroke.getKeyStroke(
+			// KeyEvent.VK_R, CTRL_MASK));
+			menu.add(actionAbout);
 		}
 	}
 
