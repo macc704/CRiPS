@@ -10,7 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
@@ -25,7 +24,6 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
 import ronproeditor.REApplication;
-import ronproeditor.RESourceManager;
 import ronproeditor.views.RESourceViewer;
 
 public class REGoodSubManager {
@@ -40,7 +38,8 @@ public class REGoodSubManager {
 	private JFrame frame;
 	private SendObject sendObject = new SendObject();
 	private JPanel btnPanel;
-	private List<JButton> userBtns = new ArrayList<JButton>();
+
+	// private List<JButton> userBtns = new ArrayList<JButton>();
 
 	public REGoodSubManager(REApplication application) {
 		this.application = application;
@@ -52,8 +51,8 @@ public class REGoodSubManager {
 
 	public void startGoodSub() {
 
-		initializeFrame();
-		initializeListener();
+		// initializeFrame();
+		// initializeListener();
 
 		// frame.addWindowListener(new WindowAdapter() {
 		// @Override
@@ -160,18 +159,16 @@ public class REGoodSubManager {
 		// conn.write(groupNum);
 		conn.write(sendObject);
 
-		frame.setTitle("CheCoPro Group No." + groupNum);
+		// frame.setTitle("CheCoPro Group No." + groupNum);
 
-		System.out.println("client established");
-
-		CPSourceManager sourceManager = new CPSourceManager();
-		sourceManager.createProject("CheCoTest");
+		if (conn.established()) {
+			System.out.println("client established");
+		}
 
 		try {
 			while (conn.established()) {
 				obj = conn.read();
 				if (obj instanceof String) {
-					// getList.set(1, ((List<String>) obj).get(1));
 					final String text = (String) obj;
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
@@ -185,18 +182,25 @@ public class REGoodSubManager {
 					System.out.println("get" + file.getName());
 				} else if (obj instanceof List) {
 					users = (List<String>) obj;
-					for (String aUser : users) {
-						for (JButton aBtn : userBtns) {
-							if (aUser != aBtn.getText()) {
-								userBtns.add(new JButton("aUser"));
-							}
-						}
+					// List<String> btnName = new ArrayList<String>();
+					for (String aUser : (List<String>) obj) {
+						System.out.println("client get " + aUser);
 					}
-					for (JButton aBtn : userBtns) {
-						if (aBtn.getText() != sendObject.getUserName()) {
-							// ボタン追加
-						}
-					}
+
+					// for (JButton aBtn : userBtns) {
+					// btnName.add(aBtn.getText());
+					// }
+					// for (String aUser : users) {
+					// if (btnName.indexOf(aUser) == -1) {
+					// userBtns.add(new JButton(aUser));
+					// }
+					// System.out.println(aUser);
+					// }
+					// for (JButton aBtn : userBtns) {
+					// if (aBtn.getText() != sendObject.getUserName()) {
+					// // ボタン追加
+					// }
+					// }
 				}
 			}
 		} catch (Exception ex) {
@@ -218,28 +222,29 @@ public class REGoodSubManager {
 		application.doCreateFile();
 	}
 
-	class CPSourceManager extends RESourceManager {
-
-		private File rootDirectory = application.getSourceManager()
-				.getRootDirectory();
-		private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
-				this);
-
-		public void createProject(String name) {
-			if (!canCreateProject(name)) {
-				throw new RuntimeException();
-			}
-
-			try {
-				File newProject = new File(rootDirectory, name);
-				newProject.mkdir();
-				propertyChangeSupport.firePropertyChange(MODEL_REFRESHED, null,
-						null);
-			} catch (Exception ex) {
-				throw new RuntimeException(ex);
-			}
-		}
-
-	}
+	// class CPSourceManager extends RESourceManager {
+	//
+	// private File rootDirectory = application.getSourceManager()
+	// .getRootDirectory();
+	// private PropertyChangeSupport propertyChangeSupport = new
+	// PropertyChangeSupport(
+	// this);
+	//
+	// public void createProject(String name) {
+	// if (!canCreateProject(name)) {
+	// throw new RuntimeException();
+	// }
+	//
+	// try {
+	// File newProject = new File(rootDirectory, name);
+	// newProject.mkdir();
+	// propertyChangeSupport.firePropertyChange(MODEL_REFRESHED, null,
+	// null);
+	// } catch (Exception ex) {
+	// throw new RuntimeException(ex);
+	// }
+	// }
+	//
+	// }
 
 }

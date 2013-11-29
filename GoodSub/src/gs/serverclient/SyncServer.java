@@ -24,6 +24,7 @@ public class SyncServer {
 	private List<ConnectionPool> pools = new ArrayList<ConnectionPool>();
 	private DivideRoom divideRoom = new DivideRoom();
 	private List<String> sendList = new ArrayList<String>();
+	private List<String> users = new ArrayList<String>();
 
 	public void run() {
 
@@ -46,6 +47,7 @@ public class SyncServer {
 						Connection conn = connectionPool.newConnection(sock);
 						if (conn != null) {
 							frame.println("one connection established.");
+							connectionPool.addConnection(conn);
 							loopForOneClient(conn);
 						}
 					}
@@ -64,29 +66,35 @@ public class SyncServer {
 			while (conn.established()) {
 				obj = conn.read();
 				if (obj instanceof /* Integer */SendObject) { // Integerなら部屋番号かスクロールバーのvalue
+
+					String user = ((SendObject) obj).getUserName();
+					users.add(user);
+					frame.println(user + " add list.");
+					connectionPool.broadcastAll(users, conn);
+
 					// roomNum = (int) obj;
-					roomNum = ((SendObject) obj).getRoomNum();
+					// roomNum = ((SendObject) obj).getRoomNum();
 					// 新しい部屋ならConnectionPoolを新規作成
-					if (!divideRoom.checkRoomNum(roomNum)) {
-						pools.add(new ConnectionPool());
-						frame.println("create room No." + roomNum);
-					}
+					// if (!divideRoom.checkRoomNum(roomNum)) {
+					// pools.add(new ConnectionPool());
+					// frame.println("create room No." + roomNum);
+					// }
+
+					// if (users.indexOf(((SendObject) obj).getUserName()) ==
+					// -1) {
+
 					// pools.get(divideRoom.countRoom(roomNum))
 					// .addConnection(conn);
-					// frame.println("room number is [" + roomNum + "]");
-
-					List<String> users = new ArrayList<String>();
-					users = pools.get(divideRoom.countRoom(roomNum)).getUsers();
-					if (users.indexOf(((SendObject) obj).getUserName()) == -1) {
-						pools.get(divideRoom.countRoom(roomNum)).addConnection(
-								conn);
-						pools.get(divideRoom.countRoom(roomNum)).addUser(
-								((SendObject) obj).getUserName());
-						frame.println("'" + ((SendObject) obj).getUserName()
-								+ "'" + " join room No." + roomNum);
-						pools.get(divideRoom.countRoom(roomNum)).broadcastAll(
-								users, conn);
-					}
+					// pools.get(divideRoom.countRoom(roomNum)).addUser(
+					// ((SendObject) obj).getUserName());
+					// frame.println("'" + ((SendObject) obj).getUserName() +
+					// "'"
+					// + " join room No." + roomNum);
+					// users =
+					// pools.get(divideRoom.countRoom(roomNum)).getUsers();
+					// pools.get(divideRoom.countRoom(roomNum)).broadcastAll(
+					// users, conn);
+					// }
 					// pools.get(divideRoom.countRoom(roomNum)).addUser(
 					// ((SendObject) obj).getUserName());
 					// showUsers(roomNum);

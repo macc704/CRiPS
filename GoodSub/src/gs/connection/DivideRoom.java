@@ -30,7 +30,7 @@ public class DivideRoom implements ActionListener {
 		JButton okbtn = new JButton("OK");
 		JButton canbtn = new JButton("キャンセル");
 
-		dialog.setTitle("グループへの接続");
+		dialog.setTitle("ログイン画面");
 		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		dialog.setBounds(100, 100, 200, 150);
 
