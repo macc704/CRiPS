@@ -1,6 +1,11 @@
 package ClassBlockFileModel;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
@@ -10,8 +15,18 @@ import clib.common.filesystem.CFile;
 
 public class LangDefFileReWriter {
 
-	public void Rewrite(File file, String enc, String[] classpaths)
-			throws Exception {
+	private File file;
+	private String enc;
+	private String[] classpaths;
+	private BufferedReader br;
+
+	public LangDefFileReWriter(File file, String enc, String[] classpaths) {
+		this.file = file;
+		this.enc = enc;
+		this.classpaths = classpaths;
+	}
+
+	public void rewrite() throws Exception {
 		// ohata ブジェクトブロックの書き出し
 		// オブジェクト変数ブロックのxmlファイルを作成する
 		File classDefFile = new File(file.getParentFile().getPath()
@@ -26,9 +41,41 @@ public class LangDefFileReWriter {
 				classDefFile, projectMenuFile);
 		for (String name : file.getParentFile().list()) {
 			if (name.endsWith(".java")) {
+				// javaファイル解析
 				CompilationUnit unit = ASTParserWrapper.parse(file, enc,
 						classpaths);
 				MethodAnalyzer visitor = new MethodAnalyzer();
+
+				// 継承してたら、親クラスのメソッドを読む
+				// 継承してるか？
+				// おおまかな流れ
+				// javaファイル解析-----
+				// | |
+				// 継承チェック |
+				// | ---------継承先の解析
+				// javaファイル解析
+
+				// 継承チェック
+				File classFile = new File(file.getParentFile().getPath() + "/"
+						+ name);
+				FileReader reader = new FileReader(classFile);
+				br = new BufferedReader(reader);
+				String str;
+
+				Pattern p = Pattern.compile("[^ ]+");
+				while ((str = br.readLine()) != null) {
+
+					if (str.contains("extends")) {
+						str = str.substring(
+								str.indexOf("extends") + "extends".length(),
+								str.length());
+						Matcher m = p.matcher(str);
+						if (m.find()) {
+
+						}
+						break;
+					}
+				}
 
 				unit.accept(visitor);
 
@@ -67,6 +114,35 @@ public class LangDefFileReWriter {
 
 		// クラスのブロック情報を出力する
 		selfDefModel.printGenus();
+
+	}
+
+	public void analyzeJavaFile(String name) throws IOException {
+		// javaファイル解析
+		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
+		MethodAnalyzer visitor = new MethodAnalyzer();
+
+		// 継承チェック
+		File classFile = new File(file.getParentFile().getPath() + "/" + name);
+		FileReader reader = new FileReader(classFile);
+		br = new BufferedReader(reader);
+		String str;
+
+		Pattern p = Pattern.compile("[^ ]+");
+		while ((str = br.readLine()) != null) {
+			if (str.contains("extends")) {
+				str = str.substring(
+						str.indexOf("extends") + "extends".length(),
+						str.length());
+				Matcher m = p.matcher(str);
+				if (m.find()) {
+
+				}
+				break;
+			}
+		}
+
+		unit.accept(visitor);
 
 	}
 

@@ -53,8 +53,9 @@ public class JavaToBlockMain {
 		// unit.accept(new SimplePrintVisitor(System.out));
 		unit.accept(visitor);
 		// 言語定義ファイルの上書き
-		LangDefFileReWriter rewriter = new LangDefFileReWriter();
-		rewriter.Rewrite(file, enc, classpaths);
+		LangDefFileReWriter rewriter = new LangDefFileReWriter(file, enc,
+				classpaths);
+		rewriter.rewrite();
 
 		CompilationUnitModel root = visitor.getCompilationUnit();
 		root.print(out, 0);

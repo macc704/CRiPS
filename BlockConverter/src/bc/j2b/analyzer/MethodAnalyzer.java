@@ -15,7 +15,6 @@ public class MethodAnalyzer extends ASTVisitor {
 
 	public boolean visit(MethodDeclaration node) {
 		List<String> parameters = new ArrayList<String>();
-
 		if (!node.getName().equals("main")
 				&& node.getModifiers() == Modifier.PUBLIC) {
 
