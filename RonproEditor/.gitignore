@@ -4,3 +4,6 @@
 /package/lib
 /package/templates
 /packages
+*.log
+.pres2
+/testbase/MyProjects

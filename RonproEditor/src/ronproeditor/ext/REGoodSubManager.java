@@ -3,6 +3,7 @@ package ronproeditor.ext;
 import gs.connection.Connection;
 import gs.connection.DivideRoom;
 import gs.connection.SendObject;
+import gs.frame.CHMemberSelectorFrame;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
@@ -138,7 +139,7 @@ public class REGoodSubManager {
 
 		Object obj;
 		int groupNum = 0;
-		List<String> users = new ArrayList<String>();
+		List<String> members = new ArrayList<String>();
 
 		conn.shakehandForClient();
 
@@ -154,10 +155,16 @@ public class REGoodSubManager {
 		sendObject.setUserName(room.getUserName());
 		sendObject.setRoomNum(groupNum);
 
-		users.add(sendObject.getUserName());
+		members.add(sendObject.getUserName());
 
 		// conn.write(groupNum);
 		conn.write(sendObject);
+
+		CHMemberSelectorFrame frame = new CHMemberSelectorFrame(
+				sendObject.getUserName());
+		frame.open();
+		frame.setMembers(members);
+		// initializeMemberSelector();
 
 		// frame.setTitle("CheCoPro Group No." + groupNum);
 
@@ -181,11 +188,9 @@ public class REGoodSubManager {
 					File file = (File) obj;
 					System.out.println("get" + file.getName());
 				} else if (obj instanceof List) {
-					users = (List<String>) obj;
+					members = (List<String>) obj;
+					// addMemberButton(users);
 					// List<String> btnName = new ArrayList<String>();
-					for (String aUser : (List<String>) obj) {
-						System.out.println("client get " + aUser);
-					}
 
 					// for (JButton aBtn : userBtns) {
 					// btnName.add(aBtn.getText());
