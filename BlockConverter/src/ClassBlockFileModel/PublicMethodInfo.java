@@ -4,19 +4,19 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MethodBlockModel extends BasicModel {
+public class PublicMethodInfo extends BasicModel {
 
 	private String methodName;
 	private String modifier;
 	private String returnType;
 	private List<String> parameters = new ArrayList<String>();
 
-	public MethodBlockModel(String name, String kind, String initialLabel,
+	public PublicMethodInfo(String name, String kind, String initialLabel,
 			String headerLabel, String footerLabel, String color) {
 		super(name, kind, initialLabel, headerLabel, footerLabel, color);
 	}
 
-	public MethodBlockModel(String name, String modifier, String returnType,
+	public PublicMethodInfo(String name, String modifier, String returnType,
 			List<String> parameters) {
 		this.methodName = name;
 		this.modifier = modifier;
@@ -24,7 +24,7 @@ public class MethodBlockModel extends BasicModel {
 		this.returnType = returnType;
 	}
 
-	public MethodBlockModel() {
+	public PublicMethodInfo() {
 	}
 
 	public void setName(String name) {
@@ -41,6 +41,22 @@ public class MethodBlockModel extends BasicModel {
 
 	public void setReturnType(String returnType) {
 		this.returnType = returnType;
+	}
+
+	public List<String> getParameters() {
+		return parameters;
+	}
+
+	public String getreturnType() {
+		return returnType;
+	}
+
+	public String getModifier() {
+		return modifier;
+	}
+
+	public String getName() {
+		return methodName;
 	}
 
 	public void print(PrintStream out, int lineNum) {

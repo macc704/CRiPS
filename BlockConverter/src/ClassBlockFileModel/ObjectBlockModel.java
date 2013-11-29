@@ -6,13 +6,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SelDefClassModel extends BasicModel {
+public class ObjectBlockModel extends BasicModel {
 
-	private List<MethodBlockModel> methods = new ArrayList<MethodBlockModel>();
+	private List<PublicMethodInfo> methods = new ArrayList<PublicMethodInfo>();
 	private String className;
 	private Map<String, String> langSpecProperties = new LinkedHashMap<String, String>();
 
-	public SelDefClassModel(String name, String kind, String initialLabel,
+	public ObjectBlockModel(String name, String kind, String initialLabel,
 			String headerLabel, String footerLabel, String color) {
 		super(name, kind, initialLabel, headerLabel, footerLabel, color);
 		if (kind.startsWith("local")) {
@@ -33,7 +33,7 @@ public class SelDefClassModel extends BasicModel {
 		return this.className;
 	}
 
-	public void setMethods(List<MethodBlockModel> methods) {
+	public void setMethods(List<PublicMethodInfo> methods) {
 		this.methods = methods;
 	}
 
@@ -153,11 +153,19 @@ public class SelDefClassModel extends BasicModel {
 		makeIndent(out, lineNumber);
 		out.println("</LangSpecProperties>");
 
-		for (MethodBlockModel method : methods) {
+		for (PublicMethodInfo method : methods) {
 			method.print(out, lineNumber);
 		}
 
 		out.println("</BlockGenus>");
+		out.println();
+		// コマンドブロック情報の書き出し
+		PublicMethodCommandWriter commandWriter = new PublicMethodCommandWriter();
+		for (PublicMethodInfo method : methods) {
+			commandWriter.setMethods(method);
+			commandWriter.printCommands(out);
+		}
+
 		out.println();
 	}
 

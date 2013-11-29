@@ -17,39 +17,39 @@ public class OutputSelDefClassPageModel {
 	private File file;
 	// private String[] classpaths;
 
-	private List<SelDefClassModel> requestClass = new ArrayList<SelDefClassModel>();
+	private List<ObjectBlockModel> requestObjectBlock = new ArrayList<ObjectBlockModel>();
 	private FileInputStream ldfReader;
 
 	public OutputSelDefClassPageModel(File file, File menuFile) {
 		this.file = file;
 	}
 
-	public void setSelDefClassModel(List<SelDefClassModel> models) {
-		for (SelDefClassModel model : models) {
-			requestClass.add(model);
+	public void setSelDefClassModel(List<ObjectBlockModel> models) {
+		for (ObjectBlockModel model : models) {
+			requestObjectBlock.add(model);
 		}
 	}
 
 	public void setLocalSelDefClass(String fileName,
-			List<MethodBlockModel> methods) {
-		SelDefClassModel classModel = new SelDefClassModel("local-var-object-"
+			List<PublicMethodInfo> methods) {
+		ObjectBlockModel classModel = new ObjectBlockModel("local-var-object-"
 				+ fileName, "local-variable", "initname",
 				fileName + "型の変数をつくり", "と名付ける", "230 0 255 ");
 		// 定義クラスブロックのプロパティをセットする
 		classModel.setMethods(methods);
 		classModel.setClassName(fileName);
-		requestClass.add(classModel);
+		requestObjectBlock.add(classModel);
 	}
 
 	public void setGlobalSelDefClass(String fileName,
-			List<MethodBlockModel> methods) {
-		SelDefClassModel classModel = new SelDefClassModel(
+			List<PublicMethodInfo> methods) {
+		ObjectBlockModel classModel = new ObjectBlockModel(
 				"private-var-object-" + fileName, "global-variable",
 				"initname", fileName + "型の変数をつくり", "と名付ける", "230 0 255");
 		// 定義クラスブロックのプロパティをセットする
 		classModel.setMethods(methods);
 		classModel.setClassName(fileName);
-		requestClass.add(classModel);
+		requestObjectBlock.add(classModel);
 	}
 
 	public void printGenus() throws Exception {
@@ -58,7 +58,7 @@ public class OutputSelDefClassPageModel {
 
 		ps.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
-		for (SelDefClassModel selDefClass : requestClass) {
+		for (ObjectBlockModel selDefClass : requestObjectBlock) {
 			selDefClass.print(ps, 0);
 		}
 
@@ -95,7 +95,7 @@ public class OutputSelDefClassPageModel {
 			makeIndent(ps, ++lineNum);
 			ps.println("<BlockDrawer name=\"Project-Objects\" type=\"factory\" button-color=\"255 155 64\">");
 			lineNum++;
-			for (SelDefClassModel selDefClass : requestClass) {
+			for (ObjectBlockModel selDefClass : requestObjectBlock) {
 				selDefClass.printMenuItem(ps, lineNum);
 			}
 

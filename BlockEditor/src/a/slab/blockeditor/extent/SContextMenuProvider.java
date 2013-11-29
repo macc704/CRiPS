@@ -7,7 +7,6 @@ package a.slab.blockeditor.extent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,14 +40,8 @@ public class SContextMenuProvider {
 	private JMenuItem createCallStringMethodBlockItem;
 	private JMenuItem createCallerItem;
 
-	private List<Map<String, List<String>>> method = new ArrayList<Map<String, List<String>>>();
-
 	public SContextMenuProvider(RenderableBlock rb) {
 		this.rb = rb;
-	}
-
-	public void setMethod(List<Map<String, List<String>>> method) {
-		this.method = method;
 	}
 
 	private JMenuItem createBlockCopyMenu() {
