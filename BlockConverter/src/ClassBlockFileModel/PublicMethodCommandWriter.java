@@ -25,16 +25,17 @@ public class PublicMethodCommandWriter extends BasicModel {
 			for (String parameter : method.getParameters()) {
 				// TODO connector-type‚ğˆø”‚ÌŒ`‚Å•Ï‚¦‚é@parameter‚Í int
 				// xx‚Ì‚æ‚¤‚ÈŒ^{•Ï”–¼‚ÌŒ`‚Å•Û‚³‚ê‚Ä‚¢‚é‚±‚Æ‚É’ˆÓ‚³‚ê‚½‚µ
-				String parameterType = parameter.substring(0,
-						parameter.indexOf(" "));
+				String parameterType = convertParameterType(parameter
+						.substring(0, parameter.indexOf(" ")));
 				String parameterName = parameter.substring(
 						parameterType.length(), parameter.length());
 				makeIndent(out, lineNum);
+
 				out.println("<BlockConnector label=\"" + parameterName
 						+ "\" connector-kind=\"socket\" connector-type=\""
 						+ parameterType + "\">");
 
-				makeIndent(out, lineNum);
+				makeIndent(out, --lineNum);
 				out.println("</BlockConnector>");
 				// ˆø”‚Ìİ’è
 			}
@@ -62,6 +63,22 @@ public class PublicMethodCommandWriter extends BasicModel {
 		makeIndent(out, lineNumber);
 		out.println("<BlockGenusMember>" + method.getName()
 				+ "</BlockGenusMember>");
+	}
+
+	private String convertParameterType(String parameterType) {
+		String connectorType = "";
+		if (parameterType.equals("int")) {
+			connectorType = "number";
+		} else if (parameterType.equals("String")) {
+			connectorType = "string";
+		} else if (parameterType.equals("boolean")) {
+			connectorType = "boolean";
+		} else if (parameterType.equals("double")) {
+			return "double-number";
+		} else {
+			connectorType = "object";
+		}
+		return connectorType;
 	}
 
 }
