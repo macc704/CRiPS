@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +47,8 @@ public class LangDefFileReWriter {
 				// javaファイル解析
 				File javaFile = new File(file.getParentFile().getPath() + "/"
 						+ name);
-				List<PublicMethodInfo> methods = analyzeJavaFile(name, javaFile);
+				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(
+						name, javaFile);
 
 				selfDefModel.setLocalSelDefClass(
 						name.substring(0, name.indexOf(".java")), methods);// メソッドリストを引数に追加
@@ -82,8 +85,8 @@ public class LangDefFileReWriter {
 		selfDefModel.printGenus();
 	}
 
-	private List<PublicMethodInfo> analyzeJavaFile(String name, File file)
-			throws IOException {
+	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name,
+			File file) throws IOException {
 		// javaファイル解析
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
 		MethodAnalyzer visitor = new MethodAnalyzer();
@@ -94,6 +97,7 @@ public class LangDefFileReWriter {
 		br = new BufferedReader(reader);
 		String str;
 		Pattern p = Pattern.compile("[^ ]+");
+		Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
 		while ((str = br.readLine()) != null) {
 			if (str.contains("extends")) {
 				str = str.substring(
@@ -101,25 +105,17 @@ public class LangDefFileReWriter {
 						str.length());
 				Matcher m = p.matcher(str);
 				if (m.find() && exsistCurrentDirectry(m.group(0) + ".java")) {
-					addMethods(
-							visitor,
-							analyzeJavaFile(m.group(0) + ".java",
-									new File(file.getParentFile().getPath()
-											+ "/" + m.group(0) + ".java")));
+					methods = analyzeJavaFile(m.group(0) + ".java", new File(
+							file.getParentFile().getPath() + "/" + m.group(0)
+									+ ".java"));
 				}
 				break;
 			}
 		}
-
 		unit.accept(visitor);
-		return visitor.getMethods();
-	}
-
-	private void addMethods(MethodAnalyzer visitor,
-			List<PublicMethodInfo> methods) {
-		for (PublicMethodInfo method : methods) {
-			visitor.setMethod(method);
-		}
+		methods.put(name.substring(0, name.indexOf(".java")),
+				visitor.getMethods());
+		return methods;
 	}
 
 	private Boolean exsistCurrentDirectry(String fileName) {

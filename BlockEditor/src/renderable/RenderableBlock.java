@@ -190,9 +190,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	//#ohata added 
 	private String loadComment;
-	private List<Map<String, List<String>>> methods = new ArrayList<Map<String, List<String>>>();
 
-	public List<Map<String, List<String>>> getMethods() {
+	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
+
+	public Map<String, List<Map<String, List<String>>>> getMethods() {
 		return methods;
 	}
 

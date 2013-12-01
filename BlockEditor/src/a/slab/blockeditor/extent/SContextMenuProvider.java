@@ -195,12 +195,13 @@ public class SContextMenuProvider {
 		return createCallerItem;
 	}
 
-	public JMenu createClassMethodsCategory() {
-		List<Map<String, List<String>>> methods = rb.getMethods();
-		JMenu category = new JMenu("パブリックメソッド");
+	public JMenu createClassMethodsCategory(String className,
+			List<Map<String, List<String>>> methods) {
+		JMenu category = new JMenu(className);
 		for (Map<String, List<String>> method : methods) {
 			category.add(createCallClassMethodMenu(method));
 		}
+
 		return category;
 	}
 
@@ -242,7 +243,11 @@ public class SContextMenuProvider {
 			menu.add(createActionBlockMenu());
 			menu.add(createGetterBlockMenu());
 			//TODO menuにメソッドを追加
-			menu.add(createClassMethodsCategory());
+
+			for (String key : rb.getMethods().keySet()) {
+				menu.add(createClassMethodsCategory(key,
+						rb.getMethods().get(key)));
+			}
 			if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
 				{
 					JMenu category = new JMenu("Scanner");

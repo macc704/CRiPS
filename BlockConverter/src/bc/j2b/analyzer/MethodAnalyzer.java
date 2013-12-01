@@ -25,8 +25,6 @@ public class MethodAnalyzer extends ASTVisitor {
 
 			model.setReturnType(node.getReturnType2().toString());
 			for (int i = 0; i < node.parameters().size(); i++) {
-				System.out.println("add parameter:"
-						+ node.parameters().get(i).toString());
 				parameters.add(node.parameters().get(i).toString());
 			}
 			model.setParameters(parameters);
@@ -42,5 +40,4 @@ public class MethodAnalyzer extends ASTVisitor {
 	public void setMethod(PublicMethodInfo method) {
 		methods.add(method);
 	}
-
 }

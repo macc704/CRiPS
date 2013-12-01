@@ -82,9 +82,9 @@ public class Block implements ISupportMemento {
 	private ArrayList<String> argumentDescriptions;
 
 	//ohata added
-	private List<Map<String, List<String>>> methods = new ArrayList<Map<String, List<String>>>();
+	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
 
-	public List<Map<String, List<String>>> getMethods() {
+	public Map<String, List<Map<String, List<String>>>> getMethods() {
 		return methods;
 	}
 

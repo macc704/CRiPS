@@ -35,7 +35,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 						+ "\" connector-kind=\"socket\" connector-type=\""
 						+ parameterType + "\">");
 
-				makeIndent(out, --lineNum);
+				makeIndent(out, lineNum);
 				out.println("</BlockConnector>");
 				// ˆø”‚Ìİ’è
 			}

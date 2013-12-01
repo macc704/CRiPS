@@ -10,7 +10,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class OutputSelDefClassPageModel {
 
@@ -31,7 +33,7 @@ public class OutputSelDefClassPageModel {
 	}
 
 	public void setLocalSelDefClass(String fileName,
-			List<PublicMethodInfo> methods) {
+			Map<String, List<PublicMethodInfo>> methods) {
 		ObjectBlockModel classModel = new ObjectBlockModel("local-var-object-"
 				+ fileName, "local-variable", "initname",
 				fileName + "å^ÇÃïœêîÇÇ¬Ç≠ÇË", "Ç∆ñºïtÇØÇÈ", "230 0 255 ");
@@ -42,7 +44,7 @@ public class OutputSelDefClassPageModel {
 	}
 
 	public void setGlobalSelDefClass(String fileName,
-			List<PublicMethodInfo> methods) {
+			Map<String, List<PublicMethodInfo>> methods) {
 		ObjectBlockModel classModel = new ObjectBlockModel(
 				"private-var-object-" + fileName, "global-variable",
 				"initname", fileName + "å^ÇÃïœêîÇÇ¬Ç≠ÇË", "Ç∆ñºïtÇØÇÈ", "230 0 255");
@@ -95,12 +97,24 @@ public class OutputSelDefClassPageModel {
 			makeIndent(ps, ++lineNum);
 			ps.println("<BlockDrawer name=\"Project-Objects\" type=\"factory\" button-color=\"255 155 64\">");
 			lineNum++;
+
+			Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();
 			for (ObjectBlockModel selDefClass : requestObjectBlock) {
 				selDefClass.printMenuItem(ps, lineNum);
-				for (PublicMethodInfo method : selDefClass.getMethods()) {
-					PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
-					writer.setMethods(method);
-					writer.printMenuItem(ps, lineNum);
+
+				for (String key : selDefClass.getMethods().keySet()) {
+					for (PublicMethodInfo method : selDefClass.getMethods()
+							.get(key)) {
+						if (addedMethods.get(Integer.toString((method
+								.hashCode()))) == null) {
+							PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
+							writer.setMethods(method);
+							writer.printMenuItem(ps, lineNum);
+							addedMethods
+									.put(Integer.toString(method.hashCode()),
+											method);
+						}
+					}
 				}
 			}
 

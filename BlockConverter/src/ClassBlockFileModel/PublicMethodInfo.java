@@ -61,12 +61,11 @@ public class PublicMethodInfo extends BasicModel {
 
 	public void print(PrintStream out, int lineNum) {
 		makeIndent(out, lineNum);
-		out.println("<ClassMethods>");
-
+		out.println("<Methods>");
 		printMethods(out, lineNum);
 
 		makeIndent(out, lineNum);
-		out.println("</ClassMethods>");
+		out.println("</Methods>");
 	}
 
 	private void printMethods(PrintStream out, int lineNum) {

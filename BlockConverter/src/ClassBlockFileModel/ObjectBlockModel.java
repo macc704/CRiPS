@@ -1,14 +1,14 @@
 package ClassBlockFileModel;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ObjectBlockModel extends BasicModel {
 
-	private List<PublicMethodInfo> methods = new ArrayList<PublicMethodInfo>();
+	private Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
 	private String className;
 	private Map<String, String> langSpecProperties = new LinkedHashMap<String, String>();
 
@@ -25,7 +25,7 @@ public class ObjectBlockModel extends BasicModel {
 		langSpecProperties.put("is-monitorable", "yes");
 	}
 
-	public List<PublicMethodInfo> getMethods() {
+	public Map<String, List<PublicMethodInfo>> getMethods() {
 		return methods;
 	}
 
@@ -37,7 +37,7 @@ public class ObjectBlockModel extends BasicModel {
 		return this.className;
 	}
 
-	public void setMethods(List<PublicMethodInfo> methods) {
+	public void setMethods(Map<String, List<PublicMethodInfo>> methods) {
 		this.methods = methods;
 	}
 
@@ -156,18 +156,28 @@ public class ObjectBlockModel extends BasicModel {
 
 		makeIndent(out, lineNumber);
 		out.println("</LangSpecProperties>");
+		for (String key : methods.keySet()) {
+			makeIndent(out, lineNumber);
+			out.println("<ClassMethods class=\"" + key + "\">");
 
-		for (PublicMethodInfo method : methods) {
-			method.print(out, lineNumber);
+			lineNumber++;
+			for (PublicMethodInfo method : methods.get(key)) {
+				method.print(out, lineNumber);
+			}
+
+			makeIndent(out, --lineNumber);
+			out.println("</ClassMethods>");
 		}
-
 		out.println("</BlockGenus>");
 		out.println();
 		// コマンドブロック情報の書き出し
 		PublicMethodCommandWriter commandWriter = new PublicMethodCommandWriter();
-		for (PublicMethodInfo method : methods) {
-			commandWriter.setMethods(method);
-			commandWriter.printCommands(out);
+
+		for (String key : methods.keySet()) {
+			for (PublicMethodInfo method : methods.get(key)) {
+				commandWriter.setMethods(method);
+				commandWriter.printCommands(out);
+			}
 		}
 
 		out.println();
