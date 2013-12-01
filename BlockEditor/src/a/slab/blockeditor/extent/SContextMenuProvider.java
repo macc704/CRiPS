@@ -419,7 +419,7 @@ public class SContextMenuProvider {
 		JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createActionGetterBlock(rb, "callActionMethod2");
+				createCallMethod(method.get("name").get(0));
 			}
 		});
 		return item;

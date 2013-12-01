@@ -56,6 +56,12 @@ public class PublicMethodCommandWriter extends BasicModel {
 		makeIndent(out, --lineNum);
 		out.println("</BlockGenus>");
 		out.println();
-
 	}
+
+	public void printMenuItem(PrintStream out, int lineNumber) {
+		makeIndent(out, lineNumber);
+		out.println("<BlockGenusMember>" + method.getName()
+				+ "</BlockGenusMember>");
+	}
+
 }

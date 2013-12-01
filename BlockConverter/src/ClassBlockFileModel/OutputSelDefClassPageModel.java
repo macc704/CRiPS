@@ -97,6 +97,11 @@ public class OutputSelDefClassPageModel {
 			lineNum++;
 			for (ObjectBlockModel selDefClass : requestObjectBlock) {
 				selDefClass.printMenuItem(ps, lineNum);
+				for (PublicMethodInfo method : selDefClass.getMethods()) {
+					PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
+					writer.setMethods(method);
+					writer.printMenuItem(ps, lineNum);
+				}
 			}
 
 			makeIndent(ps, --lineNum);

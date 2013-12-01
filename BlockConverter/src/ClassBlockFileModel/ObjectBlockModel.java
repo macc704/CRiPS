@@ -25,6 +25,10 @@ public class ObjectBlockModel extends BasicModel {
 		langSpecProperties.put("is-monitorable", "yes");
 	}
 
+	public List<PublicMethodInfo> getMethods() {
+		return methods;
+	}
+
 	public void setClassName(String className) {
 		this.className = className;
 	}
