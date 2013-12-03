@@ -2161,7 +2161,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					Block.getBlock(link.getSocketBlockID()),
 					Block.getBlock(link.getPlugBlockID()).getPlug(), Block
 							.getBlock(link.getSocketBlockID()).getSocketAt(0)) != null) {*/
-
 			link.connect();
 			//try {
 			Workspace.getInstance().notifyListeners(

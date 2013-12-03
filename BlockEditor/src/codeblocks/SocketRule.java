@@ -93,7 +93,8 @@ public class SocketRule implements LinkRule {
 				&& ((block.getPlug().getBlockID() == Block.NULL && sBlock
 						.getBlockID() != Block.NULL) || (block.getPlug()
 						.getBlockID() != Block.NULL && sBlock.getBlockID() == Block.NULL))
-				&& block.getKind().equals(sBlock.getKind())) {
+				&& block.getKind().equals(sBlock.getKind())
+				&& !block.getKind().contains("param")) {
 			replaceBlock(block, socket);
 			return true;
 		}
