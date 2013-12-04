@@ -317,4 +317,8 @@ public class PPProjectViewerFrame extends JFrame {
 	public void fitScale() {
 		timelinePane.getTimelinePane().fitScale();
 	}
+
+	public PPTimeLinePane getTimelinePane() {
+		return timelinePane;
+	}
 }

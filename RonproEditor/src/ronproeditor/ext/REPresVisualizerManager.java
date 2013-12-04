@@ -33,6 +33,24 @@ public class REPresVisualizerManager {
 		exportAndImportAll();
 		ppDataManager.setLibDir(application.getLibraryManager().getDir());
 		ppDataManager.openProjectSet(PPV_PROJECTSET_NAME, true, true, false);
+
+		// àÍÇ¬ÇÃProjectÇíºê⁄PPProjectViewerFrameÇ≈äJÇ≠
+		// CDirectory projectSetDir = ppDataManager.getDataDir().findDirectory(
+		// PPV_PROJECTSET_NAME);
+		// PPProjectSet projectSet = new PPProjectSet(projectSetDir);
+		// ppDataManager.loadProjectSet(projectSet, true, false);
+		// IPLUnit model = null;
+		// model = projectSet.getProjects().get(0).getRootPackage();
+		// final PPProjectViewerFrame frame = new PPProjectViewerFrame(model);
+		// frame.setBounds(50, 50, 1000, 700);
+		// frame.setVisible(true);
+		// SwingUtilities.invokeLater(new Runnable() {
+		// public void run() {
+		// frame.fitScale();
+		// frame.getTimelinePane().getTimeModel()
+		// .setTime(new CTime(2013, 10, 15, 3, 33, 50));
+		// }
+		// });
 	}
 
 	public PPDataManager getPPDataManager() {
