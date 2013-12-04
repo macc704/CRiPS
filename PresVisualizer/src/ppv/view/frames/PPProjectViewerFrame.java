@@ -244,6 +244,11 @@ public class PPProjectViewerFrame extends JFrame {
 		}
 	}
 
+	public void openToggleExtraView() {
+		source2.setVisible(true);
+		topSplitPane.setDividerLocation(0.5);
+	}
+
 	@SuppressWarnings("unused")
 	private void initializeMenu() {
 		JMenuBar menuBar = new JMenuBar();

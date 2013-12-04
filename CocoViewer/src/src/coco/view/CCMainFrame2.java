@@ -108,7 +108,7 @@ public class CCMainFrame2 extends JFrame {
 		// ボタンを配置する
 		int i = 1;
 		for (int x = 0; x < width - buttonWidth; x += buttonWidth) {
-			for (int y = 40; y < height - buttonHeight; y += buttonHeight) {
+			for (int y = 40; y < height - buttonHeight - 50; y += buttonHeight) {
 				if (manager.getAllLists().size() >= i) {
 					if (manager.getList(i).getErrors().size() > 0) {
 						buttons.get(i - 1).setBounds(x, y, buttonWidth,
@@ -129,7 +129,7 @@ public class CCMainFrame2 extends JFrame {
 	private void setEmptyPanel(int x, int y) {
 		JButton emptyButton = new JButton("未発生");
 		emptyButton.setEnabled(false);
-		emptyButton.setToolTipText("未発生ですよ");
+		emptyButton.setToolTipText("未発生です");
 		emptyButton.setBackground(Color.GRAY);
 		emptyButton.setBounds(x, y, buttonWidth, buttonHeight);
 		rootPanel.add(emptyButton);

@@ -5,11 +5,11 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -33,6 +33,7 @@ import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
 import ppv.view.frames.PPProjectViewerFrame;
 import pres.loader.model.IPLUnit;
+import pres.loader.model.PLFile;
 import pres.loader.model.PLProject;
 import src.coco.model.CCCompileError;
 import src.coco.model.CCCompileErrorList;
@@ -79,25 +80,12 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	public void openGraph() {
+		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
 		makeGraph();
 		makeSourceList();
 		add(rootPanel);
 		getContentPane().add(rootPanel, BorderLayout.CENTER);
 		pack();
-
-		// windowサイズ変更時の動き
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent e) {
-				width = getWidth();
-				height = getHeight();
-				chartpanel.setPreferredSize(new Dimension(width * 3 / 4,
-						height - 50));
-				scrollPanel.setPreferredSize(new Dimension(width / 6,
-						height / 3));
-				validate();
-			}
-		});
 	}
 
 	private void makeGraph() {
@@ -147,7 +135,8 @@ public class CCGraphFrame extends JFrame {
 		// グラフをJPanel上に配置する
 		chartpanel = new ChartPanel(chart);
 		// chartpanel.setBounds(0, 0, width - 15, height - 40);
-		chartpanel.setPreferredSize(new Dimension(width * 3 / 4, height - 20));
+		// chartpanel.setPreferredSize(new Dimension(width * 3 / 4, height -
+		// 20));
 
 		// TODO: TIPS表示されない
 		JToolTip tooltip = new JToolTip();
@@ -183,7 +172,7 @@ public class CCGraphFrame extends JFrame {
 					String projectname = compileError.getProjectname();
 					// final String beginTime = String.valueOf(compileError
 					// .getBeginTime());
-					// String filename = compileError.getFilename();
+					String filename = compileError.getFilename();
 
 					// コンパイルエラー発生時のファイルパスを設定
 					// TODO Eclipse対応できてない
@@ -204,12 +193,22 @@ public class CCGraphFrame extends JFrame {
 								.findDirectory("hoge");
 						PPProjectSet projectSet = new PPProjectSet(
 								projectSetDir);
+
 						// TODO 毎回コンパイルしなければならない問題をどう解決するか
 						ppDataManager.loadProjectSet(projectSet, true, true);
 						IPLUnit model = null;
 						for (PLProject project : projectSet.getProjects()) {
 							if (project.getName().equals(projectname)) {
-								model = project.getRootPackage();
+								// 単体のみ
+								List<PLFile> files = project.getFiles();
+								for (PLFile file : files) {
+									if (file.getName().equals(filename)) {
+										model = file;
+									}
+								}
+
+								// そのプロジェクト全体
+								// model = project.getRootPackage();
 							}
 						}
 
@@ -224,17 +223,21 @@ public class CCGraphFrame extends JFrame {
 						frame.setVisible(true);
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
+								// 青修正前，赤修正後
 								frame.fitScale();
-								// 赤ずらすとコード変化するから，赤を発生時，青を修正完了時で
+								frame.openToggleExtraView();
+
 								long beginTime = compileError.getBeginTime();
-								// long correctTime = beginTime
-								// + (long) compileError.getCorrectTime()
-								// * 1000;
-								frame.getTimelinePane().getTimeModel()
+								// TODO CorrectTimeの計算 暫定は1秒ほど先のソースコードを表示
+								long correctTime = beginTime
+										+ (long) (compileError.getCorrectTime() + 1)
+										* 1000;
+
+								frame.getTimelinePane().getTimeModel2()
 										.setTime(new CTime(beginTime));
-								// TODO 修正時のタイムラインペインの表示おかしい
-								// frame.getTimelinePane().getTimeModel()
-								// .setTime(new CTime(correctTime));
+
+								frame.getTimelinePane().getTimeModel()
+										.setTime(new CTime(correctTime));
 							}
 						});
 						// プログラムソースを捜し，それがnullでないこと＋ファイルであることを確認
@@ -273,7 +276,7 @@ public class CCGraphFrame extends JFrame {
 
 		scrollPanel = new JScrollPane();
 		scrollPanel.getViewport().setView(jlist);
-		scrollPanel.setPreferredSize(new Dimension(width / 6, height / 3));
+		// scrollPanel.setPreferredSize(new Dimension(width / 6, height / 3));
 
 		rootPanel.add(scrollPanel, BorderLayout.EAST);
 	}
