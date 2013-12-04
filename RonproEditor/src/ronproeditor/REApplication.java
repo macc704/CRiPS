@@ -1190,13 +1190,15 @@ public class REApplication implements ICFwApplication {
 		}
 	}
 
-	public void doOpenNewRE(String dirPath) {
+	public REApplication doOpenNewRE(String dirPath) {
 		REApplication application = new REApplication();
 		File dir = new File(dirPath);
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
 		application.initializeAndOpen(dirPath);
+		// ï‘ÇËílí«â¡ÅikatoÅj
+		return application;
 	}
 
 	// private void sourceColoringTest(){

@@ -2,11 +2,9 @@ package gs.serverclient;
 
 import gs.connection.Connection;
 import gs.connection.ConnectionPool;
-import gs.connection.DivideRoom;
 import gs.connection.SendObject;
 import gs.frame.GSFrame;
 
-import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -21,10 +19,9 @@ public class SyncServer {
 
 	private GSFrame frame = new GSFrame();
 	private ConnectionPool connectionPool = new ConnectionPool();
-	private List<ConnectionPool> pools = new ArrayList<ConnectionPool>();
-	private DivideRoom divideRoom = new DivideRoom();
-	private List<String> sendList = new ArrayList<String>();
-	private List<String> users = new ArrayList<String>();
+	// private List<ConnectionPool> pools = new ArrayList<ConnectionPool>();
+	// private DivideRoom divideRoom = new DivideRoom();
+	private List<String> members = new ArrayList<String>();
 
 	public void run() {
 
@@ -33,9 +30,6 @@ public class SyncServer {
 		frame.setBounds(100, 100, 300, 500);
 		frame.setTitle("SyncServer");
 		frame.open();
-
-		sendList.add("");
-		sendList.add("");
 
 		try (ServerSocket serverSock = new ServerSocket(10000)) {
 			while (true) {
@@ -59,18 +53,20 @@ public class SyncServer {
 		}
 	}
 
-	private void loopForOneClient(Connection conn) {
+	public void loopForOneClient(Connection conn) {
 		try {
 			Object obj;
-			int roomNum = 0;
+			// int roomNum = 0;
 			while (conn.established()) {
 				obj = conn.read();
-				if (obj instanceof /* Integer */SendObject) { // Integerなら部屋番号かスクロールバーのvalue
+				if (obj instanceof /* Integer */SendObject) { // Integerなら部屋番号
 
-					String user = ((SendObject) obj).getUserName();
-					users.add(user);
-					frame.println(user + " add list.");
-					connectionPool.broadcastAll(users, conn);
+					String member = ((SendObject) obj).getUserName();
+					if (!members.contains(member)) {
+						members.add(member);
+						frame.println(member + " add list.");
+					}
+					connectionPool.broadcastAll(members, conn);
 
 					// roomNum = (int) obj;
 					// roomNum = ((SendObject) obj).getRoomNum();
@@ -109,12 +105,7 @@ public class SyncServer {
 
 				} else if (obj instanceof String) { // Stringなら送りたい文字列
 					String text = (String) obj;
-					pools.get(divideRoom.countRoom(roomNum)).broadcast(text,
-							conn);
-				} else if (obj instanceof File) {
-					File file = (File) obj;
-					pools.get(divideRoom.countRoom(roomNum)).broadcast(file,
-							conn);
+					connectionPool.broadcastAll(text, conn);
 				}
 			}
 		} catch (Exception ex) {

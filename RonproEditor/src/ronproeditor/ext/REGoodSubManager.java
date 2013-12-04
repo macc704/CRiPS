@@ -5,8 +5,6 @@ import gs.connection.DivideRoom;
 import gs.connection.SendObject;
 import gs.frame.CHMemberSelectorFrame;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -15,7 +13,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
 import ronproeditor.REApplication;
@@ -28,10 +25,10 @@ public class REGoodSubManager {
 	private REApplication application;
 	private RESourceViewer viewer;
 	private Connection conn;
-	private RESourceViewer sv;
-	private JButton btn;
-	// private JFrame frame;
+	// private RESourceViewer sv;
+	// private JButton btn;
 	private SendObject sendObject = new SendObject();
+	private REApplication chApplication;
 
 	// private JPanel btnPanel;
 
@@ -48,7 +45,7 @@ public class REGoodSubManager {
 	public void startGoodSub() {
 
 		// initializeFrame();
-		// initializeListener();
+		initializeListener();
 
 		// frame.addWindowListener(new WindowAdapter() {
 		// @Override
@@ -108,26 +105,23 @@ public class REGoodSubManager {
 		viewer.getTextPane().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// sendObject.setSource(viewer.getText());
-				// sendList.set(0, sendObject.getUserName());
-				// sendList.set(1, viewer.getText());
 				String text = viewer.getText();
 				conn.write(text);
 			}
 		});
 
-		btn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				String btnText = btn.getText();
-				if (btnText == "start") {
-					btn.setText("stop");
-				} else if (btnText == "stop") {
-					btn.setText("start");
-				}
-			}
-		});
+		// btn.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// // TODO Auto-generated method stub
+		// String btnText = btn.getText();
+		// if (btnText == "start") {
+		// btn.setText("stop");
+		// } else if (btnText == "stop") {
+		// btn.setText("start");
+		// }
+		// }
+		// });
 	}
 
 	@SuppressWarnings("unchecked")
@@ -147,20 +141,14 @@ public class REGoodSubManager {
 			e.printStackTrace();
 		}
 
-		// SendObject data = new SendObject();
 		sendObject.setUserName(room.getUserName());
 		sendObject.setRoomNum(groupNum);
 
-		members.add(sendObject.getUserName());
-
-		// conn.write(groupNum);
 		conn.write(sendObject);
 
-		final CHMemberSelectorFrame frame = new CHMemberSelectorFrame(
+		CHMemberSelectorFrame frame = new CHMemberSelectorFrame(
 				sendObject.getUserName());
 		frame.open();
-		members.add("menber2");
-		frame.setMembers(members);
 
 		// initializeMemberSelector();
 
@@ -168,7 +156,7 @@ public class REGoodSubManager {
 
 		if (conn.established()) {
 			System.out.println("client established");
-			application.doOpenNewRE("CHTestProject");
+			doOpenNewCHE();
 		}
 
 		try {
@@ -178,16 +166,16 @@ public class REGoodSubManager {
 					final String text = (String) obj;
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
-							if (btn.getText() == "stop") {
-								sv.setText(text);
-							}
+							chApplication.getFrame().getEditor().setText(text);
 						}
 					});
-				} else if (obj instanceof File) {
-					File file = (File) obj;
-					System.out.println("get" + file.getName());
 				} else if (obj instanceof List) {
-					members = (List<String>) obj;
+					for (String aMember : (List<String>) obj) {
+						if (!members.contains(aMember)) {
+							members.add(aMember);
+						}
+					}
+					frame.setMembers(members);
 				}
 			}
 		} catch (Exception ex) {
@@ -196,6 +184,10 @@ public class REGoodSubManager {
 		conn.close();
 		System.out.println("client closed");
 
+	}
+
+	public void doOpenNewCHE() {
+		chApplication = application.doOpenNewRE("CHTestProject");
 	}
 
 	public void fileSender() {
