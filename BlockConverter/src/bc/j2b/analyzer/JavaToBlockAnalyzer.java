@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.ArrayCreation;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.BlockComment;
@@ -1005,6 +1006,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return (ExpressionModel) parseClassInstanceCreation((ClassInstanceCreation) node);
 			} else if (node instanceof CastExpression) {
 				return (ExpressionModel) parseCastExpression((CastExpression) node);
+			} else if (node instanceof ArrayCreation) {
+				return (ExpressionModel) parseArrayInstanceCreation((ArrayCreation) node);
 			}
 			throw new RuntimeException(
 					"The node type has not been supported yet node: "
@@ -1615,6 +1618,23 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.addArgument(arg);
 		}
 		return model;
+	}
+
+	// ohata
+	private ExpressionModel parseArrayInstanceCreation(ArrayCreation node) {
+		ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
+		model.setValue(typeString(node.getType()));
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		// à¯êî
+		// for (int i = 0; i < node.get; i++) {
+		// ExpressionModel arg = parseExpression((Expression) node.arguments()
+		// .get(i));
+		// model.addArgument(arg);
+		// }
+		return model;
+
 	}
 
 	/**
