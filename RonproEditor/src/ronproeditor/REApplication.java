@@ -252,6 +252,10 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 											・行番号のfontが追従しない問題を修正
  * 											・全角の「{」を変換しようとするとソース全体がおかしくなる問題を修正
  * 											・半角の{を入力したときに}を自動入力する機能を削除
+ * 2013/12/4 version 2.21.0 matsuzawa		・詳細はgitログを参照のこと
+ * 												・いくつかbugfix
+ * 												・BlockEditor微調整
+ * 												・全角スペース表示など
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
@@ -269,8 +273,8 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.20.0";
-	public static final String BUILD_DATE = "2013/10/22";
+	public static final String VERSION = "2.21.0";
+	public static final String BUILD_DATE = "2013/12/4";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
