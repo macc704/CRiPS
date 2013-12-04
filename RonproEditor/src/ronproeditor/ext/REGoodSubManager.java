@@ -145,7 +145,7 @@ public class REGoodSubManager {
 
 		if (conn.established()) {
 			System.out.println("client established");
-			doOpenNewCHE();
+			// doOpenNewCHE();
 		}
 
 		try {
@@ -189,7 +189,6 @@ public class REGoodSubManager {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				if (connButton.getText().equals("Start")) {
 					started = true;
 					connButton.setText("Stop");

@@ -1,5 +1,7 @@
 package gs.connection;
 
+import gs.frame.GSFrame;
+
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +11,11 @@ public class ConnectionPool {
 	private List<Connection> connections = new ArrayList<Connection>();
 	private Object lock = new Object();
 	private List<String> users = new ArrayList<String>();
+	private GSFrame frame;
+
+	public void setFrame(GSFrame frame) {
+		this.frame = frame;
+	}
 
 	public Connection newConnection(Socket sock) {
 		synchronized (lock) {
@@ -44,6 +51,7 @@ public class ConnectionPool {
 		synchronized (lock) {
 			for (Connection aClient : connections) {
 				aClient.write(obj);
+				frame.println("send : " + obj + "  to : " + aClient);
 			}
 		}
 	}

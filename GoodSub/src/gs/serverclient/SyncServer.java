@@ -31,6 +31,8 @@ public class SyncServer {
 		frame.setTitle("SyncServer");
 		frame.open();
 
+		connectionPool.setFrame(frame);
+
 		try (ServerSocket serverSock = new ServerSocket(10000)) {
 			while (true) {
 				frame.println("waiting new client..");
