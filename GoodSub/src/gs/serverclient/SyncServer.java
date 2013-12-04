@@ -59,14 +59,14 @@ public class SyncServer {
 			// int roomNum = 0;
 			while (conn.established()) {
 				obj = conn.read();
-				if (obj instanceof /* Integer */SendObject) { // Integer‚È‚ç•”‰®”Ô†
+				if (obj instanceof SendObject) {
 
-					String member = ((SendObject) obj).getUserName();
-					if (!members.contains(member)) {
-						members.add(member);
-						frame.println(member + " add list.");
+					String myName = ((SendObject) obj).getMyName();
+					if (!members.contains(myName)) {
+						members.add(myName);
+						frame.println(myName + " add list.");
 					}
-					connectionPool.broadcastAll(members, conn);
+					connectionPool.broadcastAll(members);
 
 					// roomNum = (int) obj;
 					// roomNum = ((SendObject) obj).getRoomNum();
@@ -105,7 +105,7 @@ public class SyncServer {
 
 				} else if (obj instanceof String) { // String‚È‚ç‘—‚è‚½‚¢•¶š—ñ
 					String text = (String) obj;
-					connectionPool.broadcastAll(text, conn);
+					connectionPool.broadcastAll(text);
 				}
 			}
 		} catch (Exception ex) {

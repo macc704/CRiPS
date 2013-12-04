@@ -40,7 +40,7 @@ public class ConnectionPool {
 		}
 	}
 
-	public void broadcastAll(Object obj, Connection sender) {
+	public void broadcastAll(Object obj) {
 		synchronized (lock) {
 			for (Connection aClient : connections) {
 				aClient.write(obj);

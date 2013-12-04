@@ -5,6 +5,8 @@ import gs.connection.DivideRoom;
 import gs.connection.SendObject;
 import gs.frame.CHMemberSelectorFrame;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -13,6 +15,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JMenuBar;
 import javax.swing.SwingUtilities;
 
 import ronproeditor.REApplication;
@@ -23,16 +27,11 @@ public class REGoodSubManager {
 	public static final String APP_NAME = "GoodSub";
 
 	private REApplication application;
-	private RESourceViewer viewer;
 	private Connection conn;
-	// private RESourceViewer sv;
-	// private JButton btn;
-	private SendObject sendObject = new SendObject();
 	private REApplication chApplication;
-
-	// private JPanel btnPanel;
-
-	// private List<JButton> userBtns = new ArrayList<JButton>();
+	private RESourceViewer viewer;
+	private JButton connButton;
+	private boolean started;
 
 	public REGoodSubManager(REApplication application) {
 		this.application = application;
@@ -46,13 +45,6 @@ public class REGoodSubManager {
 
 		// initializeFrame();
 		initializeListener();
-
-		// frame.addWindowListener(new WindowAdapter() {
-		// @Override
-		// public void windowClosed(WindowEvent e) {
-		// conn.close();
-		// }
-		// });
 
 		new Thread() {
 			public void run() {
@@ -130,6 +122,7 @@ public class REGoodSubManager {
 		Object obj;
 		int groupNum = 0;
 		List<String> members = new ArrayList<String>();
+		SendObject sendObject = new SendObject();
 
 		conn.shakehandForClient();
 
@@ -141,18 +134,14 @@ public class REGoodSubManager {
 			e.printStackTrace();
 		}
 
-		sendObject.setUserName(room.getUserName());
+		sendObject.setMyName(room.getUserName());
 		sendObject.setRoomNum(groupNum);
 
 		conn.write(sendObject);
 
 		CHMemberSelectorFrame frame = new CHMemberSelectorFrame(
-				sendObject.getUserName());
+				sendObject.getMyName());
 		frame.open();
-
-		// initializeMemberSelector();
-
-		// frame.setTitle("CheCoPro Group No." + groupNum);
 
 		if (conn.established()) {
 			System.out.println("client established");
@@ -166,7 +155,10 @@ public class REGoodSubManager {
 					final String text = (String) obj;
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
-							chApplication.getFrame().getEditor().setText(text);
+							if (isStarted()) {
+								chApplication.getFrame().getEditor()
+										.setText(text);
+							}
 						}
 					});
 				} else if (obj instanceof List) {
@@ -188,6 +180,34 @@ public class REGoodSubManager {
 
 	public void doOpenNewCHE() {
 		chApplication = application.doOpenNewRE("CHTestProject");
+		chApplication.getFrame().setTitle("CheCoPro Editor");
+
+		started = false;
+
+		connButton = new JButton("Start");
+		connButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				if (connButton.getText().equals("Start")) {
+					started = true;
+					connButton.setText("Stop");
+				} else if (connButton.getText().equals("Stop")) {
+					started = false;
+					connButton.setText("Start");
+				}
+			}
+		});
+
+		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
+		menuBar.add(connButton);
+		chApplication.getFrame().setJMenuBar(menuBar);
+
+	}
+
+	public boolean isStarted() {
+		return started;
 	}
 
 	public void fileSender() {

@@ -9,7 +9,7 @@ public class SendObject implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	// private String source;
-	private String userName;
+	private String myName;
 	private int roomNum;
 
 	// public void setSource(String source) {
@@ -21,8 +21,8 @@ public class SendObject implements Serializable {
 		this.roomNum = roomNum;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setMyName(String userName) {
+		this.myName = userName;
 	}
 
 	// public String getSource() {
@@ -34,7 +34,7 @@ public class SendObject implements Serializable {
 		return roomNum;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getMyName() {
+		return myName;
 	}
 }
