@@ -25,7 +25,10 @@ public class RECocoViewerManager {
 
 		CDirectory ppvRoot = application.getSourceManager().getCRootDirectory()
 				.findOrCreateDirectory(PPV_ROOT_DIR);
-		new CCMainFrame2(manager, ppvRoot).setVisible(true);
+		CDirectory libDir = application.getLibraryManager().getDir();
+		manager.setBase(ppvRoot);
+		manager.setLibDir(libDir);
+		new CCMainFrame2(manager).setVisible(true);
 	}
 
 	private void loadData(CCCompileErrorManager manager) {
