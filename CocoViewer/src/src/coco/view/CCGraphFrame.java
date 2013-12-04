@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -13,8 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.JToolTip;
+import javax.swing.SwingUtilities;
 
 import org.jfree.chart.ChartColor;
 import org.jfree.chart.ChartFactory;
@@ -27,12 +29,15 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import ppv.app.datamanager.PPDataManager;
+import ppv.app.datamanager.PPProjectSet;
+import ppv.view.frames.PPProjectViewerFrame;
+import pres.loader.model.IPLUnit;
+import pres.loader.model.PLProject;
 import src.coco.model.CCCompileError;
 import src.coco.model.CCCompileErrorList;
 import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileElement;
-import clib.common.filesystem.CPath;
+import clib.common.time.CTime;
 
 public class CCGraphFrame extends JFrame {
 
@@ -47,24 +52,22 @@ public class CCGraphFrame extends JFrame {
 	private JPanel rootPanel = new JPanel();
 	private CCCompileErrorList list;
 
-	private CDirectory baseDir;
+	private CDirectory libDir;
+	private CDirectory base;
+
+	ChartPanel chartpanel;
+	JScrollPane scrollPanel;
 
 	// default
-	public CCGraphFrame(CCCompileErrorList list, CDirectory baseDir) {
+	public CCGraphFrame(CCCompileErrorList list, CDirectory libDir,
+			CDirectory base) {
 		this.list = list;
-		this.baseDir = baseDir;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		width = (int) (d.width * 0.75);
-		height = (int) (d.height * 0.75);
+		width = (int) (d.width * 0.6);
+		height = (int) (d.height * 0.6);
+		this.libDir = libDir;
+		this.base = base;
 		initialize();
-	}
-
-	public void openGraph() {
-		makeGraph();
-		makeSourceList();
-		add(rootPanel);
-		getContentPane().add(rootPanel, BorderLayout.CENTER);
-		pack();
 	}
 
 	private void initialize() {
@@ -73,6 +76,28 @@ public class CCGraphFrame extends JFrame {
 		setSize(width, height);
 		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - "
 				+ list.getMessage() + " の詳細");
+	}
+
+	public void openGraph() {
+		makeGraph();
+		makeSourceList();
+		add(rootPanel);
+		getContentPane().add(rootPanel, BorderLayout.CENTER);
+		pack();
+
+		// windowサイズ変更時の動き
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				width = getWidth();
+				height = getHeight();
+				chartpanel.setPreferredSize(new Dimension(width * 3 / 4,
+						height - 50));
+				scrollPanel.setPreferredSize(new Dimension(width / 6,
+						height / 3));
+				validate();
+			}
+		});
 	}
 
 	private void makeGraph() {
@@ -97,7 +122,7 @@ public class CCGraphFrame extends JFrame {
 		chart.setBackgroundPaint(new CCGraphBackgroundColor().graphColor(list
 				.getRare()));
 
-		// TODO: CategoryPlotを継承してクリック可能にして使える情報を増やすこと
+		// TODO: CategoryPlotを継承してクリック可能にして使える情報を増やすこと（優先度低）
 		CategoryPlot plot = chart.getCategoryPlot();
 
 		// y軸の設定 ・ 軸は整数値のみを指すようにする
@@ -120,8 +145,9 @@ public class CCGraphFrame extends JFrame {
 		renderer.setSeriesShapesVisible(0, true);
 
 		// グラフをJPanel上に配置する
-		ChartPanel chartpanel = new ChartPanel(chart);
+		chartpanel = new ChartPanel(chart);
 		// chartpanel.setBounds(0, 0, width - 15, height - 40);
+		chartpanel.setPreferredSize(new Dimension(width * 3 / 4, height - 20));
 
 		// TODO: TIPS表示されない
 		JToolTip tooltip = new JToolTip();
@@ -151,59 +177,103 @@ public class CCGraphFrame extends JFrame {
 						&& e.getClickCount() >= 2) {
 					// 選択された要素がリストの何番目であるのかを取得し，その時のコンパイルエラー情報を取得
 					int index = jlist.getSelectedIndex();
-					CCCompileError compileError = list.getErrors().get(index);
-
+					final CCCompileError compileError = list.getErrors().get(
+							index);
 					// ファイルパスに必要な要素の取り出し
 					String projectname = compileError.getProjectname();
-					String beginTime = String.valueOf(compileError
-							.getBeginTime());
-					String filename = compileError.getFilename();
+					// final String beginTime = String.valueOf(compileError
+					// .getBeginTime());
+					// String filename = compileError.getFilename();
 
 					// コンパイルエラー発生時のファイルパスを設定
 					// TODO Eclipse対応できてない
 					// TODO ハードコーディング問題
-					CPath path = new CPath("\\ppv.data\\cash\\hoge\\"
-							+ projectname + "\\" + beginTime
-							+ "\\ProjectBase\\" + filename);
+					// CPath path = new CPath("\\ppv.data\\cash\\hoge\\"
+					// + projectname + "\\" + beginTime
+					// + "\\ProjectBase\\" + filename);
 
 					// 論プロからの起動を想定，CocoViewerのみではbaseDirはnull
-					if (baseDir == null) {
+					if (base == null) {
 						System.out.println("baseDir null");
 					} else {
-						// プログラムソースを捜し，それがnullでないこと＋ファイルであることを確認
-						CFileElement fileElement = baseDir.findChild(path);
-						if (fileElement.isFile() && fileElement != null) {
-							CFile file = (CFile) fileElement;
-							System.out.println("find!  "
-									+ list.getErrors().get(index)
-											.getBeginTime());
-							// TODO PPProjectViewerFrameを使って表示できるようにしよう
-							// プログラムファイルの内容読み込み
-							StringBuffer buf = new StringBuffer();
-							String line = "";
-							if ((line = file.loadText()) != null) {
-								buf.append(line);
-								buf.append("\n");
-								System.out.println(line);
-							}
+						PPDataManager ppDataManager = new PPDataManager(base);
+						ppDataManager.setLibDir(libDir);
 
-							// 読み込んだものを表示
-							JTextPane textPane = new JTextPane();
-							textPane.setText(buf.toString());
-							textPane.setCaretPosition(0);
-							JFrame frame = new JFrame();
-							frame.add(textPane, BorderLayout.CENTER);
-							frame.pack();
-							frame.setVisible(true);
+						// TODO ハードコーディングになっている
+						CDirectory projectSetDir = ppDataManager.getDataDir()
+								.findDirectory("hoge");
+						PPProjectSet projectSet = new PPProjectSet(
+								projectSetDir);
+						// TODO 毎回コンパイルしなければならない問題をどう解決するか
+						ppDataManager.loadProjectSet(projectSet, true, true);
+						IPLUnit model = null;
+						for (PLProject project : projectSet.getProjects()) {
+							if (project.getName().equals(projectname)) {
+								model = project.getRootPackage();
+							}
 						}
+
+						if (model == null) {
+							throw new RuntimeException(
+									"コンパイルエラー発生時のソースコード捜索に失敗しました");
+						}
+
+						final PPProjectViewerFrame frame = new PPProjectViewerFrame(
+								model);
+						frame.setBounds(50, 50, 1000, 700);
+						frame.setVisible(true);
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								frame.fitScale();
+								// 赤ずらすとコード変化するから，赤を発生時，青を修正完了時で
+								long beginTime = compileError.getBeginTime();
+								// long correctTime = beginTime
+								// + (long) compileError.getCorrectTime()
+								// * 1000;
+								frame.getTimelinePane().getTimeModel()
+										.setTime(new CTime(beginTime));
+								// TODO 修正時のタイムラインペインの表示おかしい
+								// frame.getTimelinePane().getTimeModel()
+								// .setTime(new CTime(correctTime));
+							}
+						});
+						// プログラムソースを捜し，それがnullでないこと＋ファイルであることを確認
+						// CFileElement fileElement = baseDir.findChild(path);
+						// if (fileElement.isFile() && fileElement != null) {
+						// CFile file = (CFile) fileElement;
+						//
+						// // debug print
+						// // System.out.println("find!  "
+						// // + list.getErrors().get(index)
+						// // .getBeginTime());
+						//
+						// // TODO PPProjectViewerFrameを使って表示できるようにしよう
+						// // プログラムファイルの内容読み込み
+						// StringBuffer buf = new StringBuffer();
+						// String line = "";
+						// if ((line = file.loadText()) != null) {
+						// buf.append(line);
+						// buf.append("\n");
+						// System.out.println(line);
+						// }
+						//
+						// // 読み込んだものを表示
+						// JTextPane textPane = new JTextPane();
+						// textPane.setText(buf.toString());
+						// textPane.setCaretPosition(0);
+						// JFrame frame = new JFrame();
+						// frame.add(textPane, BorderLayout.CENTER);
+						// frame.pack();
+						// frame.setVisible(true);
+						// }
 					}
 				}
 			}
 		});
 
-		JScrollPane scrollPanel = new JScrollPane();
+		scrollPanel = new JScrollPane();
 		scrollPanel.getViewport().setView(jlist);
-		scrollPanel.setPreferredSize(new Dimension(width / 4, height / 3));
+		scrollPanel.setPreferredSize(new Dimension(width / 6, height / 3));
 
 		rootPanel.add(scrollPanel, BorderLayout.EAST);
 	}
