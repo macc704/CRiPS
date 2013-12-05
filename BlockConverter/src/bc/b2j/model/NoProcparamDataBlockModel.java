@@ -152,13 +152,14 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		} else if (getGenusName().startsWith("new-arrayobject")) {
 			out.print("new "
 					+ typeString(getLabel()).substring(0,
-							typeString(getLabel()).indexOf("[")) + "[");
+							typeString(getLabel()).indexOf("[")));
 			ArrayList<Integer> connectorIDs = getConnectorIDs();
 			for (int connectorID : connectorIDs) {
+				out.print("[");
 				BlockModel block = BlockToJavaAnalyzer.getBlock(connectorID);
 				block.print(out, indent);
+				out.print("]");
 			}
-			out.print("]");
 		} else {
 			out.print("java.awt.Color." + getGenusName());
 		}

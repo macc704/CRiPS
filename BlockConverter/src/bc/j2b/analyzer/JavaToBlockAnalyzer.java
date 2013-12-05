@@ -909,6 +909,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// for (int i = 0; i < fragments.size(); i++) {
 
 		String typeString = typeString(node.getType());
+
 		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 				.fragments().get(0);
 		StatementModel model = createLocalVariableModel(typeString, fragment
@@ -1629,11 +1630,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 		// ˆø”
-		// for (int i = 0; i < node.get; i++) {
-		// ExpressionModel arg = parseExpression((Expression) node.arguments()
-		// .get(i));
-		// model.addArgument(arg);
-		// }
+		for (int i = 0; i < node.dimensions().size(); i++) {
+			ExpressionModel arg = parseExpression((Expression) node
+					.dimensions().get(i));
+			model.addArgument(arg);
+		}
 		return model;
 
 	}

@@ -101,11 +101,15 @@ public class ExArrayInstanceCreationModel extends ExpressionModel {
 		out.println("<BlockConnector connector-kind=\"plug\" connector-type=\"object\" init-type=\"object\""
 				+ " label=\"\" position-type=\"single\" con-block-id=\""
 				+ getParent().getId() + "\"/>");
+		// addDefaultArg
+		makeIndent(out, indent + 2);
+		out.println();
+
 		// end Socket
 		makeIndent(out, indent + 1);
 		out.println("</Plug>");
 
-		ExCallMethodModel.printArguments(arguments, out, indent, this, null);
+		printArguments(arguments, out, indent, this, null);
 
 		// end Block
 		makeIndent(out, indent);
@@ -114,6 +118,45 @@ public class ExArrayInstanceCreationModel extends ExpressionModel {
 
 	public String getLabel() {
 		return "new " + name + "()";
+	}
+
+	public static void printArguments(List<ExpressionModel> arguments,
+			PrintStream out, int indent, ExpressionModel model,
+			List<String> argumentLabels) {
+		// à¯êî(sockets)
+		int argsize = arguments.size();
+		if (argsize > 0) {
+			model.makeIndent(out, indent + 1);
+			out.println("<Sockets num-sockets=\"" + argsize + "\">");
+			int i = 0;
+			for (ExpressionModel arg : arguments) {
+				model.makeIndent(out, indent + 2);
+				String connectorType = ElementModel
+						.convertJavaTypeToBlockType(arg.getType());
+				if (connectorType.equals("void")) {
+					connectorType = "poly"; // polyÇÃÇ™É}ÉVÇæÇÎÅD#matsuzawa 2013.01.09
+				}
+				String label = "";
+				if (argumentLabels != null && i < argumentLabels.size()) {
+					label = argumentLabels.get(i);
+				}
+				out.print("<BlockConnector connector-kind=\"socket\" connector-type=\""
+						+ connectorType
+						+ "\""
+						+ " init-type=\""
+						+ connectorType
+						+ "\" label=\""
+						+ label
+						+ "\" position-type=\"single\"");
+				// if (arg.getId() != -1) {
+				out.print(" con-block-id=\"" + arg.getId() + "\"");
+				// }
+				out.println("/>");
+				i++;
+			}
+			model.makeIndent(out, indent + 1);
+			out.println("</Sockets>");
+		}
 	}
 
 }
