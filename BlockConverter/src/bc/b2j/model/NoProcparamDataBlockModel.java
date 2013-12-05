@@ -10,12 +10,12 @@ public class NoProcparamDataBlockModel extends BlockModel {
 	@Override
 	public void checkError() {
 		// #matsuzawa âûã}èàíu 2012.11.24
-		
+
 		if (getGenusName().indexOf("proc-param") != -1) {
 			return;// ëfí Çµ
 		}
-		if(getName().startsWith("getterprivate")){
-			return;// #ohata added 
+		if (getName().startsWith("getterprivate")) {
+			return;// #ohata added
 		}
 		if (!getGenusName().startsWith("getter")) {
 			return;
@@ -149,6 +149,16 @@ public class NoProcparamDataBlockModel extends BlockModel {
 				first = false;
 			}
 			out.print(")");
+		} else if (getGenusName().startsWith("new-arrayobject")) {
+			out.print("new "
+					+ typeString(getLabel()).substring(0,
+							typeString(getLabel()).indexOf("[")) + "[");
+			ArrayList<Integer> connectorIDs = getConnectorIDs();
+			for (int connectorID : connectorIDs) {
+				BlockModel block = BlockToJavaAnalyzer.getBlock(connectorID);
+				block.print(out, indent);
+			}
+			out.print("]");
 		} else {
 			out.print("java.awt.Color." + getGenusName());
 		}

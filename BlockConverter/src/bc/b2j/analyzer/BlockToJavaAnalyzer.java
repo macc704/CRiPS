@@ -273,6 +273,11 @@ public class BlockToJavaAnalyzer {
 		if (blockName.startsWith("new-object")) {
 			return true;
 		}
+
+		if (blockName.startsWith("new-arrayobject")) {
+			return true;
+		}
+
 		if (blockName.startsWith("getter")) {
 			return true;
 		}
