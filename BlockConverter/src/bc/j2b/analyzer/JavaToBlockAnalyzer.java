@@ -52,6 +52,7 @@ import bc.BlockConverter;
 import bc.j2b.model.ClassModel;
 import bc.j2b.model.CompilationUnitModel;
 import bc.j2b.model.ElementModel;
+import bc.j2b.model.ExArrayInstanceCreationModel;
 import bc.j2b.model.ExCallActionMethodModel;
 import bc.j2b.model.ExCallActionMethodModel2;
 import bc.j2b.model.ExCallGetterMethodModel;
@@ -1622,7 +1623,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	// ohata
 	private ExpressionModel parseArrayInstanceCreation(ArrayCreation node) {
-		ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
+		ExArrayInstanceCreationModel model = new ExArrayInstanceCreationModel();
 		model.setValue(typeString(node.getType()));
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node

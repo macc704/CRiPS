@@ -748,3 +748,43 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="new-arrayobject-intarray" kind="function" initlabel="intArray"
+	editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
+	<description>
+		<text>
+            新しいint型の配列オブジェクトを生成します。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
+        <BlockConnector label="サイズ" connector-kind="socket"
+            connector-type="number">
+            <DefaultArg genus-name="number" label="10"></DefaultArg>
+        </BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="new-arrayobject-stringarray" kind="function" initlabel="stringArray"
+	editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
+	<description>
+		<text>
+            新しいstring型の配列オブジェクトを生成します。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
+        <BlockConnector label="サイズ" connector-kind="socket"
+            connector-type="number">
+            <DefaultArg genus-name="number" label="10"></DefaultArg>
+        </BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
