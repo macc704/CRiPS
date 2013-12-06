@@ -319,7 +319,7 @@ public class REApplication implements ICFwApplication {
 
 	private PresProjectManager presManager;
 	private REBlockEditorManager blockManager;
-	private REFlowViewerManager flowManager;	
+	private REFlowViewerManager flowManager;
 	private REGeneRefManager generefManager;
 	private REPresVisualizerManager ppvManager;
 	private GUI deno;
@@ -861,6 +861,7 @@ public class REApplication implements ICFwApplication {
 				.getRootDirectory(), getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 		ArrayList<String> commands = new ArrayList<String>();
+
 		commands.add("java");
 		commands.add("-classpath");
 		commands.add(cp);
@@ -878,13 +879,13 @@ public class REApplication implements ICFwApplication {
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		
+
 		if (deno != null && deno.isRunning()) {
-			JOptionPane.showMessageDialog(frame, "前のデバッグ画面が開きっぱなしです", "実行できません",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "前のデバッグ画面が開きっぱなしです",
+					"実行できません", JOptionPane.ERROR_MESSAGE);
 			return;
-			//CFrameUtils.toFront(deno.getFrame());
-			//return;
+			// CFrameUtils.toFront(deno.getFrame());
+			// return;
 		}
 
 		// パス等取得
@@ -905,15 +906,16 @@ public class REApplication implements ICFwApplication {
 		args[3] = libString;
 		// クラス名
 		args[4] = env.runnable;
-		
+
 		// xml
-//		String[] libs = getLibraryManager().getLibsAsArray();
-//		try {
-//			new JavaToBlockMain().run(getSourceManager().getCurrentFile(), REApplication.SRC_ENCODING, libs);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			CErrorDialog.show(getFrame(), "Block変換時のエラー", e);
-//		}
+		// String[] libs = getLibraryManager().getLibsAsArray();
+		// try {
+		// new JavaToBlockMain().run(getSourceManager().getCurrentFile(),
+		// REApplication.SRC_ENCODING, libs);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// CErrorDialog.show(getFrame(), "Block変換時のエラー", e);
+		// }
 
 		NDebuggerManager.registerListener(new NDebuggerListener() {
 			public void stepPressed() {
@@ -939,40 +941,39 @@ public class REApplication implements ICFwApplication {
 			public void speedSet(int speed) {
 				writePresLog(PRCommandLog.SubType.DEBUG_SPEED, speed);
 			}
-			
+
 			public void contPressed() {
 				writePresLog(PRCommandLog.SubType.DEBUG_CONT);
 			}
-			
+
 			public void breakpointSet() {
 				writePresLog(PRCommandLog.SubType.DEBUG_BPSET);
 			}
-			
+
 			public void breakpointClear() {
 				writePresLog(PRCommandLog.SubType.DEBUG_BPCLR);
 			}
-			
+
 			public void changeAPMode(String mode) {
 				writePresLog(PRCommandLog.SubType.DEBUG_CHANGEMODE, mode);
 			}
 		});
 		deno = new GUI();
 		deno.run(args);
-		deno.getFrame().addWindowFocusListener(
-				new WindowFocusListener() {
-					public void windowLostFocus(WindowEvent e) {
-						writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
-					}
+		deno.getFrame().addWindowFocusListener(new WindowFocusListener() {
+			public void windowLostFocus(WindowEvent e) {
+				writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
+			}
 
-					public void windowGainedFocus(WindowEvent e) {
-						writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
-					}
-				});
+			public void windowGainedFocus(WindowEvent e) {
+				writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
+			}
+		});
 		CommandInterpreter cmdint = new CommandInterpreter(deno.getEnv());
-		//deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
-		//if(blockManager.getBlockEditor() != null) {
-		//	deno.beMode();
-		//}
+		// deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
+		// if(blockManager.getBlockEditor() != null) {
+		// deno.beMode();
+		// }
 		cmdint.executeCommand("run");
 	}
 
@@ -1173,7 +1174,7 @@ public class REApplication implements ICFwApplication {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			CErrorDialog.show(frame, "OpenPPV中にエラーが発生しました．", ex);
-		}		
+		}
 	}
 
 	// private void sourceColoringTest(){

@@ -50,8 +50,9 @@ public class JavaToBlockMain {
 			String[] classpaths) throws Exception {
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
 		JavaToBlockAnalyzer visitor = new JavaToBlockAnalyzer(file, enc);
-		// unit.accept(new SimplePrintVisitor(System.out));
+
 		unit.accept(visitor);
+
 		// 言語定義ファイルの上書き
 		LangDefFileReWriter rewriter = new LangDefFileReWriter(file, enc,
 				classpaths);

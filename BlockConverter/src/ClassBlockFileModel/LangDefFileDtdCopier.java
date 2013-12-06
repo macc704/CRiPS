@@ -42,12 +42,10 @@ public class LangDefFileDtdCopier implements Copier {
 			// TODO ‘Š‘ÎƒpƒX‚ðŒvŽZ‚·‚é
 			File tmp = new File(file.getPath());
 			String home = "";
-			while (!tmp.getName().equals("MyProjects")) {
-				System.out.println(tmp.getName());
+			while (!tmp.getName().equals("MyProjects") && !hasExtFolder(tmp)) {
 				tmp = tmp.getParentFile();
 				home = home + "../";
 			}
-
 			ps.println("<!ENTITY lang_def_menu_project SYSTEM \"lang_def_menu_project.xml\">");
 			ps.println("<!ENTITY lang_def_genuses SYSTEM \"lang_def_genuses.xml\">");
 			ps.println("<!ENTITY lang_def_genuses_project SYSTEM \"lang_def_genuses_project.xml\">");
@@ -92,6 +90,15 @@ public class LangDefFileDtdCopier implements Copier {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
 
+	private boolean hasExtFolder(File file) {
+		File[] files = file.getParentFile().listFiles();
+		for (int i = 0; i < files.length; i++) {
+			if (files[i].isDirectory() && files[i].getName().equals("ext")) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
