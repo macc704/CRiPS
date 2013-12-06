@@ -1041,6 +1041,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			throw new RuntimeException("not supported two or more substitution");
 		}
 		String name = node.getLeftHandSide().toString();
+		// [が入っている場合は配列のため、配列部を名前から外す ex.name[1]　>> name
+		if (name.contains("[")) {
+			name = name.substring(0, name.indexOf("["));
+		}
+
 		model.setVariable(variableResolver.resolve(name));
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node

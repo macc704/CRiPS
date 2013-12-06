@@ -692,7 +692,7 @@
 	editable-label="yes" label-unique="yes" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
+			connector-type="poly">
 			<DefaultArg genus-name="new-object" label="ListTurtle＜Turtle＞"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -758,7 +758,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
         <BlockConnector label="サイズ" connector-kind="socket"
-            connector-type="number">
+            connector-type="object">
             <DefaultArg genus-name="number" label="10"></DefaultArg>
         </BlockConnector>
 	</BlockConnectors>
@@ -778,7 +778,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
         <BlockConnector label="サイズ" connector-kind="socket"
-            connector-type="number">
+            connector-type="object">
             <DefaultArg genus-name="number" label="10"></DefaultArg>
         </BlockConnector>
 	</BlockConnectors>
