@@ -9,6 +9,7 @@ public class ExVariableSetterModel extends ExpressionModel {
 	private StVariableDeclarationModel variable;
 	private ExpressionModel rightExpression;
 	private ExpressionModel rightAssignment;
+	private String genusName = "setter";
 
 	public ExVariableSetterModel() {
 		setBlockHeight(blockHeight);
@@ -29,6 +30,10 @@ public class ExVariableSetterModel extends ExpressionModel {
 	public void setRightExpression(ExpressionModel model) {
 		model.setParent(this);
 		this.rightExpression = model;
+	}
+
+	public void setGenusName(String name) {
+		genusName = name;
 	}
 
 	@Override
@@ -61,7 +66,7 @@ public class ExVariableSetterModel extends ExpressionModel {
 				+ "</StubParentGenus>");
 		// genus-name
 		makeIndent(out, indent + 1);
-		out.println("<Block id=\"" + getId() + "\" genus-name=\"setter"
+		out.println("<Block id=\"" + getId() + "\" genus-name=\"" + genusName
 				+ variable.getGenusName() + "\">");
 		// label
 		makeIndent(out, indent + 2);
@@ -71,7 +76,8 @@ public class ExVariableSetterModel extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 2);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 2);

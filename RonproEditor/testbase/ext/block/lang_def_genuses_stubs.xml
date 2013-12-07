@@ -3,7 +3,7 @@
 <!-- Stub Genuses Do not remove unless you would like to remove the stub 
 	feature all together -->
 <!-- 動的ブロックについて、生成したいファクトリーをここで指定する。BlockGenusタグで「factorys="○○"」と指定する。複数のファクトリーに生成したい場合は、「,」で区切る。 -->
-<BlockGenus name="this-getter" kind="data" initlabel="" color="0 0 0"
+<BlockGenus name="this-getter" kind="data" initlabel="this." color="0 0 0"
 	label-suffix="の値">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="poly"
@@ -14,7 +14,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="this-setter" kind="command" initlabel="" color="0 0 0"
+<BlockGenus name="this-setter" kind="command" initlabel="this." color="0 0 0"
 	label-suffix="に書き込む">
 	<BlockConnectors>
 		<BlockConnector connector-kind="socket" connector-type="poly"

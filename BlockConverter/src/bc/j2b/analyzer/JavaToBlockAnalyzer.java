@@ -1048,6 +1048,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		model.setVariable(variableResolver.resolve(name));
+		if (name.contains("this.")) {
+			model.setGenusName("this-setter");
+			// model.getVariable().setName(name);
+		}
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));

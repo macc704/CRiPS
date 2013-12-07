@@ -196,7 +196,8 @@ public class BlockToJavaAnalyzer {
 				parseBlock(block, model);
 				pageModel.addPrivateVariableBlock(model);
 				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("setter")) {
+			} else if (genus_name.startsWith("setter")
+					|| genus_name.startsWith("this-setter")) {
 				SetterVariableBlockModel model = new SetterVariableBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();

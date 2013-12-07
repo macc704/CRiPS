@@ -13,9 +13,10 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 		if (getGenusName().indexOf("proc-param") != -1) {
 			return;// 素通し
 		}
-		//private valueのセッターの場合、同じ構造化ブロック内に変数が無いため、エラーが発生する
-		if(getName().startsWith("setterprivate")){
-			return;// #ohata added 
+		// private valueのセッターの場合、同じ構造化ブロック内に変数が無いため、エラーが発生する
+		if (getName().startsWith("setterprivate")
+				|| getName().startsWith("this-setterprivate")) {
+			return;// #ohata added
 		}
 		resolveCreatedVariable(getBeforeID());
 		if (getConnectorIDs().get(0) == BlockModel.NULL) {
@@ -35,8 +36,8 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 		if (block instanceof LocalVariableBlockModel) {
 			return;
 		}
-		//プライベート変数の場合はbeforeが無いため、処理を終える
-		if(block.getGenusName().startsWith("private-")){//#ohata added
+		// プライベート変数の場合はbeforeが無いため、処理を終える
+		if (block.getGenusName().startsWith("private-")) {// #ohata added
 			return;
 		}
 		resolveCreatedVariable(block.getBeforeID());
@@ -45,8 +46,11 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 	@Override
 	public void print(PrintStream out, int indent) {
 		makeIndent(out, indent);
-
-		out.print(getLabel());
+		if (getName().startsWith("this-setter")) {
+			out.print("this." + getLabel());
+		} else {
+			out.print(getLabel());
+		}
 		ArrayList<Integer> connectorIDs = getConnectorIDs();
 		for (int connectorID : connectorIDs) {
 			if (connectorID != BlockModel.NULL) {
