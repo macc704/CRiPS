@@ -27,8 +27,10 @@ public class PublicMethodCommandWriter extends BasicModel {
 				// xx‚Ì‚æ‚¤‚ÈŒ^{•Ï”–¼‚ÌŒ`‚Å•Û‚³‚ê‚Ä‚¢‚é‚±‚Æ‚É’ˆÓ‚³‚ê‚½‚µ
 				String parameterType = convertParameterType(parameter
 						.substring(0, parameter.indexOf(" ")));
-				String parameterName = parameter.substring(
-						parameterType.length(), parameter.length());
+				String parameterName = parameter
+						.substring(
+								parameter.substring(0, parameter.indexOf(" "))
+										.length() + 1, parameter.length());
 				makeIndent(out, lineNum);
 
 				out.println("<BlockConnector label=\"" + parameterName
