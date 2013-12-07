@@ -788,3 +788,16 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="super" kind="command" initlabel="super" color="255 0 0">
+	<description>
+		<text>
+            親クラスのコンストラクタを呼び出します
+		</text>
+	</description>
+	<BlockConnectors>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="super"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>

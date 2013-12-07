@@ -22,8 +22,9 @@ public class MethodAnalyzer extends ASTVisitor {
 			model.setName(node.getName().toString());
 
 			model.setModifier("public");
-
-			model.setReturnType(node.getReturnType2().toString());
+			if (node.getReturnType2() != null) {
+				model.setReturnType(node.getReturnType2().toString());
+			}
 			for (int i = 0; i < node.parameters().size(); i++) {
 				parameters.add(node.parameters().get(i).toString());
 			}

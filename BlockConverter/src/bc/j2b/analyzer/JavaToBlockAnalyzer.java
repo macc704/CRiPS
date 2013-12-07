@@ -618,7 +618,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	private StatementModel analyzeSuperConstructorInvocation(
 			SuperConstructorInvocation stmt) {
-		StSuperConstructorInvocationModel model = new StSuperConstructorInvocationModel();
+		StSuperConstructorInvocationModel model = new StSuperConstructorInvocationModel(
+				"super");
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(stmt
 				.getStartPosition()));
