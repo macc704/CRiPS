@@ -107,6 +107,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	public JavaToBlockAnalyzer(File file, String enc) {
 		this.commentGetter = new JavaCommentManager(file, enc);
+		createThisModel();
 		// arranged by sakai lab 2011/11/22
 		// abstParser = new AbstractionBlockByTagParser(file);
 		// StGlobalVariableModel variable = new StGlobalVariableModel();
@@ -970,6 +971,17 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		return model;
 	}
 
+	private void createThisModel() {
+		// create local variable
+		StPrivateVariableDeclarationModel model = new StPrivateVariableDeclarationModel();
+		model.setId(idCounter.getNextId());
+		// String name = fragment.getName().toString();
+		model.setName("this");
+		model.setType("object");
+		model.setId(idCounter.getNextId());
+		variableResolver.setThisValue(model);
+	}
+
 	/************************************************************
 	 * à»â∫ÅCExpressionÇÃâêÕån
 	 ************************************************************/
@@ -1013,8 +1025,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			} else if (node instanceof ArrayCreation) {
 				return (ExpressionModel) parseArrayInstanceCreation((ArrayCreation) node);
 			} else if (node instanceof FieldAccess) {
-				return (ExpressionModel) parseFieldAccess(((FieldAccess) node)
-						.toString());
+				return (ExpressionModel) parseFieldAccess(((FieldAccess) node));
 			}
 			throw new RuntimeException(
 					"The node type has not been supported yet node: "
@@ -1669,13 +1680,20 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		return model;
 	}
 
-	private ExpressionModel parseFieldAccess(String name) {
-		ExVariableGetterModel model = new ExVariableGetterModel();
+	private ExpressionModel parseFieldAccess(FieldAccess node) {
+		ExCallGetterMethodModel model = new ExCallGetterMethodModel();
+		String name = node.getExpression().toString();
 		model.setVariable(variableResolver.resolve(name));
-		if (name.contains("this")) {
-			model.setGenusName("this-getter");
-		}
 		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		if (node.getExpression() instanceof QualifiedName) {
+			throw new RuntimeException("not supported two or more substitution");
+		}
+
+		model.setArgument((ExpressionModel) parseVariableGetterExpression(node
+				.toString().substring(node.toString().indexOf("this."),
+						node.toString().length())));
 		return model;
 	}
 }

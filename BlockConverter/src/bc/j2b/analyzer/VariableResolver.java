@@ -11,8 +11,13 @@ public class VariableResolver implements Cloneable {
 
 	private List<StPrivateVariableDeclarationModel> globalVariables = new ArrayList<StPrivateVariableDeclarationModel>();
 	private List<StLocalVariableModel> localVariables = new ArrayList<StLocalVariableModel>();
+	private StPrivateVariableDeclarationModel thisValue = new StPrivateVariableDeclarationModel();
 
 	public VariableResolver() {
+	}
+
+	public void setThisValue(StPrivateVariableDeclarationModel model) {
+		thisValue = model;
 	}
 
 	public void addGlobalVariable(StPrivateVariableDeclarationModel var) {
@@ -24,7 +29,9 @@ public class VariableResolver implements Cloneable {
 	}
 
 	public StVariableDeclarationModel resolve(String name) {
-
+		if (name.equals("this")) {
+			return thisValue;
+		}
 		if (!name.contains("this")) {
 			for (int i = 0; i < localVariables.size(); i++) {
 				if (name.equals(localVariables.get(i).getName())) {
