@@ -9,7 +9,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import bc.BCSystem;
 import bc.BlockConverter;
 import bc.b2j.model.AbstractionBlockModel;
 import bc.b2j.model.BlockModel;
@@ -165,7 +164,6 @@ public class BlockToJavaAnalyzer {
 				blockNode = blockNode.getNextSibling();
 			} else if ("private-procedure".equals(genus_name)) {// #ohata
 																// 使わない　プライベート変数宣言用の手続き型ブロック
-				BCSystem.out.println("private procedure");
 				PrivateProcedureBlockModel model = new PrivateProcedureBlockModel();
 				parseBlock(block, model);
 				// pageModel.addPrivateProcedure(model);
@@ -187,7 +185,6 @@ public class BlockToJavaAnalyzer {
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
 			} else if (genus_name.startsWith("local-var-")) {
-				BCSystem.out.println("local - var - convert");
 				LocalVariableBlockModel model = new LocalVariableBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -283,7 +280,8 @@ public class BlockToJavaAnalyzer {
 			return true;
 		}
 
-		if (blockName.startsWith("getter")) {
+		if (blockName.startsWith("getter")
+				|| blockName.startsWith("this-getter")) {
 			return true;
 		}
 		for (String name : BlockConverter.ALL_DATA_BLOCKNAMES) {

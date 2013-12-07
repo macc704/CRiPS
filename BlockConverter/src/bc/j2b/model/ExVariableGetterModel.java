@@ -13,6 +13,7 @@ import java.io.PrintStream;
 public class ExVariableGetterModel extends ExpressionModel {
 
 	private StVariableDeclarationModel variable;
+	private String genusName = "getter";
 
 	/*
 	 * (non-Javadoc)
@@ -22,6 +23,10 @@ public class ExVariableGetterModel extends ExpressionModel {
 	@Override
 	public String getType() {
 		return variable.getType();
+	}
+
+	public void setGenusName(String name) {
+		genusName = name;
 	}
 
 	/**
@@ -49,7 +54,7 @@ public class ExVariableGetterModel extends ExpressionModel {
 				+ "</StubParentGenus>");
 		// genus-name
 		makeIndent(out, indent + 1);
-		out.println("<Block id=\"" + getId() + "\" genus-name=\"getter"
+		out.println("<Block id=\"" + getId() + "\" genus-name=\"" + genusName
 				+ variable.getGenusName() + "\">");
 		// label
 		makeIndent(out, indent + 2);
@@ -59,7 +64,8 @@ public class ExVariableGetterModel extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 2);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 2);

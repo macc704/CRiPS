@@ -21,6 +21,7 @@ import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EmptyStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
+import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
@@ -1011,6 +1012,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return (ExpressionModel) parseCastExpression((CastExpression) node);
 			} else if (node instanceof ArrayCreation) {
 				return (ExpressionModel) parseArrayInstanceCreation((ArrayCreation) node);
+			} else if (node instanceof FieldAccess) {
+				return (ExpressionModel) parseFieldAccess(((FieldAccess) node)
+						.toString());
 			}
 			throw new RuntimeException(
 					"The node type has not been supported yet node: "
@@ -1662,6 +1666,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				.getStartPosition()));
 		// à¯êî
 		model.addArgument(parseExpression(node.getExpression()));
+		return model;
+	}
+
+	private ExpressionModel parseFieldAccess(String name) {
+		ExVariableGetterModel model = new ExVariableGetterModel();
+		model.setVariable(variableResolver.resolve(name));
+		if (name.contains("this")) {
+			model.setGenusName("this-getter");
+		}
+		model.setId(idCounter.getNextId());
 		return model;
 	}
 }
