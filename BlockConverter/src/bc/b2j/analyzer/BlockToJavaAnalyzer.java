@@ -261,6 +261,10 @@ public class BlockToJavaAnalyzer {
 				BreakBlockModel model = new BreakBlockModel("continue");
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
+			} else if (genus_name.startsWith("super")) {
+				CallMethodBlockModel model = new CallMethodBlockModel(false);
+				parseBlock(block, model);
+				blockNode = blockNode.getNextSibling();
 			} else {
 				throw new RuntimeException("not supported blockName: "
 						+ genus_name);
