@@ -3,10 +3,11 @@ package src.coco.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GraphicsEnvironment;
+import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,20 +39,25 @@ public class CCMainFrame2 extends JFrame {
 
 	// For GUI
 	private JPanel rootPanel = new JPanel();
+	private JPanel headerPanel = new JPanel();
+	private JPanel buttonEreaPanel = new JPanel();
 
 	public CCMainFrame2(CCCompileErrorManager manager) {
 		this.manager = manager;
-		this.height = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getMaximumWindowBounds().height - 25;
+		// this.height = GraphicsEnvironment.getLocalGraphicsEnvironment()
+		// .getMaximumWindowBounds().height - 25;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		width = d.width - buttonWidth * 2;
-		height = d.height - buttonHeight * 2;
+		this.width = d.width * 3 / 4;
+		this.height = d.height * 3 / 4;
+		this.buttonWidth = this.width / 8;
+		this.buttonHeight = this.height / 8;
 		initialize();
 	}
 
 	private void initialize() {
 		// rootPanel のレイアウトをリセットする
-		rootPanel.setLayout(null);
+		// rootPanel.setLayout(null);
+		panelSetting();
 
 		// titleなどの設定
 		frameSetting();
@@ -63,13 +69,27 @@ public class CCMainFrame2 extends JFrame {
 		setMiniGraphButton();
 
 		// レイアウトした配置でコンテンツを追加
-		getContentPane().add(rootPanel, BorderLayout.CENTER);
+		rootPanel.add(headerPanel, BorderLayout.NORTH);
+		rootPanel.add(buttonEreaPanel, BorderLayout.SOUTH);
+		add(rootPanel);
+		// getContentPane().add(rootPanel, BorderLayout.CENTER);
 		// TODO: Windowサイズ変更に対応できるようにすること
 		// this.addWindowListener(new WindowAdapter() {
 		// public void windowStateChanged(WindowEvent e) {
 		//
 		// }
 		// });
+	}
+
+	private void panelSetting() {
+		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
+		rootPanel.setSize(new Dimension(width, height));
+		headerPanel.setLayout(new BorderLayout());
+		headerPanel.setSize(new Dimension(width, height / 16));
+		// buttonEreaPanel.setLayout(new BoxLayout(buttonEreaPanel,
+		// BoxLayout.X_AXIS));
+		buttonEreaPanel.setLayout(new FlowLayout());
+		buttonEreaPanel.setSize(new Dimension(width, height * 15 / 16));
 	}
 
 	private void frameSetting() {
@@ -85,12 +105,12 @@ public class CCMainFrame2 extends JFrame {
 		// CCAchivementButton achivementButton = new CCAchivementButton(manager,
 		// label);
 		// achivementButton.setBounds(10, 5, 350, 25);
-		label.setBounds(10, 5, 350, 25);
+		// label.setBounds(10, 5, 350, 25);
 
 		// label の背景を設定する場合は背景を不透明にする処理を加えること
 		// label.setBackground(Color.yellow);
 		// label.setOpaque(true);
-		rootPanel.add(label);
+		headerPanel.add(label, BorderLayout.WEST);
 		// rootPanel.add(achivementButton);
 	}
 
@@ -99,39 +119,45 @@ public class CCMainFrame2 extends JFrame {
 
 		// エラーIDごとの数値を書き込み、ボタンを実装する
 		for (CCCompileErrorList list : manager.getAllLists()) {
-			CCErrorElementButton2 button = new CCErrorElementButton2(list,
-					buttonWidth, buttonHeight, manager.getLibDir(),
+			CCErrorElementButton2 button = new CCErrorElementButton2(
+					buttonWidth, buttonHeight, list, manager.getLibDir(),
 					manager.getBase());
 			buttons.add(button);
 		}
 
 		// ボタンを配置する
 		int i = 1;
-		for (int x = 0; x < width - buttonWidth; x += buttonWidth) {
-			for (int y = 40; y < height - buttonHeight - 50; y += buttonHeight) {
+		for (int x = 0; x < width; x += buttonWidth) {
+			JPanel verticalPanel = new JPanel();
+			verticalPanel.setLayout(new BoxLayout(verticalPanel,
+					BoxLayout.Y_AXIS));
+
+			for (int y = height / 16; y < height - buttonHeight; y += buttonHeight) {
 				if (manager.getAllLists().size() >= i) {
 					if (manager.getList(i).getErrors().size() > 0) {
-						buttons.get(i - 1).setBounds(x, y, buttonWidth,
-								buttonHeight);
-						rootPanel.add(buttons.get(i - 1));
+						verticalPanel.add(buttons.get(i - 1));
 					} else {
-						setEmptyPanel(x, y);
+						verticalPanel.add(setEmptyButton());
 					}
 					i++;
 				} else {
-					setEmptyPanel(x, y);
+					verticalPanel.add(setEmptyButton());
 				}
 			}
+
+			buttonEreaPanel.add(verticalPanel);
 		}
 	}
 
 	// クリックできないボタンを作成
-	private void setEmptyPanel(int x, int y) {
+	private JButton setEmptyButton() {
 		JButton emptyButton = new JButton("未発生");
 		emptyButton.setEnabled(false);
 		emptyButton.setToolTipText("未発生です");
 		emptyButton.setBackground(Color.GRAY);
-		emptyButton.setBounds(x, y, buttonWidth, buttonHeight);
-		rootPanel.add(emptyButton);
+		emptyButton.setSize(new Dimension(buttonWidth, buttonHeight));
+		// emptyButton.setBounds(x, y, buttonWidth, buttonHeight);
+		// rootPanel.add(emptyButton);
+		return emptyButton;
 	}
 }

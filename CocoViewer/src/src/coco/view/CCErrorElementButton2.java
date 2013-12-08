@@ -1,6 +1,7 @@
 package src.coco.view;
 
 import java.awt.BasicStroke;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JButton;
@@ -30,23 +31,24 @@ public class CCErrorElementButton2 extends JButton implements
 
 	private static final long serialVersionUID = 1L;
 
-	private int width;
-	private int height;
-
 	private CCCompileErrorList list;
 
 	private CDirectory libDir;
 	private CDirectory base;
 
-	public CCErrorElementButton2(CCCompileErrorList list, int width,
-			int height, CDirectory libDir, CDirectory base) {
+	private int buttonWidth = 100;
+	private int buttonHeight = 100;
+
+	public CCErrorElementButton2(int buttonWidth, int buttonHeight,
+			CCCompileErrorList list, CDirectory libDir, CDirectory base) {
 		this.list = list;
-		this.width = width;
-		this.height = height;
 		this.libDir = libDir;
 		this.base = base;
+		this.buttonWidth = buttonWidth;
+		this.buttonHeight = buttonHeight;
 
 		super.setLayout(null);
+		super.setSize(new Dimension(buttonWidth, buttonHeight));
 		makeGraph();
 	}
 
@@ -101,7 +103,7 @@ public class CCErrorElementButton2 extends JButton implements
 
 		ChartPanel chartpanel = new ChartPanel(chart);
 		chartpanel.addChartMouseListener(this);
-		chartpanel.setBounds(0, 0, width, height);
+		chartpanel.setSize(buttonWidth, buttonHeight);
 
 		// TODO: ToolTipÇ™è„éËÇ≠ï\é¶Ç≈Ç´Ç»Ç¢
 		chartpanel.setToolTipText(list.getErrors().size() + " : "
