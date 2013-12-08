@@ -1061,15 +1061,32 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (name.contains("[")) {
 			name = name.substring(0, name.indexOf("["));
 		}
-
-		model.setVariable(variableResolver.resolve(name));
+		// thisキーワードが入っていた場合はExCallActionMethodでブロックを作成する
 		if (name.contains("this.")) {
-			model.setGenusName("this-setter");
-			// model.getVariable().setName(name);
+			ExCallActionMethodModel2 thisSetterModel = new ExCallActionMethodModel2();
+			thisSetterModel.setId(idCounter.getNextId());
+			thisSetterModel.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			// ExCallMethodModel callMethod = new ExCallMethodModel();
+			ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
+			thisModel.setType("object");
+
+			name = name.substring(name.indexOf(".") + 1, name.length());
+			model.setVariable(variableResolver.resolve(name));
+			model.setId(idCounter.getNextId());
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+
+			thisSetterModel.setReceiver(thisModel);
+			thisSetterModel.setCallMethod(model);
+			return thisSetterModel;
+		} else {
+			model.setVariable(variableResolver.resolve(name));
+			model.setId(idCounter.getNextId());
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
 		}
-		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node
-				.getStartPosition()));
+
 		return model;
 	}
 
@@ -1681,19 +1698,33 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	private ExpressionModel parseFieldAccess(FieldAccess node) {
-		ExCallGetterMethodModel model = new ExCallGetterMethodModel();
-		String name = node.getExpression().toString();
-		model.setVariable(variableResolver.resolve(name));
+
+		ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		if (node.getExpression() instanceof QualifiedName) {
-			throw new RuntimeException("not supported two or more substitution");
-		}
-
-		model.setArgument((ExpressionModel) parseVariableGetterExpression(node
-				.toString().substring(node.toString().indexOf("this."),
+		// ExCallMethodModel callMethod = new ExCallMethodModel();
+		ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
+		thisModel.setType("object");
+		model.setReceiver(thisModel);
+		model.setCallMethod(parseVariableGetterExpression(node.toString()
+				.substring(node.toString().indexOf("this."),
 						node.toString().length())));
+
+		// ExCallGetterMethodModel model = new ExCallGetterMethodModel();
+		// String name = node.getExpression().toString();
+		// model.setVariable(variableResolver.resolve(name));
+		// model.setId(idCounter.getNextId());
+		// model.setLineNumber(compilationUnit.getLineNumber(node
+		// .getStartPosition()));
+		// if (node.getExpression() instanceof QualifiedName) {
+		// throw new RuntimeException("not supported two or more substitution");
+		// }
+		//
+		// model.setArgument((ExpressionModel)
+		// parseVariableGetterExpression(node
+		// .toString().substring(node.toString().indexOf("this."),
+		// node.toString().length())));
 		return model;
 	}
 }

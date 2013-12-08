@@ -42,10 +42,12 @@ public class ExCallActionMethodModel2 extends ExpressionModel {
 		String connectorType = "void";
 		String genusName = "callActionMethod2";
 		if (callMethod instanceof ExpressionModel
-				&& !((ExpressionModel) callMethod).getType().equals("void")) {
+				&& !((ExpressionModel) callMethod).getType().equals("void")
+				&& !(callMethod instanceof ExVariableSetterModel)) {
 			cmd = false;
 			connectorType = convertJavaTypeToBlockType(((ExpressionModel) callMethod)
 					.getType());
+			System.out.println(callMethod instanceof ExpressionModel);
 			genusName = "callGetterMethod2";
 		}
 
@@ -68,7 +70,8 @@ public class ExCallActionMethodModel2 extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 2);
@@ -95,6 +98,7 @@ public class ExCallActionMethodModel2 extends ExpressionModel {
 		}
 
 		if (!cmd) {
+			makeIndent(out, indent + 1);
 			// plug
 			out.println("<Plug>");
 			// blockConnecter

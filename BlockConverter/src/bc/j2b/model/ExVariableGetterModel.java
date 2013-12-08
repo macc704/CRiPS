@@ -25,10 +25,6 @@ public class ExVariableGetterModel extends ExpressionModel {
 		return variable.getType();
 	}
 
-	public void setGenusName(String name) {
-		genusName = name;
-	}
-
 	/**
 	 * @param variable
 	 *            the variable to set
