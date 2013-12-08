@@ -3,7 +3,8 @@ package src.coco.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import src.coco.model.CCCompileErrorList;
 import src.coco.model.CCCompileErrorManager;
@@ -55,12 +57,12 @@ public class CCMainFrame2 extends JFrame {
 	}
 
 	private void initialize() {
+		// titleなどの設定
+		frameSetting();
+
 		// rootPanel のレイアウトをリセットする
 		// rootPanel.setLayout(null);
 		panelSetting();
-
-		// titleなどの設定
-		frameSetting();
 
 		// 全体のコンパイル数表示
 		setCompileErrorNumber();
@@ -70,6 +72,8 @@ public class CCMainFrame2 extends JFrame {
 
 		// レイアウトした配置でコンテンツを追加
 		rootPanel.add(headerPanel, BorderLayout.NORTH);
+		// rootPanel.add(Box.createHorizontalStrut(height / 32),
+		// BorderLayout.NORTH);
 		rootPanel.add(buttonEreaPanel, BorderLayout.SOUTH);
 		add(rootPanel);
 		// getContentPane().add(rootPanel, BorderLayout.CENTER);
@@ -85,11 +89,11 @@ public class CCMainFrame2 extends JFrame {
 		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
 		rootPanel.setSize(new Dimension(width, height));
 		headerPanel.setLayout(new BorderLayout());
-		headerPanel.setSize(new Dimension(width, height / 16));
+		headerPanel.setMaximumSize(new Dimension(width, height / 24));
 		// buttonEreaPanel.setLayout(new BoxLayout(buttonEreaPanel,
 		// BoxLayout.X_AXIS));
-		buttonEreaPanel.setLayout(new FlowLayout());
-		buttonEreaPanel.setSize(new Dimension(width, height * 15 / 16));
+		// buttonEreaPanel.setMaximumSize(new Dimension(width, height * 15 /
+		// 16));
 	}
 
 	private void frameSetting() {
@@ -102,6 +106,8 @@ public class CCMainFrame2 extends JFrame {
 		JLabel label = new JLabel();
 		String string = "あなたのこれまでの総コンパイルエラー数 ： " + manager.getTotalErrorCount();
 		label.setText(string);
+		label.setMaximumSize(new Dimension(width, height / 24));
+		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
 		// CCAchivementButton achivementButton = new CCAchivementButton(manager,
 		// label);
 		// achivementButton.setBounds(10, 5, 350, 25);
@@ -110,12 +116,20 @@ public class CCMainFrame2 extends JFrame {
 		// label の背景を設定する場合は背景を不透明にする処理を加えること
 		// label.setBackground(Color.yellow);
 		// label.setOpaque(true);
+
+		LineBorder lineborder = new LineBorder(Color.YELLOW, 2, true);
+		label.setBorder(lineborder);
+
 		headerPanel.add(label, BorderLayout.WEST);
-		// rootPanel.add(achivementButton);
 	}
 
 	private void setMiniGraphButton() {
 		ArrayList<CCErrorElementButton2> buttons = new ArrayList<CCErrorElementButton2>();
+		GridLayout gridlayout = new GridLayout();
+
+		gridlayout.setRows((height * 15 / 16) / buttonHeight);
+		gridlayout.setColumns(width / buttonWidth);
+		buttonEreaPanel.setLayout(gridlayout);
 
 		// エラーIDごとの数値を書き込み、ボタンを実装する
 		for (CCCompileErrorList list : manager.getAllLists()) {
@@ -128,24 +142,18 @@ public class CCMainFrame2 extends JFrame {
 		// ボタンを配置する
 		int i = 1;
 		for (int x = 0; x < width; x += buttonWidth) {
-			JPanel verticalPanel = new JPanel();
-			verticalPanel.setLayout(new BoxLayout(verticalPanel,
-					BoxLayout.Y_AXIS));
-
 			for (int y = height / 16; y < height - buttonHeight; y += buttonHeight) {
 				if (manager.getAllLists().size() >= i) {
 					if (manager.getList(i).getErrors().size() > 0) {
-						verticalPanel.add(buttons.get(i - 1));
+						buttonEreaPanel.add(buttons.get(i - 1));
 					} else {
-						verticalPanel.add(setEmptyButton());
+						buttonEreaPanel.add(setEmptyButton());
 					}
 					i++;
 				} else {
-					verticalPanel.add(setEmptyButton());
+					buttonEreaPanel.add(setEmptyButton());
 				}
 			}
-
-			buttonEreaPanel.add(verticalPanel);
 		}
 	}
 
@@ -155,7 +163,7 @@ public class CCMainFrame2 extends JFrame {
 		emptyButton.setEnabled(false);
 		emptyButton.setToolTipText("未発生です");
 		emptyButton.setBackground(Color.GRAY);
-		emptyButton.setSize(new Dimension(buttonWidth, buttonHeight));
+		emptyButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
 		// emptyButton.setBounds(x, y, buttonWidth, buttonHeight);
 		// rootPanel.add(emptyButton);
 		return emptyButton;
