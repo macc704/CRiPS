@@ -1,8 +1,11 @@
 package src.coco.view;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
 
@@ -36,19 +39,22 @@ public class CCErrorElementButton2 extends JButton implements
 	private CDirectory libDir;
 	private CDirectory base;
 
-	private int buttonWidth = 100;
-	private int buttonHeight = 100;
+	// private int buttonWidth = 100;
+	// private int buttonHeight = 100;
+
+	private ChartPanel chartpanel;
 
 	public CCErrorElementButton2(int buttonWidth, int buttonHeight,
 			CCCompileErrorList list, CDirectory libDir, CDirectory base) {
 		this.list = list;
 		this.libDir = libDir;
 		this.base = base;
-		this.buttonWidth = buttonWidth;
-		this.buttonHeight = buttonHeight;
+		// this.buttonWidth = buttonWidth;
+		// this.buttonHeight = buttonHeight;
 
-		super.setLayout(null);
-		super.setSize(new Dimension(buttonWidth, buttonHeight));
+		super.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
+		// super.setLayout(null);
+
 		makeGraph();
 	}
 
@@ -101,9 +107,17 @@ public class CCErrorElementButton2 extends JButton implements
 		renderer.setSeriesStroke(0, new BasicStroke(1));
 		renderer.setSeriesShapesVisible(0, true);
 
-		ChartPanel chartpanel = new ChartPanel(chart);
+		chartpanel = new ChartPanel(chart);
+		// chartpanel.setBounds(1, 1, buttonWidth, buttonHeight);
 		chartpanel.addChartMouseListener(this);
-		chartpanel.setSize(buttonWidth, buttonHeight);
+		chartpanel.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				chartpanel.setPreferredSize(new Dimension(getWidth(),
+						getHeight()));
+				validate();
+			}
+		});
 
 		// TODO: ToolTipが上手く表示できない
 		chartpanel.setToolTipText(list.getErrors().size() + " : "
@@ -112,12 +126,11 @@ public class CCErrorElementButton2 extends JButton implements
 		// デバッグ用
 		// System.out.println(chartpanel.getToolTipText());
 
-		add(chartpanel);
+		add(chartpanel, BorderLayout.CENTER);
 	}
 
 	@Override
 	public void chartMouseClicked(ChartMouseEvent arg0) {
-		// TODO Auto-generated method stub
 		CCGraphFrame frame = new CCGraphFrame(list, libDir, base);
 		frame.openGraph();
 		frame.setVisible(true);
@@ -125,7 +138,6 @@ public class CCErrorElementButton2 extends JButton implements
 
 	@Override
 	public void chartMouseMoved(ChartMouseEvent arg0) {
-		// TODO Auto-generated method stub
 
 	}
 }
