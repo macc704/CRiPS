@@ -57,7 +57,8 @@ public class Connection {
 	public Object read() {
 		if (established()) {
 			try {
-				return in.readObject();
+				Object obj = in.readObject();
+				return obj;
 			} catch (Exception ex) {
 				throw new RuntimeException(ex);
 			}

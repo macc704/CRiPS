@@ -58,6 +58,7 @@ public class ConnectionPool {
 
 	public void addConnection(Connection conn) {
 		connections.add(conn);
+		frame.println(conn + " add to connections.");
 	}
 
 	public void addUser(String userName) {

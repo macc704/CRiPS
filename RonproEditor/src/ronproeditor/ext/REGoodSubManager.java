@@ -122,7 +122,6 @@ public class REGoodSubManager {
 	@SuppressWarnings("unchecked")
 	private void newConnectionOpened(Connection conn) {
 
-		Object obj;
 		int groupNum = 0;
 		List<String> members = new ArrayList<String>();
 		SendObject sendObject = new SendObject();
@@ -153,7 +152,7 @@ public class REGoodSubManager {
 
 		try {
 			while (conn.established()) {
-				obj = conn.read();
+				Object obj = conn.read();
 				if (obj instanceof String) {
 					final String text = (String) obj;
 					SwingUtilities.invokeLater(new Runnable() {

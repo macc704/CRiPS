@@ -57,10 +57,9 @@ public class SyncServer {
 
 	public void loopForOneClient(Connection conn) {
 		try {
-			Object obj;
 			// int roomNum = 0;
 			while (conn.established()) {
-				obj = conn.read();
+				Object obj = conn.read();
 				if (obj instanceof SendObject) {
 
 					String myName = ((SendObject) obj).getMyName();
