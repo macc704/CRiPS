@@ -33,6 +33,9 @@ public class REGoodSubManager {
 	private JButton connButton;
 	private boolean started;
 
+	public static void main(String[] args) {
+	}
+
 	public REGoodSubManager(REApplication application) {
 		this.application = application;
 		initialize();
@@ -145,7 +148,7 @@ public class REGoodSubManager {
 
 		if (conn.established()) {
 			System.out.println("client established");
-			// doOpenNewCHE();
+			doOpenNewCHE();
 		}
 
 		try {
