@@ -1,7 +1,6 @@
 package src.coco.view;
 
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
@@ -25,8 +24,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import src.coco.model.CCCompileErrorList;
 import clib.common.filesystem.CDirectory;
 
-public class CCErrorElementButton2 extends JButton implements
-		ChartMouseListener {
+public class CCErrorElementButton2 extends JButton {
 
 	/**
 	 * minigraphを表示する chartPanelがActionListenerに対応していないので、MouseListenerで実装
@@ -39,9 +37,6 @@ public class CCErrorElementButton2 extends JButton implements
 	private CDirectory libDir;
 	private CDirectory base;
 
-	// private int buttonWidth = 100;
-	// private int buttonHeight = 100;
-
 	private ChartPanel chartpanel;
 
 	public CCErrorElementButton2(int buttonWidth, int buttonHeight,
@@ -49,11 +44,17 @@ public class CCErrorElementButton2 extends JButton implements
 		this.list = list;
 		this.libDir = libDir;
 		this.base = base;
-		// this.buttonWidth = buttonWidth;
-		// this.buttonHeight = buttonHeight;
 
+		// windowsize 変更時にボタンサイズを変更する
 		super.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
-		// super.setLayout(null);
+		super.setLayout(null);
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent e) {
+				chartpanel.setBounds(1, 1, getWidth(), getHeight());
+				validate();
+			}
+		});
 
 		makeGraph();
 	}
@@ -107,15 +108,21 @@ public class CCErrorElementButton2 extends JButton implements
 		renderer.setSeriesStroke(0, new BasicStroke(1));
 		renderer.setSeriesShapesVisible(0, true);
 
+		// chartを載せるパネルを作成する
 		chartpanel = new ChartPanel(chart);
-		// chartpanel.setBounds(1, 1, buttonWidth, buttonHeight);
-		chartpanel.addChartMouseListener(this);
-		chartpanel.addComponentListener(new ComponentAdapter() {
+		chartpanel.setBounds(1, 1, getWidth(), getHeight());
+
+		chartpanel.addChartMouseListener(new ChartMouseListener() {
 			@Override
-			public void componentResized(ComponentEvent e) {
-				chartpanel.setPreferredSize(new Dimension(getWidth(),
-						getHeight()));
-				validate();
+			public void chartMouseMoved(ChartMouseEvent arg0) {
+
+			}
+
+			@Override
+			public void chartMouseClicked(ChartMouseEvent arg0) {
+				CCGraphFrame frame = new CCGraphFrame(list, libDir, base);
+				frame.openGraph();
+				frame.setVisible(true);
 			}
 		});
 
@@ -123,21 +130,10 @@ public class CCErrorElementButton2 extends JButton implements
 		chartpanel.setToolTipText(list.getErrors().size() + " : "
 				+ list.getMessage());
 		chartpanel.setDisplayToolTips(true);
+
 		// デバッグ用
 		// System.out.println(chartpanel.getToolTipText());
 
-		add(chartpanel, BorderLayout.CENTER);
-	}
-
-	@Override
-	public void chartMouseClicked(ChartMouseEvent arg0) {
-		CCGraphFrame frame = new CCGraphFrame(list, libDir, base);
-		frame.openGraph();
-		frame.setVisible(true);
-	}
-
-	@Override
-	public void chartMouseMoved(ChartMouseEvent arg0) {
-
+		add(chartpanel);
 	}
 }
