@@ -79,17 +79,17 @@ public class CCErrorElementButton2 extends JButton {
 
 		JFreeChart chart = ChartFactory.createLineChart(message, "修正回数",
 				"修正時間", dataset, PlotOrientation.VERTICAL, false, false, false);
-		// フォント指定しないと文字化けする
+		// フォント指定（文字化け対策）
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 
-		// 背景色のセット
+		// 背景色セット
 		chart.setBackgroundPaint(new CCGraphBackgroundColor().graphColor(list
 				.getRare()));
 
-		// Plotクラスを準備
+		// 軸の設定の関係から，先にPlotクラスを準備
 		CategoryPlot plot = chart.getCategoryPlot();
 
-		// 縦軸の設定 ・ 軸は整数値のみを指すようにする
+		// y軸の設定 ・ 軸は整数値のみ
 		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
 		numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		numberAxis.setVerticalTickLabels(false);
@@ -108,10 +108,11 @@ public class CCErrorElementButton2 extends JButton {
 		renderer.setSeriesStroke(0, new BasicStroke(1));
 		renderer.setSeriesShapesVisible(0, true);
 
-		// chartを載せるパネルを作成する
+		// グラフ用Panel作成
 		chartpanel = new ChartPanel(chart);
 		chartpanel.setBounds(1, 1, getWidth(), getHeight());
 
+		// マウスクリックで新しいウィンドウでグラフを開く
 		chartpanel.addChartMouseListener(new ChartMouseListener() {
 			@Override
 			public void chartMouseMoved(ChartMouseEvent arg0) {
@@ -120,19 +121,14 @@ public class CCErrorElementButton2 extends JButton {
 
 			@Override
 			public void chartMouseClicked(ChartMouseEvent arg0) {
-				CCGraphFrame frame = new CCGraphFrame(list, libDir, base);
-				frame.openGraph();
-				frame.setVisible(true);
+				new CCGraphFrame(list, libDir, base).setVisible(true);
 			}
 		});
 
-		// TODO: ToolTipが上手く表示できない
+		// TODO: ToolTip表示できない問題
 		chartpanel.setToolTipText(list.getErrors().size() + " : "
 				+ list.getMessage());
 		chartpanel.setDisplayToolTips(true);
-
-		// デバッグ用
-		// System.out.println(chartpanel.getToolTipText());
 
 		add(chartpanel);
 	}
