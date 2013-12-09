@@ -802,7 +802,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="this" kind="data" initlabel="this" color="255 0 0">
+<BlockGenus name="getterthis" kind="data" initlabel="自分の" color="255 0 0">
 	<description>
 	</description>
 	<BlockConnectors>

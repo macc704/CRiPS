@@ -81,6 +81,7 @@ import bc.j2b.model.StMethodDeclarationModel;
 import bc.j2b.model.StPrivateVariableDeclarationModel;
 import bc.j2b.model.StReturnModel;
 import bc.j2b.model.StSuperConstructorInvocationModel;
+import bc.j2b.model.StThisVariableModel;
 import bc.j2b.model.StVariableDeclarationModel;
 import bc.j2b.model.StWhileModel;
 import bc.j2b.model.StatementModel;
@@ -973,11 +974,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	private void createThisModel() {
 		// create local variable
-		StPrivateVariableDeclarationModel model = new StPrivateVariableDeclarationModel();
-		model.setId(idCounter.getNextId());
-		// String name = fragment.getName().toString();
-		model.setName("this");
+		StThisVariableModel model = new StThisVariableModel();
 		model.setType("object");
+		model.setName("Ž©•ª‚Ì");
 		model.setId(idCounter.getNextId());
 		variableResolver.setThisValue(model);
 	}
@@ -1704,8 +1703,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 		// ExCallMethodModel callMethod = new ExCallMethodModel();
-		ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
-		thisModel.setType("object");
+		ExVariableGetterModel getterModel = parseVariableGetterExpression("this");
+		getterModel.setType("object");
+		getterModel.setGenusName("");
+		ExpressionModel thisModel = (ExpressionModel) getterModel;
 		model.setReceiver(thisModel);
 		model.setCallMethod(parseVariableGetterExpression(node.toString()
 				.substring(node.toString().indexOf("this."),

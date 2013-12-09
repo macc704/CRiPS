@@ -5,18 +5,19 @@ import java.util.List;
 
 import bc.j2b.model.StLocalVariableModel;
 import bc.j2b.model.StPrivateVariableDeclarationModel;
+import bc.j2b.model.StThisVariableModel;
 import bc.j2b.model.StVariableDeclarationModel;
 
 public class VariableResolver implements Cloneable {
 
 	private List<StPrivateVariableDeclarationModel> globalVariables = new ArrayList<StPrivateVariableDeclarationModel>();
 	private List<StLocalVariableModel> localVariables = new ArrayList<StLocalVariableModel>();
-	private StPrivateVariableDeclarationModel thisValue = new StPrivateVariableDeclarationModel();
+	private StThisVariableModel thisValue = new StThisVariableModel();
 
 	public VariableResolver() {
 	}
 
-	public void setThisValue(StPrivateVariableDeclarationModel model) {
+	public void setThisValue(StThisVariableModel model) {
 		thisValue = model;
 	}
 

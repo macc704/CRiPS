@@ -2231,6 +2231,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				scopeCheck &= scpChecker.checkScope(
 						Block.getBlock(link.getSocketBlockID()),
 						Block.getBlock(socket.getBlockID()));
+				System.out.println(Block.getBlock(link.getSocketBlockID())
+						.getFooterLabel()
+						+ Block.getBlock(socket.getBlockID()).getBlockLabel()
+						+ "result" + scopeCheck);
+
 			}
 		}
 

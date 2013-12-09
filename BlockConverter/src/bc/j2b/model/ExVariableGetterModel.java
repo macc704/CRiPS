@@ -33,6 +33,10 @@ public class ExVariableGetterModel extends ExpressionModel {
 		this.variable = variable;
 	}
 
+	public void setGenusName(String name) {
+		this.genusName = name;
+	}
+
 	public void print(PrintStream out, int indent) {
 
 		// print BlockEditor File
