@@ -1048,7 +1048,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="setterIntArrayElement" kind="command" initlabel="書き込む" color="255 255 100">
+<BlockGenus name="setterIntArrayElement" kind="command" initlabel="" color="255 255 100" label-suffix="の要素に書き込む">
 	<BlockConnectors>
         <BlockConnector label="インデックス" connector-kind="socket" connector-type="number"/>
         <BlockConnector label="値" connector-kind="socket" connector-type="number"/>

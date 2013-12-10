@@ -340,13 +340,7 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="this-setter">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-setglobal"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="inc">
+	<Stub stub-genus="inc">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-incglobal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>

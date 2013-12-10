@@ -13,7 +13,6 @@
 		<BlockGenusMember>input</BlockGenusMember>
 		<BlockGenusMember>print</BlockGenusMember>
 		<BlockGenusMember>random</BlockGenusMember>
-        <BlockGenusMember>getterthis</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer name="構造化" type="factory" button-color="255 255 255">

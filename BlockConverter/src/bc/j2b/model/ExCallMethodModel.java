@@ -22,6 +22,8 @@ public class ExCallMethodModel extends ExpressionModel {
 	private List<ExpressionModel> arguments = new ArrayList<ExpressionModel>();
 	private List<String> argumentLabels;
 
+	private String label = "";
+
 	public ExCallMethodModel() {
 		setBlockHeight(BLOCK_HEIGHT);
 	}
@@ -63,6 +65,10 @@ public class ExCallMethodModel extends ExpressionModel {
 		this.argumentLabels = argumentLabels;
 	}
 
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 	@Override
 	public void print(PrintStream out, int indent) {
 
@@ -83,14 +89,20 @@ public class ExCallMethodModel extends ExpressionModel {
 		// print BlockEditor File
 		// genus-name
 		makeIndent(out, indent);
+
 		out.println("<Block id=\"" + getId() + "\" genus-name=\"" + getName()
 				+ "\">");
+		if (!label.equals("")) {
+			makeIndent(out, indent);
+			out.println("<Label>" + label + "</Label>");
+		}
 		// lineNumber
 		makeIndent(out, indent + 1);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);

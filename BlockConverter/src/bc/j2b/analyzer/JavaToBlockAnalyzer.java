@@ -1110,7 +1110,24 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 						.getStartPosition()));
 				return model;
 			} else if (node instanceof ArrayAccess) {
-
+				System.out.println("hoge");
+				ExCallMethodModel arraySetter = new ExCallMethodModel();
+				arraySetter.setId(idCounter.getNextId());
+				ExLeteralModel variable = new ExLeteralModel();
+				variable.setId(idCounter.getNextId());
+				model.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+				String value = node.toString().substring(
+						node.toString().indexOf("[") + 1,
+						node.toString().indexOf("]"));
+				variable.setType("number");
+				variable.setValue(value);
+				model.setId(idCounter.getNextId());
+				arraySetter.setName("setterIntArrayElement");
+				arraySetter.setLabel(node.toString());
+				arraySetter.addArgument(variable);
+				arraySetter.addArgument(model.getRightExpression());
+				return arraySetter;
 			} else if (node instanceof FieldAccess) {
 				ExCallActionMethodModel2 thisSetterModel = new ExCallActionMethodModel2();
 				thisSetterModel.setId(idCounter.getNextId());

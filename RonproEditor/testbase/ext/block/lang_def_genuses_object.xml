@@ -801,14 +801,3 @@
 		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
-
-<BlockGenus name="getterthis" kind="data" initlabel="自分" color="255 0 0">
-	<description>
-	</description>
-	<BlockConnectors>
-        <BlockConnector connector-kind="plug" connector-type="object" position-type="mirror"></BlockConnector>
-	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>

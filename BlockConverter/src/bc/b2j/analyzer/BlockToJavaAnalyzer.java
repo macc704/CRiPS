@@ -280,8 +280,7 @@ public class BlockToJavaAnalyzer {
 			return true;
 		}
 
-		if (blockName.startsWith("getter")
-				|| blockName.startsWith("this-getter")) {
+		if (blockName.startsWith("getter") || blockName.contains("this")) {
 			return true;
 		}
 		for (String name : BlockConverter.ALL_DATA_BLOCKNAMES) {

@@ -19,6 +19,10 @@ public class ExVariableSetterModel extends ExpressionModel {
 		return variable.getType();
 	}
 
+	public ExpressionModel getRightExpression() {
+		return rightExpression;
+	}
+
 	public void setVariable(StVariableDeclarationModel variable) {
 		this.variable = variable;
 	}
