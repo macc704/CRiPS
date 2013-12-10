@@ -110,9 +110,11 @@ public class CCMainFrame2 extends JFrame {
 	}
 
 	private void setAchivementsButton(JPanel headerPanel) {
-		// CCAchivementButton achivementButton = new CCAchivementButton(manager,
-		// label);
-		// headerPanel.add(label, BorderLayout.EAST);
+		// TODO Hard Coding
+		JLabel label = new JLabel("é¿ê—É{É^Éì");
+		CCAchivementButton achivementButton = new CCAchivementButton(manager,
+				"Achivement.csv", label);
+		headerPanel.add(achivementButton, BorderLayout.EAST);
 	}
 
 	private void setButtonsPanel() {
