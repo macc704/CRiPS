@@ -13,7 +13,7 @@
 		<BlockGenusMember>input</BlockGenusMember>
 		<BlockGenusMember>print</BlockGenusMember>
 		<BlockGenusMember>random</BlockGenusMember>
-        <BlockGenusMember>this</BlockGenusMember>
+        <BlockGenusMember>getterthis</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer name="構造化" type="factory" button-color="255 255 255">
@@ -283,6 +283,12 @@
 		<BlockGenusMember>toJapaneseMode</BlockGenusMember>
 		<BlockGenusMember>toEnglishMode</BlockGenusMember>
 		<BlockGenusMember>fontsize</BlockGenusMember>
+	</BlockDrawer>
+    <BlockDrawer name="配列" type="factory" button-color="255 255 100">
+		<BlockGenusMember>setterIntArrayElement</BlockGenusMember>
+        <BlockGenusMember>getterIntArrayElement</BlockGenusMember>
+        <BlockGenusMember>getterIntArrayObjectElement</BlockGenusMember>
+
 	</BlockDrawer>
 
 </BlockDrawerSet>

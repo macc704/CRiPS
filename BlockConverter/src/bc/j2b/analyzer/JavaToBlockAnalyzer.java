@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.ArrayAccess;
 import org.eclipse.jdt.core.dom.ArrayCreation;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Block;
@@ -1055,38 +1056,93 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (node.getRightHandSide() instanceof Assignment) {
 			throw new RuntimeException("not supported two or more substitution");
 		}
-		String name = node.getLeftHandSide().toString();
-		// [が入っている場合は配列のため、配列部を名前から外す ex.name[1]　>> name
-		if (name.contains("[")) {
-			name = name.substring(0, name.indexOf("["));
+		Expression leftExpression = node.getLeftHandSide();
+
+		ExpressionModel setterModel = parseLeftExpression(leftExpression, model);
+
+		return setterModel;
+
+		// if (name.contains("this.")) {
+		// ExCallActionMethodModel2 thisSetterModel = new
+		// ExCallActionMethodModel2();
+		// thisSetterModel.setId(idCounter.getNextId());
+		// thisSetterModel.setLineNumber(compilationUnit.getLineNumber(node
+		// .getStartPosition()));
+		// // ExCallMethodModel callMethod = new ExCallMethodModel();
+		// ExpressionModel thisModel = (ExpressionModel)
+		// parseVariableGetterExpression("this");
+		// thisModel.setType("object");
+		//
+		// name = name.substring(name.indexOf(".") + 1, name.length());
+		// model.setVariable(variableResolver.resolve(name));
+		// model.setId(idCounter.getNextId());
+		// model.setLineNumber(compilationUnit.getLineNumber(node
+		// .getStartPosition()));
+		//
+		// thisSetterModel.setReceiver(thisModel);
+		// thisSetterModel.setCallMethod(model);
+		// return thisSetterModel;
+		// } else if (name.contains("[")) {
+		// // 配列の処理
+		// ExCallMethodModel arraySetter = new ExCallMethodModel();
+		// // とりあえず無理やり変数を取る
+		// Expression left = node.getLeftHandSide();
+		// if (left instanceof ) {
+		// System.out.println("hoge");
+		// }
+		//
+		// String index = name.substring(name.indexOf("[", name.indexOf("]")));
+		//
+		// arraySetter.addArgument(rightExpression);
+		// // 書き込みブロックを作成
+		//
+		// }
+
+	}
+
+	private ExpressionModel parseLeftExpression(Expression node,
+			ExVariableSetterModel model) {
+		try {
+			if (node instanceof SimpleName) {
+				model.setVariable(variableResolver.resolve(node.toString()));
+				model.setId(idCounter.getNextId());
+				model.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+				return model;
+			} else if (node instanceof ArrayAccess) {
+
+			} else if (node instanceof FieldAccess) {
+				ExCallActionMethodModel2 thisSetterModel = new ExCallActionMethodModel2();
+				thisSetterModel.setId(idCounter.getNextId());
+				thisSetterModel.setLineNumber(compilationUnit
+						.getLineNumber(node.getStartPosition()));
+
+				ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
+				thisModel.setType("object");
+
+				String name = node.toString();
+				name = name.substring(name.indexOf(".") + 1, name.length());
+				model.setVariable(variableResolver.resolve(name));
+				model.setId(idCounter.getNextId());
+				model.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+
+				thisSetterModel.setReceiver(thisModel);
+				thisSetterModel.setCallMethod(model);
+				return thisSetterModel;
+			}
+			throw new RuntimeException(
+					"The node type has not been supported yet node: "
+							+ node.getClass() + ", " + node.toString());
+		} catch (Exception ex) {
+			// ex.printStackTrace();
+			ExSpecialExpressionModel special = new ExSpecialExpressionModel(
+					node.toString());
+			special.setId(idCounter.getNextId());
+			special.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			return special;
 		}
-		// thisキーワードが入っていた場合はExCallActionMethodでブロックを作成する
-		if (name.contains("this.")) {
-			ExCallActionMethodModel2 thisSetterModel = new ExCallActionMethodModel2();
-			thisSetterModel.setId(idCounter.getNextId());
-			thisSetterModel.setLineNumber(compilationUnit.getLineNumber(node
-					.getStartPosition()));
-			// ExCallMethodModel callMethod = new ExCallMethodModel();
-			ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
-			thisModel.setType("object");
-
-			name = name.substring(name.indexOf(".") + 1, name.length());
-			model.setVariable(variableResolver.resolve(name));
-			model.setId(idCounter.getNextId());
-			model.setLineNumber(compilationUnit.getLineNumber(node
-					.getStartPosition()));
-
-			thisSetterModel.setReceiver(thisModel);
-			thisSetterModel.setCallMethod(model);
-			return thisSetterModel;
-		} else {
-			model.setVariable(variableResolver.resolve(name));
-			model.setId(idCounter.getNextId());
-			model.setLineNumber(compilationUnit.getLineNumber(node
-					.getStartPosition()));
-		}
-
-		return model;
 	}
 
 	/**

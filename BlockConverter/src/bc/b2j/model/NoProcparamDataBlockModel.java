@@ -14,8 +14,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		if (getGenusName().indexOf("proc-param") != -1) {
 			return;// ëfí Çµ
 		}
-		if (getName().startsWith("getterprivate")
-				|| getName().startsWith("this-getter")) {
+		if (getName().startsWith("getterprivate") || getName().contains("this")) {
 			return;// #ohata added
 		}
 		if (!getGenusName().startsWith("getter")) {
@@ -125,12 +124,12 @@ public class NoProcparamDataBlockModel extends BlockModel {
 			out.print(getGenusName());
 		} else if ("string".equals(getGenusName())) {
 			out.print("\"" + getLabel() + "\"");
+		} else if (getGenusName().contains("this")) {
+			out.print("this" + getLabel());
 		} else if ("double-number".equals(getGenusName())
 				|| "number".equals(getGenusName())
 				|| getGenusName().startsWith("getter")) {
 			out.print(getLabel());
-		} else if (getGenusName().startsWith("this-getter")) {
-			out.print("this." + getLabel());
 		} else if ("pi".equals(getGenusName()) || "e".equals(getGenusName())) {
 			out.print("Math." + getGenusName());
 		} else if (getGenusName().startsWith("new-object")) {// new-object-withtextÇçÏÇ¡ÇΩ

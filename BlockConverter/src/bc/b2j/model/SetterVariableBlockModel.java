@@ -14,8 +14,7 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 			return;// 素通し
 		}
 		// private valueのセッターの場合、同じ構造化ブロック内に変数が無いため、エラーが発生する
-		if (getName().startsWith("setterprivate")
-				|| getName().startsWith("this-setterprivate")) {
+		if (getName().startsWith("setterprivate") || getName().contains("this")) {
 			return;// #ohata added
 		}
 		resolveCreatedVariable(getBeforeID());

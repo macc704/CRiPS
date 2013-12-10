@@ -1027,3 +1027,31 @@
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
+<!--
+<BlockGenus name="setterIntArrayElement" kind="command" initlabel="整数を書き込む" color="255 255 100">
+	<BlockConnectors>
+        <BlockConnector label="値" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+-->
+<BlockGenus name="getterIntArrayElement" kind="data" initlabel="配列の値を取り出す" color="255 255 100">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="number"/>
+		<BlockConnector label="インデックス" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getterIntArrayObjectElement" kind="data" initlabel="配列" color="255 255 100">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="object"/>
+        <BlockConnector label="インデックス" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setterIntArrayElement" kind="command" initlabel="書き込む" color="255 255 100">
+	<BlockConnectors>
+        <BlockConnector label="インデックス" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="値" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
