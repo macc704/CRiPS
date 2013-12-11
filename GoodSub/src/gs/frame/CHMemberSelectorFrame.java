@@ -16,6 +16,7 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	private String myName;
 	private List<JButton> buttons = new ArrayList<JButton>();
+	private List<String> pushed = new ArrayList<String>();
 
 	public CHMemberSelectorFrame(String myName) {
 		this.myName = myName;
@@ -37,6 +38,11 @@ public class CHMemberSelectorFrame extends JFrame {
 		for (String aMember : members) {
 			JButton button = new JButton(aMember);
 			buttonPanel.add(button);
+			for (String aPushed : pushed) {
+				if (aMember.equals(aPushed)) {
+					button.setEnabled(false);
+				}
+			}
 			if (aMember.equals(myName)) {
 				button.setEnabled(false);
 			}
@@ -48,6 +54,10 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	public List<JButton> getButtons() {
 		return buttons;
+	}
+
+	public void setPushed(String pushed) {
+		this.pushed.add(pushed);
 	}
 
 	public static void main(String[] args) {
