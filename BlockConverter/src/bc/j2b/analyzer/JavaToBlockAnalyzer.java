@@ -1116,14 +1116,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				// メソッド呼び出しモデル作成
 				ExCallMethodModel arraySetter = new ExCallMethodModel();
 				arraySetter.setId(idCounter.getNextId());
-				ExLeteralModel variable = new ExLeteralModel();
+				// インデックスの解析
+				ExpressionModel variable = parseExpression(arrayNode.getIndex());
 				variable.setId(idCounter.getNextId());
-				model.setLineNumber(compilationUnit.getLineNumber(node
-						.getStartPosition()));
-				// インデックスの型・値セット
-				variable.setType("number");
-				variable.setValue(arrayNode.getIndex().toString());
-				model.setId(idCounter.getNextId());
+				// model.setLineNumber(compilationUnit.getLineNumber(node
+				// .getStartPosition()));
+				//
+				// model.setId(idCounter.getNextId());
 
 				// とりあえず2つに対応
 				if (variableResolver.resolve(arrayNode.getArray().toString())
@@ -1788,13 +1787,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		ExCallMethodModel arrayGetter = new ExCallMethodModel();
 		arrayGetter.setId(idCounter.getNextId());
 		// 配列の要素番号を変換するためのleteralモデルを作成
-		ExLeteralModel index = new ExLeteralModel();
+		ExpressionModel index = parseExpression(node.getIndex());
 		index.setId(idCounter.getNextId());
 		// 今はint型の一次元配列で、要素番号に定数しか入らないものとして作成する 後日修正する
-
-		// インデックスは必ず整数型
-		index.setType("number");
-		index.setValue(node.getIndex().toString());
 
 		// arraygetterは、変数の型に寄ってname,typeを変更する
 		if (variableResolver.resolve(node.getArray().toString()).getType()
