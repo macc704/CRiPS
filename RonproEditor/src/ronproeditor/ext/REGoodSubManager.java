@@ -91,9 +91,6 @@ public class REGoodSubManager {
 			frame = new CHMemberSelectorFrame(sendObject.getMyName());
 			frame.open();
 			System.out.println("client established");
-			if (application != null) {
-				doOpenNewCHE();
-			}
 		}
 
 		try {
@@ -189,6 +186,9 @@ public class REGoodSubManager {
 					System.out.println("pushed " + aButton.getText());
 					sendObject.setSelectedMember(aButton.getText());
 					conn.write(sendObject);
+					if (application != null) {
+						doOpenNewCHE();
+					}
 				}
 			});
 		}

@@ -2,6 +2,7 @@ package gs.serverclient;
 
 import gs.connection.Connection;
 import gs.connection.ConnectionPool;
+import gs.connection.MemberData;
 import gs.connection.SendObject;
 import gs.frame.GSFrame;
 
@@ -19,9 +20,8 @@ public class SyncServer {
 
 	private GSFrame frame = new GSFrame();
 	private ConnectionPool connectionPool = new ConnectionPool();
-	// private List<ConnectionPool> pools = new ArrayList<ConnectionPool>();
-	// private DivideRoom divideRoom = new DivideRoom();
 	private List<String> members = new ArrayList<String>();
+	private List<MemberData> datas = new ArrayList<MemberData>();
 
 	public void run() {
 
@@ -62,15 +62,21 @@ public class SyncServer {
 				if (obj instanceof SendObject) {
 
 					String myName = ((SendObject) obj).getMyName();
+
 					if (!members.contains(myName)) {
 						members.add(myName);
-						frame.println(myName + " add list.");
+						MemberData data = new MemberData();
+						data.setMember(myName);
+						data.setConn(conn);
+						datas.add(data);
+						frame.println("name: " + myName + " conn: " + conn
+								+ " add list.");
 					}
 
-					String selectedMember = ((SendObject) obj)
-							.getSelectedMember();
-
-					frame.println(myName + " selecte " + selectedMember);
+					// String selectedMember = ((SendObject) obj)
+					// .getSelectedMember();
+					//
+					// frame.println(myName + " selecte " + selectedMember);
 
 					connectionPool.broadcastAll(members);
 

@@ -2,10 +2,15 @@ package gs.connection;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 
-public class Connection {
+public class Connection implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Socket sock;
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
