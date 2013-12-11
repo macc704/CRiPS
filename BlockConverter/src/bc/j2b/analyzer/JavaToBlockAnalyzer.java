@@ -1026,6 +1026,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return (ExpressionModel) parseArrayInstanceCreation((ArrayCreation) node);
 			} else if (node instanceof FieldAccess) {
 				return (ExpressionModel) parseFieldAccess(((FieldAccess) node));
+			} else if (node instanceof ArrayAccess) {
+				return (ExpressionModel) parseArrayAccess((ArrayAccess) node);
 			}
 			throw new RuntimeException(
 					"The node type has not been supported yet node: "
@@ -1057,7 +1059,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			throw new RuntimeException("not supported two or more substitution");
 		}
 		Expression leftExpression = node.getLeftHandSide();
-
+		// 左辺のexpressionも解析する
 		ExpressionModel setterModel = parseLeftExpression(leftExpression, model);
 
 		return setterModel;
@@ -1110,7 +1112,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 						.getStartPosition()));
 				return model;
 			} else if (node instanceof ArrayAccess) {
-				System.out.println("hoge");
 				ExCallMethodModel arraySetter = new ExCallMethodModel();
 				arraySetter.setId(idCounter.getNextId());
 				ExLeteralModel variable = new ExLeteralModel();
@@ -1124,7 +1125,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				variable.setValue(value);
 				model.setId(idCounter.getNextId());
 				arraySetter.setName("setterIntArrayElement");
-				arraySetter.setLabel(node.toString());
+				arraySetter
+						.setLabel(((ArrayAccess) node).getArray().toString());
 				arraySetter.addArgument(variable);
 				arraySetter.addArgument(model.getRightExpression());
 				return arraySetter;
@@ -1769,17 +1771,42 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		return model;
 	}
 
-	private ExpressionModel parseFieldAccess(FieldAccess node) {
+	private ExpressionModel parseArrayAccess(ArrayAccess node) {
+		// callmethodモデルを作成
+		ExCallMethodModel arrayGetter = new ExCallMethodModel();
+		arrayGetter.setId(idCounter.getNextId());
+		// 配列の要素番号を変換するためのleteralモデルを作成
+		ExLeteralModel variable = new ExLeteralModel();
+		variable.setId(idCounter.getNextId());
 
+		// 今はint型の一次元配列で、要素番号に定数しか入らないものとして作成する 後日修正する
+		String value = node.toString().substring(
+				node.toString().indexOf("[") + 1, node.toString().indexOf("]"));
+		variable.setType("number");
+		variable.setValue(value);
+
+		arrayGetter.setName("getterIntArrayElement");
+		arrayGetter.setLabel(node.getArray().toString());
+		arrayGetter.setType("number");
+		arrayGetter.addArgument(variable);
+
+		return arrayGetter;
+	}
+
+	private ExpressionModel parseFieldAccess(FieldAccess node) {
+		// 右辺のthisキーワード解析
+		// ExcallActionブロックを作成
 		ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 		// ExCallMethodModel callMethod = new ExCallMethodModel();
+		// thisキーワードブロック作成
 		ExVariableGetterModel getterModel = parseVariableGetterExpression("this");
 		getterModel.setType("object");
 		getterModel.setGenusName("");
 		ExpressionModel thisModel = (ExpressionModel) getterModel;
+		// 変数名を解析したモデルとthiisをExCallActionブロックにセット
 		model.setReceiver(thisModel);
 		model.setCallMethod(parseVariableGetterExpression(node.toString()
 				.substring(node.toString().indexOf("this."),

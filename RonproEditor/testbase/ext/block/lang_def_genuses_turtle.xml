@@ -1034,7 +1034,7 @@
 	</BlockConnectors>
 </BlockGenus>
 -->
-<BlockGenus name="getterIntArrayElement" kind="data" initlabel="配列の値を取り出す" color="255 255 100">
+<BlockGenus name="getterIntArrayElement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素に書き込む">
 	<BlockConnectors>
         <BlockConnector label="" connector-kind="plug" connector-type="number"/>
 		<BlockConnector label="インデックス" connector-kind="socket" connector-type="number"/>
