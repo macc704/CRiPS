@@ -214,16 +214,12 @@ public class CCGraphFrame extends JFrame {
 								frame.openToggleExtraView();
 
 								long beginTime = compileError.getBeginTime();
-								// TODO CorrectTimeの計算 暫定は1秒ほど先のソースコードを表示
-								long correctTime = beginTime
-										+ (long) (compileError.getCorrectTime() + 1)
-										* 1000;
-
 								frame.getTimelinePane().getTimeModel2()
 										.setTime(new CTime(beginTime));
 
+								long endTime = compileError.getEndTime();
 								frame.getTimelinePane().getTimeModel()
-										.setTime(new CTime(correctTime));
+										.setTime(new CTime(endTime));
 							}
 						});
 
