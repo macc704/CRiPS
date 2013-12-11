@@ -45,8 +45,16 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 	@Override
 	public void print(PrintStream out, int indent) {
 		makeIndent(out, indent);
+		System.out.println(getName());
+		System.out.println(getLabel());
 		if (getName().startsWith("this-setter")) {
 			out.print("this." + getLabel());
+		} else if (getName().contains("Array")) {
+			out.print(getLabel() + "[");
+			BlockToJavaAnalyzer.getBlock(getConnectorIDs().get(0)).print(out,
+					indent);
+			getConnectorIDs().remove(0);
+			out.print("]");
 		} else {
 			out.print(getLabel());
 		}

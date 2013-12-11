@@ -129,7 +129,15 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		} else if ("double-number".equals(getGenusName())
 				|| "number".equals(getGenusName())
 				|| getGenusName().startsWith("getter")) {
-			out.print(getLabel());
+			if (getGenusName().contains("Array")) {
+				BlockModel index = BlockToJavaAnalyzer
+						.getBlock(getConnectorIDs().get(0));
+				out.print(getLabel() + "[");
+				index.print(out, indent);
+				out.print("]");
+			} else {
+				out.print(getLabel());
+			}
 		} else if ("pi".equals(getGenusName()) || "e".equals(getGenusName())) {
 			out.print("Math." + getGenusName());
 		} else if (getGenusName().startsWith("new-object")) {// new-object-withtextÇçÏÇ¡ÇΩ
