@@ -32,7 +32,8 @@ public class REGoodSubManager {
 	private JButton connButton;
 	private boolean started;
 	private SendObject sendObject = new SendObject();
-	CHMemberSelectorFrame frame;
+	private CHMemberSelectorFrame frame;
+	private List<String> members = new ArrayList<String>();
 
 	public static void main(String[] args) {
 		new REGoodSubManager();
@@ -153,7 +154,6 @@ public class REGoodSubManager {
 
 	@SuppressWarnings("unchecked")
 	private void readFromServer() {
-		List<String> members = new ArrayList<String>();
 		Object obj = conn.read();
 		if (obj instanceof String) {
 			final String text = (String) obj;
@@ -171,11 +171,27 @@ public class REGoodSubManager {
 				}
 			}
 			frame.setMembers(members);
+			setMemberSelectorListner();
 		}
 	}
 
 	public boolean isStarted() {
 		return started;
+	}
+
+	public void setMemberSelectorListner() {
+		List<JButton> buttons = new ArrayList<JButton>(frame.getButtons());
+		for (final JButton aButton : buttons) {
+			aButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("pushed " + aButton.getText());
+					sendObject.setSelectedMember(aButton.getText());
+					conn.write(sendObject);
+				}
+			});
+		}
 	}
 
 }

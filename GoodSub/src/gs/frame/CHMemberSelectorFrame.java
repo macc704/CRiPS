@@ -1,7 +1,5 @@
 package gs.frame;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class CHMemberSelectorFrame extends JFrame implements ActionListener {
+public class CHMemberSelectorFrame extends JFrame {
 
 	/**
 	 * 
@@ -18,11 +16,9 @@ public class CHMemberSelectorFrame extends JFrame implements ActionListener {
 
 	private String myName;
 	private List<JButton> buttons = new ArrayList<JButton>();
-	private String pushedName;
 
 	public CHMemberSelectorFrame(String myName) {
 		this.myName = myName;
-		pushedName = null;
 	}
 
 	public void open() {
@@ -40,8 +36,6 @@ public class CHMemberSelectorFrame extends JFrame implements ActionListener {
 
 		for (String aMember : members) {
 			JButton button = new JButton(aMember);
-			button.addActionListener(this);
-			button.setActionCommand(aMember);
 			buttonPanel.add(button);
 			if (aMember.equals(myName)) {
 				button.setEnabled(false);
@@ -50,6 +44,10 @@ public class CHMemberSelectorFrame extends JFrame implements ActionListener {
 		}
 		this.getContentPane().validate();
 
+	}
+
+	public List<JButton> getButtons() {
+		return buttons;
 	}
 
 	public static void main(String[] args) {
@@ -63,12 +61,6 @@ public class CHMemberSelectorFrame extends JFrame implements ActionListener {
 		members.add("user3");
 		frame.setMembers(members);
 
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		pushedName = e.getActionCommand();
-		System.out.println(pushedName);
 	}
 
 }

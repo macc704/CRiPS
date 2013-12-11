@@ -8,14 +8,17 @@ public class SendObject implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	// private String source;
 	private String myName;
 	private int roomNum;
+	private String selectedMember;
 
-	// public void setSource(String source) {
-	// System.out.println("set : " + source);
-	// this.source = source;
-	// }
+	public String getSelectedMember() {
+		return selectedMember;
+	}
+
+	public void setSelectedMember(String selectedMember) {
+		this.selectedMember = selectedMember;
+	}
 
 	public void setRoomNum(int roomNum) {
 		this.roomNum = roomNum;
@@ -24,11 +27,6 @@ public class SendObject implements Serializable {
 	public void setMyName(String userName) {
 		this.myName = userName;
 	}
-
-	// public String getSource() {
-	// // System.out.println("get : " + source);
-	// return source;
-	// }
 
 	public int getRoomNum() {
 		return roomNum;

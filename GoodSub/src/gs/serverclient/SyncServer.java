@@ -57,7 +57,6 @@ public class SyncServer {
 
 	public void loopForOneClient(Connection conn) {
 		try {
-			// int roomNum = 0;
 			while (conn.established()) {
 				Object obj = conn.read();
 				if (obj instanceof SendObject) {
@@ -67,42 +66,13 @@ public class SyncServer {
 						members.add(myName);
 						frame.println(myName + " add list.");
 					}
+
+					String selectedMember = ((SendObject) obj)
+							.getSelectedMember();
+
+					frame.println(myName + " selecte " + selectedMember);
+
 					connectionPool.broadcastAll(members);
-
-					// roomNum = (int) obj;
-					// roomNum = ((SendObject) obj).getRoomNum();
-					// êVÇµÇ¢ïîâÆÇ»ÇÁConnectionPoolÇêVãKçÏê¨
-					// if (!divideRoom.checkRoomNum(roomNum)) {
-					// pools.add(new ConnectionPool());
-					// frame.println("create room No." + roomNum);
-					// }
-
-					// if (users.indexOf(((SendObject) obj).getUserName()) ==
-					// -1) {
-
-					// pools.get(divideRoom.countRoom(roomNum))
-					// .addConnection(conn);
-					// pools.get(divideRoom.countRoom(roomNum)).addUser(
-					// ((SendObject) obj).getUserName());
-					// frame.println("'" + ((SendObject) obj).getUserName() +
-					// "'"
-					// + " join room No." + roomNum);
-					// users =
-					// pools.get(divideRoom.countRoom(roomNum)).getUsers();
-					// pools.get(divideRoom.countRoom(roomNum)).broadcastAll(
-					// users, conn);
-					// }
-					// pools.get(divideRoom.countRoom(roomNum)).addUser(
-					// ((SendObject) obj).getUserName());
-					// showUsers(roomNum);
-
-					// String text = ((SendObject) obj).getSource();
-					// frame.println(((SendObject) obj).getSource());
-					// frame.println(((SendObject) obj).getSource());
-					// if (((SendObject) obj).getSource() != null) {
-					// pools.get(divideRoom.countRoom(roomNum)).broadcast(obj,
-					// conn);
-					// }
 
 				} else if (obj instanceof String) { // StringÇ»ÇÁëóÇËÇΩÇ¢ï∂éöóÒ
 					String text = (String) obj;
