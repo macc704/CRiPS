@@ -1112,19 +1112,31 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 						.getStartPosition()));
 				return model;
 			} else if (node instanceof ArrayAccess) {
+				ArrayAccess arrayNode = (ArrayAccess) node;
+				// メソッド呼び出しモデル作成
 				ExCallMethodModel arraySetter = new ExCallMethodModel();
 				arraySetter.setId(idCounter.getNextId());
 				ExLeteralModel variable = new ExLeteralModel();
 				variable.setId(idCounter.getNextId());
 				model.setLineNumber(compilationUnit.getLineNumber(node
 						.getStartPosition()));
-				String value = node.toString().substring(
-						node.toString().indexOf("[") + 1,
-						node.toString().indexOf("]"));
+				// インデックスの型・値セット
 				variable.setType("number");
-				variable.setValue(value);
+				variable.setValue(arrayNode.getIndex().toString());
 				model.setId(idCounter.getNextId());
-				arraySetter.setName("setterIntArrayElement");
+
+				// とりあえず2つに対応
+				if (variableResolver.resolve(arrayNode.getArray().toString())
+						.getType().contains("int")) {
+					arraySetter.setName("setterIntArrayElement");
+				} else if (variableResolver
+						.resolve(arrayNode.getArray().toString()).getType()
+						.contains("String")) {
+					arraySetter.setName("setterStringArrayElement");
+				} else {
+					System.out.println("not supported array setter");
+				}
+
 				arraySetter
 						.setLabel(((ArrayAccess) node).getArray().toString());
 				arraySetter.addArgument(variable);
@@ -1776,19 +1788,29 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		ExCallMethodModel arrayGetter = new ExCallMethodModel();
 		arrayGetter.setId(idCounter.getNextId());
 		// 配列の要素番号を変換するためのleteralモデルを作成
-		ExLeteralModel variable = new ExLeteralModel();
-		variable.setId(idCounter.getNextId());
-
+		ExLeteralModel index = new ExLeteralModel();
+		index.setId(idCounter.getNextId());
 		// 今はint型の一次元配列で、要素番号に定数しか入らないものとして作成する 後日修正する
-		String value = node.toString().substring(
-				node.toString().indexOf("[") + 1, node.toString().indexOf("]"));
-		variable.setType("number");
-		variable.setValue(value);
 
-		arrayGetter.setName("getterIntArrayElement");
+		// インデックスは必ず整数型
+		index.setType("number");
+		index.setValue(node.getIndex().toString());
+
+		// arraygetterは、変数の型に寄ってname,typeを変更する
+		if (variableResolver.resolve(node.getArray().toString()).getType()
+				.contains("int")) {
+			arrayGetter.setName("getterIntArrayElement");
+			arrayGetter.setType("number");
+		} else if (variableResolver.resolve(node.getArray().toString())
+				.getType().contains("String")) {
+			arrayGetter.setName("getterStringArrayElement");
+			arrayGetter.setType("string");
+		} else {
+			System.out.println("not supported arraygetter block:"
+					+ node.getArray().toString());
+		}
 		arrayGetter.setLabel(node.getArray().toString());
-		arrayGetter.setType("number");
-		arrayGetter.addArgument(variable);
+		arrayGetter.addArgument(index);
 
 		return arrayGetter;
 	}

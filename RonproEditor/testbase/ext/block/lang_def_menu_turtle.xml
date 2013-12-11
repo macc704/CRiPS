@@ -283,11 +283,10 @@
 		<BlockGenusMember>toEnglishMode</BlockGenusMember>
 		<BlockGenusMember>fontsize</BlockGenusMember>
 	</BlockDrawer>
+    
     <BlockDrawer name="配列" type="factory" button-color="255 255 100">
 		<BlockGenusMember>setterIntArrayElement</BlockGenusMember>
         <BlockGenusMember>getterIntArrayElement</BlockGenusMember>
-        <BlockGenusMember>getterIntArrayObjectElement</BlockGenusMember>
-
 	</BlockDrawer>
 
 </BlockDrawerSet>
