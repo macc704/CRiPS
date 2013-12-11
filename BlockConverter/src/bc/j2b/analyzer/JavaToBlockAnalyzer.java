@@ -801,8 +801,25 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// Initializer
 		for (Object o : node.initializers()) {
 			Expression exp = (Expression) o;
-			StVariableDeclarationModel vmodel = parseVariableDeclarationExpression((VariableDeclarationExpression) exp);
-			block.addChild(vmodel);
+			if (exp instanceof Assignment) {
+				StExpressionModel initializer = new StExpressionModel(
+						parseExpression(exp));
+				block.addChild(initializer);
+			} else {
+				StVariableDeclarationModel vmodel = parseVariableDeclarationExpression((VariableDeclarationExpression) exp);
+				block.addChild(vmodel);
+			}
+			// if (exp instanceof VariableDeclarationExpression) {
+			// StVariableDeclarationModel vmodel =
+			// parseVariableDeclarationExpression((VariableDeclarationExpression)
+			// exp);
+			// block.addChild(vmodel);
+			// // } else if (exp instanceof Expression) {
+			// Expression model
+			// ExpressionModel initializer = parseExpression(exp);
+			// block.addChild(initializer);
+			// }
+
 		}
 
 		{
