@@ -20,6 +20,9 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		if (!getGenusName().startsWith("getter")) {
 			return;
 		}
+		if (getGenusName().contains("Array")) {// ‚Æ‚è‚ ‚¦‚¸
+			return;
+		}
 		checkPlugBlock(getPlugID());
 	}
 
@@ -43,6 +46,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 				return; // ok
 			}
 		}
+
 		checkWhetherCreatedVariable(block.getBeforeID());
 	}
 
