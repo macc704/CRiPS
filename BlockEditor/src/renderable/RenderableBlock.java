@@ -2171,6 +2171,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			// wc.saveString(wc.getSaveString());
 			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
 		} else {
+			moveSocketBlocks(this);
 			//			this.setLocation(this.getX(), this.getY() + 50);
 			//			Workspace.getInstance().notifyListeners(
 			//					new WorkspaceEvent(widget, link,
@@ -2182,6 +2183,18 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			//					+ RenderableBlock.getRenderableBlock(blockID).getWidth(),
 			//					"down");
 		}
+	}
+
+	private void moveSocketBlocks(RenderableBlock rb) {
+		for (BlockConnector socket : BlockLinkChecker.getSocketEquivalents(rb
+				.getBlock())) {
+			if (socket.hasBlock()) {
+				RenderableBlock socketBlock = RenderableBlock
+						.getRenderableBlock(socket.getBlockID());
+				moveSocketBlocks(socketBlock);
+			}
+		}
+		rb.setLocation(rb.getX(), rb.getY() + 50);
 	}
 
 	//abstractionブロック内のブロックのスコープをチェックする
