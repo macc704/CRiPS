@@ -50,7 +50,7 @@ public class BlockAnimationThread extends Thread {
 						.getBlockID());
 				BlockAnimationThread t1 = new BlockAnimationThread(rb,
 						animationDirection);
-				t1.start();
+				//t1.start();
 			}
 		}
 
@@ -90,7 +90,7 @@ public class BlockAnimationThread extends Thread {
 						.getBlockID());
 				BlockAnimationThread t1 = new BlockAnimationThread(rb,
 						animationDirection);
-				t1.start();
+				//				t1.start();
 			}
 		}
 

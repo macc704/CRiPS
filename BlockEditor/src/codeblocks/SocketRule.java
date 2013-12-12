@@ -129,13 +129,13 @@ public class SocketRule implements LinkRule {
 				.getBlockID());
 		RenderableBlock socketRb = RenderableBlock.getRenderableBlock(socket
 				.getBlockID());
-		//socketRb.setLocation(socketRb.getX() + rb.getBlockWidth(),
-		//	socketRb.getY());//ここでブロックの移動をしている
-		if (!BlockAnimationThread.isRun()) {
-			BlockAnimationThread t1 = new BlockAnimationThread(socketRb,
-					"right");
-			t1.start();
-		}
+		socketRb.setLocation(socketRb.getX() + rb.getBlockWidth(),
+				socketRb.getY());//ここでブロックの移動をしている
+		//		if (!BlockAnimationThread.isRun()) {
+		//			BlockAnimationThread t1 = new BlockAnimationThread(socketRb,
+		//					"right");
+		//			//t1.start();
+		//		}
 
 		/*int end = socketRb.getX() + rb.getBlockWidth();
 		while(socketRb.getX() < end){

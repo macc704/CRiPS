@@ -2,6 +2,7 @@ package renderable;
 
 import java.awt.Color;
 
+import bc.BCSystem;
 import codeblocks.Block;
 import codeblocks.BlockConnector;
 import codeblocks.BlockLinkChecker;
@@ -51,7 +52,7 @@ public class ScopeChecker {
 			if (originBlock == null) {//íTçıëŒè€ÇÃÉuÉçÉbÉNÇ™ë∂ç›ÇµÇ»Ç¢
 				RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
 						.setBlockHighlightColor(Color.RED);
-				System.out.println("cant find beforeBlock:"
+				BCSystem.out.println("cant find beforeBlock:"
 						+ cmpBlock.getBlockLabel());
 				return false;
 			}
@@ -74,7 +75,7 @@ public class ScopeChecker {
 						compareBlockName);
 				//é∏îs
 				if (originID == -1) {
-					System.out.println("doesnt exist originBlock:"
+					BCSystem.out.println("doesnt exist originBlock:"
 							+ cmpBlock.getBlockLabel());
 					RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
 							.setBlockHighlightColor(Color.RED);
@@ -104,7 +105,8 @@ public class ScopeChecker {
 					beforeBlock)) {
 				return true;
 			}
-			System.out.println("cant belong block:" + cmpBlock.getBlockLabel());
+			BCSystem.out.println("cant belong block:"
+					+ cmpBlock.getBlockLabel());
 
 			RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
 					.setBlockHighlightColor(Color.RED);
