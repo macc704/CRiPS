@@ -213,6 +213,9 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 			captureMode = true;
 			System.out.println("capturemode!");
 		}
+		if (args.length >= 1 && args[0].equals("waitrepaint")) {
+			window.canvas().setWaitRepaint(true);
+		}
 		startTurtle(turtle);
 	}
 
