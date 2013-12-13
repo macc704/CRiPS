@@ -2,7 +2,8 @@ package ronproeditor.ext;
 
 import gs.connection.Connection;
 import gs.connection.DivideRoom;
-import gs.connection.SendObject;
+import gs.connection.LoginData;
+import gs.connection.SourceData;
 import gs.frame.CHMemberSelectorFrame;
 
 import java.awt.event.ActionEvent;
@@ -30,12 +31,11 @@ public class REGoodSubManager {
 	private REApplication application;
 	private Connection conn;
 	private REApplication chApplication;
-	private RESourceViewer viewer;
 	private JButton connButton;
 	private boolean started;
-	private SendObject sendObject = new SendObject();
 	private CHMemberSelectorFrame frame;
 	private List<String> members = new ArrayList<String>();
+	private String myName;
 
 	public static void main(String[] args) {
 		new REGoodSubManager();
@@ -65,12 +65,15 @@ public class REGoodSubManager {
 	}
 
 	public void initializeListener() {
+		final RESourceViewer viewer;
 		viewer = application.getFrame().getEditor().getViewer();
 		viewer.getTextPane().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				String text = viewer.getText();
-				conn.write(text);
+				SourceData sourceData = new SourceData();
+				sourceData.setMyName(myName);
+				sourceData.setSource(viewer.getText());
+				conn.write(sourceData);
 			}
 		});
 	}
@@ -90,7 +93,7 @@ public class REGoodSubManager {
 		conn.shakehandForClient();
 
 		if (login()) {
-			frame = new CHMemberSelectorFrame(sendObject.getMyName());
+			frame = new CHMemberSelectorFrame(myName);
 			frame.open();
 			System.out.println("client established");
 		}
@@ -116,10 +119,12 @@ public class REGoodSubManager {
 			e.printStackTrace();
 		}
 
-		sendObject.setMyName(room.getUserName());
-		sendObject.setRoomNum(groupNum);
+		LoginData loginData = new LoginData();
+		myName = room.getUserName();
+		loginData.setMyName(myName);
+		loginData.setRoomNum(groupNum);
 
-		conn.write(sendObject);
+		conn.write(loginData);
 
 		return conn.established();
 	}
@@ -132,6 +137,7 @@ public class REGoodSubManager {
 
 			@Override
 			public void windowClosed(WindowEvent e) {
+
 			}
 
 		});
@@ -195,8 +201,8 @@ public class REGoodSubManager {
 				public void actionPerformed(ActionEvent e) {
 					String pushed = aButton.getText();
 					System.out.println("pushed " + pushed);
-					sendObject.setSelectedMember(pushed);
-					conn.write(sendObject);
+					// sendObject.setSelectedMember(pushed);
+					// conn.write(loginData);
 					frame.setPushed(pushed);
 					frame.setMembers(members);
 					if (application != null) {

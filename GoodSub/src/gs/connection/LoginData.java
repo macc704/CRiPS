@@ -2,26 +2,17 @@ package gs.connection;
 
 import java.io.Serializable;
 
-public class SendObject implements Serializable {
+public class LoginData implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String myName;
-	private int roomNum;
-	private String selectedMember;
-
-	public String getSelectedMember() {
-		return selectedMember;
-	}
-
-	public void setSelectedMember(String selectedMember) {
-		this.selectedMember = selectedMember;
-	}
+	private int groupNum;
 
 	public void setRoomNum(int roomNum) {
-		this.roomNum = roomNum;
+		this.groupNum = roomNum;
 	}
 
 	public void setMyName(String userName) {
@@ -29,7 +20,7 @@ public class SendObject implements Serializable {
 	}
 
 	public int getRoomNum() {
-		return roomNum;
+		return groupNum;
 	}
 
 	public String getMyName() {

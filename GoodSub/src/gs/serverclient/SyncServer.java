@@ -2,8 +2,9 @@ package gs.serverclient;
 
 import gs.connection.Connection;
 import gs.connection.ConnectionPool;
+import gs.connection.LoginData;
 import gs.connection.MemberData;
-import gs.connection.SendObject;
+import gs.connection.SourceData;
 import gs.frame.GSFrame;
 
 import java.net.ServerSocket;
@@ -59,30 +60,17 @@ public class SyncServer {
 		try {
 			while (conn.established()) {
 				Object obj = conn.read();
-				if (obj instanceof SendObject) {
-
-					String myName = ((SendObject) obj).getMyName();
-
-					if (!members.contains(myName)) {
-						members.add(myName);
-						MemberData data = new MemberData();
-						data.setMember(myName);
-						data.setConn(conn);
-						datas.add(data);
-						frame.println("name: " + myName + " conn: " + conn
-								+ " add list.");
-					}
-
-					// String selectedMember = ((SendObject) obj)
-					// .getSelectedMember();
-					//
-					// frame.println(myName + " selecte " + selectedMember);
-
-					connectionPool.broadcastAll(members);
+				if (obj instanceof LoginData) {
+					LoginData loginData = (LoginData) obj;
+					typeLogin(loginData);
 
 				} else if (obj instanceof String) { // String‚È‚ç‘—‚è‚½‚¢•¶Žš—ñ
 					String text = (String) obj;
 					connectionPool.broadcastAll(text);
+				} else if (obj instanceof SourceData) {
+					System.out.println("name : "
+							+ ((SourceData) obj).getMyName());
+					System.out.println(((SourceData) obj).getSource());
 				}
 			}
 		} catch (Exception ex) {
@@ -92,4 +80,16 @@ public class SyncServer {
 			frame.println("one connection killed");
 		}
 	}
+
+	public void typeLogin(LoginData loginData) {
+		String myName = loginData.getMyName();
+		if (!members.contains(myName)) {
+			members.add(myName);
+			MemberData data = new MemberData();
+			datas.add(data);
+			frame.println("name: " + myName + " add list.");
+		}
+		connectionPool.broadcastAll(members);
+	}
+
 }
