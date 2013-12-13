@@ -3,7 +3,6 @@ package gs.serverclient;
 import gs.connection.Connection;
 import gs.connection.ConnectionPool;
 import gs.connection.LoginData;
-import gs.connection.MemberData;
 import gs.connection.SourceData;
 import gs.frame.GSFrame;
 
@@ -22,7 +21,8 @@ public class SyncServer {
 	private GSFrame frame = new GSFrame();
 	private ConnectionPool connectionPool = new ConnectionPool();
 	private List<String> members = new ArrayList<String>();
-	private List<MemberData> datas = new ArrayList<MemberData>();
+
+	// private List<MemberData> datas = new ArrayList<MemberData>();
 
 	public void run() {
 
@@ -57,11 +57,12 @@ public class SyncServer {
 	}
 
 	public void loopForOneClient(Connection conn) {
+		LoginData loginData = null;
 		try {
 			while (conn.established()) {
 				Object obj = conn.read();
 				if (obj instanceof LoginData) {
-					LoginData loginData = (LoginData) obj;
+					loginData = (LoginData) obj;
 					typeLogin(loginData);
 
 				} else if (obj instanceof SourceData) {
@@ -73,6 +74,9 @@ public class SyncServer {
 		} finally {
 			connectionPool.close(conn);
 			frame.println("one connection killed");
+			if (loginData != null) {
+				members.remove(loginData.getMyName());
+			}
 		}
 	}
 
@@ -80,10 +84,11 @@ public class SyncServer {
 		String myName = loginData.getMyName();
 		if (!members.contains(myName)) {
 			members.add(myName);
-			MemberData data = new MemberData();
-			datas.add(data);
+			// MemberData data = new MemberData();
+			// datas.add(data);
 			frame.println("name: " + myName + " add list.");
 		}
+		// connectionPool.broadcastAll(new ArrayList<String>(members));
 		connectionPool.broadcastAll(members);
 	}
 

@@ -39,28 +39,26 @@ public class REGoodSubManager {
 	private List<List<Object>> chDatas = new ArrayList<List<Object>>();
 
 	public static void main(String[] args) {
-		new REGoodSubManager();
+		REGoodSubManager man = new REGoodSubManager();
+		LoginData data = new LoginData();
+		data.setMyName("hoge"+((int)(Math.random()*10000))%1000);
+		data.setRoomNum(1);
+		man.connectServer(data);
+	}
+	
+	private REGoodSubManager() {
 	}
 
 	public REGoodSubManager(REApplication application) {
-		this.application = application;
-		initialize();
-	}
-
-	public REGoodSubManager() {
-		connectServer();
-	}
-
-	private void initialize() {
+		this.application = application;	
 	}
 
 	public void startGoodSub() {
-
 		initializeListener();
-
 		new Thread() {
 			public void run() {
-				connectServer();
+				LoginData data = loginDialog();
+				connectServer(data);
 			}
 		}.start();
 	}
@@ -79,21 +77,21 @@ public class REGoodSubManager {
 		});
 	}
 
-	private void connectServer() {
-
+	private void connectServer(LoginData login) {
 		try (Socket sock = new Socket("localhost", 10000)) {
 			conn = new Connection(sock);
-			newConnectionOpened(conn);
+			newConnectionOpened(login);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	private void newConnectionOpened(Connection conn) {
+	private void newConnectionOpened(LoginData loginData) {
 
 		conn.shakehandForClient();
 
-		if (login()) {
+		boolean login = login(loginData);
+		if (login) {
 			msFrame = new CHMemberSelectorFrame(myName);
 			msFrame.open();
 			System.out.println("client established");
@@ -111,7 +109,7 @@ public class REGoodSubManager {
 
 	}
 
-	private boolean login() {
+	private LoginData loginDialog() {
 		DivideRoom room = new DivideRoom();
 		int groupNum = -1;
 		try {
@@ -124,9 +122,12 @@ public class REGoodSubManager {
 		myName = room.getUserName();
 		loginData.setMyName(myName);
 		loginData.setRoomNum(groupNum);
-
-		conn.write(loginData);
-
+		
+		return loginData;
+	}
+	
+	private boolean login(LoginData data) {
+		conn.write(data);
 		return conn.established();
 	}
 
@@ -195,7 +196,9 @@ public class REGoodSubManager {
 					members.add(aMember);
 				}
 			}
-			msFrame.setMembers(members);
+			//msFrame.setMembers(members);
+			System.out.println(obj);
+			msFrame.setMembers((List<String>)obj);
 			setMemberSelectorListner();
 		}
 	}

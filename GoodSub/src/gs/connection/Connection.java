@@ -50,6 +50,7 @@ public class Connection implements Serializable {
 	public void write(Object obj) {
 		if (established()) {
 			try {
+				out.reset();
 				out.writeObject(obj);
 			} catch (Exception ex) {
 				throw new RuntimeException(ex);
