@@ -85,8 +85,9 @@ import nd.com.sun.tools.example.debug.gui.GUI;
  * 
  * 2013/11/01 version 0.2.16 hakamata	・AWT-EventQueue-0スレッドをサスペンド後にレジュームするようにした(update問題対策:暫定)
  * 2013/11/05 version 0.2.17 hakamata	・ログを取るNDebuggerManagerでリスナがstatic修飾付きのリストで管理されていたので，DENO終了時にリストをクリアするように変更
- * 2013/12/01 version 0.2.18 hakamata	・DENO側ではなくTurtleライブラリ上でupdate()完了まで待機するように変更
+ * 2013/12/01 version 0.2.18 hakamata	・DENO側ではなくTurtleライブラリ上でupdate()完了まで待機するように変更(0.2.16の変更点を無効化)
  * 2013/12/09 version 0.2.19 hakamata	・プログラム実行時のコマンドライン引数にdenomodeを追加
+ * 2013/12/13 version 0.2.20 hakamata	・論プロから渡される引数のほうを変更したので0.2.19の変更点を無効化
  *
  * 	・int x = 3;　はＯＫだけど， int y; はダメ．
  * 		Javaの仕様上,宣言のみのプリミティブ型変数はスタックに積まれないのでこれで正しい
@@ -96,7 +97,7 @@ import nd.com.sun.tools.example.debug.gui.GUI;
 public class NNoviceDebugger {
 
 	public static final String NAME = "NoviceDebugger";
-	public static final String VERSION = "0.2.19";
+	public static final String VERSION = "0.2.20";
 	public static final String WINDOWTITLE = "DENO";
 
 	public static void main(String[] args) {

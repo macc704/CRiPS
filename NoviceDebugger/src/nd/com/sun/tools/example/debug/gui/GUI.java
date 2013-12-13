@@ -364,7 +364,7 @@ public class GUI extends JPanel {
 		}
 
 		context.setMainClassName(clsName);
-		context.setProgramArguments(progArgs + "denomode");
+		context.setProgramArguments(progArgs);
 		context.setVmArguments(javaArgs);
 
 		// ソースファイル指定
