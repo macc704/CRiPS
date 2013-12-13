@@ -28,16 +28,19 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 	}
 
 	private void resolveCreatedVariable(int blockID) {
-		if (blockID == BlockModel.NULL) {
-			throw new RuntimeException("変数宣言する前に変数への代入を行っています");
-		}
 		BlockModel block = BlockToJavaAnalyzer.getBlock(blockID);
 		if (block instanceof LocalVariableBlockModel) {
 			return;
 		}
 		// プライベート変数の場合はbeforeが無いため、処理を終える
-		if (block.getGenusName().startsWith("private-")) {// #ohata added
+		if (block.getGenusName().contains("private")
+				|| block.getGenusName().contains("array")) {// #ohata added
 			return;
+		}
+
+		if (block.getBeforeID() == BlockModel.NULL) {
+			throw new RuntimeException("変数宣言する前に変数への代入を行っています:"
+					+ block.getGenusName());
 		}
 		resolveCreatedVariable(block.getBeforeID());
 	}
