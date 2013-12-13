@@ -18,11 +18,16 @@ public class ShellTest extends Turtle {
 	public void start() {
 		window.canvas().setBackground(Color.red);
 		Shell shell = new Shell();
+		Turtle turtle = new Turtle();
+		turtle.warp(50,50);
+		turtle.angle(90);
 		shell.warp(200, 200);
 		while (true) {
 			sleep(0.05);
 			shell.fd(1);
 			shell.rt(1);
+			turtle.fd(2);
+			turtle.rt(2);
 			System.out.println(shell.location());
 			update();
 		}
