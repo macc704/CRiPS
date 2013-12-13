@@ -21,8 +21,15 @@ public class Shell extends Turtle {
 			for (int j = 0; j < 4; j++) {
 				fd((i) * 10);
 				rt(90);
+				System.out.println(getX());//常に100を返すバグ
+				System.out.println(x());
+				System.out.println(location());	
 			}
 			rt(20);
-		}
+			// System.out.println(getX());//常に100を返すバグ
+			// System.out.println(x());
+			// System.out.println(location());
+			//System.out.println(getLocation());	
+		}		
 	}
 }
