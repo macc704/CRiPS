@@ -994,7 +994,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// create local variable
 		StThisVariableModel model = new StThisVariableModel();
 		model.setType("object");
-		model.setName("Ž©•ª‚Ì");
+		model.setName("Ž©•ª");
+
 		model.setId(idCounter.getNextId());
 		variableResolver.setThisValue(model);
 	}

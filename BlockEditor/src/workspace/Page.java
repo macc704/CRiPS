@@ -766,12 +766,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 						loadedBlocks.add(rb);
 					} catch (Exception ex) {
 						throw new RuntimeException("error happened: "
-								+ blockNode.getNodeName()
-								+ " value: "
-								+ blockNode.getNodeValue()
-								+ " previousLoadBlock"
-								+ loadedBlocks.get(loadedBlocks.size())
-										.toString());
+								+ blockNode.getNodeName() + " value: "
+								+ blockNode.getNodeValue() + " type: "
+								+ blockNode.getNodeName());
 					}
 				}
 
