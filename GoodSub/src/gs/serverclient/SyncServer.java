@@ -64,13 +64,8 @@ public class SyncServer {
 					LoginData loginData = (LoginData) obj;
 					typeLogin(loginData);
 
-				} else if (obj instanceof String) { // String‚È‚ç‘—‚è‚½‚¢•¶Žš—ñ
-					String text = (String) obj;
-					connectionPool.broadcastAll(text);
 				} else if (obj instanceof SourceData) {
-					System.out.println("name : "
-							+ ((SourceData) obj).getMyName());
-					System.out.println(((SourceData) obj).getSource());
+					connectionPool.broadcast(obj, conn);
 				}
 			}
 		} catch (Exception ex) {

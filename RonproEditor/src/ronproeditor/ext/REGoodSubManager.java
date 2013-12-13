@@ -33,9 +33,10 @@ public class REGoodSubManager {
 	private REApplication chApplication;
 	private JButton connButton;
 	private boolean started;
-	private CHMemberSelectorFrame frame;
+	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
 	private String myName;
+	private List<List<Object>> chDatas = new ArrayList<List<Object>>();
 
 	public static void main(String[] args) {
 		new REGoodSubManager();
@@ -93,8 +94,8 @@ public class REGoodSubManager {
 		conn.shakehandForClient();
 
 		if (login()) {
-			frame = new CHMemberSelectorFrame(myName);
-			frame.open();
+			msFrame = new CHMemberSelectorFrame(myName);
+			msFrame.open();
 			System.out.println("client established");
 		}
 
@@ -129,7 +130,7 @@ public class REGoodSubManager {
 		return conn.established();
 	}
 
-	public void doOpenNewCHE() {
+	public void doOpenNewCHE(String name) {
 		chApplication = application.doOpenNewRE("CHTestProject");
 		chApplication.getFrame().setTitle("CheCoPro Editor");
 
@@ -163,17 +164,28 @@ public class REGoodSubManager {
 		menuBar.add(connButton);
 		chApplication.getFrame().setJMenuBar(menuBar);
 
+		List<Object> chFrames = new ArrayList<Object>();
+		chFrames.add(chApplication);
+		chFrames.add(name);
+		chDatas.add(chFrames);
 	}
 
 	@SuppressWarnings("unchecked")
 	private void readFromServer() {
 		Object obj = conn.read();
-		if (obj instanceof String) {
-			final String text = (String) obj;
+		if (obj instanceof SourceData) {
+			final String source = ((SourceData) obj).getSource();
+			final String name = ((SourceData) obj).getMyName();
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					if (isStarted()) {
-						chApplication.getFrame().getEditor().setText(text);
+						for (List<Object> aData : chDatas) {
+							if (aData.get(1) == name) {
+								((REApplication) aData.get(0)).getFrame()
+										.getEditor().setText(source);
+							}
+						}
+						// chApplication.getFrame().getEditor().setText(source);
 					}
 				}
 			});
@@ -183,7 +195,7 @@ public class REGoodSubManager {
 					members.add(aMember);
 				}
 			}
-			frame.setMembers(members);
+			msFrame.setMembers(members);
 			setMemberSelectorListner();
 		}
 	}
@@ -193,20 +205,20 @@ public class REGoodSubManager {
 	}
 
 	public void setMemberSelectorListner() {
-		List<JButton> buttons = new ArrayList<JButton>(frame.getButtons());
-		for (final JButton aButton : buttons) {
+		List<JButton> buttons = new ArrayList<JButton>(msFrame.getButtons());
+		for (JButton aButton : buttons) {
 			aButton.addActionListener(new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					String pushed = aButton.getText();
+					String pushed = e.getActionCommand();
 					System.out.println("pushed " + pushed);
 					// sendObject.setSelectedMember(pushed);
 					// conn.write(loginData);
-					frame.setPushed(pushed);
-					frame.setMembers(members);
+					msFrame.setPushed(pushed);
+					msFrame.setMembers(members);
 					if (application != null) {
-						doOpenNewCHE();
+						doOpenNewCHE(pushed);
 					}
 				}
 			});
