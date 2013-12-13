@@ -211,15 +211,16 @@ public class REGoodSubManager {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					String pushed = e.getActionCommand();
-					System.out.println("pushed " + pushed);
+					String name = e.getActionCommand();
+					System.out.println("pushed " + name);
 					// sendObject.setSelectedMember(pushed);
 					// conn.write(loginData);
-					msFrame.setPushed(pushed);
+					msFrame.setPushed(name);
 					msFrame.setMembers(members);
 					if (application != null) {
-						doOpenNewCHE(pushed);
+						doOpenNewCHE(name);
 					}
+					setMemberSelectorListner();
 				}
 			});
 		}
