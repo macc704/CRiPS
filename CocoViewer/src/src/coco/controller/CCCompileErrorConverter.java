@@ -42,6 +42,8 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		buf.append(CAMMA);
 		buf.append("”­¶");
 		buf.append(CAMMA);
+		buf.append("C³Š®—¹");
+		buf.append(CAMMA);
 		buf.append("C³ŠÔ");
 		// buf.append("ErrorID,ƒtƒ@ƒCƒ‹–¼,”­¶,C³ŠÔ");
 		pw.println(buf.toString());
@@ -128,13 +130,17 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 			beginTime = Long.parseLong(lines.get(12));
 		}
 
-		// C³
+		// C³Š®—¹
 		long endTime = 0;
 		if (lines.get(13).indexOf(" ") == -1) {
 			endTime = Long.parseLong(lines.get(13));
 		} else {
 			endTime = calculationCorrectTimeAsMills(lines.get(14));
 		}
+
+		// C³ŠÔ
+		int correctTime = 0;
+		correctTime = Integer.parseInt(lines.get(18));
 
 		// ƒf[ƒ^‚ğ‘‚«‚Ş
 		buf.append(String.valueOf(errorID));
@@ -144,6 +150,8 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		buf.append(String.valueOf(beginTime));
 		buf.append(CAMMA);
 		buf.append(String.valueOf(endTime));
+		buf.append(CAMMA);
+		buf.append(String.valueOf(correctTime));
 		pw.println(buf.toString());
 		// out.write(errorID + "," + filename + "," + beginTime + ","
 		// + correctTime + "\n");

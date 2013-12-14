@@ -6,17 +6,19 @@ public class CCCompileError {
 	private String filePath;
 	private long beginTime;
 	private long endTime;
+	private int correctTime;
 
 	public CCCompileError() {
 
 	}
 
 	public void setData(int errorID, String filePath, long beginTime,
-			long endTime) {
+			long endTime, int correctTime) {
 		this.errorID = errorID;
 		this.filePath = filePath;
 		this.beginTime = beginTime;
 		this.endTime = endTime;
+		this.correctTime = correctTime;
 	}
 
 	public long getBeginTime() {
@@ -47,6 +49,6 @@ public class CCCompileError {
 	}
 
 	public long getCorrectTime() {
-		return (int) ((endTime - beginTime) / 1000);
+		return correctTime;
 	}
 }

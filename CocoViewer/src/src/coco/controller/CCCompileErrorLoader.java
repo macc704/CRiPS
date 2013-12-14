@@ -25,13 +25,15 @@ public class CCCompileErrorLoader extends CCFileLoader {
 		String filePath;
 		long beginTime;
 		long endTime;
+		int correctTime;
 
 		errorID = Integer.parseInt(tokenizer[0]);
 		filePath = tokenizer[1];
 		beginTime = Long.parseLong(tokenizer[2]);
 		endTime = Long.parseLong(tokenizer[3]);
+		correctTime = Integer.parseInt(tokenizer[4]);
 
-		error.setData(errorID, filePath, beginTime, endTime);
+		error.setData(errorID, filePath, beginTime, endTime, correctTime);
 		manager.getList(errorID).addError(error);
 		manager.totalErrorCountUp();
 	}
