@@ -3,34 +3,41 @@ package src.coco.model;
 public class CCCompileError {
 
 	private int errorID;
-	private String projectname;
-	private String filename;
+	private String filePath;
 	private long beginTime;
 	private long endTime;
+	private int correctTime;
 
 	public CCCompileError() {
 
 	}
 
-	public void setData(int errorID, String projectName, String filename,
-			long beginTime, long endTime) {
+	public void setData(int errorID, String filePath, long beginTime,
+			long endTime, int correctTime) {
 		this.errorID = errorID;
-		this.projectname = projectName;
-		this.filename = filename;
+		this.filePath = filePath;
 		this.beginTime = beginTime;
 		this.endTime = endTime;
+		this.correctTime = correctTime;
 	}
 
 	public long getBeginTime() {
 		return beginTime;
 	}
 
-	public String getProjectname() {
-		return projectname;
+	public String getProjectSetName() {
+		String segments[] = filePath.split("/cash/");
+		return segments[1].split("/")[0];
+	}
+
+	public String getProjectName() {
+		String segments[] = filePath.split("/cash/");
+		return segments[1].split("/")[1];
 	}
 
 	public String getFilename() {
-		return filename;
+		String segments[] = filePath.split("/");
+		return segments[segments.length - 1];
 	}
 
 	public int getErrorID() {
@@ -42,6 +49,6 @@ public class CCCompileError {
 	}
 
 	public long getCorrectTime() {
-		return (int) ((endTime - beginTime) / 1000);
+		return correctTime;
 	}
 }

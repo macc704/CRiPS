@@ -163,6 +163,19 @@ public class PPProjectSetViewerFrame extends JFrame {
 			}
 
 			{
+				JMenuItem item = new JMenuItem(
+						"CompileError Analysis for CocoViewer");
+				item.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						printCompileErrorAnalysis(new File(
+								"./CCCompileError.csv"), true);
+					}
+				});
+				menu.add(item);
+			}
+
+			{
 				JMenuItem item = new JMenuItem("FailureKnowledgeList");
 				item.addActionListener(new ActionListener() {
 					@Override

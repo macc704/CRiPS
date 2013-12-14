@@ -161,9 +161,7 @@ public class CCGraphFrame extends JFrame {
 					final CCCompileError compileError = list.getErrors().get(
 							index);
 					// ファイルパスに必要な要素の取り出し
-					String projectname = compileError.getProjectname();
-					// final String beginTime = String.valueOf(compileError
-					// .getBeginTime());
+					String projectname = compileError.getProjectName();
 					String filename = compileError.getFilename();
 
 					// 論プロからの起動を想定，CocoViewerのみではbaseDirはnull
@@ -174,8 +172,9 @@ public class CCGraphFrame extends JFrame {
 						ppDataManager.setLibDir(libDir);
 
 						// TODO ハードコーディング
-						CDirectory projectSetDir = ppDataManager.getDataDir()
-								.findDirectory("hoge");
+						CDirectory projectSetDir = ppDataManager
+								.getDataDir()
+								.findDirectory(compileError.getProjectSetName());
 						PPProjectSet projectSet = new PPProjectSet(
 								projectSetDir);
 

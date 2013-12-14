@@ -22,28 +22,18 @@ public class CCCompileErrorLoader extends CCFileLoader {
 		// 見づらいため、直接引数に渡す→一次変数に一旦格納してから引数を渡す、に変更
 		String[] tokenizer = line.split(",");
 		int errorID;
-		String projectname = "";
-		String filename;
+		String filePath;
 		long beginTime;
 		long endTime;
+		int correctTime;
 
-		// TODO もう少しきれいに描く
-		if (tokenizer.length == 5) {
-			// 論プロから fileまでがフルパスの想定
-			errorID = Integer.parseInt(tokenizer[0]);
-			projectname = tokenizer[1];
-			filename = tokenizer[2];
-			beginTime = Long.parseLong(tokenizer[3]);
-			endTime = Long.parseLong(tokenizer[4]);
-		} else {
-			// CocoViewerStartから
-			errorID = Integer.parseInt(tokenizer[0]);
-			filename = tokenizer[1];
-			beginTime = Long.parseLong(tokenizer[2]);
-			endTime = Long.parseLong(tokenizer[3]);
-		}
+		errorID = Integer.parseInt(tokenizer[0]);
+		filePath = tokenizer[1];
+		beginTime = Long.parseLong(tokenizer[2]);
+		endTime = Long.parseLong(tokenizer[3]);
+		correctTime = Integer.parseInt(tokenizer[4]);
 
-		error.setData(errorID, projectname, filename, beginTime, endTime);
+		error.setData(errorID, filePath, beginTime, endTime, correctTime);
 		manager.getList(errorID).addError(error);
 		manager.totalErrorCountUp();
 	}
