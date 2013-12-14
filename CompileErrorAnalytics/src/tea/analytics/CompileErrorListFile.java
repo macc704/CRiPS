@@ -101,7 +101,7 @@ public class CompileErrorListFile {
 
 	private void writeErrorList(CompileErrorAnalyzerList analyze,
 			PrintWriter pw, boolean coco) {
-
+		coco = true;
 		// 静大
 		String[] line = analyze.getProject().getName().split("-");
 
@@ -245,16 +245,30 @@ public class CompileErrorListFile {
 
 			}
 
+			// cocoViewerの時はミリ秒を返す
 			// エラー発生時刻
-			buf.append(history.getStart().getTime());
-			buf.append(CAMMA);
-			// エラー修正時刻
-			if (history.getEnd() == null) {
-				buf.append("-");
+			if (coco) {
+				buf.append(history.getStart().getTime().getAsLong());
 				buf.append(CAMMA);
+				// エラー修正時刻
+				if (history.getEnd() == null) {
+					buf.append("-");
+					buf.append(CAMMA);
+				} else {
+					buf.append(history.getEnd().getTime().getAsLong());
+					buf.append(CAMMA);
+				}
 			} else {
-				buf.append(history.getEnd().getTime());
+				buf.append(history.getStart().getTime());
 				buf.append(CAMMA);
+				// エラー修正時刻
+				if (history.getEnd() == null) {
+					buf.append("-");
+					buf.append(CAMMA);
+				} else {
+					buf.append(history.getEnd().getTime());
+					buf.append(CAMMA);
+				}
 			}
 
 			// CT

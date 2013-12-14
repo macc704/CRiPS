@@ -38,9 +38,7 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 
 		buf.append("ErrorID");
 		buf.append(CAMMA);
-		buf.append("プロジェクト名");
-		buf.append(CAMMA);
-		buf.append("ファイル名");
+		buf.append("ファイルパス");
 		buf.append(CAMMA);
 		buf.append("発生時刻");
 		buf.append(CAMMA);
@@ -50,6 +48,11 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 	}
 
 	protected void separeteData(List<String> lines) throws IOException {
+		// working time = false ならデータを変換しない
+		if (lines.get(15).equals("false")) {
+			return;
+		}
+
 		StringBuffer buf = new StringBuffer();
 
 		// // errorIDはmessageListをmanagerに作ってindexOfメソッドで解決
@@ -95,26 +98,29 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		try {
 			errorID = manager.getMessagesID(message);
 		} catch (Exception e) {
+			// ErrorKinds.csv にないコンパイルエラーは別途保存する
 			errorID = addErrorID;
 			manager.put(errorID, 6, message);
 			addErrorID++;
 		}
 
+		// ファイルパスを入れておいて，CCCompileErrorのほうでfilenameなどを処理
+		String filePath = lines.get(2).replace("\\", "/");
+
 		// spiltは直接\\で区切ることができないので，いったん/に変換する
 		// 理由については後日調査すること
-		String projectname = "";
-		String filename;
-
-		String filepath = lines.get(2).replace("\\", "/");
-		String[] filepathSegments = filepath.split("/");
-		if (filepathSegments.length > 4) {
-			// 暫定論プロのみ
-			// TODO パスの切り出し方改良
-			projectname = filepathSegments[filepathSegments.length - 4];
-			filename = filepathSegments[filepathSegments.length - 1];
-		} else {
-			filename = lines.get(2);
-		}
+		// String projectname = "";
+		// String filename;
+		//
+		// String filepath = lines.get(2).replace("\\", "/");
+		// String[] filepathSegments = filepath.split("/");
+		// if (filepathSegments.length > 4) {
+		// // 暫定論プロのみ
+		// projectname = filepathSegments[filepathSegments.length - 4];
+		// filename = filepathSegments[filepathSegments.length - 1];
+		// } else {
+		// filename = lines.get(2);
+		// }
 
 		// 発生時刻
 		long beginTime = 0;
@@ -133,9 +139,7 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		// データを書き込む
 		buf.append(String.valueOf(errorID));
 		buf.append(CAMMA);
-		buf.append(projectname);
-		buf.append(CAMMA);
-		buf.append(filename);
+		buf.append(filePath);
 		buf.append(CAMMA);
 		buf.append(String.valueOf(beginTime));
 		buf.append(CAMMA);
