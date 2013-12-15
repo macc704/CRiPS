@@ -1837,15 +1837,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				.getStartPosition()));
 		// ExCallMethodModel callMethod = new ExCallMethodModel();
 		// thisキーワードブロック作成
-		ExVariableGetterModel getterModel = parseVariableGetterExpression("this");
-		getterModel.setType("object");
-		getterModel.setGenusName("");
-		ExpressionModel thisModel = (ExpressionModel) getterModel;
-		// 変数名を解析したモデルとthiisをExCallActionブロックにセット
+		ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
+		thisModel.setType("object");
+
+		// 変数名を解析したモデルとthisをExCallActionブロックにセット
 		model.setReceiver(thisModel);
-		model.setCallMethod(parseVariableGetterExpression(node.toString()
-				.substring(node.toString().indexOf("this."),
-						node.toString().length())));
+		model.setCallMethod(parseVariableGetterExpression(node.getName()
+				.toString()));
 
 		// ExCallGetterMethodModel model = new ExCallGetterMethodModel();
 		// String name = node.getExpression().toString();
