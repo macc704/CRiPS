@@ -238,11 +238,14 @@ public class NAutoRunTool extends JPanel {
 				new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, label, slider),
 				runbtn);
 		auto.setResizeWeight(1);
-		JSplitPane action = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, auto,
+		JSplitPane actionSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, auto,
 				stepbtn);
 	
-		action.setPreferredSize(action.getPreferredSize());
-		this.add(action);
+		actionSplitPane.setPreferredSize(actionSplitPane.getPreferredSize());
+		
+		//this.add(actionSplitPane);//matsuzawa
+		this.add(stepbtn);//matsuzawa
+		
 		// JSplitPane bar = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, radios, action);
 		// this.add(bar);
 	}
