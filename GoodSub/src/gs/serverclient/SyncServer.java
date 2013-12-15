@@ -89,17 +89,19 @@ public class SyncServer {
 			frame.println("name: " + myName + " add list.");
 		}
 
+		ConnectionPool myConnectionPool = null;
 		if (!groups.contains(groupNumber)) {
 			groups.add(groupNumber);
-			ConnectionPool connectionPool = new ConnectionPool();
-			connectionPool.addConnection(conn);
-			connectionPools.add(connectionPool);
+			myConnectionPool = new ConnectionPool();
+			myConnectionPool.addConnection(conn);
+			connectionPools.add(myConnectionPool);
 			frame.println("group: " + groupNumber + " add list.");
 		} else {
 			int i = 0;
 			for (int aGroup : groups) {
 				if (aGroup == groupNumber) {
-					connectionPools.get(i).addConnection(conn);
+					myConnectionPool = connectionPools.get(i);
+					myConnectionPool.addConnection(conn);
 				}
 				i++;
 			}
@@ -107,7 +109,10 @@ public class SyncServer {
 
 		frame.println(myName + " join the group No." + groupNumber);
 
-		connectionPool.broadcastAll(members);
+		if (myConnectionPool != null) {
+			myConnectionPool.setFrame(frame);
+			myConnectionPool.broadcastAll(members);
+		}
 	}
 
 }
