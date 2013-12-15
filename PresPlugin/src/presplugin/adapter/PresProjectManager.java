@@ -82,10 +82,16 @@ public class PresProjectManager {
 	}
 
 	private IPRRecordingProject createNewRecordingProject(IProject project) {
-		IPath projectPath = project.getFullPath();
-		IPath workspacePath = project.getWorkspace().getRoot().getLocation();
-		IPath projectFullPath = workspacePath.append(projectPath);
+		// 2013.12.16 前のやり方．これだとgitフォルダへ移行したとき問題がある．
+		// IPath projectPath = project.getFullPath();
+		// IPath workspacePath = project.getWorkspace().getRoot().getLocation();
+		// IPath projectFullPath = workspacePath.append(projectPath);
+		// CDirectory base = CFileSystem.findDirectory(projectFullPath.toString());
+
+		// 2013.12.16 新しいやり方．簡単なAPIができた
+		IPath projectFullPath = project.getLocation();
 		CDirectory base = CFileSystem.findDirectory(projectFullPath.toString());
+
 		PRRecordingProject rproject = new PRRecordingProject(base);
 		rproject.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*", "CVS",
 				"bin"));
