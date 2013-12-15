@@ -11,7 +11,8 @@ import src.coco.model.CCCompileErrorManager;
 public class CCConverterStart {
 
 	/**
-	 * Converter Start
+	 * コンバーターを起動する前に，testbaseに入っているcocoviewer.zipで
+	 * ppvでCCCompileError.csvを作成すること．
 	 * 
 	 * @throws IOException
 	 */
