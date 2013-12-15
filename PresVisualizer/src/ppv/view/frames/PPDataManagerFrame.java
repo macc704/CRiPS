@@ -47,6 +47,7 @@ public class PPDataManagerFrame extends JFrame {
 
 	public static final boolean AUTO_LOAD = false;
 	public static final boolean AUTO_COMPILE = false;
+	public static final boolean FOR_COCO = false;
 
 	private static final long serialVersionUID = 1L;
 
@@ -73,7 +74,7 @@ public class PPDataManagerFrame extends JFrame {
 						&& e.getClickCount() == 2) {
 					CDirectory dir = listPanel.getSelectedElement();
 					manager.openProjectSet(dir.getNameByString(), AUTO_LOAD,
-							AUTO_COMPILE, false);
+							AUTO_COMPILE, FOR_COCO);
 				}
 				if (e.getButton() == MouseEvent.BUTTON3
 						&& e.getClickCount() == 1) {

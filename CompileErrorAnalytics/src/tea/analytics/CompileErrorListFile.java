@@ -101,7 +101,6 @@ public class CompileErrorListFile {
 
 	private void writeErrorList(CompileErrorAnalyzerList analyze,
 			PrintWriter pw, boolean coco) {
-		// coco = true;
 		// Р√Се
 		String[] line = analyze.getProject().getName().split("-");
 
