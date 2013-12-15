@@ -23,6 +23,8 @@ public class SyncServer {
 	private ConnectionPool connectionPool = new ConnectionPool();
 	private List<String> members = new ArrayList<String>();
 	private List<MemberData> datas = new ArrayList<MemberData>();
+	private List<Integer> groups = new ArrayList<Integer>();
+	private List<ConnectionPool> connectionPools = new ArrayList<ConnectionPool>();
 
 	public void run() {
 
@@ -56,13 +58,13 @@ public class SyncServer {
 		}
 	}
 
-	public void loopForOneClient(Connection conn) {
+	private void loopForOneClient(Connection conn) {
 		try {
 			while (conn.established()) {
 				Object obj = conn.read();
 				if (obj instanceof LoginData) {
 					LoginData loginData = (LoginData) obj;
-					typeLogin(loginData);
+					typeLogin(loginData, conn);
 
 				} else if (obj instanceof SourceData) {
 					connectionPool.broadcast(obj, conn);
@@ -76,14 +78,35 @@ public class SyncServer {
 		}
 	}
 
-	public void typeLogin(LoginData loginData) {
+	private void typeLogin(LoginData loginData, Connection conn) {
 		String myName = loginData.getMyName();
+		int groupNumber = loginData.getGroupNumber();
+
 		if (!members.contains(myName)) {
 			members.add(myName);
 			MemberData data = new MemberData();
 			datas.add(data);
 			frame.println("name: " + myName + " add list.");
 		}
+
+		if (!groups.contains(groupNumber)) {
+			groups.add(groupNumber);
+			ConnectionPool connectionPool = new ConnectionPool();
+			connectionPool.addConnection(conn);
+			connectionPools.add(connectionPool);
+			frame.println("group: " + groupNumber + " add list.");
+		} else {
+			int i = 0;
+			for (int aGroup : groups) {
+				if (aGroup == groupNumber) {
+					connectionPools.get(i).addConnection(conn);
+				}
+				i++;
+			}
+		}
+
+		frame.println(myName + " join the group No." + groupNumber);
+
 		connectionPool.broadcastAll(members);
 	}
 

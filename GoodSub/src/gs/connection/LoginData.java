@@ -9,18 +9,18 @@ public class LoginData implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private String myName;
-	private int groupNum;
+	private int groupNumber;
 
-	public void setRoomNum(int roomNum) {
-		this.groupNum = roomNum;
+	public void setGroupNumber(int groupNumber) {
+		this.groupNumber = groupNumber;
 	}
 
 	public void setMyName(String userName) {
 		this.myName = userName;
 	}
 
-	public int getRoomNum() {
-		return groupNum;
+	public int getGroupNumber() {
+		return groupNumber;
 	}
 
 	public String getMyName() {

@@ -24,7 +24,7 @@ public class LoginDialog {
 
 		final JDialog dialog = new JDialog();
 		final JTextField nameField = new JTextField(10);
-		JTextField groupNumber = new JTextField(10);
+		final JTextField groupNumberField = new JTextField(10);
 		JPanel btnPanel = new JPanel();
 		JPanel textPanel = new JPanel();
 		JButton okButton = new JButton("OK");
@@ -35,7 +35,7 @@ public class LoginDialog {
 		dialog.setBounds(100, 100, 200, 150);
 
 		textPanel.add(nameField);
-		textPanel.add(groupNumber);
+		textPanel.add(groupNumberField);
 		btnPanel.add(okButton);
 		btnPanel.add(cancelButton);
 
@@ -44,6 +44,7 @@ public class LoginDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				name = nameField.getText();
+				groupNumber = Integer.parseInt(groupNumberField.getText());
 				dialog.dispose();
 			}
 		});

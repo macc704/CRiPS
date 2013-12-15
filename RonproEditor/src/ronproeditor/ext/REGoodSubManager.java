@@ -118,7 +118,7 @@ public class REGoodSubManager {
 
 		LoginData loginData = new LoginData();
 		loginData.setMyName(myName);
-		loginData.setRoomNum(groupNumber);
+		loginData.setGroupNumber(groupNumber);
 
 		conn.write(loginData);
 
