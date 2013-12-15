@@ -1,10 +1,10 @@
 package ronproeditor.ext;
 
 import gs.connection.Connection;
-import gs.connection.DivideRoom;
 import gs.connection.LoginData;
 import gs.connection.SourceData;
 import gs.frame.CHMemberSelectorFrame;
+import gs.frame.LoginDialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +12,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -112,18 +111,14 @@ public class REGoodSubManager {
 	}
 
 	private boolean login() {
-		DivideRoom room = new DivideRoom();
-		int groupNum = -1;
-		try {
-			groupNum = room.selectRoomNum();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		LoginDialog loginDialog = new LoginDialog();
+		loginDialog.openLoginDialog();
+		int groupNumber = loginDialog.getGroupNumber();
+		myName = loginDialog.getName();
 
 		LoginData loginData = new LoginData();
-		myName = room.getUserName();
 		loginData.setMyName(myName);
-		loginData.setRoomNum(groupNum);
+		loginData.setRoomNum(groupNumber);
 
 		conn.write(loginData);
 

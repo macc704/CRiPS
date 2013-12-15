@@ -1,14 +1,12 @@
 package gs.serverclient;
 
 import gs.connection.Connection;
-import gs.connection.DivideRoom;
 import gs.frame.GSFrame;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.net.Socket;
 
 import javax.swing.JScrollBar;
@@ -68,12 +66,12 @@ public class SyncClient {
 		conn.shakehandForClient();
 
 		// 部屋番号設定
-		DivideRoom room = new DivideRoom();
-		try {
-			roomNum = room.selectRoomNum();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		// LoginDialog room = new LoginDialog();
+		// try {
+		// roomNum = room.selectRoomNum();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 		frame.setTitle("Client4[" + roomNum + "]");
 
 		// スクロールバーのvalueと識別するためにマイナスに
