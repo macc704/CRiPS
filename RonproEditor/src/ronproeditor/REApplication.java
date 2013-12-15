@@ -256,7 +256,11 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 												・いくつかbugfix
  * 												・BlockEditor微調整
  * 												・全角スペース表示など
- * 2013/12/12 version 2.21.1 hakamata		・論プロからDENOを呼び出す際の引数にwaitrepaint追加
+ * 2013/12/15 version 2.22.0 matsuzawa		・blibの更新　blib.jar 1.5.26
+ * 											・Debuggerでupdate()が反映されるのが遅い問題を解決
+ * 												・blibの更新 waitrepaintモード
+ * 												・waitrepaint引数
+ * 												・Turtleテンプレ変更 argsを引数とする
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
@@ -274,8 +278,8 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.21.1";
-	public static final String BUILD_DATE = "2013/12/12";
+	public static final String VERSION = "2.22.0";
+	public static final String BUILD_DATE = "2013/12/15";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
