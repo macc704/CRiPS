@@ -140,13 +140,17 @@ import common.resource.CResourceFinder;
  *      ・起動時にtoFront();
  * version 1.5.25 2013/01/15
  *      ・ButtonTurtle, InputTurtleにgetText()メソッドを追加
+ * version 1.5.26 2013/12/15
+ *      ・DefaultTurtleのgetX()などの動作がおかしい問題をfix
+ *      ・debuggerでupdate()が反映されるように，waitrepaintモードを追加
+ *      ・ListTurtleのautoupdateモードを追加(defaultはfalse)
  *      
  * @author macchan
  * @version $Id: Turtle.java,v 1.11 2007/12/21 11:13:42 macchan Exp $
  */
 public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 
-	private static final String version = "1.5.25 (2013/01/15)";
+	private static final String version = "1.5.26 (2013/12/15)";
 
 	static {
 		System.out.println("Turtle Version: " + version);

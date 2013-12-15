@@ -29,6 +29,7 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 	private Color bgColor;
 
 	private boolean autohide = false;
+	private boolean autoupdate = false;
 
 	public ListTurtle() {
 		this(false, null, null);
@@ -43,6 +44,11 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 	}
 
 	public ListTurtle(boolean autohide, String name, Color bgColor) {
+		this(false, autohide, name, bgColor);
+	}
+	
+	public ListTurtle(boolean autoupdate, boolean autohide, String name, Color bgColor) {
+		this.autoupdate = autoupdate;
 		this.autohide = autohide;
 		this.name = name;
 		this.bgColor = bgColor;
@@ -268,6 +274,15 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 		resetImage();
 	}
 
+	
+	public void setAutohide(boolean autohide) {
+		this.autohide = autohide;
+	}
+	
+	public void setAutoupdate(boolean autoupdate) {
+		this.autoupdate = autoupdate;
+	}
+
 	/***************************************************************************
 	 * デバッグ用
 	 * 
@@ -369,5 +384,9 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 
 		// set to original x, y
 		warp(orgX + (width() / 2d), orgY + (height() / 2d));
+		
+		if(autoupdate){
+			update();
+		}
 	}
 }
