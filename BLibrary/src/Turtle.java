@@ -140,13 +140,17 @@ import common.resource.CResourceFinder;
  *      ・起動時にtoFront();
  * version 1.5.25 2013/01/15
  *      ・ButtonTurtle, InputTurtleにgetText()メソッドを追加
+ * version 1.5.26 2013/12/15
+ *      ・DefaultTurtleのgetX()などの動作がおかしい問題をfix
+ *      ・debuggerでupdate()が反映されるように，waitrepaintモードを追加
+ *      ・ListTurtleのautoupdateモードを追加(defaultはfalse)
  *      
  * @author macchan
  * @version $Id: Turtle.java,v 1.11 2007/12/21 11:13:42 macchan Exp $
  */
 public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 
-	private static final String version = "1.5.25 (2013/01/15)";
+	private static final String version = "1.5.26 (2013/12/15)";
 
 	static {
 		System.out.println("Turtle Version: " + version);
@@ -212,6 +216,9 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 		if (args.length >= 1 && args[0].equals("capturemode")) {
 			captureMode = true;
 			System.out.println("capturemode!");
+		}
+		if (args.length >= 1 && args[0].equals("waitrepaint")) {
+			window.canvas().setWaitRepaint(true);
 		}
 		startTurtle(turtle);
 	}
@@ -509,29 +516,44 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	public void show() {
+		if (delegator != null) {
+			delegator.show();
+			return;
+		}
 		show(true);
 	}
 
 	public void hide() {
+		if (delegator != null) {
+			delegator.hide();
+			return;
+		}
 		show(false);
 	}
 
 	public void show(boolean show) {
 		if (delegator != null) {
 			delegator.show(show);
-		} else {
-			this.show = show;
-			if (show) {
-				reshape();
-			}
+			return;
+		}
+		this.show = show;
+		if (show) {
+			reshape();
 		}
 	}
 
 	public void setShow(boolean show) {
+		if (delegator != null) {
+			delegator.setShow(show);
+			return;
+		}
 		show(show);
 	}
 
 	public boolean isShow() {
+		if (delegator != null) {
+			return delegator.isShow();
+		}
 		return show;
 	}
 
@@ -547,10 +569,18 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	public void location(Point2D location) {
+		if (delegator != null) {
+			delegator.location(location);
+			return;
+		}
 		location(location.getX(), location.getY());
 	}
 
 	public void location(double x, double y) {
+		if (delegator != null) {
+			delegator.location(x, y);
+			return;
+		}
 
 		if (penDown) {
 			Point2D newLocation = new Point2D.Double(x, y);
@@ -568,42 +598,74 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	public double x() {
+		if (delegator != null) {
+			return delegator.x();
+		}
 		return location.getX();
 	}
 
 	public double y() {
+		if (delegator != null) {
+			return delegator.y();
+		}
 		return location.getY();
 	}
 
 	public int getX() {
+		if (delegator != null) {
+			return delegator.getX();
+		}
 		return (int) x();
 	}
 
 	public int getY() {
+		if (delegator != null) {
+			return delegator.getY();
+		}
 		return (int) y();
 	}
 
 	public void x(double x) {
+		if (delegator != null) {
+			delegator.x(x);
+			return;
+		}
 		location(x, y());
 	}
 
 	public void y(double y) {
+		if (delegator != null) {
+			delegator.y(y);
+			return;
+		}
 		location(x(), y);
 	}
 
 	public double minX() {
+		if (delegator != null) {
+			return delegator.minX();
+		}
 		return x() - width() / 2;
 	}
 
 	public double minY() {
+		if (delegator != null) {
+			return delegator.minY();
+		}
 		return y() - height() / 2;
 	}
 
 	public double maxX() {
+		if (delegator != null) {
+			return delegator.maxX();
+		}
 		return x() + width() / 2;
 	}
 
 	public double maxY() {
+		if (delegator != null) {
+			return delegator.maxY();
+		}
 		return y() + height() / 2;
 	}
 
@@ -612,30 +674,51 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	public Point2D rotatedLocation() {
+		if (delegator != null) {
+			return delegator.rotatedLocation();
+		}
 		return new Point2D.Double(rotatedX(), rotatedY());
 	}
 
 	public double rotatedX() {
+		if (delegator != null) {
+			return delegator.rotatedX();
+		}
 		return shape.getBounds().getCenterX();
 	}
 
 	public double rotatedY() {
+		if (delegator != null) {
+			return delegator.rotatedY();
+		}
 		return shape.getBounds().getCenterY();
 	}
 
 	public double rotatedMinX() {
+		if (delegator != null) {
+			return delegator.rotatedMinX();
+		}
 		return rotatedX() - rotatedWidth() / 2;
 	}
 
 	public double rotatedMinY() {
+		if (delegator != null) {
+			return delegator.rotatedMinY();
+		}
 		return rotatedY() - rotatedHeight() / 2;
 	}
 
 	public double rotatedMaxX() {
+		if (delegator != null) {
+			return delegator.rotatedMaxX();
+		}
 		return rotatedX() + rotatedWidth() / 2;
 	}
 
 	public double rotatedMaxY() {
+		if (delegator != null) {
+			return delegator.rotatedMaxY();
+		}
 		return rotatedY() + rotatedHeight() / 2;
 	}
 
@@ -651,10 +734,18 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	public void size(Dimension2D dimension) {
+		if (delegator != null) {
+			delegator.size(dimension);
+			return;
+		}
 		size(dimension.getWidth(), dimension.getHeight());
 	}
 
 	public void size(double width, double height) {
+		if (delegator != null) {
+			delegator.size(width, height);
+			return;
+		}
 
 		if (width <= 0.1) {
 			width = 0.1;
@@ -669,58 +760,110 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	public double width() {
+		if (delegator != null) {
+			return delegator.width();
+		}
 		return size().getWidth();
 	}
 
 	public double height() {
+		if (delegator != null) {
+			return delegator.height();
+		}
 		return size().getHeight();
 	}
 
 	public int getWidth() {
+		if (delegator != null) {
+			return delegator.getWidth();
+		}
 		return (int) width();
 	}
 
 	public int getHeight() {
+		if (delegator != null) {
+			return delegator.getHeight();
+		}
 		return (int) height();
 	}
 
 	public void width(double width) {
+		if (delegator != null) {
+			delegator.width(width);
+			return;
+		}
 		size(width, height());
 	}
 
 	public void height(double height) {
+		if (delegator != null) {
+			delegator.height(height);
+			return;
+		}
 		size(width(), height);
 	}
 
 	public void large(double width, double height) {
+		if (delegator != null) {
+			delegator.large(width, height);
+			return;
+		}
 		size(width() + width, height() + height);
 	}
 
 	public void large(double length) {
+		if (delegator != null) {
+			delegator.large(length);
+			return;
+		}
 		large(length, length);
 	}
 
 	public void wide(double length) {
+		if (delegator != null) {
+			delegator.wide(length);
+			return;
+		}
 		large(length, 0);
 	}
 
 	public void tall(double length) {
+		if (delegator != null) {
+			delegator.tall(length);
+			return;
+		}
 		large(0, length);
 	}
 
 	public void small(double width, double height) {
+		if (delegator != null) {
+			delegator.small(width, height);
+			return;
+		}
 		large(-width, -height);
 	}
 
 	public void small(double length) {
+		if (delegator != null) {
+			delegator.small(length);
+			return;
+		}
 		large(-length);
 	}
 
 	public void narrow(double length) {
+		if (delegator != null) {
+			delegator.narrow(length);
+			return;
+		}
 		wide(-length);
 	}
 
 	public void little(double length) {
+		if (delegator != null) {
+			delegator.little(length);
+			return;
+		}
 		tall(-length);
 	}
 
@@ -729,10 +872,16 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	public double rotatedWidth() {
+		if (delegator != null) {
+			return delegator.rotatedWidth();
+		}
 		return shape.getBounds().getWidth();
 	}
 
 	public double rotatedHeight() {
+		if (delegator != null) {
+			return delegator.rotatedHeight();
+		}
 		return shape.getBounds().getHeight();
 	}
 
@@ -741,19 +890,33 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	public Rectangle2D bounds() {
+		if (delegator != null) {
+			return delegator.bounds();
+		}
 		return new Rectangle2D.Double(minX(), minY(), width(), height());
 	}
 
 	public void bounds(Rectangle2D r) {
+		if (delegator != null) {
+			delegator.bounds(r);
+			return;
+		}
 		location(r.getCenterX(), r.getCenterY());
 		size(r.getWidth(), r.getHeight());
 	}
 
 	public void bounds(double x, double y, double width, double height) {
+		if (delegator != null) {
+			delegator.bounds(x, y, width, height);
+			return;
+		}
 		bounds(new Rectangle2D.Double(x, y, width, height));
 	}
 
 	public Rectangle2D rotatedBounds() {
+		if (delegator != null) {
+			return delegator.rotatedBounds();
+		}
 		return shape.getBounds();
 	}
 
@@ -762,26 +925,45 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	public Point2D balance() {
+		if (delegator != null) {
+			return delegator.balance();
+		}
 		return balance;
 	}
 
 	public double balanceX() {
+		if (delegator != null) {
+			return delegator.balanceX();
+		}
 		return balance().getX();
 	}
 
 	public double balanceY() {
+		if (delegator != null) {
+			return delegator.balanceY();
+		}
 		return balance().getY();
 	}
 
 	public int getBalanceX() {
+		if (delegator != null) {
+			return delegator.getBalanceX();
+		}
 		return (int) balanceX();
 	}
 
 	public int getBalanceY() {
+		if (delegator != null) {
+			return delegator.getBalanceY();
+		}
 		return (int) balanceY();
 	}
 
 	public void balance(double percentX, double percentY) {
+		if (delegator != null) {
+			delegator.balance(percentX, percentY);
+			return;
+		}
 		double xMag = percentX / 100d;
 		double yMag = percentY / 100d;
 
@@ -826,7 +1008,10 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	public void move(double length, double direction) {
-
+		if (delegator != null) {
+			delegator.move(length, direction);
+			return;
+		}
 		double theta = theta(angle() + direction() + direction);
 		double xLength = Math.sin(theta) * length;
 		double yLength = -Math.cos(theta) * length;
@@ -840,12 +1025,17 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	public void warp(double x, double y) {
 		if (delegator != null) {
 			delegator.location(x, y);
-		} else {
-			location(x, y);
+			return;
 		}
+
+		location(x, y);
 	}
 
 	public void warpByTopLeft(double x, double y) {
+		if (delegator != null) {
+			delegator.warpByTopLeft(x, y);
+			return;
+		}
 		double centerX = x + width() / 2;
 		double centerY = y + height() / 2;
 		warp(centerX, centerY);
@@ -856,32 +1046,57 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	public void scale(double scale) {
+		if (delegator != null) {
+			delegator.scale(scale);
+			return;
+		}
 		scale(scale, scale);
 	}
 
 	public void scale(double scaleX, double scaleY) {
+		if (delegator != null) {
+			delegator.scale(scaleX, scaleY);
+			return;
+		}
 		size(width() * scaleX, height() * scaleY);
 	}
 
 	public void resetScale(double scale) {
+		if (delegator != null) {
+			delegator.resetScale(scale);
+			return;
+		}
 		Rectangle2D org = originalBounds();
 		size(org.getWidth() * scale, org.getHeight() * scale);
 	}
 
 	public void resetScale() {
+		if (delegator != null) {
+			delegator.resetScale();
+			return;
+		}
 		resetScale(1d);
 	}
 
 	public Scale scale() {
+		if (delegator != null) {
+			return delegator.scale();
+		}
 		Rectangle2D org = originalBounds();
 		return new Scale(org.getWidth(), org.getHeight(), width(), height());
 	}
 
 	public double scaleX() {
+		if (delegator != null) {
+			return delegator.scaleX();
+		}
 		return scale().x();
 	}
 
 	public double scaleY() {
+		if (delegator != null) {
+			return delegator.scaleY();
+		}
 		return scale().y();
 	}
 
@@ -890,31 +1105,42 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	public void angle(double angle) {
+		if (delegator != null) {
+			delegator.scale(angle);
+			return;
+		}
 		this.angle = angle;
 		dirty = true;
 	}
 
 	public double angle() {
+		if (delegator != null) {
+			return delegator.angle();
+		}
 		return angle;
 	}
 
 	public void rt(double angle) {
 		if (delegator != null) {
 			delegator.rt(angle);
-		} else {
-			rotate(angle);
+			return;
 		}
+		rotate(angle);
 	}
 
 	public void lt(double angle) {
 		if (delegator != null) {
 			delegator.lt(angle);
-		} else {
-			rotate(-angle);
+			return;
 		}
+		rotate(-angle);
 	}
 
 	public void rotate(double angle) {
+		if (delegator != null) {
+			delegator.rotate(angle);
+			return;
+		}
 		angle(this.angle + angle);
 	}
 
@@ -923,22 +1149,41 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	public void direction(double direction) {
+		if (delegator != null) {
+			delegator.direction(direction);
+			return;
+		}
 		this.direction = direction;
 	}
 
 	public double direction() {
+		if (delegator != null) {
+			return delegator.direction();
+		}
 		return direction;
 	}
 
 	public void directionRt(double direction) {
+		if (delegator != null) {
+			delegator.directionRt(direction);
+			return;
+		}
 		rotateDirection(direction);
 	}
 
 	public void directionLt(double direction) {
+		if (delegator != null) {
+			delegator.directionLt(direction);
+			return;
+		}
 		rotateDirection(-direction);
 	}
 
 	public void rotateDirection(double direction) {
+		if (delegator != null) {
+			delegator.rotateDirection(direction);
+			return;
+		}
 		direction(this.direction + direction);
 	}
 
@@ -947,10 +1192,16 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	protected double theta() {
+		if (delegator != null) {
+			return delegator.theta();
+		}
 		return theta(angle());
 	}
 
 	protected double theta(double angle) {
+		if (delegator != null) {
+			return delegator.theta(angle);
+		}
 		// return angle / 360d * 2d * Math.PI;
 		return Math.toRadians(angle);
 	}
@@ -962,17 +1213,19 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	public void up() {
 		if (delegator != null) {
 			delegator.up();
-		} else {
-			penDown = false;
+			return;
 		}
+
+		penDown = false;
 	}
 
 	public void down() {
 		if (delegator != null) {
 			delegator.down();
-		} else {
-			penDown = true;
+			return;
 		}
+
+		penDown = true;
 	}
 
 	/***************************************************
@@ -982,12 +1235,15 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	public void color(Color penColor) {
 		if (delegator != null) {
 			delegator.color(penColor);
-		} else {
-			this.penColor = penColor;
+			return;
 		}
+		this.penColor = penColor;
 	}
 
 	public Color color() {
+		if (delegator != null) {
+			return delegator.color();
+		}
 		return penColor;
 	}
 
@@ -996,6 +1252,10 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	public boolean intersects(Turtle target) {
+		if (delegator != null) {
+			return delegator.intersects(target);
+		}
+
 		if (!isShow() || !target.isShow()) {
 			return false;
 		}
@@ -1016,6 +1276,10 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	public boolean contains(double x, double y) {
+		if (delegator != null) {
+			return delegator.contains(x, y);
+		}
+
 		if (!isShow()) {
 			return false;
 		}

@@ -19,8 +19,10 @@ import java.util.Iterator;
 public class TurtleCanvas extends Canvas {
 
 	private Object mappedLock = "mappedLock";
-
 	private boolean mapped = false;
+
+	private boolean waitRepaint = false;
+	private Object waitRepaintLock = "waitRepaintLock";
 
 	private Image offScreen = null;
 
@@ -37,8 +39,20 @@ public class TurtleCanvas extends Canvas {
 
 	// for canvas
 
+	public void repaint() {
+		if (waitRepaint) {
+			synchronized (waitRepaintLock) {
+				super.repaint();
+				waitRepaint();
+			}
+		} else {
+			super.repaint();
+		}
+	}
+
 	public void update(Graphics g) {
 		paint(g);
+		releaseWaitingRepaint();
 	}
 
 	public void paint(Graphics g) {
@@ -100,7 +114,7 @@ public class TurtleCanvas extends Canvas {
 		}
 	}
 
-	public void mappedNotify() {
+	private void mappedNotify() {
 		synchronized (mappedLock) {
 			if (!mapped) {
 				mapped = true;
@@ -109,4 +123,22 @@ public class TurtleCanvas extends Canvas {
 		}
 	}
 
+	public void setWaitRepaint(boolean waitRepaint) {
+		this.waitRepaint = waitRepaint;
+	}
+
+	private void waitRepaint() {
+		synchronized (waitRepaintLock) {
+			try {
+				waitRepaintLock.wait();
+			} catch (InterruptedException e) {
+			}
+		}
+	}
+
+	private void releaseWaitingRepaint() {
+		synchronized (waitRepaintLock) {
+			waitRepaintLock.notify();
+		}
+	}
 }
