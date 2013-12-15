@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Pres Core
+Bundle-SymbolicName: jp.ac.shizuoka.inf.ce.cs.pres.core;singleton:=true
+Bundle-Version: 3.7.2
+Bundle-Activator: pres.PresCorePlugin
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ jp.ac.shizuoka.inf.ce.cs.commonlibrary;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5,
+ JavaSE-1.6,
+ JavaSE-1.7
+Bundle-Vendor: Yoshiaki Matsuzawa
+Export-Package: pres,
+ pres.application,
+ pres.application.gui,
+ pres.core,
+ pres.core.model,
+ pres.core.text,
+ pres.loader.logmodel,
+ pres.loader.model,
+ pres.loader.utils,
+ pres.testing
+Bundle-ClassPath: .
