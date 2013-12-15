@@ -180,7 +180,7 @@ public class REGoodSubManager {
 				public void run() {
 					if (isStarted()) {
 						for (List<Object> aData : chDatas) {
-							if (aData.get(1) == name) {
+							if (name.equals(aData.get(1))) {
 								((REApplication) aData.get(0)).getFrame()
 										.getEditor().setText(source);
 							}
