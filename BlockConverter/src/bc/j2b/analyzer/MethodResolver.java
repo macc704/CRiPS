@@ -189,14 +189,13 @@ public class MethodResolver {
 		userMethods.put(signature, returnType);
 		putArgumentLabels(signature, arguments);
 	}
-	
+
 	public void putUserConstructor(String name,
-			List<SingleVariableDeclaration> arguments){
+			List<SingleVariableDeclaration> arguments) {
 		String signature = toSignature(name, arguments);
 		userConstructor.add(signature);
 		putArgumentLabels(signature, arguments);
 	}
-	
 
 	public void reset() {
 		userMethods.clear();

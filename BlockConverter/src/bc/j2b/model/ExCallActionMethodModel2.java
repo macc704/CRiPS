@@ -47,7 +47,7 @@ public class ExCallActionMethodModel2 extends ExpressionModel {
 			cmd = false;
 			connectorType = convertJavaTypeToBlockType(((ExpressionModel) callMethod)
 					.getType());
-			System.out.println(callMethod instanceof ExpressionModel);
+
 			genusName = "callGetterMethod2";
 		}
 
