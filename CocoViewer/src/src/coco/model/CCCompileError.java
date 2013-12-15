@@ -36,8 +36,8 @@ public class CCCompileError {
 	}
 
 	public String getFilename() {
-		String segments[] = filePath.split("/");
-		return segments[segments.length - 1];
+		String segments[] = filePath.split("/ProjectBase/");
+		return segments[1];
 	}
 
 	public int getErrorID() {

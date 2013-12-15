@@ -140,8 +140,6 @@ public class CCGraphFrame extends JFrame {
 		rootPanel.add(chartpanel, BorderLayout.WEST);
 	}
 
-	// TODO: Eclipse対応できてない
-	// TODO: ハードコーディング問題
 	private void makeSourceList() {
 		// java7からDefaultListModelに格納するクラスを指定しなければならない
 		DefaultListModel<String> model = new DefaultListModel<String>();
@@ -171,7 +169,6 @@ public class CCGraphFrame extends JFrame {
 						PPDataManager ppDataManager = new PPDataManager(base);
 						ppDataManager.setLibDir(libDir);
 
-						// TODO ハードコーディング
 						CDirectory projectSetDir = ppDataManager
 								.getDataDir()
 								.findDirectory(compileError.getProjectSetName());
@@ -179,7 +176,7 @@ public class CCGraphFrame extends JFrame {
 								projectSetDir);
 
 						// TODO 毎回コンパイルする問題
-						// ProjectViewerFrameで実際に発生しているコンパイルエラーを出力したいので，コンパイルはtrue
+						// ProjectViewerFrameで実際に発生しているコンパイルエラーを出力したいので，現状コンパイルはtrue
 						ppDataManager.loadProjectSet(projectSet, true, true);
 						IPLUnit model = null;
 						for (PLProject project : projectSet.getProjects()) {

@@ -9,6 +9,11 @@ import clib.common.filesystem.CFileSystem;
 
 public class CCViewerStart {
 
+	/**
+	 * PPVでコンパイルしていない場合，ProjectViewerFrameは開かない（開くファイルのデータがないため）
+	 * 
+	 */
+
 	public static void main(String[] args) {
 		new CCViewerStart().run();
 	}
