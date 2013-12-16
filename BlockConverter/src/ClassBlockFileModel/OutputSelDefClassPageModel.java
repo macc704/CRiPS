@@ -18,12 +18,14 @@ public class OutputSelDefClassPageModel {
 
 	private File file;
 	// private String[] classpaths;
-
 	private List<ObjectBlockModel> requestObjectBlock = new ArrayList<ObjectBlockModel>();
 	private FileInputStream ldfReader;
+	private String javaFileName;
 
-	public OutputSelDefClassPageModel(File file, File menuFile) {
+	public OutputSelDefClassPageModel(File file, String javaFileName) {
 		this.file = file;
+		this.javaFileName = javaFileName.substring(0,
+				javaFileName.indexOf(".java"));
 	}
 
 	public void setSelDefClassModel(List<ObjectBlockModel> models) {
@@ -120,6 +122,36 @@ public class OutputSelDefClassPageModel {
 
 			makeIndent(ps, --lineNum);
 			ps.println("</BlockDrawer>");
+
+			ps.println("<BlockDrawer name=\"Œp³ƒƒ\ƒbƒh\" type=\"factory\" button-color=\"255 155 64\">");
+			lineNum++;
+			addedMethods.clear();
+			for (ObjectBlockModel request : requestObjectBlock) {
+				if (request.getClassName().equals(javaFileName)) {
+					for (String key : request.getMethods().keySet()) {
+						for (PublicMethodInfo method : request.getMethods()
+								.get(key)) {
+							if (addedMethods.get(Integer.toString((method
+									.hashCode()))) == null
+									&& !key.equals(javaFileName)) {
+								PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
+								writer.setMethods(method);
+								writer.printMenuItem(ps, lineNum);
+								addedMethods.put(
+										Integer.toString(method.hashCode()),
+										method);
+							}
+						}
+					}
+				}
+			}
+
+			// requestObjectBlock.get(0).getClassName().equals()
+			// selDefClass.printMenuItem(ps, lineNum);
+
+			makeIndent(ps, --lineNum);
+			ps.println("</BlockDrawer>");
+
 			makeIndent(ps, --lineNum);
 			ps.println("</BlockDrawerSet>");
 

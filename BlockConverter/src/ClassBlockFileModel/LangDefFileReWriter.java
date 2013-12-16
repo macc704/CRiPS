@@ -41,7 +41,7 @@ public class LangDefFileReWriter {
 
 		// 同じディレクトリ内のすべてのjavaファイルをパースし、モデルに追加する
 		OutputSelDefClassPageModel selfDefModel = new OutputSelDefClassPageModel(
-				classDefFile, projectMenuFile);
+				classDefFile, this.file.getName());
 		for (String name : file.getParentFile().list()) {
 			if (name.endsWith(".java")) {
 				// javaファイル解析
