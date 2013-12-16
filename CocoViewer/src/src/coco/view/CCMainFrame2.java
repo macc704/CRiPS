@@ -16,14 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
-import src.coco.model.CCCompileErrorList;
+import src.coco.model.CCCompileErrorKind;
 import src.coco.model.CCCompileErrorManager;
 
 public class CCMainFrame2 extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public static final String APP_NAME = "CoCo Viewer";
@@ -97,7 +94,16 @@ public class CCMainFrame2 extends JFrame {
 
 	private void setCompileErrorNumber(JPanel headerPanel) {
 		JLabel label = new JLabel();
-		String string = "あなたのこれまでの総コンパイルエラー数 ： " + manager.getTotalErrorCount();
+		int count = manager.getTotalErrorCount();
+		long time = manager.getTotalErrorCorrectionTime();
+		long hour = time / 60 / 60;
+		long minute = (time / 60) % 60;
+		long second = time % 60;
+		String timeStr = hour + "時間" + minute + "分" + second + "秒";
+		long avg = time / count;
+		String string = "<html>これまでのコンパイルエラー修正数: " + count
+				+ "　　これまでのコンパイルエラー修正時間累計: " + timeStr + "　　１つあたり修正時間平均: " + avg + "秒"
+				+ "</html>";
 		label.setText(string);
 		label.setMaximumSize(new Dimension(width, height / 24));
 		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
@@ -125,9 +131,9 @@ public class CCMainFrame2 extends JFrame {
 		ArrayList<CCErrorElementButton2> buttons = new ArrayList<CCErrorElementButton2>();
 
 		// エラーIDごとの数値を書き込み、ボタンを実装する
-		for (CCCompileErrorList list : manager.getAllLists()) {
+		for (CCCompileErrorKind allKinds : manager.getAllKinds()) {
 			CCErrorElementButton2 button = new CCErrorElementButton2(
-					buttonWidth, buttonHeight, list, manager.getLibDir(),
+					buttonWidth, buttonHeight, allKinds, manager.getLibDir(),
 					manager.getBase());
 			buttons.add(button);
 		}
@@ -140,15 +146,15 @@ public class CCMainFrame2 extends JFrame {
 		int i = 1;
 		for (int x = 0; x < Math.sqrt(errorkindsCount); x++) {
 			for (int y = 0; y < Math.sqrt(errorkindsCount); y++) {
-				if (manager.getAllLists().size() >= i) {
-					if (manager.getList(i).getErrors().size() > 0) {
+				if (manager.getAllKinds().size() >= i) {
+					if (manager.getKind(i).getErrors().size() > 0) {
 						buttonEreaPanel.add(buttons.get(i - 1));
 					} else {
-						buttonEreaPanel.add(setEmptyButton());
+						buttonEreaPanel.add(setEmptyButton(manager.getKind(i)));
 					}
 					i++;
 				} else {
-					buttonEreaPanel.add(setEmptyButton());
+					buttonEreaPanel.add(setEmptyButton(null));
 				}
 			}
 		}
@@ -175,8 +181,17 @@ public class CCMainFrame2 extends JFrame {
 		rootPanel.add(scrollPanel, BorderLayout.SOUTH);
 	}
 
-	private JButton setEmptyButton() {
-		JButton emptyButton = new JButton("未発生");
+	private JButton setEmptyButton(CCCompileErrorKind kind) {
+		String message = "";
+		if (kind != null) {
+			message = kind.getMessage();
+		}
+		String rare = "";
+		if (kind != null) {
+			rare = "(レア度" + Integer.toString(kind.getRare()) + ")";
+		}
+		JButton emptyButton = new JButton("<html><center>未発生</center><br/>"
+				+ message + rare + "</html>");
 		emptyButton.setEnabled(false);
 		emptyButton.setToolTipText("未発生です");
 		emptyButton.setBackground(Color.GRAY);

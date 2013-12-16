@@ -22,9 +22,9 @@ public class CCAddCompileErrorKinds {
 			throws IOException {
 		copyFile(inFileName, outFileName);
 		FileWriter writer = new FileWriter(outFileName, true);
-		while (manager.getAllLists().size() >= lines) {
+		while (manager.getAllKinds().size() >= lines) {
 			String errorID = Integer.toString(lines);
-			String message = manager.getList(lines).getMessage();
+			String message = manager.getKind(lines).getMessage();
 
 			writer.write(errorID + "," + 6 + "," + message + "\n");
 			lines++;

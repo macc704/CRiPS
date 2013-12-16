@@ -35,7 +35,7 @@ import pres.loader.model.IPLUnit;
 import pres.loader.model.PLFile;
 import pres.loader.model.PLProject;
 import src.coco.model.CCCompileError;
-import src.coco.model.CCCompileErrorList;
+import src.coco.model.CCCompileErrorKind;
 import clib.common.filesystem.CDirectory;
 import clib.common.time.CTime;
 
@@ -50,7 +50,7 @@ public class CCGraphFrame extends JFrame {
 	private int height = 560;
 
 	private JPanel rootPanel = new JPanel();
-	private CCCompileErrorList list;
+	private CCCompileErrorKind list;
 
 	private CDirectory libDir;
 	private CDirectory base;
@@ -59,7 +59,7 @@ public class CCGraphFrame extends JFrame {
 	JScrollPane scrollPanel;
 
 	// default
-	public CCGraphFrame(CCCompileErrorList list, CDirectory libDir,
+	public CCGraphFrame(CCCompileErrorKind list, CDirectory libDir,
 			CDirectory base) {
 		this.list = list;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -95,7 +95,7 @@ public class CCGraphFrame extends JFrame {
 		// ÉOÉâÉtÉfÅ[É^Çê›íËÇ∑ÇÈ
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
-			dataset.addValue(list.getErrors().get(i).getCorrectTime(), "èCê≥éûä‘",
+			dataset.addValue(list.getErrors().get(i).getCorrectionTime(), "èCê≥éûä‘",
 					Integer.toString(i + 1));
 		}
 
@@ -145,7 +145,7 @@ public class CCGraphFrame extends JFrame {
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		for (int i = 0; i < list.getErrors().size(); i++) {
 			model.addElement((i + 1) + " âÒñ⁄ÇÃèCê≥éûä‘ ÅF "
-					+ list.getErrors().get(i).getCorrectTime() + "ïb");
+					+ list.getErrors().get(i).getCorrectionTime() + "ïb");
 		}
 
 		final JList<String> jlist = new JList<String>(model);
