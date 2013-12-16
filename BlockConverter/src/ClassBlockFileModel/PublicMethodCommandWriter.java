@@ -13,8 +13,13 @@ public class PublicMethodCommandWriter extends BasicModel {
 	public void printCommands(PrintStream out) {
 		int lineNum = 0;
 		makeIndent(out, lineNum);
-		out.println("<BlockGenus name=\"" + method.getName()
-				+ "\" kind=\"command\" initlabel=\"" + method.getName()
+		String kind = "command";
+		if (method.getreturnType() != null
+				&& !method.getreturnType().equals("void")) {
+			kind = "function";
+		}
+		out.println("<BlockGenus name=\"" + method.getName() + "\" kind=\""
+				+ kind + "\" initlabel=\"" + method.getName()
 				+ "\" color=\"255 0 0\">");
 
 		makeIndent(out, ++lineNum);
@@ -22,6 +27,15 @@ public class PublicMethodCommandWriter extends BasicModel {
 			out.println("<BlockConnectors>");
 
 			++lineNum;
+
+			if (method.getreturnType() != null
+					&& !method.getreturnType().equals("void")) {
+				makeIndent(out, lineNum);
+				out.println("<BlockConnector connector-kind=\"plug\" connector-type=\""
+						+ convertParameterType(method.getreturnType())
+						+ "\"></BlockConnector>");
+			}
+
 			for (String parameter : method.getParameters()) {
 				// TODO connector-type‚ğˆø”‚ÌŒ`‚Å•Ï‚¦‚é@parameter‚Í int
 				// xx‚Ì‚æ‚¤‚ÈŒ^{•Ï”–¼‚ÌŒ`‚Å•Û‚³‚ê‚Ä‚¢‚é‚±‚Æ‚É’ˆÓ‚³‚ê‚½‚µ

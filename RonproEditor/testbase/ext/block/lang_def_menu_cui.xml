@@ -20,7 +20,8 @@
 		<BlockGenusMember>proc-param-double-number</BlockGenusMember>
 		<BlockGenusMember>proc-param-boolean</BlockGenusMember>
 		<BlockGenusMember>proc-param-string</BlockGenusMember>
-		<BlockGenusMember>return</BlockGenusMember>	
+		<BlockGenusMember>return</BlockGenusMember>
+        <BlockGenusMember>constructor</BlockGenusMember>
 	</BlockDrawer>
 	
 	<BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20">
