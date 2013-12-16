@@ -118,7 +118,7 @@ public class TurtleCanvas extends Canvas {
 		synchronized (mappedLock) {
 			if (!mapped) {
 				mapped = true;
-				mappedLock.notify();
+				mappedLock.notifyAll();
 			}
 		}
 	}
