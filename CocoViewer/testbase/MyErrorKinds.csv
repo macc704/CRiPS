@@ -47,17 +47,3 @@ ErrorID,rare,ErrorMessage
 46,4,breakがswitch文またはループの外にあります
 47,5,戻り値がありません
 48,5,整数が大き過ぎます
-49,6,例外Aは報告されません。スローするには、捕捉または宣言する必要があります
-50,6,Aに適切なメソッドが見つかりません
-51,6,単項演算子Aのオペランド型Bが不正です
-52,6,'{'がありません
-53,6,Aに適切なコンストラクタが見つかりません
-54,6,coco.view.CCErrorElementButtonはabstractでなく、java.awt.event.MouseListener内のabstractメソッドmouseExited(java.awt.event.MouseEvent)をオーバーライドしません
-55,6,java.awt.Componentのwidthはpublicではありません。パッケージ外からはアクセスできません
-56,6,java.awt.Componentのheightはpublicではありません。パッケージ外からはアクセスできません
-57,6,superの呼出しはコンストラクタの先頭文である必要があります
-58,6,クラスAのメソッドBは指定された型に適用できません。
-59,6,coco.view.CCErrorElementButton.MyMouseListenerはabstractでなく、org.jfree.chart.ChartMouseListener内のabstractメソッドchartMouseMoved(org.jfree.chart.ChartMouseEvent)をオーバーライドしません
-60,6,coco.view.CCErrorElementButtonはabstractでなく、org.jfree.chart.ChartMouseListener内のabstractメソッドchartMouseMoved(org.jfree.chart.ChartMouseEvent)をオーバーライドしません
-61,6,class、interfaceまたはenumがありません
-62,6,クラスAのコンストラクタBは指定された型に適用できません。

@@ -13,13 +13,13 @@ import src.coco.model.CCCompileErrorManager;
 public class CCCompileErrorConverter extends CCCsvFileLoader {
 
 	private CCCompileErrorManager manager;
-	private int addErrorID;
+	// private int addErrorID;
 	private String CAMMA = ",";
 	PrintWriter pw;
 
 	public CCCompileErrorConverter(CCCompileErrorManager manager) {
 		this.manager = manager;
-		addErrorID = manager.getAllLists().size() + 1;
+		// addErrorID = manager.getAllLists().size() + 1;
 	}
 
 	public void convertData(String inFileName, String outFileName)
@@ -100,10 +100,11 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		try {
 			errorID = manager.getMessagesID(message);
 		} catch (Exception e) {
+			return;
 			// ErrorKinds.csv にないコンパイルエラーは別途保存する
-			errorID = addErrorID;
-			manager.put(errorID, 6, message);
-			addErrorID++;
+			// errorID = addErrorID;
+			// manager.put(errorID, 6, message);
+			// addErrorID++;
 		}
 
 		// ファイルパスを入れておいて，CCCompileErrorのほうでfilenameなどを処理
