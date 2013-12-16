@@ -43,13 +43,16 @@ public class CCMainFrame2 extends JFrame {
 	// For GUI
 	private JPanel rootPanel = new JPanel();
 
-	public CCMainFrame2(CCCompileErrorManager manager) {
+	private int errorkindsCount;
+
+	public CCMainFrame2(CCCompileErrorManager manager, int errorkindsCount) {
 		this.manager = manager;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		this.width = d.width * 3 / 4;
 		this.height = d.height * 3 / 4;
 		this.buttonWidth = this.width / 8;
 		this.buttonHeight = this.height / 8;
+		this.errorkindsCount = errorkindsCount;
 		initialize();
 	}
 
@@ -87,7 +90,7 @@ public class CCMainFrame2 extends JFrame {
 		headerPanel.setMaximumSize(new Dimension(width, height / 24));
 
 		setCompileErrorNumber(headerPanel);
-		setAchivementsButton(headerPanel);
+		// setAchivementsButton(headerPanel);
 
 		rootPanel.add(headerPanel, BorderLayout.NORTH);
 	}
@@ -109,14 +112,14 @@ public class CCMainFrame2 extends JFrame {
 		headerPanel.add(label, BorderLayout.WEST);
 	}
 
-	private void setAchivementsButton(JPanel headerPanel) {
-		// TODO Hard Coding
-		JLabel label = new JLabel("実績ボタン");
-		CCAchivementButton achivementButton = new CCAchivementButton(manager,
-				"Achivement.csv", label);
-		headerPanel.add(achivementButton, BorderLayout.EAST);
-		achivementButton.setVisible(false);
-	}
+	// private void setAchivementsButton(JPanel headerPanel) {
+	// // TODO Hard Coding
+	// JLabel label = new JLabel("実績ボタン");
+	// CCAchivementButton achivementButton = new CCAchivementButton(manager,
+	// "Achivement.csv", label);
+	// headerPanel.add(achivementButton, BorderLayout.EAST);
+	// achivementButton.setVisible(false);
+	// }
 
 	private void setButtonsPanel() {
 		ArrayList<CCErrorElementButton2> buttons = new ArrayList<CCErrorElementButton2>();
@@ -135,8 +138,8 @@ public class CCMainFrame2 extends JFrame {
 				((height * 15 / 16) / buttonHeight), (width / buttonWidth)));
 
 		int i = 1;
-		for (int x = 0; x < width || manager.getAllLists().size() > i; x += buttonWidth) {
-			for (int y = height / 16; y < height - buttonHeight; y += buttonHeight) {
+		for (int x = 0; x < Math.sqrt(errorkindsCount); x++) {
+			for (int y = 0; y < Math.sqrt(errorkindsCount); y++) {
 				if (manager.getAllLists().size() >= i) {
 					if (manager.getList(i).getErrors().size() > 0) {
 						buttonEreaPanel.add(buttons.get(i - 1));
@@ -149,6 +152,24 @@ public class CCMainFrame2 extends JFrame {
 				}
 			}
 		}
+
+		// int i = 1;
+		// for (int x = 0; x < width || manager.getAllLists().size() > i; x +=
+		// buttonWidth) {
+		// for (int y = height / 16; y < height - buttonHeight; y +=
+		// buttonHeight) {
+		// if (manager.getAllLists().size() >= i) {
+		// if (manager.getList(i).getErrors().size() > 0) {
+		// buttonEreaPanel.add(buttons.get(i - 1));
+		// } else {
+		// buttonEreaPanel.add(setEmptyButton());
+		// }
+		// i++;
+		// } else {
+		// buttonEreaPanel.add(setEmptyButton());
+		// }
+		// }
+		// }
 
 		JScrollPane scrollPanel = new JScrollPane(buttonEreaPanel);
 		rootPanel.add(scrollPanel, BorderLayout.SOUTH);

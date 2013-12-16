@@ -26,11 +26,13 @@ public class CCViewerStart {
 
 		CCCompileErrorLoader errorloader = new CCCompileErrorLoader(manager);
 		errorloader.load("CompileErrorLog.csv");
+
 		CDirectory baseDir = CFileSystem.getHomeDirectory()
 				.findOrCreateDirectory(".ppvdata");
 		manager.setBase(baseDir);
 		manager.setLibDir(baseDir.findOrCreateDirectory("ppv.lib"));
-		CCMainFrame2 frame = new CCMainFrame2(manager);
+
+		CCMainFrame2 frame = new CCMainFrame2(manager, kindloader.getLines());
 		frame.setVisible(true);
 	}
 }
