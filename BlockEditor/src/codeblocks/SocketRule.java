@@ -93,7 +93,8 @@ public class SocketRule implements LinkRule {
 				&& ((block.getPlug().getBlockID() == Block.NULL && sBlock
 						.getBlockID() != Block.NULL) || (block.getPlug()
 						.getBlockID() != Block.NULL && sBlock.getBlockID() == Block.NULL))
-				&& block.getKind().equals(sBlock.getKind())) {
+				&& block.getKind().equals(sBlock.getKind())
+				&& !block.getKind().contains("param")) {
 			replaceBlock(block, socket);
 			return true;
 		}
@@ -128,13 +129,13 @@ public class SocketRule implements LinkRule {
 				.getBlockID());
 		RenderableBlock socketRb = RenderableBlock.getRenderableBlock(socket
 				.getBlockID());
-		//socketRb.setLocation(socketRb.getX() + rb.getBlockWidth(),
-		//	socketRb.getY());//ここでブロックの移動をしている
-		if (!BlockAnimationThread.isRun()) {
-			BlockAnimationThread t1 = new BlockAnimationThread(socketRb,
-					"right");
-			t1.start();
-		}
+		socketRb.setLocation(socketRb.getX() + rb.getBlockWidth(),
+				socketRb.getY());//ここでブロックの移動をしている
+		//		if (!BlockAnimationThread.isRun()) {
+		//			BlockAnimationThread t1 = new BlockAnimationThread(socketRb,
+		//					"right");
+		//			//t1.start();
+		//		}
 
 		/*int end = socketRb.getX() + rb.getBlockWidth();
 		while(socketRb.getX() < end){

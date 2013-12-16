@@ -270,8 +270,8 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.20.0";
-	public static final String BUILD_DATE = "2013/10/22";
+	public static final String VERSION = "2.22.0";
+	public static final String BUILD_DATE = "2013/12/15";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
@@ -899,7 +899,7 @@ public class REApplication implements ICFwApplication {
 		// パス等取得
 		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager()
 				.getRootDirectory(), getSourceManager().getCurrentFile());
-		String args[] = new String[5];
+		String args[] = new String[6];
 		// ソースパス
 		args[0] = "-sourcepath";
 		args[1] = env.dir.getAbsolutePath();
@@ -914,6 +914,8 @@ public class REApplication implements ICFwApplication {
 		args[3] = libString;
 		// クラス名
 		args[4] = env.runnable;
+		// waitrepaint
+		args[5] = "waitrepaint";
 
 		// xml
 		// String[] libs = getLibraryManager().getLibsAsArray();

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="plugin_export" name="build">
+	<tstamp>
+		<format property="now.time" pattern="yyyyMMddhhmm"/>
+	</tstamp>	
+	<target name="plugin_export">
+		<pde.exportPlugins destination="dest" exportSource="false" exportType="zip" filename="presplugin-${now.time}.zip" plugins="jp.ac.shizuoka.inf.ce.cs.commonlibrary,jp.ac.shizuoka.inf.ce.cs.pres.core,jp.ac.shizuoka.inf.cs.ce.pres.eclipseui" qualifier="${now.time}" useJARFormat="true"/>
+	</target>
+</project>

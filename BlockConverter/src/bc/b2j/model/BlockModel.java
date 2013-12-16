@@ -20,8 +20,8 @@ public abstract class BlockModel {
 	private boolean isCollapsed = false;
 	// #ohata added block position
 	private int posX = 0;
-	private int posY = 0; 
-	private String comment = "any comment";
+	private int posY = 0;
+	private String comment = "";
 
 	// Defines a NULL id for a Block
 	public static final int NULL = Integer.valueOf(-1);
@@ -36,7 +36,7 @@ public abstract class BlockModel {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -179,17 +179,16 @@ public abstract class BlockModel {
 		this.text = text;
 	}
 
-	
-	//#ohata added
+	// #ohata added
 	/**
-	 * @param posX,posY
-	 *            the position to set
+	 * @param posX
+	 *            ,posY the position to set
 	 */
-	public void setPosition(int x,int y) {
+	public void setPosition(int x, int y) {
 		this.posX = x;
 		this.posY = y;
 	}
-	
+
 	/**
 	 * 
 	 * @return posX
@@ -197,7 +196,7 @@ public abstract class BlockModel {
 	protected int getX() {
 		return this.posX;
 	}
-	
+
 	/**
 	 * 
 	 * @return posY
@@ -205,15 +204,15 @@ public abstract class BlockModel {
 	protected int getY() {
 		return this.posY;
 	}
-	
-	public void setComment(String str){
+
+	public void setComment(String str) {
 		this.comment = str;
 	}
-	protected String getComment(){
+
+	protected String getComment() {
 		return this.comment;
 	}
-	
-	
+
 	/**
 	 * 
 	 * @return
@@ -229,10 +228,11 @@ public abstract class BlockModel {
 	protected boolean isCollapsed() {
 		return isCollapsed;
 	}
-	
-	protected String getName(){
+
+	protected String getName() {
 		return name;
 	}
+
 	/**
 	 * 
 	 * @param out
@@ -247,7 +247,7 @@ public abstract class BlockModel {
 	public void checkError() {
 
 	}
-	
+
 	public void makeIndent(PrintStream out, int number) {
 		// for (int i = 0; i < number; i++) {
 		// out.print("\t");

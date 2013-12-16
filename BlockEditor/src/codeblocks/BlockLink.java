@@ -135,7 +135,8 @@ public class BlockLink {
 			Block plugBlock = Block.getBlock(lastPlugBlockID);
 			BlockConnector plugBlockPlug = BlockLinkChecker
 					.getPlugEquivalent(plugBlock);
-			if (plugBlockPlug != null && plugBlockPlug.hasBlock()) {
+			if (plugBlockPlug != null && plugBlockPlug.hasBlock()
+					&& !plug.getKind().contains("param")) {
 				Block socketBlock = Block.getBlock(plugBlockPlug.getBlockID());
 				BlockLink link = BlockLink.getBlockLink(plugBlock, socketBlock,
 						plugBlockPlug, socket);

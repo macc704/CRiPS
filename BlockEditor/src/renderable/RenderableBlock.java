@@ -50,7 +50,6 @@ import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.extent.SAbstractionBlockShape;
 import bc.BCSystem;
 import codeblocks.Block;
-import codeblocks.BlockAnimationThread;
 import codeblocks.BlockConnector;
 import codeblocks.BlockConnectorShape;
 import codeblocks.BlockLink;
@@ -2161,7 +2160,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					Block.getBlock(link.getSocketBlockID()),
 					Block.getBlock(link.getPlugBlockID()).getPlug(), Block
 							.getBlock(link.getSocketBlockID()).getSocketAt(0)) != null) {*/
-
 			link.connect();
 			//try {
 			Workspace.getInstance().notifyListeners(
@@ -2173,11 +2171,30 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			// wc.saveString(wc.getSaveString());
 			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
 		} else {
-			blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID)
-					.getY()
-					+ RenderableBlock.getRenderableBlock(blockID).getWidth(),
-					"down");
+			moveSocketBlocks(this);
+			//			this.setLocation(this.getX(), this.getY() + 50);
+			//			Workspace.getInstance().notifyListeners(
+			//					new WorkspaceEvent(widget, link,
+			//							WorkspaceEvent.BLOCK_MOVED, true));
+			//			Workspace.getInstance().getMiniMap().repaint();
+			//RenderableBlock.getRenderableBlock(blockID)
+			//			blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID)
+			//					.getY()
+			//					+ RenderableBlock.getRenderableBlock(blockID).getWidth(),
+			//					"down");
 		}
+	}
+
+	private void moveSocketBlocks(RenderableBlock rb) {
+		for (BlockConnector socket : BlockLinkChecker.getSocketEquivalents(rb
+				.getBlock())) {
+			if (socket.hasBlock()) {
+				RenderableBlock socketBlock = RenderableBlock
+						.getRenderableBlock(socket.getBlockID());
+				moveSocketBlocks(socketBlock);
+			}
+		}
+		rb.setLocation(rb.getX(), rb.getY() + 50);
 	}
 
 	//abstractionブロック内のブロックのスコープをチェックする
@@ -2226,11 +2243,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return scopeCheck;
 	}
 
-	private void blockSlideMoveAnimetion(int endPosition, String direction) {
-		RenderableBlock rb = RenderableBlock.getRenderableBlock(blockID);
-		BlockAnimationThread th = new BlockAnimationThread(rb, direction);
-		th.start();
-	}
+	//	private void blockSlideMoveAnimetion(int endPosition, String direction) {
+	//		RenderableBlock rb = RenderableBlock.getRenderableBlock(blockID);
+	//		BlockAnimationThread th = new BlockAnimationThread(rb, direction);
+	//		th.start();
+	//	}
 
 	public void mouseDragged(MouseEvent e) {
 

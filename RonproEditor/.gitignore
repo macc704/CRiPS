@@ -7,3 +7,4 @@
 *.log
 .pres2
 /testbase/MyProjects
+/testbase/*.log
