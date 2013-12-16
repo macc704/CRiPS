@@ -96,7 +96,7 @@ public class LangDefFileReWriter {
 		FileReader reader = new FileReader(classFile);
 		br = new BufferedReader(reader);
 		String str;
-		Pattern p = Pattern.compile("[^ ]+");
+		Pattern p = Pattern.compile("[^ ^{]+");
 		Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
 		while ((str = br.readLine()) != null) {
 			if (str.contains("extends")) {
