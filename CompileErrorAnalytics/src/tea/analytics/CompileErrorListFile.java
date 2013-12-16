@@ -327,7 +327,7 @@ public class CompileErrorListFile {
 
 		String fileName = history.getSegments().getFirst().getCompileError()
 				.getSourceName();
-		fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+		fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
 
 		// åxçêÇÃèÍçá
 		if (fileName.equals("no name")) {
