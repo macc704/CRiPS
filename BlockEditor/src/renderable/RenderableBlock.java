@@ -2129,7 +2129,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				|| e.isControlDown()) {
 			// add context menu at right click location to provide functionality
 			// for adding new comments and removing comments
-			System.out.println("this:" + getName());
 			JPopupMenu popup = ContextMenu.getContextMenuFor(this);
 			add(popup);
 			popup.show(this, e.getX(), e.getY());
@@ -2231,11 +2230,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				scopeCheck &= scpChecker.checkScope(
 						Block.getBlock(link.getSocketBlockID()),
 						Block.getBlock(socket.getBlockID()));
-				System.out.println(Block.getBlock(link.getSocketBlockID())
-						.getFooterLabel()
-						+ Block.getBlock(socket.getBlockID()).getBlockLabel()
-						+ "result" + scopeCheck);
-
 			}
 		}
 
