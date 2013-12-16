@@ -5,7 +5,6 @@ import java.awt.Color;
 import bc.BCSystem;
 import codeblocks.Block;
 import codeblocks.BlockConnector;
-import codeblocks.BlockLinkChecker;
 
 public class ScopeChecker {
 
@@ -49,41 +48,33 @@ public class ScopeChecker {
 					compareBlock.getBlockLabel().indexOf(
 							compareBlock.getLabelSuffix()));
 
-			if (originBlock == null) {//探索対象のブロックが存在しない
-				RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
-						.setBlockHighlightColor(Color.RED);
-				BCSystem.out.println("cant find beforeBlock:"
-						+ cmpBlock.getBlockLabel());
-				return false;
-			}
-
-			//参照元を探索する
-			long originID = searchCompareBlockOrigin(cmpBlock, compareBlockName);
-			if (originID == -1) {
-				originID = searchCompareBlockOrigin(beforeBlock,
-						compareBlockName);
-			}
-
-			if (originID == -1) {//参照元の探索に失敗
-				originBlock = cmpBlock;
-				originBlock = purcePlugBlock(originBlock);
-				while (Block.getBlock(originBlock.getAfterBlockID()) != null) {
-					originBlock = Block.getBlock(originBlock.getAfterBlockID());
-				}
-				//自分の持ってるブロックの中を探索
-				originID = searchCompareBlockOrigin(originBlock,
-						compareBlockName);
-				//失敗
-				if (originID == -1) {
-					BCSystem.out.println("doesnt exist originBlock:"
-							+ cmpBlock.getBlockLabel());
-					RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
-							.setBlockHighlightColor(Color.RED);
-					return false;
-				}
-			}
-
-			originBlock = Block.getBlock(originID);//参照元ブロック
+			//			//参照元を探索する
+			//			long originID = searchCompareBlockOrigin(cmpBlock, compareBlockName);
+			//			if (originID == -1) {
+			//				originID = searchCompareBlockOrigin(beforeBlock,
+			//						compareBlockName);
+			//			}
+			//
+			//			if (originID == -1) {//参照元の探索に失敗
+			//				originBlock = cmpBlock;
+			//				originBlock = purcePlugBlock(originBlock);
+			//				while (Block.getBlock(originBlock.getAfterBlockID()) != null) {
+			//					originBlock = Block.getBlock(originBlock.getAfterBlockID());
+			//				}
+			//				//自分の持ってるブロックの中を探索
+			//				originID = searchCompareBlockOrigin(originBlock,
+			//						compareBlockName);
+			//				//失敗
+			//				if (originID == -1) {
+			//					BCSystem.out.println("doesnt exist originBlock:"
+			//							+ cmpBlock.getBlockLabel());
+			//					RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
+			//							.setBlockHighlightColor(Color.RED);
+			//					return false;
+			//				}
+			//			}
+			//
+			//			originBlock = Block.getBlock(originID);//参照元ブロック
 			//			//スコープチェックするブロックの所属する親を探す
 			//			Block compareBlockParent = Block
 			//					.getBlock(searchParentBlockID(RenderableBlock
@@ -101,8 +92,8 @@ public class ScopeChecker {
 			//			}
 
 			//所属できる場所かどうか確認する
-			if (confirmCompareBlockIsBelongable(cmpBlock, originBlock,
-					beforeBlock)) {
+			if (confirmCompareBlockIsBelongable(cmpBlock, beforeBlock,
+					compareBlockName)) {
 				return true;
 			}
 			BCSystem.out.println("cant belong block:"
@@ -125,99 +116,129 @@ public class ScopeChecker {
 		return block;
 	}
 
-	private long searchCompareBlockOrigin(Block originBlock,
-			String compareBlockName) {
-		while (!originBlock.getGenusName().equals("procedure")) {
-			if (originBlock.getBlockLabel().equals(compareBlockName)) {//ラベルを確認して、一致するか　
-				return originBlock.getBlockID();
-			}
+	//	private long searchCompareBlockOrigin(Block originBlock,
+	//			String compareBlockName) {
+	//		while (!originBlock.getGenusName().equals("procedure")) {
+	//			if (originBlock.getBlockLabel().equals(compareBlockName)) {//ラベルを確認して、一致するか　
+	//				return originBlock.getBlockID();
+	//			}
+	//
+	//			if (originBlock.getGenusName().equals("abstraction")) {
+	//				long result = searchCompareOriginBlockInAbstructionBlock(
+	//						Block.getBlock(originBlock.getSocketAt(0).getBlockID()),
+	//						compareBlockName);
+	//				if (result != -1) {
+	//					return result;
+	//				}
+	//			}
+	//
+	//			originBlock = Block.getBlock(originBlock.getBeforeBlockID());//ブロック更新
+	//
+	//			if (originBlock == null) {//終了条件
+	//				return -1;
+	//			}
+	//		}
+	//		//procedureまで辿り着いたら、引数ブロックをチェック　
+	//		for (BlockConnector socket : BlockLinkChecker
+	//				.getSocketEquivalents(originBlock)) {
+	//			if (Block.getBlock(socket.getBlockID()) == null) {
+	//				break;
+	//			}
+	//
+	//			if (Block.getBlock(socket.getBlockID()).getBlockLabel()
+	//					.equals(compareBlockName)) {//ラベルを確認して、一致するか　一致したらbreak;
+	//				return originBlock.getBlockID();//便宜上proceureブロックを返す
+	//			}
+	//		}
+	//		return -1;//procedureまで辿り着いたら、参照元の探索に失敗
+	//	}
 
-			if (originBlock.getGenusName().equals("abstraction")) {
-				long result = searchCompareOriginBlockInAbstructionBlock(
-						Block.getBlock(originBlock.getSocketAt(0).getBlockID()),
-						compareBlockName);
-				if (result != -1) {
-					return result;
-				}
-			}
-
-			originBlock = Block.getBlock(originBlock.getBeforeBlockID());//ブロック更新
-
-			if (originBlock == null) {//終了条件
-				return -1;
-			}
-		}
-		//procedureまで辿り着いたら、引数ブロックをチェック　
-		for (BlockConnector socket : BlockLinkChecker
-				.getSocketEquivalents(originBlock)) {
-			if (Block.getBlock(socket.getBlockID()) == null) {
-				break;
-			}
-
-			if (Block.getBlock(socket.getBlockID()).getBlockLabel()
-					.equals(compareBlockName)) {//ラベルを確認して、一致するか　一致したらbreak;
-				return originBlock.getBlockID();//便宜上proceureブロックを返す
-			}
-		}
-		return -1;//procedureまで辿り着いたら、参照元の探索に失敗
-	}
-
-	private long searchCompareOriginBlockInAbstructionBlock(Block start,
-			String compareBlockName) {
-		if (start == null) {
-			return -1;
-		}
-		while (!start.getBlockLabel().equals(compareBlockName)) {
-			start = Block.getBlock(start.getAfterBlockID());
-			if (start == null) {
-				return -1;
-			}
-		}
-		return start.getBlockID();
-	}
+	//	private long searchCompareOriginBlockInAbstructionBlock(Block start,
+	//			String compareBlockName) {
+	//		if (start == null) {
+	//			return -1;
+	//		}
+	//		while (!start.getBlockLabel().equals(compareBlockName)) {
+	//			start = Block.getBlock(start.getAfterBlockID());
+	//			if (start == null) {
+	//				return -1;
+	//			}
+	//		}
+	//		return start.getBlockID();
+	//	}
 
 	//参照ブロックが所属できるかどうか確認する. 参照ブロックから上に順番にたどっていって、スコープがあっているか確認する
+	//引数　スコープを確認するブロック:cmpblock 結合先の一番前のブロック:beforelock
 	private boolean confirmCompareBlockIsBelongable(Block cmpBlock,
-			Block originBlock, Block beforeBlock) {
+			Block beforeBlock, String originBlockName) {
 		if (cmpBlock.getPlugBlockID() != -1) {
 			while (cmpBlock.getPlugBlockID() != -1) {
 				cmpBlock = Block.getBlock(cmpBlock.getPlugBlockID());
 			}
 		}
-		if (cmpBlock.getBeforeBlockID() != -1) {
-			if (searchOriginBlock(Block.getBlock(cmpBlock.getBeforeBlockID()),
-					originBlock)) {
+		while (cmpBlock != null) {
+			if (cmpBlock.getBlockLabel().equals(originBlockName)) {
 				return true;
 			}
+			//procedureだった場合
+			if (RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
+					.getGenus().equals("procedure")) {
+				for (BlockConnector socket : cmpBlock.getSockets()) {
+					if (socket.getBlockID() != -1) {
+						if (Block.getBlock(socket.getBlockID()).getBlockLabel()
+								.equals(originBlockName)) {
+							return true;
+						}
+					}
+				}
+			}
+			cmpBlock = Block.getBlock(cmpBlock.getBeforeBlockID());
 		}
-		if (searchOriginBlock(beforeBlock, originBlock)) {
-			return true;
+		cmpBlock = beforeBlock;
+
+		while (cmpBlock != null) {
+			if (cmpBlock.getBlockLabel().equals(originBlockName)) {
+				return true;
+			}
+			//procedureだった場合ソケットをすべて確認して
+			if (RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
+					.getGenus().equals("procedure")) {
+				for (BlockConnector socket : cmpBlock.getSockets()) {
+					if (socket.getBlockID() != -1) {
+						if (Block.getBlock(socket.getBlockID()).getBlockLabel()
+								.equals(originBlockName)) {
+							return true;
+						}
+					}
+				}
+			}
+			cmpBlock = Block.getBlock(cmpBlock.getBeforeBlockID());
 		}
 		return false;
 	}
 
-	private boolean searchOriginBlock(Block start, Block origin) {
-		Block checkBlock = Block.getBlock(start.getBlockID());
-		while (checkBlock != null) {
-			//参照元のidと一緒か？
-			if (checkBlock.getBlockID() == origin.getBlockID()) {
-				return true;
-			}
-
-			//			if (checkBlock.getSockets() != null) {//ソケットにブロックを持っている
-			//				for (BlockConnector socket : checkBlock.getSockets()) {
-			//					if (confirmCompareBlockIsBelongable(
-			//							Block.getBlock(socket.getBlockID()),
-			//							compareBlock)) {
-			//						return true;
-			//					}
-			//				}
-			//			}
-			checkBlock = Block.getBlock(checkBlock.getBeforeBlockID());
-		}
-
-		return false;
-	}
+	//	private boolean searchOriginBlock(Block start, Block origin) {
+	//		Block checkBlock = Block.getBlock(start.getBlockID());
+	//		while (checkBlock != null) {
+	//			//参照元のidと一緒か？
+	//			if (checkBlock.getBlockID() == origin.getBlockID()) {
+	//				return true;
+	//			}
+	//
+	//			//			if (checkBlock.getSockets() != null) {//ソケットにブロックを持っている
+	//			//				for (BlockConnector socket : checkBlock.getSockets()) {
+	//			//					if (confirmCompareBlockIsBelongable(
+	//			//							Block.getBlock(socket.getBlockID()),
+	//			//							compareBlock)) {
+	//			//						return true;
+	//			//					}
+	//			//				}
+	//			//			}
+	//			checkBlock = Block.getBlock(checkBlock.getBeforeBlockID());
+	//		}
+	//
+	//		return false;
+	//	}
 
 	//	private boolean searchStubs(Block block, long compareBlockParentID) {
 	//		for (BlockConnector socket : block.getSockets()) {
