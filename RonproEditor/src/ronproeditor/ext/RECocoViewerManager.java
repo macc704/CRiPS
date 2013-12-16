@@ -11,7 +11,8 @@ public class RECocoViewerManager {
 	REApplication application;
 
 	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvフォルダに展開する
-	private static String KINDS_FILE = "MyErrorKinds.csv";
+	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv"; // ext内のErrorKinds
+	// private static String KINDS_FILE = "MyErrorKinds.csv";
 	private static String DATA_FILE = "CompileErrorLog.csv";
 
 	private int errorKindsCount;
@@ -41,7 +42,7 @@ public class RECocoViewerManager {
 
 		CCCompileErrorKindLoader kindLoader = new CCCompileErrorKindLoader(
 				manager);
-		kindLoader.load(ppvRootPath + KINDS_FILE);
+		kindLoader.load(KINDS_FILE);
 		errorKindsCount = kindLoader.getLines();
 
 		CCCompileErrorLoader errorLoader = new CCCompileErrorLoader(manager);
