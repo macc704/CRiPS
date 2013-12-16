@@ -22,7 +22,7 @@ public class CCViewerStart {
 		CCCompileErrorManager manager = new CCCompileErrorManager();
 		CCCompileErrorKindLoader kindloader = new CCCompileErrorKindLoader(
 				manager);
-		kindloader.load("MyErrorKinds.csv");
+		kindloader.load("ErrorKinds.csv");
 
 		CCCompileErrorLoader errorloader = new CCCompileErrorLoader(manager);
 		errorloader.load("CompileErrorLog.csv");

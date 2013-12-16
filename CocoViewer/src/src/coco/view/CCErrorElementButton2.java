@@ -94,7 +94,7 @@ public class CCErrorElementButton2 extends JButton {
 		numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		numberAxis.setVerticalTickLabels(false);
 		numberAxis.setAutoRangeStickyZero(true);
-		numberAxis.setRangeWithMargins(0, 60);
+		numberAxis.setRangeWithMargins(0, 120);
 		numberAxis.setLabelFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
 		// xé≤ÇÃê›íË
