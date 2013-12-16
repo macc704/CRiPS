@@ -21,7 +21,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import src.coco.model.CCCompileErrorList;
+import src.coco.model.CCCompileErrorKind;
 import clib.common.filesystem.CDirectory;
 
 public class CCErrorElementButton2 extends JButton {
@@ -32,7 +32,7 @@ public class CCErrorElementButton2 extends JButton {
 
 	private static final long serialVersionUID = 1L;
 
-	private CCCompileErrorList list;
+	private CCCompileErrorKind list;
 
 	private CDirectory libDir;
 	private CDirectory base;
@@ -40,7 +40,7 @@ public class CCErrorElementButton2 extends JButton {
 	private ChartPanel chartpanel;
 
 	public CCErrorElementButton2(int buttonWidth, int buttonHeight,
-			CCCompileErrorList list, CDirectory libDir, CDirectory base) {
+			CCCompileErrorKind list, CDirectory libDir, CDirectory base) {
 		this.list = list;
 		this.libDir = libDir;
 		this.base = base;
@@ -66,7 +66,7 @@ public class CCErrorElementButton2 extends JButton {
 		// グラフデータを設定する
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
-			dataset.addValue(list.getErrors().get(i).getCorrectTime(), "修正時間",
+			dataset.addValue(list.getErrors().get(i).getCorrectionTime(), "修正時間",
 					Integer.toString(i + 1));
 		}
 

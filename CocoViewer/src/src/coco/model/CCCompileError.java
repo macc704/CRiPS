@@ -8,11 +8,7 @@ public class CCCompileError {
 	private long endTime;
 	private int correctTime;
 
-	public CCCompileError() {
-
-	}
-
-	public void setData(int errorID, String filePath, long beginTime,
+	public CCCompileError(int errorID, String filePath, long beginTime,
 			long endTime, int correctTime) {
 		this.errorID = errorID;
 		this.filePath = filePath;
@@ -48,7 +44,7 @@ public class CCCompileError {
 		return endTime;
 	}
 
-	public long getCorrectTime() {
+	public long getCorrectionTime() {
 		return correctTime;
 	}
 }

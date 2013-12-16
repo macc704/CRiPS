@@ -17,8 +17,6 @@ public class CCCompileErrorLoader extends CCFileLoader {
 
 	@Override
 	protected void separeteData(String line) {
-		CCCompileError error = new CCCompileError();
-
 		// Œ©‚Ã‚ç‚¢‚½‚ßA’¼Úˆø”‚É“n‚·¨ˆêŸ•Ï”‚Éˆê’UŠi”[‚µ‚Ä‚©‚çˆø”‚ğ“n‚·A‚É•ÏX
 		String[] tokenizer = line.split(",");
 		int errorID;
@@ -33,8 +31,7 @@ public class CCCompileErrorLoader extends CCFileLoader {
 		endTime = Long.parseLong(tokenizer[3]);
 		correctTime = Integer.parseInt(tokenizer[4]);
 
-		error.setData(errorID, filePath, beginTime, endTime, correctTime);
-		manager.getList(errorID).addError(error);
-		manager.totalErrorCountUp();
+		CCCompileError error = new CCCompileError(errorID, filePath, beginTime, endTime, correctTime);
+		manager.addError(error);
 	}
 }

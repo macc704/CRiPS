@@ -7,10 +7,12 @@ import java.util.List;
 import clib.common.filesystem.CDirectory;
 
 public class CCCompileErrorManager {
-	// HashMapでは順序が保証されないのでLinkedHashMapに変更
-	private LinkedHashMap<Integer, CCCompileErrorList> lists = new LinkedHashMap<Integer, CCCompileErrorList>();
+
+	private LinkedHashMap<Integer, CCCompileErrorKind> kinds = new LinkedHashMap<Integer, CCCompileErrorKind>();
 	private LinkedHashMap<String, Integer> ids = new LinkedHashMap<String, Integer>();
+
 	private int totalErrorCount = 0;
+	private long totalErrorCorrectionTime = 0;
 
 	// ソースコード参照用
 	private CDirectory base = null;
@@ -37,43 +39,41 @@ public class CCCompileErrorManager {
 	}
 
 	public void put(int id, int rare, String message) {
-		CCCompileErrorList list = new CCCompileErrorList();
-		list.setMessageData(rare, message);
-		lists.put(id, list);
+		CCCompileErrorKind list = new CCCompileErrorKind(rare, message);
+		kinds.put(id, list);
 		ids.put(message, id);
 	}
 
-	public CCCompileErrorList getList(int id) {
-		if (!lists.containsKey(id)) {
+	public CCCompileErrorKind getKind(int id) {
+		if (!kinds.containsKey(id)) {
 			put(id, 6, "dummy");
 		}
-		return lists.get(id);
+		return kinds.get(id);
 	}
 
-	public void totalErrorCountUp() {
-		totalErrorCount++;
-	}
-
-	public int getTotalErrorCount() {
-		return totalErrorCount;
-	}
-
-	public List<CCCompileErrorList> getAllLists() {
-		return new ArrayList<CCCompileErrorList>(lists.values());
+	public List<CCCompileErrorKind> getAllKinds() {
+		return new ArrayList<CCCompileErrorKind>(kinds.values());
 	}
 
 	public int getMessagesID(String message) {
 		return ids.get(message);
 	}
 
-	public int getAllCorrectTime() {
-		int correctTime = 0;
-		for (CCCompileErrorList errorlist : lists.values()) {
-			for (CCCompileError compileError : errorlist.getErrors()) {
-				correctTime += compileError.getCorrectTime();
-			}
-		}
+	// public void totalErrorCountUp() {
+	// totalErrorCount++;
+	// }
 
-		return correctTime;
+	public int getTotalErrorCount() {
+		return totalErrorCount;
+	}
+
+	public long getTotalErrorCorrectionTime() {
+		return totalErrorCorrectionTime;
+	}
+
+	public void addError(CCCompileError error) {
+		getKind(error.getErrorID()).addError(error);
+		totalErrorCorrectionTime += error.getCorrectionTime();
+		totalErrorCount++;
 	}
 }

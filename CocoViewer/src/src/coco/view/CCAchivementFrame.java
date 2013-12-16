@@ -109,7 +109,7 @@ public class CCAchivementFrame extends JFrame {
 
 	private boolean compileErrorKindsAchive(CCAchivementData data) {
 		// コンパイルエラー種類による報酬
-		int kinds = manager.getAllLists().size();
+		int kinds = manager.getAllKinds().size();
 		if (kinds > data.getThreshold()) {
 			System.out.println("ErrorKinds : " + data.getHirotitle() + " : "
 					+ data.getExplanation());
@@ -120,12 +120,11 @@ public class CCAchivementFrame extends JFrame {
 
 	private boolean compileErrorCorrectTimeAchive(CCAchivementData data) {
 		// コンパイルエラー修正時間による報酬
-		int correctTime = manager.getAllCorrectTime();
-		if (correctTime > data.getThreshold()) {
-			System.out.println("CorrectTime : " + data.getHirotitle() + " : "
-					+ data.getExplanation());
+		long correctionTime = manager.getTotalErrorCorrectionTime();
+		if (correctionTime > data.getThreshold()) {
+			//System.out.println("CorrectionTime : " + data.getHirotitle() + " : "	+ data.getExplanation());
 		}
 
-		return correctTime > data.getThreshold();
+		return correctionTime > data.getThreshold();
 	}
 }
