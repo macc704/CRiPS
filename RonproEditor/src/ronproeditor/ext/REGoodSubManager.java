@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -207,7 +208,11 @@ public class REGoodSubManager {
 			setMemberSelectorListner();
 		} else if (obj instanceof File) {
 			File root = (File) obj;
-			System.out.println("get root " + root.getName());
+			List<File> projects = new ArrayList<File>();
+			projects = Arrays.asList(root.listFiles());
+			for (File aProject : projects) {
+				System.out.println("project : " + aProject.getName());
+			}
 		}
 	}
 
