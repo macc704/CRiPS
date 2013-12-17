@@ -1,7 +1,4 @@
-package gs.serverclient;
-
-import gs.connection.Connection;
-import gs.frame.GSFrame;
+package ch.serverclient;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -10,6 +7,9 @@ import java.awt.event.MouseEvent;
 import java.net.Socket;
 
 import javax.swing.JScrollBar;
+
+import ch.connection.Connection;
+import ch.frame.GSFrame;
 
 public class SyncClient {
 

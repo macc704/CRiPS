@@ -1,4 +1,4 @@
-package gs.connection;
+package ch.connection;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

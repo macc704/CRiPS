@@ -1,18 +1,19 @@
-package gs.serverclient;
+package ch.serverclient;
 
-import gs.connection.Connection;
-import gs.connection.ConnectionPool;
-import gs.connection.LoginData;
-import gs.connection.MemberData;
-import gs.connection.SourceData;
-import gs.frame.GSFrame;
-
+import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+
+import ch.connection.Connection;
+import ch.connection.ConnectionPool;
+import ch.datas.LoginData;
+import ch.datas.MemberData;
+import ch.datas.SourceData;
+import ch.frame.GSFrame;
 
 public class SyncServer {
 	public static void main(String[] args) {
@@ -67,6 +68,8 @@ public class SyncServer {
 					typeLogin(loginData, conn);
 
 				} else if (obj instanceof SourceData) {
+					connectionPool.broadcast(obj, conn);
+				} else if (obj instanceof File) {
 					connectionPool.broadcast(obj, conn);
 				}
 			}

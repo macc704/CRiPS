@@ -1,6 +1,8 @@
-package gs.connection;
+package ch.datas;
 
 import java.io.Serializable;
+
+import ch.connection.Connection;
 
 public class MemberData implements Serializable {
 

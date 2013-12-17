@@ -1,10 +1,10 @@
-package gs.connection;
-
-import gs.frame.GSFrame;
+package ch.connection;
 
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+
+import ch.frame.GSFrame;
 
 public class ConnectionPool {
 

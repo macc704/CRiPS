@@ -1,17 +1,14 @@
 package ronproeditor.ext;
 
-import gs.connection.Connection;
-import gs.connection.LoginData;
-import gs.connection.SourceData;
-import gs.frame.CHMemberSelectorFrame;
-import gs.frame.LoginDialog;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +19,11 @@ import javax.swing.SwingUtilities;
 
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
-import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
+import ch.connection.Connection;
+import ch.datas.LoginData;
+import ch.datas.SourceData;
+import ch.frame.CHMemberSelectorFrame;
+import ch.frame.LoginDialog;
 
 public class REGoodSubManager {
 
@@ -32,7 +32,6 @@ public class REGoodSubManager {
 	private REApplication application;
 	private Connection conn;
 	private REApplication chApplication;
-	private JButton connButton;
 	private boolean started;
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
@@ -58,7 +57,6 @@ public class REGoodSubManager {
 	public void startGoodSub() {
 
 		initializeListener();
-		sendMyFiles();
 
 		new Thread() {
 			public void run() {
@@ -76,9 +74,20 @@ public class REGoodSubManager {
 				SourceData sourceData = new SourceData();
 				sourceData.setMyName(myName);
 				sourceData.setSource(viewer.getText());
+				sourceData.setCurrentFileName(application.getSourceManager()
+						.getCCurrentFile().getNameByString());
 				conn.write(sourceData);
 			}
 		});
+
+		application.getSourceManager().addPropertyChangeListener(
+				new PropertyChangeListener() {
+
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+
+					}
+				});
 	}
 
 	private void connectServer() {
@@ -100,6 +109,8 @@ public class REGoodSubManager {
 			msFrame.open();
 			System.out.println("client established");
 		}
+
+		sendRootDirectory();
 
 		try {
 			while (conn.established()) {
@@ -143,7 +154,7 @@ public class REGoodSubManager {
 
 		started = false;
 
-		connButton = new JButton("Start");
+		final JButton connButton = new JButton("Start");
 		connButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -183,7 +194,6 @@ public class REGoodSubManager {
 										.getEditor().setText(source);
 							}
 						}
-						// chApplication.getFrame().getEditor().setText(source);
 					}
 				}
 			});
@@ -195,6 +205,9 @@ public class REGoodSubManager {
 			}
 			msFrame.setMembers(members);
 			setMemberSelectorListner();
+		} else if (obj instanceof File) {
+			File root = (File) obj;
+			System.out.println("get root " + root.getName());
 		}
 	}
 
@@ -211,8 +224,6 @@ public class REGoodSubManager {
 				public void actionPerformed(ActionEvent e) {
 					String name = e.getActionCommand();
 					System.out.println("pushed " + name);
-					// sendObject.setSelectedMember(pushed);
-					// conn.write(loginData);
 					msFrame.setPushed(name);
 					msFrame.setMembers(members);
 					if (application != null) {
@@ -224,21 +235,9 @@ public class REGoodSubManager {
 		}
 	}
 
-	public void sendMyFiles() {
-		CDirectory root = application.getSourceManager().getCRootDirectory();
-		System.out.println("rootdirectory : " + root.getNameByString());
-
-		List<CDirectory> projects = new ArrayList<CDirectory>();
-		projects = application.getSourceManager().getAllProjects();
-		for (CDirectory aProject : projects) {
-			System.out.println("project : " + aProject.getNameByString());
-
-			List<CFile> files = new ArrayList<CFile>();
-			files = aProject.getFileChildren();
-			for (CFile aFile : files) {
-				System.out.println(" +file : " + aFile.getNameByString());
-			}
-		}
+	public void sendRootDirectory() {
+		File root = application.getSourceManager().getRootDirectory();
+		conn.write(root);
 	}
 
 }

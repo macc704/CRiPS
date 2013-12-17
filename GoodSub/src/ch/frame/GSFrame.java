@@ -1,4 +1,4 @@
-package gs.frame;
+package ch.frame;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollBar;
