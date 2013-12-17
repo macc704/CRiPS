@@ -457,12 +457,18 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private StPrivateVariableDeclarationModel analyzePrivateValue(
 			FieldDeclaration node) {
 		StPrivateVariableDeclarationModel model = new StPrivateVariableDeclarationModel();
+
 		int index = node.fragments().get(0).toString().indexOf("=");
 
 		model.setType(node.getType().toString());
 		model.setId(idCounter.getNextId());
 		model.setName(node.fragments().get(0).toString()
 				.substring(0, node.fragments().get(0).toString().length()));
+		for (Object modifer : node.modifiers()) {
+			if (modifer.toString().equals("final")) {
+				model.setModifer("final-");
+			}
+		}
 
 		// initializeラベルの貼り付け
 		if (index != -1) {
@@ -926,6 +932,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					"Two or more do not make a variable declaration simultaneously. ");
 		}
 
+		System.out.println(node.modifiers());
 		// // int i,j,k; のような書き方をパースする
 		// BlockStatementModel block = new BlockStatementModel();
 		// List<?> fragments = node.fragments();

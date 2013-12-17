@@ -188,7 +188,7 @@ public class BlockToJavaAnalyzer {
 				LocalVariableBlockModel model = new LocalVariableBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("private-var-")) {// #ohata
+			} else if (genus_name.startsWith("private")) {// #ohata
 				PrivateVariableBlockModel model = new PrivateVariableBlockModel();
 				parseBlock(block, model);
 				pageModel.addPrivateVariableBlock(model);
@@ -323,6 +323,11 @@ public class BlockToJavaAnalyzer {
 
 		model.setName(blockName);
 		model.setId(blockId);
+
+		if (model instanceof PrivateVariableBlockModel
+				&& blockName.contains("final")) {
+			((PrivateVariableBlockModel) model).setModifer("static final");
+		}
 
 		Node blockInfo = node.getFirstChild();
 

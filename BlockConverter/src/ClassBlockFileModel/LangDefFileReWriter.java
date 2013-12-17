@@ -78,17 +78,15 @@ public class LangDefFileReWriter {
 
 		while ((str = br.readLine()) != null) {
 			if (str.contains(" extends Turtle")) {
-				break;
+				File turtleMenu = new File("ext/block/lang_def_menu_turtle.xml");
+				selfDefModel.printMenu(projectMenuFile, turtleMenu);
+				selfDefModel.printGenus();
+				return;
 			}
 		}
 
-		if (str.indexOf(" extends Turtle") != -1) {
-			File turtleMenu = new File("ext/block/lang_def_menu_turtle.xml");
-			selfDefModel.printMenu(projectMenuFile, turtleMenu);
-		} else {
-			File cuiMenu = new File("ext/block/lang_def_menu_cui.xml");
-			selfDefModel.printMenu(projectMenuFile, cuiMenu);
-		}
+		File cuiMenu = new File("ext/block/lang_def_menu_cui.xml");
+		selfDefModel.printMenu(projectMenuFile, cuiMenu);
 
 		// クラスのブロック情報を出力する
 		selfDefModel.printGenus();
