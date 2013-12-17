@@ -141,7 +141,7 @@ public class REGoodSubManager {
 	}
 
 	public void doOpenNewCHE(String name) {
-		chApplication = application.doOpenNewRE("CHTestProject");
+		chApplication = application.doOpenNewRE("MyProjects");
 		chApplication.getFrame().setTitle("CheCoPro Editor");
 
 		chApplication.getFrame().addWindowListener(new WindowAdapter() {
