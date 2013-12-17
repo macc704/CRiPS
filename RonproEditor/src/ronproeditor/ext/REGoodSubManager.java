@@ -22,6 +22,7 @@ import javax.swing.SwingUtilities;
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
 import ch.connection.Connection;
+import ch.datas.FileData;
 import ch.datas.LoginData;
 import ch.datas.SourceData;
 import ch.frame.CHMemberSelectorFrame;
@@ -205,15 +206,17 @@ public class REGoodSubManager {
 			}
 			msFrame.setMembers(members);
 			setMemberSelectorListner();
-		} else if (obj instanceof File) {
-			File root = (File) obj;
-			List<File> projects = new ArrayList<File>();
-			projects = Arrays.asList(root.listFiles());
-			setCHProjects(projects);
-		} else if (obj instanceof String) {
-			String name = (String) obj;
-			if (name.equals(myName)) {
-				sendMyProjects();
+		} else if (obj instanceof FileData) {
+			FileData fileData = (FileData) obj;
+			if (fileData.getRequestName().equals(myName)) {
+				// ファイル送信要求を受信したときの処理
+				sendMyProjects(fileData);
+			} else if (fileData.getMyName().equals(myName)) {
+				// ファイル送信要求を出しファイルを受信したときの処理
+				File root = fileData.getFile();
+				List<File> projects = new ArrayList<File>();
+				projects = Arrays.asList(root.listFiles());
+				createMemberProjects(projects);
 			}
 		}
 	}
@@ -234,7 +237,7 @@ public class REGoodSubManager {
 					msFrame.setMembers(members);
 					if (application != null) {
 						doOpenNewCHE(name);
-						fileRequest(name);
+						fileSendRequest(name);
 					}
 					setMemberSelectorListner();
 				}
@@ -242,16 +245,20 @@ public class REGoodSubManager {
 		}
 	}
 
-	public void sendMyProjects() {
+	public void sendMyProjects(FileData fileData) {
 		File root = application.getSourceManager().getRootDirectory();
-		conn.write(root);
+		fileData.setFile(root);
+		conn.write(fileData);
 	}
 
-	public void fileRequest(String name) {
-		conn.write(name);
+	public void fileSendRequest(String name) {
+		FileData fileData = new FileData();
+		fileData.setRequestName(name);
+		fileData.setMyName(myName);
+		conn.write(fileData);
 	}
 
-	public void setCHProjects(List<File> projects) {
+	public void createMemberProjects(List<File> projects) {
 		File root = chApplication.getSourceManager().getRootDirectory();
 
 		for (File aProject : projects) {
@@ -264,7 +271,6 @@ public class REGoodSubManager {
 				try {
 					file.createNewFile();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

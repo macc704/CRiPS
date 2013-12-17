@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import ch.connection.Connection;
 import ch.connection.ConnectionPool;
+import ch.datas.FileData;
 import ch.datas.LoginData;
 import ch.datas.MemberData;
 import ch.datas.SourceData;
@@ -72,6 +73,8 @@ public class SyncServer {
 				} else if (obj instanceof File) {
 					connectionPool.broadcast(obj, conn);
 				} else if (obj instanceof String) {
+					connectionPool.broadcast(obj, conn);
+				} else if (obj instanceof FileData) {
 					connectionPool.broadcast(obj, conn);
 				}
 			}
