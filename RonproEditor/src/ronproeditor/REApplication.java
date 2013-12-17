@@ -263,6 +263,8 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 												・blibの更新 waitrepaintモード
  * 												・waitrepaint引数
  * 												・Turtleテンプレ変更 argsを引数とする
+ * 2013/12/17 version 2.23.0 matsuzawa		・gitを参照のこと
+ * 												・主な変更点　cocoviewerのくみこみ
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
@@ -280,8 +282,8 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.22.0";
-	public static final String BUILD_DATE = "2013/12/15";
+	public static final String VERSION = "2.23.0";
+	public static final String BUILD_DATE = "2013/12/17";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
