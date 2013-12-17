@@ -14,7 +14,6 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 
 import bc.j2b.analyzer.MethodAnalyzer;
 import bc.utils.ASTParserWrapper;
-import clib.common.filesystem.CFile;
 
 public class LangDefFileReWriter {
 
@@ -72,8 +71,18 @@ public class LangDefFileReWriter {
 			genusCopier.print(file);
 		}
 
-		CFile jFile = new CFile(file);
-		if (jFile.loadText().indexOf(" extends Turtle") != -1) {
+		FileReader reader = new FileReader(file);
+
+		br = new BufferedReader(reader);
+		String str;
+
+		while ((str = br.readLine()) != null) {
+			if (str.contains(" extends Turtle")) {
+				break;
+			}
+		}
+
+		if (str.indexOf(" extends Turtle") != -1) {
 			File turtleMenu = new File("ext/block/lang_def_menu_turtle.xml");
 			selfDefModel.printMenu(projectMenuFile, turtleMenu);
 		} else {
