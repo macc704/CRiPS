@@ -22,6 +22,8 @@ import javax.swing.SwingUtilities;
 
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
 
 public class REGoodSubManager {
 
@@ -56,6 +58,7 @@ public class REGoodSubManager {
 	public void startGoodSub() {
 
 		initializeListener();
+		sendMyFiles();
 
 		new Thread() {
 			public void run() {
@@ -218,6 +221,23 @@ public class REGoodSubManager {
 					setMemberSelectorListner();
 				}
 			});
+		}
+	}
+
+	public void sendMyFiles() {
+		CDirectory root = application.getSourceManager().getCRootDirectory();
+		System.out.println("rootdirectory : " + root.getNameByString());
+
+		List<CDirectory> projects = new ArrayList<CDirectory>();
+		projects = application.getSourceManager().getAllProjects();
+		for (CDirectory aProject : projects) {
+			System.out.println("project : " + aProject.getNameByString());
+
+			List<CFile> files = new ArrayList<CFile>();
+			files = aProject.getFileChildren();
+			for (CFile aFile : files) {
+				System.out.println(" +file : " + aFile.getNameByString());
+			}
 		}
 	}
 
