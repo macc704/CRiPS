@@ -111,8 +111,6 @@ public class REGoodSubManager {
 			System.out.println("client established");
 		}
 
-		sendRootDirectory();
-
 		try {
 			while (conn.established()) {
 				readFromServer();
@@ -141,7 +139,7 @@ public class REGoodSubManager {
 	}
 
 	public void doOpenNewCHE(String name) {
-		chApplication = application.doOpenNewRE("MyProjects");
+		chApplication = application.doOpenNewRE(name + "Projects");
 		chApplication.getFrame().setTitle("CheCoPro Editor");
 
 		chApplication.getFrame().addWindowListener(new WindowAdapter() {
@@ -213,6 +211,11 @@ public class REGoodSubManager {
 			for (File aProject : projects) {
 				System.out.println("project : " + aProject.getName());
 			}
+		} else if (obj instanceof String) {
+			String name = (String) obj;
+			if (name.equals(myName)) {
+				sendMyProjects();
+			}
 		}
 	}
 
@@ -228,11 +231,11 @@ public class REGoodSubManager {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					String name = e.getActionCommand();
-					System.out.println("pushed " + name);
 					msFrame.setPushed(name);
 					msFrame.setMembers(members);
 					if (application != null) {
 						doOpenNewCHE(name);
+						fileRequest(name);
 					}
 					setMemberSelectorListner();
 				}
@@ -240,9 +243,13 @@ public class REGoodSubManager {
 		}
 	}
 
-	public void sendRootDirectory() {
+	public void sendMyProjects() {
 		File root = application.getSourceManager().getRootDirectory();
 		conn.write(root);
+	}
+
+	public void fileRequest(String name) {
+		conn.write(name);
 	}
 
 }

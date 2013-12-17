@@ -71,6 +71,8 @@ public class SyncServer {
 					connectionPool.broadcast(obj, conn);
 				} else if (obj instanceof File) {
 					connectionPool.broadcast(obj, conn);
+				} else if (obj instanceof String) {
+					connectionPool.broadcast(obj, conn);
 				}
 			}
 		} catch (Exception ex) {
