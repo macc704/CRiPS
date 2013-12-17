@@ -2171,7 +2171,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					Block.getBlock(link.getSocketBlockID()),
 					Block.getBlock(link.getPlugBlockID()).getPlug(), Block
 							.getBlock(link.getSocketBlockID()).getSocketAt(0)) != null) {*/
-
 			link.connect();
 			//try {
 			Workspace.getInstance().notifyListeners(
@@ -2183,12 +2182,26 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			// wc.saveString(wc.getSaveString());
 			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
 		} else {
+			//moveSocketBlocks(this);
 			blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID)
 					.getY()
 					+ RenderableBlock.getRenderableBlock(blockID).getWidth(),
 					"down");
+
 		}
 	}
+
+	//	private void moveSocketBlocks(RenderableBlock rb) {
+	//		for (BlockConnector socket : BlockLinkChecker.getSocketEquivalents(rb
+	//				.getBlock())) {
+	//			if (socket.hasBlock()) {
+	//				RenderableBlock socketBlock = RenderableBlock
+	//						.getRenderableBlock(socket.getBlockID());
+	//				moveSocketBlocks(socketBlock);
+	//			}
+	//		}
+	//		rb.setLocation(rb.getX(), rb.getY() + 50);
+	//	}
 
 	//abstractionブロック内のブロックのスコープをチェックする
 	private boolean checkBlocks(ScopeChecker scpChecker, BlockLink link,

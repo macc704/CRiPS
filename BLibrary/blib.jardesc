@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="SHIFT_JIS" standalone="no"?>
+<jardesc>
+    <jar path="BLibrary/blib.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/BLibrary/blib.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="true" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+	<manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+		<sealing sealJar="true">
+			<packagesToSeal/>
+			<packagesToUnSeal/>
+		</sealing>
+	</manifest>    
+    <selectedElements exportClassFiles="false" exportJavaFiles="true" exportOutputFolder="true">
+        <javaElement handleIdentifier="=BLibrary/src"/>
+        <javaElement handleIdentifier="=BSound/src"/>        
+    </selectedElements>
+</jardesc>

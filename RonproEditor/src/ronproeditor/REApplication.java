@@ -33,6 +33,8 @@ import ronproeditor.dialogs.REDirtyOptionDialog;
 import ronproeditor.dialogs.RERefactoringFileNameDialog;
 import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
+import ronproeditor.ext.RECocoViewerManager;
+import ronproeditor.ext.RECreateCocoDataManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
@@ -252,6 +254,18 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 											・行番号のfontが追従しない問題を修正
  * 											・全角の「{」を変換しようとするとソース全体がおかしくなる問題を修正
  * 											・半角の{を入力したときに}を自動入力する機能を削除
+ * 2013/12/4 version 2.21.0 matsuzawa		・詳細はgitログを参照のこと
+ * 												・いくつかbugfix
+ * 												・BlockEditor微調整
+ * 												・全角スペース表示など
+ * 2013/12/15 version 2.22.0 matsuzawa		・blibの更新　blib.jar 1.5.26
+ * 											・Debuggerでupdate()が反映されるのが遅い問題を解決
+ * 												・blibの更新 waitrepaintモード
+ * 												・waitrepaint引数
+ * 												・Turtleテンプレ変更 argsを引数とする
+ * 2013/12/17 version 2.23.0 matsuzawa		・gitを参照のこと
+ * 												・主な変更点　cocoviewerのくみこみ
+ * 2013/12/17 version 2.23.1 matsuzawa		・gitを参照のこと
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
@@ -269,8 +283,8 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.20.0";
-	public static final String BUILD_DATE = "2013/10/22";
+	public static final String VERSION = "2.23.1";
+	public static final String BUILD_DATE = "2013/12/17";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
@@ -323,6 +337,8 @@ public class REApplication implements ICFwApplication {
 	private REGeneRefManager generefManager;
 	private REPresVisualizerManager ppvManager;
 	private GUI deno;
+	private RECocoViewerManager cocoViewerManager;
+	private RECreateCocoDataManager createCocoDataManager;
 
 	/***********************
 	 * Construct & Start
@@ -340,6 +356,8 @@ public class REApplication implements ICFwApplication {
 		flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
 		ppvManager = new REPresVisualizerManager(this);
+		cocoViewerManager = new RECocoViewerManager(this);
+		createCocoDataManager = new RECreateCocoDataManager(this);
 
 		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
 				"*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
@@ -861,7 +879,6 @@ public class REApplication implements ICFwApplication {
 				.getRootDirectory(), getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 		ArrayList<String> commands = new ArrayList<String>();
-
 		commands.add("java");
 		commands.add("-classpath");
 		commands.add(cp);
@@ -891,7 +908,7 @@ public class REApplication implements ICFwApplication {
 		// パス等取得
 		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager()
 				.getRootDirectory(), getSourceManager().getCurrentFile());
-		String args[] = new String[5];
+		String args[] = new String[6];
 		// ソースパス
 		args[0] = "-sourcepath";
 		args[1] = env.dir.getAbsolutePath();
@@ -906,6 +923,8 @@ public class REApplication implements ICFwApplication {
 		args[3] = libString;
 		// クラス名
 		args[4] = env.runnable;
+		// waitrepaint
+		args[5] = "waitrepaint";
 
 		// xml
 		// String[] libs = getLibraryManager().getLibsAsArray();
@@ -1174,6 +1193,24 @@ public class REApplication implements ICFwApplication {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			CErrorDialog.show(frame, "OpenPPV中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doCreateCocoData() {
+		try {
+			createCocoDataManager.createCocoData();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Create CocoData中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doOpenCocoViewer() {
+		try {
+			cocoViewerManager.openCocoViewer();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Open CocoViewer中にエラーが発生しました．", ex);
 		}
 	}
 

@@ -54,6 +54,7 @@ import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.apps.BlockToJavaMain;
 import bc.apps.JavaToBlockMain;
+import clib.common.filesystem.CFilename;
 import clib.view.dialogs.CErrorDialog;
 import clib.view.screenshot.CScreenShotTaker;
 import codeblocks.BlockConnectorShape;
@@ -720,7 +721,11 @@ public class WorkspaceController {
 				JMenuItem item = new JMenuItem("SS");
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						createSSTaker().takeToFile();
+						CScreenShotTaker taker = createSSTaker();
+						String name = new CFilename(wc.getSelectedJavaFile())
+								.getName();
+						taker.getChooser().setSelectedFile(new File(name));
+						taker.takeToFile();
 					}
 				});
 				//topPane.add(b);

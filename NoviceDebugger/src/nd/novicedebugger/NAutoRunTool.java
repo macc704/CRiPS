@@ -22,8 +22,15 @@ import javax.swing.event.ChangeListener;
 
 import nd.com.sun.tools.example.debug.bdi.EventRequestSpec;
 import nd.com.sun.tools.example.debug.bdi.LineBreakpointSpec;
+import nd.com.sun.tools.example.debug.event.JDIAdapter;
+import nd.com.sun.tools.example.debug.event.LocationTriggerEventSet;
 import nd.com.sun.tools.example.debug.gui.CommandInterpreter;
 import nd.com.sun.tools.example.debug.gui.Environment;
+
+import com.sun.jdi.event.BreakpointEvent;
+import com.sun.jdi.event.Event;
+import com.sun.jdi.event.EventIterator;
+import com.sun.jdi.event.StepEvent;
 
 public class NAutoRunTool extends JPanel {
 
@@ -56,17 +63,19 @@ public class NAutoRunTool extends JPanel {
 	private Timer timer;
 	// private int sbnum = DELAY_DEFAULT;
 	private int sbnum = SLIDER_DEFAULT;
-	
-	private final int speedTable[] = {1, 100, 300, 500, 800, 1200, 1700};
-	
+
+	private final int speedTable[] = { 1, 100, 300, 500, 800, 1200, 1700 };
+
 	private JRadioButton lineMode;
 	private JRadioButton betweenMode;
 	private ButtonGroup apModeBtns;
-	
+
 	// icon
-	private final ImageIcon playIcon = new ImageIcon(getClass().getResource("icon/runbtn.gif"));
-	private final ImageIcon pauseIcon = new ImageIcon(getClass().getResource("icon/stopbtn.gif"));
-	
+	private final ImageIcon playIcon = new ImageIcon(getClass().getResource(
+			"icon/runbtn.gif"));
+	private final ImageIcon pauseIcon = new ImageIcon(getClass().getResource(
+			"icon/stopbtn.gif"));
+
 	public NAutoRunTool(Environment env) {
 		this.env = env;
 		env.setAutoRunTool(this);
@@ -75,10 +84,14 @@ public class NAutoRunTool extends JPanel {
 		init();
 	}
 
+	private int previousSteppedLine = -1;
+
 	private void init() {
+
+
 		// int extent = (DELAY_MAX + DELAY_MIN) / 10;
 		// toggle = new JToggleButton("OFF");
-		
+
 		// radio button
 		lineMode = new JRadioButton("標準モード");
 		lineMode.setSelected(false);
@@ -87,26 +100,24 @@ public class NAutoRunTool extends JPanel {
 		apModeBtns = new ButtonGroup();
 		apModeBtns.add(lineMode);
 		apModeBtns.add(betweenMode);
-		JSplitPane radios = new JSplitPane(JSplitPane.VERTICAL_SPLIT, lineMode, betweenMode);
+		JSplitPane radios = new JSplitPane(JSplitPane.VERTICAL_SPLIT, lineMode,
+				betweenMode);
 		radios.setDividerSize(0);
-		
-		
+
 		// cont button
 		/*
-		contbtn = new JButton(new ImageIcon(getClass().getResource(
-				"icon/contbtn.gif")));
-		contbtn.setMargin(new Insets(5, 5, 5, 5));
-		contbtn.setEnabled(true);
-		contbtn.setPreferredSize(new Dimension(25,25));
-		*/
-		
+		 * contbtn = new JButton(new ImageIcon(getClass().getResource(
+		 * "icon/contbtn.gif"))); contbtn.setMargin(new Insets(5, 5, 5, 5));
+		 * contbtn.setEnabled(true); contbtn.setPreferredSize(new
+		 * Dimension(25,25));
+		 */
+
 		// stop button
 		/*
-		stopbtn = new JButton(pauseIcon);
-		stopbtn.setMargin(new Insets(5, 5, 5, 5));
-		stopbtn.setEnabled(false);
-		stopbtn.setPreferredSize(new Dimension(25, 25));
-		*/
+		 * stopbtn = new JButton(pauseIcon); stopbtn.setMargin(new Insets(5, 5,
+		 * 5, 5)); stopbtn.setEnabled(false); stopbtn.setPreferredSize(new
+		 * Dimension(25, 25));
+		 */
 
 		// run button
 		runbtn = new JToggleButton(playIcon);
@@ -126,8 +137,10 @@ public class NAutoRunTool extends JPanel {
 		// scroll.setUnitIncrement(DELAY_MAX / 10);
 
 		// slider
-		// slider = new JSlider(JSlider.HORIZONTAL, -DELAY_MAX, -DELAY_MIN, -DELAY_DEFAULT);
-		slider = new JSlider(JSlider.HORIZONTAL, SLIDER_MIN, SLIDER_MAX, SLIDER_DEFAULT);
+		// slider = new JSlider(JSlider.HORIZONTAL, -DELAY_MAX, -DELAY_MIN,
+		// -DELAY_DEFAULT);
+		slider = new JSlider(JSlider.HORIZONTAL, SLIDER_MIN, SLIDER_MAX,
+				SLIDER_DEFAULT);
 		slider.setInverted(true);
 		Hashtable<Integer, JComponent> labeltable = new Hashtable<Integer, JComponent>();
 		labeltable.put(new Integer(SLIDER_MAX), new JLabel("遅"));
@@ -167,44 +180,38 @@ public class NAutoRunTool extends JPanel {
 				env.getSourceTool().repaint();
 			}
 		});
-		
+
 		/*
-		contbtn.addActionListener(new ActionListener() {			
-			public void actionPerformed(ActionEvent e) {
-				// ログ
-				interpreter.executeCommand("cont");
-			}
-		});
-		*/
-		
+		 * contbtn.addActionListener(new ActionListener() { public void
+		 * actionPerformed(ActionEvent e) { // ログ
+		 * interpreter.executeCommand("cont"); } });
+		 */
+
 		// toggle.addChangeListener(new ToggleButtonListener());
 		/*
-		stopbtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				NDebuggerManager.fireStopPressed();
-				stopbtn.setEnabled(false);
-				runbtn.setEnabled(true);
-				stepbtn.setEnabled(true);
-
-			}
-		});
-		*/
+		 * stopbtn.addActionListener(new ActionListener() { public void
+		 * actionPerformed(ActionEvent e) { NDebuggerManager.fireStopPressed();
+		 * stopbtn.setEnabled(false); runbtn.setEnabled(true);
+		 * stepbtn.setEnabled(true);
+		 * 
+		 * } });
+		 */
 		runbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JToggleButton source = (JToggleButton)e.getSource();
+				JToggleButton source = (JToggleButton) e.getSource();
 				// play
-				if(source.isSelected()){
+				if (source.isSelected()) {
 					stepbtn.setEnabled(false);
-					if(sbnum != SLIDER_MIN) {
+					if (sbnum != SLIDER_MIN) {
 						NDebuggerManager.firePlayPressed();
 						if (timer == null) {
-							timer = new Timer(speedTable[sbnum], new TimerListener());
+							timer = new Timer(speedTable[sbnum],
+									new TimerListener());
 						} else {
 							timer.setDelay(speedTable[sbnum]);
 						}
 						timer.start();
-					}
-					else {
+					} else {
 						// ログとり必要
 						interpreter.executeCommand("cont");
 						source.setSelected(false);
@@ -215,7 +222,7 @@ public class NAutoRunTool extends JPanel {
 					}
 				}
 				// pause
-				else{
+				else {
 					NDebuggerManager.fireStopPressed();
 					stepbtn.setEnabled(true);
 					if (timer != null) {
@@ -228,31 +235,66 @@ public class NAutoRunTool extends JPanel {
 		slider.addChangeListener(new SliderListener());
 		stepbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				stepbtn.setEnabled(false);// matsuzawa stepbutton disable機能
 				NDebuggerManager.fireStepPressed();
 				interpreter.executeCommand("step");
 				// System.out.println(env.getLinenum());
 			}
 		});
+		// matsuzawa stepbutton disable機能
+		stepbtn.setEnabled(false);
+		env.getExecutionManager().addJDIListener(new JDIAdapter() {
+			@Override
+			public void locationTrigger(LocationTriggerEventSet evtSet) {
+				for (EventIterator it = evtSet.eventIterator(); it.hasNext();) {
+					Event evt = it.next();
+					if (evt instanceof StepEvent) {
+						String mainClassName = env.getContextManager()
+								.getMainClassName();
+						String locClassName = ((StepEvent) evt).location()
+								.declaringType().name();
+						int lineNumber = ((StepEvent) evt).location()
+								.lineNumber();
+						if (mainClassName.equals(locClassName)
+								&& lineNumber != previousSteppedLine) {
+							stepbtn.setEnabled(true);
+							previousSteppedLine = lineNumber;
+						}
+					}else if(evt instanceof BreakpointEvent){
+						int lineNumber = ((BreakpointEvent) evt).location()
+								.lineNumber();
+						previousSteppedLine = lineNumber;
+						stepbtn.setEnabled(true);
+					}
+					
+				}
+			}
+		});		
 
 		JSplitPane auto = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
 				new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, label, slider),
 				runbtn);
 		auto.setResizeWeight(1);
-		JSplitPane action = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, auto,
-				stepbtn);
-	
-		action.setPreferredSize(action.getPreferredSize());
-		this.add(action);
-		// JSplitPane bar = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, radios, action);
+		JSplitPane actionSplitPane = new JSplitPane(
+				JSplitPane.HORIZONTAL_SPLIT, auto, stepbtn);
+
+		actionSplitPane.setPreferredSize(actionSplitPane.getPreferredSize());
+
+		// this.add(actionSplitPane);//matsuzawa
+		this.add(stepbtn);// matsuzawa
+
+		// JSplitPane bar = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, radios,
+		// action);
 		// this.add(bar);
 	}
 
 	public void bpCheck() {
-		if(timer != null){
-			for(EventRequestSpec evt : env.getExecutionManager().eventRequestSpecs()){
-				if(evt instanceof LineBreakpointSpec){
+		if (timer != null) {
+			for (EventRequestSpec evt : env.getExecutionManager()
+					.eventRequestSpecs()) {
+				if (evt instanceof LineBreakpointSpec) {
 					LineBreakpointSpec levt = (LineBreakpointSpec) evt;
-					if(levt.lineNumber() == env.getLinenum()){
+					if (levt.lineNumber() == env.getLinenum()) {
 						timer.stop();
 						runbtn.setSelected(false);
 						stepbtn.setEnabled(true);
@@ -261,7 +303,7 @@ public class NAutoRunTool extends JPanel {
 			}
 		}
 	}
-	
+
 	/*
 	 * private class ToggleButtonListener implements ChangeListener { public
 	 * void stateChanged(ChangeEvent e) { if(toggle.isSelected()){

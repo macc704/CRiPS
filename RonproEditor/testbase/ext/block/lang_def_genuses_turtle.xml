@@ -185,10 +185,6 @@
 			<DefaultArg genus-name="string" label="あいうえお"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="vm-cmd-name" value="output"></LangSpecProperty>
-		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
-	</LangSpecProperties>
 </BlockGenus>
 
 <BlockGenus name="sleep" kind="command" initlabel="待つ" color="255 0 0">
