@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -208,9 +209,7 @@ public class REGoodSubManager {
 			File root = (File) obj;
 			List<File> projects = new ArrayList<File>();
 			projects = Arrays.asList(root.listFiles());
-			for (File aProject : projects) {
-				System.out.println("project : " + aProject.getName());
-			}
+			setCHProjects(projects);
 		} else if (obj instanceof String) {
 			String name = (String) obj;
 			if (name.equals(myName)) {
@@ -250,6 +249,26 @@ public class REGoodSubManager {
 
 	public void fileRequest(String name) {
 		conn.write(name);
+	}
+
+	public void setCHProjects(List<File> projects) {
+		File root = chApplication.getSourceManager().getRootDirectory();
+
+		for (File aProject : projects) {
+			File project = new File(root, aProject.getName());
+			project.mkdir();
+			List<File> files = new ArrayList<File>();
+			files = Arrays.asList(aProject.listFiles());
+			for (File aFile : files) {
+				File file = new File(project, aFile.getName());
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }
