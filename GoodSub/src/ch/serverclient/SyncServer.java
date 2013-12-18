@@ -9,10 +9,7 @@ import javax.swing.JFrame;
 
 import ch.connection.Connection;
 import ch.connection.ConnectionPool;
-import ch.datas.FileData;
-import ch.datas.LoginData;
-import ch.datas.MemberData;
-import ch.datas.SourceData;
+import ch.datas.SendDatas;
 import ch.frame.CHFrame;
 
 public class SyncServer {
@@ -23,7 +20,6 @@ public class SyncServer {
 	private CHFrame frame = new CHFrame();
 	private ConnectionPool connectionPool = new ConnectionPool();
 	private List<String> members = new ArrayList<String>();
-	private List<MemberData> datas = new ArrayList<MemberData>();
 
 	public void run() {
 
@@ -61,17 +57,29 @@ public class SyncServer {
 		try {
 			while (conn.established()) {
 				Object obj = conn.read();
-				if (obj instanceof LoginData) {
-					LoginData loginData = (LoginData) obj;
-					typeLogin(loginData, conn);
-				} else if (obj instanceof SourceData) {
-					connectionPool.broadcast(obj, conn);
-				} else if (obj instanceof FileData) {
-					connectionPool.broadcast(obj, conn);
-				} else if (obj instanceof String) {
-					members.remove(obj);
-					connectionPool.broadcast(members, conn);
+
+				if (obj instanceof SendDatas) {
+					SendDatas recivedData = (SendDatas) obj;
+					int command = recivedData.getCommand();
+					switch (command) {
+					case SendDatas.LOGIN:
+						typeLogin(recivedData);
+						break;
+					case SendDatas.SOURCE:
+						typeSource(recivedData, conn);
+						break;
+					}
 				}
+
+				// if (obj instanceof LoginData) {
+				// } else if (obj instanceof SourceData) {
+				// connectionPool.broadcast(obj, conn);
+				// } else if (obj instanceof FileData) {
+				// connectionPool.broadcast(obj, conn);
+				// } else if (obj instanceof String) {
+				// members.remove(obj);
+				// connectionPool.broadcast(members, conn);
+				// }
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -81,17 +89,26 @@ public class SyncServer {
 		}
 	}
 
-	private void typeLogin(LoginData loginData, Connection conn) {
-		String myName = loginData.getMyName();
+	private void typeLogin(SendDatas recivedData) {
+		String myName = recivedData.getMyName();
 
 		if (!members.contains(myName)) {
 			members.add(myName);
-			MemberData data = new MemberData();
-			datas.add(data);
 			frame.println("name: " + myName + " add list.");
 		}
 
-		connectionPool.broadcastAll(members);
+		SendDatas sendData = new SendDatas();
+		sendData.setMembers(members);
+		sendData.setCommand(SendDatas.LOGIN_RESULT);
+
+		connectionPool.broadcastAll(sendData);
+	}
+
+	private void typeSource(SendDatas recivedData, Connection conn) {
+		SendDatas sendData = new SendDatas();
+		sendData.setSource(recivedData.getSource());
+		sendData.setCommand(SendDatas.SOURCE_RESULT);
+		connectionPool.broadcast(sendData, conn);
 	}
 
 }
