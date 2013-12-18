@@ -15,8 +15,6 @@ public class LoginDialog {
 		new LoginDialog().openLoginDialog();
 	}
 
-	// private static List<Integer> groupNumbers = new ArrayList<Integer>();
-	// private int tfnum;
 	private int groupNumber;
 	private String name;
 
@@ -65,13 +63,6 @@ public class LoginDialog {
 
 	}
 
-	// public int selectRoomNum() throws IOException {
-	//
-	// makeLoginDialog();
-	//
-	// return tfnum;
-	// }
-
 	public String getName() {
 		return name;
 	}
@@ -79,34 +70,5 @@ public class LoginDialog {
 	public int getGroupNumber() {
 		return groupNumber;
 	}
-
-	// public boolean checkRoomNum(int roomNum) {
-	// for (int number : groupNumbers) {
-	// if (roomNum == number) {
-	// // 部屋が存在したらtrue
-	// return true;
-	// }
-	// }
-	// // 部屋番号がなかったらリストに加える
-	// groupNumbers.add(roomNum);
-	// // 存在しなかったらfalse
-	// return false;
-	// }
-	//
-	// // 部屋がリストの何番目にあるかを調べる
-	// public int countRoom(int roomNum) {
-	// int i = 0;
-	// for (int number : groupNumbers) {
-	// if (roomNum == number) {
-	// return i;
-	// }
-	// i++;
-	// }
-	// return -1;
-	// }
-
-	// public String getUserName() {
-	// return name;
-	// }
 
 }

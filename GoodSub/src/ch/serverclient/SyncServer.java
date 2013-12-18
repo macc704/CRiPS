@@ -13,14 +13,14 @@ import ch.datas.FileData;
 import ch.datas.LoginData;
 import ch.datas.MemberData;
 import ch.datas.SourceData;
-import ch.frame.GSFrame;
+import ch.frame.CHFrame;
 
 public class SyncServer {
 	public static void main(String[] args) {
 		new SyncServer().run();
 	}
 
-	private GSFrame frame = new GSFrame();
+	private CHFrame frame = new CHFrame();
 	private ConnectionPool connectionPool = new ConnectionPool();
 	private List<String> members = new ArrayList<String>();
 	private List<MemberData> datas = new ArrayList<MemberData>();

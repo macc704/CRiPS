@@ -99,7 +99,7 @@ public class REFrame extends JFrame {
 	private Action actionOpenFlowViewer;
 	private Action actionOpenGeneRefBrowser;
 	private Action actionBytecode;
-	private Action actionStartGoodSub; // GoodSub(kato)
+	private Action actionStartCheCoPro; // CheCoPro(kato)
 
 	// ÅuHelpÅv
 	private Action actionOpenPreference;
@@ -418,10 +418,6 @@ public class REFrame extends JFrame {
 			menu.add(actionUndo);
 		}
 
-		// ã£çá
-		// menuTools.add(actionStartGoodSub); // GoodSub(kato)
-		// }
-
 		{// -- Redo
 			actionRedo = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
@@ -624,15 +620,15 @@ public class REFrame extends JFrame {
 				KeyStroke.getKeyStroke(KeyEvent.VK_J, CTRL_MASK));
 		actionBytecode.setEnabled(false);
 
-		// --GoodSub
-		actionStartGoodSub = new AbstractAction() {
+		// --CheCoPro
+		actionStartCheCoPro = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				application.doStartGoodSub();
+				application.doStartCheCoPro();
 			}
 		};
-		actionStartGoodSub.putValue(Action.NAME, "Start GoodSub");
-		actionStartGoodSub.setEnabled(true);
-		menu.add(actionStartGoodSub); // GoodSub(kato)
+		actionStartCheCoPro.putValue(Action.NAME, "Start CheCoPro");
+		actionStartCheCoPro.setEnabled(true);
+		menu.add(actionStartCheCoPro); // CheCoPro(kato)
 
 	}
 

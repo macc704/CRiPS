@@ -9,7 +9,7 @@ import java.net.Socket;
 import javax.swing.JScrollBar;
 
 import ch.connection.Connection;
-import ch.frame.GSFrame;
+import ch.frame.CHFrame;
 
 public class SyncClient {
 
@@ -18,7 +18,7 @@ public class SyncClient {
 	}
 
 	private Connection conn;
-	private GSFrame frame = new GSFrame();
+	private CHFrame frame = new CHFrame();
 	private int roomNum;
 	private String text;
 
@@ -108,7 +108,7 @@ public class SyncClient {
 		conn.write(text);
 	}
 
-	public void setFrame(GSFrame frame) {
+	public void setFrame(CHFrame frame) {
 		this.frame = frame;
 	}
 

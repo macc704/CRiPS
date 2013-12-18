@@ -6,14 +6,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 
-public class GSFrame extends JFrame {
+public class CHFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JScrollBar vBar;
 
 	// private ConsoleTextPane console;
 
 	public static void main(String[] args) {
-		GSFrame frame = new GSFrame();
+		CHFrame frame = new CHFrame();
 		frame.open();
 		frame.println("hoge");
 		frame.println("hoge");
@@ -24,7 +24,7 @@ public class GSFrame extends JFrame {
 	private JTextArea consoleArea = new JTextArea();
 	private JScrollPane cScroll = new JScrollPane();
 
-	public GSFrame() {
+	public CHFrame() {
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 300, 300);

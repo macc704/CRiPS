@@ -33,9 +33,9 @@ import ronproeditor.dialogs.REDirtyOptionDialog;
 import ronproeditor.dialogs.RERefactoringFileNameDialog;
 import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
+import ronproeditor.ext.RECheCoProManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
-import ronproeditor.ext.REGoodSubManager;
 import ronproeditor.ext.REPresVisualizerManager;
 import ronproeditor.helpers.FileSystemUtil;
 import ronproeditor.helpers.JavaEnv;
@@ -323,7 +323,7 @@ public class REApplication implements ICFwApplication {
 	private REFlowViewerManager flowManager;
 	private REGeneRefManager generefManager;
 	private REPresVisualizerManager ppvManager;
-	private REGoodSubManager goodsubManager; // GoodSub(kato)
+	private RECheCoProManager checoproManager; // CheCoPro(kato)
 	private GUI deno;
 
 	/***********************
@@ -346,7 +346,7 @@ public class REApplication implements ICFwApplication {
 		flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
 		ppvManager = new REPresVisualizerManager(this);
-		goodsubManager = new REGoodSubManager(this);
+		checoproManager = new RECheCoProManager(this);
 
 		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
 				"*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
@@ -1161,9 +1161,9 @@ public class REApplication implements ICFwApplication {
 		generefManager.openGeneRefBrowser();
 	}
 
-	// GoodSub(kato)
-	public void doStartGoodSub() {
-		goodsubManager.startGoodSub();
+	// CheCoPro(kato)
+	public void doStartCheCoPro() {
+		checoproManager.startCheCoPro();
 	}
 
 	private void copyDatFileToProject() {

@@ -4,16 +4,16 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.frame.GSFrame;
+import ch.frame.CHFrame;
 
 public class ConnectionPool {
 
 	private List<Connection> connections = new ArrayList<Connection>();
 	private Object lock = new Object();
 	private List<String> users = new ArrayList<String>();
-	private GSFrame frame;
+	private CHFrame frame;
 
-	public void setFrame(GSFrame frame) {
+	public void setFrame(CHFrame frame) {
 		this.frame = frame;
 	}
 

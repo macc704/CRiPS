@@ -28,9 +28,9 @@ import ch.datas.SourceData;
 import ch.frame.CHMemberSelectorFrame;
 import ch.frame.LoginDialog;
 
-public class REGoodSubManager {
+public class RECheCoProManager {
 
-	public static final String APP_NAME = "GoodSub";
+	public static final String APP_NAME = "CheCoPro";
 
 	private REApplication application;
 	private Connection conn;
@@ -42,22 +42,22 @@ public class REGoodSubManager {
 	private List<List<Object>> chDatas = new ArrayList<List<Object>>();
 
 	public static void main(String[] args) {
-		new REGoodSubManager();
+		new RECheCoProManager();
 	}
 
-	public REGoodSubManager(REApplication application) {
+	public RECheCoProManager(REApplication application) {
 		this.application = application;
 		initialize();
 	}
 
-	public REGoodSubManager() {
+	public RECheCoProManager() {
 		connectServer();
 	}
 
 	private void initialize() {
 	}
 
-	public void startGoodSub() {
+	public void startCheCoPro() {
 
 		initializeListener();
 
