@@ -1,13 +1,20 @@
 package bc.j2b.model;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ExSpecialExpressionModel extends ExpressionModel {
 
 	private String code;
+	private List<ExpressionModel> parameter = new ArrayList<ExpressionModel>();
 
 	public ExSpecialExpressionModel(String code) {
 		this.code = code;
+	}
+
+	public void addParameter(ExpressionModel param) {
+		parameter.add(param);
 	}
 
 	@Override
@@ -16,6 +23,11 @@ public class ExSpecialExpressionModel extends ExpressionModel {
 		// System.out.println(getParent().getClass());
 
 		String genusName;
+
+		for (ExpressionModel param : parameter) {
+			param.print(out, indent);
+		}
+
 		if (getParent() instanceof StExpressionModel) {
 			resolveBeforeAfterBlock(getParent().getParent());
 			genusName = "special";
@@ -41,7 +53,8 @@ public class ExSpecialExpressionModel extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);
@@ -64,6 +77,23 @@ public class ExSpecialExpressionModel extends ExpressionModel {
 			if (getNext() != -1) {
 				makeIndent(out, indent + 1);
 				out.println("<AfterBlockId>" + getNext() + "</AfterBlockId>");
+			}
+			if (parameter.size() > 0) {
+				makeIndent(out, indent + 1);
+				out.println("<Sockets num-sockets=\"" + parameter.size()
+						+ "\">");
+				for (ExpressionModel param : parameter) {
+					makeIndent(out, indent + 2);
+					out.println("<BlockConnector connector-kind=\"socket\" connector-type=\""
+							+ param.getType()
+							+ "\" init-type=\""
+							+ param.getType()
+							+ "\" label=\"\""
+							+ " position-type=\"single\" con-block-id=\""
+							+ param.getId() + "\"/>");
+				}
+				makeIndent(out, indent + 1);
+				out.println("</Sockets>");
 			}
 		} else {
 			// plug

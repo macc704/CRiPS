@@ -1260,7 +1260,23 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	public ExpressionModel parseMethodInvocationExpression(MethodInvocation node) {
 		// —áŠO
 		String fullName = node.toString();
+		System.out.println(node.getExpression());
+		// expression.
+		ExpressionModel object = parseExpression(node.getExpression());
+		// <Type{,Type}>
+		// node.typeArguments()
+		// identifer
+		ExpressionModel identifer = parseMethodInvocationIdentifer(node);
+		// (Expression{,Expression})
+		// node.arguments()_
 		// System.out.println("recv: " + fullName);
+		return parseMethodInvocationIdentifer(node);
+
+	}
+
+	public ExpressionModel parseMethodInvocationIdentifer(MethodInvocation node) {
+		String fullName = node.toString();
+		// String siName = node.getName().getIdentifier();
 		if (fullName.startsWith("System.out.print(")) {
 			ExCallMethodModel callMethod = parseMethodCallExpression(node);
 			callMethod.setName("cui-print");
@@ -1397,8 +1413,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		// This method is not registered.
-		ExSpecialExpressionModel sp = new ExSpecialExpressionModel(
-				node.toString());
+		ExSpecialExpressionModel sp = new ExSpecialExpressionModel(node
+				.getName().getIdentifier());
+		for (Object param : node.arguments()) {
+			ExpressionModel paramModel = parseExpression((Expression) param);
+			paramModel.setParent(sp);
+			sp.addParameter(paramModel);
+		}
 		// sp.setType(getType(node));
 		sp.setId(idCounter.getNextId());
 		sp.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
