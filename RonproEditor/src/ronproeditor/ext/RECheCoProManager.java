@@ -16,7 +16,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import ronproeditor.REApplication;
@@ -27,6 +30,7 @@ import ch.datas.LoginData;
 import ch.datas.SourceData;
 import ch.frame.CHMemberSelectorFrame;
 import ch.frame.LoginDialog;
+import clib.preference.model.CAbstractPreferenceCategory;
 
 public class RECheCoProManager {
 
@@ -55,6 +59,8 @@ public class RECheCoProManager {
 	}
 
 	private void initialize() {
+		application.getPreferenceManager().putCategory(
+				new CheCoProPreferenceCategory());
 	}
 
 	public void startCheCoPro() {
@@ -287,6 +293,53 @@ public class RECheCoProManager {
 				}
 			}
 		}
+	}
+
+	class CheCoProPreferenceCategory extends CAbstractPreferenceCategory {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		private JTextField nameField = new JTextField(15);
+		private JPanel panel = new CheCoProPreferencePanel();
+
+		@Override
+		public String getName() {
+			return "CheCoPro";
+		}
+
+		@Override
+		public JPanel getPage() {
+			return panel;
+		}
+
+		@Override
+		public void load() {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void save() {
+			// TODO Auto-generated method stub
+
+		}
+
+		class CheCoProPreferencePanel extends JPanel {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			public CheCoProPreferencePanel() {
+				this.add(new JLabel("name : "));
+				this.add(nameField);
+			}
+		}
+
 	}
 
 }
