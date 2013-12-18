@@ -60,6 +60,10 @@ public class CHMemberSelectorFrame extends JFrame {
 		this.pushed.add(pushed);
 	}
 
+	public void setMyName(String myName) {
+		this.myName = myName;
+	}
+
 	public static void main(String[] args) {
 		CHMemberSelectorFrame frame = new CHMemberSelectorFrame("name");
 		List<String> members = new ArrayList<String>();

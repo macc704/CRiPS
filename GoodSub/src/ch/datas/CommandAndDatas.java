@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SendDatas implements Serializable {
+public class CommandAndDatas implements Serializable {
 
 	/**
 	 * 
@@ -14,12 +14,15 @@ public class SendDatas implements Serializable {
 	public static final int LOGIN = 0;
 	public static final int SOURCE = 1;
 	public static final int LOGIN_RESULT = 2;
-	public static final int SOURCE_RESULT = 3;
+	public static final int RECIVE_SOURCE = 3;
+	public static final int LOGUOT = 4;
+	public static final int LOGOUT_RESULT = 5;
 
 	private int command;
 	private String myName;
 	private String source;
 	private List<String> members = new ArrayList<String>();
+	private boolean exist = false;
 
 	public int getCommand() {
 		return command;
@@ -51,6 +54,14 @@ public class SendDatas implements Serializable {
 
 	public void setMembers(List<String> members) {
 		this.members = members;
+	}
+
+	public boolean isExist() {
+		return exist;
+	}
+
+	public void setExist(boolean exist) {
+		this.exist = exist;
 	}
 
 }

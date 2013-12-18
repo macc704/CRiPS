@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 import ch.connection.Connection;
 import ch.connection.ConnectionPool;
-import ch.datas.SendDatas;
+import ch.datas.CommandAndDatas;
 import ch.frame.CHFrame;
 
 public class SyncServer {
@@ -23,7 +23,7 @@ public class SyncServer {
 
 	public void run() {
 
-		// テキストエリア初期か
+		// テキストエリア初期化
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 300, 500);
 		frame.setTitle("SyncServer");
@@ -58,28 +58,21 @@ public class SyncServer {
 			while (conn.established()) {
 				Object obj = conn.read();
 
-				if (obj instanceof SendDatas) {
-					SendDatas recivedData = (SendDatas) obj;
+				if (obj instanceof CommandAndDatas) {
+					CommandAndDatas recivedData = (CommandAndDatas) obj;
 					int command = recivedData.getCommand();
 					switch (command) {
-					case SendDatas.LOGIN:
-						typeLogin(recivedData);
+					case CommandAndDatas.LOGIN:
+						typeLogin(recivedData, conn);
 						break;
-					case SendDatas.SOURCE:
+					case CommandAndDatas.SOURCE:
 						typeSource(recivedData, conn);
+						break;
+					case CommandAndDatas.LOGUOT:
+						typeLogout(recivedData, conn);
 						break;
 					}
 				}
-
-				// if (obj instanceof LoginData) {
-				// } else if (obj instanceof SourceData) {
-				// connectionPool.broadcast(obj, conn);
-				// } else if (obj instanceof FileData) {
-				// connectionPool.broadcast(obj, conn);
-				// } else if (obj instanceof String) {
-				// members.remove(obj);
-				// connectionPool.broadcast(members, conn);
-				// }
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -89,25 +82,47 @@ public class SyncServer {
 		}
 	}
 
-	private void typeLogin(SendDatas recivedData) {
+	private void typeLogin(CommandAndDatas recivedData, Connection conn) {
 		String myName = recivedData.getMyName();
 
-		if (!members.contains(myName)) {
-			members.add(myName);
-			frame.println("name: " + myName + " add list.");
+		CommandAndDatas sendData = new CommandAndDatas();
+
+		// 名前が被った場合
+		if (members.contains(myName)) {
+			myName = myName + "*";
+			sendData.setExist(true);
 		}
 
-		SendDatas sendData = new SendDatas();
-		sendData.setMembers(members);
-		sendData.setCommand(SendDatas.LOGIN_RESULT);
+		members.add(myName);
+		frame.println("name: " + myName + " add list.");
 
-		connectionPool.broadcastAll(sendData);
+		sendData.setMyName(myName);
+		sendData.setMembers(members);
+		sendData.setCommand(CommandAndDatas.LOGIN_RESULT);
+
+		if (sendData.isExist()) {
+			connectionPool.sendMyself(sendData, conn);
+			sendData.setExist(false);
+			connectionPool.broadcast(sendData, conn);
+		} else {
+			connectionPool.broadcastAll(sendData);
+		}
 	}
 
-	private void typeSource(SendDatas recivedData, Connection conn) {
-		SendDatas sendData = new SendDatas();
+	private void typeSource(CommandAndDatas recivedData, Connection conn) {
+		CommandAndDatas sendData = new CommandAndDatas();
+		sendData.setMyName(recivedData.getMyName());
 		sendData.setSource(recivedData.getSource());
-		sendData.setCommand(SendDatas.SOURCE_RESULT);
+		sendData.setCommand(CommandAndDatas.RECIVE_SOURCE);
+		connectionPool.broadcast(sendData, conn);
+	}
+
+	private void typeLogout(CommandAndDatas recivedData, Connection conn) {
+		members.remove(recivedData.getMyName());
+
+		CommandAndDatas sendData = new CommandAndDatas();
+		sendData.setMyName(recivedData.getMyName());
+		sendData.setCommand(CommandAndDatas.LOGOUT_RESULT);
 		connectionPool.broadcast(sendData, conn);
 	}
 

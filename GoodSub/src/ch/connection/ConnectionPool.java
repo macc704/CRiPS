@@ -10,7 +10,6 @@ public class ConnectionPool {
 
 	private List<Connection> connections = new ArrayList<Connection>();
 	private Object lock = new Object();
-	private List<String> users = new ArrayList<String>();
 	private CHFrame frame;
 
 	public void setFrame(CHFrame frame) {
@@ -39,9 +38,9 @@ public class ConnectionPool {
 	public void broadcast(Object obj, Connection sender) {
 		synchronized (lock) {
 			for (Connection aClient : connections) {
-				if (aClient != sender
-				/* && aClient.getRoomNum() == sender.getRoomNum() */) {
+				if (aClient != sender) {
 					aClient.write(obj);
+					frame.println("send : " + obj + "  to : " + aClient);
 				}
 			}
 		}
@@ -56,21 +55,19 @@ public class ConnectionPool {
 		}
 	}
 
-	public void addConnection(Connection conn) {
-		connections.add(conn);
-	}
-
-	public void addUser(String userName) {
-		for (String aUser : users) {
-			if (aUser == userName) {
-				// ユーザネームが既に存在するエラー処理
+	public void sendMyself(Object obj, Connection myself) {
+		synchronized (lock) {
+			for (Connection aClient : connections) {
+				if (aClient == myself) {
+					aClient.write(obj);
+					frame.println("send : " + obj + "  to : " + aClient);
+				}
 			}
 		}
-		users.add(userName);
 	}
 
-	public List<String> getUsers() {
-		return users;
+	public void addConnection(Connection conn) {
+		connections.add(conn);
 	}
 
 }

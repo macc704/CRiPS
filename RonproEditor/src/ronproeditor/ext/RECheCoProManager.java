@@ -25,8 +25,7 @@ import javax.swing.SwingUtilities;
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
 import ch.connection.Connection;
-import ch.datas.SendDatas;
-import ch.datas.SourceData;
+import ch.datas.CommandAndDatas;
 import ch.frame.CHMemberSelectorFrame;
 import clib.preference.model.CAbstractPreferenceCategory;
 
@@ -40,9 +39,9 @@ public class RECheCoProManager {
 	private boolean started;
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
-	private String myName;
+	private String myName = "guest";
 	private List<List<Object>> chDatas = new ArrayList<List<Object>>();
-	private SendDatas sendDatas = new SendDatas();
+	private CommandAndDatas commandAndDatas = new CommandAndDatas();
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -80,9 +79,9 @@ public class RECheCoProManager {
 			@Override
 			public void keyReleased(KeyEvent e) {
 
-				sendDatas.setSource(viewer.getText());
-				sendDatas.setCommand(SendDatas.SOURCE);
-				conn.write(sendDatas);
+				commandAndDatas.setSource(viewer.getText());
+				commandAndDatas.setCommand(CommandAndDatas.SOURCE);
+				conn.write(commandAndDatas);
 
 			}
 		});
@@ -130,10 +129,10 @@ public class RECheCoProManager {
 
 	private boolean login() {
 
-		sendDatas.setMyName(myName);
-		sendDatas.setCommand(SendDatas.LOGIN);
+		commandAndDatas.setMyName(myName);
+		commandAndDatas.setCommand(CommandAndDatas.LOGIN);
 
-		conn.write(sendDatas);
+		conn.write(commandAndDatas);
 
 		return conn.established();
 	}
@@ -177,80 +176,59 @@ public class RECheCoProManager {
 		chDatas.add(chFrames);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void readFromServer() {
 		Object obj = conn.read();
 
-		if (obj instanceof SendDatas) {
-			SendDatas recivedData = (SendDatas) obj;
+		if (obj instanceof CommandAndDatas) {
+			CommandAndDatas recivedData = (CommandAndDatas) obj;
 			int command = recivedData.getCommand();
 			switch (command) {
-			case SendDatas.LOGIN_RESULT:
+			case CommandAndDatas.LOGIN_RESULT:
 				typeLoginResult(recivedData);
 				break;
-			case SendDatas.SOURCE_RESULT:
+			case CommandAndDatas.RECIVE_SOURCE:
 				typeSourceResult(recivedData);
+				break;
+			case CommandAndDatas.LOGOUT_RESULT:
+				typeLogoutResult(recivedData);
 				break;
 			}
 		}
 
-		if (obj instanceof SourceData) {
-			final String source = ((SourceData) obj).getSource();
-			final String name = ((SourceData) obj).getMyName();
-			SwingUtilities.invokeLater(new Runnable() {
-				public void run() {
-					if (isStarted()) {
-						for (List<Object> aData : chDatas) {
-							if (name.equals(aData.get(1))
-									&& ((REApplication) aData.get(0))
-											.getFrame().getEditor() != null) {
-								((REApplication) aData.get(0)).getFrame()
-										.getEditor().setText(source);
-							}
-						}
-					}
-				}
-			});
-		} else if (obj instanceof List) {
-			for (String aMember : (List<String>) obj) {
-				if (!members.contains(aMember)) {
-					members.add(aMember);
-				}
-			}
-			for (String aMember : members) {
-				if (!((List<String>) obj).contains(aMember)) {
-					members.remove(aMember);
-					break;
-				}
-			}
-			msFrame.setMembers(members);
-			setMemberSelectorListner();
-			// } else if (obj instanceof FileData) {
-			// FileData fileData = (FileData) obj;
-			// if (fileData.getRequestName().equals(myName)) {
-			// // ファイル送信要求を受信したときの処理
-			// sendMyProjects(fileData);
-			// } else if (fileData.getMyName().equals(myName)) {
-			// // ファイル送信要求を出しファイルを受信したときの処理
-			// File root = fileData.getFile();
-			// List<File> projects = new ArrayList<File>();
-			// projects = Arrays.asList(root.listFiles());
-			// createMemberProjects(projects);
-			// }
-		}
+		// } else if (obj instanceof FileData) {
+		// FileData fileData = (FileData) obj;
+		// if (fileData.getRequestName().equals(myName)) {
+		// // ファイル送信要求を受信したときの処理
+		// sendMyProjects(fileData);
+		// } else if (fileData.getMyName().equals(myName)) {
+		// // ファイル送信要求を出しファイルを受信したときの処理
+		// File root = fileData.getFile();
+		// List<File> projects = new ArrayList<File>();
+		// projects = Arrays.asList(root.listFiles());
+		// createMemberProjects(projects);
+		// }
 	}
 
-	private void typeLoginResult(SendDatas recivedData) {
+	private void typeLoginResult(CommandAndDatas recivedData) {
 		for (String aMember : recivedData.getMembers()) {
 			if (!members.contains(aMember)) {
 				members.add(aMember);
 			}
 		}
+
+		// 名前が被った場合
+		if (recivedData.isExist()) {
+			myName = recivedData.getMyName();
+			commandAndDatas.setMyName(myName);
+			msFrame.setMyName(myName);
+			msFrame.setTitle("CheCoProMemberSelector " + myName);
+		}
+
 		msFrame.setMembers(members);
 		setMemberSelectorListner();
 	}
 
-	private void typeSourceResult(SendDatas recivedData) {
+	private void typeSourceResult(CommandAndDatas recivedData) {
 		final String sender = recivedData.getMyName();
 		final String source = recivedData.getSource();
 
@@ -268,6 +246,12 @@ public class RECheCoProManager {
 				}
 			}
 		});
+	}
+
+	private void typeLogoutResult(CommandAndDatas recivedData) {
+		members.remove(recivedData.getMyName());
+		msFrame.setMembers(members);
+		setMemberSelectorListner();
 	}
 
 	public boolean isStarted() {
@@ -296,7 +280,8 @@ public class RECheCoProManager {
 		msFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				conn.write(myName);
+				commandAndDatas.setCommand(CommandAndDatas.LOGUOT);
+				conn.write(commandAndDatas);
 				conn.close();
 			}
 		});
