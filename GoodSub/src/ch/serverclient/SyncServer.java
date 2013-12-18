@@ -24,8 +24,6 @@ public class SyncServer {
 	private ConnectionPool connectionPool = new ConnectionPool();
 	private List<String> members = new ArrayList<String>();
 	private List<MemberData> datas = new ArrayList<MemberData>();
-	private List<Integer> groups = new ArrayList<Integer>();
-	private List<ConnectionPool> connectionPools = new ArrayList<ConnectionPool>();
 
 	public void run() {
 
@@ -85,7 +83,6 @@ public class SyncServer {
 
 	private void typeLogin(LoginData loginData, Connection conn) {
 		String myName = loginData.getMyName();
-		int groupNumber = loginData.getGroupNumber();
 
 		if (!members.contains(myName)) {
 			members.add(myName);
@@ -94,30 +91,7 @@ public class SyncServer {
 			frame.println("name: " + myName + " add list.");
 		}
 
-		ConnectionPool myConnectionPool = null;
-		if (!groups.contains(groupNumber)) {
-			groups.add(groupNumber);
-			myConnectionPool = new ConnectionPool();
-			myConnectionPool.addConnection(conn);
-			connectionPools.add(myConnectionPool);
-			frame.println("group: " + groupNumber + " add list.");
-		} else {
-			int i = 0;
-			for (int aGroup : groups) {
-				if (aGroup == groupNumber) {
-					myConnectionPool = connectionPools.get(i);
-					myConnectionPool.addConnection(conn);
-				}
-				i++;
-			}
-		}
-
-		frame.println(myName + " join the group No." + groupNumber);
-
-		if (myConnectionPool != null) {
-			myConnectionPool.setFrame(frame);
-			myConnectionPool.broadcastAll(members);
-		}
+		connectionPool.broadcastAll(members);
 	}
 
 }

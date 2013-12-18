@@ -127,12 +127,10 @@ public class RECheCoProManager {
 	private boolean login() {
 		LoginDialog loginDialog = new LoginDialog();
 		loginDialog.openLoginDialog();
-		int groupNumber = loginDialog.getGroupNumber();
 		myName = loginDialog.getName();
 
 		LoginData loginData = new LoginData();
 		loginData.setMyName(myName);
-		loginData.setGroupNumber(groupNumber);
 
 		conn.write(loginData);
 
