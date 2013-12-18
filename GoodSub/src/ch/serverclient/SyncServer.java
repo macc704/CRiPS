@@ -1,6 +1,5 @@
 package ch.serverclient;
 
-import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -67,15 +66,13 @@ public class SyncServer {
 				if (obj instanceof LoginData) {
 					LoginData loginData = (LoginData) obj;
 					typeLogin(loginData, conn);
-
 				} else if (obj instanceof SourceData) {
-					connectionPool.broadcast(obj, conn);
-				} else if (obj instanceof File) {
-					connectionPool.broadcast(obj, conn);
-				} else if (obj instanceof String) {
 					connectionPool.broadcast(obj, conn);
 				} else if (obj instanceof FileData) {
 					connectionPool.broadcast(obj, conn);
+				} else if (obj instanceof String) {
+					members.remove(obj);
+					connectionPool.broadcast(members, conn);
 				}
 			}
 		} catch (Exception ex) {

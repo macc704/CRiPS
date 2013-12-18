@@ -88,7 +88,6 @@ public class REGoodSubManager {
 
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-
 					}
 				});
 	}
@@ -147,8 +146,7 @@ public class REGoodSubManager {
 		chApplication.getFrame().addWindowListener(new WindowAdapter() {
 
 			@Override
-			public void windowClosed(WindowEvent e) {
-
+			public void windowClosing(WindowEvent e) {
 			}
 
 		});
@@ -190,7 +188,9 @@ public class REGoodSubManager {
 				public void run() {
 					if (isStarted()) {
 						for (List<Object> aData : chDatas) {
-							if (name.equals(aData.get(1))) {
+							if (name.equals(aData.get(1))
+									&& ((REApplication) aData.get(0))
+											.getFrame().getEditor() != null) {
 								((REApplication) aData.get(0)).getFrame()
 										.getEditor().setText(source);
 							}
@@ -243,6 +243,14 @@ public class REGoodSubManager {
 				}
 			});
 		}
+
+		msFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				conn.write(myName);
+				conn.close();
+			}
+		});
 	}
 
 	public void sendMyProjects(FileData fileData) {
