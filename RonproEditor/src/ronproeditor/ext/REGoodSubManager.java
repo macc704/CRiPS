@@ -204,6 +204,12 @@ public class REGoodSubManager {
 					members.add(aMember);
 				}
 			}
+			for (String aMember : members) {
+				if (!((List<String>) obj).contains(aMember)) {
+					members.remove(aMember);
+					break;
+				}
+			}
 			msFrame.setMembers(members);
 			setMemberSelectorListner();
 		} else if (obj instanceof FileData) {
