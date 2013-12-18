@@ -321,6 +321,8 @@ public class SContextMenuProvider {
 				category.add(createCallMethodMenu("removeAtCursor",
 						"カーソル位置の要素を削除する"));
 				category.add(createCallMethodMenu("shuffle", "かき混ぜる"));
+				category.add(createCallMethodMenu("warpByTopLeft",
+						"（左上の座標指定で）ワープする"));
 				menu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("CardTurtle")) {
