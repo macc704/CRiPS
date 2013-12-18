@@ -931,8 +931,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			throw new RuntimeException(
 					"Two or more do not make a variable declaration simultaneously. ");
 		}
-
-		System.out.println(node.modifiers());
 		// // int i,j,k; ‚Ì‚æ‚¤‚È‘‚«•û‚ğƒp[ƒX‚·‚é
 		// BlockStatementModel block = new BlockStatementModel();
 		// List<?> fragments = node.fragments();
