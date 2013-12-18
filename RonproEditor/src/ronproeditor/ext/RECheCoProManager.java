@@ -29,7 +29,6 @@ import ch.datas.FileData;
 import ch.datas.LoginData;
 import ch.datas.SourceData;
 import ch.frame.CHMemberSelectorFrame;
-import ch.frame.LoginDialog;
 import clib.preference.model.CAbstractPreferenceCategory;
 
 public class RECheCoProManager {
@@ -131,12 +130,11 @@ public class RECheCoProManager {
 	}
 
 	private boolean login() {
-		LoginDialog loginDialog = new LoginDialog();
-		loginDialog.openLoginDialog();
-		myName = loginDialog.getName();
 
 		LoginData loginData = new LoginData();
-		loginData.setMyName(myName);
+		if (myName != null) {
+			loginData.setMyName(myName);
+		}
 
 		conn.write(loginData);
 
@@ -295,6 +293,8 @@ public class RECheCoProManager {
 		}
 	}
 
+	private static final String LOGINID_LABEL = "CheCoPro.loginid";
+
 	class CheCoProPreferenceCategory extends CAbstractPreferenceCategory {
 
 		/**
@@ -317,14 +317,16 @@ public class RECheCoProManager {
 
 		@Override
 		public void load() {
-			// TODO Auto-generated method stub
-
+			if (getRepository().exists(LOGINID_LABEL)) {
+				myName = getRepository().get(LOGINID_LABEL);
+				nameField.setText(myName);
+			}
 		}
 
 		@Override
 		public void save() {
-			// TODO Auto-generated method stub
-
+			myName = nameField.getText();
+			getRepository().put(LOGINID_LABEL, myName);
 		}
 
 		class CheCoProPreferencePanel extends JPanel {
