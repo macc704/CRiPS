@@ -20,7 +20,10 @@ import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
@@ -148,6 +151,28 @@ public class RECheCoProManager {
 			}
 
 		});
+
+		chApplication.getSourceManager().addPropertyChangeListener(
+				new PropertyChangeListener() {
+
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (chApplication.getFrame().getEditor() != null) {
+							final JTextPane textPane = chApplication.getFrame()
+									.getEditor().getViewer().getTextPane();
+							textPane.addCaretListener(new CaretListener() {
+
+								@Override
+								public void caretUpdate(CaretEvent e) {
+									String selectedText = textPane
+											.getSelectedText();
+									System.out.println("selected : "
+											+ selectedText);
+								}
+							});
+						}
+					}
+				});
 
 		started = false;
 
