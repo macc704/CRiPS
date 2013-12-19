@@ -17,6 +17,8 @@ public class CHPacket implements Serializable {
 	public static final int RECIVE_SOURCE = 3;
 	public static final int LOGUOT = 4;
 	public static final int LOGOUT_RESULT = 5;
+	public static final int FILE = 6;
+	public static final int RECIVE_FILE = 7;
 
 	private int command;
 	private String myName;

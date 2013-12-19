@@ -62,6 +62,22 @@ public class RECheCoProManager {
 	private void initialize() {
 		application.getPreferenceManager().putCategory(
 				new CheCoProPreferenceCategory());
+
+		File root = application.getSourceManager().getRootDirectory();
+
+		if (!checkFinalProject(root)) {
+			File finalProject = new File(root, "final");
+			finalProject.mkdir();
+		}
+
+		if (!checkFinalClass(root)) {
+			File finalClass = new File(root + "/final", "Final.java");
+			try {
+				finalClass.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void startCheCoPro() {
@@ -310,6 +326,40 @@ public class RECheCoProManager {
 				conn.close();
 			}
 		});
+	}
+
+	private boolean checkFinalProject(File root) {
+		List<File> projects = new ArrayList<File>();
+		projects = Arrays.asList(root.listFiles());
+		for (File aProject : projects) {
+			if (aProject.getName().equals("final")) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean checkFinalClass(File root) {
+		List<File> projects = new ArrayList<File>();
+		File finalProject = null;
+		projects = Arrays.asList(root.listFiles());
+		for (File aProject : projects) {
+			if (aProject.getName().equals("final")) {
+				finalProject = aProject;
+			}
+		}
+
+		List<File> classes = new ArrayList<File>();
+		classes = Arrays.asList(finalProject);
+
+		for (File aClass : classes) {
+			if (aClass == null) {
+				return false;
+			} else if (aClass.getName().equals("Final.java")) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	// public void sendMyProjects(FileData fileData) {
