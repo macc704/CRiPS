@@ -1,4 +1,4 @@
-package ch.serverclient;
+package ch.app;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,18 +7,18 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import ch.connection.Connection;
-import ch.connection.ConnectionPool;
-import ch.datas.CommandAndDatas;
-import ch.frame.CHFrame;
+import ch.connection.CHConnection;
+import ch.connection.CHConnectionPool;
+import ch.connection.CHPacket;
+import ch.view.CHFrame;
 
-public class SyncServer {
+public class CHServer {
 	public static void main(String[] args) {
-		new SyncServer().run();
+		new CHServer().run();
 	}
 
 	private CHFrame frame = new CHFrame();
-	private ConnectionPool connectionPool = new ConnectionPool();
+	private CHConnectionPool connectionPool = new CHConnectionPool();
 	private List<String> members = new ArrayList<String>();
 
 	public void run() {
@@ -38,7 +38,7 @@ public class SyncServer {
 				frame.println("accepted..");
 				Thread th = new Thread() {
 					public void run() {
-						Connection conn = connectionPool.newConnection(sock);
+						CHConnection conn = connectionPool.newConnection(sock);
 						if (conn != null) {
 							frame.println("one connection established.");
 							connectionPool.addConnection(conn);
@@ -53,22 +53,22 @@ public class SyncServer {
 		}
 	}
 
-	private void loopForOneClient(Connection conn) {
+	private void loopForOneClient(CHConnection conn) {
 		try {
 			while (conn.established()) {
 				Object obj = conn.read();
 
-				if (obj instanceof CommandAndDatas) {
-					CommandAndDatas recivedData = (CommandAndDatas) obj;
+				if (obj instanceof CHPacket) {
+					CHPacket recivedData = (CHPacket) obj;
 					int command = recivedData.getCommand();
 					switch (command) {
-					case CommandAndDatas.LOGIN:
+					case CHPacket.LOGIN:
 						typeLogin(recivedData, conn);
 						break;
-					case CommandAndDatas.SOURCE:
+					case CHPacket.SOURCE:
 						typeSource(recivedData, conn);
 						break;
-					case CommandAndDatas.LOGUOT:
+					case CHPacket.LOGUOT:
 						typeLogout(recivedData, conn);
 						break;
 					}
@@ -82,10 +82,10 @@ public class SyncServer {
 		}
 	}
 
-	private void typeLogin(CommandAndDatas recivedData, Connection conn) {
+	private void typeLogin(CHPacket recivedData, CHConnection conn) {
 		String myName = recivedData.getMyName();
 
-		CommandAndDatas sendData = new CommandAndDatas();
+		CHPacket sendData = new CHPacket();
 
 		// ñºëOÇ™îÌÇ¡ÇΩèÍçá
 		if (members.contains(myName)) {
@@ -98,7 +98,7 @@ public class SyncServer {
 
 		sendData.setMyName(myName);
 		sendData.setMembers(members);
-		sendData.setCommand(CommandAndDatas.LOGIN_RESULT);
+		sendData.setCommand(CHPacket.LOGIN_RESULT);
 
 		if (sendData.isExist()) {
 			connectionPool.sendMyself(sendData, conn);
@@ -109,20 +109,20 @@ public class SyncServer {
 		}
 	}
 
-	private void typeSource(CommandAndDatas recivedData, Connection conn) {
-		CommandAndDatas sendData = new CommandAndDatas();
+	private void typeSource(CHPacket recivedData, CHConnection conn) {
+		CHPacket sendData = new CHPacket();
 		sendData.setMyName(recivedData.getMyName());
 		sendData.setSource(recivedData.getSource());
-		sendData.setCommand(CommandAndDatas.RECIVE_SOURCE);
+		sendData.setCommand(CHPacket.RECIVE_SOURCE);
 		connectionPool.broadcast(sendData, conn);
 	}
 
-	private void typeLogout(CommandAndDatas recivedData, Connection conn) {
+	private void typeLogout(CHPacket recivedData, CHConnection conn) {
 		members.remove(recivedData.getMyName());
 
-		CommandAndDatas sendData = new CommandAndDatas();
+		CHPacket sendData = new CHPacket();
 		sendData.setMyName(recivedData.getMyName());
-		sendData.setCommand(CommandAndDatas.LOGOUT_RESULT);
+		sendData.setCommand(CHPacket.LOGOUT_RESULT);
 		connectionPool.broadcast(sendData, conn);
 	}
 

@@ -1,4 +1,4 @@
-package ch.frame;
+package ch.view;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -10,9 +10,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class LoginDialog {
+public class CHLoginDialog {
 	public static void main(String[] args) throws IOException {
-		new LoginDialog().openLoginDialog();
+		new CHLoginDialog().openLoginDialog();
 	}
 
 	private String name;

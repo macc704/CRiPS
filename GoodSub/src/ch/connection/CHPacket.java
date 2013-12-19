@@ -1,10 +1,10 @@
-package ch.datas;
+package ch.connection;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommandAndDatas implements Serializable {
+public class CHPacket implements Serializable {
 
 	/**
 	 * 

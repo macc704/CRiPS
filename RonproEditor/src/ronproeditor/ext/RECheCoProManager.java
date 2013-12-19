@@ -27,9 +27,9 @@ import javax.swing.event.CaretListener;
 
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
-import ch.connection.Connection;
-import ch.datas.CommandAndDatas;
-import ch.frame.CHMemberSelectorFrame;
+import ch.connection.CHConnection;
+import ch.connection.CHPacket;
+import ch.view.CHMemberSelectorFrame;
 import clib.preference.model.CAbstractPreferenceCategory;
 
 public class RECheCoProManager {
@@ -37,14 +37,14 @@ public class RECheCoProManager {
 	public static final String APP_NAME = "CheCoPro";
 
 	private REApplication application;
-	private Connection conn;
+	private CHConnection conn;
 	private REApplication chApplication;
 	private boolean started;
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
 	private String myName = "guest";
 	private List<List<Object>> chDatas = new ArrayList<List<Object>>();
-	private CommandAndDatas commandAndDatas = new CommandAndDatas();
+	private CHPacket commandAndDatas = new CHPacket();
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -83,7 +83,7 @@ public class RECheCoProManager {
 			public void keyReleased(KeyEvent e) {
 
 				commandAndDatas.setSource(viewer.getText());
-				commandAndDatas.setCommand(CommandAndDatas.SOURCE);
+				commandAndDatas.setCommand(CHPacket.SOURCE);
 				conn.write(commandAndDatas);
 
 			}
@@ -101,14 +101,14 @@ public class RECheCoProManager {
 	private void connectServer() {
 
 		try (Socket sock = new Socket("localhost", 10000)) {
-			conn = new Connection(sock);
+			conn = new CHConnection(sock);
 			newConnectionOpened(conn);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	private void newConnectionOpened(Connection conn) {
+	private void newConnectionOpened(CHConnection conn) {
 
 		conn.shakehandForClient();
 
@@ -133,7 +133,7 @@ public class RECheCoProManager {
 	private boolean login() {
 
 		commandAndDatas.setMyName(myName);
-		commandAndDatas.setCommand(CommandAndDatas.LOGIN);
+		commandAndDatas.setCommand(CHPacket.LOGIN);
 
 		conn.write(commandAndDatas);
 
@@ -166,7 +166,7 @@ public class RECheCoProManager {
 								public void caretUpdate(CaretEvent e) {
 									String selectedText = textPane
 											.getSelectedText();
-									System.out.println("selected : "
+									System.out.println("selectedFromCH : "
 											+ selectedText);
 								}
 							});
@@ -204,17 +204,17 @@ public class RECheCoProManager {
 	private void readFromServer() {
 		Object obj = conn.read();
 
-		if (obj instanceof CommandAndDatas) {
-			CommandAndDatas recivedData = (CommandAndDatas) obj;
+		if (obj instanceof CHPacket) {
+			CHPacket recivedData = (CHPacket) obj;
 			int command = recivedData.getCommand();
 			switch (command) {
-			case CommandAndDatas.LOGIN_RESULT:
+			case CHPacket.LOGIN_RESULT:
 				typeLoginResult(recivedData);
 				break;
-			case CommandAndDatas.RECIVE_SOURCE:
+			case CHPacket.RECIVE_SOURCE:
 				typeSourceResult(recivedData);
 				break;
-			case CommandAndDatas.LOGOUT_RESULT:
+			case CHPacket.LOGOUT_RESULT:
 				typeLogoutResult(recivedData);
 				break;
 			}
@@ -234,7 +234,7 @@ public class RECheCoProManager {
 		// }
 	}
 
-	private void typeLoginResult(CommandAndDatas recivedData) {
+	private void typeLoginResult(CHPacket recivedData) {
 		for (String aMember : recivedData.getMembers()) {
 			if (!members.contains(aMember)) {
 				members.add(aMember);
@@ -253,7 +253,7 @@ public class RECheCoProManager {
 		setMemberSelectorListner();
 	}
 
-	private void typeSourceResult(CommandAndDatas recivedData) {
+	private void typeSourceResult(CHPacket recivedData) {
 		final String sender = recivedData.getMyName();
 		final String source = recivedData.getSource();
 
@@ -273,7 +273,7 @@ public class RECheCoProManager {
 		});
 	}
 
-	private void typeLogoutResult(CommandAndDatas recivedData) {
+	private void typeLogoutResult(CHPacket recivedData) {
 		members.remove(recivedData.getMyName());
 		msFrame.setMembers(members);
 		setMemberSelectorListner();
@@ -305,7 +305,7 @@ public class RECheCoProManager {
 		msFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				commandAndDatas.setCommand(CommandAndDatas.LOGUOT);
+				commandAndDatas.setCommand(CHPacket.LOGUOT);
 				conn.write(commandAndDatas);
 				conn.close();
 			}

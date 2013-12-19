@@ -1,4 +1,4 @@
-package ch.serverclient;
+package ch.test;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -8,16 +8,16 @@ import java.net.Socket;
 
 import javax.swing.JScrollBar;
 
-import ch.connection.Connection;
-import ch.frame.CHFrame;
+import ch.connection.CHConnection;
+import ch.view.CHFrame;
 
-public class SyncClient {
+public class CHTestClient {
 
 	public static void main(String[] args) {
-		new SyncClient().run();
+		new CHTestClient().run();
 	}
 
-	private Connection conn;
+	private CHConnection conn;
 	private CHFrame frame = new CHFrame();
 	private int roomNum;
 	private String text;
@@ -51,7 +51,7 @@ public class SyncClient {
 
 		// ê⁄ë±
 		try (Socket sock = new Socket("localhost", 10000)) {
-			conn = new Connection(sock);
+			conn = new CHConnection(sock);
 			newConnectionOpened(conn);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -59,7 +59,7 @@ public class SyncClient {
 
 	}
 
-	private void newConnectionOpened(Connection conn) {
+	private void newConnectionOpened(CHConnection conn) {
 
 		Object obj;
 

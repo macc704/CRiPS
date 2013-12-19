@@ -5,7 +5,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 
-public class Connection implements Serializable {
+public class CHConnection implements Serializable {
 
 	/**
 	 * 
@@ -15,7 +15,7 @@ public class Connection implements Serializable {
 	private ObjectInputStream in;
 	private ObjectOutputStream out;
 
-	public Connection(Socket sock) {
+	public CHConnection(Socket sock) {
 		this.sock = sock;
 	}
 
