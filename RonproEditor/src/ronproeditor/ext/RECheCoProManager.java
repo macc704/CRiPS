@@ -44,7 +44,7 @@ public class RECheCoProManager {
 	private List<String> members = new ArrayList<String>();
 	private String myName = "guest";
 	private List<List<Object>> chDatas = new ArrayList<List<Object>>();
-	private CHPacket commandAndDatas = new CHPacket();
+	private CHPacket chPacket = new CHPacket();
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -98,9 +98,9 @@ public class RECheCoProManager {
 			@Override
 			public void keyReleased(KeyEvent e) {
 
-				commandAndDatas.setSource(viewer.getText());
-				commandAndDatas.setCommand(CHPacket.SOURCE);
-				conn.write(commandAndDatas);
+				chPacket.setSource(viewer.getText());
+				chPacket.setCommand(CHPacket.SOURCE);
+				conn.write(chPacket);
 
 			}
 		});
@@ -148,10 +148,10 @@ public class RECheCoProManager {
 
 	private boolean login() {
 
-		commandAndDatas.setMyName(myName);
-		commandAndDatas.setCommand(CHPacket.LOGIN);
+		chPacket.setMyName(myName);
+		chPacket.setCommand(CHPacket.LOGIN);
 
-		conn.write(commandAndDatas);
+		conn.write(chPacket);
 
 		return conn.established();
 	}
@@ -221,17 +221,20 @@ public class RECheCoProManager {
 		Object obj = conn.read();
 
 		if (obj instanceof CHPacket) {
-			CHPacket recivedData = (CHPacket) obj;
-			int command = recivedData.getCommand();
+			CHPacket recivedCHPacket = (CHPacket) obj;
+			int command = recivedCHPacket.getCommand();
 			switch (command) {
 			case CHPacket.LOGIN_RESULT:
-				typeLoginResult(recivedData);
+				typeLoginResult(recivedCHPacket);
 				break;
 			case CHPacket.RECIVE_SOURCE:
-				typeSourceResult(recivedData);
+				typeRecivedSource(recivedCHPacket);
 				break;
 			case CHPacket.LOGOUT_RESULT:
-				typeLogoutResult(recivedData);
+				typeLogoutResult(recivedCHPacket);
+				break;
+			case CHPacket.RECIVE_FILE:
+				typeRecivedFile(recivedCHPacket);
 				break;
 			}
 		}
@@ -250,28 +253,31 @@ public class RECheCoProManager {
 		// }
 	}
 
-	private void typeLoginResult(CHPacket recivedData) {
-		for (String aMember : recivedData.getMembers()) {
+	private void typeLoginResult(CHPacket recivedCHPacket) {
+		for (String aMember : recivedCHPacket.getMembers()) {
 			if (!members.contains(aMember)) {
 				members.add(aMember);
 			}
 		}
 
 		// ñºëOÇ™îÌÇ¡ÇΩèÍçá
-		if (recivedData.isExist()) {
-			myName = recivedData.getMyName();
-			commandAndDatas.setMyName(myName);
+		if (recivedCHPacket.isExist()) {
+			myName = recivedCHPacket.getMyName();
+			chPacket.setMyName(myName);
 			msFrame.setMyName(myName);
 			msFrame.setTitle("CheCoProMemberSelector " + myName);
 		}
 
 		msFrame.setMembers(members);
 		setMemberSelectorListner();
+
+		chPacket.setCommand(CHPacket.FILE);
+		conn.write(chPacket);
 	}
 
-	private void typeSourceResult(CHPacket recivedData) {
-		final String sender = recivedData.getMyName();
-		final String source = recivedData.getSource();
+	private void typeRecivedSource(CHPacket recivedCHPacket) {
+		final String sender = recivedCHPacket.getMyName();
+		final String source = recivedCHPacket.getSource();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -289,10 +295,14 @@ public class RECheCoProManager {
 		});
 	}
 
-	private void typeLogoutResult(CHPacket recivedData) {
-		members.remove(recivedData.getMyName());
+	private void typeLogoutResult(CHPacket recivedCHPacket) {
+		members.remove(recivedCHPacket.getMyName());
 		msFrame.setMembers(members);
 		setMemberSelectorListner();
+	}
+
+	private void typeRecivedFile(CHPacket recivedCHPacket) {
+		System.out.println("file recive");
 	}
 
 	public boolean isStarted() {
@@ -321,8 +331,8 @@ public class RECheCoProManager {
 		msFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				commandAndDatas.setCommand(CHPacket.LOGUOT);
-				conn.write(commandAndDatas);
+				chPacket.setCommand(CHPacket.LOGUOT);
+				conn.write(chPacket);
 				conn.close();
 			}
 		});

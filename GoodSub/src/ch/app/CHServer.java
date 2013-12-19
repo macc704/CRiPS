@@ -59,18 +59,20 @@ public class CHServer {
 				Object obj = conn.read();
 
 				if (obj instanceof CHPacket) {
-					CHPacket recivedData = (CHPacket) obj;
-					int command = recivedData.getCommand();
+					CHPacket recivedCHPacket = (CHPacket) obj;
+					int command = recivedCHPacket.getCommand();
 					switch (command) {
 					case CHPacket.LOGIN:
-						typeLogin(recivedData, conn);
+						typeLogin(recivedCHPacket, conn);
 						break;
 					case CHPacket.SOURCE:
-						typeSource(recivedData, conn);
+						typeSource(recivedCHPacket, conn);
 						break;
 					case CHPacket.LOGUOT:
-						typeLogout(recivedData, conn);
+						typeLogout(recivedCHPacket, conn);
 						break;
+					case CHPacket.FILE:
+						typeFile(recivedCHPacket, conn);
 					}
 				}
 			}
@@ -82,48 +84,54 @@ public class CHServer {
 		}
 	}
 
-	private void typeLogin(CHPacket recivedData, CHConnection conn) {
-		String myName = recivedData.getMyName();
+	private void typeLogin(CHPacket recivedCHPacket, CHConnection conn) {
+		String myName = recivedCHPacket.getMyName();
 
-		CHPacket sendData = new CHPacket();
+		CHPacket chPacket = new CHPacket();
 
 		// ñºëOÇ™îÌÇ¡ÇΩèÍçá
 		if (members.contains(myName)) {
 			myName = myName + "*";
-			sendData.setExist(true);
+			chPacket.setExist(true);
 		}
 
 		members.add(myName);
 		frame.println("name: " + myName + " add list.");
 
-		sendData.setMyName(myName);
-		sendData.setMembers(members);
-		sendData.setCommand(CHPacket.LOGIN_RESULT);
+		chPacket.setMyName(myName);
+		chPacket.setMembers(members);
+		chPacket.setCommand(CHPacket.LOGIN_RESULT);
 
-		if (sendData.isExist()) {
-			connectionPool.sendMyself(sendData, conn);
-			sendData.setExist(false);
-			connectionPool.broadcast(sendData, conn);
+		if (chPacket.isExist()) {
+			connectionPool.sendMyself(chPacket, conn);
+			chPacket.setExist(false);
+			connectionPool.broadcast(chPacket, conn);
 		} else {
-			connectionPool.broadcastAll(sendData);
+			connectionPool.broadcastAll(chPacket);
 		}
 	}
 
-	private void typeSource(CHPacket recivedData, CHConnection conn) {
-		CHPacket sendData = new CHPacket();
-		sendData.setMyName(recivedData.getMyName());
-		sendData.setSource(recivedData.getSource());
-		sendData.setCommand(CHPacket.RECIVE_SOURCE);
-		connectionPool.broadcast(sendData, conn);
+	private void typeSource(CHPacket recivedCHPacket, CHConnection conn) {
+		CHPacket chPacket = new CHPacket();
+		chPacket.setMyName(recivedCHPacket.getMyName());
+		chPacket.setSource(recivedCHPacket.getSource());
+		chPacket.setCommand(CHPacket.RECIVE_SOURCE);
+		connectionPool.broadcast(chPacket, conn);
 	}
 
-	private void typeLogout(CHPacket recivedData, CHConnection conn) {
-		members.remove(recivedData.getMyName());
+	private void typeLogout(CHPacket recivedCHPacket, CHConnection conn) {
+		members.remove(recivedCHPacket.getMyName());
 
-		CHPacket sendData = new CHPacket();
-		sendData.setMyName(recivedData.getMyName());
-		sendData.setCommand(CHPacket.LOGOUT_RESULT);
-		connectionPool.broadcast(sendData, conn);
+		CHPacket chPacket = new CHPacket();
+		chPacket.setMyName(recivedCHPacket.getMyName());
+		chPacket.setCommand(CHPacket.LOGOUT_RESULT);
+		connectionPool.broadcast(chPacket, conn);
+	}
+
+	private void typeFile(CHPacket recivedCHPacket, CHConnection conn) {
+		CHPacket chPacket = new CHPacket();
+		chPacket.setCommand(CHPacket.RECIVE_FILE);
+		connectionPool.broadcast(chPacket, conn);
 	}
 
 }
