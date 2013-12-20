@@ -36,7 +36,8 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 		if (!(getParent() instanceof StIfElseModel)
 				&& !(getParent() instanceof StWhileModel)
 				&& !(getParent() instanceof StLocalVariableModel)// ‰‹}ˆ’u
-				&& !(getParent() instanceof ExCallUserMethodModel)) {// ‰‹}ˆ’u
+				&& !(getParent() instanceof ExCallUserMethodModel)
+				&& !(getParent() instanceof StReturnModel)) {// ‰‹}ˆ’u
 			resolveBeforeAfterBlock(getParent().getParent());
 		}
 
