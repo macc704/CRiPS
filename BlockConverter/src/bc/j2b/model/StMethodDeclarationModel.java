@@ -77,6 +77,7 @@ public class StMethodDeclarationModel extends StatementModel {
 
 		// body
 		if (body != null) {
+			System.out.println(getName());
 			body.print(out, indent);
 		}
 
@@ -95,7 +96,8 @@ public class StMethodDeclarationModel extends StatementModel {
 			out.println("<LineComment>" + getComment() + "</LineComment>");
 		}
 
-		{// 2013 09/26 hakamata tag for linenumber and parent block parent block‚ÍŽb’è
+		{// 2013 09/26 hakamata tag for linenumber and parent block parent
+			// block‚ÍŽb’è
 			// lineNumber
 			makeIndent(out, indent + 1);
 			out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");

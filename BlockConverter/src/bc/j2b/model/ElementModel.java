@@ -23,10 +23,9 @@ public abstract class ElementModel {
 	private int posY = 20;
 	private String comment = "any Comment";
 	protected int blockHeight;
-	
+
 	private int lineNumber = -1;
 
-	
 	// protected OpenBlocksCodePrinter coder = new OpenBlocksCodePrinter();
 
 	/**
@@ -148,14 +147,14 @@ public abstract class ElementModel {
 		this.posY = y;
 	}
 
-	public String getComment(){
+	public String getComment() {
 		return this.comment;
 	}
-	
-	public void setComment(String str){
+
+	public void setComment(String str) {
 		this.comment = str;
 	}
-	
+
 	protected void setBlockHeight(int blockHeight) {
 		this.blockHeight = blockHeight;
 	}
@@ -215,6 +214,9 @@ public abstract class ElementModel {
 			int i = 0;
 			while (((StBlockModel) parent).getChild(i) != null) {
 				ElementModel child = ((StBlockModel) parent).getChild(i);
+				System.out.println(child.getLabel());
+				System.out.println(getId());
+				System.out.println(child.getId());
 				if (child.getId() == getId()) {
 					// BeforeBlockIdÇê›íË
 					if (i == 0) {
@@ -268,7 +270,7 @@ public abstract class ElementModel {
 	public String getLabel() {
 		return "default label";
 	}
-	
+
 	/**
 	 * @return the lineNumber
 	 */

@@ -34,6 +34,9 @@ public class StBlockModel extends StatementModel {
 	}
 
 	public ElementModel getChild(int index) {
+		if (index > children.size()) {
+			return null;
+		}
 		return children.get(index);
 	}
 

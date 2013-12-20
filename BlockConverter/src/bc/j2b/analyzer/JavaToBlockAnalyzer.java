@@ -1167,8 +1167,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 						.resolve(arrayNode.getArray().toString()).getType()
 						.contains("String")) {
 					arraySetter.setName("setterStringArrayElement");
+				} else if (variableResolver
+						.resolve(arrayNode.getArray().toString()).getType()
+						.contains("double")) {
+					arraySetter.setName("setterDoubleArrayElement");
 				} else {
-					System.out.println("not supported array setter");
+					System.out.println("not supported array setter:"
+							+ ((ArrayAccess) node).toString());
 				}
 
 				arraySetter
@@ -1878,12 +1883,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// callmethodモデルを作成
 		ExCallMethodModel arrayGetter = new ExCallMethodModel();
 		arrayGetter.setId(idCounter.getNextId());
+		arrayGetter.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 		// 配列の要素番号を変換するためのleteralモデルを作成
 		ExpressionModel index = parseExpression(node.getIndex());
 		index.setId(idCounter.getNextId());
-		// 今はint型の一次元配列で、要素番号に定数しか入らないものとして作成する 後日修正する
+		arrayGetter.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
 
-		// arraygetterは、変数の型に寄ってname,typeを変更する
+		// arraygetterは、変数の型によってname,typeを変更する
+
 		if (variableResolver.resolve(node.getArray().toString()).getType()
 				.contains("int")) {
 			arrayGetter.setName("getterIntArrayElement");
@@ -1892,6 +1901,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				.getType().contains("String")) {
 			arrayGetter.setName("getterStringArrayElement");
 			arrayGetter.setType("string");
+		} else if (variableResolver.resolve(node.getArray().toString())
+				.getType().contains("double")) {
+			arrayGetter.setName("getterDoubleArrayElement");
+			arrayGetter.setType("double-number");
 		} else {
 			System.out.println("not supported arraygetter block:"
 					+ node.getArray().toString());

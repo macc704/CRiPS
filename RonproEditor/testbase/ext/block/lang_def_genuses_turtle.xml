@@ -1057,3 +1057,17 @@
         <BlockConnector label="なにを？" connector-kind="socket" connector-type="string"/>
 	</BlockConnectors>
 </BlockGenus>
+
+<BlockGenus name="setterDoubleArrayElement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="string"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getterStringArrayElement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
