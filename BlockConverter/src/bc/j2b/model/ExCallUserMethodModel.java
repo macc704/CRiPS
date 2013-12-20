@@ -19,11 +19,17 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 
 	@Override
 	public void print(PrintStream out, int indent) {
-
+		System.out.println("label:" + getLabel());
+		System.out.println("parante:" + getParent().getLabel());
+		System.out.println("paranteparent:"
+				+ getParent().getParent().getLabel());
 		// arguments
 		for (ExpressionModel arg : getArguments()) {
+			System.out.println("argument" + arg.getLabel() + "id:"
+					+ arg.getId());
 			arg.setConnectorId(getId());
 			arg.print(out, indent);
+
 		}
 
 		// è„ÇÊÇËå„Ç…Ç‚ÇÈÇ±Ç∆Ç™èdóv
@@ -55,7 +61,8 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);

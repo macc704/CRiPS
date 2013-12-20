@@ -92,6 +92,7 @@ public class ExCallMethodModel extends ExpressionModel {
 
 		out.println("<Block id=\"" + getId() + "\" genus-name=\"" + getName()
 				+ "\">");
+		System.out.println(getName());
 		if (!label.equals("")) {
 			makeIndent(out, indent);
 			out.println("<Label>" + label + "</Label>");

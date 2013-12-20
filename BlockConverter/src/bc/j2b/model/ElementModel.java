@@ -214,9 +214,7 @@ public abstract class ElementModel {
 			int i = 0;
 			while (((StBlockModel) parent).getChild(i) != null) {
 				ElementModel child = ((StBlockModel) parent).getChild(i);
-				System.out.println(child.getLabel());
-				System.out.println(getId());
-				System.out.println(child.getId());
+
 				if (child.getId() == getId()) {
 					// BeforeBlockIdÇê›íË
 					if (i == 0) {

@@ -654,6 +654,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setLineNumber(compilationUnit.getLineNumber(stmt
 				.getStartPosition()));
 		if (stmt.getExpression() != null) {
+			System.out
+					.println(parseExpression(stmt.getExpression()).getLabel());
 			model.setReturnValue(parseExpression(stmt.getExpression()));
 		}
 		return model;
