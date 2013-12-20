@@ -25,6 +25,8 @@ public class CHPacket implements Serializable {
 	private String source;
 	private List<String> members = new ArrayList<String>();
 	private boolean exist = false;
+	private List<String> fileNames = new ArrayList<String>();
+	private List<byte[]> bytes = new ArrayList<byte[]>();
 
 	public int getCommand() {
 		return command;
@@ -64,6 +66,22 @@ public class CHPacket implements Serializable {
 
 	public void setExist(boolean exist) {
 		this.exist = exist;
+	}
+
+	public List<String> getFileNames() {
+		return fileNames;
+	}
+
+	public void setFileNames(List<String> fileNames) {
+		this.fileNames = fileNames;
+	}
+
+	public List<byte[]> getBytes() {
+		return bytes;
+	}
+
+	public void setBytes(List<byte[]> bytes) {
+		this.bytes = bytes;
 	}
 
 }

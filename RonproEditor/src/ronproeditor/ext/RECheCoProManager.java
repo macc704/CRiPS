@@ -8,7 +8,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -288,6 +291,46 @@ public class RECheCoProManager {
 				}
 			}
 		}
+	}
+
+	@SuppressWarnings("resource")
+	public byte[] convertFileToByte(File file) {
+
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		int i = 0;
+		try {
+			while ((i = fis.read()) != -1) {
+				baos.write(i);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return baos.toByteArray();
+	}
+
+	public List<String> getFileNames(File projectName) {
+		List<File> files = new ArrayList<File>();
+		files = Arrays.asList(projectName.listFiles());
+		List<String> fileNames = new ArrayList<String>();
+		for (File aFile : files) {
+			if (aFile.isFile()) {
+				fileNames.add(aFile.getName());
+			}
+		}
+		return fileNames;
+	}
+
+	public void setFileToPacket(List<String> fileNames, List<byte[]> bytes) {
+		chPacket.setFileNames(fileNames);
+		chPacket.setBytes(bytes);
 	}
 
 	private void typeRecivedSource(CHPacket recivedCHPacket) {
