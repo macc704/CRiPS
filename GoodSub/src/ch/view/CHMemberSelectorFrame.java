@@ -60,6 +60,10 @@ public class CHMemberSelectorFrame extends JFrame {
 		this.pushed.add(pushed);
 	}
 
+	public void releasePushed(String name) {
+		pushed.remove(name);
+	}
+
 	public void setMyName(String myName) {
 		this.myName = myName;
 	}

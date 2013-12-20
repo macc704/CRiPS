@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -49,8 +50,8 @@ public class RECheCoProManager {
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
 	private String myName = "guest";
-	private List<List<Object>> chDatas = new ArrayList<List<Object>>();
 	private CHPacket chPacket = new CHPacket();
+	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -162,7 +163,7 @@ public class RECheCoProManager {
 		return conn.established();
 	}
 
-	public void doOpenNewCHE(String name) {
+	public void doOpenNewCHE(final String name) {
 		chApplication = application.doOpenNewRE(name + "Project");
 		chApplication.getFrame().setTitle("CheCoPro Editor");
 		chApplication.getFrame().setDefaultCloseOperation(
@@ -179,7 +180,10 @@ public class RECheCoProManager {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-
+				chFrameMap.remove(name);
+				msFrame.releasePushed(name);
+				msFrame.setMembers(members);
+				setMemberSelectorListner();
 			}
 
 		});
@@ -227,10 +231,7 @@ public class RECheCoProManager {
 		menuBar.add(connButton);
 		chApplication.getFrame().setJMenuBar(menuBar);
 
-		List<Object> chFrames = new ArrayList<Object>();
-		chFrames.add(chApplication);
-		chFrames.add(name);
-		chDatas.add(chFrames);
+		chFrameMap.put(name, chApplication);
 	}
 
 	private void readFromServer() {
@@ -368,13 +369,9 @@ public class RECheCoProManager {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if (isStarted()) {
-					for (List<Object> aData : chDatas) {
-						if (sender.equals(aData.get(1))
-								&& ((REApplication) aData.get(0)).getFrame()
-										.getEditor() != null) {
-							((REApplication) aData.get(0)).getFrame()
-									.getEditor().setText(source);
-						}
+					if (chFrameMap.get(sender).getFrame().getEditor() != null) {
+						chFrameMap.get(sender).getFrame().getEditor()
+								.setText(source);
 					}
 				}
 			}
@@ -424,7 +421,6 @@ public class RECheCoProManager {
 					msFrame.setMembers(members);
 					if (application != null) {
 						doOpenNewCHE(name);
-						// fileSendRequest(name);
 					}
 					setMemberSelectorListner();
 				}
