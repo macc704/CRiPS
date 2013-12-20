@@ -271,8 +271,23 @@ public class RECheCoProManager {
 		msFrame.setMembers(members);
 		setMemberSelectorListner();
 
+		createMembersDir(members);
+
 		chPacket.setCommand(CHPacket.FILE);
 		conn.write(chPacket);
+	}
+
+	private void createMembersDir(List<String> members) {
+		for (String aMember : members) {
+			File root = new File(aMember + "Project");
+			if ((!aMember.equals(myName)) && (!root.exists())) {
+				root.mkdir();
+				File finalProject = new File(root, "final");
+				if (!finalProject.exists()) {
+					finalProject.mkdir();
+				}
+			}
+		}
 	}
 
 	private void typeRecivedSource(CHPacket recivedCHPacket) {
@@ -385,24 +400,24 @@ public class RECheCoProManager {
 	// conn.write(fileData);
 	// }
 
-	public void createMemberProjects(List<File> projects) {
-		File root = chApplication.getSourceManager().getRootDirectory();
-
-		for (File aProject : projects) {
-			File project = new File(root, aProject.getName());
-			project.mkdir();
-			List<File> files = new ArrayList<File>();
-			files = Arrays.asList(aProject.listFiles());
-			for (File aFile : files) {
-				File file = new File(project, aFile.getName());
-				try {
-					file.createNewFile();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
+	// public void createMemberProjects(List<File> projects) {
+	// File root = chApplication.getSourceManager().getRootDirectory();
+	//
+	// for (File aProject : projects) {
+	// File project = new File(root, aProject.getName());
+	// project.mkdir();
+	// List<File> files = new ArrayList<File>();
+	// files = Arrays.asList(aProject.listFiles());
+	// for (File aFile : files) {
+	// File file = new File(project, aFile.getName());
+	// try {
+	// file.createNewFile();
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// }
+	// }
 
 	private static final String LOGINID_LABEL = "CheCoPro.loginid";
 
