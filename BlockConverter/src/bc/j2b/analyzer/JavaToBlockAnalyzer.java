@@ -1397,15 +1397,17 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseCallActionMethodExpression2(node, thisModel);
 				// methodResolver.getReturnType(node);
 			} else {
-				// ExVariableGetterModel receiverModel = null;
-				// StVariableDeclarationModel variable = variableResolver
-				// .resolve(receiver.toString());
-				// if (variable != null) {
-				// receiverModel = parseVariableGetterExpression(variable
-				// .getName());
-				// receiverModel.setLineNumber(compilationUnit
-				// .getLineNumber(receiver.getStartPosition()));
-				// }
+				ExVariableGetterModel receiverModel = null;
+				StVariableDeclarationModel variable = variableResolver
+						.resolve(receiver.toString());
+				if (variable != null) {
+					receiverModel = parseVariableGetterExpression(variable
+							.getName());
+					receiverModel.setLineNumber(compilationUnit
+							.getLineNumber(receiver.getStartPosition()));
+					return parseCallActionMethodExpression2(node, receiverModel);
+				}
+
 				return parseMethodCallExpression(node);
 			}
 
@@ -1421,9 +1423,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (expression != null) {
 			expression += ".";
 		}
+		String typeArguments = "";
+		if (node.typeArguments().size() > 0) {
+			typeArguments = "&lt;" + node.typeArguments().toString() + "&gt;";
+		}
 
 		ExSpecialExpressionModel sp = new ExSpecialExpressionModel(expression
-				+ node.getName());
+				+ typeArguments + node.getName());
 		for (Object param : node.arguments()) {
 			ExpressionModel paramModel = parseExpression((Expression) param);
 			paramModel.setParent(sp);
