@@ -369,7 +369,9 @@ public class RECheCoProManager {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if (isStarted()) {
-					if (chFrameMap.get(sender).getFrame().getEditor() != null) {
+
+					if (chFrameMap.containsKey(sender)
+							&& chFrameMap.get(sender).getFrame().getEditor() != null) {
 						chFrameMap.get(sender).getFrame().getEditor()
 								.setText(source);
 					}
