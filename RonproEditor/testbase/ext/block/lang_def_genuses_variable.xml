@@ -202,7 +202,7 @@
 	</description>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="double-number">
+			connector-type="s">
 			<DefaultArg genus-name="double-number" label="1.0"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>

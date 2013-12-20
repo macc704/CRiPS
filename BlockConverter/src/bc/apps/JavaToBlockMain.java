@@ -60,6 +60,37 @@ public class JavaToBlockMain {
 
 		CompilationUnitModel root = visitor.getCompilationUnit();
 		root.print(out, 0);
+
+		// JarFile obpro = getObpro(file);
+		//
+		// if (obpro != null) {
+		// System.out.println(obpro.get);
+		// }
+
 		out.close();
 	}
+
+	// private JarFile getObpro(File file) {
+	// File dir = file.getParentFile();
+	// while (!(dir.isDirectory() && dir.getName().equals("testbase"))) {
+	// dir = dir.getParentFile();
+	// }
+	// for (int i = 0; i < dir.listFiles().length; i++) {
+	// if (dir.listFiles()[i].getName().equals("lib")) {
+	// dir = dir.listFiles()[i];
+	// JarFile obpro;
+	// for (int j = 0; j < dir.listFiles().length; j++) {
+	// if (dir.listFiles()[j].getName().equals("obpro.jar")) {
+	// try {
+	// obpro = new JarFile(dir.listFiles()[j]);
+	// return obpro;
+	// } catch (IOException e) {
+	// System.out.println("obpro“Ç‚Ýž‚Ý‚ÉŽ¸”s");
+	// }
+	// }
+	// }
+	// }
+	// }
+	// return null;
+	// }
 }

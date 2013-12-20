@@ -23,7 +23,8 @@ public class MethodAnalyzer extends ASTVisitor {
 
 			model.setModifier("public");
 			if (node.getReturnType2() != null) {
-				model.setReturnType(node.getReturnType2().toString());
+				model.setReturnType(convertBlockType(node.getReturnType2()
+						.toString()));
 			}
 			for (int i = 0; i < node.parameters().size(); i++) {
 				parameters.add(node.parameters().get(i).toString());
@@ -32,6 +33,20 @@ public class MethodAnalyzer extends ASTVisitor {
 			methods.add(model);
 		}
 		return super.visit(node);
+	}
+
+	private String convertBlockType(String s) {
+		if ("int".equals(s)) {
+			return "number";
+		} else if ("String".equals(s)) {
+			return "string";
+		} else if ("double".equals(s)) {
+			return "double-number";
+		} else if ("boolean".equals(s)) {
+			return "boolean";
+		} else {
+			return "object";
+		}
 	}
 
 	public List<PublicMethodInfo> getMethods() {

@@ -32,8 +32,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 					&& !method.getreturnType().equals("void")) {
 				makeIndent(out, lineNum);
 				out.println("<BlockConnector connector-kind=\"plug\" connector-type=\""
-						+ convertParameterType(method.getreturnType())
-						+ "\"></BlockConnector>");
+						+ method.getreturnType() + "\"></BlockConnector>");
 			}
 
 			for (String parameter : method.getParameters()) {
@@ -49,7 +48,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 
 				out.println("<BlockConnector label=\"" + parameterName
 						+ "\" connector-kind=\"socket\" connector-type=\""
-						+ parameterType + "\">");
+						+ convertParameterType(parameterType) + "\">");
 
 				makeIndent(out, lineNum);
 				out.println("</BlockConnector>");

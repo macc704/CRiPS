@@ -460,7 +460,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		int index = node.fragments().get(0).toString().indexOf("=");
 
-		model.setType(node.getType().toString());
+		model.setType(ElementModel.convertJavaTypeToBlockType(node.getType()
+				.toString()));
 		model.setId(idCounter.getNextId());
 		model.setName(node.fragments().get(0).toString()
 				.substring(0, node.fragments().get(0).toString().length()));
@@ -631,6 +632,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			SuperConstructorInvocation stmt) {
 		StSuperConstructorInvocationModel model = new StSuperConstructorInvocationModel(
 				"super");
+
+		for (Object parameter : stmt.arguments()) {
+			ExpressionModel param = parseExpression((Expression) parameter);
+			param.setId(idCounter.getNextId());
+			param.setLineNumber(compilationUnit.getLineNumber(stmt
+					.getStartPosition()));
+			param.setParent(model);
+			model.addParameter(param);
+		}
+
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(stmt
 				.getStartPosition()));
@@ -1430,14 +1441,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		ExSpecialExpressionModel sp = new ExSpecialExpressionModel(expression
 				+ typeArguments + node.getName());
+		sp.setId(idCounter.getNextId());
+		sp.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+
 		for (Object param : node.arguments()) {
 			ExpressionModel paramModel = parseExpression((Expression) param);
 			paramModel.setParent(sp);
 			sp.addParameter(paramModel);
 		}
 
-		sp.setId(idCounter.getNextId());
-		sp.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
 		return sp;
 	}
 
@@ -1467,7 +1479,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		name = node.getName().toString();
 
 		model.setName(name);
-		model.setType(methodResolver.getReturnType(node));
+		model.setType(ElementModel.convertJavaTypeToBlockType(methodResolver
+				.getReturnType(node)));
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
@@ -1903,12 +1916,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		// 変数名を解析したモデルとthisをExCallActionブロックにセット
 		model.setReceiver(thisModel);
-		System.out.println(node.getName().toString());
 		if (variableResolver.resolve(node.getName().toString()) == null) {
 
 		} else {
 			model.setCallMethod(parseVariableGetterExpression(node.getName()
 					.toString()));
+			model.setType(parseVariableGetterExpression(
+					node.getName().toString()).getType());
 		}
 
 		// model.setCallMethod();
