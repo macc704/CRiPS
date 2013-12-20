@@ -16,7 +16,17 @@ public class SpecialBlockModel extends CommandBlockModel {
 			code = code.trim();
 		}
 		out.print(code);
-
+		out.print("(");
+		if (getSockets().size() > 0) {
+			for (int i = 0; i < getSockets().size(); i++) {
+				int connectorID = getSockets().get(i).getId();
+				BlockToJavaAnalyzer.getBlock(connectorID).print(out, indent);
+				if (i + 1 < getSockets().size()) {
+					out.print(", ");
+				}
+			}
+		}
+		out.print(")");
 		if ("special".equals(getGenusName())) {
 			out.print(";");
 			out.println();
