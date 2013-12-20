@@ -6,6 +6,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.ByteArrayOutputStream;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
@@ -163,11 +165,21 @@ public class RECheCoProManager {
 	public void doOpenNewCHE(String name) {
 		chApplication = application.doOpenNewRE(name + "Project");
 		chApplication.getFrame().setTitle("CheCoPro Editor");
+		chApplication.getFrame().setDefaultCloseOperation(
+				JFrame.DISPOSE_ON_CLOSE);
+
+		List<WindowListener> listeners = new ArrayList<WindowListener>();
+		listeners = Arrays
+				.asList(chApplication.getFrame().getWindowListeners());
+		for (WindowListener aListener : listeners) {
+			chApplication.getFrame().removeWindowListener(aListener);
+		}
 
 		chApplication.getFrame().addWindowListener(new WindowAdapter() {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
+
 			}
 
 		});
@@ -316,7 +328,7 @@ public class RECheCoProManager {
 		return fileNames;
 	}
 
-	public void setFileToPacket(List<String> fileNames, List<byte[]> bytes) {
+	private void setFileToPacket(List<String> fileNames, List<byte[]> bytes) {
 		chPacket.setCommand(CHPacket.FILE);
 		chPacket.setFileNames(fileNames);
 		chPacket.setBytes(bytes);
@@ -334,7 +346,7 @@ public class RECheCoProManager {
 		return null;
 	}
 
-	public void sendFiles(File finalProject) {
+	private void sendFiles(File finalProject) {
 		List<File> files = new ArrayList<File>();
 		files = Arrays.asList(finalProject.listFiles());
 
