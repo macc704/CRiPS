@@ -130,6 +130,9 @@ public class CHServer {
 
 	private void typeFile(CHPacket recivedCHPacket, CHConnection conn) {
 		CHPacket chPacket = new CHPacket();
+		chPacket.setMyName(recivedCHPacket.getMyName());
+		chPacket.setBytes(recivedCHPacket.getBytes());
+		chPacket.setFileNames(recivedCHPacket.getFileNames());
 		chPacket.setCommand(CHPacket.RECIVE_FILE);
 		connectionPool.broadcast(chPacket, conn);
 	}

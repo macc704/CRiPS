@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -160,7 +161,7 @@ public class RECheCoProManager {
 	}
 
 	public void doOpenNewCHE(String name) {
-		chApplication = application.doOpenNewRE(name + "Projects");
+		chApplication = application.doOpenNewRE(name + "Project");
 		chApplication.getFrame().setTitle("CheCoPro Editor");
 
 		chApplication.getFrame().addWindowListener(new WindowAdapter() {
@@ -241,19 +242,6 @@ public class RECheCoProManager {
 				break;
 			}
 		}
-
-		// } else if (obj instanceof FileData) {
-		// FileData fileData = (FileData) obj;
-		// if (fileData.getRequestName().equals(myName)) {
-		// // ファイル送信要求を受信したときの処理
-		// sendMyProjects(fileData);
-		// } else if (fileData.getMyName().equals(myName)) {
-		// // ファイル送信要求を出しファイルを受信したときの処理
-		// File root = fileData.getFile();
-		// List<File> projects = new ArrayList<File>();
-		// projects = Arrays.asList(root.listFiles());
-		// createMemberProjects(projects);
-		// }
 	}
 
 	private void typeLoginResult(CHPacket recivedCHPacket) {
@@ -276,8 +264,7 @@ public class RECheCoProManager {
 
 		createMembersDir(members);
 
-		chPacket.setCommand(CHPacket.FILE);
-		conn.write(chPacket);
+		sendFiles(getFinalProject());
 	}
 
 	private void createMembersDir(List<String> members) {
@@ -293,7 +280,6 @@ public class RECheCoProManager {
 		}
 	}
 
-	@SuppressWarnings("resource")
 	public byte[] convertFileToByte(File file) {
 
 		FileInputStream fis = null;
@@ -309,6 +295,8 @@ public class RECheCoProManager {
 			while ((i = fis.read()) != -1) {
 				baos.write(i);
 			}
+			baos.close();
+			fis.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -329,8 +317,36 @@ public class RECheCoProManager {
 	}
 
 	public void setFileToPacket(List<String> fileNames, List<byte[]> bytes) {
+		chPacket.setCommand(CHPacket.FILE);
 		chPacket.setFileNames(fileNames);
 		chPacket.setBytes(bytes);
+	}
+
+	public File getFinalProject() {
+		File root = application.getSourceManager().getRootDirectory();
+		List<File> projects = new ArrayList<File>();
+		projects = Arrays.asList(root.listFiles());
+		for (File aProject : projects) {
+			if (aProject.getName().equals("final")) {
+				return aProject;
+			}
+		}
+		return null;
+	}
+
+	public void sendFiles(File finalProject) {
+		List<File> files = new ArrayList<File>();
+		files = Arrays.asList(finalProject.listFiles());
+
+		List<byte[]> bytes = new ArrayList<byte[]>();
+		for (File aFile : files) {
+			if (aFile.isFile()) {
+				bytes.add(convertFileToByte(aFile));
+			}
+		}
+
+		setFileToPacket(getFileNames(finalProject), bytes);
+		conn.write(chPacket);
 	}
 
 	private void typeRecivedSource(CHPacket recivedCHPacket) {
@@ -360,7 +376,24 @@ public class RECheCoProManager {
 	}
 
 	private void typeRecivedFile(CHPacket recivedCHPacket) {
-		System.out.println("file recive");
+		String senderName = recivedCHPacket.getMyName();
+		List<byte[]> bytes = new ArrayList<byte[]>();
+		List<String> fileNames = new ArrayList<String>();
+		bytes = recivedCHPacket.getBytes();
+		fileNames = recivedCHPacket.getFileNames();
+		int i = 0;
+		for (String aFileName : fileNames) {
+			File file = new File(senderName + "Project/final", aFileName);
+			try {
+				FileOutputStream fos = new FileOutputStream(file, false);
+				fos.write(bytes.get(i));
+				file.createNewFile();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			i++;
+		}
 	}
 
 	public boolean isStarted() {
@@ -429,38 +462,6 @@ public class RECheCoProManager {
 		}
 		return false;
 	}
-
-	// public void sendMyProjects(FileData fileData) {
-	// File root = application.getSourceManager().getRootDirectory();
-	// fileData.setFile(root);
-	// conn.write(fileData);
-	// }
-
-	// public void fileSendRequest(String name) {
-	// FileData fileData = new FileData();
-	// fileData.setRequestName(name);
-	// fileData.setMyName(myName);
-	// conn.write(fileData);
-	// }
-
-	// public void createMemberProjects(List<File> projects) {
-	// File root = chApplication.getSourceManager().getRootDirectory();
-	//
-	// for (File aProject : projects) {
-	// File project = new File(root, aProject.getName());
-	// project.mkdir();
-	// List<File> files = new ArrayList<File>();
-	// files = Arrays.asList(aProject.listFiles());
-	// for (File aFile : files) {
-	// File file = new File(project, aFile.getName());
-	// try {
-	// file.createNewFile();
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// }
-	// }
 
 	private static final String LOGINID_LABEL = "CheCoPro.loginid";
 
