@@ -1258,20 +1258,25 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	public ExpressionModel parseMethodInvocationExpression(MethodInvocation node) {
-		// 例外
-		String fullName = node.toString();
-		System.out.println(node.getExpression());
-		// expression.
-		ExpressionModel object = parseExpression(node.getExpression());
+		// ExpressionModel object = parseExpression(node.getExpression());
 		// <Type{,Type}>
 		// node.typeArguments()
 		// identifer
 		ExpressionModel identifer = parseMethodInvocationIdentifer(node);
-		// (Expression{,Expression})
-		// node.arguments()_
-		// System.out.println("recv: " + fullName);
-		return parseMethodInvocationIdentifer(node);
 
+		// if (object != null) {
+		// // // excallブロック作成
+		// ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
+		// model.setId(idCounter.getNextId());
+		// model.setLineNumber(compilationUnit.getLineNumber(node
+		// .getStartPosition()));
+		// model.setReceiver(object);
+		// model.setCallMethod(identifer);
+		//
+		// return model;
+		// } else {
+		return identifer;
+		// }
 	}
 
 	public ExpressionModel parseMethodInvocationIdentifer(MethodInvocation node) {
@@ -1391,18 +1396,17 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				// model.setReceiver(thisModel);
 				return parseCallActionMethodExpression2(node, thisModel);
 				// methodResolver.getReturnType(node);
-
 			} else {
-				ExVariableGetterModel receiverModel = null;
-				StVariableDeclarationModel variable = variableResolver
-						.resolve(receiver.toString());
-				if (variable != null) {
-					receiverModel = parseVariableGetterExpression(variable
-							.getName());
-					receiverModel.setLineNumber(compilationUnit
-							.getLineNumber(receiver.getStartPosition()));
-				}
-				return parseCallActionMethodExpression2(node, receiverModel);
+				// ExVariableGetterModel receiverModel = null;
+				// StVariableDeclarationModel variable = variableResolver
+				// .resolve(receiver.toString());
+				// if (variable != null) {
+				// receiverModel = parseVariableGetterExpression(variable
+				// .getName());
+				// receiverModel.setLineNumber(compilationUnit
+				// .getLineNumber(receiver.getStartPosition()));
+				// }
+				return parseMethodCallExpression(node);
 			}
 
 			// if (methodResolver.getReturnType(node) == ExpressionModel.VOID) {
@@ -1413,14 +1417,19 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		// This method is not registered.
-		ExSpecialExpressionModel sp = new ExSpecialExpressionModel(node
-				.getName().getIdentifier());
+		String expression = node.getExpression().toString();
+		if (expression != null) {
+			expression += ".";
+		}
+
+		ExSpecialExpressionModel sp = new ExSpecialExpressionModel(expression
+				+ node.getName());
 		for (Object param : node.arguments()) {
 			ExpressionModel paramModel = parseExpression((Expression) param);
 			paramModel.setParent(sp);
 			sp.addParameter(paramModel);
 		}
-		// sp.setType(getType(node));
+
 		sp.setId(idCounter.getNextId());
 		sp.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
 		return sp;
