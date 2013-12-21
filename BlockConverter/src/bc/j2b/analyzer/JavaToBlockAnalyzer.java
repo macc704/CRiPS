@@ -1098,7 +1098,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		Expression leftExpression = node.getLeftHandSide();
 		// ç∂ï”ÇÃexpressionÇ‡âêÕÇ∑ÇÈ
 		ExpressionModel setterModel = parseLeftExpression(leftExpression, model);
-
 		return setterModel;
 
 		// if (name.contains("this.")) {
@@ -1262,13 +1261,35 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setExpression(parseExpression(node.getOperand()));
 			return model;
 		}
-		if (node.getOperator().toString().equals("-")) {
-			ExLeteralModel model = new ExLeteralModel();
+		if (node.getOperator().toString().equals("-")) {// -expression Ç»Ç«
+			ExpressionModel model = parseExpression((Expression) node
+					.getOperand());
 			model.setId(idCounter.getNextId());
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
-			model.setType(getLeteralType(node.getOperand()));
-			model.setValue("-" + node.getOperand());
+			model.setType(model.getType());
+
+			if (model instanceof ExLeteralModel) {
+				((ExLeteralModel) model).setValue("-1"
+						+ ((ExLeteralModel) model).getValue());
+			} else {
+				ExInfixModel minusModel = new ExInfixModel();
+				minusModel.setOperator("*");
+				minusModel.setId(idCounter.getNextId());
+				minusModel.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+				ExLeteralModel minus = new ExLeteralModel();
+				minus.setValue("-1");
+				minus.setType("number");
+				minus.setId(idCounter.getNextId());
+				minus.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+				minusModel.setType(model.getType());
+				minusModel.setLeftExpression(minus);
+				minusModel.setRightExpression(model);
+				return minusModel;
+			}
+
 			return model;
 		}
 
@@ -1342,6 +1363,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			ExCallMethodModel callMethod = parseMethodCallExpression(node);
 			callMethod.setType("double");
 			callMethod.setName("toRadians");
+			return callMethod;
+		} else if (fullName.startsWith("Math.ceil(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("double");
+			callMethod.setName("ceil");
 			return callMethod;
 		} else if (fullName.startsWith("Integer.parseInt(")) {
 			ExCallMethodModel callMethod = parseMethodCallExpression(node);

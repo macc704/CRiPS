@@ -211,3 +211,16 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="ceil" kind="function" initlabel="ceil" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector connector-kind="socket" label="度" connector-type="double-number">
+			<DefaultArg genus-name="double-number" label="90.0"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="ln"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
