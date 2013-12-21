@@ -211,7 +211,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="ceil" kind="function" initlabel="ceil" color="15 20 220">
+<BlockGenus name="ceil" kind="function" initlabel="小数点以下を繰り上げた" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
 		<BlockConnector connector-kind="socket" label="度" connector-type="double-number">
@@ -248,4 +248,13 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-
+<BlockGenus name="floor" kind="function" initlabel="小数点以下を繰り下げた値" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+		<BlockConnector connector-kind="socket" label="値" connector-type="double-number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="ln"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>

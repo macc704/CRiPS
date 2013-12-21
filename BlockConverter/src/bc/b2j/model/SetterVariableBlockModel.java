@@ -48,8 +48,6 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 	@Override
 	public void print(PrintStream out, int indent) {
 		makeIndent(out, indent);
-		System.out.println(getName());
-		System.out.println(getLabel());
 		if (getName().startsWith("this-setter")) {
 			out.print("this." + getLabel());
 		} else if (getName().contains("Array")) {

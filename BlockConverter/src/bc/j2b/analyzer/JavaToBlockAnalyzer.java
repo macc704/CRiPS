@@ -3,6 +3,7 @@ package bc.j2b.analyzer;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -107,10 +108,19 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/** created by sakai lab 2011/11/22 */
 	// private AbstractionBlockByTagParser abstParser;
-
 	public JavaToBlockAnalyzer(File file, String enc) {
 		this.commentGetter = new JavaCommentManager(file, enc);
 		createThisModel();
+	}
+
+	public JavaToBlockAnalyzer(File file, String enc,
+			Map<String, String> addedMethods) {
+		this.commentGetter = new JavaCommentManager(file, enc);
+		createThisModel();
+		for (String method : addedMethods.keySet()) {
+			methodResolver
+					.addMethodReturnType(method, addedMethods.get(method));
+		}
 		// arranged by sakai lab 2011/11/22
 		// abstParser = new AbstractionBlockByTagParser(file);
 		// StGlobalVariableModel variable = new StGlobalVariableModel();
@@ -1379,6 +1389,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			callMethod.setType("double");
 			callMethod.setName("min");
 			return callMethod;
+		} else if (fullName.startsWith("Math.floor(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("double");
+			callMethod.setName("floor");
+			return callMethod;
 		} else if (fullName.startsWith("Integer.parseInt(")) {
 			ExCallMethodModel callMethod = parseMethodCallExpression(node);
 			callMethod.setType("int");
@@ -1488,6 +1503,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		sp.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
 
 		for (Object param : node.arguments()) {
+			if (param instanceof ExSpecialExpressionModel) {
+
+			}
 			ExpressionModel paramModel = parseExpression((Expression) param);
 			paramModel.setParent(sp);
 			sp.addParameter(paramModel);

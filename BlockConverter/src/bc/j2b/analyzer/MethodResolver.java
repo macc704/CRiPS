@@ -221,6 +221,10 @@ public class MethodResolver {
 		argumentLabels.put(signature, labels);
 	}
 
+	public void addMethodReturnType(String name, String returnType) {
+		methodToReturnType.put(name, returnType);
+	}
+
 	// private String getReturnType(MethodInvocation node) {
 	// System.out.println(node.getClass().toString());
 	// System.out.println("pa:" + node.getParent().getClass().toString());

@@ -21,6 +21,7 @@ public class OutputSelDefClassPageModel {
 	private List<ObjectBlockModel> requestObjectBlock = new ArrayList<ObjectBlockModel>();
 	private FileInputStream ldfReader;
 	private String javaFileName;
+	Map<String, String> addedMethods = new HashMap<String, String>();
 
 	public OutputSelDefClassPageModel(File file, String javaFileName) {
 		this.file = file;
@@ -103,7 +104,6 @@ public class OutputSelDefClassPageModel {
 			Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();
 			for (ObjectBlockModel selDefClass : requestObjectBlock) {
 				selDefClass.printMenuItem(ps, lineNum);
-
 				for (String key : selDefClass.getMethods().keySet()) {
 					for (PublicMethodInfo method : selDefClass.getMethods()
 							.get(key)) {
@@ -115,6 +115,9 @@ public class OutputSelDefClassPageModel {
 							addedMethods
 									.put(Integer.toString(method.hashCode()),
 											method);
+							this.addedMethods.put(method.getName() + "("
+									+ method.getParameters().size() + ")",
+									method.getreturnType());
 						}
 					}
 				}
@@ -170,6 +173,10 @@ public class OutputSelDefClassPageModel {
 			e.printStackTrace();
 		}
 
+	}
+
+	public Map<String, String> getAddedMethods() {
+		return this.addedMethods;
 	}
 
 	public void makeIndent(PrintStream out, int number) {

@@ -77,7 +77,6 @@ public class StMethodDeclarationModel extends StatementModel {
 
 		// body
 		if (body != null) {
-			System.out.println(getName());
 			body.print(out, indent);
 		}
 

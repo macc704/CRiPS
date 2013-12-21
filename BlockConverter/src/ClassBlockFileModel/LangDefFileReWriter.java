@@ -21,6 +21,7 @@ public class LangDefFileReWriter {
 	private String enc;
 	private String[] classpaths;
 	private BufferedReader br;
+	private Map<String, String> addedMethods = new HashMap<String, String>();
 
 	public LangDefFileReWriter(File file, String enc, String[] classpaths) {
 		this.file = file;
@@ -87,9 +88,9 @@ public class LangDefFileReWriter {
 
 		File cuiMenu = new File("ext/block/lang_def_menu_cui.xml");
 		selfDefModel.printMenu(projectMenuFile, cuiMenu);
-
 		// クラスのブロック情報を出力する
 		selfDefModel.printGenus();
+		this.addedMethods = selfDefModel.getAddedMethods();
 	}
 
 	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name,
@@ -123,6 +124,10 @@ public class LangDefFileReWriter {
 		methods.put(name.substring(0, name.indexOf(".java")),
 				visitor.getMethods());
 		return methods;
+	}
+
+	public Map<String, String> getAddedMethods() {
+		return this.addedMethods;
 	}
 
 	private Boolean exsistCurrentDirectry(String fileName) {

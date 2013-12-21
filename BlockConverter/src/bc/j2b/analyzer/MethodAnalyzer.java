@@ -16,7 +16,7 @@ public class MethodAnalyzer extends ASTVisitor {
 	public boolean visit(MethodDeclaration node) {
 		List<String> parameters = new ArrayList<String>();
 		if (!node.getName().equals("main")
-				&& node.getModifiers() == Modifier.PUBLIC) {
+				&& !(node.getModifiers() == Modifier.PRIVATE)) {
 
 			PublicMethodInfo model = new PublicMethodInfo();
 			model.setName(node.getName().toString());
@@ -44,9 +44,10 @@ public class MethodAnalyzer extends ASTVisitor {
 			return "double-number";
 		} else if ("boolean".equals(s)) {
 			return "boolean";
-		} else {
-			return "object";
+		} else if ("void".equals(s)) {
+			return "void";
 		}
+		return "object";
 	}
 
 	public List<PublicMethodInfo> getMethods() {

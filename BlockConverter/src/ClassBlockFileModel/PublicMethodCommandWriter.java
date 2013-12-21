@@ -48,7 +48,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 
 				out.println("<BlockConnector label=\"" + parameterName
 						+ "\" connector-kind=\"socket\" connector-type=\""
-						+ convertParameterType(parameterType) + "\">");
+						+ parameterType + "\">");
 
 				makeIndent(out, lineNum);
 				out.println("</BlockConnector>");
