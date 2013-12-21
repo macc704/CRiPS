@@ -1,5 +1,7 @@
 package ronproeditor.ext;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -50,6 +52,7 @@ public class RECheCoProManager {
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
 	private String myName = "guest";
+	private int port = 10000;
 	private CHPacket chPacket = new CHPacket();
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 
@@ -123,7 +126,7 @@ public class RECheCoProManager {
 
 	private void connectServer() {
 
-		try (Socket sock = new Socket("localhost", 10000)) {
+		try (Socket sock = new Socket("localhost", port)) {
 			conn = new CHConnection(sock);
 			newConnectionOpened(conn);
 		} catch (Exception ex) {
@@ -474,6 +477,7 @@ public class RECheCoProManager {
 	}
 
 	private static final String LOGINID_LABEL = "CheCoPro.loginid";
+	private static final String PORTNUMBER_LABEL = "CheCoPro.portnumber";
 
 	class CheCoProPreferenceCategory extends CAbstractPreferenceCategory {
 
@@ -483,6 +487,7 @@ public class RECheCoProManager {
 		private static final long serialVersionUID = 1L;
 
 		private JTextField nameField = new JTextField(15);
+		private JTextField portField = new JTextField(15);
 		private JPanel panel = new CheCoProPreferencePanel();
 
 		@Override
@@ -501,12 +506,18 @@ public class RECheCoProManager {
 				myName = getRepository().get(LOGINID_LABEL);
 				nameField.setText(myName);
 			}
+			if (getRepository().exists(PORTNUMBER_LABEL)) {
+				port = Integer.parseInt(getRepository().get(PORTNUMBER_LABEL));
+				portField.setText(Integer.toString(port));
+			}
 		}
 
 		@Override
 		public void save() {
 			myName = nameField.getText();
 			getRepository().put(LOGINID_LABEL, myName);
+			port = Integer.parseInt(portField.getText());
+			getRepository().put(PORTNUMBER_LABEL, Integer.toString(port));
 		}
 
 		class CheCoProPreferencePanel extends JPanel {
@@ -517,8 +528,15 @@ public class RECheCoProManager {
 			private static final long serialVersionUID = 1L;
 
 			public CheCoProPreferencePanel() {
-				this.add(new JLabel("name : "));
-				this.add(nameField);
+				FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
+				JPanel namePanel = new JPanel(flowLayout);
+				namePanel.add(new JLabel("name : "));
+				namePanel.add(nameField);
+				JPanel portPanel = new JPanel(flowLayout);
+				portPanel.add(new JLabel("port : "));
+				portPanel.add(portField);
+				this.add(namePanel, BorderLayout.CENTER);
+				this.add(portPanel, BorderLayout.CENTER);
 			}
 		}
 

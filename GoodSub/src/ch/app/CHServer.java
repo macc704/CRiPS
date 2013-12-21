@@ -14,26 +14,39 @@ import ch.view.CHFrame;
 
 public class CHServer {
 	public static void main(String[] args) {
-		new CHServer().run();
+		initializeFrame();
+		for (int i = MIN_PORT; i <= MAX_PORT; i++) {
+			final int port = i;
+			new Thread() {
+				public void run() {
+					new CHServer().run(port);
+				}
+			}.start();
+		}
 	}
 
-	private CHFrame frame = new CHFrame();
+	public static final int MIN_PORT = 10000;
+	public static final int MAX_PORT = 10005;
+
+	private static CHFrame frame = new CHFrame();
 	private CHConnectionPool connectionPool = new CHConnectionPool();
 	private List<String> members = new ArrayList<String>();
 
-	public void run() {
-
+	public static void initializeFrame() {
 		// テキストエリア初期化
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 300, 500);
-		frame.setTitle("SyncServer");
+		frame.setTitle("CHServer");
 		frame.open();
+	}
+
+	public void run(int port) {
 
 		connectionPool.setFrame(frame);
 
-		try (ServerSocket serverSock = new ServerSocket(10000)) {
+		try (ServerSocket serverSock = new ServerSocket(port)) {
 			while (true) {
-				frame.println("waiting new client..");
+				frame.println("waiting new client..(port:" + port + ")");
 				final Socket sock = serverSock.accept();
 				frame.println("accepted..");
 				Thread th = new Thread() {
