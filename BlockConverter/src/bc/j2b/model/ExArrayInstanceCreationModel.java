@@ -59,10 +59,16 @@ public class ExArrayInstanceCreationModel extends ExpressionModel {
 
 		if (name.contains("int")) {
 			out.println("<Block id=\"" + getId()
-					+ "\" genus-name=\"new-arrayobject-intarray\">");
+					+ "\" genus-name=\"new-arrayobject-numberarray\">");
 		} else if (name.contains("String")) {
 			out.println("<Block id=\"" + getId()
 					+ "\" genus-name=\"new-arrayobject-stringarray\">");
+		} else if (name.contains("double")) {
+			out.println("<Block id=\"" + getId()
+					+ "\" genus-name=\"new-arrayobject-double-numberarray\">");
+		} else {
+			out.println("<Block id=\"" + getId()
+					+ "\" genus-name=\"new-arrayobject-objectarray\">");
 		}
 
 		// if (name.equals("TextTurtle") || name.equals("ImageTurtle")
