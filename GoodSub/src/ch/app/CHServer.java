@@ -128,6 +128,7 @@ public class CHServer {
 		CHPacket chPacket = new CHPacket();
 		chPacket.setMyName(recivedCHPacket.getMyName());
 		chPacket.setSource(recivedCHPacket.getSource());
+		chPacket.setCurrentFileName(recivedCHPacket.getCurrentFileName());
 		chPacket.setCommand(CHPacket.RECIVE_SOURCE);
 		connectionPool.broadcast(chPacket, conn);
 	}

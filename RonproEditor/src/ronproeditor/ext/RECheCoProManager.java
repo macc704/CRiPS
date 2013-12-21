@@ -92,7 +92,7 @@ public class RECheCoProManager {
 
 	public void startCheCoPro() {
 
-		initializeListener();
+		initializeREListener();
 
 		new Thread() {
 			public void run() {
@@ -101,7 +101,7 @@ public class RECheCoProManager {
 		}.start();
 	}
 
-	public void initializeListener() {
+	public void initializeREListener() {
 		final RESourceViewer viewer;
 		viewer = application.getFrame().getEditor().getViewer();
 		viewer.getTextPane().addKeyListener(new KeyAdapter() {
@@ -109,6 +109,8 @@ public class RECheCoProManager {
 			public void keyReleased(KeyEvent e) {
 
 				chPacket.setSource(viewer.getText());
+				chPacket.setCurrentFileName(application.getSourceManager()
+						.getCurrentFile().getName());
 				chPacket.setCommand(CHPacket.SOURCE);
 				conn.write(chPacket);
 
@@ -166,11 +168,27 @@ public class RECheCoProManager {
 		return conn.established();
 	}
 
-	public void doOpenNewCHE(final String name) {
+	public void doOpenNewCHE(String name) {
 		chApplication = application.doOpenNewRE(name + "Project");
 		chApplication.getFrame().setTitle("CheCoPro Editor");
 		chApplication.getFrame().setDefaultCloseOperation(
 				JFrame.DISPOSE_ON_CLOSE);
+
+		JButton connButton = new JButton("Start");
+
+		initializeCHListeners(chApplication, name, connButton);
+
+		started = false;
+
+		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
+		menuBar.add(connButton);
+		chApplication.getFrame().setJMenuBar(menuBar);
+
+		chFrameMap.put(name, chApplication);
+	}
+
+	private void initializeCHListeners(final REApplication chApplication,
+			final String name, final JButton connButton) {
 
 		List<WindowListener> listeners = new ArrayList<WindowListener>();
 		listeners = Arrays
@@ -180,7 +198,6 @@ public class RECheCoProManager {
 		}
 
 		chApplication.getFrame().addWindowListener(new WindowAdapter() {
-
 			@Override
 			public void windowClosing(WindowEvent e) {
 				chFrameMap.remove(name);
@@ -188,12 +205,10 @@ public class RECheCoProManager {
 				msFrame.setMembers(members);
 				setMemberSelectorListner();
 			}
-
 		});
 
 		chApplication.getSourceManager().addPropertyChangeListener(
 				new PropertyChangeListener() {
-
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						if (chApplication.getFrame().getEditor() != null) {
@@ -213,11 +228,7 @@ public class RECheCoProManager {
 					}
 				});
 
-		started = false;
-
-		final JButton connButton = new JButton("Start");
 		connButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (connButton.getText().equals("Start")) {
@@ -229,12 +240,6 @@ public class RECheCoProManager {
 				}
 			}
 		});
-
-		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
-		menuBar.add(connButton);
-		chApplication.getFrame().setJMenuBar(menuBar);
-
-		chFrameMap.put(name, chApplication);
 	}
 
 	private void readFromServer() {
@@ -368,19 +373,33 @@ public class RECheCoProManager {
 	private void typeRecivedSource(CHPacket recivedCHPacket) {
 		final String sender = recivedCHPacket.getMyName();
 		final String source = recivedCHPacket.getSource();
+		final String senderCurrentFile = recivedCHPacket.getCurrentFileName();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				if (isStarted()) {
-
-					if (chFrameMap.containsKey(sender)
-							&& chFrameMap.get(sender).getFrame().getEditor() != null) {
-						chFrameMap.get(sender).getFrame().getEditor()
-								.setText(source);
-					}
+				if (shouldPrintSource(sender, senderCurrentFile)) {
+					chFrameMap.get(sender).getFrame().getEditor()
+							.setText(source);
 				}
 			}
 		});
+	}
+
+	public boolean shouldPrintSource(String sender, String senderCurrentFile) {
+		if (!isStarted()) {
+			return false;
+		}
+		if (!chFrameMap.containsKey(sender)) {
+			return false;
+		}
+		if (chFrameMap.get(sender).getFrame().getEditor() == null) {
+			return false;
+		}
+		if (!chApplication.getSourceManager().getCurrentFile().getName()
+				.equals(senderCurrentFile)) {
+			return false;
+		}
+		return true;
 	}
 
 	private void typeLogoutResult(CHPacket recivedCHPacket) {

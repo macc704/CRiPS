@@ -27,6 +27,7 @@ public class CHPacket implements Serializable {
 	private boolean exist = false;
 	private List<String> fileNames = new ArrayList<String>();
 	private List<byte[]> bytes = new ArrayList<byte[]>();
+	private String currentFileName;
 
 	public int getCommand() {
 		return command;
@@ -82,6 +83,14 @@ public class CHPacket implements Serializable {
 
 	public void setBytes(List<byte[]> bytes) {
 		this.bytes = bytes;
+	}
+
+	public String getCurrentFileName() {
+		return currentFileName;
+	}
+
+	public void setCurrentFileName(String currentFileName) {
+		this.currentFileName = currentFileName;
 	}
 
 }
