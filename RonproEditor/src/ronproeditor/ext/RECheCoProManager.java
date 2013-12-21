@@ -44,6 +44,8 @@ import clib.preference.model.CAbstractPreferenceCategory;
 public class RECheCoProManager {
 
 	public static final String APP_NAME = "CheCoPro";
+	public static final String DEFAULT_NAME = "guest";
+	public static final int DEFAULT_PORT = 10000;
 
 	private REApplication application;
 	private CHConnection conn;
@@ -51,8 +53,8 @@ public class RECheCoProManager {
 	private boolean started;
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
-	private String myName = "guest";
-	private int port = 10000;
+	private String myName = DEFAULT_NAME;
+	private int port = DEFAULT_PORT;
 	private CHPacket chPacket = new CHPacket();
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 
@@ -90,18 +92,11 @@ public class RECheCoProManager {
 		}
 	}
 
-	public void startCheCoPro() {
+	/*******************
+	 * フレーム・リスナ関係
+	 *******************/
 
-		initializeREListener();
-
-		new Thread() {
-			public void run() {
-				connectServer();
-			}
-		}.start();
-	}
-
-	public void initializeREListener() {
+	private void initializeREListener() {
 		final RESourceViewer viewer;
 		viewer = application.getFrame().getEditor().getViewer();
 		viewer.getTextPane().addKeyListener(new KeyAdapter() {
@@ -124,67 +119,6 @@ public class RECheCoProManager {
 					public void propertyChange(PropertyChangeEvent evt) {
 					}
 				});
-	}
-
-	private void connectServer() {
-
-		try (Socket sock = new Socket("localhost", port)) {
-			conn = new CHConnection(sock);
-			newConnectionOpened(conn);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	private void newConnectionOpened(CHConnection conn) {
-
-		conn.shakehandForClient();
-
-		if (login()) {
-			msFrame = new CHMemberSelectorFrame(myName);
-			msFrame.open();
-			System.out.println("client established");
-		}
-
-		try {
-			while (conn.established()) {
-				readFromServer();
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		conn.close();
-		System.out.println("client closed");
-
-	}
-
-	private boolean login() {
-
-		chPacket.setMyName(myName);
-		chPacket.setCommand(CHPacket.LOGIN);
-
-		conn.write(chPacket);
-
-		return conn.established();
-	}
-
-	public void doOpenNewCHE(String name) {
-		chApplication = application.doOpenNewRE(name + "Project");
-		chApplication.getFrame().setTitle("CheCoPro Editor");
-		chApplication.getFrame().setDefaultCloseOperation(
-				JFrame.DISPOSE_ON_CLOSE);
-
-		JButton connButton = new JButton("Start");
-
-		initializeCHListeners(chApplication, name, connButton);
-
-		started = false;
-
-		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
-		menuBar.add(connButton);
-		chApplication.getFrame().setJMenuBar(menuBar);
-
-		chFrameMap.put(name, chApplication);
 	}
 
 	private void initializeCHListeners(final REApplication chApplication,
@@ -242,6 +176,110 @@ public class RECheCoProManager {
 		});
 	}
 
+	private void setMemberSelectorListner() {
+		List<JButton> buttons = new ArrayList<JButton>(msFrame.getButtons());
+		for (JButton aButton : buttons) {
+			aButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String name = e.getActionCommand();
+					msFrame.setPushed(name);
+					msFrame.setMembers(members);
+					if (application != null) {
+						doOpenNewCHE(name);
+					}
+					setMemberSelectorListner();
+				}
+			});
+		}
+
+		msFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				chPacket.setCommand(CHPacket.LOGUOT);
+				conn.write(chPacket);
+				conn.close();
+			}
+		});
+	}
+
+	public void doOpenNewCHE(String name) {
+		chApplication = application.doOpenNewRE(name + "Project");
+		chApplication.getFrame().setTitle("CheCoPro Editor");
+		chApplication.getFrame().setDefaultCloseOperation(
+				JFrame.DISPOSE_ON_CLOSE);
+
+		JButton connButton = new JButton("Start");
+
+		initializeCHListeners(chApplication, name, connButton);
+
+		started = false;
+
+		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
+		menuBar.add(connButton);
+		chApplication.getFrame().setJMenuBar(menuBar);
+
+		chFrameMap.put(name, chApplication);
+	}
+
+	/********************
+	 * クライアントメイン動作
+	 ********************/
+
+	public void startCheCoPro() {
+
+		initializeREListener();
+
+		new Thread() {
+			public void run() {
+				connectServer();
+			}
+		}.start();
+	}
+
+	private void connectServer() {
+
+		try (Socket sock = new Socket("localhost", port)) {
+			conn = new CHConnection(sock);
+			newConnectionOpened(conn);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private void newConnectionOpened(CHConnection conn) {
+
+		conn.shakehandForClient();
+
+		if (login()) {
+			msFrame = new CHMemberSelectorFrame(myName);
+			msFrame.open();
+			System.out.println("client established");
+		}
+
+		try {
+			while (conn.established()) {
+				readFromServer();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		conn.close();
+		System.out.println("client closed");
+
+	}
+
+	private boolean login() {
+
+		chPacket.setMyName(myName);
+		chPacket.setCommand(CHPacket.LOGIN);
+
+		conn.write(chPacket);
+
+		return conn.established();
+	}
+
 	private void readFromServer() {
 		Object obj = conn.read();
 
@@ -265,6 +303,10 @@ public class RECheCoProManager {
 		}
 	}
 
+	/**********************
+	 * 受信したコマンド別の処理
+	 **********************/
+
 	private void typeLoginResult(CHPacket recivedCHPacket) {
 		for (String aMember : recivedCHPacket.getMembers()) {
 			if (!members.contains(aMember)) {
@@ -287,6 +329,52 @@ public class RECheCoProManager {
 
 		sendFiles(getFinalProject());
 	}
+
+	private void typeRecivedSource(CHPacket recivedCHPacket) {
+		final String sender = recivedCHPacket.getMyName();
+		final String source = recivedCHPacket.getSource();
+		final String senderCurrentFile = recivedCHPacket.getCurrentFileName();
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				if (shouldPrintSource(sender, senderCurrentFile)) {
+					chFrameMap.get(sender).getFrame().getEditor()
+							.setText(source);
+				}
+			}
+		});
+	}
+
+	private void typeLogoutResult(CHPacket recivedCHPacket) {
+		members.remove(recivedCHPacket.getMyName());
+		msFrame.setMembers(members);
+		setMemberSelectorListner();
+	}
+
+	private void typeRecivedFile(CHPacket recivedCHPacket) {
+		String senderName = recivedCHPacket.getMyName();
+		List<byte[]> bytes = new ArrayList<byte[]>();
+		List<String> fileNames = new ArrayList<String>();
+		bytes = recivedCHPacket.getBytes();
+		fileNames = recivedCHPacket.getFileNames();
+		int i = 0;
+		for (String aFileName : fileNames) {
+			File file = new File(senderName + "Project/final", aFileName);
+			try {
+				FileOutputStream fos = new FileOutputStream(file, false);
+				fos.write(bytes.get(i));
+				file.createNewFile();
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			i++;
+		}
+	}
+
+	/****************
+	 * ファイル操作関係
+	 ****************/
 
 	private void createMembersDir(List<String> members) {
 		for (String aMember : members) {
@@ -370,20 +458,9 @@ public class RECheCoProManager {
 		conn.write(chPacket);
 	}
 
-	private void typeRecivedSource(CHPacket recivedCHPacket) {
-		final String sender = recivedCHPacket.getMyName();
-		final String source = recivedCHPacket.getSource();
-		final String senderCurrentFile = recivedCHPacket.getCurrentFileName();
-
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				if (shouldPrintSource(sender, senderCurrentFile)) {
-					chFrameMap.get(sender).getFrame().getEditor()
-							.setText(source);
-				}
-			}
-		});
-	}
+	/**********
+	 * 判定関係
+	 **********/
 
 	public boolean shouldPrintSource(String sender, String senderCurrentFile) {
 		if (!isStarted()) {
@@ -402,66 +479,11 @@ public class RECheCoProManager {
 		return true;
 	}
 
-	private void typeLogoutResult(CHPacket recivedCHPacket) {
-		members.remove(recivedCHPacket.getMyName());
-		msFrame.setMembers(members);
-		setMemberSelectorListner();
-	}
-
-	private void typeRecivedFile(CHPacket recivedCHPacket) {
-		String senderName = recivedCHPacket.getMyName();
-		List<byte[]> bytes = new ArrayList<byte[]>();
-		List<String> fileNames = new ArrayList<String>();
-		bytes = recivedCHPacket.getBytes();
-		fileNames = recivedCHPacket.getFileNames();
-		int i = 0;
-		for (String aFileName : fileNames) {
-			File file = new File(senderName + "Project/final", aFileName);
-			try {
-				FileOutputStream fos = new FileOutputStream(file, false);
-				fos.write(bytes.get(i));
-				file.createNewFile();
-				fos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			i++;
-		}
-	}
-
 	public boolean isStarted() {
 		return started;
 	}
 
-	public void setMemberSelectorListner() {
-		List<JButton> buttons = new ArrayList<JButton>(msFrame.getButtons());
-		for (JButton aButton : buttons) {
-			aButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					String name = e.getActionCommand();
-					msFrame.setPushed(name);
-					msFrame.setMembers(members);
-					if (application != null) {
-						doOpenNewCHE(name);
-					}
-					setMemberSelectorListner();
-				}
-			});
-		}
-
-		msFrame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				chPacket.setCommand(CHPacket.LOGUOT);
-				conn.write(chPacket);
-				conn.close();
-			}
-		});
-	}
-
-	private boolean checkFinalProject(File root) {
+	public boolean checkFinalProject(File root) {
 		List<File> projects = new ArrayList<File>();
 		projects = Arrays.asList(root.listFiles());
 		for (File aProject : projects) {
@@ -472,7 +494,7 @@ public class RECheCoProManager {
 		return false;
 	}
 
-	private boolean checkFinalClass(File root) {
+	public boolean checkFinalClass(File root) {
 		List<File> projects = new ArrayList<File>();
 		File finalProject = null;
 		projects = Arrays.asList(root.listFiles());
@@ -494,6 +516,10 @@ public class RECheCoProManager {
 		}
 		return false;
 	}
+
+	/****************
+	 * preference関係
+	 ****************/
 
 	private static final String LOGINID_LABEL = "CheCoPro.loginid";
 	private static final String PORTNUMBER_LABEL = "CheCoPro.portnumber";
