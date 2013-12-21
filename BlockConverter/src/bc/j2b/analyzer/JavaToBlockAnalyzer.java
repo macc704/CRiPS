@@ -1369,6 +1369,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			callMethod.setType("double");
 			callMethod.setName("ceil");
 			return callMethod;
+		} else if (fullName.startsWith("Math.max(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("double");
+			callMethod.setName("max");
+			return callMethod;
+		} else if (fullName.startsWith("Math.min(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("double");
+			callMethod.setName("min");
+			return callMethod;
 		} else if (fullName.startsWith("Integer.parseInt(")) {
 			ExCallMethodModel callMethod = parseMethodCallExpression(node);
 			callMethod.setType("int");
