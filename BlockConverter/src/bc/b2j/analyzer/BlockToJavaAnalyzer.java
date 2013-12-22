@@ -39,6 +39,12 @@ public class BlockToJavaAnalyzer {
 	private ProgramModel programModel = new ProgramModel();
 	private static Map<Integer, BlockModel> blockModels = new HashMap<Integer, BlockModel>();
 	private String fileURI;// #ohata constructorblockにURLを渡したいので変数を用意
+	// project,継承メソッド一覧
+	private Map<String, String> projectMethods = new HashMap<String, String>();
+
+	public void setProjectMethods(Map<String, String> methods) {
+		projectMethods = methods;
+	}
 
 	// private static LinkedList privateNumberIdList = new LinkedList(); aaaaa
 
@@ -172,7 +178,8 @@ public class BlockToJavaAnalyzer {
 				ProcedureParamBlockModel model = new ProcedureParamBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
-			} else if (isMethodCallBlock(genus_name)) {
+			} else if (isMethodCallBlock(genus_name)
+					|| isProjectVoidMethod(genus_name, block)) {
 				CallMethodBlockModel model = new CallMethodBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -269,6 +276,16 @@ public class BlockToJavaAnalyzer {
 			}
 		}
 
+	}
+
+	private boolean isProjectVoidMethod(String name, Node node) {
+		int i = getBlockSocketsNumber(node);
+		name = name + "(" + i + ")";
+
+		if ("void".equals(projectMethods.get(name))) {
+			return true;
+		}
+		return false;
 	}
 
 	private boolean isDataBlock(String blockName) {
@@ -372,6 +389,24 @@ public class BlockToJavaAnalyzer {
 			blockInfo = blockInfo.getNextSibling();
 		}
 		blockModels.put(model.getId(), model);
+	}
+
+	private int getBlockSocketsNumber(Node node) {
+		int num = 0;
+		Node blockInfo = node.getFirstChild();
+
+		while (blockInfo != null) {
+			if (blockInfo.getNodeName() == "Sockets") {
+				Node blockConnectorInfo = blockInfo.getFirstChild();
+				while (blockConnectorInfo != null) {
+					num++;
+					blockConnectorInfo = blockConnectorInfo.getNextSibling();
+				}
+			}
+			blockInfo = blockInfo.getNextSibling();
+		}
+
+		return num;
 	}
 
 	/**

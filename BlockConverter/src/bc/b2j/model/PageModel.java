@@ -30,15 +30,16 @@ public class PageModel extends BlockModel {
 	public void addProcedure(ConstructorBlockModel procedure) {
 		constructors.add(procedure);
 	}
-	
+
 	public void addPrivateVariableBlock(
 			PrivateVariableBlockModel privateVariableBlock) {
 		privateVariableBlocks.add(privateVariableBlock);
 	}
-	
-	public void addConstructor(ConstructorBlockModel constructorBlock){
+
+	public void addConstructor(ConstructorBlockModel constructorBlock) {
 		constructors.add(constructorBlock);
 	}
+
 	/**
 	 * 
 	 * @param superClass
@@ -77,16 +78,18 @@ public class PageModel extends BlockModel {
 		BCSystem.out.println("call print2 method at PageModel");
 		BCSystem.out.println("procedure size:" + procedures.size());
 
-		for (PrivateVariableBlockModel privateVariableBlock : privateVariableBlocks) {//#ohata added
+		for (PrivateVariableBlockModel privateVariableBlock : privateVariableBlocks) {// #ohata
+																						// added
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(byteArray);
 			privateVariableBlock.print(ps, 0);
-			String blockString = byteArray.toString();			
-			String name = privateVariableBlock.getLabel();			
-			out.replacePrivateValue(name,blockString);//private変数は個別に登録しておく
+			String blockString = byteArray.toString();
+			String name = privateVariableBlock.getLabel();
+			out.replacePrivateValue(name, blockString);// private変数は個別に登録しておく
 		}
-		
-		for (ConstructorBlockModel constructor : constructors) {// すべての手続きブロックをプリントする//#ohata added
+
+		for (ConstructorBlockModel constructor : constructors) {// すべての手続きブロックをプリントする//#ohata
+																// added
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(byteArray);
 			constructor.print(ps, 0);
@@ -96,7 +99,7 @@ public class PageModel extends BlockModel {
 			BCSystem.out.println("name:" + name);
 			out.replace(name, blockString);
 		}
-		
+
 		for (ProcedureBlockModel procedure : procedures) {// すべての手続きブロックをプリントする
 			BCSystem.out.println("procedure block model print");
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
@@ -109,16 +112,9 @@ public class PageModel extends BlockModel {
 			out.replace(name, blockString);
 		}
 	}
-/*	
- //#ohata added
-	private String getBlockStringValue(String blockString){
-		int index = blockString.indexOf("=");
-		if(index == -1){
-			return null;
-		}
-		return blockString.substring(index+2,blockString.length()-2);
-	}
-	*/
+	/*
+	 * //#ohata added private String getBlockStringValue(String blockString){
+	 * int index = blockString.indexOf("="); if(index == -1){ return null; }
+	 * return blockString.substring(index+2,blockString.length()-2); }
+	 */
 }
-
-

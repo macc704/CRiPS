@@ -41,7 +41,6 @@ public class ClassModel extends ElementModel {
 	 */
 	public void setSuperClass(String superClass) {
 		// superclassに<が入った時は、エスケープシーケンスをつける
-		System.out.println(ElementModel.addEscapeSequence(superClass));
 		this.superClass = ElementModel.addEscapeSequence(superClass);
 	}
 
