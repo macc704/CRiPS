@@ -44,7 +44,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 	}
 
 	public void printOne(PrintStream out, int indent) {
-		
+
 		String methodName = getMethodName();
 
 		if ("int".equals(methodName) || "double".equals(methodName)
@@ -196,6 +196,11 @@ public class CallMethodBlockModel extends CommandBlockModel {
 				return true;
 			}
 		}
+		if (BlockConverter.projectMethods.get(methodName + "("
+				+ getConnectorIDs().size() + ")") != null) {
+			return true;
+		}
+
 		return false;
 	}
 }

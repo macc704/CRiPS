@@ -2,7 +2,9 @@ package bc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BlockConverter {
 
@@ -10,6 +12,7 @@ public class BlockConverter {
 
 	public static final String COLLAPSED_BLOCK_LABEL = "c//";
 
+	public static Map<String, String> projectMethods = new HashMap<String, String>();
 	// êF
 	public static final String[] COLOR_NAMES = { "blue", "cyan", "green",
 			"magenta", "orange", "pink", "red", "white", "yellow", "gray",

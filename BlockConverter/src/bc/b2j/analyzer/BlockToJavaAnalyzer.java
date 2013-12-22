@@ -39,11 +39,11 @@ public class BlockToJavaAnalyzer {
 	private ProgramModel programModel = new ProgramModel();
 	private static Map<Integer, BlockModel> blockModels = new HashMap<Integer, BlockModel>();
 	private String fileURI;// #ohata constructorblockにURLを渡したいので変数を用意
+
 	// project,継承メソッド一覧
-	private Map<String, String> projectMethods = new HashMap<String, String>();
 
 	public void setProjectMethods(Map<String, String> methods) {
-		projectMethods = methods;
+		BlockConverter.projectMethods = methods;
 	}
 
 	// private static LinkedList privateNumberIdList = new LinkedList(); aaaaa
@@ -179,7 +179,7 @@ public class BlockToJavaAnalyzer {
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
 			} else if (isMethodCallBlock(genus_name)
-					|| isProjectVoidMethod(genus_name, block)) {
+					|| isProjectMethod(genus_name, block)) {
 				CallMethodBlockModel model = new CallMethodBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -278,11 +278,11 @@ public class BlockToJavaAnalyzer {
 
 	}
 
-	private boolean isProjectVoidMethod(String name, Node node) {
+	private boolean isProjectMethod(String name, Node node) {
 		int i = getBlockSocketsNumber(node);
 		name = name + "(" + i + ")";
 
-		if ("void".equals(projectMethods.get(name))) {
+		if (BlockConverter.projectMethods.get(name) != null) {
 			return true;
 		}
 		return false;
