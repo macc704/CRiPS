@@ -1098,13 +1098,30 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	 * @return Assignmentの解析結果
 	 */
 	private ExpressionModel parseAssignementExpression(Assignment node) {
+
 		ExVariableSetterModel model = new ExVariableSetterModel();
 		ExpressionModel rightExpression = parseExpression(node
 				.getRightHandSide());
+		// operatorチェック
+		if ("+=".equals(node.getOperator().toString())) {
+			rightExpression = setOperator("+", node, rightExpression);
+		} else if ("-=".equals(node.getOperator().toString())) {
+			rightExpression = setOperator("-", node, rightExpression);
+		} else if ("*=".equals(node.getOperator().toString())) {
+			rightExpression = setOperator("*", node, rightExpression);
+		} else if ("/=".equals(node.getOperator().toString())) {
+			rightExpression = setOperator("/", node, rightExpression);
+		}
+
 		model.setRightExpression(rightExpression);
 		if (node.getRightHandSide() instanceof Assignment) {
 			throw new RuntimeException("not supported two or more substitution");
 		}
+
+		// +=なら、左辺の値ブロックと、+ブロック
+		// -=
+		// *=
+		// /=
 		Expression leftExpression = node.getLeftHandSide();
 		// 左辺のexpressionも解析する
 		ExpressionModel setterModel = parseLeftExpression(leftExpression, model);
@@ -1146,6 +1163,21 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		//
 		// }
 
+	}
+
+	private ExpressionModel setOperator(String operator, Assignment node,
+			ExpressionModel model) {
+		ExInfixModel operatorModel = new ExInfixModel();
+		operatorModel.setOperator(operator);
+		operatorModel.setId(idCounter.getNextId());
+		operatorModel.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		ExpressionModel left = parseExpression(node.getLeftHandSide());
+
+		operatorModel.setType("number");
+		operatorModel.setLeftExpression(left);
+		operatorModel.setRightExpression(model);
+		return operatorModel;
 	}
 
 	private ExpressionModel parseLeftExpression(Expression node,
