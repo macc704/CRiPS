@@ -341,6 +341,19 @@ public class SContextMenuProvider {
 				category.add(createCallMethodMenu("shuffle", "かき混ぜる"));
 				menu.add(category);
 			}
+			if (rb.getBlock().getGenusName().contains("listobject")) {
+				JMenu category = new JMenu("List");
+				category.add(createCallMethodMenu("get", "x番値の要素取得"));
+				category.add(createCallMethodMenu("getSize", "要素数"));
+				category.add(createCallMethodMenu("add", "追加する"));
+				category.add(createCallMethodMenu("removeAll", "全ての要素を削除する"));
+				category.add(createCallMethodMenu("getObjectAtCursor",
+						"カーソル位置の要素取得"));
+				category.add(createCallMethodMenu("removeAtCursor",
+						"カーソル位置の要素を削除する"));
+				menu.add(category);
+			}
+
 			if (rb.getBlock().getHeaderLabel().contains("CardTurtle")) {
 				JMenu category = new JMenu("CardTurtle");
 				category.add(createCallMethodMenu("getNumber", "番号取得"));
@@ -474,6 +487,12 @@ public class SContextMenuProvider {
 
 		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
 				name);
+		//procedureのブロック名を変える
+		Block methodBlock = newCommandRBlock.getBlock();
+		methodBlock.setBlockLabel("get"
+				+ rb.getKeyword().toUpperCase().charAt(0)
+				+ rb.getKeyword().substring(1));
+
 		RenderableBlock returnBlock = createNewBlock(rb.getParentWidget(),
 				"return");
 		RenderableBlock getter = SStubCreator.createStub("getter", rb);
@@ -485,21 +504,14 @@ public class SContextMenuProvider {
 
 		getter.setLocation(rb.getX() + returnBlock.getBlockWidth() + 10,
 				rb.getY() + newCommandRBlock.getHeight() + 20);
-
+		//returnと値を結合
 		connectByPlug(returnBlock, 0, getter);
 
-		//ラベル張替え
-		Block methodBlock = newCommandRBlock.getBlock();
-		methodBlock.setBlockLabel("get"
-				+ rb.getKeyword().toUpperCase().charAt(0)
-				+ rb.getKeyword().substring(1));
-
 		BlockLink link = newCommandRBlock.getNearbyLink();
+
 		if (link != null) {
 			link.connect();
 		}
-
-		//returnBlock.getNearbyLink().connect();
 	}
 
 	private void createNewSetterMethod(String name) {//#ohata
