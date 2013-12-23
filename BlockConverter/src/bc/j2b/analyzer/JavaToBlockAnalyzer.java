@@ -980,7 +980,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			ParameterizedType type = ((ParameterizedType) node.getType());
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 					.fragments().get(0);
-			System.out.println(type.getType().toString());
 			StatementModel model = createLocalVariableModel(type.getType()
 					.toString(), fragment.getName().toString(),
 					fragment.getInitializer(), false);
@@ -1008,9 +1007,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (node.fragments().size() > 1) {
 			throw new RuntimeException(
 					"Two or more do not make a variable declaration simultaneously. ");
-		}
-		if (node.getType().isParameterizedType()) {
-			// list型のオブジェクトを作る
 		}
 
 		String typeString = typeString(node.getType());
@@ -1951,6 +1947,19 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	 */
 	private ExpressionModel parseClassInstanceCreation(
 			ClassInstanceCreation node) {
+
+		if (node.getType().isParameterizedType()) {
+			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
+			ParameterizedType type = (ParameterizedType) node.getType();
+
+			model.setValue(type.getType().toString());
+
+			model.setId(idCounter.getNextId());
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			return model;
+
+		}
 		ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
 		model.setValue(typeString(node.getType()));
 		model.setId(idCounter.getNextId());

@@ -204,6 +204,38 @@ public abstract class ElementModel {
 		}
 	}
 
+	public static String getConnectorType(String type) {
+		if (type == null) {
+			return "void";
+		} else if (type.equals("object") || type.equals("Object")) {
+			return "object";
+		} else if (type.equals("void")) {
+			return "void";
+		} else if (type.equals("number")) {
+			return "number";
+		} else if (type.equals("double-number")) {
+			return "double-number";
+		} else if (type.equals("int") || type.equals("int[]")) {
+			// return "int-number";
+			return "number";
+		} else if (type.equals("double") || type.equals("float")
+				|| type.equals("double[]") || type.equals("float[]")) {
+			return "double-number";
+			// return "number";
+			// return "double";
+		} else if (type.equals("string") || type.equals("String")
+				|| type.equals("char") || type.equals("String[]")) {
+			return "string";
+		} else if (type.equals("boolean")) {
+			return "boolean";
+		} else if (type.equals("List") || type.equals("listobject")) {
+			return "object";
+		} else {
+			return "object";
+		}
+
+	}
+
 	public String getClassName() {
 		ElementModel current = this;
 		while (!(current instanceof ClassModel)) {

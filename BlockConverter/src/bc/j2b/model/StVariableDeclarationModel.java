@@ -82,19 +82,20 @@ public class StVariableDeclarationModel extends StatementModel implements
 			out.println("<LineComment>" + getComment() + "</LineComment>");
 		}
 
-		{// 2013 09/26 hakamata tag for linenumber and parent block parent block‚Íb’è
+		{// 2013 09/26 hakamata tag for linenumber and parent block parent
+			// block‚Íb’è
 			// lineNumber
 			makeIndent(out, indent + 1);
 			out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 			// parent
 			makeIndent(out, indent + 1);
 			ElementModel p = getParent() instanceof StExpressionModel ? getParent()
-					.getParent() : getParent();		
-			if(p!=null){//ohata private‚ÉParent‚Í‘¶İ‚µ‚È‚¢‚½‚ßA‚±‚±‚Å‚Ê‚é‚Û‚Å‚Ü‚·@
-				out.println("<ParentBlock>" + p.getId() + "</ParentBlock>"); 		
+					.getParent() : getParent();
+			if (p != null) {// ohata private‚ÉParent‚Í‘¶İ‚µ‚È‚¢‚½‚ßA‚±‚±‚Å‚Ê‚é‚Û‚Å‚Ü‚·@
+				out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 			}
 		}
-		
+
 		// location
 		makeIndent(out, indent + 1);
 		out.println("<Location>");
@@ -141,7 +142,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 			return null;
 		}
 	}
-	
+
 	public String getGenusName() {
 		return null;
 	}
@@ -172,13 +173,14 @@ public class StVariableDeclarationModel extends StatementModel implements
 			makeIndent(out, indent + 1);
 			out.println("<LineComment>" + getComment() + "</LineComment>");
 		}
-		
-		{// 2013 09/26 hakamata tag for linenumber and parent block parent block‚Íb’è
+
+		{// 2013 09/26 hakamata tag for linenumber and parent block parent
+			// block‚Íb’è
 			// lineNumber
-		makeIndent(out, indent + 1);
-		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
+			makeIndent(out, indent + 1);
+			out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		}
-		
+
 		// location
 		makeIndent(out, indent + 1);
 		out.println("<Location>");
@@ -200,17 +202,16 @@ public class StVariableDeclarationModel extends StatementModel implements
 		// end Plug
 		makeIndent(out, indent + 1);
 		out.println("</Plug>");
-		
+
 		// line comment
 
-		
 		// end Block
 		makeIndent(out, indent);
 		out.println("</Block>");
 	}
 
 	public String getBlockType() {
-		return convertJavaTypeToBlockType(type);
+		return getConnectorType(type);
 	}
 
 	private String getArgGenusName() {
