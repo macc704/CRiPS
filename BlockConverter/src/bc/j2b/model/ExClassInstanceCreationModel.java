@@ -61,6 +61,9 @@ public class ExClassInstanceCreationModel extends ExpressionModel {
 				|| name.equals("SoundTurtle")) {
 			out.println("<Block id=\"" + getId()
 					+ "\" genus-name=\"new-object-withtext\">");
+		} else if (name.equals("ArrayList")) {
+			out.println("<Block id=\"" + getId()
+					+ "\" genus-name=\"new-listobject\">");
 		} else {
 			out.println("<Block id=\"" + getId()
 					+ "\" genus-name=\"new-object\">");
@@ -73,7 +76,8 @@ public class ExClassInstanceCreationModel extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);

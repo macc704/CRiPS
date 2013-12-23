@@ -842,7 +842,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-listobject" kind="function" initlabel="リストを作る" color="16 240 27">
+<BlockGenus name="new-listobject" kind="function" initlabel="ArrayList" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
             指定した型のリストを生成します

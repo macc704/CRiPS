@@ -69,6 +69,7 @@ import bc.j2b.model.ExLeteralModel;
 import bc.j2b.model.ExNotModel;
 import bc.j2b.model.ExPostfixModel;
 import bc.j2b.model.ExSpecialExpressionModel;
+import bc.j2b.model.ExTypeModel;
 import bc.j2b.model.ExVariableGetterModel;
 import bc.j2b.model.ExVariableSetterModel;
 import bc.j2b.model.ExpressionModel;
@@ -1957,9 +1958,20 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setId(idCounter.getNextId());
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
-			return model;
+			for (Object argument : type.typeArguments()) {
+				// å^ÉuÉçÉbÉNÇçÏê¨Ç∑ÇÈ
+				ExTypeModel typeModel = new ExTypeModel();
+				typeModel.setId(idCounter.getNextId());
+				typeModel.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+				typeModel.setType(argument.toString());
+				typeModel.setParent(model);
+				model.addArgument(typeModel);
+			}
 
+			return model;
 		}
+
 		ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
 		model.setValue(typeString(node.getType()));
 		model.setId(idCounter.getNextId());
