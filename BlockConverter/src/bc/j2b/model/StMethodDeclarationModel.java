@@ -117,7 +117,7 @@ public class StMethodDeclarationModel extends StatementModel {
 		makeIndent(out, indent + 1);
 		out.println("</Location>");
 		// afterBlockId
-		if (body.getChildrenSize() != 0) {
+		if (body != null && body.getChildrenSize() != 0) {
 			makeIndent(out, indent + 1);
 			out.println("<AfterBlockId>" + body.getChild(0).getId()
 					+ "</AfterBlockId>");

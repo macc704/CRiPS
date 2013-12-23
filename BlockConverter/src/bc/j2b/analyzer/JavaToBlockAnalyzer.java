@@ -567,6 +567,12 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				.getStartPosition()));
 		// currentClass.addMethod(model);
 
+		for (Object modifer : node.modifiers()) {
+			if ("abstract".equals(modifer.toString())) {
+				return model;
+			}
+		}
+
 		// メソッドの中身
 		StBlockModel body = parseBlockStatement(node.getBody());
 		body.setParent(model);
