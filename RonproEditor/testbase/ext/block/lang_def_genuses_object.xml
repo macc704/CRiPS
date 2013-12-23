@@ -940,7 +940,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="local-var-numberarrayobject" kind="local-variable"
+<BlockGenus name="local-var-number-arrayobject" kind="local-variable"
 	initlabel="i" header-label="int[]型の配列を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
@@ -1012,7 +1012,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="local-var-stringarrayobject" kind="local-variable"
+<BlockGenus name="local-var-string-arrayobject" kind="local-variable"
 	initlabel="i" header-label="String[]型の配列を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
@@ -1084,7 +1084,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="local-var-double-numberarrayobject" kind="local-variable"
+<BlockGenus name="local-var-double-number-arrayobject" kind="local-variable"
 	initlabel="i" header-label="double[]型の配列を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>

@@ -158,9 +158,9 @@
     <BlockGenusMember>new-arrayobject-objectarray</BlockGenusMember>
     <BlockGenusMember>local-var-listobject</BlockGenusMember>
     <BlockGenusMember>private-final-var-int-number</BlockGenusMember>
-    <BlockGenusMember>local-var-numberarrayobject</BlockGenusMember>
-    <BlockGenusMember>local-var-double-numberarrayobject</BlockGenusMember>
-    <BlockGenusMember>local-var-stringarrayobject</BlockGenusMember>
+    <BlockGenusMember>local-var-number-arrayobject</BlockGenusMember>
+    <BlockGenusMember>local-var-double-number-arrayobject</BlockGenusMember>
+    <BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
 </BlockDrawer>
 
 

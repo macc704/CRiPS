@@ -966,12 +966,30 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// for (int i = 0; i < fragments.size(); i++) {
 		String typeString = typeString(node.getType());
 		if (node.getType().isArrayType()) {// Type i[]
-			// 配列を作る
+			// 配列を作る　とりあえず、通常の変数と同様に作成する
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
+					.fragments().get(0);
+			StatementModel model = createLocalVariableModel(typeString,
+					fragment.getName().toString(), fragment.getInitializer(),
+					false);
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			return model;
+
 		} else if (node.getType().isParameterizedType()) {// Type< Type{, TYpe}>
-			System.out.println(typeString);
+			ParameterizedType type = ((ParameterizedType) node.getType());
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
+					.fragments().get(0);
+			System.out.println(type.getType().toString());
+			StatementModel model = createLocalVariableModel(type.getType()
+					.toString(), fragment.getName().toString(),
+					fragment.getInitializer(), false);
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			return model;
+			// ((ParameterizedType)node.getType()).typeArguments()
 		} else if (node.getType().isPrimitiveType()
 				|| node.getType().isSimpleType()) {
-
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 					.fragments().get(0);
 			StatementModel model = createLocalVariableModel(typeString,
@@ -981,9 +999,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					.getStartPosition()));
 			return model;
 		} else {
-			throw new IllegalArgumentException("まだ未対応の AST node type 	を解析しました.");
+			throw new IllegalArgumentException("まだ未対応の AST node type を解析しました.");
 		}
-		return null;
 	}
 
 	private StLocalVariableModel parseVariableDeclarationExpression(
