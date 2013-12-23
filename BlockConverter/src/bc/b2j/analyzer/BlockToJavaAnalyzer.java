@@ -32,6 +32,7 @@ import bc.b2j.model.RepeatBlockModel;
 import bc.b2j.model.ReturnBlockModel;
 import bc.b2j.model.SetterVariableBlockModel;
 import bc.b2j.model.SpecialBlockModel;
+import bc.b2j.model.TypeBlockModel;
 import bc.b2j.model.WhileBlockModel;
 
 public class BlockToJavaAnalyzer {
@@ -270,6 +271,10 @@ public class BlockToJavaAnalyzer {
 				CallMethodBlockModel model = new CallMethodBlockModel(false);
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
+			} else if (genus_name.startsWith("type-object")) {
+				TypeBlockModel model = new TypeBlockModel();
+				parseBlock(block, model);
+				blockNode = blockNode.getNextSibling();
 			} else {
 				throw new RuntimeException("not supported blockName: "
 						+ genus_name);
@@ -289,11 +294,9 @@ public class BlockToJavaAnalyzer {
 	}
 
 	private boolean isDataBlock(String blockName) {
-		if (blockName.startsWith("new-object")) {
-			return true;
-		}
-
-		if (blockName.startsWith("new-arrayobject")) {
+		if (blockName.startsWith("new-object")
+				|| blockName.startsWith("new-arrayobject")
+				|| blockName.startsWith("new-listobject")) {
 			return true;
 		}
 

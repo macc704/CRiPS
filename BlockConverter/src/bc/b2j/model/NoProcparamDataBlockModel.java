@@ -20,7 +20,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		if (!getGenusName().startsWith("getter")) {
 			return;
 		}
-		if (getGenusName().contains("Array")) {// ‚Æ‚è‚ ‚¦‚¸
+		if (getGenusName().contains("array")) {// ‚Æ‚è‚ ‚¦‚¸
 			return;
 		}
 		checkPlugBlock(getPlugID());
@@ -174,6 +174,14 @@ public class NoProcparamDataBlockModel extends BlockModel {
 				block.print(out, indent);
 				out.print("]");
 			}
+		} else if (getGenusName().startsWith("new-listobject")) {
+			out.print("new ArrayList<");
+			ArrayList<Integer> connectorIDs = getConnectorIDs();
+			for (int connectorID : connectorIDs) {
+				BlockModel block = BlockToJavaAnalyzer.getBlock(connectorID);
+				block.print(out, indent);
+			}
+			out.print(">()");
 		} else {
 			out.print("java.awt.Color." + getGenusName());
 		}
