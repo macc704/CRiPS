@@ -239,7 +239,8 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 		}
 
-		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
+		if (rb.getBlock().isObjectTypeVariableDeclBlock()
+				|| rb.getBlock().getGenusName().contains("listobject")) {
 			menu.add(createActionBlockMenu());
 			menu.add(createGetterBlockMenu());
 			//TODO menu‚Éƒƒ\ƒbƒh‚ğ’Ç‰Á

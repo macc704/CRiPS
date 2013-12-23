@@ -1952,7 +1952,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (node.getType().isParameterizedType()) {
 			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
 			ParameterizedType type = (ParameterizedType) node.getType();
-
+			System.out.println("hoge");
 			model.setValue(type.getType().toString());
 
 			model.setId(idCounter.getNextId());
