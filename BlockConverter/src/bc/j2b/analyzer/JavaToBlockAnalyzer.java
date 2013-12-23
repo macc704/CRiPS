@@ -964,16 +964,26 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// BlockStatementModel block = new BlockStatementModel();
 		// List<?> fragments = node.fragments();
 		// for (int i = 0; i < fragments.size(); i++) {
-
 		String typeString = typeString(node.getType());
+		if (node.getType().isArrayType()) {// Type i[]
+			// 配列を作る
+		} else if (node.getType().isParameterizedType()) {// Type< Type{, TYpe}>
+			System.out.println(typeString);
+		} else if (node.getType().isPrimitiveType()
+				|| node.getType().isSimpleType()) {
 
-		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
-				.fragments().get(0);
-		StatementModel model = createLocalVariableModel(typeString, fragment
-				.getName().toString(), fragment.getInitializer(), false);
-		model.setLineNumber(compilationUnit.getLineNumber(node
-				.getStartPosition()));
-		return model;
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
+					.fragments().get(0);
+			StatementModel model = createLocalVariableModel(typeString,
+					fragment.getName().toString(), fragment.getInitializer(),
+					false);
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			return model;
+		} else {
+			throw new IllegalArgumentException("まだ未対応の AST node type 	を解析しました.");
+		}
+		return null;
 	}
 
 	private StLocalVariableModel parseVariableDeclarationExpression(
@@ -983,7 +993,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					"Two or more do not make a variable declaration simultaneously. ");
 		}
 		if (node.getType().isParameterizedType()) {
-			//list型のオブジェクトを作る
+			// list型のオブジェクトを作る
 		}
 
 		String typeString = typeString(node.getType());
@@ -1206,12 +1216,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				// インデックスの解析
 				ExpressionModel variable = parseExpression(arrayNode.getIndex());
 				variable.setId(idCounter.getNextId());
-				// model.setLineNumber(compilationUnit.getLineNumber(node
-				// .getStartPosition()));
-				//
-				// model.setId(idCounter.getNextId());
 
-				// とりあえず2つに対応
 				if (variableResolver.resolve(arrayNode.getArray().toString())
 						.getType().contains("int")) {
 					arraySetter.setName("setterIntArrayElement");
