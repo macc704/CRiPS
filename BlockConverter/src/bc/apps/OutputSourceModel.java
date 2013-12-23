@@ -212,7 +212,6 @@ public class OutputSourceModel {
 			String src = FileReader.readFile(file, enc);
 			Matcher m = p.matcher(src);
 			if (m.find()) {
-				System.out.println("match!");
 				start = m.group().length();
 			} else {
 				throw new RuntimeException("Class Declaration Not Found.");

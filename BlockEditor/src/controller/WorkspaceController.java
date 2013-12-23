@@ -390,7 +390,6 @@ public class WorkspaceController {
 				// loaded
 				// from
 				// langDefRoot
-				System.out.println("langDefRoot" + langDefRoot.getBaseURI());
 
 				workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
 

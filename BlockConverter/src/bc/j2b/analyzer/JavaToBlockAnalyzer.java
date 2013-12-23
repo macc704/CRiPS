@@ -982,6 +982,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			throw new RuntimeException(
 					"Two or more do not make a variable declaration simultaneously. ");
 		}
+		if (node.getType().isParameterizedType()) {
+			//list型のオブジェクトを作る
+		}
 
 		String typeString = typeString(node.getType());
 		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node

@@ -148,5 +148,17 @@
 		<BlockGenusMember>black</BlockGenusMember>
 	</BlockDrawer>
 
+<BlockDrawer name="試作ブロック" type="factory" button-color="255 155 64">
+    <BlockGenusMember>local-var-listobject</BlockGenusMember>
+    <BlockGenusMember>new-listobject</BlockGenusMember>
+    <BlockGenusMember>type-object</BlockGenusMember>
+    <BlockGenusMember>new-arrayobject-numberarray</BlockGenusMember>
+    <BlockGenusMember>new-arrayobject-stringarray</BlockGenusMember>
+    <BlockGenusMember>new-arrayobject-double-numberarray</BlockGenusMember>
+    <BlockGenusMember>new-arrayobject-objectarray</BlockGenusMember>
+    <BlockGenusMember>local-var-listobject</BlockGenusMember>
+    <BlockGenusMember>private-final-var-int-number</BlockGenusMember>
+</BlockDrawer>
+
 
 </BlockDrawerSet>
