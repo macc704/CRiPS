@@ -19,6 +19,7 @@ import renderable.RenderableBlock;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceWidget;
+import bc.j2b.model.ElementModel;
 import codeblocks.Block;
 import codeblocks.BlockLink;
 
@@ -344,14 +345,10 @@ public class SContextMenuProvider {
 			}
 			if (rb.getBlock().getGenusName().contains("listobject")) {
 				JMenu category = new JMenu("List");
-				category.add(createCallMethodMenu("get", "x番値の要素取得"));
-				category.add(createCallMethodMenu("getSize", "要素数"));
-				category.add(createCallMethodMenu("add", "追加する"));
-				category.add(createCallMethodMenu("removeAll", "全ての要素を削除する"));
-				category.add(createCallMethodMenu("getObjectAtCursor",
-						"カーソル位置の要素取得"));
-				category.add(createCallMethodMenu("removeAtCursor",
-						"カーソル位置の要素を削除する"));
+				category.add(createCallListMethodMenu("get", "x番値の要素取得"));
+				category.add(createCallListMethodMenu("getSize", "要素数"));
+				category.add(createCallListMethodMenu("add", "追加する"));
+				category.add(createCallListMethodMenu("removeAll", "全ての要素を削除する"));
 				menu.add(category);
 			}
 
@@ -456,6 +453,16 @@ public class SContextMenuProvider {
 		return item;
 	}
 
+	private JMenuItem createCallListMethodMenu(final String name, String label) {
+		JMenuItem item = new JMenuItem(label);
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createListMethod(name);
+			}
+		});
+		return item;
+	}
+
 	private void createCallMethod(String name) {
 		//RenderableBlock createRb = BlockUtilities.getBlock("get","hoge");//does not work !!
 
@@ -481,6 +488,49 @@ public class SContextMenuProvider {
 				connectByPlug(newActionRBlock, 0, newGetterRBlock);
 			}
 		}
+	}
+
+	private void createListMethod(String name) {
+		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
+				name);
+
+		//Listの型を確認する
+		Block newBlock = Block.getBlock(rb.getBlock().getSocketAt(0)
+				.getBlockID());
+		Block typeBlock = Block.getBlock(newBlock.getSocketAt(0).getBlockID());
+		//listの型
+		String type = ElementModel.convertJavaTypeToBlockType(typeBlock
+				.getBlockLabel());
+		if (newCommandRBlock.getBlock().getGenusName().equals("add")) {//要素を追加するメソッドの場合は、プラグの形を変える
+			newCommandRBlock.getBlock().getSocketAt(0).setKind(type);
+		}
+		boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
+		if (cmd) {
+			RenderableBlock newActionRBlock = createActionGetterBlock(rb,
+					"callActionMethod2");
+			connectByBefore(newActionRBlock, 1, newCommandRBlock);
+
+		} else {
+			RenderableBlock newGetterRBlock = createActionGetterBlock(rb,
+					"callGetterMethod2");
+			connectByPlug(newGetterRBlock, 1, newCommandRBlock);
+
+			boolean returnObject = newCommandRBlock.getBlock().getPlug()
+					.getKind().equals("object");
+			if (returnObject) {
+
+				newGetterRBlock.getBlock().setPlugKind(type);
+
+				//要素がobject型なら、callActionMethod2ブロックと結合する
+				if (type.equals("object")) {
+					RenderableBlock newActionRBlock = createNewBlock(
+							rb.getParentWidget(), "callActionMethod2");
+					newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
+					connectByPlug(newActionRBlock, 0, newGetterRBlock);
+				}
+			}
+		}
+
 	}
 
 	//#ohata
@@ -635,4 +685,5 @@ public class SContextMenuProvider {
 				new WorkspaceEvent(parent.getParentWidget(), link,
 						WorkspaceEvent.BLOCKS_CONNECTED));
 	}
+
 }
