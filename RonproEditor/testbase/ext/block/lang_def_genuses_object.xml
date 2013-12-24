@@ -1205,5 +1205,35 @@
 	</BlockConnectors>
 </BlockGenus>
 
+<BlockGenus name="clear" kind="command" initlabel="中身をすべて削除する" color="255 255 100">
+</BlockGenus>
+
+<BlockGenus name="size" kind="data" initlabel="リストの大きさ" color="255 255 100">
+        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
+</BlockGenus>
+
+
+<BlockGenus name="isEmpty" kind="data" initlabel="空か調べる" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="boolean"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="contains" kind="data" initlabel="要素があるか調べる" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="boolean"/>
+        <BlockConnector label="どの？" connector-kind="socket" connector-type="object"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="remove" kind="command" initlabel="要素を削除する" color="255 255 100">
+	<BlockConnectors>
+        <BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+
+
+
 
 

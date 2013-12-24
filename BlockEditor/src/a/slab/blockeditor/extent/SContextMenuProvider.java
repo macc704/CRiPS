@@ -346,9 +346,14 @@ public class SContextMenuProvider {
 			if (rb.getBlock().getGenusName().contains("listobject")) {
 				JMenu category = new JMenu("List");
 				category.add(createCallListMethodMenu("get", "x番値の要素取得"));
-				category.add(createCallListMethodMenu("getSize", "要素数"));
+				category.add(createCallListMethodMenu("size", "要素数"));
 				category.add(createCallListMethodMenu("add", "追加する"));
-				category.add(createCallListMethodMenu("removeAll", "全ての要素を削除する"));
+				category.add(createCallListMethodMenu("clear", "全ての要素を削除する"));
+				category.add(createCallListMethodMenu("contains",
+						"リストがある要素があるか調べる"));
+				category.add(createCallListMethodMenu("isEmpty", "リストが空か調べる"));
+				category.add(createCallListMethodMenu("remove",
+						"指定した番号の要素を削除する"));
 				menu.add(category);
 			}
 

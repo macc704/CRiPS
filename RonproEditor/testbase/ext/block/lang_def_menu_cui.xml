@@ -161,6 +161,11 @@
 		<BlockGenusMember>local-var-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>local-var-double-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
+        <BlockGenusMember>clear</BlockGenusMember>
+        <BlockGenusMember>size</BlockGenusMember>
+        <BlockGenusMember>isEmpty</BlockGenusMember>
+        <BlockGenusMember>contains</BlockGenusMember>
+        <BlockGenusMember>remove</BlockGenusMember>
 	</BlockDrawer>
 
     
