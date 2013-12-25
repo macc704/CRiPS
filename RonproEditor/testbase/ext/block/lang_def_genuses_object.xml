@@ -1247,7 +1247,7 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-extentobject" kind="local-variable"
-	initlabel="t" header-label="Object型の変数を作り、" footer-label="と名付ける"
+	initlabel="t" header-label="ListからObject型の要素を取り出し、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>

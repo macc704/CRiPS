@@ -4,14 +4,14 @@ import java.io.PrintStream;
 
 public class StEnhancedForModel extends StatementModel {
 	private final int blockHeight = 95;
-	private ExpressionModel testClause;
+	private StatementModel testClause;
 	private StBlockModel bodyClause;
 
 	public StEnhancedForModel() {
 		setBlockHeight(blockHeight);
 	}
 
-	public void setTestClause(ExpressionModel testClause) {
+	public void setTestClause(StatementModel testClause) {
 		testClause.setParent(this);
 		this.testClause = testClause;
 	}
@@ -19,10 +19,6 @@ public class StEnhancedForModel extends StatementModel {
 	public void setBodyClause(StBlockModel bodyClause) {
 		bodyClause.setParent(this);
 		this.bodyClause = bodyClause;
-	}
-
-	public ExpressionModel getTestClause() {
-		return testClause;
 	}
 
 	public StBlockModel getBodyClause() {
@@ -92,7 +88,7 @@ public class StEnhancedForModel extends StatementModel {
 
 		// test blockConnector
 		makeIndent(out, indent + 2);
-		out.println("<BlockConnector connector-kind=\"sockets\" connector-type=\"boolean\""
+		out.println("<BlockConnector connector-kind=\"sockets\" connector-type=\"cmd\""
 				+ " init-type=\"boolean\" label=\"\" position-type=\"single\" con-block-id=\""
 				+ testId + "\"/>");
 		// then blockConnector

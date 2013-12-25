@@ -651,25 +651,34 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	private StatementModel parseEnhancedForStatement(EnhancedForStatement node) {
 		// Initializer
-		System.out.println(node.getExpression());
+		StLocalVariableModel initializer = createLocalVariableModel(node
+				.getParameter().getType().toString(), node.getParameter()
+				.getName().toString(), null, false);
+		initializer.setId(idCounter.getNextId());
+		initializer.setLineNumber(compilationUnit.getLineNumber(node
+				.getParameter().getStartPosition()));
+		initializer.setIsExtendedForParameter();
+
 		Expression testClause = node.getExpression();
 		Statement bodyClause = node.getBody();
+		ExpressionModel testClauseModel = parseExpression(testClause);
+
+		testClauseModel.setParent(initializer);
+		initializer.setInitializer(testClauseModel);
 		// While –{‘Ì
 		StEnhancedForModel enhancedForModel = parseEnhancedForModel(node,
-				testClause, bodyClause);
+				initializer, bodyClause);
 
 		return (StatementModel) enhancedForModel;
 	}
 
 	private StEnhancedForModel parseEnhancedForModel(EnhancedForStatement node,
-			Expression testClause, Statement bodyClause) {
+			StVariableDeclarationModel testClause, Statement bodyClause) {
 		StEnhancedForModel model = new StEnhancedForModel();
-
 		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(testClause
-				.getStartPosition()));
+
 		if (testClause != null) {
-			model.setTestClause(parseExpression(testClause));
+			model.setTestClause(testClause);
 		}
 
 		if (bodyClause != null) {

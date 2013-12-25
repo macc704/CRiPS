@@ -115,7 +115,7 @@
 <BlockGenus name="enhancedfor" kind="command" initlabel="集合の全要素繰返" color="255 80 0">
 	<BlockConnectors>
 		<BlockConnector label="に対し" connector-kind="socket"
-			connector-type="cmd">
+			connector-type="boolean">
 		</BlockConnector>
 		<BlockConnector label="実行" connector-kind="socket"
 			connector-type="cmd"></BlockConnector>
