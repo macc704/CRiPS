@@ -21,6 +21,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ContinueStatement;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EmptyStatement;
+import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
 import org.eclipse.jdt.core.dom.FieldAccess;
@@ -78,6 +79,7 @@ import bc.j2b.model.StBlockModel;
 import bc.j2b.model.StBreakStatementModel;
 import bc.j2b.model.StConstructorDeclarationModel;
 import bc.j2b.model.StEmptyStatementModel;
+import bc.j2b.model.StEnhancedForModel;
 import bc.j2b.model.StExpressionModel;
 import bc.j2b.model.StIfElseModel;
 import bc.j2b.model.StLocalVariableModel;
@@ -608,6 +610,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseDoStatement((DoStatement) stmt);
 			} else if (stmt instanceof ForStatement) {
 				return parseForStatement((ForStatement) stmt);
+			} else if (stmt instanceof EnhancedForStatement) {
+				return parseEnhancedForStatement((EnhancedForStatement) stmt);
 			} else if (stmt instanceof ExpressionStatement) {
 				return parseExpressionStatement((ExpressionStatement) stmt);
 			} else if (stmt instanceof VariableDeclarationStatement) {
@@ -643,6 +647,36 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			// stex.setId(idCounter.getNextId());
 			// return stex;
 		}
+	}
+
+	private StatementModel parseEnhancedForStatement(EnhancedForStatement node) {
+		// Initializer
+		System.out.println(node.getExpression());
+		Expression testClause = node.getExpression();
+		Statement bodyClause = node.getBody();
+		// While –{‘Ì
+		StEnhancedForModel enhancedForModel = parseEnhancedForModel(node,
+				testClause, bodyClause);
+
+		return (StatementModel) enhancedForModel;
+	}
+
+	private StEnhancedForModel parseEnhancedForModel(EnhancedForStatement node,
+			Expression testClause, Statement bodyClause) {
+		StEnhancedForModel model = new StEnhancedForModel();
+
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(testClause
+				.getStartPosition()));
+		if (testClause != null) {
+			model.setTestClause(parseExpression(testClause));
+		}
+
+		if (bodyClause != null) {
+			model.setBodyClause(getStBlock(parseStatement(bodyClause)));
+		}
+
+		return model;
 	}
 
 	private StatementModel analyzeSuperConstructorInvocation(
@@ -829,7 +863,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private StatementModel parseForStatement(ForStatement node) {
 		// StBlockModel block = new StBlockModel();
 		// block.setId(idCounter.getNextId());
-
 		StAbstractionBlockModel block = new StAbstractionBlockModel();
 		block.setCommnent("for");
 		block.setId(idCounter.getNextId());

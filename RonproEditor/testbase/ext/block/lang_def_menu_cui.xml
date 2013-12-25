@@ -102,7 +102,7 @@
 		<BlockGenusMember>local-var-boolean</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
 		<!-- <BlockGenusMember>private-var-int-number</BlockGenusMember> -->
-		<!-- <BlockGenusMember>local-var-object</BlockGenusMember> -->
+        <BlockGenusMember>local-var-object</BlockGenusMember>
 
 		<BlockGenusMember>private-var-int-number</BlockGenusMember>
 		<BlockGenusMember>private-var-double-number</BlockGenusMember>
@@ -164,10 +164,11 @@
         <BlockGenusMember>get</BlockGenusMember>
         <BlockGenusMember>add</BlockGenusMember>
         <BlockGenusMember>clear</BlockGenusMember>
-        <BlockGenusMember>size</BlockGenusMember>
         <BlockGenusMember>isEmpty</BlockGenusMember>
         <BlockGenusMember>contains</BlockGenusMember>
         <BlockGenusMember>remove</BlockGenusMember>
+        <BlockGenusMember>size</BlockGenusMember>
+        <BlockGenusMember>enhancedfor</BlockGenusMember>
 	</BlockDrawer>
 
 
