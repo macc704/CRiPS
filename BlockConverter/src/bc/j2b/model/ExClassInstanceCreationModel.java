@@ -22,6 +22,10 @@ public class ExClassInstanceCreationModel extends ExpressionModel {
 		}
 	}
 
+	public List<ExpressionModel> getAruguments() {
+		return this.arguments;
+	}
+
 	/**
 	 * @return the name
 	 */

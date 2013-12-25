@@ -16,6 +16,10 @@ public class StVariableDeclarationModel extends StatementModel implements
 		setBlockHeight(variableBlockHeight);
 	}
 
+	public ExpressionModel getInitializer() {
+		return this.initializer;
+	}
+
 	/**
 	 * @param name
 	 *            the name to set

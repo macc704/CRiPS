@@ -42,7 +42,7 @@ public class ExVariableGetterModel extends ExpressionModel {
 		// print BlockEditor File
 		// stubBlock
 
-		String connectorType = convertJavaTypeToBlockType(variable.getType());
+		String connectorType = getConnectorType(variable.getType());
 
 		makeIndent(out, indent);
 		out.println("<BlockStub>");

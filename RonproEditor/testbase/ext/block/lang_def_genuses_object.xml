@@ -854,6 +854,20 @@
             connector-type="poly">
         </BlockConnector>
 	</BlockConnectors>
+	<Stubs>
+        <Stub stub-genus="getter" kind="object">
+            <LangSpecProperties>
+                <LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+                <LangSpecProperty key="scope" value="local"></LangSpecProperty>
+            </LangSpecProperties>
+        </Stub>
+        <Stub stub-genus="setter" kind="object">
+            <LangSpecProperties>
+                <LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+                <LangSpecProperty key="scope" value="local"></LangSpecProperty>
+            </LangSpecProperties>
+        </Stub>
+    </Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
 		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
@@ -1231,7 +1245,6 @@
         <BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
 	</BlockConnectors>
 </BlockGenus>
-
 
 
 

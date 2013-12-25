@@ -1526,15 +1526,20 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseCallActionMethodExpression2(node, thisModel);
 				// methodResolver.getReturnType(node);
 			} else {
+				// Listのgetなどは、listの型に合わせて変形する必要性
 				ExVariableGetterModel receiverModel = null;
 				StVariableDeclarationModel variable = variableResolver
 						.resolve(receiver.toString());
+
 				if (variable != null) {
 					receiverModel = parseVariableGetterExpression(variable
 							.getName());
 					receiverModel.setLineNumber(compilationUnit
 							.getLineNumber(receiver.getStartPosition()));
-					return parseCallActionMethodExpression2(node, receiverModel);
+					ExCallActionMethodModel2 model = parseCallActionMethodExpression2(
+							node, receiverModel);
+
+					return model;
 				}
 
 				return parseMethodCallExpression(node);
@@ -1572,6 +1577,25 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		return sp;
+	}
+
+	private ExCallMethodModel transformBlock(ExCallMethodModel callerModel,
+			ExpressionModel receiverModel) {
+		// メソッド名確認　transformの必要性のあるメソッドは変形する
+		if (receiverModel.getType().equals("List")
+				&& callerModel.getName().equals("get")) {
+			StVariableDeclarationModel parentVariableModel = variableResolver
+					.resolve(receiverModel.getLabel());
+			ExClassInstanceCreationModel classInstanceCreator = (ExClassInstanceCreationModel) parentVariableModel
+					.getInitializer();
+			callerModel.setType(ElementModel
+					.convertJavaTypeToBlockType(classInstanceCreator
+							.getAruguments().get(0).getType()));
+			System.out.println(classInstanceCreator.getAruguments().get(0)
+					.getType());
+
+		}
+		return callerModel;
 	}
 
 	// private String getType(Expression exp) {
@@ -1634,6 +1658,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			variable.setName(receiver.toString());
 			variable.setType("void");
 		}
+
 		model.setVariable(variable);
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
@@ -1643,6 +1668,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		block.setId(model.getId());
 		block.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
+
 		// if (node.getExpression() instanceof QualifiedName) {
 		// throw new RuntimeException("not supported two or more substitution");
 		// }
@@ -1668,6 +1694,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 		ExCallMethodModel callMethod = parseMethodCallExpression(node);
+		callMethod = transformBlock(callMethod, receiverModel);
+
 		model.setReceiver(receiverModel);
 		model.setCallMethod(callMethod);
 		return model;
@@ -1952,7 +1980,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (node.getType().isParameterizedType()) {
 			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
 			ParameterizedType type = (ParameterizedType) node.getType();
-			System.out.println("hoge");
 			model.setValue(type.getType().toString());
 
 			model.setId(idCounter.getNextId());
