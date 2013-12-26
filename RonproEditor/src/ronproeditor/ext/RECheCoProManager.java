@@ -46,6 +46,7 @@ public class RECheCoProManager {
 	public static final String APP_NAME = "CheCoPro";
 	public static final String DEFAULT_NAME = "guest";
 	public static final int DEFAULT_PORT = 10000;
+	public static final String IP = "163.43.140.82";
 
 	private REApplication application;
 	private CHConnection conn;
@@ -240,7 +241,7 @@ public class RECheCoProManager {
 
 	private void connectServer() {
 
-		try (Socket sock = new Socket("localhost", port)) {
+		try (Socket sock = new Socket(IP, port)) {
 			conn = new CHConnection(sock);
 			newConnectionOpened(conn);
 		} catch (Exception ex) {
