@@ -4,6 +4,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.Socket;
 
 import javax.swing.JScrollBar;
@@ -50,11 +51,19 @@ public class CHTestClient {
 		frame.open();
 
 		// 接続
-		try (Socket sock = new Socket("localhost", 10000)) {
+		Socket sock = null;
+		try {
+			sock = new Socket("localhost", 10000);
 			conn = new CHConnection(sock);
 			newConnectionOpened(conn);
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		} finally {
+			try {
+				sock.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 		}
 
 	}
@@ -85,8 +94,8 @@ public class CHTestClient {
 					String text = (String) obj;
 					frame.getTextArea().setText(text);
 				} else if (obj instanceof Integer) { // Integerならスクロールバー操作
-					int value = (int) obj;
-					frame.setvBar(value);
+				// int value = (int) obj;
+				// frame.setvBar(value);
 				}
 			}
 		} catch (Exception ex) {

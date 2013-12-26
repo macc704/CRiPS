@@ -1,5 +1,6 @@
 package ch.app;
 
+import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -12,39 +13,24 @@ import ch.connection.CHPacket;
 
 public class CHServer {
 	public static void main(String[] args) {
-		// initializeFrame();
-		for (int i = MIN_PORT; i <= MAX_PORT; i++) {
-			final int port = i;
-			new Thread() {
-				public void run() {
-					new CHServer().run(port);
-				}
-			}.start();
+
+		if (args.length < 1) {
+			System.err.println("argument is not found");
+		} else {
+			new CHServer().run(Integer.parseInt(args[0]));
 		}
 	}
 
-	public static final int MIN_PORT = 10000;
-	public static final int MAX_PORT = 10005;
-
-	// private static CHFrame frame = new CHFrame();
 	private CHConnectionPool connectionPool = new CHConnectionPool();
 	private List<String> members = new ArrayList<String>();
 
 	private static PrintStream out = System.out;
 
-	// public static void initializeFrame() {
-	// テキストエリア初期化
-	// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	// frame.setBounds(100, 100, 300, 500);
-	// frame.setTitle("CHServer");
-	// frame.open();
-	// }
-
 	public void run(int port) {
 
-		// connectionPool.setFrame(frame);
-
-		try (ServerSocket serverSock = new ServerSocket(port)) {
+		ServerSocket serverSock = null;
+		try {
+			serverSock = new ServerSocket(port);
 			while (true) {
 				out.println("waiting new client..(port:" + port + ")");
 				final Socket sock = serverSock.accept();
@@ -63,6 +49,12 @@ public class CHServer {
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		} finally {
+			try {
+				serverSock.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

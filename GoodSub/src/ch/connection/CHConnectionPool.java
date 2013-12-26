@@ -11,12 +11,6 @@ public class CHConnectionPool {
 	private Object lock = new Object();
 	private static PrintStream out = System.out;
 
-	// private CHFrame frame;
-
-	// public void setFrame(CHFrame frame) {
-	// this.frame = frame;
-	// }
-
 	public CHConnection newConnection(Socket sock) {
 		synchronized (lock) {
 			CHConnection conn = new CHConnection(sock);
