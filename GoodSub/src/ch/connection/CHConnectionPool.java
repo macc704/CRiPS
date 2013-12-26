@@ -1,20 +1,21 @@
 package ch.connection;
 
+import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-
-import ch.view.CHFrame;
 
 public class CHConnectionPool {
 
 	private List<CHConnection> connections = new ArrayList<CHConnection>();
 	private Object lock = new Object();
-	private CHFrame frame;
+	private static PrintStream out = System.out;
 
-	public void setFrame(CHFrame frame) {
-		this.frame = frame;
-	}
+	// private CHFrame frame;
+
+	// public void setFrame(CHFrame frame) {
+	// this.frame = frame;
+	// }
 
 	public CHConnection newConnection(Socket sock) {
 		synchronized (lock) {
@@ -40,7 +41,7 @@ public class CHConnectionPool {
 			for (CHConnection aClient : connections) {
 				if (aClient != sender) {
 					aClient.write(obj);
-					frame.println("send : " + obj + "  to : " + aClient);
+					out.println("send : " + obj + "  to : " + aClient);
 				}
 			}
 		}
@@ -50,7 +51,7 @@ public class CHConnectionPool {
 		synchronized (lock) {
 			for (CHConnection aClient : connections) {
 				aClient.write(obj);
-				frame.println("send : " + obj + "  to : " + aClient);
+				out.println("send : " + obj + "  to : " + aClient);
 			}
 		}
 	}
@@ -60,7 +61,7 @@ public class CHConnectionPool {
 			for (CHConnection aClient : connections) {
 				if (aClient == myself) {
 					aClient.write(obj);
-					frame.println("send : " + obj + "  to : " + aClient);
+					out.println("send : " + obj + "  to : " + aClient);
 				}
 			}
 		}

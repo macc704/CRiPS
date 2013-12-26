@@ -1,20 +1,18 @@
 package ch.app;
 
+import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-
 import ch.connection.CHConnection;
 import ch.connection.CHConnectionPool;
 import ch.connection.CHPacket;
-import ch.view.CHFrame;
 
 public class CHServer {
 	public static void main(String[] args) {
-		initializeFrame();
+		// initializeFrame();
 		for (int i = MIN_PORT; i <= MAX_PORT; i++) {
 			final int port = i;
 			new Thread() {
@@ -28,32 +26,34 @@ public class CHServer {
 	public static final int MIN_PORT = 10000;
 	public static final int MAX_PORT = 10005;
 
-	private static CHFrame frame = new CHFrame();
+	// private static CHFrame frame = new CHFrame();
 	private CHConnectionPool connectionPool = new CHConnectionPool();
 	private List<String> members = new ArrayList<String>();
 
-	public static void initializeFrame() {
-		// テキストエリア初期化
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 300, 500);
-		frame.setTitle("CHServer");
-		frame.open();
-	}
+	private static PrintStream out = System.out;
+
+	// public static void initializeFrame() {
+	// テキストエリア初期化
+	// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	// frame.setBounds(100, 100, 300, 500);
+	// frame.setTitle("CHServer");
+	// frame.open();
+	// }
 
 	public void run(int port) {
 
-		connectionPool.setFrame(frame);
+		// connectionPool.setFrame(frame);
 
 		try (ServerSocket serverSock = new ServerSocket(port)) {
 			while (true) {
-				frame.println("waiting new client..(port:" + port + ")");
+				out.println("waiting new client..(port:" + port + ")");
 				final Socket sock = serverSock.accept();
-				frame.println("accepted..");
+				out.println("accepted..");
 				Thread th = new Thread() {
 					public void run() {
 						CHConnection conn = connectionPool.newConnection(sock);
 						if (conn != null) {
-							frame.println("one connection established.");
+							out.println("one connection established.");
 							connectionPool.addConnection(conn);
 							loopForOneClient(conn);
 						}
@@ -93,7 +93,7 @@ public class CHServer {
 			ex.printStackTrace();
 		} finally {
 			connectionPool.close(conn);
-			frame.println("one connection killed");
+			out.println("one connection killed");
 		}
 	}
 
@@ -109,7 +109,7 @@ public class CHServer {
 		}
 
 		members.add(myName);
-		frame.println("name: " + myName + " add list.");
+		out.println("name: " + myName + " add list.");
 
 		chPacket.setMyName(myName);
 		chPacket.setMembers(members);
