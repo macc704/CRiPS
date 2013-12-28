@@ -292,7 +292,7 @@
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
-
+<!--
 <BlockGenus name="size" kind="command" initlabel="大きさを変える"
 	color="255 0 0">
 	<description>
@@ -325,7 +325,7 @@
 		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
-
+-->
 <BlockGenus name="getWidth" kind="function" initlabel="幅を調べ、その値"
 	color="255 0 0">
 	<description>
@@ -789,7 +789,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-
+<!--
 <BlockGenus name="contains" kind="function" initlabel="オブジェクトが指定した座標を含む位置にいるか調べる"
 	color="255 0 0">
 	<BlockConnectors>
@@ -809,7 +809,7 @@
 		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
-
+-->
 <!-- SoundTurtle -->
 
 <BlockGenus name="file" kind="command" initlabel="ファイルを設定する"

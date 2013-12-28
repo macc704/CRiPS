@@ -79,7 +79,6 @@ import bc.j2b.model.StBlockModel;
 import bc.j2b.model.StBreakStatementModel;
 import bc.j2b.model.StConstructorDeclarationModel;
 import bc.j2b.model.StEmptyStatementModel;
-import bc.j2b.model.StEnhancedForModel;
 import bc.j2b.model.StExpressionModel;
 import bc.j2b.model.StIfElseModel;
 import bc.j2b.model.StLocalVariableModel;
@@ -651,41 +650,93 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	private StatementModel parseEnhancedForStatement(EnhancedForStatement node) {
 		// Initializer
-		StLocalVariableModel initializer = createLocalVariableModel(node
-				.getParameter().getType().toString(), node.getParameter()
-				.getName().toString(), null, false);
-		initializer.setId(idCounter.getNextId());
-		initializer.setLineNumber(compilationUnit.getLineNumber(node
-				.getParameter().getStartPosition()));
-		initializer.setIsExtendedForParameter();
+		StAbstractionBlockModel block = new StAbstractionBlockModel();
+		block.setCommnent("for");
+		block.setId(idCounter.getNextId());
+		block.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		// counter
+		StatementModel counter = createLocalVariableModel("int", "counter",
+				null, false);
+		ExLeteralModel initValue = new ExLeteralModel();
+		initValue.setType("int");
+		initValue.setValue("0");
+		initValue.setId(idCounter.getNextId());
+		initValue.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		initValue.setParent(counter);
 
-		Expression testClause = node.getExpression();
-		Statement bodyClause = node.getBody();
-		ExpressionModel testClauseModel = parseExpression(testClause);
+		block.addChild(counter);
 
-		testClauseModel.setParent(initializer);
-		initializer.setInitializer(testClauseModel);
-		// While 本体
-		StEnhancedForModel enhancedForModel = parseEnhancedForModel(node,
-				initializer, bodyClause);
+		// Initializer
+		SingleVariableDeclaration param = node.getParameter();
+		StatementModel model = createLocalVariableModel(param.getType()
+				.toString(), param.getName().toString(), null, false);
+		block.addChild(model);
 
-		return (StatementModel) enhancedForModel;
-	}
+		{
+			// While 本体
+			ExpressionModel testClause = parseExpression(node.getExpression());
+			// メソッド
+			ExCallActionMethodModel2 callActionMethodModel = new ExCallActionMethodModel2();
+			callActionMethodModel.setId(idCounter.getNextId());
+			callActionMethodModel.setLineNumber(compilationUnit
+					.getLineNumber(node.getStartPosition()));
 
-	private StEnhancedForModel parseEnhancedForModel(EnhancedForStatement node,
-			StVariableDeclarationModel testClause, Statement bodyClause) {
-		StEnhancedForModel model = new StEnhancedForModel();
-		model.setId(idCounter.getNextId());
+			ExCallMethodModel method = new ExCallMethodModel();
+			method.setType("int");
+			method.setName("size");
+			method.setId(idCounter.getNextId());
+			method.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			callActionMethodModel.setReceiver(testClause);
+			callActionMethodModel.setCallMethod(method);
 
-		if (testClause != null) {
-			model.setTestClause(testClause);
+			// 条件式
+			ExInfixModel condition = new ExInfixModel();
+			condition.setOperator("<");
+			condition.setId(idCounter.getNextId());
+			condition.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			condition.setRightExpression(callActionMethodModel);
+			callActionMethodModel.setParent(condition);
+
+			ExVariableGetterModel counterGetter = new ExVariableGetterModel();
+			counterGetter.setVariable(variableResolver.resolve("counter"));
+			counterGetter.setId(idCounter.getNextId());
+			counterGetter.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+
+			condition.setLeftExpression(counterGetter);
+			counterGetter.setParent(condition);
+
+			// body
+			Statement bodyClause = node.getBody();
+			StWhileModel whileModel = createWhileStatement(
+					node.getExpression(), bodyClause, false);
+			whileModel.setTestClause(condition);
+
+			// // Updater
+			ExVariableGetterModel counterGetter2 = new ExVariableGetterModel();
+			counterGetter2.setVariable(variableResolver.resolve("counter"));
+			counterGetter2.setId(idCounter.getNextId());
+			counterGetter2.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+
+			ExVariableSetterModel updater = new ExVariableSetterModel();
+			updater.setVariable(variableResolver.resolve("counter"));
+			updater.setId(idCounter.getNextId());
+			updater.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			updater.setRightExpression(counterGetter2);
+
+			whileModel.getBodyClause().addElement(updater);
+
+			block.addChild(whileModel);
 		}
 
-		if (bodyClause != null) {
-			model.setBodyClause(getStBlock(parseStatement(bodyClause)));
-		}
+		return block;
 
-		return model;
 	}
 
 	private StatementModel analyzeSuperConstructorInvocation(
