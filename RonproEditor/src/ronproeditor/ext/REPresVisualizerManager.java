@@ -74,8 +74,14 @@ public class REPresVisualizerManager {
 	private void exportAllProjects(CDirectory tmpDir) {
 		List<CDirectory> projects = application.getSourceManager()
 				.getAllProjects();
+
 		for (CDirectory project : projects) {
-			exportOneProject(project, tmpDir);
+			if (project.findDirectory(".pres2") != null) {
+				exportOneProject(project, tmpDir);
+			} else {
+				throw new RuntimeException(project.getNameByString()
+						+ "“à‚É.pres2ƒtƒHƒ‹ƒ_‚ª‚ ‚è‚Ü‚¹‚ñ");
+			}
 		}
 	}
 
