@@ -94,6 +94,9 @@ public class CCMainFrame2 extends JFrame {
 
 	private void setCompileErrorNumber(JPanel headerPanel) {
 		JLabel label = new JLabel();
+		if (manager.getTotalErrorCount() == 0) {
+			throw new RuntimeException("CocoViewer用データが作成されていない可能性があります");
+		}
 		int count = manager.getTotalErrorCount();
 		long time = manager.getTotalErrorCorrectionTime();
 		long hour = time / 60 / 60;
@@ -102,8 +105,8 @@ public class CCMainFrame2 extends JFrame {
 		String timeStr = hour + "時間" + minute + "分" + second + "秒";
 		long avg = time / count;
 		String string = "<html>これまでのコンパイルエラー修正数: " + count
-				+ "　　これまでのコンパイルエラー修正時間累計: " + timeStr + "　　１つあたり修正時間平均: " + avg + "秒"
-				+ "</html>";
+				+ "　　これまでのコンパイルエラー修正時間累計: " + timeStr + "　　１つあたり修正時間平均: " + avg
+				+ "秒" + "</html>";
 		label.setText(string);
 		label.setMaximumSize(new Dimension(width, height / 24));
 		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
