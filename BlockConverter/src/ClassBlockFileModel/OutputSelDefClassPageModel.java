@@ -101,9 +101,19 @@ public class OutputSelDefClassPageModel {
 			ps.println("<BlockDrawer name=\"Project-Objects\" type=\"factory\" button-color=\"255 155 64\">");
 			lineNum++;
 
-			Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();
 			for (ObjectBlockModel selDefClass : requestObjectBlock) {
 				selDefClass.printMenuItem(ps, lineNum);
+			}
+
+			makeIndent(ps, --lineNum);
+			ps.println("</BlockDrawer>");
+
+			makeIndent(ps, ++lineNum);
+			ps.println("<BlockDrawer name=\"Project-Methods\" type=\"factory\" button-color=\"255 155 64\">");
+			lineNum++;
+
+			Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();
+			for (ObjectBlockModel selDefClass : requestObjectBlock) {
 				for (String key : selDefClass.getMethods().keySet()) {
 					for (PublicMethodInfo method : selDefClass.getMethods()
 							.get(key)) {

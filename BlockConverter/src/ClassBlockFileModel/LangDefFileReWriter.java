@@ -49,9 +49,10 @@ public class LangDefFileReWriter {
 						+ name);
 				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(
 						name, javaFile);
-
+				// ローカル変数ブロックのモデルを追加
 				selfDefModel.setLocalSelDefClass(
 						name.substring(0, name.indexOf(".java")), methods);// メソッドリストを引数に追加
+				// インスタンス変数ブロックのモデルを追加
 				selfDefModel.setGlobalSelDefClass(
 						name.substring(0, name.indexOf(".java")), methods);
 			}
