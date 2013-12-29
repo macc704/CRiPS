@@ -95,8 +95,8 @@ public class CCGraphFrame extends JFrame {
 		// グラフデータを設定する
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
-			dataset.addValue(list.getErrors().get(i).getCorrectionTime(), "修正時間",
-					Integer.toString(i + 1));
+			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
+					"修正時間", Integer.toString(i + 1));
 		}
 
 		// グラフの生成
@@ -144,7 +144,9 @@ public class CCGraphFrame extends JFrame {
 		// java7からDefaultListModelに格納するクラスを指定しなければならない
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		for (int i = 0; i < list.getErrors().size(); i++) {
-			model.addElement((i + 1) + " 回目の修正時間 ： "
+			CTime time = new CTime(list.getErrors().get(i).getBeginTime());
+
+			model.addElement("発生時刻 " + time.toString() + "： 修正時間 "
 					+ list.getErrors().get(i).getCorrectionTime() + "秒");
 		}
 
@@ -229,4 +231,5 @@ public class CCGraphFrame extends JFrame {
 
 		rootPanel.add(scrollPanel, BorderLayout.EAST);
 	}
+
 }
