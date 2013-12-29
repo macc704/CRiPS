@@ -678,10 +678,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			// While 本体
 			ExpressionModel testClause = parseExpression(node.getExpression());
 			// メソッド
-			ExCallActionMethodModel2 callActionMethodModel = new ExCallActionMethodModel2();
-			callActionMethodModel.setId(idCounter.getNextId());
-			callActionMethodModel.setLineNumber(compilationUnit
-					.getLineNumber(node.getStartPosition()));
 
 			ExCallMethodModel method = new ExCallMethodModel();
 			method.setType("int");
@@ -689,8 +685,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			method.setId(idCounter.getNextId());
 			method.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
-			callActionMethodModel.setReceiver(testClause);
-			callActionMethodModel.setCallMethod(method);
+
+			ExCallActionMethodModel2 callActionMethodModel = createExCallActionBlock2(
+					testClause, method, node.getStartPosition());
 
 			// 条件式
 			ExInfixModel condition = new ExInfixModel();
@@ -711,32 +708,105 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			counterGetter.setParent(condition);
 
 			// body
+			// receiver
+			ExVariableGetterModel listReceiver = new ExVariableGetterModel();
+			listReceiver.setId(idCounter.getNextId());
+			listReceiver.setVariable(variableResolver.resolve(node
+					.getExpression().toString()));
+			listReceiver.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+
+			// method
+			ExCallMethodModel getMethod = new ExCallMethodModel();
+			getMethod.setType(node.getParameter().getType().toString());
+			getMethod.setName("get");
+			getMethod.setId(idCounter.getNextId());
+			getMethod.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+
+			ExVariableGetterModel index = new ExVariableGetterModel();
+			index.setVariable(variableResolver.resolve("counter"));
+			index.setId(idCounter.getNextId());
+
+			getMethod.addArgument(index);
+
+			ExCallActionMethodModel2 callMethodModel = createExCallActionBlock2(
+					listReceiver, getMethod, node.getStartPosition());
+
+			ExVariableSetterModel listElementInitializer = new ExVariableSetterModel();
+			listElementInitializer.setId(idCounter.getNextId());
+			listElementInitializer.setVariable(variableResolver.resolve(param
+					.getName().toString()));
+			listElementInitializer.setLineNumber(compilationUnit
+					.getLineNumber(node.getStartPosition()));
+
+			listElementInitializer.setRightExpression(callMethodModel);
+
 			Statement bodyClause = node.getBody();
+
 			StWhileModel whileModel = createWhileStatement(
-					node.getExpression(), bodyClause, false);
+					node.getExpression(), bodyClause, listElementInitializer);
 			whileModel.setTestClause(condition);
+			// updater
+			ExVariableSetterModel increment = createExVariableSetterModel("counter");
+			ExInfixModel incrementLeft = createExInfixModel(
+					createExVariableGetterModel("counter"),
+					createExLeteralModel("1"), "+");
+			increment.setRightExpression(incrementLeft);
 
-			// // Updater
-			ExVariableGetterModel counterGetter2 = new ExVariableGetterModel();
-			counterGetter2.setVariable(variableResolver.resolve("counter"));
-			counterGetter2.setId(idCounter.getNextId());
-			counterGetter2.setLineNumber(compilationUnit.getLineNumber(node
-					.getStartPosition()));
+			StExpressionModel incrementModel = new StExpressionModel(increment);
 
-			ExVariableSetterModel updater = new ExVariableSetterModel();
-			updater.setVariable(variableResolver.resolve("counter"));
-			updater.setId(idCounter.getNextId());
-			updater.setLineNumber(compilationUnit.getLineNumber(node
-					.getStartPosition()));
-			updater.setRightExpression(counterGetter2);
-
-			whileModel.getBodyClause().addElement(updater);
+			whileModel.getBodyClause().addElement(incrementModel);
 
 			block.addChild(whileModel);
 		}
 
 		return block;
 
+	}
+
+	private ExInfixModel createExInfixModel(ExpressionModel left,
+			ExpressionModel right, String operator) {
+		ExInfixModel model = new ExInfixModel();
+		model.setOperator(operator);
+		model.setId(idCounter.getNextId());
+		model.setRightExpression(right);
+		model.setLeftExpression(left);
+		return model;
+	}
+
+	private ExLeteralModel createExLeteralModel(String value) {
+		ExLeteralModel model = new ExLeteralModel();
+		model.setId(idCounter.getNextId());
+		model.setValue("1");
+		return model;
+	}
+
+	private ExVariableGetterModel createExVariableGetterModel(String name) {
+		ExVariableGetterModel model = new ExVariableGetterModel();
+		model.setId(idCounter.getNextId());
+		model.setVariable(variableResolver.resolve(name));
+		return model;
+	}
+
+	private ExVariableSetterModel createExVariableSetterModel(String name) {
+		ExVariableSetterModel model = new ExVariableSetterModel();
+		model.setId(idCounter.getNextId());
+		model.setVariable(variableResolver.resolve(name));
+		return model;
+	}
+
+	private ExCallActionMethodModel2 createExCallActionBlock2(
+			ExpressionModel receiver, ExpressionModel callMethod,
+			int startPosition) {
+		ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(startPosition);
+
+		model.setReceiver(receiver);
+		model.setCallMethod(callMethod);
+
+		return model;
 	}
 
 	private StatementModel analyzeSuperConstructorInvocation(
@@ -898,6 +968,35 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (bodyClause != null) {
 			model.setBodyClause(getStBlock(parseStatement(bodyClause)));
 		}
+		return model;
+	}
+
+	private StWhileModel createWhileStatement(Expression testClause,
+			Statement bodyClause, ExpressionModel initializer) {
+		StWhileModel model = new StWhileModel(false);
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(testClause
+				.getStartPosition()));
+		StExpressionModel init = new StExpressionModel(initializer);
+
+		StBlockModel body = new StBlockModel();
+		body.addElement(init);
+		if (testClause != null) {
+			model.setTestClause(parseExpression(testClause));
+		}
+
+		if (bodyClause != null) {
+			Block bodyBlock = (Block) bodyClause;
+			List<?> statements = bodyBlock.statements();
+
+			for (Object statement : statements) {
+				Statement child = (Statement) statement;
+				body.addElement(parseStatement(child));
+			}
+
+			model.setBodyClause(body);
+		}
+
 		return model;
 	}
 
@@ -1134,7 +1233,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// String name = fragment.getName().toString();
 		model.setName(name);
 		model.setType(type);
-		model.setId(idCounter.getNextId());
 		variableResolver.addLocalVariable(model);
 
 		// int x = 3;のように，initializerがついている場合
