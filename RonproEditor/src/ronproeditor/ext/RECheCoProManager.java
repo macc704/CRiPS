@@ -190,7 +190,8 @@ public class RECheCoProManager {
 	}
 
 	public void doOpenNewCHE(String name) {
-		chApplication = application.doOpenNewRE(name + "Project");
+		chApplication = application.doOpenNewRE("MyProjects/.CHProjects/"
+				+ name);
 		chApplication.getFrame().setTitle("CheCoPro Editor");
 		chApplication.getFrame().setDefaultCloseOperation(
 				JFrame.DISPOSE_ON_CLOSE);
@@ -223,8 +224,8 @@ public class RECheCoProManager {
 			finalProject.mkdir();
 		}
 
-		if (!checkProject(root, ".CHProject")) {
-			File chProject = new File(root, ".CHProject");
+		if (!checkProject(root, ".CHProjects")) {
+			File chProject = new File(root, ".CHProjects");
 			chProject.mkdir();
 		}
 
@@ -356,7 +357,8 @@ public class RECheCoProManager {
 		fileNames = recivedCHPacket.getFileNames();
 		int i = 0;
 		for (String aFileName : fileNames) {
-			File file = new File(senderName + "Project/final", aFileName);
+			File file = new File("MyProjects/.CHProjects/" + senderName
+					+ "/final", aFileName);
 			try {
 				FileOutputStream fos = new FileOutputStream(file, false);
 				fos.write(bytes.get(i));
@@ -375,7 +377,7 @@ public class RECheCoProManager {
 
 	private void createMembersDir(List<String> members) {
 		for (String aMember : members) {
-			File root = new File(aMember + "Project");
+			File root = new File("MyProjects/.CHProjects", aMember);
 			if ((!aMember.equals(myName)) && (!root.exists())) {
 				root.mkdir();
 				File finalProject = new File(root, "final");
