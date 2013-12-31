@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
@@ -508,7 +509,7 @@ public class RECheCoProManager {
 		private static final long serialVersionUID = 1L;
 
 		private JTextField nameField = new JTextField(15);
-		private JTextField portField = new JTextField(15);
+		private JComboBox<Integer> portBox = new JComboBox<Integer>();
 		private JPanel panel = new CheCoProPreferencePanel();
 
 		@Override
@@ -528,17 +529,19 @@ public class RECheCoProManager {
 				nameField.setText(myName);
 			}
 			if (getRepository().exists(PORTNUMBER_LABEL)) {
+				portBox.setSelectedIndex(Integer.parseInt(getRepository().get(
+						PORTNUMBER_LABEL)));
 				port = Integer.parseInt(getRepository().get(PORTNUMBER_LABEL));
-				portField.setText(Integer.toString(port));
 			}
+			port += 20000;
 		}
 
 		@Override
 		public void save() {
 			myName = nameField.getText();
 			getRepository().put(LOGINID_LABEL, myName);
-			port = Integer.parseInt(portField.getText());
-			getRepository().put(PORTNUMBER_LABEL, Integer.toString(port));
+			getRepository().put(PORTNUMBER_LABEL,
+					Integer.toString(portBox.getSelectedIndex()));
 		}
 
 		class CheCoProPreferencePanel extends JPanel {
@@ -551,11 +554,14 @@ public class RECheCoProManager {
 			public CheCoProPreferencePanel() {
 				FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
 				JPanel namePanel = new JPanel(flowLayout);
-				namePanel.add(new JLabel("name : "));
+				namePanel.add(new JLabel("Name : "));
 				namePanel.add(nameField);
 				JPanel portPanel = new JPanel(flowLayout);
-				portPanel.add(new JLabel("port : "));
-				portPanel.add(portField);
+				portPanel.add(new JLabel("Group : "));
+				for (int i = 0; i < 51; i++) {
+					portBox.addItem(i);
+				}
+				portPanel.add(portBox);
 				this.add(namePanel, BorderLayout.CENTER);
 				this.add(portPanel, BorderLayout.CENTER);
 			}
