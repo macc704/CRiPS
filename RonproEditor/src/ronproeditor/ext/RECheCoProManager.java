@@ -46,7 +46,7 @@ public class RECheCoProManager {
 	public static final String APP_NAME = "CheCoPro";
 	public static final String DEFAULT_NAME = "guest";
 	public static final int DEFAULT_PORT = 10000;
-	public static final String IP = "163.43.140.82";
+	public static final String IP = "localhost";
 
 	private REApplication application;
 	private CHConnection conn;
@@ -75,22 +75,6 @@ public class RECheCoProManager {
 	private void initialize() {
 		application.getPreferenceManager().putCategory(
 				new CheCoProPreferenceCategory());
-
-		File root = application.getSourceManager().getRootDirectory();
-
-		if (!checkFinalProject(root)) {
-			File finalProject = new File(root, "final");
-			finalProject.mkdir();
-		}
-
-		if (!checkFinalClass(root)) {
-			File finalClass = new File(root + "/final", "Final.java");
-			try {
-				finalClass.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 
 	/*******************
@@ -231,6 +215,18 @@ public class RECheCoProManager {
 	public void startCheCoPro() {
 
 		initializeREListener();
+
+		File root = application.getSourceManager().getRootDirectory();
+
+		if (!checkProject(root, "final")) {
+			File finalProject = new File(root, "final");
+			finalProject.mkdir();
+		}
+
+		if (!checkProject(root, ".CHProject")) {
+			File chProject = new File(root, ".CHProject");
+			chProject.mkdir();
+		}
 
 		new Thread() {
 			public void run() {
@@ -484,34 +480,11 @@ public class RECheCoProManager {
 		return started;
 	}
 
-	public boolean checkFinalProject(File root) {
+	public boolean checkProject(File root, String name) {
 		List<File> projects = new ArrayList<File>();
 		projects = Arrays.asList(root.listFiles());
 		for (File aProject : projects) {
-			if (aProject.getName().equals("final")) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public boolean checkFinalClass(File root) {
-		List<File> projects = new ArrayList<File>();
-		File finalProject = null;
-		projects = Arrays.asList(root.listFiles());
-		for (File aProject : projects) {
-			if (aProject.getName().equals("final")) {
-				finalProject = aProject;
-			}
-		}
-
-		List<File> classes = new ArrayList<File>();
-		classes = Arrays.asList(finalProject);
-
-		for (File aClass : classes) {
-			if (aClass == null) {
-				return false;
-			} else if (aClass.getName().equals("Final.java")) {
+			if (aProject.getName().equals(name)) {
 				return true;
 			}
 		}
