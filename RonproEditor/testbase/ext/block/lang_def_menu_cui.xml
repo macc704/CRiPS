@@ -149,6 +149,12 @@
 	</BlockDrawer>
 
 	<BlockDrawer name="試作ブロック" type="factory" button-color="255 155 64">
+		<BlockGenusMember>private-var-bcanvas</BlockGenusMember>
+        <BlockGenusMember>local-var-bcanvas</BlockGenusMember>
+        <BlockGenusMember>private-var-bwindow</BlockGenusMember>
+        <BlockGenusMember>local-var-bwindow</BlockGenusMember>
+        <BlockGenusMember>private-var-bsound</BlockGenusMember>
+        <BlockGenusMember>local-var-bsound</BlockGenusMember>
 		<BlockGenusMember>local-var-listobject</BlockGenusMember>
 		<BlockGenusMember>new-listobject</BlockGenusMember>
 		<BlockGenusMember>type-object</BlockGenusMember>
