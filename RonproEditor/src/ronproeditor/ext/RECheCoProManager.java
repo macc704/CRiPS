@@ -32,9 +32,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
@@ -53,13 +56,14 @@ public class RECheCoProManager {
 	private REApplication application;
 	private CHConnection conn;
 	private REApplication chApplication;
-	private boolean started;
+	// private boolean started;
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
 	private String myName = DEFAULT_NAME;
 	private int port = DEFAULT_PORT;
 	private CHPacket chPacket = new CHPacket();
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
+	private JToggleButton connButton = new JToggleButton("“¯Šú’†", true);
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -109,7 +113,7 @@ public class RECheCoProManager {
 	}
 
 	private void initializeCHListeners(final REApplication chApplication,
-			final String name, final JButton connButton) {
+			final String name) {
 
 		List<WindowListener> listeners = new ArrayList<WindowListener>();
 		listeners = Arrays
@@ -149,9 +153,6 @@ public class RECheCoProManager {
 															.getCurrentFile()
 															.getName());
 
-							// final JTextPane textPane =
-							// chApplication.getFrame()
-							// .getEditor().getViewer().getTextPane();
 							textPane.addCaretListener(new CaretListener() {
 
 								@Override
@@ -169,15 +170,14 @@ public class RECheCoProManager {
 					}
 				});
 
-		connButton.addActionListener(new ActionListener() {
+		connButton.addChangeListener(new ChangeListener() {
+
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (connButton.getText().equals("Start")) {
-					started = true;
-					connButton.setText("Stop");
-				} else if (connButton.getText().equals("Stop")) {
-					started = false;
-					connButton.setText("Start");
+			public void stateChanged(ChangeEvent e) {
+				if (connButton.isSelected()) {
+					connButton.setText("“¯Šú’†");
+				} else {
+					connButton.setText("”ñ“¯Šú");
 				}
 			}
 		});
@@ -218,20 +218,16 @@ public class RECheCoProManager {
 		chApplication.getFrame().setDefaultCloseOperation(
 				JFrame.DISPOSE_ON_CLOSE);
 
-		JButton connButton = new JButton("Start");
-
-		initializeCHListeners(chApplication, name, connButton);
-
-		started = false;
+		initializeCHListeners(chApplication, name);
 
 		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
 
-		initializeCHMenu(menuBar, connButton);
+		initializeCHMenu(menuBar);
 
 		chFrameMap.put(name, chApplication);
 	}
 
-	private void initializeCHMenu(JMenuBar menuBar, JButton connButton) {
+	private void initializeCHMenu(JMenuBar menuBar) {
 		menuBar.getMenu(3).remove(4);
 		menuBar.add(connButton);
 		chApplication.getFrame().setJMenuBar(menuBar);
@@ -490,7 +486,7 @@ public class RECheCoProManager {
 	 **********/
 
 	public boolean shouldPrintSource(String sender, String senderCurrentFile) {
-		if (!isStarted()) {
+		if (!connButton.isSelected()) {
 			return false;
 		}
 		if (!chFrameMap.containsKey(sender)) {
@@ -504,10 +500,6 @@ public class RECheCoProManager {
 			return false;
 		}
 		return true;
-	}
-
-	public boolean isStarted() {
-		return started;
 	}
 
 	public boolean checkProject(File root, String name) {
