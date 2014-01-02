@@ -1,6 +1,7 @@
 package ronproeditor.ext;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -131,9 +132,17 @@ public class RECheCoProManager {
 				new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
+
 						if (chApplication.getFrame().getEditor() != null) {
+
 							final JTextPane textPane = chApplication.getFrame()
 									.getEditor().getViewer().getTextPane();
+
+							textPane.setBackground(Color.LIGHT_GRAY);
+
+							// final JTextPane textPane =
+							// chApplication.getFrame()
+							// .getEditor().getViewer().getTextPane();
 							textPane.addCaretListener(new CaretListener() {
 
 								@Override
@@ -204,11 +213,16 @@ public class RECheCoProManager {
 		started = false;
 
 		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
+
+		initializeCHMenu(menuBar, connButton);
+
+		chFrameMap.put(name, chApplication);
+	}
+
+	private void initializeCHMenu(JMenuBar menuBar, JButton connButton) {
 		menuBar.getMenu(3).remove(4);
 		menuBar.add(connButton);
 		chApplication.getFrame().setJMenuBar(menuBar);
-
-		chFrameMap.put(name, chApplication);
 	}
 
 	/********************
