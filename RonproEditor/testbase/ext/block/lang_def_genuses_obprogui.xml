@@ -892,4 +892,35 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="getVolume" kind="data" color="255 0 0"
+	initlabel="ボリュームを取得します">
+	<BlockConnectors>
+        <BlockConnector connector-type="number" connector-kind="plug" position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getVolume"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
 
+<BlockGenus name="setVolume" kind="command" color="255 0 0"
+	initlabel="ボリュームを設定します">
+	<BlockConnectors>
+        <BlockConnector label="音量" connector-type="number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="setVolume"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getDefaultVolume" kind="data" color="255 0 0"
+	initlabel="ボリュームを設定します">
+	<BlockConnectors>
+        <BlockConnector connector-type="number" connector-kind="plug" position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getDefaultVolume"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
