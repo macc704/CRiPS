@@ -149,12 +149,6 @@
 	</BlockDrawer>
 
 	<BlockDrawer name="試作ブロック" type="factory" button-color="255 155 64">
-		<BlockGenusMember>private-var-bcanvas</BlockGenusMember>
-        <BlockGenusMember>local-var-bcanvas</BlockGenusMember>
-        <BlockGenusMember>private-var-bwindow</BlockGenusMember>
-        <BlockGenusMember>local-var-bwindow</BlockGenusMember>
-        <BlockGenusMember>private-var-bsound</BlockGenusMember>
-        <BlockGenusMember>local-var-bsound</BlockGenusMember>
 		<BlockGenusMember>local-var-listobject</BlockGenusMember>
 		<BlockGenusMember>new-listobject</BlockGenusMember>
 		<BlockGenusMember>type-object</BlockGenusMember>
@@ -176,6 +170,43 @@
         <BlockGenusMember>size</BlockGenusMember>
         <BlockGenusMember>enhancedfor</BlockGenusMember>
 	</BlockDrawer>
-
+	<BlockDrawer name="obpro" type="factory" button-color="255 155 64">
+        <BlockGenusMember>private-var-bcanvas</BlockGenusMember>
+        <BlockGenusMember>local-var-bcanvas</BlockGenusMember>
+        <BlockGenusMember>private-var-bwindow</BlockGenusMember>
+        <BlockGenusMember>local-var-bwindow</BlockGenusMember>
+        <BlockGenusMember>private-var-bsound</BlockGenusMember>
+        <BlockGenusMember>local-var-bsound</BlockGenusMember>
+		<BlockGenusMember>local-var-listobject</BlockGenusMember>
+        <BlockGenusMember>drawArc</BlockGenusMember>
+        <BlockGenusMember>drawFillTriangle</BlockGenusMember>
+        <BlockGenusMember>drawText</BlockGenusMember>
+        <BlockGenusMember>isClick</BlockGenusMember>
+        <BlockGenusMember>isSingleClick</BlockGenusMember>
+        <BlockGenusMember>isDoubleClick</BlockGenusMember>
+        <BlockGenusMember>isDragging</BlockGenusMember>
+        <BlockGenusMember>isRightMouseDown</BlockGenusMember>
+        <BlockGenusMember>isLeftMouseDown</BlockGenusMember>
+        <BlockGenusMember>isMouseDown</BlockGenusMember>
+        <BlockGenusMember>getMouseX</BlockGenusMember>
+        <BlockGenusMember>getMouseY</BlockGenusMember>
+        <BlockGenusMember>isKeyPressing</BlockGenusMember>
+        <BlockGenusMember>isKeyDown</BlockGenusMember>
+        <BlockGenusMember>getKeyCode</BlockGenusMember>
+        <BlockGenusMember>clear</BlockGenusMember>
+        <BlockGenusMember>update</BlockGenusMember>
+        <BlockGenusMember>getImageWidth</BlockGenusMember>
+        <BlockGenusMember>getImageHeight</BlockGenusMember>
+        <BlockGenusMember>drawLine</BlockGenusMember>
+        <BlockGenusMember>sleep</BlockGenusMember>
+        <BlockGenusMember>getCanvasWidth</BlockGenusMember>
+        <BlockGenusMember>getCanvasHeight</BlockGenusMember>
+        <BlockGenusMember>drawImage</BlockGenusMember>
+        <BlockGenusMember>drawFillArc</BlockGenusMember>
+        <BlockGenusMember>setLocation</BlockGenusMember>
+        <BlockGenusMember>setSize</BlockGenusMember>
+        <BlockGenusMember>getCanvas</BlockGenusMember>
+        <BlockGenusMember>show</BlockGenusMember>
+	</BlockDrawer>
 
 </BlockDrawerSet>
