@@ -140,6 +140,15 @@ public class RECheCoProManager {
 
 							textPane.setBackground(Color.LIGHT_GRAY);
 
+							chApplication.getFrame()
+									.setTitle(
+											APP_NAME
+													+ " Editor-"
+													+ chApplication
+															.getSourceManager()
+															.getCurrentFile()
+															.getName());
+
 							// final JTextPane textPane =
 							// chApplication.getFrame()
 							// .getEditor().getViewer().getTextPane();
@@ -153,6 +162,9 @@ public class RECheCoProManager {
 											+ selectedText);
 								}
 							});
+						} else {
+							chApplication.getFrame().setTitle(
+									APP_NAME + " Editor");
 						}
 					}
 				});
@@ -202,7 +214,7 @@ public class RECheCoProManager {
 	public void doOpenNewCHE(String name) {
 		chApplication = application.doOpenNewRE("MyProjects/.CHProjects/"
 				+ name);
-		chApplication.getFrame().setTitle("CheCoPro Editor");
+		chApplication.getFrame().setTitle(APP_NAME + " Editor");
 		chApplication.getFrame().setDefaultCloseOperation(
 				JFrame.DISPOSE_ON_CLOSE);
 
