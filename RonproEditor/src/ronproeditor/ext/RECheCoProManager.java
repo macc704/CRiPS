@@ -204,6 +204,7 @@ public class RECheCoProManager {
 		started = false;
 
 		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
+		menuBar.getMenu(3).remove(4);
 		menuBar.add(connButton);
 		chApplication.getFrame().setJMenuBar(menuBar);
 
