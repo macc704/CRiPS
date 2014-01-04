@@ -144,7 +144,7 @@ public class PPProjectSetViewerFrame extends JFrame {
 				item.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						printMetrics();
+						printMetrics(new File("./FileMetrics.csv"));
 					}
 				});
 				menu.add(item);
@@ -220,14 +220,13 @@ public class PPProjectSetViewerFrame extends JFrame {
 		});
 	}
 
-	private void printMetrics() {
+	private void printMetrics(final File file) {
 		monitor.doTaskWithDialog(new ICTask() {
 			public void doTask() {
 				try {
 					PPMetricsPrinter printer = new PPMetricsPrinter();
 					// printer.printMetrics(projectSet, System.out);
-					FileOutputStream out = new FileOutputStream(new File(
-							"./FileMetrics.csv"));
+					FileOutputStream out = new FileOutputStream(file);
 					printer.printMetrics(projectSet, out, monitor);
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -241,6 +240,8 @@ public class PPProjectSetViewerFrame extends JFrame {
 	public void doPrintCompileErrorCSV(CDirectory baseDir) {
 		printCompileErrorAnalysis(new File(baseDir.getAbsolutePath().toString()
 				+ "/CompileError.csv"), true);
+		printMetrics(new File(baseDir.getAbsolutePath().toString()
+				+ "/FileMetrics.csv"));
 	}
 
 	private void printCompileErrorAnalysis(File outfile, boolean coco) {
@@ -259,9 +260,7 @@ public class PPProjectSetViewerFrame extends JFrame {
 
 		try {
 			file.outputErrorList(outfile, coco);
-			if (!coco) {
-				file.outputPatternList();
-			}
+			file.outputPatternList();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

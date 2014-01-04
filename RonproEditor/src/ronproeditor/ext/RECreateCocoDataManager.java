@@ -29,6 +29,23 @@ public class RECreateCocoDataManager {
 
 		// 自動的にエクスポートしたファイルをCoco用データに変換する
 		convertCompileErrorData();
+
+		// ここよりそもそもppvの方をスレッド化しないといけない
+		// Thread thread = new Thread() {
+		// public void run() {
+		// try {
+		// // CompileError.csvを自動的にエクスポートする
+		// autoExportCompileErrorCSV();
+		//
+		// // 自動的にエクスポートしたファイルをCoco用データに変換する
+		// convertCompileErrorData();
+		// } catch (Exception ex) {
+		// throw new RuntimeException("ppvデータ作成に失敗しました");
+		// }
+		// }
+		// };
+		//
+		// thread.run();
 	}
 
 	private void autoExportCompileErrorCSV() {

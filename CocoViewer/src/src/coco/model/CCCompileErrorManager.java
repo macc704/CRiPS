@@ -13,6 +13,7 @@ public class CCCompileErrorManager {
 
 	private int totalErrorCount = 0;
 	private long totalErrorCorrectionTime = 0;
+	private int totalWorkingTime = 0;
 
 	// ソースコード参照用
 	private CDirectory base = null;
@@ -75,5 +76,22 @@ public class CCCompileErrorManager {
 		getKind(error.getErrorID()).addError(error);
 		totalErrorCorrectionTime += error.getCorrectionTime();
 		totalErrorCount++;
+	}
+
+	public void addTotalWorkingTime(int workingTime) {
+		totalWorkingTime += workingTime;
+	}
+
+	public int getTotalWorkingTime() {
+		return totalWorkingTime;
+	}
+
+	public double getCompileErrorCorrectionTimeRate() {
+		double workingtime = (double) totalErrorCorrectionTime
+				/ (totalWorkingTime * 60);
+		workingtime += 0.005;
+		int tmp = (int) (workingtime * 1000);
+		workingtime = (double) tmp / 10;
+		return workingtime;
 	}
 }

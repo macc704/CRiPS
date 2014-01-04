@@ -2,6 +2,7 @@ package src.coco;
 
 import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.controller.CCCompileErrorLoader;
+import src.coco.controller.CCMetricsLoader;
 import src.coco.model.CCCompileErrorManager;
 import src.coco.view.CCMainFrame2;
 import clib.common.filesystem.CDirectory;
@@ -26,6 +27,12 @@ public class CCViewerStart {
 
 		CCCompileErrorLoader errorloader = new CCCompileErrorLoader(manager);
 		errorloader.load("CompileErrorLog.csv");
+
+		CCMetricsLoader metricsloader = new CCMetricsLoader(manager);
+		metricsloader.load("FileMetrics.csv");
+
+		System.out.println("コンパイルエラー修正時間割合： "
+				+ manager.getCompileErrorCorrectionTimeRate() + "%");
 
 		CDirectory baseDir = CFileSystem.getHomeDirectory()
 				.findOrCreateDirectory(".ppvdata");
