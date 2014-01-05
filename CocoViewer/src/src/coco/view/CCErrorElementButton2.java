@@ -21,6 +21,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import ppv.app.datamanager.PPProjectSet;
 import src.coco.model.CCCompileErrorKind;
 import clib.common.filesystem.CDirectory;
 
@@ -36,14 +37,17 @@ public class CCErrorElementButton2 extends JButton {
 
 	private CDirectory libDir;
 	private CDirectory base;
+	private PPProjectSet ppProjectSet;
 
 	private ChartPanel chartpanel;
 
 	public CCErrorElementButton2(int buttonWidth, int buttonHeight,
-			CCCompileErrorKind list, CDirectory libDir, CDirectory base) {
+			CCCompileErrorKind list, CDirectory libDir, CDirectory base,
+			PPProjectSet ppProjectSet) {
 		this.list = list;
 		this.libDir = libDir;
 		this.base = base;
+		this.ppProjectSet = ppProjectSet;
 
 		// windowsize 変更時にボタンサイズを変更する
 		super.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
@@ -66,8 +70,8 @@ public class CCErrorElementButton2 extends JButton {
 		// グラフデータを設定する
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
-			dataset.addValue(list.getErrors().get(i).getCorrectionTime(), "修正時間",
-					Integer.toString(i + 1));
+			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
+					"修正時間", Integer.toString(i + 1));
 		}
 
 		// TODO: グラフの生成 messageが長すぎる場合、短くする処理をどうするか
@@ -121,7 +125,8 @@ public class CCErrorElementButton2 extends JButton {
 
 			@Override
 			public void chartMouseClicked(ChartMouseEvent arg0) {
-				new CCGraphFrame(list, libDir, base).setVisible(true);
+				new CCGraphFrame(list, libDir, base, ppProjectSet)
+						.setVisible(true);
 			}
 		});
 

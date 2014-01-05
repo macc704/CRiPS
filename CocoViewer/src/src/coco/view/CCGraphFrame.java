@@ -54,19 +54,21 @@ public class CCGraphFrame extends JFrame {
 
 	private CDirectory libDir;
 	private CDirectory base;
+	private PPProjectSet ppProjectSet;
 
 	ChartPanel chartpanel;
 	JScrollPane scrollPanel;
 
 	// default
 	public CCGraphFrame(CCCompileErrorKind list, CDirectory libDir,
-			CDirectory base) {
+			CDirectory base, PPProjectSet ppProjectSet) {
 		this.list = list;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		width = (int) (d.width * 0.6);
 		height = (int) (d.height * 0.6);
 		this.libDir = libDir;
 		this.base = base;
+		this.ppProjectSet = ppProjectSet;
 		initialize();
 		makeGraphAndList();
 	}
@@ -164,64 +166,61 @@ public class CCGraphFrame extends JFrame {
 					String projectname = compileError.getProjectName();
 					String filename = compileError.getFilename();
 
-					// 論プロからの起動を想定，CocoViewerのみではbaseDirはnull
-					if (base == null) {
-						System.out.println("baseDir null");
-					} else {
+					if (ppProjectSet == null) {
 						PPDataManager ppDataManager = new PPDataManager(base);
 						ppDataManager.setLibDir(libDir);
 
 						CDirectory projectSetDir = ppDataManager
 								.getDataDir()
 								.findDirectory(compileError.getProjectSetName());
-						PPProjectSet projectSet = new PPProjectSet(
-								projectSetDir);
-
-						// TODO 毎回コンパイルする問題
-						// ProjectViewerFrameで実際に発生しているコンパイルエラーを出力したいので，現状コンパイルはtrue
-						ppDataManager.loadProjectSet(projectSet, true, true);
-						IPLUnit model = null;
-						for (PLProject project : projectSet.getProjects()) {
-							if (project.getName().equals(projectname)) {
-								// 単体のみ
-								List<PLFile> files = project.getFiles();
-								for (PLFile file : files) {
-									if (file.getName().equals(filename)) {
-										model = file;
-									}
-								}
-
-								// そのプロジェクト全体
-								// model = project.getRootPackage();
-							}
-						}
-
-						if (model == null) {
-							throw new RuntimeException(
-									"コンパイルエラー発生時のソースコード捜索に失敗しました");
-						}
-
-						final PPProjectViewerFrame frame = new PPProjectViewerFrame(
-								model);
-						frame.setBounds(50, 50, 1000, 700);
-						frame.setVisible(true);
-						SwingUtilities.invokeLater(new Runnable() {
-							public void run() {
-								// 青修正前，赤修正後
-								frame.fitScale();
-								frame.openToggleExtraView();
-
-								long beginTime = compileError.getBeginTime();
-								frame.getTimelinePane().getTimeModel2()
-										.setTime(new CTime(beginTime));
-
-								long endTime = compileError.getEndTime();
-								frame.getTimelinePane().getTimeModel()
-										.setTime(new CTime(endTime));
-							}
-						});
-
+						ppProjectSet = new PPProjectSet(projectSetDir);
+						ppDataManager.loadProjectSet(ppProjectSet, true, true);
 					}
+
+					// TODO 毎回コンパイルする問題
+					// ProjectViewerFrameで実際に発生しているコンパイルエラーを出力したいので，現状コンパイルはtrue
+
+					IPLUnit model = null;
+					for (PLProject project : ppProjectSet.getProjects()) {
+						if (project.getName().equals(projectname)) {
+							// 単体のみ
+							List<PLFile> files = project.getFiles();
+							for (PLFile file : files) {
+								if (file.getName().equals(filename)) {
+									model = file;
+								}
+							}
+
+							// そのプロジェクト全体
+							// model = project.getRootPackage();
+						}
+					}
+
+					if (model == null) {
+						throw new RuntimeException(
+								"コンパイルエラー発生時のソースコード捜索に失敗しました");
+					}
+
+					final PPProjectViewerFrame frame = new PPProjectViewerFrame(
+							model);
+					frame.setBounds(50, 50, 1000, 700);
+					frame.setVisible(true);
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							// 青修正前，赤修正後
+							frame.fitScale();
+							frame.openToggleExtraView();
+
+							long beginTime = compileError.getBeginTime();
+							frame.getTimelinePane().getTimeModel2()
+									.setTime(new CTime(beginTime));
+
+							long endTime = compileError.getEndTime();
+							frame.getTimelinePane().getTimeModel()
+									.setTime(new CTime(endTime));
+						}
+					});
+
 				}
 			}
 		});

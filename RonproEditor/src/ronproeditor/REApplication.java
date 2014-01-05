@@ -1207,7 +1207,8 @@ public class REApplication implements ICFwApplication {
 
 	public void doOpenCocoViewer() {
 		try {
-			cocoViewerManager.openCocoViewer();
+			cocoViewerManager.openCocoViewer(createCocoDataManager
+					.getppProjectSet());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			CErrorDialog.show(frame, "Open CocoVieweríÜÇ…ÉGÉâÅ[Ç™î≠ê∂ÇµÇ‹ÇµÇΩÅD", ex);

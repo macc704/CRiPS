@@ -150,6 +150,7 @@ public class PPDataManager {
 		} else {
 			viewer.doPrintCompileErrorCSV(baseDir);
 		}
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				viewer.fitScale();

@@ -137,7 +137,7 @@ public class CCMainFrame2 extends JFrame {
 		for (CCCompileErrorKind allKinds : manager.getAllKinds()) {
 			CCErrorElementButton2 button = new CCErrorElementButton2(
 					buttonWidth, buttonHeight, allKinds, manager.getLibDir(),
-					manager.getBase());
+					manager.getBase(), manager.getppProjectSet());
 			buttons.add(button);
 		}
 

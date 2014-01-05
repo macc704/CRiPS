@@ -31,8 +31,8 @@ public class CCViewerStart {
 		CCMetricsLoader metricsloader = new CCMetricsLoader(manager);
 		metricsloader.load("FileMetrics.csv");
 
-		System.out.println("コンパイルエラー修正時間割合： "
-				+ manager.getCompileErrorCorrectionTimeRate() + "%");
+		// System.out.println("コンパイルエラー修正時間割合： "
+		// + manager.getCompileErrorCorrectionTimeRate() + "%");
 
 		CDirectory baseDir = CFileSystem.getHomeDirectory()
 				.findOrCreateDirectory(".ppvdata");

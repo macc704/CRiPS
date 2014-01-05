@@ -1,6 +1,7 @@
 package ronproeditor.ext;
 
 import ppv.app.datamanager.PPDataManager;
+import ppv.app.datamanager.PPProjectSet;
 import ronproeditor.REApplication;
 import src.coco.controller.CCCompileErrorConverter;
 import src.coco.controller.CCCompileErrorKindLoader;
@@ -18,6 +19,7 @@ public class RECreateCocoDataManager {
 	// ErrorKinds.csvにないコンパイルエラー情報を追加したファイル
 	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv"; // ext内のErrorKinds
 	private static String DATA_FILE = "CompileErrorLog.csv"; // Coco用のコンパイルエラーデータ
+	private PPProjectSet ppProjectSet;
 
 	public RECreateCocoDataManager(REApplication application) {
 		this.application = application;
@@ -55,7 +57,7 @@ public class RECreateCocoDataManager {
 		PPDataManager ppDataManager = ppvManager.getPPDataManager();
 		ppDataManager.setLibDir(application.getLibraryManager().getDir());
 		// TODO Hardcoding
-		ppDataManager.openProjectSet("hoge", true, true, true);
+		ppProjectSet = ppDataManager.openProjectSet("hoge", true, true, true);
 	}
 
 	private void convertCompileErrorData() {
@@ -104,5 +106,9 @@ public class RECreateCocoDataManager {
 	private void checkOneFileExist(String filename) {
 		application.getSourceManager().getCRootDirectory()
 				.findOrCreateDirectory(PPV_ROOT_DIR).findOrCreateFile(filename);
+	}
+
+	public PPProjectSet getppProjectSet() {
+		return ppProjectSet;
 	}
 }

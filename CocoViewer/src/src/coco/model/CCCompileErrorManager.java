@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import ppv.app.datamanager.PPProjectSet;
 import clib.common.filesystem.CDirectory;
 
 public class CCCompileErrorManager {
@@ -18,6 +19,7 @@ public class CCCompileErrorManager {
 	// ソースコード参照用
 	private CDirectory base = null;
 	private CDirectory libDir = null;
+	private PPProjectSet ppProjectSet = null;
 
 	public CCCompileErrorManager() {
 
@@ -93,5 +95,13 @@ public class CCCompileErrorManager {
 		int tmp = (int) (workingtime * 1000);
 		workingtime = (double) tmp / 10;
 		return workingtime;
+	}
+
+	public void setppProjectSet(PPProjectSet ppProjectSet) {
+		this.ppProjectSet = ppProjectSet;
+	}
+
+	public PPProjectSet getppProjectSet() {
+		return ppProjectSet;
 	}
 }
