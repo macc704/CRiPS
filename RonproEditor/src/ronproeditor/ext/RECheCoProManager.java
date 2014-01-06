@@ -368,7 +368,7 @@ public class RECheCoProManager {
 
 	private void typeLogoutResult(CHPacket recivedCHPacket) {
 		if (!myName.equals(recivedCHPacket.getMyName())) {
-			members.remove(recivedCHPacket.getMyName());
+			msFrame.setPushed(recivedCHPacket.getMyName());
 			msFrame.setMembers(members);
 			setMemberSelectorListner();
 		} else {
