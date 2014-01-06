@@ -49,6 +49,13 @@
 	</BlockConnectors>
 </BlockGenus>
 
+<BlockGenus name="callThisActionMethod2" kind="command" initlabel="" color="20 20 20" label-suffix="">
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="object" position-type="single" label="の"/>
+		<BlockConnector connector-kind="socket" connector-type="cmd" position-type="single" label=""/>
+	</BlockConnectors>
+</BlockGenus>
+
 <BlockGenus name="callGetterMethod2" kind="data" initlabel="" color="20 20 20" label-suffix="">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="poly" position-type="single"/>

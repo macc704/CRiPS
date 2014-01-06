@@ -27,6 +27,7 @@
 	<BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20">
 		<BlockGenusMember>callActionMethod2</BlockGenusMember>
 		<BlockGenusMember>callGetterMethod2</BlockGenusMember>
+        <BlockGenusMember>callThisActionMethod2</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer name="分岐、繰返" type="factory" button-color="255 80 0">

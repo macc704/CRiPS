@@ -51,6 +51,11 @@ public class ExCallActionMethodModel2 extends ExpressionModel {
 			genusName = "callGetterMethod2";
 		}
 
+		if (receiver.getLabel().equals("©•ª")
+				&& receiver.getType().equals("object")) {
+			genusName = "callThisActionMethod2";
+		}
+
 		// BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
 		if (cmd) {
 			resolveBeforeAfterBlock(getParent().getParent());

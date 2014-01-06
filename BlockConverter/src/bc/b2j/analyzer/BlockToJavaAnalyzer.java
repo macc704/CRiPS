@@ -241,7 +241,8 @@ public class BlockToJavaAnalyzer {
 					/* ! */|| genus_name.startsWith("callBooleanMethod")
 					|| genus_name.startsWith("callDoubleMethod")
 					|| genus_name.startsWith("callStringMethod")
-					|| genus_name.startsWith("callObjectMethod")) {
+					|| genus_name.startsWith("callObjectMethod")
+					|| genus_name.startsWith("callThisActionMethod")) {
 				ReferenceBlockModel model = new ReferenceBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
