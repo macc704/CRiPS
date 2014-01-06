@@ -388,19 +388,25 @@ public class RECheCoProManager {
 		List<String> fileNames = new ArrayList<String>();
 		bytes = recivedCHPacket.getBytes();
 		fileNames = recivedCHPacket.getFileNames();
-		int i = 0;
 		for (String aFileName : fileNames) {
-			File file = new File("MyProjects/.CHProjects/" + senderName
+			File chFile = new File("MyProjects/.CHProjects/" + senderName
 					+ "/final", aFileName);
 			try {
-				FileOutputStream fos = new FileOutputStream(file, false);
-				fos.write(bytes.get(i));
-				file.createNewFile();
+				FileOutputStream fos = new FileOutputStream(chFile, false);
+				fos.write(bytes.get(fileNames.indexOf(aFileName)));
+				chFile.createNewFile();
 				fos.close();
+				if (!(aFileName.endsWith(".java") || aFileName
+						.endsWith(".class"))) {
+					File myFile = new File("MyProjects/final", aFileName);
+					FileOutputStream myFos = new FileOutputStream(myFile, false);
+					myFos.write(bytes.get(fileNames.indexOf(aFileName)));
+					myFile.createNewFile();
+					myFos.close();
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			i++;
 		}
 	}
 
@@ -480,15 +486,17 @@ public class RECheCoProManager {
 		files = Arrays.asList(finalProject.listFiles());
 
 		List<byte[]> bytes = new ArrayList<byte[]>();
+		List<String> fileNames = new ArrayList<String>();
 		for (File aFile : files) {
 			if (aFile.isFile()) {
 				bytes.add(convertFileToByte(aFile));
+				fileNames.add(aFile.getName());
 			} else if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
 				sendFiles(aFile);
 			}
 		}
 
-		setFileToPacket(getFileNames(finalProject), bytes);
+		setFileToPacket(fileNames, bytes);
 		conn.write(chPacket);
 	}
 
