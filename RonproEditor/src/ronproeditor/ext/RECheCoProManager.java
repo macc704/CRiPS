@@ -483,6 +483,8 @@ public class RECheCoProManager {
 		for (File aFile : files) {
 			if (aFile.isFile()) {
 				bytes.add(convertFileToByte(aFile));
+			} else if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
+				sendFiles(aFile);
 			}
 		}
 
