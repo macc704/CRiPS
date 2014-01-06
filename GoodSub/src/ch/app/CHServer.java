@@ -131,7 +131,8 @@ public class CHServer {
 		CHPacket chPacket = new CHPacket();
 		chPacket.setMyName(recivedCHPacket.getMyName());
 		chPacket.setCommand(CHPacket.LOGOUT_RESULT);
-		connectionPool.broadcast(chPacket, conn);
+		connectionPool.broadcastAll(chPacket);
+		connectionPool.close(conn);
 	}
 
 	private void typeFile(CHPacket recivedCHPacket, CHConnection conn) {

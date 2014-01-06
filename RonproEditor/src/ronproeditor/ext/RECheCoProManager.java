@@ -206,7 +206,6 @@ public class RECheCoProManager {
 			public void windowClosing(WindowEvent e) {
 				chPacket.setCommand(CHPacket.LOGUOT);
 				conn.write(chPacket);
-				conn.close();
 			}
 		});
 	}
@@ -368,9 +367,19 @@ public class RECheCoProManager {
 	}
 
 	private void typeLogoutResult(CHPacket recivedCHPacket) {
-		members.remove(recivedCHPacket.getMyName());
-		msFrame.setMembers(members);
-		setMemberSelectorListner();
+		if (!myName.equals(recivedCHPacket.getMyName())) {
+			members.remove(recivedCHPacket.getMyName());
+			msFrame.setMembers(members);
+			setMemberSelectorListner();
+		} else {
+			for (String aMember : members) {
+				REApplication chApplication = chFrameMap.get(aMember);
+				if (chApplication != null) {
+					chApplication.getFrame().setVisible(false);
+				}
+			}
+			conn.close();
+		}
 	}
 
 	private void typeRecivedFile(CHPacket recivedCHPacket) {
