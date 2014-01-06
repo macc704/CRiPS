@@ -99,14 +99,18 @@ public class CCMainFrame2 extends JFrame {
 		}
 		int count = manager.getTotalErrorCount();
 		long time = manager.getTotalErrorCorrectionTime();
-		long hour = time / 60 / 60;
-		long minute = (time / 60) % 60;
-		long second = time % 60;
-		String timeStr = hour + "時間" + minute + "分" + second + "秒";
+		int wokingtime = manager.getTotalWorkingTime() * 60;
+		double rate = manager.getCompileErrorCorrectionTimeRate();
+
+		String timeStr = timeToString(time);
+		String workingStr = timeToString(wokingtime);
 		long avg = time / count;
+
 		String string = "<html>これまでのコンパイルエラー修正数: " + count
-				+ "　　これまでのコンパイルエラー修正時間累計: " + timeStr + "　　１つあたり修正時間平均: " + avg
-				+ "秒" + "</html>";
+				+ "　　これまでのコンパイルエラー修正時間累計: " + timeStr + "<br>"
+				+ "１つあたり修正時間平均: " + avg + "秒" + "  これまでの総作業時間:  " + workingStr
+				+ "<br>" + "  コンパイルエラー修正時間割合:  " + rate + "%" + "</html>";
+
 		label.setText(string);
 		label.setMaximumSize(new Dimension(width, height / 24));
 		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
@@ -119,6 +123,14 @@ public class CCMainFrame2 extends JFrame {
 		label.setBorder(lineborder);
 
 		headerPanel.add(label, BorderLayout.WEST);
+	}
+
+	private String timeToString(long time) {
+		long hour = time / 60 / 60;
+		long minute = (time / 60) % 60;
+		long second = time % 60;
+		String timeStr = hour + "時間" + minute + "分" + second + "秒";
+		return timeStr;
 	}
 
 	// private void setAchivementsButton(JPanel headerPanel) {
