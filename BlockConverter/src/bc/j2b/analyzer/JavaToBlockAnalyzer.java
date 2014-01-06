@@ -2126,6 +2126,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		return model;
 	}
 
+	public ExVariableGetterModel parseThisVariableGetterExpression(String name) {
+		ExVariableGetterModel model = new ExVariableGetterModel();
+		model.setVariable(variableResolver.resolveThisGetter(name));
+		model.setId(idCounter.getNextId());
+		return model;
+	}
+
 	/**
 	 * @param node
 	 * @return
@@ -2289,10 +2296,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// 変数名を解析したモデルとthisをExCallActionブロックにセット
 		model.setReceiver(thisModel);
 		if (variableResolver.resolve(node.getName().toString()) == null) {
-
 		} else {
-			model.setCallMethod(parseVariableGetterExpression(node.getName()
-					.toString()));
+			model.setCallMethod(parseThisVariableGetterExpression(node
+					.getName().toString()));
 			model.setType(parseVariableGetterExpression(
 					node.getName().toString()).getType());
 		}

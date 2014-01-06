@@ -34,21 +34,30 @@ public class VariableResolver implements Cloneable {
 			return thisValue;
 		}
 
-		for (int i = 0; i < globalVariables.size(); i++) {
-			if (name.equals(globalVariables.get(i).getName())) {
-				return globalVariables.get(i);
-			}
-		}
-
 		for (int i = 0; i < localVariables.size(); i++) {
 			if (name.equals(localVariables.get(i).getName())) {
 				return localVariables.get(i);
 			}
 		}
 
+		for (int i = 0; i < globalVariables.size(); i++) {
+			if (name.equals(globalVariables.get(i).getName())) {
+				return globalVariables.get(i);
+			}
+		}
+
 		return null;
 
 		// throw new RuntimeException("cannot resolved name = " + name);
+	}
+
+	public StVariableDeclarationModel resolveThisGetter(String name) {
+		for (int i = 0; i < globalVariables.size(); i++) {
+			if (name.equals(globalVariables.get(i).getName())) {
+				return globalVariables.get(i);
+			}
+		}
+		return null;
 	}
 
 	public void resetGlobalVariable() {
