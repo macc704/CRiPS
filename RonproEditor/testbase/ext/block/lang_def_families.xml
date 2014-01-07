@@ -109,7 +109,10 @@
 	<FamilyMember>local-var-int-number</FamilyMember>
 	<FamilyMember>private-var-int-number</FamilyMember>
     <FamilyMember>private-var-boolean</FamilyMember>
-
 </BlockFamily>
 
+<BlockFamily>
+    <FamilyMember>local-var-object-Hoge</FamilyMember>
+	<FamilyMember>local-var-object-Hoge2</FamilyMember>
+</BlockFamily>
 

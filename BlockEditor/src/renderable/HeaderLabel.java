@@ -9,6 +9,8 @@ import codeblocks.BlockGenus;
 
 public class HeaderLabel extends BlockLabel {
 
+	private boolean editableHeaderLabel = false;
+
 	public HeaderLabel(String initLabelText, BlockLabel.Type labelType,
 			boolean isEditable, long blockID) {
 		super(initLabelText, labelType, isEditable, blockID, true, new Color(
@@ -70,7 +72,8 @@ public class HeaderLabel extends BlockLabel {
 	 * @param RenderableBlock
 	 */
 	private void RenameHeaderLabel(RenderableBlock rb) {
-		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
+		if (rb.getBlock().isObjectTypeVariableDeclBlock()
+				&& !editableHeaderLabel) {
 			for (BlockConnector socket : rb.getBlock().getSockets()) {
 				if (socket.getBlockID() == Block.NULL) {
 					BlockGenus blockGenus = BlockGenus.getGenusWithName(rb
@@ -105,5 +108,6 @@ public class HeaderLabel extends BlockLabel {
 		}
 		Block b = RenderableBlock.getRenderableBlock(getBlockID()).getBlock();
 		b.setHeaderLabel(text);
+		editableHeaderLabel = true;
 	}
 }
