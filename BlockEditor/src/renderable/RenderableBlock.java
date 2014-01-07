@@ -2325,6 +2325,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		// block because of delay
 		// !popupIconVisible: only update if there is a change
 		// getBlock().hasSiblings(): only deal with blocks with siblings
+
+		if (!SwingUtilities.isLeftMouseButton(e) && !dragging
+				&& getBlock().hasSiblings() && getGenus().contains("-var-")) {
+			headerLabel.showMenuIcon(true);
+			return;
+		}
+
 		if (!SwingUtilities.isLeftMouseButton(e) && !dragging
 				&& getBlock().hasSiblings()) {
 			blockLabel.showMenuIcon(true);
@@ -2340,6 +2347,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		// getBlock().hasSiblings(): only deal with blocks with siblings
 		if (!SwingUtilities.isLeftMouseButton(e) && !dragging
 				&& !blockArea.contains(e.getPoint())) {
+
 			blockLabel.showMenuIcon(false);
 		}
 	}

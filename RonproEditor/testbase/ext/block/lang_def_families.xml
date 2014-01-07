@@ -105,6 +105,11 @@
 	<FamilyMember>remainder-double</FamilyMember>
 </BlockFamily>
 
+<BlockFamily>
+	<FamilyMember>local-var-int-number</FamilyMember>
+	<FamilyMember>private-var-int-number</FamilyMember>
+    <FamilyMember>private-var-boolean</FamilyMember>
 
+</BlockFamily>
 
 

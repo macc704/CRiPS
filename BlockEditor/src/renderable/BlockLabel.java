@@ -139,20 +139,38 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 		}
 		if (Block.getBlock(blockID).hasSiblings()) {
 			// Map<String, String> siblings = new HashMap<String, String>();
-			List<String> siblingsNames = Block.getBlock(blockID)
-					.getSiblingsList();
-			String[][] siblings = new String[siblingsNames.size() + 1][2];
-			siblings[0] = new String[] {
-					Block.getBlock(blockID).getGenusName(),
-					Block.getBlock(blockID).getInitialLabel() };
-			for (int i = 0; i < siblingsNames.size(); i++) {
-				siblings[i + 1] = new String[] {
-						siblingsNames.get(i),
-						BlockGenus.getGenusWithName(siblingsNames.get(i))
-								.getInitialLabel() };
+			if (labelType.equals(BlockLabel.Type.HEADER_LABEL)) {
+				List<String> siblingsNames = Block.getBlock(blockID)
+						.getSiblingsList();
+				String[][] siblings = new String[siblingsNames.size() + 1][2];
+				siblings[0] = new String[] {
+						Block.getBlock(blockID).getGenusName(),
+						Block.getBlock(blockID).getHeaderLabel() };
+				for (int i = 0; i < siblingsNames.size(); i++) {
+					siblings[i + 1] = new String[] {
+							siblingsNames.get(i),
+							BlockGenus.getGenusWithName(siblingsNames.get(i))
+									.getInitHeaderLabel() };
+				}
+				widget.setSiblings(hasComboPopup
+						&& Block.getBlock(blockID).hasSiblings(), siblings);
+			} else {
+				// Map<String, String> siblings = new HashMap<String, String>();
+				List<String> siblingsNames = Block.getBlock(blockID)
+						.getSiblingsList();
+				String[][] siblings = new String[siblingsNames.size() + 1][2];
+				siblings[0] = new String[] {
+						Block.getBlock(blockID).getGenusName(),
+						Block.getBlock(blockID).getInitialLabel() };
+				for (int i = 0; i < siblingsNames.size(); i++) {
+					siblings[i + 1] = new String[] {
+							siblingsNames.get(i),
+							BlockGenus.getGenusWithName(siblingsNames.get(i))
+									.getInitialLabel() };
+				}
+				widget.setSiblings(hasComboPopup
+						&& Block.getBlock(blockID).hasSiblings(), siblings);
 			}
-			widget.setSiblings(hasComboPopup
-					&& Block.getBlock(blockID).hasSiblings(), siblings);
 		}
 
 		widget.addMouseListenerToLabel(this);

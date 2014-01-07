@@ -1783,9 +1783,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			callerModel.setType(ElementModel
 					.convertJavaTypeToBlockType(classInstanceCreator
 							.getAruguments().get(0).getType()));
-			System.out.println(classInstanceCreator.getAruguments().get(0)
-					.getType());
-
 		}
 		return callerModel;
 	}
