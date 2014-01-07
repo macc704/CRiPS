@@ -1,19 +1,19 @@
 package ronproeditor.views;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 
 import ronproeditor.helpers.IConsole;
+import clib.common.execution.CNullInputStream;
+import clib.common.execution.CNullPrintStream;
 
 public class DummyConsole implements IConsole {
 
-	private InputStream in = new NullInputStream();
+	private InputStream in = CNullInputStream.INSTANCE;
 
-	private PrintStream out = new NullPrintStream();
-	private PrintStream err = new NullPrintStream();
-	private PrintStream consoleToStream = new NullPrintStream();
+	private PrintStream out = CNullPrintStream.INSTANCE;
+	private PrintStream err = CNullPrintStream.INSTANCE;
+	private PrintStream consoleToStream = CNullPrintStream.INSTANCE;
 
 	public void toLast() {
 	}
@@ -48,23 +48,6 @@ public class DummyConsole implements IConsole {
 
 	public void setConsoleToStream(PrintStream consoleToStream) {
 		this.consoleToStream = consoleToStream;
-	}
-
-	class NullInputStream extends InputStream {
-		@Override
-		public int read() throws IOException {
-			return 0;
-		}
-	}
-
-	class NullPrintStream extends PrintStream {
-		public NullPrintStream() {
-			super(new OutputStream() {
-				@Override
-				public void write(int b) throws IOException {
-				}
-			});
-		}
 	}
 
 }
