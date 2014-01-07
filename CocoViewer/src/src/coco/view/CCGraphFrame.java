@@ -10,12 +10,12 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 import org.jfree.chart.ChartColor;
 import org.jfree.chart.ChartFactory;
@@ -143,23 +143,35 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	private void makeSourceList() {
-		// java7からDefaultListModelに格納するクラスを指定しなければならない
-		DefaultListModel<String> model = new DefaultListModel<String>();
+		String[] columnNames = {"発生時刻", "プログラム名", "修正時間"};
+		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		for (int i = 0; i < list.getErrors().size(); i++) {
-			CTime time = new CTime(list.getErrors().get(i).getBeginTime());
-
-			model.addElement("発生時刻 " + time.toString() + "： 修正時間 "
-					+ list.getErrors().get(i).getCorrectionTime() + "秒");
+			String time = new CTime(list.getErrors().get(i).getBeginTime()).toString();
+			String filename = list.getErrors().get(i).getFilenameNoPath();
+			String correctTime = String.valueOf(list.getErrors().get(i).getCorrectionTime());
+			
+			String[] oneTableData = { time, filename, correctTime };
+			model.addRow(oneTableData);
 		}
-
-		final JList<String> jlist = new JList<String>(model);
-		jlist.addMouseListener(new MouseAdapter() {
+				
+		// java7からDefaultListModelに格納するクラスを指定しなければならない
+//		DefaultListModel<String> model = new DefaultListModel<String>();
+//		for (int i = 0; i < list.getErrors().size(); i++) {
+//			CTime time = new CTime(list.getErrors().get(i).getBeginTime());
+//
+//			model.addElement("発生時刻 " + time.toString() + "： 修正時間 "
+//					+ list.getErrors().get(i).getCorrectionTime() + "秒");
+//		}
+//
+//		final JList<String> jlist = new JList<String>(model);
+		final JTable table = new JTable(model);
+		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				// 左クリック二回でオープンする
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() >= 2) {
 					// 選択された要素がリストの何番目であるのかを取得し，その時のコンパイルエラー情報を取得
-					int index = jlist.getSelectedIndex();
+					int index = table.getColumnCount();
 					final CCCompileError compileError = list.getErrors().get(
 							index);
 					// ファイルパスに必要な要素の取り出し
@@ -226,7 +238,7 @@ public class CCGraphFrame extends JFrame {
 		});
 
 		scrollPanel = new JScrollPane();
-		scrollPanel.getViewport().setView(jlist);
+		scrollPanel.getViewport().setView(table);
 
 		rootPanel.add(scrollPanel, BorderLayout.EAST);
 	}

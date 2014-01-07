@@ -32,7 +32,7 @@ public class PLMetricsCalculator {
 	private CTimeOrderedList<PLLog> addBlock;
 	private CTimeOrderedList<PLLog> removeBlock;
 	private PLWorkingTime beWorkingTime;
-	
+
 	// for debugger by hakamata
 	private CTimeOrderedList<PLLog> debugs;
 	private CTimeOrderedList<PLLog> steps;
@@ -67,7 +67,7 @@ public class PLMetricsCalculator {
 		this.addBlock = getLogsBySubType("BLOCK_ADDED");
 		this.removeBlock = getLogsBySubType("BLOCK_REMOVED");
 		this.beWorkingTime = new PLWorkingTimeCalculator().calculateForBE(unit);
-		
+
 		// for debugger by hakamata
 		this.debugs = getLogsBySubType("START_DEBUG");
 		this.steps = getLogsBySubType("STEP");
@@ -194,7 +194,6 @@ public class PLMetricsCalculator {
 		return removeBlock.size();
 	}
 
-	
 	// for debugger by hakamata
 	public int getDebugCount(CTime time) {
 		return getIndex(debugs, time);
@@ -203,22 +202,22 @@ public class PLMetricsCalculator {
 	public int getDebugCount() {
 		return getDebugCount(endTime);
 	}
-	
+
 	public void fixDebugCount() {
 		CTimeOrderedList<PLLog> tmpDebugs = new CTimeOrderedList<PLLog>();
-		int j=0;
-		if(debugs.size() > 0){
+		int j = 0;
+		if (debugs.size() > 0) {
 			tmpDebugs.add(debugs.get(0));
 		}
-		for(int i=1; i < debugs.size(); i++) {
-			if(tmpDebugs.get(j).getTimestamp() != debugs.get(i).getTimestamp()){
+		for (int i = 1; i < debugs.size(); i++) {
+			if (tmpDebugs.get(j).getTimestamp() != debugs.get(i).getTimestamp()) {
 				tmpDebugs.add(debugs.get(i));
 				j++;
 			}
 		}
 		debugs = tmpDebugs;
 	}
-	
+
 	public int getStepCount(CTime time) {
 		return getIndex(steps, time);
 	}
@@ -226,7 +225,7 @@ public class PLMetricsCalculator {
 	public int getStepCount() {
 		return getStepCount(endTime);
 	}
-	
+
 	public int getPlayCount(CTime time) {
 		return getIndex(plays, time);
 	}
@@ -234,7 +233,7 @@ public class PLMetricsCalculator {
 	public int getPlayCount() {
 		return getPlayCount(endTime);
 	}
-	
+
 	public int getAverageSpeed(CTime time) {
 		PLLog log = aveSpeed.searchElementBefore(time);
 		int index = 0;
@@ -242,13 +241,13 @@ public class PLMetricsCalculator {
 			index = aveSpeed.getElements().indexOf(log) + 1;
 		}
 		int speeds = 500;
-		for(int i = 0; i < index; i++){
-			speeds += Integer.parseInt("" + aveSpeed.get(i).getArguments().get(0).toString());
+		for (int i = 0; i < index; i++) {
+			speeds += Integer.parseInt(""
+					+ aveSpeed.get(i).getArguments().get(1).toString());
 		}
-		if(index > 0) {
+		if (index > 0) {
 			return speeds / index;
-		}
-		else {
+		} else {
 			return 500;
 		}
 	}
@@ -256,6 +255,7 @@ public class PLMetricsCalculator {
 	public int getAverageSpeed() {
 		return getAverageSpeed(endTime);
 	}
+
 	public CTimeInterval getNDWorkingTime(CTime time) {
 		return ndWorkingTime.getTotalUntil(time);
 	}
