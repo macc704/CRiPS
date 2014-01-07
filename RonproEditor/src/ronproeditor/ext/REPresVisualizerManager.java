@@ -60,10 +60,10 @@ public class REPresVisualizerManager {
 	public void exportAndImportAll() {
 		CDirectory ppvRoot = application.getSourceManager().getCRootDirectory()
 				.findOrCreateDirectory(PPV_ROOT_DIR);
-		boolean deleted = ppvRoot.delete();
-		if (!deleted) {
-			throw new RuntimeException("ppvRootを削除できませんでした．");
-		}
+//		boolean deleted = ppvRoot.delete();
+//		if (!deleted) {
+//			throw new RuntimeException("ppvRootを削除できませんでした．");
+//		}
 		this.ppDataManager = new PPDataManager(ppvRoot);
 		CDirectory ppvRootDir = ppDataManager.getBaseDir();
 		CDirectory tmpDir = ppvRootDir.findOrCreateDirectory(PPV_TMP_DIR);
@@ -76,11 +76,12 @@ public class REPresVisualizerManager {
 				.getAllProjects();
 
 		for (CDirectory project : projects) {
-			if (project.findDirectory(".pres2") != null) {
+			CDirectory pres = project.findOrCreateDirectory(".pres2");
+			if (pres.findFile("pres2.log") != null) {
 				exportOneProject(project, tmpDir);
 			} else {
 				throw new RuntimeException(project.getNameByString()
-						+ "内に.pres2フォルダがありません");
+						+ "においてpres2.logが見つかりません");
 			}
 		}
 	}
