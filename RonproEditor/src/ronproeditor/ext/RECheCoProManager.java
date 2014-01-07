@@ -56,7 +56,6 @@ public class RECheCoProManager {
 	private REApplication application;
 	private CHConnection conn;
 	private REApplication chApplication;
-	// private boolean started;
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
 	private String myName = DEFAULT_NAME;
@@ -204,6 +203,7 @@ public class RECheCoProManager {
 		msFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				sendFiles(getFinalProject());
 				chPacket.setCommand(CHPacket.LOGUOT);
 				conn.write(chPacket);
 			}
@@ -343,6 +343,7 @@ public class RECheCoProManager {
 			msFrame.setTitle("CheCoProMemberSelector " + myName);
 		}
 
+		msFrame.releasePushed(recivedCHPacket.getMyName());
 		msFrame.setMembers(members);
 		setMemberSelectorListner();
 

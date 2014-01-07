@@ -1,10 +1,12 @@
 package ch.app;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ch.connection.CHConnection;
@@ -17,18 +19,23 @@ public class CHServer {
 		if (args.length < 1) {
 			System.err.println("argument is not found");
 		} else {
-			new CHServer().run(Integer.parseInt(args[0]));
+			port = Integer.parseInt(args[0]);
+			new CHServer().run();
 		}
 	}
 
+	private static int port;
 	private CHConnectionPool connectionPool = new CHConnectionPool();
 	private List<String> members = new ArrayList<String>();
+	private HashMap<String, CHConnection> connMap = new HashMap<String, CHConnection>();
 
 	private static PrintStream out = System.out;
 
-	public void run(int port) {
+	public void run() {
 
 		ServerSocket serverSock = null;
+		File groupDir = new File(Integer.toString(port));
+		groupDir.mkdir();
 		try {
 			serverSock = new ServerSocket(port);
 			while (true) {
@@ -92,6 +99,8 @@ public class CHServer {
 	private void typeLogin(CHPacket recivedCHPacket, CHConnection conn) {
 		String myName = recivedCHPacket.getMyName();
 
+		connMap.put(myName, conn);
+
 		CHPacket chPacket = new CHPacket();
 
 		// ñºëOÇ™îÌÇ¡ÇΩèÍçá
@@ -127,6 +136,7 @@ public class CHServer {
 
 	private void typeLogout(CHPacket recivedCHPacket, CHConnection conn) {
 		members.remove(recivedCHPacket.getMyName());
+		connMap.remove(recivedCHPacket.getMyName());
 
 		CHPacket chPacket = new CHPacket();
 		chPacket.setMyName(recivedCHPacket.getMyName());
