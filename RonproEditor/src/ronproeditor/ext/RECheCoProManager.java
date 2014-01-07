@@ -344,7 +344,7 @@ public class RECheCoProManager {
 			msFrame.setTitle("CheCoProMemberSelector " + myName);
 		}
 
-		msFrame.releasePushed(recivedCHPacket.getMyName());
+		msFrame.removeLoginedMember(recivedCHPacket.getMyName());
 		msFrame.setMembers(members);
 		setMemberSelectorListner();
 
@@ -371,7 +371,7 @@ public class RECheCoProManager {
 
 	private void typeLogoutResult(CHPacket recivedCHPacket) {
 		if (!myName.equals(recivedCHPacket.getMyName())) {
-			msFrame.setPushed(recivedCHPacket.getMyName());
+			msFrame.addLoginedMember(recivedCHPacket.getMyName());
 			msFrame.setMembers(members);
 			setMemberSelectorListner();
 		} else {

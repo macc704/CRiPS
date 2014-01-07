@@ -1,5 +1,6 @@
 package ch.view;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class CHMemberSelectorFrame extends JFrame {
 	private String myName;
 	private List<JButton> buttons = new ArrayList<JButton>();
 	private List<String> pushed = new ArrayList<String>();
+	private List<String> loginedMembers = new ArrayList<String>();
 
 	public CHMemberSelectorFrame(String myName) {
 		this.myName = myName;
@@ -38,11 +40,19 @@ public class CHMemberSelectorFrame extends JFrame {
 		for (String aMember : members) {
 			JButton button = new JButton(aMember);
 			buttonPanel.add(button);
+
 			for (String aPushed : pushed) {
 				if (aMember.equals(aPushed)) {
 					button.setEnabled(false);
 				}
 			}
+
+			for (String aLoginedMember : loginedMembers) {
+				if (aMember.equals(aLoginedMember)) {
+					button.setForeground(Color.RED);
+				}
+			}
+
 			if (aMember.equals(myName)) {
 				button.setEnabled(false);
 			}
@@ -64,6 +74,14 @@ public class CHMemberSelectorFrame extends JFrame {
 		pushed.remove(name);
 	}
 
+	public void addLoginedMember(String name) {
+		loginedMembers.add(name);
+	}
+
+	public void removeLoginedMember(String name) {
+		loginedMembers.remove(name);
+	}
+
 	public void setMyName(String myName) {
 		this.myName = myName;
 	}
@@ -80,5 +98,4 @@ public class CHMemberSelectorFrame extends JFrame {
 		frame.setMembers(members);
 
 	}
-
 }
