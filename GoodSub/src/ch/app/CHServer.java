@@ -1,6 +1,7 @@
 package ch.app;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
@@ -85,6 +86,10 @@ public class CHServer {
 						break;
 					case CHPacket.FILE:
 						typeFile(recivedCHPacket, conn);
+						break;
+					case CHPacket.SAVE_FILE:
+						typeSaveFile(recivedCHPacket);
+						break;
 					}
 				}
 			}
@@ -108,6 +113,8 @@ public class CHServer {
 			myName = myName + "*";
 			chPacket.setExist(true);
 		}
+
+		createMembersDir(myName);
 
 		members.add(myName);
 		out.println("name: " + myName + " add list.");
@@ -154,4 +161,35 @@ public class CHServer {
 		connectionPool.broadcast(chPacket, conn);
 	}
 
+	private void typeSaveFile(CHPacket recivedCHPacket) {
+		String myName = recivedCHPacket.getMyName();
+		List<String> fileNames = new ArrayList<String>();
+		List<byte[]> bytes = new ArrayList<byte[]>();
+		fileNames = recivedCHPacket.getFileNames();
+		bytes = recivedCHPacket.getBytes();
+		for (String fileName : fileNames) {
+			if (fileName.endsWith(".java")) {
+				saveFile(myName, fileName,
+						bytes.get(fileNames.indexOf(fileName)));
+			}
+		}
+	}
+
+	private void createMembersDir(String name) {
+		File membersDir = new File(Integer.toString(port), name);
+		membersDir.mkdir();
+	}
+
+	private void saveFile(String parent, String fileName, byte[] bytes) {
+		File file = new File(Integer.toString(port) + "/" + parent, fileName);
+		FileOutputStream fos;
+		try {
+			fos = new FileOutputStream(file, false);
+			fos.write(bytes);
+			file.createNewFile();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

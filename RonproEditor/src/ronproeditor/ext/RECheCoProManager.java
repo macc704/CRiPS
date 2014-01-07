@@ -203,6 +203,7 @@ public class RECheCoProManager {
 		msFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				chPacket.setCommand(CHPacket.SAVE_FILE);
 				sendFiles(getFinalProject());
 				chPacket.setCommand(CHPacket.LOGUOT);
 				conn.write(chPacket);
@@ -349,6 +350,7 @@ public class RECheCoProManager {
 
 		createMembersDir(members);
 
+		chPacket.setCommand(CHPacket.FILE);
 		sendFiles(getFinalProject());
 	}
 
@@ -465,7 +467,6 @@ public class RECheCoProManager {
 	}
 
 	private void setFileToPacket(List<String> fileNames, List<byte[]> bytes) {
-		chPacket.setCommand(CHPacket.FILE);
 		chPacket.setFileNames(fileNames);
 		chPacket.setBytes(bytes);
 	}
