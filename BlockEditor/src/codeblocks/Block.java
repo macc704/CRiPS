@@ -431,6 +431,12 @@ public class Block implements ISupportMemento {
 	public void changeGenusTo(String genusName) {
 		this.genusName = genusName;
 		label = BlockGenus.getGenusWithName(genusName).getInitialLabel();
+		System.out.println("changeGenus:" + label.toString());
+		if (headerLabel != null) {
+			headerLabel = BlockGenus.getGenusWithName(genusName)
+					.getInitHeaderLabel();
+			System.out.println("headerLabel" + headerLabel.toString());
+		}
 	}
 
 	// //////////////////////////////

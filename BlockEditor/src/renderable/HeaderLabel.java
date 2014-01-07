@@ -93,6 +93,8 @@ public class HeaderLabel extends BlockLabel {
 				}
 			}
 			textChanged(rb.getHeaderLabel().getText());
+		} else {
+			textChanged(rb.getHeaderLabel().getText());
 		}
 	}
 

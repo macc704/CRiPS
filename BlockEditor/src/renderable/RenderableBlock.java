@@ -646,6 +646,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		boolean pageLabelChanged = getBlock().getPageLabel() != null
 				&& !pageLabel.getText().equals(getBlock().getPageLabel());
 		boolean socketLabelsChanged = false;
+		boolean blockHeaderLabelChanged = getBlock().getHeaderLabel() != null
+				&& !headerLabel.getText().equals(getBlock().getHeaderLabel());
+
+		System.out.println(blockLabel.getText());
 
 		// If tag label isn't the same as socket label, synchronize.
 		// If the block doesn't have an editable socket label, synchronize.
@@ -677,8 +681,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				break;
 			}
 		}
+
 		if (blockLabelChanged) {
 			blockLabel.setText(getBlock().getBlockLabel());
+		}
+
+		if (blockHeaderLabelChanged) {
+			headerLabel.setText(getBlock().getHeaderLabel());
 		}
 		if (pageLabelChanged) {
 			pageLabel.setText(getBlock().getPageLabel());
