@@ -24,10 +24,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -229,6 +232,26 @@ public class RECheCoProManager {
 
 	private void initializeCHMenu(JMenuBar menuBar) {
 		menuBar.getMenu(3).remove(4);
+
+		JMenu chMenu = new JMenu("CheCoPro");
+		menuBar.add(chMenu);
+		Action fileSendRequest;
+		fileSendRequest = new AbstractAction() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			}
+		};
+
+		fileSendRequest.putValue(Action.NAME, "File Send Request");
+		fileSendRequest.setEnabled(false);
+		chMenu.add(fileSendRequest);
+
 		menuBar.add(connButton);
 		chApplication.getFrame().setJMenuBar(menuBar);
 	}
