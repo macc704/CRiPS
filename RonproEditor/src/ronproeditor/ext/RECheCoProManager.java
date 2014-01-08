@@ -199,6 +199,11 @@ public class RECheCoProManager {
 						doOpenNewCHE(name);
 					}
 					setMemberSelectorListner();
+
+					chPacket.setMyName(myName);
+					chPacket.setAdressee(name);
+					chPacket.setCommand(CHPacket.FILE_SEND_REQUEST);
+					conn.write(chPacket);
 				}
 			});
 		}
@@ -417,6 +422,9 @@ public class RECheCoProManager {
 		for (String aFileName : fileNames) {
 			File chFile = new File("MyProjects/.CHProjects/" + senderName
 					+ "/final", aFileName);
+			if (chFile.exists()) {
+				chFile.delete();
+			}
 			try {
 				FileOutputStream fos = new FileOutputStream(chFile, false);
 				fos.write(bytes.get(fileNames.indexOf(aFileName)));

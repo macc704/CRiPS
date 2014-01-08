@@ -50,10 +50,10 @@ public class CHConnectionPool {
 		}
 	}
 
-	public void sendMyself(Object obj, CHConnection myself) {
+	public void sendToOne(Object obj, CHConnection conn) {
 		synchronized (lock) {
 			for (CHConnection aClient : connections) {
-				if (aClient == myself) {
+				if (aClient == conn) {
 					aClient.write(obj);
 					out.println("send : " + obj + "  to : " + aClient);
 				}

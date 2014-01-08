@@ -1,12 +1,16 @@
 package ch.app;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -29,6 +33,7 @@ public class CHServer {
 	private CHConnectionPool connectionPool = new CHConnectionPool();
 	private List<String> members = new ArrayList<String>();
 	private HashMap<String, CHConnection> connMap = new HashMap<String, CHConnection>();
+	private List<File> memberDirs = new ArrayList<File>();
 
 	private static PrintStream out = System.out;
 
@@ -90,6 +95,9 @@ public class CHServer {
 					case CHPacket.SAVE_FILE:
 						typeSaveFile(recivedCHPacket);
 						break;
+					case CHPacket.FILE_SEND_REQUEST:
+						typeFileSendRequest(recivedCHPacket, conn);
+						break;
 					}
 				}
 			}
@@ -100,6 +108,10 @@ public class CHServer {
 			out.println("one connection killed");
 		}
 	}
+
+	/**************
+	 * コマンド別処理
+	 **************/
 
 	private void typeLogin(CHPacket recivedCHPacket, CHConnection conn) {
 		String myName = recivedCHPacket.getMyName();
@@ -124,7 +136,7 @@ public class CHServer {
 		chPacket.setCommand(CHPacket.LOGIN_RESULT);
 
 		if (chPacket.isExist()) {
-			connectionPool.sendMyself(chPacket, conn);
+			connectionPool.sendToOne(chPacket, conn);
 			chPacket.setExist(false);
 			connectionPool.broadcast(chPacket, conn);
 		} else {
@@ -175,8 +187,18 @@ public class CHServer {
 		}
 	}
 
+	private void typeFileSendRequest(CHPacket recivedCHPacket, CHConnection conn) {
+		sendFiles(searchMenbersDir(recivedCHPacket.getAdressee()),
+				recivedCHPacket, conn);
+	}
+
+	/************
+	 * ファイル操作
+	 ************/
+
 	private void createMembersDir(String name) {
 		File membersDir = new File(Integer.toString(port), name);
+		memberDirs.add(membersDir);
 		membersDir.mkdir();
 	}
 
@@ -191,5 +213,60 @@ public class CHServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void sendFiles(File directory, CHPacket recivedPacket,
+			CHConnection conn) {
+		List<File> files = new ArrayList<File>();
+		files = Arrays.asList(directory.listFiles());
+
+		List<byte[]> bytes = new ArrayList<byte[]>();
+		List<String> fileNames = new ArrayList<String>();
+		for (File aFile : files) {
+			if (aFile.isFile()) {
+				bytes.add(convertFileToByte(aFile));
+				fileNames.add(aFile.getName());
+			}
+		}
+
+		CHPacket chPacket = new CHPacket();
+		chPacket.setMyName(recivedPacket.getMyName());
+		chPacket.setBytes(bytes);
+		chPacket.setFileNames(fileNames);
+		chPacket.setCommand(CHPacket.RECIVE_FILE);
+		connectionPool.sendToOne(chPacket, conn);
+	}
+
+	public File searchMenbersDir(String name) {
+		for (File aFile : memberDirs) {
+			if (name.equals(aFile.getName())) {
+				return aFile;
+			}
+		}
+		return null;
+	}
+
+	public byte[] convertFileToByte(File file) {
+
+		FileInputStream fis = null;
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		int i = 0;
+		try {
+			while ((i = fis.read()) != -1) {
+				baos.write(i);
+			}
+			baos.close();
+			fis.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return baos.toByteArray();
 	}
 }
