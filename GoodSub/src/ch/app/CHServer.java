@@ -176,13 +176,18 @@ public class CHServer {
 	private void typeDiff(CHPacket recivedCHPacket, CHConnection conn) {
 		File directory = searchMenbersDir(recivedCHPacket.getMyName());
 		List<File> files = Arrays.asList(directory.listFiles());
+		List<String> recivedFileNames = recivedCHPacket.getFileNames();
+
 		List<String> fileNames = new ArrayList<String>();
 		for (File aFile : files) {
-			fileNames.add(aFile.getName());
+			if (!recivedFileNames.contains(aFile.getName())) {
+				aFile.delete();
+			} else {
+				fileNames.add(aFile.getName());
+			}
 		}
 
 		List<String> diff = new ArrayList<String>();
-		List<String> recivedFileNames = recivedCHPacket.getFileNames();
 		for (String aRecivedFileName : recivedFileNames) {
 			if (!fileNames.contains(aRecivedFileName)) {
 				if (!aRecivedFileName.startsWith(".")) {
@@ -190,6 +195,7 @@ public class CHServer {
 				}
 			}
 		}
+
 		CHPacket chPacket = new CHPacket();
 		chPacket.setFileNames(diff);
 		chPacket.setCommand(CHPacket.DIFF_RESULT);
