@@ -135,13 +135,10 @@ public class CHServer {
 		chPacket.setMembers(members);
 		chPacket.setCommand(CHPacket.LOGIN_RESULT);
 
-		if (chPacket.isExist()) {
-			connectionPool.sendToOne(chPacket, conn);
-			chPacket.setExist(false);
-			connectionPool.broadcast(chPacket, conn);
-		} else {
-			connectionPool.broadcastAll(chPacket);
-		}
+		connectionPool.sendToOne(chPacket, conn);
+		chPacket.setExist(false);
+		chPacket.setCommand(CHPacket.LOGIN_MEMBER);
+		connectionPool.broadcast(chPacket, conn);
 	}
 
 	private void typeSource(CHPacket recivedCHPacket, CHConnection conn) {

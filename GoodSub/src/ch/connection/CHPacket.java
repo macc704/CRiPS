@@ -21,6 +21,7 @@ public class CHPacket implements Serializable {
 	public static final int RECIVE_FILE = 7;
 	public static final int SAVE_FILE = 8;
 	public static final int FILE_SEND_REQUEST = 9;
+	public static final int LOGIN_MEMBER = 10;
 
 	private int command;
 	private String myName;

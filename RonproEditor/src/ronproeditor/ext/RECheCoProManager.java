@@ -211,8 +211,6 @@ public class RECheCoProManager {
 		msFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				chPacket.setCommand(CHPacket.SAVE_FILE);
-				sendFiles(getFinalProject());
 				chPacket.setCommand(CHPacket.LOGUOT);
 				conn.write(chPacket);
 			}
@@ -338,6 +336,7 @@ public class RECheCoProManager {
 			int command = recivedCHPacket.getCommand();
 			switch (command) {
 			case CHPacket.LOGIN_RESULT:
+			case CHPacket.LOGIN_MEMBER:
 				typeLoginResult(recivedCHPacket);
 				break;
 			case CHPacket.RECIVE_SOURCE:
@@ -378,8 +377,10 @@ public class RECheCoProManager {
 
 		createMembersDir(members);
 
-		chPacket.setCommand(CHPacket.FILE);
-		sendFiles(getFinalProject());
+		if (recivedCHPacket.getCommand() == CHPacket.LOGIN_RESULT) {
+			chPacket.setCommand(CHPacket.SAVE_FILE);
+			sendFiles(getFinalProject());
+		}
 	}
 
 	private void typeRecivedSource(CHPacket recivedCHPacket) {
