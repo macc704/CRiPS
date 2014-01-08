@@ -16,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -379,7 +378,9 @@ public class RECheCoProManager {
 
 		if (recivedCHPacket.getCommand() == CHPacket.LOGIN_RESULT) {
 			chPacket.setCommand(CHPacket.SAVE_FILE);
-			sendFiles(getFinalProject());
+			List<File> files = new ArrayList<File>();
+			files = Arrays.asList(getFinalProject().listFiles());
+			sendFile(files);
 		}
 	}
 
@@ -415,34 +416,34 @@ public class RECheCoProManager {
 	}
 
 	private void typeRecivedFile(CHPacket recivedCHPacket) {
-		String senderName = recivedCHPacket.getMyName();
-		List<byte[]> bytes = new ArrayList<byte[]>();
-		List<String> fileNames = new ArrayList<String>();
-		bytes = recivedCHPacket.getBytes();
-		fileNames = recivedCHPacket.getFileNames();
-		for (String aFileName : fileNames) {
-			File chFile = new File("MyProjects/.CHProjects/" + senderName
-					+ "/final", aFileName);
-			if (chFile.exists()) {
-				chFile.delete();
-			}
-			try {
-				FileOutputStream fos = new FileOutputStream(chFile, false);
-				fos.write(bytes.get(fileNames.indexOf(aFileName)));
-				chFile.createNewFile();
-				fos.close();
-				if (!(aFileName.endsWith(".java") || aFileName
-						.endsWith(".class"))) {
-					File myFile = new File("MyProjects/final", aFileName);
-					FileOutputStream myFos = new FileOutputStream(myFile, false);
-					myFos.write(bytes.get(fileNames.indexOf(aFileName)));
-					myFile.createNewFile();
-					myFos.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		// String senderName = recivedCHPacket.getMyName();
+		// List<byte[]> bytes = new ArrayList<byte[]>();
+		// List<String> fileNames = new ArrayList<String>();
+		// bytes = recivedCHPacket.getBytes();
+		// fileNames = recivedCHPacket.getFileNames();
+		// for (String aFileName : fileNames) {
+		// File chFile = new File("MyProjects/.CHProjects/" + senderName
+		// + "/final", aFileName);
+		// if (chFile.exists()) {
+		// chFile.delete();
+		// }
+		// try {
+		// FileOutputStream fos = new FileOutputStream(chFile, false);
+		// fos.write(bytes.get(fileNames.indexOf(aFileName)));
+		// chFile.createNewFile();
+		// fos.close();
+		// if (!(aFileName.endsWith(".java") || aFileName
+		// .endsWith(".class"))) {
+		// File myFile = new File("MyProjects/final", aFileName);
+		// FileOutputStream myFos = new FileOutputStream(myFile, false);
+		// myFos.write(bytes.get(fileNames.indexOf(aFileName)));
+		// myFile.createNewFile();
+		// myFos.close();
+		// }
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// }
 	}
 
 	/****************
@@ -498,10 +499,11 @@ public class RECheCoProManager {
 		return fileNames;
 	}
 
-	private void setFileToPacket(List<String> fileNames, List<byte[]> bytes) {
-		chPacket.setFileNames(fileNames);
-		chPacket.setBytes(bytes);
-	}
+	// private void setFileToPacket(List<String> fileNames, List<byte[]> bytes)
+	// {
+	// chPacket.setFileNames(fileNames);
+	// chPacket.setBytes(bytes);
+	// }
 
 	public File getFinalProject() {
 		File root = application.getSourceManager().getRootDirectory();
@@ -515,23 +517,39 @@ public class RECheCoProManager {
 		return null;
 	}
 
-	private void sendFiles(File finalProject) {
-		List<File> files = new ArrayList<File>();
-		files = Arrays.asList(finalProject.listFiles());
+	// private void sendFiles(File finalProject) {
+	// List<File> files = new ArrayList<File>();
+	// files = Arrays.asList(finalProject.listFiles());
+	//
+	// List<byte[]> bytes = new ArrayList<byte[]>();
+	// List<String> fileNames = new ArrayList<String>();
+	// for (File aFile : files) {
+	// if (aFile.isFile()) {
+	// bytes.add(convertFileToByte(aFile));
+	// fileNames.add(aFile.getName());
+	// } else if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
+	// sendFiles(aFile);
+	// }
+	// }
+	//
+	// setFileToPacket(fileNames, bytes);
+	// conn.write(chPacket);
+	// }
 
-		List<byte[]> bytes = new ArrayList<byte[]>();
-		List<String> fileNames = new ArrayList<String>();
+	private void sendFile(List<File> files) {
 		for (File aFile : files) {
 			if (aFile.isFile()) {
-				bytes.add(convertFileToByte(aFile));
-				fileNames.add(aFile.getName());
+				byte[] bytes = convertFileToByte(aFile);
+				chPacket.setBytes(bytes);
+				chPacket.setFile(aFile);
+				conn.write(chPacket);
 			} else if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
-				sendFiles(aFile);
+				chPacket.setFile(aFile);
+				chPacket.setBytes(null);
+				conn.write(chPacket);
+				sendFile(Arrays.asList(aFile.listFiles()));
 			}
 		}
-
-		setFileToPacket(fileNames, bytes);
-		conn.write(chPacket);
 	}
 
 	/**********
