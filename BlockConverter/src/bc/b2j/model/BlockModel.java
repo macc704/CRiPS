@@ -249,8 +249,8 @@ public abstract class BlockModel {
 	}
 
 	public void makeIndent(PrintStream out, int number) {
-		// for (int i = 0; i < number; i++) {
-		// out.print("\t");
-		// }
+		for (int i = 0; i < number; i++) {
+			out.print("\t");
+		}
 	}
 }

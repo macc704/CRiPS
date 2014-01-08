@@ -1,17 +1,43 @@
 package bc.j2b.analyzer;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import ClassBlockFileModel.PublicMethodInfo;
 
 public class MethodAnalyzer extends ASTVisitor {
 
 	private List<PublicMethodInfo> methods = new ArrayList<PublicMethodInfo>();
+	private String superClassName;
+	private List<String> interfacesNames = new LinkedList<String>();
+
+	public String getSuperClassName() {
+		return this.superClassName;
+	}
+
+	public List<String> getInterfacesNames() {
+		return this.interfacesNames;
+	}
+
+	@Override
+	public boolean visit(TypeDeclaration node) {
+		// TODO Auto-generated method stub
+		if (node.getSuperclassType() != null) {
+			this.superClassName = node.getSuperclassType().toString();
+			for (int i = 0; i < node.superInterfaceTypes().size(); i++) {
+				interfacesNames.add(node.superInterfaceTypes().get(i)
+						.toString());
+			}
+		}
+
+		return super.visit(node);
+	}
 
 	public boolean visit(MethodDeclaration node) {
 		List<String> parameters = new ArrayList<String>();

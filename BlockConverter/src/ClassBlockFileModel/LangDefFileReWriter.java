@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
@@ -22,6 +22,8 @@ public class LangDefFileReWriter {
 	private String[] classpaths;
 	private BufferedReader br;
 	private Map<String, String> addedMethods = new HashMap<String, String>();
+
+	private Map<String, Family> familyList = new HashMap<String, Family>();
 
 	public LangDefFileReWriter(File file, String enc, String[] classpaths) {
 		this.file = file;
@@ -47,31 +49,32 @@ public class LangDefFileReWriter {
 				// javaファイル解析
 				File javaFile = new File(file.getParentFile().getPath() + "/"
 						+ name);
+				name = name.substring(0, name.indexOf(".java"));
+
+				Family family = new Family();
+				family.addFamilyMember(name);
+				familyList.put(name, family);
+
 				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(
-						name, javaFile);
+						name, javaFile, name);
 				// ローカル変数ブロックのモデルを追加
-				selfDefModel.setLocalSelDefClass(
-						name.substring(0, name.indexOf(".java")), methods);// メソッドリストを引数に追加
+				selfDefModel.setLocalSelDefClass(name, methods);// メソッドリストを引数に追加
 				// インスタンス変数ブロックのモデルを追加
-				selfDefModel.setGlobalSelDefClass(
-						name.substring(0, name.indexOf(".java")), methods);
+				selfDefModel.setGlobalSelDefClass(name, methods);
 			}
 		}
 
-		// langDefファイルが存在しない場合は、作成する
-		if (!new File(file.getParentFile().getPath() + "/lang_def_project.xml")
-				.exists()) {
-			Copier langDefXml = new LangDefFileCopier();
-			Copier langDefDtd = new LangDefFileDtdCopier();
-			langDefXml.print(file);
-			langDefDtd.print(file);
-		}
-		// genusesファイルがない場合は作成する　その際にprojectファイルの場所を追記する
-		if (!new File(file.getParentFile().getPath() + "/lang_def_genuses.xml")
-				.exists()) {
-			Copier genusCopier = new LangDefGenusesCopier();
-			genusCopier.print(file);
-		}
+		printLangDefFamilies();
+
+		// langDefファイルを作成する
+		Copier langDefXml = new LangDefFileCopier();
+		Copier langDefDtd = new LangDefFileDtdCopier();
+		langDefXml.print(file);
+		langDefDtd.print(file);
+
+		// genuseファイルを作成する　その際にprojectファイルの場所を追記する
+		Copier genusCopier = new LangDefGenusesCopier();
+		genusCopier.print(file);
 
 		FileReader reader = new FileReader(file);
 
@@ -94,36 +97,61 @@ public class LangDefFileReWriter {
 		this.addedMethods = selfDefModel.getAddedMethods();
 	}
 
+	private void printLangDefFamilies() {
+		// 登録しておいたfamilyListを整理する
+		List<String> deleteList = new LinkedList<String>();
+		for (String key : familyList.keySet()) {
+			if (existAsOtherFamilyMember(key)
+					|| familyList.get(key).getFamilyMember().size() == 1) {
+				deleteList.add(key);
+			}
+
+		}
+
+		for (String key : deleteList) {
+			familyList.remove(key);
+		}
+
+		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
+		langDefFamilies.setProjectFamilies(familyList);
+		langDefFamilies.print(file);
+		// 残ったファミリーを追加したlang_def_familiesを現在のディレクトリに出力する
+	}
+
+	private boolean existAsOtherFamilyMember(String name) {
+		for (String key : familyList.keySet()) {
+			if (!key.equals(name)
+					&& familyList.get(key).getFamilyMember().contains(name)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name,
-			File file) throws IOException {
+			File file, String childName) throws IOException {
 		// javaファイル解析
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
 		MethodAnalyzer visitor = new MethodAnalyzer();
 
+		// addFamily
+
 		// 継承チェック
-		File classFile = new File(file.getParentFile().getPath() + "/" + name);
-		FileReader reader = new FileReader(classFile);
-		br = new BufferedReader(reader);
-		String str;
-		Pattern p = Pattern.compile("[^ ^{]+");
 		Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
-		while ((str = br.readLine()) != null) {
-			if (str.contains("extends")) {
-				str = str.substring(
-						str.indexOf("extends") + "extends".length(),
-						str.length());
-				Matcher m = p.matcher(str);
-				if (m.find() && exsistCurrentDirectry(m.group(0) + ".java")) {
-					methods = analyzeJavaFile(m.group(0) + ".java", new File(
-							file.getParentFile().getPath() + "/" + m.group(0)
-									+ ".java"));
-				}
-				break;
-			}
-		}
 		unit.accept(visitor);
-		methods.put(name.substring(0, name.indexOf(".java")),
-				visitor.getMethods());
+
+		String superClassName = visitor.getSuperClassName();
+
+		if (superClassName != null
+				&& existCurrentDirectry(superClassName + ".java")) {
+			familyList.get(childName).addFamilyMember(superClassName);
+			methods = analyzeJavaFile(superClassName + ".java",
+					new File(file.getParentFile().getPath() + "/"
+							+ superClassName + ".java"), childName);
+		}
+
+		methods.put(name, visitor.getMethods());
 		return methods;
 	}
 
@@ -131,7 +159,7 @@ public class LangDefFileReWriter {
 		return this.addedMethods;
 	}
 
-	private Boolean exsistCurrentDirectry(String fileName) {
+	private Boolean existCurrentDirectry(String fileName) {
 		for (String name : file.getParentFile().list()) {
 			if (name.equals(fileName)) {
 				return true;
@@ -140,4 +168,16 @@ public class LangDefFileReWriter {
 		return false;
 	}
 
+	class Family {
+		List<String> familyList = new ArrayList<String>();
+
+		protected void addFamilyMember(String member) {
+			familyList.add(member);
+		}
+
+		protected List<String> getFamilyMember() {
+			return this.familyList;
+		}
+
+	}
 }

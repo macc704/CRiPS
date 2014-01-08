@@ -50,7 +50,7 @@ public class OutputSelDefClassPageModel {
 			Map<String, List<PublicMethodInfo>> methods) {
 		ObjectBlockModel classModel = new ObjectBlockModel(
 				"private-var-object-" + fileName, "global-variable",
-				"initname", fileName + "型の変数をつくり", "と名付ける", "230 0 255");
+				"initname", fileName + "型のインスタンス変数をつくり", "と名付ける", "230 0 255");
 		// 定義クラスブロックのプロパティをセットする
 		classModel.setMethods(methods);
 		classModel.setClassName(fileName);

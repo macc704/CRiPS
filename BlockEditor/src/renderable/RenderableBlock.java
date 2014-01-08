@@ -649,8 +649,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		boolean blockHeaderLabelChanged = getBlock().getHeaderLabel() != null
 				&& !headerLabel.getText().equals(getBlock().getHeaderLabel());
 
-		System.out.println(blockLabel.getText());
-
 		// If tag label isn't the same as socket label, synchronize.
 		// If the block doesn't have an editable socket label, synchronize.
 		//
@@ -2338,6 +2336,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (!SwingUtilities.isLeftMouseButton(e) && !dragging
 				&& getBlock().hasSiblings() && getGenus().contains("-var-")) {
 			headerLabel.showMenuIcon(true);
+			headerLabel.setMenuIconLocation(0, 0);
+			headerLabel.setEditable(true);
 			return;
 		}
 
@@ -2356,8 +2356,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		// getBlock().hasSiblings(): only deal with blocks with siblings
 		if (!SwingUtilities.isLeftMouseButton(e) && !dragging
 				&& !blockArea.contains(e.getPoint())) {
-
 			blockLabel.showMenuIcon(false);
+			headerLabel.showMenuIcon(false);
 		}
 	}
 

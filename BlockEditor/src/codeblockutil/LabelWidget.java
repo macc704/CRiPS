@@ -154,7 +154,13 @@ public abstract class LabelWidget extends JComponent {
 			// repaints the menu and items with the new zoom level
 			menu.popupmenu.setZoomLevel(zoom);
 			menu.repaint();
+			System.out.println("popupicon x:" + menu.getLocation().x
+					+ "popup icon y" + menu.getLocation().y);
 		}
+	}
+
+	public void setMenuLocation(int x, int y) {
+		menu.setLocation(x, y);
 	}
 
 	/**

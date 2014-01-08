@@ -162,6 +162,7 @@
 		<BlockGenusMember>local-var-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>local-var-double-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
+        <BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
         <BlockGenusMember>get</BlockGenusMember>
         <BlockGenusMember>add</BlockGenusMember>
         <BlockGenusMember>clear</BlockGenusMember>

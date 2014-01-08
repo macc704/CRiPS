@@ -255,6 +255,10 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 		widget.showMenuIcon(show);
 	}
 
+	public void setMenuIconLocation(int x, int y) {
+		widget.setMenuLocation(x, y);
+	}
+
 	public JComponent getJComponent() {
 		return widget;
 	}

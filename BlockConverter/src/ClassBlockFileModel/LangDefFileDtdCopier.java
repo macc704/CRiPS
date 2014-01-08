@@ -68,8 +68,7 @@ public class LangDefFileDtdCopier implements Copier {
 					+ "ext/block/lang_def_genuses_cui.xml\">");
 			ps.println("<!ENTITY lang_def_genuses_turtle SYSTEM \"" + home
 					+ "ext/block/lang_def_genuses_turtle.xml\">");
-			ps.println("<!ENTITY lang_def_families SYSTEM \"" + home
-					+ "ext/block/lang_def_families.xml\">");
+			ps.println("<!ENTITY lang_def_families SYSTEM \"lang_def_families.xml\">");
 			ps.println("<!ENTITY lang_def_etc SYSTEM \"" + home
 					+ "ext/block/lang_def_etc.xml\">");
 			// menuî•ñ‚ÌƒRƒs[
