@@ -10,6 +10,7 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -88,9 +89,6 @@ public class CHServer {
 					case CHPacket.LOGUOT:
 						typeLogout(recivedCHPacket, conn);
 						break;
-					case CHPacket.FILE:
-						// typeFile(recivedCHPacket, conn);
-						break;
 					case CHPacket.SAVE_FILE:
 						typeSaveFile(recivedCHPacket);
 						break;
@@ -160,29 +158,6 @@ public class CHServer {
 		connectionPool.close(conn);
 	}
 
-	// private void typeFile(CHPacket recivedCHPacket, CHConnection conn) {
-	// CHPacket chPacket = new CHPacket();
-	// chPacket.setMyName(recivedCHPacket.getMyName());
-	// chPacket.setBytes(recivedCHPacket.getBytes());
-	// chPacket.setFileNames(recivedCHPacket.getFileNames());
-	// chPacket.setCommand(CHPacket.RECIVE_FILE);
-	// connectionPool.broadcast(chPacket, conn);
-	// }
-
-	// private void typeSaveFile(CHPacket recivedCHPacket) {
-	// String myName = recivedCHPacket.getMyName();
-	// List<String> fileNames = new ArrayList<String>();
-	// List<byte[]> bytes = new ArrayList<byte[]>();
-	// fileNames = recivedCHPacket.getFileNames();
-	// bytes = recivedCHPacket.getBytes();
-	// for (String fileName : fileNames) {
-	// if (fileName.endsWith(".java")) {
-	// saveFile(myName, fileName,
-	// bytes.get(fileNames.indexOf(fileName)));
-	// }
-	// }
-	// }
-
 	private void typeSaveFile(CHPacket recivedCHPacket) {
 		byte[] bytes = recivedCHPacket.getBytes();
 		String myName = recivedCHPacket.getMyName();
@@ -190,8 +165,9 @@ public class CHServer {
 	}
 
 	private void typeFileSendRequest(CHPacket recivedCHPacket, CHConnection conn) {
-		// sendFiles(searchMenbersDir(recivedCHPacket.getAdressee()),
-		// recivedCHPacket, conn);
+		List<File> files = new ArrayList<File>();
+		files = Arrays.asList(searchMenbersDir(recivedCHPacket.getAdressee()));
+		sendFile(files, conn, recivedCHPacket);
 	}
 
 	/************
@@ -207,12 +183,10 @@ public class CHServer {
 	private void saveFile(String parent, File recivedFile, byte[] bytes) {
 		String path = (recivedFile.getPath()).replace("MyProjects/final", "");
 
+		File file = new File(Integer.toString(port) + "/" + parent + path);
 		if (bytes == null) {
-			File directory = new File(Integer.toString(port) + "/" + parent
-					+ path);
-			directory.mkdir();
+			file.mkdir();
 		} else {
-			File file = new File(Integer.toString(port) + "/" + parent + path);
 			FileOutputStream fos;
 			try {
 				fos = new FileOutputStream(file, false);
@@ -225,28 +199,6 @@ public class CHServer {
 		}
 	}
 
-	// private void sendFiles(File directory, CHPacket recivedPacket,
-	// CHConnection conn) {
-	// List<File> files = new ArrayList<File>();
-	// files = Arrays.asList(directory.listFiles());
-	//
-	// List<byte[]> bytes = new ArrayList<byte[]>();
-	// List<String> fileNames = new ArrayList<String>();
-	// for (File aFile : files) {
-	// if (aFile.isFile()) {
-	// bytes.add(convertFileToByte(aFile));
-	// fileNames.add(aFile.getName());
-	// }
-	// }
-	//
-	// CHPacket chPacket = new CHPacket();
-	// chPacket.setMyName(recivedPacket.getMyName());
-	// chPacket.setBytes(bytes);
-	// chPacket.setFileNames(fileNames);
-	// chPacket.setCommand(CHPacket.RECIVE_FILE);
-	// connectionPool.sendToOne(chPacket, conn);
-	// }
-
 	public File searchMenbersDir(String name) {
 		for (File aFile : memberDirs) {
 			if (name.equals(aFile.getName())) {
@@ -256,7 +208,29 @@ public class CHServer {
 		return null;
 	}
 
+	private void sendFile(List<File> files, CHConnection conn,
+			CHPacket recivedCHPacket) {
+		CHPacket chPacket = new CHPacket();
+		chPacket.setCommand(CHPacket.REQUEST_RESULT);
+		chPacket.setMyName(recivedCHPacket.getAdressee());
+
+		for (File aFile : files) {
+			byte[] bytes = convertFileToByte(aFile);
+			chPacket.setBytes(bytes);
+			chPacket.setFile(aFile);
+			connectionPool.sendToOne(chPacket, conn);
+			if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
+				sendFile(Arrays.asList(aFile.listFiles()), conn,
+						recivedCHPacket);
+			}
+		}
+	}
+
 	public byte[] convertFileToByte(File file) {
+
+		if (file.isDirectory()) {
+			return null;
+		}
 
 		FileInputStream fis = null;
 		try {
