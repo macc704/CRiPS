@@ -1,5 +1,7 @@
 package ronproeditor.ext;
 
+import javax.swing.JOptionPane;
+
 import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
 import ronproeditor.REApplication;
@@ -12,11 +14,7 @@ public class RECreateCocoDataManager {
 	REApplication application;
 
 	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvフォルダに展開する
-	// private static String ORIGINAL_KINDS_FILE =
-	// "ext/cocoviewer/ErrorKinds.csv"; // ext内のErrorKinds
 	private static String ORIGINAL_DATA_FILE = "CompileError.csv"; // ppvから出力されるcsvファイル
-	// private static String KINDS_FILE = "MyErrorKinds.csv"; //
-	// ErrorKinds.csvにないコンパイルエラー情報を追加したファイル
 	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv"; // ext内のErrorKinds
 	private static String DATA_FILE = "CompileErrorLog.csv"; // Coco用のコンパイルエラーデータ
 	private PPProjectSet ppProjectSet;
@@ -26,6 +24,14 @@ public class RECreateCocoDataManager {
 	}
 
 	public void createCocoData() {
+		// 確認ダイアログ
+		int res = JOptionPane.showConfirmDialog(null,
+				"データの作成には時間がかかりますが，よろしいですか？", "データの作成",
+				JOptionPane.OK_CANCEL_OPTION);
+		if (res != JOptionPane.OK_OPTION) {
+			return;
+		}
+
 		// CompileError.csvを自動的にエクスポートする
 		autoExportCompileErrorCSV();
 
@@ -81,26 +87,13 @@ public class RECreateCocoDataManager {
 			errorConverter.convertData(ppvRootPath + ORIGINAL_DATA_FILE,
 					ppvRootPath + DATA_FILE);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException("CocoViewerのデータ変換ができませんでした");
 		}
-
-		// 追加のエラーデータを書き込んだMyKindsを作成
-		// try {
-		// CCAddCompileErrorKinds addCompileErrorKinds = new
-		// CCAddCompileErrorKinds(
-		// manager, kindloader.getLines());
-		// addCompileErrorKinds.addKinds(ORIGINAL_KINDS_FILE, ppvRootPath
-		// + KINDS_FILE);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
 	}
 
 	private void checkAllFileExist() {
 		checkOneFileExist(DATA_FILE);
-		checkOneFileExist(KINDS_FILE);
 		checkOneFileExist(ORIGINAL_DATA_FILE);
-		// checkOneFileExist(ORIGINAL_KINDS_FILE);
 	}
 
 	private void checkOneFileExist(String filename) {

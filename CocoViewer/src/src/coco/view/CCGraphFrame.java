@@ -143,35 +143,40 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	private void makeSourceList() {
-		String[] columnNames = {"発生時刻", "プログラム名", "修正時間"};
+		String[] columnNames = { "発生時刻", "プログラム名", "修正時間" };
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		for (int i = 0; i < list.getErrors().size(); i++) {
-			String time = new CTime(list.getErrors().get(i).getBeginTime()).toString();
+			String time = new CTime(list.getErrors().get(i).getBeginTime())
+					.toString();
 			String filename = list.getErrors().get(i).getFilenameNoPath();
-			String correctTime = String.valueOf(list.getErrors().get(i).getCorrectionTime());
-			
+			String correctTime = String.valueOf(list.getErrors().get(i)
+					.getCorrectionTime())
+					+ "秒";
+
 			String[] oneTableData = { time, filename, correctTime };
 			model.addRow(oneTableData);
 		}
-				
+
 		// java7からDefaultListModelに格納するクラスを指定しなければならない
-//		DefaultListModel<String> model = new DefaultListModel<String>();
-//		for (int i = 0; i < list.getErrors().size(); i++) {
-//			CTime time = new CTime(list.getErrors().get(i).getBeginTime());
-//
-//			model.addElement("発生時刻 " + time.toString() + "： 修正時間 "
-//					+ list.getErrors().get(i).getCorrectionTime() + "秒");
-//		}
-//
-//		final JList<String> jlist = new JList<String>(model);
+		// DefaultListModel<String> model = new DefaultListModel<String>();
+		// for (int i = 0; i < list.getErrors().size(); i++) {
+		// CTime time = new CTime(list.getErrors().get(i).getBeginTime());
+		//
+		// model.addElement("発生時刻 " + time.toString() + "： 修正時間 "
+		// + list.getErrors().get(i).getCorrectionTime() + "秒");
+		// }
+		//
+		// final JList<String> jlist = new JList<String>(model);
+
 		final JTable table = new JTable(model);
+		table.setDefaultEditor(Object.class, null); // テーブルを編集不可にする
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				// 左クリック二回でオープンする
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() >= 2) {
 					// 選択された要素がリストの何番目であるのかを取得し，その時のコンパイルエラー情報を取得
-					int index = table.getColumnCount();
+					int index = table.getSelectedRow();
 					final CCCompileError compileError = list.getErrors().get(
 							index);
 					// ファイルパスに必要な要素の取り出し

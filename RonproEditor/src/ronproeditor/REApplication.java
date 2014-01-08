@@ -1215,6 +1215,15 @@ public class REApplication implements ICFwApplication {
 		}
 	}
 
+	public void doClearCash() {
+		try {
+			ppvManager.clearCash();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Clear CashíÜÇ…ÉGÉâÅ[Ç™î≠ê∂ÇµÇ‹ÇµÇΩÅD", ex);
+		}
+	}
+
 	// private void sourceColoringTest(){
 	// try {
 	// List<JTextPane> panes = new ArrayList<JTextPane>();

@@ -14,7 +14,6 @@ public class RECocoViewerManager {
 
 	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvフォルダに展開する
 	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv"; // ext内のErrorKinds
-	// private static String KINDS_FILE = "MyErrorKinds.csv";
 	private static String DATA_FILE = "CompileErrorLog.csv";
 	private static String METRICS_FILE = "FileMetrics.csv";
 
