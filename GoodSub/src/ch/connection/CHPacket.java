@@ -22,6 +22,8 @@ public class CHPacket implements Serializable {
 	public static final int SAVE_FILE = 8;
 	public static final int FILE_SEND_REQUEST = 9;
 	public static final int LOGIN_MEMBER = 10;
+	public static final int DIFF = 11;
+	public static final int DIFF_RESULT = 12;
 
 	private int command;
 	private String myName;
@@ -32,6 +34,7 @@ public class CHPacket implements Serializable {
 	private String adressee;
 	private File file;
 	private byte[] bytes;
+	private List<String> fileNames = new ArrayList<String>();
 
 	public int getCommand() {
 		return command;
@@ -103,6 +106,14 @@ public class CHPacket implements Serializable {
 
 	public void setBytes(byte[] bytes) {
 		this.bytes = bytes;
+	}
+
+	public List<String> getFileNames() {
+		return fileNames;
+	}
+
+	public void setFileNames(List<String> fileNames) {
+		this.fileNames = fileNames;
 	}
 
 }

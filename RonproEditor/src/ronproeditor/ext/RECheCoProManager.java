@@ -350,6 +350,9 @@ public class RECheCoProManager {
 				typeRequestResult(recivedCHPacket.getMyName(),
 						recivedCHPacket.getFile(), recivedCHPacket.getBytes());
 				break;
+			case CHPacket.DIFF_RESULT:
+				typeDiffResult(recivedCHPacket);
+				break;
 			}
 		}
 	}
@@ -380,10 +383,15 @@ public class RECheCoProManager {
 		createMembersDir(members);
 
 		if (recivedCHPacket.getCommand() == CHPacket.LOGIN_RESULT) {
-			chPacket.setCommand(CHPacket.SAVE_FILE);
-			List<File> files = new ArrayList<File>();
-			files = Arrays.asList(getFinalProject().listFiles());
-			sendFile(files);
+			chPacket.setCommand(CHPacket.DIFF);
+			File finalProject = getFinalProject();
+			List<File> files = Arrays.asList(finalProject.listFiles());
+			List<String> fileNames = new ArrayList<String>();
+			for (File aFile : files) {
+				fileNames.add(aFile.getName());
+			}
+			chPacket.setFileNames(fileNames);
+			conn.write(chPacket);
 		}
 	}
 
@@ -438,6 +446,15 @@ public class RECheCoProManager {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void typeDiffResult(CHPacket recivedCHPacket) {
+		List<String> diff = recivedCHPacket.getFileNames();
+
+		chPacket.setCommand(CHPacket.SAVE_FILE);
+		List<File> files = new ArrayList<File>();
+		files = Arrays.asList(getFinalProject().listFiles());
+		sendFile(files, diff);
 	}
 
 	/****************
@@ -509,16 +526,17 @@ public class RECheCoProManager {
 		return null;
 	}
 
-	private void sendFile(List<File> files) {
+	private void sendFile(List<File> files, List<String> diff) {
 		for (File aFile : files) {
-			if (!aFile.getName().startsWith(".")) {
+			if (diff.contains(aFile.getName())) {
 				chPacket.setFile(aFile);
 				byte[] bytes = convertFileToByte(aFile);
 				chPacket.setBytes(bytes);
+				System.out.println("sned" + aFile.getName());
 				conn.write(chPacket);
-				if (aFile.isDirectory()) {
-					sendFile(Arrays.asList(aFile.listFiles()));
-				}
+			}
+			if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
+				sendFile(Arrays.asList(aFile.listFiles()), diff);
 			}
 		}
 	}

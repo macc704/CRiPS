@@ -95,6 +95,9 @@ public class CHServer {
 					case CHPacket.FILE_SEND_REQUEST:
 						typeFileSendRequest(recivedCHPacket, conn);
 						break;
+					case CHPacket.DIFF:
+						typeDiff(recivedCHPacket, conn);
+						break;
 					}
 				}
 			}
@@ -168,6 +171,29 @@ public class CHServer {
 		List<File> files = new ArrayList<File>();
 		files = Arrays.asList(searchMenbersDir(recivedCHPacket.getAdressee()));
 		sendFile(files, conn, recivedCHPacket);
+	}
+
+	private void typeDiff(CHPacket recivedCHPacket, CHConnection conn) {
+		File directory = searchMenbersDir(recivedCHPacket.getMyName());
+		List<File> files = Arrays.asList(directory.listFiles());
+		List<String> fileNames = new ArrayList<String>();
+		for (File aFile : files) {
+			fileNames.add(aFile.getName());
+		}
+
+		List<String> diff = new ArrayList<String>();
+		List<String> recivedFileNames = recivedCHPacket.getFileNames();
+		for (String aRecivedFileName : recivedFileNames) {
+			if (!fileNames.contains(aRecivedFileName)) {
+				if (!aRecivedFileName.startsWith(".")) {
+					diff.add(aRecivedFileName);
+				}
+			}
+		}
+		CHPacket chPacket = new CHPacket();
+		chPacket.setFileNames(diff);
+		chPacket.setCommand(CHPacket.DIFF_RESULT);
+		connectionPool.sendToOne(chPacket, conn);
 	}
 
 	/************
