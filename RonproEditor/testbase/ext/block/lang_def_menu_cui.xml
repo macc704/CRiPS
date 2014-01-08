@@ -163,6 +163,7 @@
 		<BlockGenusMember>local-var-double-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
         <BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
+        <BlockGenusMember>private-var-number-arrayobject</BlockGenusMember>
         <BlockGenusMember>get</BlockGenusMember>
         <BlockGenusMember>add</BlockGenusMember>
         <BlockGenusMember>clear</BlockGenusMember>
@@ -170,6 +171,7 @@
         <BlockGenusMember>contains</BlockGenusMember>
         <BlockGenusMember>remove</BlockGenusMember>
         <BlockGenusMember>size</BlockGenusMember>
+        
         <BlockGenusMember>enhancedfor</BlockGenusMember>
 	</BlockDrawer>
 	<BlockDrawer name="obpro" type="factory" button-color="255 155 64">
