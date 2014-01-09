@@ -45,9 +45,21 @@ import javax.swing.event.ChangeListener;
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
 import ch.connection.CHConnection;
-import ch.connection.CHPacket;
+import ch.packets.CHFilegetRequest;
+import ch.packets.CHFilegetResponse;
 import ch.packets.CHFilelistRequest;
+import ch.packets.CHFilelistResponse;
+import ch.packets.CHLogin;
+import ch.packets.CHLoginMemberStatus;
+import ch.packets.CHLoginResult;
+import ch.packets.CHLogout;
+import ch.packets.CHLogoutResult;
+import ch.packets.CHSourcesendRequest;
+import ch.packets.CHSourcesendResponse;
 import ch.view.CHMemberSelectorFrame;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.sync.CFileList;
 import clib.preference.model.CAbstractPreferenceCategory;
 
 public class RECheCoProManager {
@@ -62,11 +74,12 @@ public class RECheCoProManager {
 	private REApplication chApplication;
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
-	private String myName = DEFAULT_NAME;
+	private String user = DEFAULT_NAME;
 	private int port = DEFAULT_PORT;
-	private CHPacket chPacket = new CHPacket();
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 	private JToggleButton connButton = new JToggleButton("同期中", true);
+
+	// private String pushed;
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -97,11 +110,9 @@ public class RECheCoProManager {
 			@Override
 			public void keyReleased(KeyEvent e) {
 
-				chPacket.setSource(viewer.getText());
-				chPacket.setCurrentFileName(application.getSourceManager()
-						.getCurrentFile().getName());
-				chPacket.setCommand(CHPacket.SOURCESEND_REQ);
-				conn.write(chPacket);
+				conn.write(new CHSourcesendRequest(user, viewer.getText(),
+						application.getSourceManager().getCurrentFile()
+								.getName()));
 
 			}
 		});
@@ -197,8 +208,9 @@ public class RECheCoProManager {
 					msFrame.setPushed(name);
 					msFrame.setMembers(members);
 
-					conn.write(new CHFilelistRequest(CHPacket.FILELIST_REQ,
-							name));
+					// pushed = name;
+
+					conn.write(new CHFilelistRequest(name));
 
 					if (application != null) {
 						doOpenNewCHE(name);
@@ -211,8 +223,7 @@ public class RECheCoProManager {
 		msFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				chPacket.setCommand(CHPacket.LOGUOT);
-				conn.write(chPacket);
+				conn.write(new CHLogout(user));
 			}
 		});
 	}
@@ -301,7 +312,7 @@ public class RECheCoProManager {
 		conn.shakehandForClient();
 
 		if (login()) {
-			msFrame = new CHMemberSelectorFrame(myName);
+			msFrame = new CHMemberSelectorFrame(user);
 			msFrame.open();
 			System.out.println("client established");
 		}
@@ -319,11 +330,7 @@ public class RECheCoProManager {
 	}
 
 	private boolean login() {
-
-		chPacket.setMyName(myName);
-		chPacket.setCommand(CHPacket.LOGIN);
-
-		conn.write(chPacket);
+		conn.write(new CHLogin(user));
 
 		return conn.established();
 	}
@@ -331,34 +338,24 @@ public class RECheCoProManager {
 	private void readFromServer() {
 		Object obj = conn.read();
 
-		if (obj instanceof CHPacket) {
-			CHPacket recivedCHPacket = (CHPacket) obj;
-			int command = recivedCHPacket.getCommand();
-			switch (command) {
-			case CHPacket.LOGIN_RESULT:
-			case CHPacket.LOGIN_MEMBER_STATUS:
-				typeLoginResult(recivedCHPacket);
-				break;
-			case CHPacket.SOURCESEND_RES:
-				typeRecivedSource(recivedCHPacket);
-				break;
-			case CHPacket.LOGOUT_RESULT:
-				typeLogoutResult(recivedCHPacket);
-				break;
-			case CHPacket.FILEGET_REQ:
-				typeFileGetReq(recivedCHPacket);
-				break;
-			case CHPacket.FILEGET_RES:
-				typeFileGetRes(recivedCHPacket.getAdressee(),
-						recivedCHPacket.getFile(), recivedCHPacket.getBytes());
-				break;
-			case CHPacket.FILELIST_REQ:
-				typeFileListReq(recivedCHPacket);
-				break;
-			case CHPacket.FILELIST_RES:
-				typeFileListRes(recivedCHPacket);
-				break;
-			}
+		if (obj instanceof CHLoginResult) {
+			// typeLoginResult((CHLoginResult) obj);
+		} else if (obj instanceof CHLoginMemberStatus) {
+			typeLoginResult((CHLoginMemberStatus) obj);
+		} else if (obj instanceof CHSourcesendResponse) {
+			typeRecivedSource((CHSourcesendResponse) obj);
+		} else if (obj instanceof CHLogoutResult) {
+			typeLogoutResult((CHLogoutResult) obj);
+		} else if (obj instanceof CHFilegetRequest) {
+			typeFileGetReq((CHFilegetRequest) obj);
+		} else if (obj instanceof CHFilegetResponse) {
+			CHFilegetResponse chFilegetResponse = (CHFilegetResponse) obj;
+			typeFileGetRes(chFilegetResponse.getUser(),
+					chFilegetResponse.getFile(), chFilegetResponse.getBytes());
+		} else if (obj instanceof CHFilelistRequest) {
+			typeFileListReq((CHFilelistRequest) obj);
+		} else if (obj instanceof CHFilelistResponse) {
+			typeFileListRes((CHFilelistResponse) obj);
 		}
 	}
 
@@ -366,7 +363,7 @@ public class RECheCoProManager {
 	 * 受信したコマンド別の処理
 	 **********************/
 
-	private void typeLoginResult(CHPacket recivedCHPacket) {
+	private void typeLoginResult(CHLoginMemberStatus recivedCHPacket) {
 		for (String aMember : recivedCHPacket.getMembers()) {
 			if (!members.contains(aMember)) {
 				members.add(aMember);
@@ -374,14 +371,14 @@ public class RECheCoProManager {
 		}
 
 		// 名前が被った場合
-		if (recivedCHPacket.isExist()) {
-			myName = recivedCHPacket.getMyName();
-			chPacket.setMyName(myName);
-			msFrame.setMyName(myName);
-			msFrame.setTitle("CheCoProMemberSelector " + myName);
-		}
+		// if (recivedCHPacket.isExist()) {
+		// myName = recivedCHPacket.getMyName();
+		// // chPacket.setMyName(myName);
+		// msFrame.setMyName(myName);
+		// msFrame.setTitle("CheCoProMemberSelector " + myName);
+		// }
 
-		msFrame.removeLoginedMember(recivedCHPacket.getMyName());
+		// msFrame.removeLoginedMember(recivedCHPacket.getMyName());
 		msFrame.setMembers(members);
 		setMemberSelectorListner();
 
@@ -389,8 +386,8 @@ public class RECheCoProManager {
 
 	}
 
-	private void typeRecivedSource(CHPacket recivedCHPacket) {
-		final String sender = recivedCHPacket.getMyName();
+	private void typeRecivedSource(CHSourcesendResponse recivedCHPacket) {
+		final String sender = recivedCHPacket.getUser();
 		final String source = recivedCHPacket.getSource();
 		final String senderCurrentFile = recivedCHPacket.getCurrentFileName();
 
@@ -404,9 +401,9 @@ public class RECheCoProManager {
 		});
 	}
 
-	private void typeLogoutResult(CHPacket recivedCHPacket) {
-		if (!myName.equals(recivedCHPacket.getMyName())) {
-			msFrame.addLoginedMember(recivedCHPacket.getMyName());
+	private void typeLogoutResult(CHLogoutResult recivedCHPacket) {
+		if (!user.equals(recivedCHPacket.getUser())) {
+			msFrame.addLoginedMember(recivedCHPacket.getUser());
 			msFrame.setMembers(members);
 			setMemberSelectorListner();
 		} else {
@@ -420,10 +417,9 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void typeFileGetReq(CHPacket recivedCHPacket) {
-		chPacket.setCommand(CHPacket.FILEGET_RES);
-		sendFile(Arrays.asList(getFinalProject().listFiles()),
-				recivedCHPacket.getAddedFiles());
+	private void typeFileGetReq(CHFilegetRequest recivedCHPacket) {
+		// sendFile(Arrays.asList(getFinalProject().listFiles()),
+		// recivedCHPacket.getAddedFiles(), recivedCHPacket.getMember());
 	}
 
 	private void typeFileGetRes(String parent, File recivedFile, byte[] bytes) {
@@ -448,36 +444,36 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void typeFileListRes(CHPacket recivedCHPacket) {
-		List<String> serverFileNames = recivedCHPacket.getFileNames();
-		File finalProject = getMembersFinalDir(recivedCHPacket.getAdressee());
-		List<File> files = Arrays.asList(finalProject.listFiles());
-		List<String> clientFileNames = new ArrayList<String>();
-
-		for (File aFile : files) {
-			clientFileNames.add(aFile.getName());
-		}
-
-		setDiffToPacket(serverFileNames, clientFileNames);
-
-		chPacket.setAdressee(recivedCHPacket.getAdressee());
-		chPacket.setCommand(CHPacket.FILEGET_REQ);
-		conn.write(chPacket);
+	private void typeFileListRes(CHFilelistResponse recivedCHPacket) {
+		// List<String> serverFileNames = recivedCHPacket.getFileNames();
+		// File finalProject =
+		// getMembersFinalDir(recivedCHPacket.getAdressee());
+		// List<File> files = Arrays.asList(finalProject.listFiles());
+		// List<String> clientFileNames = new ArrayList<String>();
+		//
+		// for (File aFile : files) {
+		// clientFileNames.add(aFile.getName());
+		// }
+		//
+		// getDiff(serverFileNames, clientFileNames);
+		//
+		// // chPacket.setAdressee(recivedCHPacket.getAdressee());
+		// // chPacket.setCommand(CHPacket.FILEGET_REQ);
+		// // conn.write(chPacket);
+		//
+		// conn.write(new CHFilegetRequest(pushed, getDiff(serverFileNames,
+		// clientFileNames)));
 
 	}
 
-	private void typeFileListReq(CHPacket recivedCHPacket) {
+	private void typeFileListReq(CHFilelistRequest recivedCHPacket) {
 
 		File finalProject = getFinalProject();
-		List<File> files = Arrays.asList(finalProject.listFiles());
-		List<String> fileNames = new ArrayList<String>();
-		for (File aFile : files) {
-			fileNames.add(aFile.getName());
-		}
+		CDirectory finalProjectDir = CFileSystem.findDirectory(finalProject
+				.getAbsolutePath());
+		CFileList fileList = new CFileList(finalProjectDir);
 
-		chPacket.setFileNames(fileNames);
-		chPacket.setCommand(CHPacket.FILELIST_RES);
-		conn.write(chPacket);
+		conn.write(new CHFilelistResponse(user, fileList));
 
 	}
 
@@ -485,7 +481,7 @@ public class RECheCoProManager {
 	 * ファイル操作関係
 	 ****************/
 
-	private void setDiffToPacket(List<String> serverFileNames,
+	private List<String> getDiff(List<String> serverFileNames,
 			List<String> clientFileNames) {
 
 		List<String> addedFiles = new ArrayList<String>();
@@ -503,8 +499,9 @@ public class RECheCoProManager {
 			}
 		}
 
-		chPacket.setRemovedFiles(removedFiles);
-		chPacket.setAddedFiles(addedFiles);
+		// chPacket.setRemovedFiles(removedFiles);
+		// chPacket.setAddedFiles(addedFiles);
+		return addedFiles;
 	}
 
 	public File getMembersFinalDir(String name) {
@@ -538,7 +535,7 @@ public class RECheCoProManager {
 	private void createMembersDir(List<String> members) {
 		for (String aMember : members) {
 			File root = new File("MyProjects/.CHProjects", aMember);
-			if ((!aMember.equals(myName)) && (!root.exists())) {
+			if ((!aMember.equals(user)) && (!root.exists())) {
 				root.mkdir();
 				File finalProject = new File(root, "final");
 				if (!finalProject.exists()) {
@@ -600,16 +597,14 @@ public class RECheCoProManager {
 		return null;
 	}
 
-	private void sendFile(List<File> files, List<String> diff) {
+	private void sendFile(List<File> files, List<String> diff, String member) {
 		for (File aFile : files) {
 			if (diff.contains(aFile.getName())) {
-				chPacket.setFile(aFile);
 				byte[] bytes = convertFileToByte(aFile);
-				chPacket.setBytes(bytes);
-				conn.write(chPacket);
+				conn.write(new CHFilegetResponse(member, aFile, bytes));
 			}
 			if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
-				sendFile(Arrays.asList(aFile.listFiles()), diff);
+				sendFile(Arrays.asList(aFile.listFiles()), diff, member);
 			}
 		}
 	}
@@ -677,8 +672,8 @@ public class RECheCoProManager {
 		@Override
 		public void load() {
 			if (getRepository().exists(LOGINID_LABEL)) {
-				myName = getRepository().get(LOGINID_LABEL);
-				nameField.setText(myName);
+				user = getRepository().get(LOGINID_LABEL);
+				nameField.setText(user);
 			}
 			if (getRepository().exists(PORTNUMBER_LABEL)) {
 				portBox.setSelectedIndex(Integer.parseInt(getRepository().get(
@@ -690,8 +685,8 @@ public class RECheCoProManager {
 
 		@Override
 		public void save() {
-			myName = nameField.getText();
-			getRepository().put(LOGINID_LABEL, myName);
+			user = nameField.getText();
+			getRepository().put(LOGINID_LABEL, user);
 			getRepository().put(PORTNUMBER_LABEL,
 					Integer.toString(portBox.getSelectedIndex()));
 		}

@@ -11,8 +11,7 @@ public class CHLoginResult extends CHPacket {
 
 	private List<String> members = new ArrayList<String>();
 
-	public CHLoginResult(int command, List<String> members) {
-		super(command);
+	public CHLoginResult(List<String> members) {
 		this.members = members;
 	}
 

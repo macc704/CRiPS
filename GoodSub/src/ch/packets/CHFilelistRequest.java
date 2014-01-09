@@ -6,14 +6,13 @@ public class CHFilelistRequest extends CHPacket {
 
 	private static final long serialVersionUID = 1L;
 
-	private String member;
+	private String user;
 
-	public CHFilelistRequest(int command, String member) {
-		super(command);
-		this.member = member;
+	public CHFilelistRequest(String user) {
+		this.user = user;
 	}
 
 	public String getMember() {
-		return member;
+		return user;
 	}
 }

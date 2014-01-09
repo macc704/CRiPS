@@ -1,22 +1,25 @@
 package ch.packets;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.connection.CHPacket;
+import clib.common.filesystem.sync.CFileList;
 
 public class CHFilelistResponse extends CHPacket {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<String> fileNames = new ArrayList<String>();
+	private String user;
+	private CFileList fileList;
 
-	public CHFilelistResponse(int command, List<String> fileNames) {
-		super(command);
-		this.fileNames = fileNames;
+	public CHFilelistResponse(String user, CFileList fileList) {
+		this.user = user;
+		this.fileList = fileList;
 	}
 
-	public List<String> getFileNames() {
-		return fileNames;
+	public String getUser() {
+		return user;
+	}
+
+	public CFileList getFileList() {
+		return fileList;
 	}
 }

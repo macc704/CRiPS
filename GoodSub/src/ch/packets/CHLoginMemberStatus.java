@@ -11,8 +11,7 @@ public class CHLoginMemberStatus extends CHPacket {
 
 	private List<String> members = new ArrayList<String>();
 
-	public CHLoginMemberStatus(int command, List<String> members) {
-		super(command);
+	public CHLoginMemberStatus(List<String> members) {
 		this.members = members;
 	}
 

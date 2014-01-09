@@ -9,24 +9,20 @@ public class CHFilegetRequest extends CHPacket {
 
 	private static final long serialVersionUID = 1L;
 
-	private String member;
-	private List<String> addedFiles = new ArrayList<String>();
-	private List<String> removedFiles = new ArrayList<String>();
+	private String user;
+	private List<String> requestFilePaths = new ArrayList<String>();
 
-	public CHFilegetRequest(int command, String member) {
-		super(command);
-		this.member = member;
+	public CHFilegetRequest(String user, List<String> requestFilePaths) {
+		this.user = user;
+		this.requestFilePaths = requestFilePaths;
 	}
 
-	public String getMember() {
-		return member;
+	public String getUser() {
+		return user;
 	}
 
-	public List<String> getAddedFiles() {
-		return addedFiles;
+	public List<String> getRequestFilePaths() {
+		return requestFilePaths;
 	}
 
-	public List<String> getRemovedFiles() {
-		return removedFiles;
-	}
 }

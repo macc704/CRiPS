@@ -6,20 +6,19 @@ public class CHSourcesendResponse extends CHPacket {
 
 	private static final long serialVersionUID = 1L;
 
-	private String myName;
+	private String user;
 	private String source;
 	private String currentFileName;
 
-	public CHSourcesendResponse(int command, String myName, String source,
+	public CHSourcesendResponse(String user, String source,
 			String currentFileName) {
-		super(command);
-		this.myName = myName;
+		this.user = user;
 		this.source = source;
 		this.currentFileName = currentFileName;
 	}
 
-	public String getMyName() {
-		return myName;
+	public String getUser() {
+		return user;
 	}
 
 	public String getSource() {

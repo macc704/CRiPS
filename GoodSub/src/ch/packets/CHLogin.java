@@ -6,14 +6,13 @@ public class CHLogin extends CHPacket {
 
 	private static final long serialVersionUID = 1L;
 
-	private String myName;
+	private String user;
 
-	public CHLogin(int command, String myName) {
-		super(command);
-		this.myName = myName;
+	public CHLogin(String user) {
+		this.user = user;
 	}
 
-	public String getMyName() {
-		return myName;
+	public String getUser() {
+		return user;
 	}
 }
