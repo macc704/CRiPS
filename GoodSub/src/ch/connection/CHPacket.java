@@ -18,12 +18,12 @@ public class CHPacket implements Serializable {
 	public static final int RECIVE_SOURCE = 3;
 	public static final int LOGUOT = 4;
 	public static final int LOGOUT_RESULT = 5;
-	public static final int REQUEST_RESULT = 7;
-	public static final int SAVE_FILE = 8;
+	public static final int REQUEST_RESULT = 7;// fileget_res
+	public static final int FILEGET_RES = 8;
 	public static final int FILE_SEND_REQUEST = 9;
-	public static final int LOGIN_MEMBER = 10;
-	public static final int DIFF = 11;
-	public static final int DIFF_RESULT = 12;
+	public static final int LOGIN_MEMBER_STATUS = 10;
+	public static final int FILELIST_REQ = 11;
+	public static final int FILELIST_RES = 12;
 
 	private int command;
 	private String myName;

@@ -89,14 +89,17 @@ public class CHServer {
 					case CHPacket.LOGUOT:
 						typeLogout(recivedCHPacket, conn);
 						break;
-					case CHPacket.SAVE_FILE:
+					case CHPacket.FILEGET_RES:
 						typeSaveFile(recivedCHPacket);
 						break;
 					case CHPacket.FILE_SEND_REQUEST:
 						typeFileSendRequest(recivedCHPacket, conn);
 						break;
-					case CHPacket.DIFF:
+					case CHPacket.FILELIST_REQ:
 						typeDiff(recivedCHPacket, conn);
+						break;
+					case CHPacket.FILELIST_RES:
+						typeDiffResult(recivedCHPacket, conn);
 						break;
 					}
 				}
@@ -137,7 +140,7 @@ public class CHServer {
 
 		connectionPool.sendToOne(chPacket, conn);
 		chPacket.setExist(false);
-		chPacket.setCommand(CHPacket.LOGIN_MEMBER);
+		chPacket.setCommand(CHPacket.LOGIN_MEMBER_STATUS);
 		connectionPool.broadcast(chPacket, conn);
 	}
 
@@ -170,7 +173,15 @@ public class CHServer {
 	private void typeFileSendRequest(CHPacket recivedCHPacket, CHConnection conn) {
 		List<File> files = new ArrayList<File>();
 		files = Arrays.asList(searchMenbersDir(recivedCHPacket.getAdressee()));
-		sendFile(files, conn, recivedCHPacket);
+		List<String> fileNames = new ArrayList<String>();
+		for (File aFile : files) {
+			fileNames.add(aFile.getName());
+		}
+		CHPacket chPacket = new CHPacket();
+		chPacket.setCommand(CHPacket.FILELIST_REQ);
+		chPacket.setAdressee(recivedCHPacket.getAdressee());
+		chPacket.setFileNames(fileNames);
+		connectionPool.sendToOne(chPacket, conn);
 	}
 
 	private void typeDiff(CHPacket recivedCHPacket, CHConnection conn) {
@@ -198,8 +209,14 @@ public class CHServer {
 
 		CHPacket chPacket = new CHPacket();
 		chPacket.setFileNames(diff);
-		chPacket.setCommand(CHPacket.DIFF_RESULT);
+		chPacket.setCommand(CHPacket.FILELIST_RES);
 		connectionPool.sendToOne(chPacket, conn);
+	}
+
+	private void typeDiffResult(CHPacket recivedCHPacket, CHConnection conn) {
+		List<File> files = new ArrayList<File>();
+		files = Arrays.asList(searchMenbersDir(recivedCHPacket.getAdressee()));
+		sendFile(files, conn, recivedCHPacket);
 	}
 
 	/************
@@ -245,12 +262,15 @@ public class CHServer {
 		CHPacket chPacket = new CHPacket();
 		chPacket.setCommand(CHPacket.REQUEST_RESULT);
 		chPacket.setMyName(recivedCHPacket.getAdressee());
+		chPacket.setMembers(recivedCHPacket.getFileNames());
 
 		for (File aFile : files) {
-			byte[] bytes = convertFileToByte(aFile);
-			chPacket.setBytes(bytes);
-			chPacket.setFile(aFile);
-			connectionPool.sendToOne(chPacket, conn);
+			if (chPacket.getFileNames().contains(aFile.getName())) {
+				byte[] bytes = convertFileToByte(aFile);
+				chPacket.setBytes(bytes);
+				chPacket.setFile(aFile);
+				connectionPool.sendToOne(chPacket, conn);
+			}
 			if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
 				sendFile(Arrays.asList(aFile.listFiles()), conn,
 						recivedCHPacket);

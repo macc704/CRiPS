@@ -337,7 +337,7 @@ public class RECheCoProManager {
 			int command = recivedCHPacket.getCommand();
 			switch (command) {
 			case CHPacket.LOGIN_RESULT:
-			case CHPacket.LOGIN_MEMBER:
+			case CHPacket.LOGIN_MEMBER_STATUS:
 				typeLoginResult(recivedCHPacket);
 				break;
 			case CHPacket.RECIVE_SOURCE:
@@ -350,7 +350,10 @@ public class RECheCoProManager {
 				typeRequestResult(recivedCHPacket.getMyName(),
 						recivedCHPacket.getFile(), recivedCHPacket.getBytes());
 				break;
-			case CHPacket.DIFF_RESULT:
+			case CHPacket.FILELIST_REQ:
+				typeDiff(recivedCHPacket);
+				break;
+			case CHPacket.FILELIST_RES:
 				typeDiffResult(recivedCHPacket);
 				break;
 			}
@@ -383,7 +386,7 @@ public class RECheCoProManager {
 		createMembersDir(members);
 
 		if (recivedCHPacket.getCommand() == CHPacket.LOGIN_RESULT) {
-			chPacket.setCommand(CHPacket.DIFF);
+			chPacket.setCommand(CHPacket.FILELIST_REQ);
 			File finalProject = getFinalProject();
 			List<File> files = Arrays.asList(finalProject.listFiles());
 			List<String> fileNames = new ArrayList<String>();
@@ -451,15 +454,72 @@ public class RECheCoProManager {
 	private void typeDiffResult(CHPacket recivedCHPacket) {
 		List<String> diff = recivedCHPacket.getFileNames();
 
-		chPacket.setCommand(CHPacket.SAVE_FILE);
+		chPacket.setCommand(CHPacket.FILEGET_RES);
 		List<File> files = new ArrayList<File>();
 		files = Arrays.asList(getFinalProject().listFiles());
 		sendFile(files, diff);
 	}
 
+	private void typeDiff(CHPacket recivedCHPacket) {
+		File directory = getMembersFinalDir(recivedCHPacket.getAdressee());
+		List<File> files = Arrays.asList(directory.listFiles());
+		List<String> recivedFileNames = recivedCHPacket.getFileNames();
+
+		List<String> fileNames = new ArrayList<>();
+		for (File aFile : files) {
+			if (!recivedFileNames.contains(aFile.getName())) {
+				aFile.delete();
+			} else {
+				fileNames.add(aFile.getName());
+			}
+		}
+
+		List<String> diff = new ArrayList<String>();
+		for (String aRecivedFileName : recivedFileNames) {
+			if (!fileNames.contains(aRecivedFileName)) {
+				if (!aRecivedFileName.startsWith(".")) {
+					diff.add(aRecivedFileName);
+				}
+			}
+		}
+
+		chPacket.setFileNames(diff);
+		chPacket.setAdressee(recivedCHPacket.getAdressee());
+		chPacket.setCommand(CHPacket.FILELIST_RES);
+		conn.write(chPacket);
+	}
+
 	/****************
 	 * ÉtÉ@ÉCÉãëÄçÏä÷åW
 	 ****************/
+
+	public File getMembersFinalDir(String name) {
+		File root = application.getSourceManager().getRootDirectory();
+
+		List<File> projects = Arrays.asList(root.listFiles());
+		File chDir = null;
+		for (File aProject : projects) {
+			if (aProject.getName().equals(".CHProjects")) {
+				chDir = aProject;
+			}
+		}
+
+		List<File> memberDirs = Arrays.asList(chDir.listFiles());
+		File memberDir = null;
+		for (File aMemberDir : memberDirs) {
+			if (aMemberDir.getName().equals(name)) {
+				memberDir = aMemberDir;
+			}
+		}
+
+		List<File> files = Arrays.asList(memberDir.listFiles());
+		for (File aFile : files) {
+			if (aFile.getName().equals("final")) {
+				return aFile;
+			}
+		}
+		return null;
+	}
 
 	private void createMembersDir(List<String> members) {
 		for (String aMember : members) {
@@ -532,7 +592,6 @@ public class RECheCoProManager {
 				chPacket.setFile(aFile);
 				byte[] bytes = convertFileToByte(aFile);
 				chPacket.setBytes(bytes);
-				System.out.println("sned" + aFile.getName());
 				conn.write(chPacket);
 			}
 			if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
