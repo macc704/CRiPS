@@ -39,6 +39,7 @@ public class CCErrorElementButton2 extends JButton {
 	private CDirectory base;
 	private PPProjectSet ppProjectSet;
 
+	private JFreeChart chart;
 	private ChartPanel chartpanel;
 
 	public CCErrorElementButton2(int buttonWidth, int buttonHeight,
@@ -81,8 +82,8 @@ public class CCErrorElementButton2 extends JButton {
 			message = message.substring(0, 9) + "...";
 		}
 
-		JFreeChart chart = ChartFactory.createLineChart(message, "C³‰ñ”",
-				"C³ŠÔ", dataset, PlotOrientation.VERTICAL, false, false, false);
+		chart = ChartFactory.createLineChart(message, "C³‰ñ”", "C³ŠÔ", dataset,
+				PlotOrientation.VERTICAL, false, false, false);
 		// ƒtƒHƒ“ƒgw’èi•¶š‰»‚¯‘Îôj
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 
@@ -136,5 +137,17 @@ public class CCErrorElementButton2 extends JButton {
 		chartpanel.setDisplayToolTips(true);
 
 		add(chartpanel);
+	}
+
+	public void changeLockedRange() {
+		CategoryPlot plot = chart.getCategoryPlot();
+		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+		numberAxis.setRangeWithMargins(0, 120);
+	}
+
+	public void changeAutoRange() {
+		CategoryPlot plot = chart.getCategoryPlot();
+		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+		numberAxis.setAutoRange(true);
 	}
 }

@@ -7,7 +7,6 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -58,8 +57,8 @@ public class CCGraphFrame extends JFrame {
 	private CDirectory base;
 	private PPProjectSet ppProjectSet;
 
-	JFreeChart chart;
-	ChartPanel chartpanel;
+	private JFreeChart chart;
+	private ChartPanel chartpanel;
 
 	// default
 	public CCGraphFrame(CCCompileErrorKind list, CDirectory libDir,
@@ -72,7 +71,7 @@ public class CCGraphFrame extends JFrame {
 		this.base = base;
 		this.ppProjectSet = ppProjectSet;
 		initialize();
-		makeGraphAndList();
+		setGraphAndList();
 	}
 
 	private void initialize() {
@@ -82,31 +81,27 @@ public class CCGraphFrame extends JFrame {
 				+ list.getMessage() + " の詳細");
 	}
 
-	private void makeGraphAndList() {
+	private void setGraphAndList() {
 		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
-		addGraphPanel();
-		addLeftPanel();
+		setGraphPanel();
+		setLeftPanel();
 		add(rootPanel);
 		getContentPane().add(rootPanel, BorderLayout.CENTER);
 		pack();
-
-		addWindowListener(new WindowAdapter() {
-
-		});
 	}
 
-	private void addLeftPanel() {
+	private void setLeftPanel() {
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BorderLayout());
 
-		addRangeButton(leftPanel);
-		addSourceList(leftPanel);
+		setChangeRangeButton(leftPanel);
+		setSourceList(leftPanel);
 
 		rootPanel.add(leftPanel, BorderLayout.WEST);
 	}
 
 	// TODO: コンパイルエラー一覧表のボタンのグラフとほぼ同じ
-	private void addGraphPanel() {
+	private void setGraphPanel() {
 		// 日本語が文字化けしないテーマ
 		// ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 
@@ -158,7 +153,7 @@ public class CCGraphFrame extends JFrame {
 		rootPanel.add(chartpanel, BorderLayout.WEST);
 	}
 
-	private void addRangeButton(JPanel leftPanel) {
+	private void setChangeRangeButton(JPanel leftPanel) {
 		final JButton button = new JButton("自動モード");
 
 		button.addMouseListener(new MouseAdapter() {
@@ -183,7 +178,7 @@ public class CCGraphFrame extends JFrame {
 		leftPanel.add(button, BorderLayout.NORTH);
 	}
 
-	private void addSourceList(JPanel leftPanel) {
+	private void setSourceList(JPanel leftPanel) {
 		String[] columnNames = { "発生時刻", "プログラム名", "修正時間" };
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		for (int i = 0; i < list.getErrors().size(); i++) {

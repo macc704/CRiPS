@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -39,6 +41,7 @@ public class CCMainFrame2 extends JFrame {
 
 	// For GUI
 	private JPanel rootPanel = new JPanel();
+	ArrayList<CCErrorElementButton2> buttons = new ArrayList<CCErrorElementButton2>();
 
 	private int errorkindsCount;
 
@@ -87,9 +90,37 @@ public class CCMainFrame2 extends JFrame {
 		headerPanel.setMaximumSize(new Dimension(width, height / 24));
 
 		setCompileErrorNumber(headerPanel);
+		setChangeRangeBottun(headerPanel);
 		// setAchivementsButton(headerPanel);
 
 		rootPanel.add(headerPanel, BorderLayout.NORTH);
+	}
+
+	private void setChangeRangeBottun(JPanel panel) {
+		final JButton button = new JButton("自動モード");
+
+		button.addMouseListener(new MouseAdapter() {
+			Boolean mode = true;
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if (mode) {
+					for (CCErrorElementButton2 button : buttons) {
+						button.changeAutoRange();
+					}
+					button.setText("固定モード");
+					mode = false;
+				} else {
+					for (CCErrorElementButton2 button : buttons) {
+						button.changeLockedRange();
+					}
+					button.setText("自動モード");
+					mode = true;
+				}
+			}
+		});
+
+		panel.add(button, BorderLayout.EAST);
 	}
 
 	private void setCompileErrorNumber(JPanel headerPanel) {
@@ -143,7 +174,8 @@ public class CCMainFrame2 extends JFrame {
 	// }
 
 	private void setButtonsPanel() {
-		ArrayList<CCErrorElementButton2> buttons = new ArrayList<CCErrorElementButton2>();
+		// ArrayList<CCErrorElementButton2> buttons = new
+		// ArrayList<CCErrorElementButton2>();
 
 		// エラーIDごとの数値を書き込み、ボタンを実装する
 		for (CCCompileErrorKind allKinds : manager.getAllKinds()) {
