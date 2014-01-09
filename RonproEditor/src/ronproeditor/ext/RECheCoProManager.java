@@ -46,6 +46,7 @@ import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
 import ch.connection.CHConnection;
 import ch.connection.CHPacket;
+import ch.packets.CHFilelistRequest;
 import ch.view.CHMemberSelectorFrame;
 import clib.preference.model.CAbstractPreferenceCategory;
 
@@ -99,7 +100,7 @@ public class RECheCoProManager {
 				chPacket.setSource(viewer.getText());
 				chPacket.setCurrentFileName(application.getSourceManager()
 						.getCurrentFile().getName());
-				chPacket.setCommand(CHPacket.SOURCE);
+				chPacket.setCommand(CHPacket.SOURCESEND_REQ);
 				conn.write(chPacket);
 
 			}
@@ -196,10 +197,8 @@ public class RECheCoProManager {
 					msFrame.setPushed(name);
 					msFrame.setMembers(members);
 
-					chPacket.setMyName(myName);
-					chPacket.setAdressee(name);
-					chPacket.setCommand(CHPacket.FILE_SEND_REQUEST);
-					conn.write(chPacket);
+					conn.write(new CHFilelistRequest(CHPacket.FILELIST_REQ,
+							name));
 
 					if (application != null) {
 						doOpenNewCHE(name);
@@ -340,21 +339,24 @@ public class RECheCoProManager {
 			case CHPacket.LOGIN_MEMBER_STATUS:
 				typeLoginResult(recivedCHPacket);
 				break;
-			case CHPacket.RECIVE_SOURCE:
+			case CHPacket.SOURCESEND_RES:
 				typeRecivedSource(recivedCHPacket);
 				break;
 			case CHPacket.LOGOUT_RESULT:
 				typeLogoutResult(recivedCHPacket);
 				break;
-			case CHPacket.REQUEST_RESULT:
-				typeRequestResult(recivedCHPacket.getMyName(),
+			case CHPacket.FILEGET_REQ:
+				typeFileGetReq(recivedCHPacket);
+				break;
+			case CHPacket.FILEGET_RES:
+				typeFileGetRes(recivedCHPacket.getAdressee(),
 						recivedCHPacket.getFile(), recivedCHPacket.getBytes());
 				break;
 			case CHPacket.FILELIST_REQ:
-				typeDiff(recivedCHPacket);
+				typeFileListReq(recivedCHPacket);
 				break;
 			case CHPacket.FILELIST_RES:
-				typeDiffResult(recivedCHPacket);
+				typeFileListRes(recivedCHPacket);
 				break;
 			}
 		}
@@ -385,17 +387,6 @@ public class RECheCoProManager {
 
 		createMembersDir(members);
 
-		if (recivedCHPacket.getCommand() == CHPacket.LOGIN_RESULT) {
-			chPacket.setCommand(CHPacket.FILELIST_REQ);
-			File finalProject = getFinalProject();
-			List<File> files = Arrays.asList(finalProject.listFiles());
-			List<String> fileNames = new ArrayList<String>();
-			for (File aFile : files) {
-				fileNames.add(aFile.getName());
-			}
-			chPacket.setFileNames(fileNames);
-			conn.write(chPacket);
-		}
 	}
 
 	private void typeRecivedSource(CHPacket recivedCHPacket) {
@@ -429,7 +420,13 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void typeRequestResult(String parent, File recivedFile, byte[] bytes) {
+	private void typeFileGetReq(CHPacket recivedCHPacket) {
+		chPacket.setCommand(CHPacket.FILEGET_RES);
+		sendFile(Arrays.asList(getFinalProject().listFiles()),
+				recivedCHPacket.getAddedFiles());
+	}
+
+	private void typeFileGetRes(String parent, File recivedFile, byte[] bytes) {
 
 		String path = (recivedFile.getPath()).replace(Integer.toString(port)
 				+ "/" + parent, "");
@@ -451,47 +448,64 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void typeDiffResult(CHPacket recivedCHPacket) {
-		List<String> diff = recivedCHPacket.getFileNames();
+	private void typeFileListRes(CHPacket recivedCHPacket) {
+		List<String> serverFileNames = recivedCHPacket.getFileNames();
+		File finalProject = getMembersFinalDir(recivedCHPacket.getAdressee());
+		List<File> files = Arrays.asList(finalProject.listFiles());
+		List<String> clientFileNames = new ArrayList<String>();
 
-		chPacket.setCommand(CHPacket.FILEGET_RES);
-		List<File> files = new ArrayList<File>();
-		files = Arrays.asList(getFinalProject().listFiles());
-		sendFile(files, diff);
+		for (File aFile : files) {
+			clientFileNames.add(aFile.getName());
+		}
+
+		setDiffToPacket(serverFileNames, clientFileNames);
+
+		chPacket.setAdressee(recivedCHPacket.getAdressee());
+		chPacket.setCommand(CHPacket.FILEGET_REQ);
+		conn.write(chPacket);
+
 	}
 
-	private void typeDiff(CHPacket recivedCHPacket) {
-		File directory = getMembersFinalDir(recivedCHPacket.getAdressee());
-		List<File> files = Arrays.asList(directory.listFiles());
-		List<String> recivedFileNames = recivedCHPacket.getFileNames();
+	private void typeFileListReq(CHPacket recivedCHPacket) {
 
-		List<String> fileNames = new ArrayList<>();
+		File finalProject = getFinalProject();
+		List<File> files = Arrays.asList(finalProject.listFiles());
+		List<String> fileNames = new ArrayList<String>();
 		for (File aFile : files) {
-			if (!recivedFileNames.contains(aFile.getName())) {
-				aFile.delete();
-			} else {
-				fileNames.add(aFile.getName());
-			}
+			fileNames.add(aFile.getName());
 		}
 
-		List<String> diff = new ArrayList<String>();
-		for (String aRecivedFileName : recivedFileNames) {
-			if (!fileNames.contains(aRecivedFileName)) {
-				if (!aRecivedFileName.startsWith(".")) {
-					diff.add(aRecivedFileName);
-				}
-			}
-		}
-
-		chPacket.setFileNames(diff);
-		chPacket.setAdressee(recivedCHPacket.getAdressee());
+		chPacket.setFileNames(fileNames);
 		chPacket.setCommand(CHPacket.FILELIST_RES);
 		conn.write(chPacket);
+
 	}
 
 	/****************
 	 * ÉtÉ@ÉCÉãëÄçÏä÷åW
 	 ****************/
+
+	private void setDiffToPacket(List<String> serverFileNames,
+			List<String> clientFileNames) {
+
+		List<String> addedFiles = new ArrayList<String>();
+		List<String> removedFiles = new ArrayList<String>();
+
+		for (String aServerFileName : serverFileNames) {
+			if (!clientFileNames.contains(aServerFileName)) {
+				addedFiles.add(aServerFileName);
+			}
+		}
+
+		for (String aClientFileName : clientFileNames) {
+			if (!serverFileNames.contains(aClientFileName)) {
+				removedFiles.add(aClientFileName);
+			}
+		}
+
+		chPacket.setRemovedFiles(removedFiles);
+		chPacket.setAddedFiles(addedFiles);
+	}
 
 	public File getMembersFinalDir(String name) {
 		File root = application.getSourceManager().getRootDirectory();

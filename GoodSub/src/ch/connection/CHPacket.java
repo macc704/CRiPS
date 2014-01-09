@@ -13,14 +13,13 @@ public class CHPacket implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public static final int LOGIN = 0;
-	public static final int SOURCE = 1;
+	public static final int SOURCESEND_REQ = 1;
 	public static final int LOGIN_RESULT = 2;
-	public static final int RECIVE_SOURCE = 3;
+	public static final int SOURCESEND_RES = 3;
 	public static final int LOGUOT = 4;
 	public static final int LOGOUT_RESULT = 5;
-	public static final int REQUEST_RESULT = 7;// fileget_res
+	public static final int FILEGET_REQ = 7;
 	public static final int FILEGET_RES = 8;
-	public static final int FILE_SEND_REQUEST = 9;
 	public static final int LOGIN_MEMBER_STATUS = 10;
 	public static final int FILELIST_REQ = 11;
 	public static final int FILELIST_RES = 12;
@@ -35,6 +34,17 @@ public class CHPacket implements Serializable {
 	private File file;
 	private byte[] bytes;
 	private List<String> fileNames = new ArrayList<String>();
+	private List<String> addedFiles = new ArrayList<String>();
+	private List<String> removedFiles = new ArrayList<String>();
+
+	@Deprecated
+	public CHPacket() {
+
+	}
+
+	public CHPacket(int command) {
+		this.command = command;
+	}
 
 	public int getCommand() {
 		return command;
@@ -114,6 +124,22 @@ public class CHPacket implements Serializable {
 
 	public void setFileNames(List<String> fileNames) {
 		this.fileNames = fileNames;
+	}
+
+	public List<String> getAddedFiles() {
+		return addedFiles;
+	}
+
+	public void setAddedFiles(List<String> addedFiles) {
+		this.addedFiles = addedFiles;
+	}
+
+	public List<String> getRemovedFiles() {
+		return removedFiles;
+	}
+
+	public void setRemovedFiles(List<String> removedFiles) {
+		this.removedFiles = removedFiles;
 	}
 
 }
