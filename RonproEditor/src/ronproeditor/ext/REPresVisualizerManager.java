@@ -188,7 +188,7 @@ public class REPresVisualizerManager {
 	public void clearCash() {
 		// 確認ダイアログ
 		int res = JOptionPane.showConfirmDialog(null,
-				"Cashの削除には時間がかかりますが，よろしいですか？", "cashの削除",
+				"本当にCashフォルダを削除しますか？（再構築に時間がかかる場合があります）", "cashの削除",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (res != JOptionPane.OK_OPTION) {
 			return;

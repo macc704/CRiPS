@@ -7,9 +7,11 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -56,8 +58,8 @@ public class CCGraphFrame extends JFrame {
 	private CDirectory base;
 	private PPProjectSet ppProjectSet;
 
+	JFreeChart chart;
 	ChartPanel chartpanel;
-	JScrollPane scrollPanel;
 
 	// default
 	public CCGraphFrame(CCCompileErrorKind list, CDirectory libDir,
@@ -82,15 +84,29 @@ public class CCGraphFrame extends JFrame {
 
 	private void makeGraphAndList() {
 		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
-		makeGraph();
-		makeSourceList();
+		addGraphPanel();
+		addLeftPanel();
 		add(rootPanel);
 		getContentPane().add(rootPanel, BorderLayout.CENTER);
 		pack();
+
+		addWindowListener(new WindowAdapter() {
+
+		});
+	}
+
+	private void addLeftPanel() {
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BorderLayout());
+
+		addRangeButton(leftPanel);
+		addSourceList(leftPanel);
+
+		rootPanel.add(leftPanel, BorderLayout.WEST);
 	}
 
 	// TODO: コンパイルエラー一覧表のボタンのグラフとほぼ同じ
-	private void makeGraph() {
+	private void addGraphPanel() {
 		// 日本語が文字化けしないテーマ
 		// ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 
@@ -102,7 +118,7 @@ public class CCGraphFrame extends JFrame {
 		}
 
 		// グラフの生成
-		JFreeChart chart = ChartFactory.createLineChart(list.getMessage()
+		chart = ChartFactory.createLineChart(list.getMessage()
 				+ "の修正時間   レア度: " + list.getRare(), "修正回数", "修正時間", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
 
@@ -142,7 +158,32 @@ public class CCGraphFrame extends JFrame {
 		rootPanel.add(chartpanel, BorderLayout.WEST);
 	}
 
-	private void makeSourceList() {
+	private void addRangeButton(JPanel leftPanel) {
+		final JButton button = new JButton("自動モード");
+
+		button.addMouseListener(new MouseAdapter() {
+			Boolean mode = true;
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CategoryPlot plot = chart.getCategoryPlot();
+				NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+				if (mode) {
+					numberAxis.setRange(0, 120);
+					button.setText("固定モード");
+					mode = false;
+				} else {
+					numberAxis.setAutoRange(true);
+					button.setText("自動モード");
+					mode = true;
+				}
+			}
+		});
+
+		leftPanel.add(button, BorderLayout.NORTH);
+	}
+
+	private void addSourceList(JPanel leftPanel) {
 		String[] columnNames = { "発生時刻", "プログラム名", "修正時間" };
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		for (int i = 0; i < list.getErrors().size(); i++) {
@@ -183,6 +224,7 @@ public class CCGraphFrame extends JFrame {
 					String projectname = compileError.getProjectName();
 					String filename = compileError.getFilename();
 
+					// ppProjectSetが準備されていなければ，ここで準備 ・ ただし事前にPPVかけとかなきゃ無理
 					if (ppProjectSet == null) {
 						PPDataManager ppDataManager = new PPDataManager(base);
 						ppDataManager.setLibDir(libDir);
@@ -193,9 +235,6 @@ public class CCGraphFrame extends JFrame {
 						ppProjectSet = new PPProjectSet(projectSetDir);
 						ppDataManager.loadProjectSet(ppProjectSet, true, true);
 					}
-
-					// TODO 毎回コンパイルする問題
-					// ProjectViewerFrameで実際に発生しているコンパイルエラーを出力したいので，現状コンパイルはtrue
 
 					IPLUnit model = null;
 					for (PLProject project : ppProjectSet.getProjects()) {
@@ -242,10 +281,9 @@ public class CCGraphFrame extends JFrame {
 			}
 		});
 
-		scrollPanel = new JScrollPane();
+		JScrollPane scrollPanel = new JScrollPane();
 		scrollPanel.getViewport().setView(table);
 
-		rootPanel.add(scrollPanel, BorderLayout.EAST);
+		leftPanel.add(scrollPanel, BorderLayout.CENTER);
 	}
-
 }
