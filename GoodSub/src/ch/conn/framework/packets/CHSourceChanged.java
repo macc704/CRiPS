@@ -2,7 +2,7 @@ package ch.conn.framework.packets;
 
 import ch.conn.framework.CHPacket;
 
-public class CHSourcesendRequest extends CHPacket {
+public class CHSourceChanged extends CHPacket {
 
 	private static final long serialVersionUID = 1L;
 
@@ -10,7 +10,7 @@ public class CHSourcesendRequest extends CHPacket {
 	private String source;
 	private String currentFileName;
 
-	public CHSourcesendRequest(String user, String source,
+	public CHSourceChanged(String user, String source,
 			String currentFileName) {
 		this.user = user;
 		this.source = source;

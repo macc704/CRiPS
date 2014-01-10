@@ -5,14 +5,14 @@ import java.util.List;
 
 import ch.conn.framework.CHPacket;
 
-public class CHFilegetResponse extends CHPacket {
+public class CHFileResponse extends CHPacket {
 
 	private static final long serialVersionUID = 1L;
 
 	private String user;
 	private List<CHFile> files = new ArrayList<CHFile>();
 
-	public CHFilegetResponse(String user, List<CHFile> files) {
+	public CHFileResponse(String user, List<CHFile> files) {
 		this.user = user;
 		this.files = files;
 
@@ -24,5 +24,10 @@ public class CHFilegetResponse extends CHPacket {
 
 	public List<CHFile> getFiles() {
 		return files;
+	}
+
+	@Override
+	public String paramString() {
+		return files.toString();
 	}
 }

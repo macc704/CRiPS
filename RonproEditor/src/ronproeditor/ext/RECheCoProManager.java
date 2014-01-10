@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -46,16 +44,15 @@ import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.packets.CHFile;
-import ch.conn.framework.packets.CHFilegetRequest;
-import ch.conn.framework.packets.CHFilegetResponse;
+import ch.conn.framework.packets.CHFileRequest;
+import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHFilelistResponse;
-import ch.conn.framework.packets.CHLogin;
-import ch.conn.framework.packets.CHLoginMemberStatus;
+import ch.conn.framework.packets.CHLoginMemberChanged;
+import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
-import ch.conn.framework.packets.CHLogout;
-import ch.conn.framework.packets.CHLogoutResult;
-import ch.conn.framework.packets.CHSourcesendRequest;
+import ch.conn.framework.packets.CHLogoutRequest;
+import ch.conn.framework.packets.CHLogoutResponse;
 import ch.conn.framework.packets.CHSourcesendResponse;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
@@ -108,17 +105,17 @@ public class RECheCoProManager {
 
 	private void initializeREListener() {
 		final RESourceViewer viewer;
-		viewer = application.getFrame().getEditor().getViewer();
-		viewer.getTextPane().addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-
-				conn.write(new CHSourcesendRequest(user, viewer.getText(),
-						application.getSourceManager().getCurrentFile()
-								.getName()));
-
-			}
-		});
+		// viewer = application.getFrame().getEditor().getViewer();
+		// viewer.getTextPane().addKeyListener(new KeyAdapter() {
+		// @Override
+		// public void keyReleased(KeyEvent e) {
+		//
+		// conn.write(new CHSourceChanged(user, viewer.getText(),
+		// application.getSourceManager().getCurrentFile()
+		// .getName()));
+		//
+		// }
+		// });
 
 		application.getSourceManager().addPropertyChangeListener(
 				new PropertyChangeListener() {
@@ -226,7 +223,7 @@ public class RECheCoProManager {
 		msFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				conn.write(new CHLogout(user));
+				conn.write(new CHLogoutRequest(user));
 			}
 		});
 	}
@@ -333,8 +330,7 @@ public class RECheCoProManager {
 	}
 
 	private boolean login() {
-		conn.write(new CHLogin(user));
-
+		conn.write(new CHLoginRequest(user, "xxxx"));
 		return conn.established();
 	}
 
@@ -343,16 +339,16 @@ public class RECheCoProManager {
 
 		if (obj instanceof CHLoginResult) {
 			// typeLoginResult((CHLoginResult) obj);
-		} else if (obj instanceof CHLoginMemberStatus) {
-			processLoginResult((CHLoginMemberStatus) obj);
+		} else if (obj instanceof CHLoginMemberChanged) {
+			processLoginResult((CHLoginMemberChanged) obj);
 		} else if (obj instanceof CHSourcesendResponse) {
 			processSourcesendResponse((CHSourcesendResponse) obj);
-		} else if (obj instanceof CHLogoutResult) {
-			processLogoutResult((CHLogoutResult) obj);
-		} else if (obj instanceof CHFilegetRequest) {
-			processFilegetRequest((CHFilegetRequest) obj);
-		} else if (obj instanceof CHFilegetResponse) {
-			CHFilegetResponse chFilegetResponse = (CHFilegetResponse) obj;
+		} else if (obj instanceof CHLogoutResponse) {
+			processLogoutResult((CHLogoutResponse) obj);
+		} else if (obj instanceof CHFileRequest) {
+			processFilegetRequest((CHFileRequest) obj);
+		} else if (obj instanceof CHFileResponse) {
+			CHFileResponse chFilegetResponse = (CHFileResponse) obj;
 			// typeFileGetRes(chFilegetResponse.getUser(),
 			// chFilegetResponse.getFile(), chFilegetResponse.getBytes());
 		} else if (obj instanceof CHFilelistRequest) {
@@ -366,7 +362,7 @@ public class RECheCoProManager {
 	 * 受信したコマンド別の処理
 	 **********************/
 
-	private void processLoginResult(CHLoginMemberStatus result) {
+	private void processLoginResult(CHLoginMemberChanged result) {
 		for (String aMember : result.getMembers()) {
 			if (!members.contains(aMember)) {
 				members.add(aMember);
@@ -404,7 +400,7 @@ public class RECheCoProManager {
 		});
 	}
 
-	private void processLogoutResult(CHLogoutResult result) {
+	private void processLogoutResult(CHLogoutResponse result) {
 		if (!user.equals(result.getUser())) {
 			msFrame.addLoginedMember(result.getUser());
 			msFrame.setMembers(members);
@@ -420,7 +416,7 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void processFilegetRequest(CHFilegetRequest request) {
+	private void processFilegetRequest(CHFileRequest request) {
 		File finalProject = getFinalProject();
 		CDirectory finalProjectDir = CFileSystem.findDirectory(finalProject
 				.getAbsolutePath());
@@ -432,7 +428,7 @@ public class RECheCoProManager {
 			files.add(new CHFile(path, byteArray));
 		}
 
-		conn.write(new CHFilegetResponse(user, files));
+		conn.write(new CHFileResponse(user, files));
 	}
 
 	private void processFilegetResponse(String user, File recivedFile,

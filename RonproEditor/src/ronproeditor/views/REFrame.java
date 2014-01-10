@@ -624,7 +624,7 @@ public class REFrame extends JFrame {
 		actionStartCheCoPro = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				application.doStartCheCoPro();
-				actionStartCheCoPro.setEnabled(false);
+				// actionStartCheCoPro.setEnabled(false);
 			}
 		};
 		actionStartCheCoPro.putValue(Action.NAME, "Start CheCoPro");

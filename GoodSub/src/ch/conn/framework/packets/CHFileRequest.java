@@ -5,14 +5,14 @@ import java.util.List;
 
 import ch.conn.framework.CHPacket;
 
-public class CHFilegetRequest extends CHPacket {
+public class CHFileRequest extends CHPacket {
 
 	private static final long serialVersionUID = 1L;
 
 	private String user;
 	private List<String> requestFilePaths = new ArrayList<String>();
 
-	public CHFilegetRequest(String user, List<String> requestFilePaths) {
+	public CHFileRequest(String user, List<String> requestFilePaths) {
 		this.user = user;
 		this.requestFilePaths = requestFilePaths;
 	}
