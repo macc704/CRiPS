@@ -45,6 +45,7 @@ import javax.swing.event.ChangeListener;
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
 import ch.connection.CHConnection;
+import ch.packets.CHFile;
 import ch.packets.CHFilegetRequest;
 import ch.packets.CHFilegetResponse;
 import ch.packets.CHFilelistRequest;
@@ -58,6 +59,7 @@ import ch.packets.CHSourcesendRequest;
 import ch.packets.CHSourcesendResponse;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.sync.CFileList;
 import clib.preference.model.CAbstractPreferenceCategory;
@@ -341,21 +343,21 @@ public class RECheCoProManager {
 		if (obj instanceof CHLoginResult) {
 			// typeLoginResult((CHLoginResult) obj);
 		} else if (obj instanceof CHLoginMemberStatus) {
-			typeLoginResult((CHLoginMemberStatus) obj);
+			processLoginResult((CHLoginMemberStatus) obj);
 		} else if (obj instanceof CHSourcesendResponse) {
-			typeRecivedSource((CHSourcesendResponse) obj);
+			processSourcesendResponse((CHSourcesendResponse) obj);
 		} else if (obj instanceof CHLogoutResult) {
-			typeLogoutResult((CHLogoutResult) obj);
+			processLogoutResult((CHLogoutResult) obj);
 		} else if (obj instanceof CHFilegetRequest) {
-			typeFileGetReq((CHFilegetRequest) obj);
+			processFilegetRequest((CHFilegetRequest) obj);
 		} else if (obj instanceof CHFilegetResponse) {
 			CHFilegetResponse chFilegetResponse = (CHFilegetResponse) obj;
-			typeFileGetRes(chFilegetResponse.getUser(),
-					chFilegetResponse.getFile(), chFilegetResponse.getBytes());
+			// typeFileGetRes(chFilegetResponse.getUser(),
+			// chFilegetResponse.getFile(), chFilegetResponse.getBytes());
 		} else if (obj instanceof CHFilelistRequest) {
-			typeFileListReq((CHFilelistRequest) obj);
+			processFilelistRequest((CHFilelistRequest) obj);
 		} else if (obj instanceof CHFilelistResponse) {
-			typeFileListRes((CHFilelistResponse) obj);
+			processFilelistResponse((CHFilelistResponse) obj);
 		}
 	}
 
@@ -363,8 +365,8 @@ public class RECheCoProManager {
 	 * 受信したコマンド別の処理
 	 **********************/
 
-	private void typeLoginResult(CHLoginMemberStatus recivedCHPacket) {
-		for (String aMember : recivedCHPacket.getMembers()) {
+	private void processLoginResult(CHLoginMemberStatus result) {
+		for (String aMember : result.getMembers()) {
 			if (!members.contains(aMember)) {
 				members.add(aMember);
 			}
@@ -386,10 +388,10 @@ public class RECheCoProManager {
 
 	}
 
-	private void typeRecivedSource(CHSourcesendResponse recivedCHPacket) {
-		final String sender = recivedCHPacket.getUser();
-		final String source = recivedCHPacket.getSource();
-		final String senderCurrentFile = recivedCHPacket.getCurrentFileName();
+	private void processSourcesendResponse(CHSourcesendResponse response) {
+		final String sender = response.getUser();
+		final String source = response.getSource();
+		final String senderCurrentFile = response.getCurrentFileName();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -401,9 +403,9 @@ public class RECheCoProManager {
 		});
 	}
 
-	private void typeLogoutResult(CHLogoutResult recivedCHPacket) {
-		if (!user.equals(recivedCHPacket.getUser())) {
-			msFrame.addLoginedMember(recivedCHPacket.getUser());
+	private void processLogoutResult(CHLogoutResult result) {
+		if (!user.equals(result.getUser())) {
+			msFrame.addLoginedMember(result.getUser());
 			msFrame.setMembers(members);
 			setMemberSelectorListner();
 		} else {
@@ -417,16 +419,26 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void typeFileGetReq(CHFilegetRequest recivedCHPacket) {
-		// sendFile(Arrays.asList(getFinalProject().listFiles()),
-		// recivedCHPacket.getAddedFiles(), recivedCHPacket.getMember());
+	private void processFilegetRequest(CHFilegetRequest request) {
+		File finalProject = getFinalProject();
+		CDirectory finalProjectDir = CFileSystem.findDirectory(finalProject
+				.getAbsolutePath());
+
+		List<CHFile> files = new ArrayList<CHFile>();
+		for (String path : request.getRequestFilePaths()) {
+			CFile file = finalProjectDir.findFile(path);
+			byte[] byteArray = file.loadAsByte();
+			files.add(new CHFile(path, byteArray));
+		}
+
+		conn.write(new CHFilegetResponse(user, files));
 	}
 
-	private void typeFileGetRes(String parent, File recivedFile, byte[] bytes) {
+	private void processFilegetResponse(String user, File recivedFile, byte[] bytes) {
 
 		String path = (recivedFile.getPath()).replace(Integer.toString(port)
-				+ "/" + parent, "");
-		File file = new File("MyProjects/.CHProjects/" + parent + "/final/"
+				+ "/" + user, "");
+		File file = new File("MyProjects/.CHProjects/" + user + "/final/"
 				+ path);
 
 		if (bytes == null) {
@@ -444,7 +456,7 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void typeFileListRes(CHFilelistResponse recivedCHPacket) {
+	private void processFilelistResponse(CHFilelistResponse response) {
 		// List<String> serverFileNames = recivedCHPacket.getFileNames();
 		// File finalProject =
 		// getMembersFinalDir(recivedCHPacket.getAdressee());
@@ -466,7 +478,7 @@ public class RECheCoProManager {
 
 	}
 
-	private void typeFileListReq(CHFilelistRequest recivedCHPacket) {
+	private void processFilelistRequest(CHFilelistRequest request) {
 
 		File finalProject = getFinalProject();
 		CDirectory finalProjectDir = CFileSystem.findDirectory(finalProject
@@ -597,17 +609,18 @@ public class RECheCoProManager {
 		return null;
 	}
 
-	private void sendFile(List<File> files, List<String> diff, String member) {
-		for (File aFile : files) {
-			if (diff.contains(aFile.getName())) {
-				byte[] bytes = convertFileToByte(aFile);
-				conn.write(new CHFilegetResponse(member, aFile, bytes));
-			}
-			if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
-				sendFile(Arrays.asList(aFile.listFiles()), diff, member);
-			}
-		}
-	}
+	// private void sendFile(List<File> files, List<String> diff, String member)
+	// {
+	// for (File aFile : files) {
+	// if (diff.contains(aFile.getName())) {
+	// byte[] bytes = convertFileToByte(aFile);
+	// conn.write(new CHFilegetResponse(member, aFile, bytes));
+	// }
+	// if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
+	// sendFile(Arrays.asList(aFile.listFiles()), diff, member);
+	// }
+	// }
+	// }
 
 	/**********
 	 * 判定関係

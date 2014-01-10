@@ -1,6 +1,7 @@
 package ch.packets;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import ch.connection.CHPacket;
 
@@ -9,24 +10,19 @@ public class CHFilegetResponse extends CHPacket {
 	private static final long serialVersionUID = 1L;
 
 	private String user;
-	private File file;
-	private byte[] bytes;
+	private List<CHFile> files = new ArrayList<CHFile>();
 
-	public CHFilegetResponse(String user, File file, byte[] bytes) {
+	public CHFilegetResponse(String user, List<CHFile> files) {
 		this.user = user;
-		this.file = file;
-		this.bytes = bytes;
+		this.files = files;
+
 	}
 
 	public String getUser() {
 		return user;
 	}
 
-	public File getFile() {
-		return file;
-	}
-
-	public byte[] getBytes() {
-		return bytes;
+	public List<CHFile> getFiles() {
+		return files;
 	}
 }

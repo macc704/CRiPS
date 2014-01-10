@@ -1,10 +1,6 @@
 package ch.app;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ServerSocket;
@@ -15,6 +11,7 @@ import java.util.List;
 
 import ch.connection.CHConnection;
 import ch.connection.CHConnectionPool;
+import ch.packets.CHFile;
 import ch.packets.CHFilegetRequest;
 import ch.packets.CHFilegetResponse;
 import ch.packets.CHFilelistRequest;
@@ -26,6 +23,7 @@ import ch.packets.CHLogoutResult;
 import ch.packets.CHSourcesendRequest;
 import ch.packets.CHSourcesendResponse;
 import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
 import clib.common.filesystem.sync.CFileList;
@@ -33,29 +31,33 @@ import clib.common.filesystem.sync.CFileListDifference;
 import clib.common.filesystem.sync.CFileListUtils;
 
 public class CHServer {
-	public static void main(String[] args) {
-
-		if (args.length < 1) {
-			System.err.println("argument is not found");
-		} else {
-			port = Integer.parseInt(args[0]);
-			new CHServer().run();
-		}
-	}
-
-	private static int port;
-	private CHConnectionPool connectionPool = new CHConnectionPool();
-	private List<String> members = new ArrayList<String>();
-	private HashMap<String, CHConnection> connMap = new HashMap<String, CHConnection>();
-	private List<File> memberDirs = new ArrayList<File>();
 
 	private static PrintStream out = System.out;
 
-	public void run() {
+	public static void main(String[] args) {
+		if (args.length < 1) {
+			System.err.println("argument is not found");
+			System.exit(0);
+		} else {
+			int port = Integer.parseInt(args[0]);
+			CHServer server = new CHServer(port);
+			server.run(args);
+		}
+	}
+
+	private int port;
+
+	private CHConnectionPool connectionPool = new CHConnectionPool();
+	private List<String> members = new ArrayList<String>();
+	private HashMap<String, CHConnection> connMap = new HashMap<String, CHConnection>();
+
+	public CHServer(int port) {
+		this.port = port;
+	}
+
+	public void run(String[] args) {
 
 		ServerSocket serverSock = null;
-		File groupDir = new File(Integer.toString(port));
-		groupDir.mkdir();
 		try {
 			serverSock = new ServerSocket(port);
 			while (true) {
@@ -91,17 +93,17 @@ public class CHServer {
 				Object obj = conn.read();
 
 				if (obj instanceof CHLogin) {
-					typeLogin((CHLogin) obj, conn);
+					processLogin((CHLogin) obj, conn);
 				} else if (obj instanceof CHSourcesendRequest) {
-					typeSource((CHSourcesendRequest) obj, conn);
+					processSourcesendRequest((CHSourcesendRequest) obj, conn);
 				} else if (obj instanceof CHLogout) {
-					typeLogout((CHLogout) obj, conn);
+					processLogout((CHLogout) obj, conn);
 				} else if (obj instanceof CHFilegetResponse) {
-					typeFileGetRes((CHFilegetResponse) obj);
+					processFilegetResponse((CHFilegetResponse) obj);
 				} else if (obj instanceof CHFilegetRequest) {
-					typeFileGetReq((CHFilegetRequest) obj, conn);
+					processFilegetRequest((CHFilegetRequest) obj, conn);
 				} else if (obj instanceof CHFilelistRequest) {
-					typeFileListReq((CHFilelistRequest) obj, conn);
+					processFilelistRequest((CHFilelistRequest) obj, conn);
 				} else if (obj instanceof CHFilelistResponse) {
 					processFilelistResponse((CHFilelistResponse) obj, conn);
 				}
@@ -118,8 +120,8 @@ public class CHServer {
 	 * コマンド別処理
 	 **************/
 
-	private void typeLogin(CHLogin chLogin, CHConnection conn) {
-		String myName = chLogin.getUser();
+	private void processLogin(CHLogin login, CHConnection conn) {
+		String myName = login.getUser();
 
 		connMap.put(myName, conn);
 
@@ -128,8 +130,6 @@ public class CHServer {
 		// myName = myName + "*";
 		// chPacket.setExist(true);
 		// }
-
-		createMembersDir(myName);
 
 		members.add(myName);
 		out.println("name: " + myName + " add list.");
@@ -152,44 +152,39 @@ public class CHServer {
 		connectionPool.sendToOne(new CHFilelistRequest(null), conn);
 	}
 
-	private void typeSource(CHSourcesendRequest chSourcesemdReq,
+	private void processSourcesendRequest(CHSourcesendRequest request,
 			CHConnection conn) {
 
-		connectionPool.broadcast(
-				new CHSourcesendResponse(chSourcesemdReq.getUser(),
-						chSourcesemdReq.getSource(), chSourcesemdReq
-								.getCurrentFileName()), conn);
+		connectionPool.broadcast(new CHSourcesendResponse(request.getUser(),
+				request.getSource(), request.getCurrentFileName()), conn);
 	}
 
-	private void typeLogout(CHLogout chLogout, CHConnection conn) {
-		members.remove(chLogout.getMyName());
-		connMap.remove(chLogout.getMyName());
+	private void processLogout(CHLogout logout, CHConnection conn) {
+		members.remove(logout.getMyName());
+		connMap.remove(logout.getMyName());
 
-		connectionPool.broadcastAll(new CHLogoutResult(chLogout.getMyName()));
+		connectionPool.broadcastAll(new CHLogoutResult(logout.getMyName()));
 		connectionPool.close(conn);
 	}
 
-	private void typeFileGetRes(CHFilegetResponse recivedCHPacket) {
+	private void processFilegetResponse(CHFilegetResponse response) {
 
-		// File directory = searchMenbersDir(recivedCHPacket.getMember());
-		// List<File> files = Arrays.asList(directory.listFiles());
-		// for (File aFile : files) {
-		// if (recivedCHPacket.getRemovedFiles().contains(aFile.getName())) {
-		// aFile.delete();
-		// }
-		// }
-		//
-		// byte[] bytes = recivedCHPacket.getBytes();
-		// String myName = recivedCHPacket.getMyName();
-		// saveFile(myName, recivedCHPacket.getFile(), bytes);
+		CDirectory userDir = getUserDir(response.getUser());
+
+		for (CHFile aFile : response.getFiles()) {
+			CFile file = userDir.findOrCreateFile(aFile.getPath());
+			file.saveAsByte(aFile.getBytes());
+		}
+
 	}
 
-	private void typeFileGetReq(CHFilegetRequest chFilegetReq, CHConnection conn) {
+	private void processFilegetRequest(CHFilegetRequest request,
+			CHConnection conn) {
 		// sendFile(Arrays.asList(searchMenbersDir(chFilegetReq.getAdressee())
 		// .listFiles()), conn, chFilegetReq, chFilegetReq.getMember());
 	}
 
-	private void typeFileListReq(CHFilelistRequest chFilelistReq,
+	private void processFilelistRequest(CHFilelistRequest request,
 			CHConnection conn) {
 		// File directory = searchMenbersDir(chFilelistReq.getAdressee());
 		// List<File> files = Arrays.asList(directory.listFiles());
@@ -208,7 +203,7 @@ public class CHServer {
 			CHConnection conn) {
 
 		CFileList fileListClient = response.getFileList();
-		File dir = searchMenbersDir(response.getUser());
+		File dir = getUserDir(response.getUser()).toJavaFile();
 		CDirectory cDir = CFileSystem.findDirectory(dir.getAbsolutePath());
 		CFileList fileListServer = new CFileList(cDir);
 
@@ -238,81 +233,12 @@ public class CHServer {
 	 * ファイル操作
 	 ************/
 
-	private void createMembersDir(String name) {
-		File membersDir = new File(Integer.toString(port), name);
-		memberDirs.add(membersDir);
-		membersDir.mkdir();
+	private CDirectory getBaseDir() {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
+				"CH/" + port);
 	}
 
-	private void saveFile(String parent, File recivedFile, byte[] bytes) {
-		String path = (recivedFile.getPath()).replace("MyProjects/final", "");
-
-		File file = new File(Integer.toString(port) + "/" + parent + path);
-		if (bytes == null) {
-			file.mkdir();
-		} else {
-			FileOutputStream fos;
-			try {
-				fos = new FileOutputStream(file, false);
-				fos.write(bytes);
-				file.createNewFile();
-				fos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public File searchMenbersDir(String name) {
-		for (File aFile : memberDirs) {
-			if (name.equals(aFile.getName())) {
-				return aFile;
-			}
-		}
-		return null;
-	}
-
-	private void sendFile(List<File> files, CHConnection conn,
-			CHFilegetRequest recivedCHPacket, String member) {
-		//
-		// for (File aFile : files) {
-		// if (recivedCHPacket.getAddedFiles().contains(aFile.getName())) {
-		// byte[] bytes = convertFileToByte(aFile);
-		// connectionPool.sendToOne(new CHFilegetResponse(member, aFile,
-		// bytes), conn);
-		// }
-		// if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
-		// sendFile(Arrays.asList(aFile.listFiles()), conn,
-		// recivedCHPacket, member);
-		// }
-		// }
-	}
-
-	public byte[] convertFileToByte(File file) {
-
-		if (file.isDirectory()) {
-			return null;
-		}
-
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-		int i = 0;
-		try {
-			while ((i = fis.read()) != -1) {
-				baos.write(i);
-			}
-			baos.close();
-			fis.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return baos.toByteArray();
+	private CDirectory getUserDir(String user) {
+		return getBaseDir().findOrCreateDirectory(user);
 	}
 }
