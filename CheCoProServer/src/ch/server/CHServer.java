@@ -217,18 +217,6 @@ public class CHServer {
 		CFileList fileList = new CFileList(userDir);
 		connectionPool.sendToOne(new CHFilelistResponse(request.getUser(),
 				fileList), connectionPool.getUser(conn));
-
-		// File directory = searchMenbersDir(chFilelistReq.getAdressee());
-		// List<File> files = Arrays.asList(directory.listFiles());
-		// List<String> fileNames = new ArrayList<String>();
-		// for (File aFile : files) {
-		// fileNames.add(aFile.getName());
-		// }
-		//
-		// connectionPool.sendToOne(
-		// new CHFilelistResponse(chFilelistReq.getMember(), fileNames),
-		// conn);
-
 	}
 
 	private void processFilelistResponse(CHFilelistResponse response) {

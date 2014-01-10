@@ -10,12 +10,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +35,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ronproeditor.REApplication;
-import ronproeditor.views.RESourceViewer;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
 import ch.conn.framework.CHUserState;
@@ -65,7 +58,6 @@ import clib.common.filesystem.sync.CFileListDifference;
 import clib.common.filesystem.sync.CFileListUtils;
 import clib.preference.model.CAbstractPreferenceCategory;
 
-@SuppressWarnings("unused")
 public class RECheCoProManager {
 
 	public static final String APP_NAME = "CheCoPro";
@@ -82,8 +74,6 @@ public class RECheCoProManager {
 	private int port = DEFAULT_PORT;
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 	private JToggleButton connButton = new JToggleButton("ìØä˙íÜ", true);
-
-	// private String pushed;
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -108,7 +98,7 @@ public class RECheCoProManager {
 	 *******************/
 
 	private void initializeREListener() {
-		final RESourceViewer viewer;
+		// final RESourceViewer viewer;
 		// viewer = application.getFrame().getEditor().getViewer();
 		// viewer.getTextPane().addKeyListener(new KeyAdapter() {
 		// @Override
@@ -256,9 +246,6 @@ public class RECheCoProManager {
 		Action fileSendRequest;
 		fileSendRequest = new AbstractAction() {
 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -281,18 +268,6 @@ public class RECheCoProManager {
 	public void startCheCoPro() {
 
 		initializeREListener();
-
-		File root = application.getSourceManager().getRootDirectory();
-
-		if (!checkProject(root, "final")) {
-			File finalProject = new File(root, "final");
-			finalProject.mkdir();
-		}
-
-		if (!checkProject(root, ".CHProjects")) {
-			File chProject = new File(root, ".CHProjects");
-			chProject.mkdir();
-		}
 
 		new Thread() {
 			public void run() {
@@ -342,7 +317,7 @@ public class RECheCoProManager {
 		Object obj = conn.read();
 
 		if (obj instanceof CHLoginResult) {
-			// typeLoginResult((CHLoginResult) obj);
+			processLoginResult((CHLoginResult) obj);
 		} else if (obj instanceof CHLoginMemberChanged) {
 			processLoginMemberChanged((CHLoginMemberChanged) obj);
 		} else if (obj instanceof CHSourcesendResponse) {
@@ -350,12 +325,9 @@ public class RECheCoProManager {
 		} else if (obj instanceof CHLogoutResponse) {
 			processLogoutResult((CHLogoutResponse) obj);
 		} else if (obj instanceof CHFileRequest) {
-			processFilegetRequest((CHFileRequest) obj);
+			processFileRequest((CHFileRequest) obj);
 		} else if (obj instanceof CHFileResponse) {
 			processFileResponse((CHFileResponse) obj);
-			// CHFileResponse chFilegetResponse = (CHFileResponse) obj;
-			// typeFileGetRes(chFilegetResponse.getUser(),
-			// chFilegetResponse.getFile(), chFilegetResponse.getBytes());
 		} else if (obj instanceof CHFilelistRequest) {
 			processFilelistRequest((CHFilelistRequest) obj);
 		} else if (obj instanceof CHFilelistResponse) {
@@ -381,19 +353,8 @@ public class RECheCoProManager {
 			}
 		}
 
-		// ñºëOÇ™îÌÇ¡ÇΩèÍçá
-		// if (recivedCHPacket.isExist()) {
-		// myName = recivedCHPacket.getMyName();
-		// // chPacket.setMyName(myName);
-		// msFrame.setMyName(myName);
-		// msFrame.setTitle("CheCoProMemberSelector " + myName);
-		// }
-
-		// msFrame.removeLoginedMember(recivedCHPacket.getMyName());
 		msFrame.setMembers(members);
 		setMemberSelectorListner();
-
-		createMembersDir(members);
 
 	}
 
@@ -428,10 +389,8 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void processFilegetRequest(CHFileRequest request) {
-		File finalProject = getFinalProject();
-		CDirectory finalProjectDir = CFileSystem.findDirectory(finalProject
-				.getAbsolutePath());
+	private void processFileRequest(CHFileRequest request) {
+		CDirectory finalProjectDir = getFinalProjectDir();
 
 		List<CHFile> files = new ArrayList<CHFile>();
 		for (String path : request.getRequestFilePaths()) {
@@ -445,8 +404,7 @@ public class RECheCoProManager {
 
 	private void processFileResponse(CHFileResponse response) {
 		String user = response.getUser();
-		File dir = getUserDir(user);
-		CDirectory cDir = CFileSystem.findDirectory(dir.getAbsolutePath());
+		CDirectory cDir = getUserDir(user);
 
 		for (CHFile aFile : response.getFiles()) {
 			CFile file = cDir.findOrCreateFile(aFile.getPath());
@@ -454,35 +412,11 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void processFilegetResponse(String user, File recivedFile,
-			byte[] bytes) {
-
-		String path = (recivedFile.getPath()).replace(Integer.toString(port)
-				+ "/" + user, "");
-		File file = new File("MyProjects/.CHProjects/" + user + "/final/"
-				+ path);
-
-		if (bytes == null) {
-			file.mkdir();
-		} else {
-			FileOutputStream fos;
-			try {
-				fos = new FileOutputStream(file, false);
-				fos.write(bytes);
-				file.createNewFile();
-				fos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	private void processFilelistResponse(CHFilelistResponse response) {
 		String user = response.getUser();
 
 		CFileList fileListServer = response.getFileList();
-		File dir = getUserDir(user);
-		CDirectory cDir = CFileSystem.findDirectory(dir.getAbsolutePath());
+		CDirectory cDir = getUserDir(user);
 		CFileList fileListClient = new CFileList(cDir);
 
 		List<CFileListDifference> differences = CFileListUtils.compare(
@@ -504,33 +438,11 @@ public class RECheCoProManager {
 		}
 
 		conn.write(new CHFileRequest(user, requestFilePaths));
-
-		// List<String> serverFileNames = recivedCHPacket.getFileNames();
-		// File finalProject =
-		// getMembersFinalDir(recivedCHPacket.getAdressee());
-		// List<File> files = Arrays.asList(finalProject.listFiles());
-		// List<String> clientFileNames = new ArrayList<String>();
-		//
-		// for (File aFile : files) {
-		// clientFileNames.add(aFile.getName());
-		// }
-		//
-		// getDiff(serverFileNames, clientFileNames);
-		//
-		// // chPacket.setAdressee(recivedCHPacket.getAdressee());
-		// // chPacket.setCommand(CHPacket.FILEGET_REQ);
-		// // conn.write(chPacket);
-		//
-		// conn.write(new CHFilegetRequest(pushed, getDiff(serverFileNames,
-		// clientFileNames)));
-
 	}
 
 	private void processFilelistRequest(CHFilelistRequest request) {
 
-		File finalProject = getFinalProject();
-		CDirectory finalProjectDir = CFileSystem.findDirectory(finalProject
-				.getAbsolutePath());
+		CDirectory finalProjectDir = getFinalProjectDir();
 		CFileList fileList = new CFileList(finalProjectDir);
 
 		conn.write(new CHFilelistResponse(user, fileList));
@@ -541,134 +453,15 @@ public class RECheCoProManager {
 	 * ÉtÉ@ÉCÉãëÄçÏä÷åW
 	 ****************/
 
-	private List<String> getDiff(List<String> serverFileNames,
-			List<String> clientFileNames) {
-
-		List<String> addedFiles = new ArrayList<String>();
-		List<String> removedFiles = new ArrayList<String>();
-
-		for (String aServerFileName : serverFileNames) {
-			if (!clientFileNames.contains(aServerFileName)) {
-				addedFiles.add(aServerFileName);
-			}
-		}
-
-		for (String aClientFileName : clientFileNames) {
-			if (!serverFileNames.contains(aClientFileName)) {
-				removedFiles.add(aClientFileName);
-			}
-		}
-
-		// chPacket.setRemovedFiles(removedFiles);
-		// chPacket.setAddedFiles(addedFiles);
-		return addedFiles;
+	private CDirectory getFinalProjectDir() {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
+				"MyProjects/final");
 	}
 
-	public File getUserDir(String user) {
-		File root = application.getSourceManager().getRootDirectory();
-
-		List<File> projects = Arrays.asList(root.listFiles());
-		File chDir = null;
-		for (File aProject : projects) {
-			if (aProject.getName().equals(".CHProjects")) {
-				chDir = aProject;
-			}
-		}
-
-		List<File> memberDirs = Arrays.asList(chDir.listFiles());
-		File memberDir = null;
-		for (File aMemberDir : memberDirs) {
-			if (aMemberDir.getName().equals(user)) {
-				memberDir = aMemberDir;
-			}
-		}
-
-		List<File> files = Arrays.asList(memberDir.listFiles());
-		for (File aFile : files) {
-			if (aFile.getName().equals("final")) {
-				return aFile;
-			}
-		}
-		return null;
+	private CDirectory getUserDir(String user) {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
+				"MyProjects/.CHProjects/" + user + "/final");
 	}
-
-	private void createMembersDir(List<String> members) {
-		for (String aMember : members) {
-			File root = new File("MyProjects/.CHProjects", aMember);
-			if ((!aMember.equals(user)) && (!root.exists())) {
-				root.mkdir();
-				File finalProject = new File(root, "final");
-				if (!finalProject.exists()) {
-					finalProject.mkdir();
-				}
-			}
-		}
-	}
-
-	public byte[] convertFileToByte(File file) {
-
-		if (file.isDirectory()) {
-			return null;
-		}
-
-		FileInputStream fis = null;
-		try {
-			fis = new FileInputStream(file);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-		int i = 0;
-		try {
-			while ((i = fis.read()) != -1) {
-				baos.write(i);
-			}
-			baos.close();
-			fis.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return baos.toByteArray();
-	}
-
-	public List<String> getFileNames(File projectName) {
-		List<File> files = new ArrayList<File>();
-		files = Arrays.asList(projectName.listFiles());
-		List<String> fileNames = new ArrayList<String>();
-		for (File aFile : files) {
-			if (aFile.isFile()) {
-				fileNames.add(aFile.getName());
-			}
-		}
-		return fileNames;
-	}
-
-	public File getFinalProject() {
-		File root = application.getSourceManager().getRootDirectory();
-		List<File> projects = new ArrayList<File>();
-		projects = Arrays.asList(root.listFiles());
-		for (File aProject : projects) {
-			if (aProject.getName().equals("final")) {
-				return aProject;
-			}
-		}
-		return null;
-	}
-
-	// private void sendFile(List<File> files, List<String> diff, String member)
-	// {
-	// for (File aFile : files) {
-	// if (diff.contains(aFile.getName())) {
-	// byte[] bytes = convertFileToByte(aFile);
-	// conn.write(new CHFilegetResponse(member, aFile, bytes));
-	// }
-	// if (aFile.isDirectory() && !aFile.getName().startsWith(".")) {
-	// sendFile(Arrays.asList(aFile.listFiles()), diff, member);
-	// }
-	// }
-	// }
 
 	/**********
 	 * îªíËä÷åW
@@ -691,17 +484,6 @@ public class RECheCoProManager {
 		return true;
 	}
 
-	public boolean checkProject(File root, String name) {
-		List<File> projects = new ArrayList<File>();
-		projects = Arrays.asList(root.listFiles());
-		for (File aProject : projects) {
-			if (aProject.getName().equals(name)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	/****************
 	 * preferenceä÷åW
 	 ****************/
@@ -711,9 +493,6 @@ public class RECheCoProManager {
 
 	class CheCoProPreferenceCategory extends CAbstractPreferenceCategory {
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		private JTextField nameField = new JTextField(15);
@@ -754,9 +533,6 @@ public class RECheCoProManager {
 
 		class CheCoProPreferencePanel extends JPanel {
 
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			public CheCoProPreferencePanel() {
