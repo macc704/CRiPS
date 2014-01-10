@@ -1,4 +1,4 @@
-package ch.conn.framework.packets;
+package ch.conn.framework;
 
 import java.io.Serializable;
 
@@ -20,6 +20,11 @@ public class CHFile implements Serializable {
 
 	public byte[] getBytes() {
 		return bytes;
+	}
+
+	@Override
+	public String toString() {
+		return "CHFile:" + path;
 	}
 
 }

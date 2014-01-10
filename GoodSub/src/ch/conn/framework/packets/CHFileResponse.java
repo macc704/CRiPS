@@ -3,6 +3,7 @@ package ch.conn.framework.packets;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.conn.framework.CHFile;
 import ch.conn.framework.CHPacket;
 
 public class CHFileResponse extends CHPacket {

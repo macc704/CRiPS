@@ -43,7 +43,7 @@ import javax.swing.event.ChangeListener;
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
 import ch.conn.framework.CHConnection;
-import ch.conn.framework.packets.CHFile;
+import ch.conn.framework.CHFile;
 import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
