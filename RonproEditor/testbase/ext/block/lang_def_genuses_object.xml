@@ -92,7 +92,7 @@
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
-		</Stub>		
+		</Stub>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
@@ -308,8 +308,8 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-object-List" kind="local-variable"
-	initlabel="turtles" header-label="ListTurtle＜Turtle＞型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="255 255 100">
+	initlabel="turtles" header-label="ListTurtle＜Turtle＞型の変数を作り、"
+	footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -385,7 +385,8 @@
 	footer-label="を作る" color="16 240 27">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="" connector-kind="socket" connector-type="string">
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="string">
 			<DefaultArg genus-name="string" label="押してください"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -396,15 +397,16 @@
 	footer-label="を作る" color="16 240 27">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="" connector-kind="socket" connector-type="string">
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="string">
 			<DefaultArg genus-name="string" label="初期テキスト"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
 <BlockGenus name="new-object-Color" kind="function"
-	initlabel="Color" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+	initlabel="Color" editable-label="yes" header-label="新しく" footer-label="を作る"
+	color="16 240 27">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 		<BlockConnector label="R" connector-kind="socket"
@@ -418,7 +420,7 @@
 		<BlockConnector label="B" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="0"></DefaultArg>
-		</BlockConnector>				
+		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
@@ -472,7 +474,7 @@
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
-		</Stub>		
+		</Stub>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
@@ -688,8 +690,8 @@
 </BlockGenus>
 
 <BlockGenus name="private-var-object-List" kind="global-variable"
-	initlabel="turtles" header-label="ListTurtle＜Turtle＞型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="255 255 100">
+	initlabel="turtles" header-label="ListTurtle＜Turtle＞型の変数を作り、"
+	footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="poly">
@@ -748,19 +750,20 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-arrayobject-numberarray" kind="function" initlabel="intArray"
-	editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-arrayobject-numberarray" kind="function"
+	initlabel="intArray" editable-label="yes" header-label="新しく"
+	footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
-            新しいint型の配列オブジェクトを生成します。
+			新しいint型の配列オブジェクトを生成します。
 		</text>
 	</description>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
-        <BlockConnector label="サイズ" connector-kind="socket"
-            connector-type="number">
-            <DefaultArg genus-name="number" label="10"></DefaultArg>
-        </BlockConnector>
+		<BlockConnector label="サイズ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="10"></DefaultArg>
+		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
@@ -768,19 +771,20 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-arrayobject-stringarray" kind="function" initlabel="stringArray"
-	editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-arrayobject-stringarray" kind="function"
+	initlabel="stringArray" editable-label="yes" header-label="新しく"
+	footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
-            新しいstring型の配列オブジェクトを生成します。
+			新しいstring型の配列オブジェクトを生成します。
 		</text>
 	</description>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
-        <BlockConnector label="サイズ" connector-kind="socket"
-            connector-type="number">
-            <DefaultArg genus-name="number" label="10"></DefaultArg>
-        </BlockConnector>
+		<BlockConnector label="サイズ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="10"></DefaultArg>
+		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
@@ -788,19 +792,20 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-arrayobject-double-numberarray" kind="function" initlabel="doubleArray"
-	editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-arrayobject-double-numberarray" kind="function"
+	initlabel="doubleArray" editable-label="yes" header-label="新しく"
+	footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
-            新しいdouble型の配列オブジェクトを生成します。
+			新しいdouble型の配列オブジェクトを生成します。
 		</text>
 	</description>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
-        <BlockConnector label="サイズ" connector-kind="socket"
-            connector-type="number">
-            <DefaultArg genus-name="number" label="10"></DefaultArg>
-        </BlockConnector>
+		<BlockConnector label="サイズ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="10"></DefaultArg>
+		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
@@ -808,19 +813,20 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-arrayobject-objectarray" kind="function" initlabel="objetArray"
-	editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-arrayobject-objectarray" kind="function"
+	initlabel="objetArray" editable-label="yes" header-label="新しく"
+	footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
-            新しいobject型の配列オブジェクトを生成します。
+			新しいobject型の配列オブジェクトを生成します。
 		</text>
 	</description>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
-        <BlockConnector label="サイズ" connector-kind="socket"
-            connector-type="number">
-            <DefaultArg genus-name="number" label="10"></DefaultArg>
-        </BlockConnector>
+		<BlockConnector label="サイズ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="10"></DefaultArg>
+		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
@@ -828,10 +834,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="super" kind="command" initlabel="super" color="255 0 0">
+<BlockGenus name="super" kind="command" initlabel="super"
+	color="255 0 0">
 	<description>
 		<text>
-            親クラスのコンストラクタを呼び出します
+			親クラスのコンストラクタを呼び出します
 		</text>
 	</description>
 	<BlockConnectors>
@@ -842,32 +849,33 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-listobject" kind="function" initlabel="ArrayList" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-listobject" kind="function" initlabel="ArrayList"
+	header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
-            指定した型のリストを生成します
+			指定した型のリストを生成します
 		</text>
 	</description>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
-        <BlockConnector label="何型の？" connector-kind="socket"
-            connector-type="poly">
-        </BlockConnector>
+		<BlockConnector label="何型の？" connector-kind="socket"
+			connector-type="poly">
+		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
-        <Stub stub-genus="getter" kind="object">
-            <LangSpecProperties>
-                <LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-                <LangSpecProperty key="scope" value="local"></LangSpecProperty>
-            </LangSpecProperties>
-        </Stub>
-        <Stub stub-genus="setter" kind="object">
-            <LangSpecProperties>
-                <LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
-                <LangSpecProperty key="scope" value="local"></LangSpecProperty>
-            </LangSpecProperties>
-        </Stub>
-    </Stubs>
+		<Stub stub-genus="getter" kind="object">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter" kind="object">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
 		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
@@ -945,9 +953,8 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="type-object" kind="function"
-	initlabel="String" editable-label="yes" header-label=""
-	footer-label="型" color="16 240 27">
+<BlockGenus name="type-object" kind="function" initlabel="String"
+	editable-label="yes" header-label="" footer-label="型" color="16 240 27">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="poly"></BlockConnector>
 	</BlockConnectors>
@@ -959,52 +966,17 @@
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
-            int型の配列を作ります
+			int型の配列を作ります
 		</text>
 	</description>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-arrayobject-numberarray" label="int[]"></DefaultArg>
+			<DefaultArg genus-name="new-arrayobject-numberarray"
+				label="int[]"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
-		<Stub stub-genus="callActionMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callGetterMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callBooleanMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callDoubleMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callStringMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callObjectMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
@@ -1012,6 +984,18 @@
 			</LangSpecProperties>
 		</Stub>
 		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+        <Stub stub-genus="getter-local-numberarrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-local-numberarrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -1037,46 +1021,11 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-arrayobject-stringarray" label="String[]"></DefaultArg>
+			<DefaultArg genus-name="new-arrayobject-stringarray"
+				label="String[]"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
-		<Stub stub-genus="callActionMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callGetterMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callBooleanMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callDoubleMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callStringMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callObjectMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
@@ -1084,6 +1033,18 @@
 			</LangSpecProperties>
 		</Stub>
 		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter-local-stringarrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-local-stringarrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -1109,46 +1070,11 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-arrayobject-stringarray" label="String[]"></DefaultArg>
+			<DefaultArg genus-name="new-arrayobject-stringarray"
+				label="String[]"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
-		<Stub stub-genus="callActionMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callGetterMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callBooleanMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callDoubleMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callStringMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callObjectMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
@@ -1161,6 +1087,18 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
+		<Stub stub-genus="getter-private-stringarrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-private-stringarrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>		
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
@@ -1181,46 +1119,11 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-arrayobject-stringarray" label="int[]"></DefaultArg>
+			<DefaultArg genus-name="new-arrayobject-stringarray"
+				label="int[]"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
-		<Stub stub-genus="callActionMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callGetterMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callBooleanMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callDoubleMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callStringMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callObjectMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
@@ -1231,6 +1134,18 @@
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setglobal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+        <Stub stub-genus="getter-private-numberarrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-private-numberarrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
 	</Stubs>
@@ -1254,46 +1169,11 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-arrayobject-doublearray" label="double[]"></DefaultArg>
+			<DefaultArg genus-name="new-arrayobject-doublearray"
+				label="double[]"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
-		<Stub stub-genus="callActionMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callGetterMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callBooleanMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callDoubleMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callStringMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callObjectMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
@@ -1301,6 +1181,18 @@
 			</LangSpecProperties>
 		</Stub>
 		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+        <Stub stub-genus="getter-local-doublearrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-local-doublearrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -1315,132 +1207,45 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getter-local-intarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+
+
+
+
+
+<BlockGenus name="clear" kind="command" initlabel="中身をすべて削除する"
+	color="255 255 100">
+</BlockGenus>
+
+<BlockGenus name="size" kind="data" initlabel="リストの大きさ"
+	color="255 255 100">
+	<BlockConnector label="" connector-kind="plug"
+		connector-type="number" />
+</BlockGenus>
+
+
+<BlockGenus name="isEmpty" kind="data" initlabel="空か調べる"
+	color="255 255 100">
 	<BlockConnectors>
-        <BlockConnector label="" connector-kind="plug" connector-type="number"/>
-		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="setter-local-intarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+<BlockGenus name="contains" kind="data" initlabel="要素があるか調べる"
+	color="255 255 100">
 	<BlockConnectors>
-        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
-        <BlockConnector label="なにを？" connector-kind="socket" connector-type="number"/>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" />
+		<BlockConnector label="どの？" connector-kind="socket"
+			connector-type="object" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="getter-local-stringarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+<BlockGenus name="remove" kind="command" initlabel="要素を削除する"
+	color="255 255 100">
 	<BlockConnectors>
-        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
-		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="setter-local-stringarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
-	<BlockConnectors>
-        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
-        <BlockConnector label="なにを？" connector-kind="socket" connector-type="string"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="setter-local-doublearrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
-	<BlockConnectors>
-        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
-        <BlockConnector label="なにを？" connector-kind="socket" connector-type="double-number"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="getter-local-doublearrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
-	<BlockConnectors>
-        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
-		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="getter-local-stringarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
-	<BlockConnectors>
-        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
-		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<!-- -->
-<BlockGenus name="getter-private-intarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
-	<BlockConnectors>
-        <BlockConnector label="" connector-kind="plug" connector-type="number"/>
-		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="setter-private-intarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
-	<BlockConnectors>
-        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
-        <BlockConnector label="なにを？" connector-kind="socket" connector-type="number"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="getter-private-stringarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
-	<BlockConnectors>
-        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
-		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="setter-private-stringarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
-	<BlockConnectors>
-        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
-        <BlockConnector label="なにを？" connector-kind="socket" connector-type="string"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="setter-private-doublearrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
-	<BlockConnectors>
-        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
-        <BlockConnector label="なにを？" connector-kind="socket" connector-type="double-number"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="getter-private-doublearrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
-	<BlockConnectors>
-        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
-		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="getter-private-stringarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
-	<BlockConnectors>
-        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
-		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
-	</BlockConnectors>
-</BlockGenus>
-
-
-
-
-<BlockGenus name="clear" kind="command" initlabel="中身をすべて削除する" color="255 255 100">
-</BlockGenus>
-
-<BlockGenus name="size" kind="data" initlabel="リストの大きさ" color="255 255 100">
-        <BlockConnector label="" connector-kind="plug" connector-type="number"/>
-</BlockGenus>
-
-
-<BlockGenus name="isEmpty" kind="data" initlabel="空か調べる" color="255 255 100">
-	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug" connector-type="boolean"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="contains" kind="data" initlabel="要素があるか調べる" color="255 255 100">
-	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug" connector-type="boolean"/>
-        <BlockConnector label="どの？" connector-kind="socket" connector-type="object"/>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="remove" kind="command" initlabel="要素を削除する" color="255 255 100">
-	<BlockConnectors>
-        <BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+		<BlockConnector label="どこの？" connector-kind="socket"
+			connector-type="number" />
 	</BlockConnectors>
 </BlockGenus>
 

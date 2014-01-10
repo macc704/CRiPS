@@ -210,6 +210,7 @@ public class SContextMenuProvider {
 	 * @return
 	 */
 	public JPopupMenu getPopupMenu() {
+
 		JPopupMenu menu = new JPopupMenu();
 		// #ohata added
 		if (rb.getBlock().isPrivateVariableBlock()) {
@@ -238,6 +239,39 @@ public class SContextMenuProvider {
 		if (rb.getBlock().isNumberVariableDecBlock()) {
 			menu.add(createCreateIncrementerMenu());
 			menu.addSeparator();
+		}
+
+		if (rb.getBlock().getGenusName().contains("arrayobject")) {//配列
+			final String scope = rb.getBlock().getKind()
+					.substring(0, rb.getBlock().getKind().indexOf("-"));
+			final String type = getBlockVariableType(rb.getBlock()
+					.getGenusName());
+
+			//一時的にrbのkindを変更する
+
+			//型に応じたゲッター、セッターの追加
+			JMenuItem elementGetter = new JMenuItem("「書込ブロック（要素）」の作成");
+			//getterの作成
+			elementGetter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new SStubCreator("setter-" + scope + "-" + type
+							+ "arrayelement", rb).doWork(e);
+				}
+			});
+			menu.add(elementGetter);
+
+			//setter
+			JMenuItem elementSetter = new JMenuItem("「値ブロック（要素）」の作成");
+			elementSetter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					new SStubCreator("getter-" + scope + "-" + type
+							+ "arrayelement", rb).doWork(e);
+				}
+			});
+
+			//rbのkindを戻す
+			menu.add(elementSetter);
+
 		}
 
 		if (rb.getBlock().isObjectTypeVariableDeclBlock()
@@ -343,6 +377,7 @@ public class SContextMenuProvider {
 				category.add(createCallMethodMenu("shuffle", "かき混ぜる"));
 				menu.add(category);
 			}
+
 			if (rb.getBlock().getGenusName().contains("listobject")) {
 				JMenu category = new JMenu("List");
 				category.add(createCallListMethodMenu("get", "x番値の要素取得"));
@@ -689,6 +724,22 @@ public class SContextMenuProvider {
 		Workspace.getInstance().notifyListeners(
 				new WorkspaceEvent(parent.getParentWidget(), link,
 						WorkspaceEvent.BLOCKS_CONNECTED));
+	}
+
+	private String getBlockVariableType(String name) {
+		if (name.contains("number") || name.contains("int")) {
+			return "number";
+		}
+
+		if (name.contains("String") || name.contains("string")) {
+			return "string";
+		}
+
+		if (name.contains("double")) {
+			return "double";
+		}
+
+		return "object";
 	}
 
 }

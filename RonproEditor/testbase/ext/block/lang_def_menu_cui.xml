@@ -171,9 +171,9 @@
         <BlockGenusMember>contains</BlockGenusMember>
         <BlockGenusMember>remove</BlockGenusMember>
         <BlockGenusMember>size</BlockGenusMember>
-        
         <BlockGenusMember>enhancedfor</BlockGenusMember>
 	</BlockDrawer>
+    
 	<BlockDrawer name="obpro" type="factory" button-color="255 155 64">
         <BlockGenusMember>private-var-bcanvas</BlockGenusMember>
         <BlockGenusMember>local-var-bcanvas</BlockGenusMember>

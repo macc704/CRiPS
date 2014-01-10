@@ -1434,7 +1434,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 						|| variableResolver
 								.resolve(arrayNode.getArray().toString())
 								.getType().contains("number")) {
-					arraySetter.setName("setter-" + scope + "-intarrayelement");
+					arraySetter.setName("setter-" + scope
+							+ "-numberarrayelement");
 				} else if (variableResolver
 						.resolve(arrayNode.getArray().toString()).getType()
 						.contains("String")) {
@@ -2276,7 +2277,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		if (variableResolver.resolve(node.getArray().toString()).getType()
 				.contains("int")) {
-			arrayGetter.setName("getter" + scope + "intarrayelement");
+			arrayGetter.setName("getter" + scope + "numberarrayelement");
 			arrayGetter.setType("number");
 		} else if (variableResolver.resolve(node.getArray().toString())
 				.getType().contains("String")) {
