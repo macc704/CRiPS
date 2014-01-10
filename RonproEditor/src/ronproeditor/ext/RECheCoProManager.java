@@ -44,6 +44,7 @@ import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
+import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
@@ -340,7 +341,7 @@ public class RECheCoProManager {
 		if (obj instanceof CHLoginResult) {
 			// typeLoginResult((CHLoginResult) obj);
 		} else if (obj instanceof CHLoginMemberChanged) {
-			processLoginResult((CHLoginMemberChanged) obj);
+			processLoginMemberChanged((CHLoginMemberChanged) obj);
 		} else if (obj instanceof CHSourcesendResponse) {
 			processSourcesendResponse((CHSourcesendResponse) obj);
 		} else if (obj instanceof CHLogoutResponse) {
@@ -362,10 +363,17 @@ public class RECheCoProManager {
 	 * 受信したコマンド別の処理
 	 **********************/
 
-	private void processLoginResult(CHLoginMemberChanged result) {
-		for (String aMember : result.getMembers()) {
-			if (!members.contains(aMember)) {
-				members.add(aMember);
+	private void processLoginResult(CHLoginResult result) {
+		if (result.isResult() == false) {
+			conn.close();
+		}
+	}
+
+	private void processLoginMemberChanged(CHLoginMemberChanged result) {
+
+		for (CHUserState aUserState : result.getUserStates()) {
+			if (!members.contains(aUserState.getUser())) {
+				members.add(aUserState.getUser());
 			}
 		}
 

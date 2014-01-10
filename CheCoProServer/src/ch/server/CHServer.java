@@ -9,12 +9,14 @@ import java.util.List;
 
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
+import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHFilelistResponse;
 import ch.conn.framework.packets.CHLoginMemberChanged;
 import ch.conn.framework.packets.CHLoginRequest;
+import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.conn.framework.packets.CHSourcesendResponse;
@@ -140,10 +142,18 @@ public class CHServer {
 		out.println(user);
 		// login process
 		if (login(user, conn) == false) {
+			connectionPool.sendToOne(new CHLoginResult(false), user);
 			return null;
 		}
 
-		connectionPool.broadCast(new CHLoginMemberChanged(getAllUsers()));
+		connectionPool.sendToOne(new CHLoginResult(true), user);
+
+		List<CHUserState> userStates = new ArrayList<CHUserState>();
+		for (String aUser : getAllUsers()) {
+			userStates.add(new CHUserState(aUser, true));
+		}
+
+		connectionPool.broadCast(new CHLoginMemberChanged(userStates));
 		connectionPool.sendToOne(new CHFilelistRequest(null), user);
 		return user;
 	}
@@ -160,7 +170,11 @@ public class CHServer {
 	private boolean logout(CHConnection conn) {
 		boolean result = connectionPool.logout(conn);
 		if (result == true) {
-			connectionPool.broadCast(new CHLoginMemberChanged(getAllUsers()));
+			List<CHUserState> userStates = new ArrayList<CHUserState>();
+			for (String aUser : getAllUsers()) {
+				userStates.add(new CHUserState(aUser, true));
+			}
+			connectionPool.broadCast(new CHLoginMemberChanged(userStates));
 		}
 		return result;
 	}
