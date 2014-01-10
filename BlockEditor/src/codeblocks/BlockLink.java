@@ -1,6 +1,8 @@
 package codeblocks;
 
 import renderable.RenderableBlock;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
 import codeblockutil.Sound;
 import codeblockutil.SoundManager;
 
@@ -135,20 +137,23 @@ public class BlockLink {
 					.getPlugEquivalent(plugBlock);
 			if (plugBlockPlug != null && plugBlockPlug.hasBlock()
 					&& !plug.getKind().contains("param")) {
-				return;
-				//				Block socketBlock = Block.getBlock(plugBlockPlug.getBlockID());
-				//				BlockLink link = BlockLink.getBlockLink(plugBlock, socketBlock,
-				//						plugBlockPlug, socket);
-				//				link.disconnect();
-				//				//don't tell the block about the disconnect like we would normally do, because
-				//				// we don't actually want it to have a chance to remove any expandable sockets
-				//				// since the inserted block will be filling whatever socket was vacated by this
-				//				// broken link.
-				//				//NOTIFY WORKSPACE LISTENERS OF DISCONNECTION (not sure if this is great because the connection is immediately replaced)
-				//				Workspace.getInstance().notifyListeners(
-				//						new WorkspaceEvent(RenderableBlock.getRenderableBlock(
-				//								socketBlock.getBlockID()).getParentWidget(),
-				//								link, WorkspaceEvent.BLOCKS_DISCONNECTED));
+				if (isVariable(socket.getKind())) {
+					return;
+				}
+				Block socketBlock = Block.getBlock(plugBlockPlug.getBlockID());
+				BlockLink link = BlockLink.getBlockLink(plugBlock, socketBlock,
+						plugBlockPlug, socket);
+				link.disconnect();
+				//don't tell the block about the disconnect like we would normally do, because
+				// we don't actually want it to have a chance to remove any expandable sockets
+				// since the inserted block will be filling whatever socket was vacated by this
+				// broken link.
+				//NOTIFY WORKSPACE LISTENERS OF DISCONNECTION (not sure if this is great because the connection is immediately replaced)
+				Workspace.getInstance().notifyListeners(
+						new WorkspaceEvent(RenderableBlock.getRenderableBlock(
+								socketBlock.getBlockID()).getParentWidget(),
+								link, WorkspaceEvent.BLOCKS_DISCONNECTED));
+
 			}
 		}
 		if (plug.hasBlock()) {
@@ -172,6 +177,16 @@ public class BlockLink {
 		if (clickSound != null) {
 			//System.out.println("playing click sound");
 			clickSound.play();
+		}
+	}
+
+	private boolean isVariable(String kind) {
+		if (kind.equals("number") || kind.equals("string")
+				|| kind.equals("double-number") || kind.equals("boolean")
+				|| kind.equals("object")) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
