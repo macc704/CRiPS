@@ -196,12 +196,28 @@ public class CHServer {
 	}
 
 	private void processFileRequest(CHFileRequest request, CHConnection conn) {
-		// sendFile(Arrays.asList(searchMenbersDir(chFilegetReq.getAdressee())
-		// .listFiles()), conn, chFilegetReq, chFilegetReq.getMember());
+		String user = request.getUser();
+		CDirectory userDir = getUserDir(user);
+
+		List<CHFile> files = new ArrayList<CHFile>();
+		for (String path : request.getRequestFilePaths()) {
+			CFile file = userDir.findFile(path);
+			byte[] byteArray = file.loadAsByte();
+			files.add(new CHFile(path, byteArray));
+		}
+
+		connectionPool.sendToOne(new CHFileResponse(user, files),
+				connectionPool.getUser(conn));
 	}
 
 	private void processFilelistRequest(CHFilelistRequest request,
 			CHConnection conn) {
+
+		CDirectory userDir = getUserDir(request.getUser());
+		CFileList fileList = new CFileList(userDir);
+		connectionPool.sendToOne(new CHFilelistResponse(request.getUser(),
+				fileList), connectionPool.getUser(conn));
+
 		// File directory = searchMenbersDir(chFilelistReq.getAdressee());
 		// List<File> files = Arrays.asList(directory.listFiles());
 		// List<String> fileNames = new ArrayList<String>();

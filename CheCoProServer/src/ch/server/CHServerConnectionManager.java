@@ -14,9 +14,10 @@ public class CHServerConnectionManager {
 	private Map<String, CHConnection> connections = new LinkedHashMap<String, CHConnection>();
 	private Map<CHConnection, String> users = new LinkedHashMap<CHConnection, String>();
 
-	// public String getUser(CHConnection conn) {
-	// return users.get(conn);
-	// }
+	public String getUser(CHConnection conn) {
+		return users.get(conn);
+	}
+
 	//
 	// public CHConnection getConnection(String user) {
 	// return connections.get(user);

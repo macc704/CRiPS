@@ -59,7 +59,10 @@ import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CPath;
 import clib.common.filesystem.sync.CFileList;
+import clib.common.filesystem.sync.CFileListDifference;
+import clib.common.filesystem.sync.CFileListUtils;
 import clib.preference.model.CAbstractPreferenceCategory;
 
 @SuppressWarnings("unused")
@@ -349,7 +352,8 @@ public class RECheCoProManager {
 		} else if (obj instanceof CHFileRequest) {
 			processFilegetRequest((CHFileRequest) obj);
 		} else if (obj instanceof CHFileResponse) {
-			CHFileResponse chFilegetResponse = (CHFileResponse) obj;
+			processFileResponse((CHFileResponse) obj);
+			// CHFileResponse chFilegetResponse = (CHFileResponse) obj;
 			// typeFileGetRes(chFilegetResponse.getUser(),
 			// chFilegetResponse.getFile(), chFilegetResponse.getBytes());
 		} else if (obj instanceof CHFilelistRequest) {
@@ -439,6 +443,17 @@ public class RECheCoProManager {
 		conn.write(new CHFileResponse(user, files));
 	}
 
+	private void processFileResponse(CHFileResponse response) {
+		String user = response.getUser();
+		File dir = getUserDir(user);
+		CDirectory cDir = CFileSystem.findDirectory(dir.getAbsolutePath());
+
+		for (CHFile aFile : response.getFiles()) {
+			CFile file = cDir.findOrCreateFile(aFile.getPath());
+			file.saveAsByte(aFile.getBytes());
+		}
+	}
+
 	private void processFilegetResponse(String user, File recivedFile,
 			byte[] bytes) {
 
@@ -463,6 +478,33 @@ public class RECheCoProManager {
 	}
 
 	private void processFilelistResponse(CHFilelistResponse response) {
+		String user = response.getUser();
+
+		CFileList fileListServer = response.getFileList();
+		File dir = getUserDir(user);
+		CDirectory cDir = CFileSystem.findDirectory(dir.getAbsolutePath());
+		CFileList fileListClient = new CFileList(cDir);
+
+		List<CFileListDifference> differences = CFileListUtils.compare(
+				fileListServer, fileListClient);
+
+		List<String> requestFilePaths = new ArrayList<String>();
+		for (CFileListDifference aDifference : differences) {
+			switch (aDifference.getKind()) {
+			case CREATED:
+			case UPDATED:
+				requestFilePaths.add(aDifference.getPath());
+				break;
+			case REMOVED:
+				cDir.findChild(new CPath(aDifference.getPath())).delete();
+				break;
+			default:
+				throw new RuntimeException();
+			}
+		}
+
+		conn.write(new CHFileRequest(user, requestFilePaths));
+
 		// List<String> serverFileNames = recivedCHPacket.getFileNames();
 		// File finalProject =
 		// getMembersFinalDir(recivedCHPacket.getAdressee());
@@ -522,7 +564,7 @@ public class RECheCoProManager {
 		return addedFiles;
 	}
 
-	public File getMembersFinalDir(String name) {
+	public File getUserDir(String user) {
 		File root = application.getSourceManager().getRootDirectory();
 
 		List<File> projects = Arrays.asList(root.listFiles());
@@ -536,7 +578,7 @@ public class RECheCoProManager {
 		List<File> memberDirs = Arrays.asList(chDir.listFiles());
 		File memberDir = null;
 		for (File aMemberDir : memberDirs) {
-			if (aMemberDir.getName().equals(name)) {
+			if (aMemberDir.getName().equals(user)) {
 				memberDir = aMemberDir;
 			}
 		}

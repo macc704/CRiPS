@@ -12,7 +12,7 @@ public class CHFilelistRequest extends CHPacket {
 		this.user = user;
 	}
 
-	public String getMember() {
+	public String getUser() {
 		return user;
 	}
 }
