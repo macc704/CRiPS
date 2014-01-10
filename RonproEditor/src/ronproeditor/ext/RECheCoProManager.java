@@ -64,6 +64,7 @@ import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.sync.CFileList;
 import clib.preference.model.CAbstractPreferenceCategory;
 
+@SuppressWarnings("unused")
 public class RECheCoProManager {
 
 	public static final String APP_NAME = "CheCoPro";
