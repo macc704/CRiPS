@@ -85,7 +85,7 @@ public class ExSpecialExpressionModel extends ExpressionModel {
 				for (ExpressionModel param : parameter) {
 					makeIndent(out, indent + 2);
 					out.println("<BlockConnector connector-kind=\"socket\" connector-type=\""
-							+ param.getType()
+							+ ElementModel.getConnectorType(param.getType())
 							+ "\" init-type=\""
 							+ param.getType()
 							+ "\" label=\"\""

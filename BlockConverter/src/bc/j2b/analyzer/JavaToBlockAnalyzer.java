@@ -1467,7 +1467,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 				String name = node.toString();
 				name = name.substring(name.indexOf(".") + 1, name.length());
-				model.setVariable(variableResolver.resolve(name));
+				model.setVariable(variableResolver.resolveThisGetter(name));
 				model.setId(idCounter.getNextId());
 				model.setLineNumber(compilationUnit.getLineNumber(node
 						.getStartPosition()));
@@ -1773,7 +1773,12 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		for (Object param : node.arguments()) {
 			if (param instanceof ExSpecialExpressionModel) {
-
+				ExSpecialExpressionModel spblock = new ExSpecialExpressionModel(
+						node.toString());
+				spblock.setId(idCounter.getNextId());
+				spblock.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+				return spblock;
 			}
 			ExpressionModel paramModel = parseExpression((Expression) param);
 			paramModel.setParent(sp);

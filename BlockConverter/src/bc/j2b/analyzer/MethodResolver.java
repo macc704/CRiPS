@@ -122,6 +122,10 @@ public class MethodResolver {
 		methodToReturnType.put("toJapaneseMode()", "void");
 		methodToReturnType.put("toEnglishMode()", "void");
 		methodToReturnType.put("fontsize(1)", "void");
+
+		// BCanvas
+		// BSound
+		// BWindow
 	}
 
 	public boolean isRegistered(MethodInvocation method) {
