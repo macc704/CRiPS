@@ -6,7 +6,6 @@ import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import ch.connection.CHConnection;
@@ -49,7 +48,6 @@ public class CHServer {
 
 	private CHConnectionPool connectionPool = new CHConnectionPool();
 	private List<String> members = new ArrayList<String>();
-	private HashMap<String, CHConnection> connMap = new HashMap<String, CHConnection>();
 
 	public CHServer(int port) {
 		this.port = port;
@@ -123,8 +121,6 @@ public class CHServer {
 	private void processLogin(CHLogin login, CHConnection conn) {
 		String myName = login.getUser();
 
-		connMap.put(myName, conn);
-
 		// ñºëOÇ™îÌÇ¡ÇΩèÍçá
 		// if (members.contains(myName)) {
 		// myName = myName + "*";
@@ -161,7 +157,6 @@ public class CHServer {
 
 	private void processLogout(CHLogout logout, CHConnection conn) {
 		members.remove(logout.getMyName());
-		connMap.remove(logout.getMyName());
 
 		connectionPool.broadcastAll(new CHLogoutResult(logout.getMyName()));
 		connectionPool.close(conn);
