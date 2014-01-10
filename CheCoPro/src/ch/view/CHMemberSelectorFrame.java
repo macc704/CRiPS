@@ -67,12 +67,12 @@ public class CHMemberSelectorFrame extends JFrame {
 		return buttons;
 	}
 
-	public void setPushed(String pushed) {
-		this.pushed.add(pushed);
+	public void setDisable(String user) {
+		this.pushed.add(user);
 	}
 
-	public void releasePushed(String name) {
-		pushed.remove(name);
+	public void setEnable(String user) {
+		pushed.remove(user);
 	}
 
 	public void addLoginedMember(String name) {

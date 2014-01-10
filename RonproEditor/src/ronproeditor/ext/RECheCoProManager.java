@@ -1,7 +1,6 @@
 package ronproeditor.ext;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,18 +12,16 @@ import java.beans.PropertyChangeListener;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
@@ -55,7 +52,6 @@ import clib.common.filesystem.sync.CFileListDifference;
 import clib.common.filesystem.sync.CFileListUtils;
 import clib.preference.model.CAbstractPreferenceCategory;
 
-@SuppressWarnings("unused")
 public class RECheCoProManager {
 
 	public static final String APP_NAME = "CheCoPro";
@@ -65,13 +61,11 @@ public class RECheCoProManager {
 
 	private REApplication application;
 	private CHConnection conn;
-	private REApplication chApplication;
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
 	private String user = DEFAULT_NAME;
 	private int port = DEFAULT_PORT;
-	// private HashMap<String, REApplication> chFrameMap = new HashMap<String,
-	// REApplication>();
+	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 	private JToggleButton connButton = new JToggleButton("“¯Šú’†", true);
 
 	public static void main(String[] args) {
@@ -111,23 +105,70 @@ public class RECheCoProManager {
 		// });
 	}
 
+	private void setMemberSelectorListner() {
+		List<JButton> buttons = new ArrayList<JButton>(msFrame.getButtons());
+		for (JButton aButton : buttons) {
+			aButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String name = e.getActionCommand();
+					msFrame.setDisable(name);
+					msFrame.setMembers(members);
+					setMemberSelectorListner();
+
+					conn.write(new CHFilelistRequest(name));
+
+					if (application != null) {
+						doOpenNewCH(name);
+					}
+				}
+			});
+		}
+
+		msFrame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				conn.write(new CHLogoutRequest(user));
+			}
+		});
+	}
+
+	public void doOpenNewCH(String user) {
+		REApplication chApplication = application.doOpenNewRE("MyProjects/.CH/"
+				+ user);
+		initializeCHEditor(chApplication, user);
+		chFrameMap.put(user, chApplication);
+	}
+
+	private void initializeCHEditor(REApplication chApplication, String user) {
+		chApplication.getFrame().setTitle(APP_NAME + " Editor");
+		chApplication.getFrame().setDefaultCloseOperation(
+				JFrame.DISPOSE_ON_CLOSE);
+		initializeCHListeners(chApplication, user);
+		initializeCHMenu(chApplication);
+	}
+
+	private void initializeCHMenu(REApplication chApplication) {
+		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
+		menuBar.getMenu(3).remove(4);
+
+		menuBar.add(connButton);
+		chApplication.getFrame().setJMenuBar(menuBar);
+	}
+
 	private void initializeCHListeners(final REApplication chApplication,
 			final String user) {
 
-		List<WindowListener> listeners = new ArrayList<WindowListener>();
-		listeners = Arrays
-				.asList(chApplication.getFrame().getWindowListeners());
-		for (WindowListener aListener : listeners) {
-			chApplication.getFrame().removeWindowListener(aListener);
-		}
+		removeListeners(chApplication.getFrame());
 
 		chApplication.getFrame().addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				// chFrameMap.remove(user);
-				// msFrame.releasePushed(user);
-				// msFrame.setMembers(members);
-				// setMemberSelectorListner();
+				chFrameMap.remove(user);
+				msFrame.setEnable(user);
+				msFrame.setMembers(members);
+				setMemberSelectorListner();
 			}
 		});
 
@@ -135,31 +176,7 @@ public class RECheCoProManager {
 				new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-
-						if (chApplication.getFrame().getEditor() != null) {
-
-							final JTextPane textPane = chApplication.getFrame()
-									.getEditor().getViewer().getTextPane();
-
-							textPane.setBackground(Color.LIGHT_GRAY);
-
-							setCHTitleBar(chApplication.getFrame(),
-									chApplication.getSourceManager()
-											.getCurrentFile().getName());
-
-							// textPane.addCaretListener(new CaretListener() {
-							//
-							// @Override
-							// public void caretUpdate(CaretEvent e) {
-							// String selectedText = textPane
-							// .getSelectedText();
-							// System.out.println("selectedFromCH : "
-							// + selectedText);
-							// }
-							// });
-						} else {
-							setCHTitleBar(chApplication.getFrame(), "");
-						}
+						setCHTitleBar(chApplication);
 					}
 				});
 
@@ -176,80 +193,22 @@ public class RECheCoProManager {
 		});
 	}
 
-	private void setCHTitleBar(REFrame frame, String fileName) {
-		frame.setTitle(APP_NAME + " Editor" + fileName);
-	}
-
-	private void setMemberSelectorListner() {
-		List<JButton> buttons = new ArrayList<JButton>(msFrame.getButtons());
-		for (JButton aButton : buttons) {
-			aButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					String name = e.getActionCommand();
-					msFrame.setPushed(name);
-					msFrame.setMembers(members);
-					setMemberSelectorListner();
-
-					conn.write(new CHFilelistRequest(name));
-
-					if (application != null) {
-						doOpenNewCHE(name);
-					}
-				}
-			});
+	private void removeListeners(REFrame frame) {
+		List<WindowListener> listeners = new ArrayList<WindowListener>();
+		listeners = Arrays.asList(frame.getWindowListeners());
+		for (WindowListener aListener : listeners) {
+			frame.removeWindowListener(aListener);
 		}
-
-		msFrame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				conn.write(new CHLogoutRequest(user));
-			}
-		});
 	}
 
-	public void doOpenNewCHE(String user) {
-
-		RECheCoProFrame chFrame = new RECheCoProFrame(application, user);
-		chFrame.doOpen();
-
-		// chApplication = application.doOpenNewRE("MyProjects/.CHProjects/"
-		// + user);
-		// chApplication.getFrame().setTitle(APP_NAME + " Editor");
-		// chApplication.getFrame().setDefaultCloseOperation(
-		// JFrame.DISPOSE_ON_CLOSE);
-		//
-		// initializeCHListeners(chApplication, user);
-		//
-		// JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
-		//
-		// initializeCHMenu(menuBar);
-		//
-		// chFrameMap.put(user, chApplication);
-	}
-
-	private void initializeCHMenu(JMenuBar menuBar) {
-		menuBar.getMenu(3).remove(4);
-
-		JMenu chMenu = new JMenu("CheCoPro");
-		menuBar.add(chMenu);
-		Action fileSendRequest;
-		fileSendRequest = new AbstractAction() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-			}
-		};
-
-		fileSendRequest.putValue(Action.NAME, "File Send Request");
-		fileSendRequest.setEnabled(false);
-		chMenu.add(fileSendRequest);
-
-		menuBar.add(connButton);
-		chApplication.getFrame().setJMenuBar(menuBar);
+	private void setCHTitleBar(REApplication chApplication) {
+		String title = APP_NAME + " Editor";
+		if (chApplication.getFrame().getEditor() != null) {
+			String currentFileName = chApplication.getSourceManager()
+					.getCurrentFile().getName();
+			title = title + "-" + currentFileName;
+		}
+		chApplication.getFrame().setTitle(title);
 	}
 
 	/********************
@@ -357,8 +316,8 @@ public class RECheCoProManager {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if (shouldPrintSource(sender, senderCurrentFile)) {
-					// chFrameMap.get(sender).getFrame().getEditor()
-					// .setText(source);
+					chFrameMap.get(sender).getFrame().getEditor()
+							.setText(source);
 				}
 			}
 		});
@@ -371,10 +330,10 @@ public class RECheCoProManager {
 			setMemberSelectorListner();
 		} else {
 			for (String aMember : members) {
-				// REApplication chApplication = chFrameMap.get(aMember);
-				// if (chApplication != null) {
-				// chApplication.getFrame().setVisible(false);
-				// }
+				REApplication chApplication = chFrameMap.get(aMember);
+				if (chApplication != null) {
+					chApplication.getFrame().setVisible(false);
+				}
 			}
 			conn.close();
 		}
@@ -451,7 +410,7 @@ public class RECheCoProManager {
 
 	private CDirectory getUserDir(String user) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/.CHProjects/" + user + "/final");
+				"MyProjects/.CH/" + user + "/final");
 	}
 
 	/**********
@@ -462,14 +421,14 @@ public class RECheCoProManager {
 		if (!connButton.isSelected()) {
 			return false;
 		}
-		// if (!chFrameMap.containsKey(sender)) {
-		// return false;
-		// }
-		// if (chFrameMap.get(sender).getFrame().getEditor() == null) {
-		// return false;
-		// }
-		if (!chApplication.getSourceManager().getCurrentFile().getName()
-				.equals(senderCurrentFile)) {
+		if (!chFrameMap.containsKey(sender)) {
+			return false;
+		}
+		if (chFrameMap.get(sender).getFrame().getEditor() == null) {
+			return false;
+		}
+		if (!chFrameMap.get(sender).getSourceManager().getCurrentFile()
+				.getName().equals(senderCurrentFile)) {
 			return false;
 		}
 		return true;
