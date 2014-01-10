@@ -212,7 +212,7 @@ public class RECheCoProManager {
 	public void doOpenNewCHE(String user) {
 
 		RECheCoProFrame chFrame = new RECheCoProFrame(application, user);
-		chFrame.doOpen("MyProjects/.CHProjects/" + user);
+		chFrame.doOpen();
 
 		// chApplication = application.doOpenNewRE("MyProjects/.CHProjects/"
 		// + user);

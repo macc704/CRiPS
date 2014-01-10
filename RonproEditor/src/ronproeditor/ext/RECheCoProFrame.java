@@ -1,9 +1,9 @@
 package ronproeditor.ext;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JMenuBar;
@@ -16,9 +16,16 @@ public class RECheCoProFrame extends REFrame {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final String ROOT_PATH = "MyProjects/.CHProjects/";
+
 	private REApplication application;
 	private REApplication chApplication;
 	private String user;
+
+	public static void main(String[] args) {
+		RECheCoProFrame chFrame = new RECheCoProFrame(new REApplication(), "");
+		chFrame.doOpen();
+	}
 
 	public RECheCoProFrame(REApplication application, String user) {
 		super(application);
@@ -26,14 +33,14 @@ public class RECheCoProFrame extends REFrame {
 		this.user = user;
 	}
 
-	public void doOpen(String dirPath) {
-		chApplication = application.doOpenNewRE(dirPath);
+	public void doOpen() {
+		chApplication = application.doOpenNewRE(ROOT_PATH + user);
 		initializeCHFrame();
 	}
 
-	public void initializeCHFrame() {
-		setTitle("CheCoPro Editor");
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	private void initializeCHFrame() {
+		getFrame().setTitle("CheCoPro Editor");
+		getFrame().setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		initializeCHListeners();
 		initializeCHMenu();
 	}
@@ -42,25 +49,26 @@ public class RECheCoProFrame extends REFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				// ボタン復元
 			}
 		});
-
-		chApplication.getSourceManager().addPropertyChangeListener(
-				new PropertyChangeListener() {
-
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-
-					}
-				});
 	}
 
 	private void initializeCHMenu() {
-		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
+		JMenuBar menuBar = getFrame().getJMenuBar();
 		menuBar.getMenu(3).remove(4);
 
 		JToggleButton connButton = new JToggleButton("同期中", true);
 		JButton fileRequestButton = new JButton("ファイル要求");
+
+		fileRequestButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// FilelistReqest
+			}
+		});
+
 		menuBar.add(connButton);
 		menuBar.add(fileRequestButton);
 	}
@@ -68,4 +76,9 @@ public class RECheCoProFrame extends REFrame {
 	public String getUser() {
 		return user;
 	}
+
+	public REFrame getFrame() {
+		return chApplication.getFrame();
+	}
+
 }

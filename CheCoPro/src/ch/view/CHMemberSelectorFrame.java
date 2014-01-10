@@ -15,17 +15,17 @@ public class CHMemberSelectorFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String myName;
+	private String user;
 	private List<JButton> buttons = new ArrayList<JButton>();
 	private List<String> pushed = new ArrayList<String>();
 	private List<String> loginedMembers = new ArrayList<String>();
 
 	public CHMemberSelectorFrame(String myName) {
-		this.myName = myName;
+		this.user = myName;
 	}
 
 	public void open() {
-		this.setTitle("CheCoProMemberSelector " + myName);
+		this.setTitle("CheCoProMemberSelector " + user);
 		this.setBounds(100, 100, 150, 500);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
@@ -37,8 +37,9 @@ public class CHMemberSelectorFrame extends JFrame {
 		JPanel buttonPanel = new JPanel();
 		this.getContentPane().add(buttonPanel);
 
-		for (String aMember : members) {
+		for (final String aMember : members) {
 			JButton button = new JButton(aMember);
+
 			buttonPanel.add(button);
 
 			for (String aPushed : pushed) {
@@ -53,7 +54,7 @@ public class CHMemberSelectorFrame extends JFrame {
 				}
 			}
 
-			if (aMember.equals(myName)) {
+			if (aMember.equals(user)) {
 				button.setEnabled(false);
 			}
 			buttons.add(button);
@@ -82,8 +83,8 @@ public class CHMemberSelectorFrame extends JFrame {
 		loginedMembers.remove(name);
 	}
 
-	public void setMyName(String myName) {
-		this.myName = myName;
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 	public static void main(String[] args) {
