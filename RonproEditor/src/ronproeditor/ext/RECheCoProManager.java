@@ -44,19 +44,19 @@ import javax.swing.event.ChangeListener;
 
 import ronproeditor.REApplication;
 import ronproeditor.views.RESourceViewer;
-import ch.connection.CHConnection;
-import ch.packets.CHFile;
-import ch.packets.CHFilegetRequest;
-import ch.packets.CHFilegetResponse;
-import ch.packets.CHFilelistRequest;
-import ch.packets.CHFilelistResponse;
-import ch.packets.CHLogin;
-import ch.packets.CHLoginMemberStatus;
-import ch.packets.CHLoginResult;
-import ch.packets.CHLogout;
-import ch.packets.CHLogoutResult;
-import ch.packets.CHSourcesendRequest;
-import ch.packets.CHSourcesendResponse;
+import ch.conn.framework.CHConnection;
+import ch.conn.framework.packets.CHFile;
+import ch.conn.framework.packets.CHFilegetRequest;
+import ch.conn.framework.packets.CHFilegetResponse;
+import ch.conn.framework.packets.CHFilelistRequest;
+import ch.conn.framework.packets.CHFilelistResponse;
+import ch.conn.framework.packets.CHLogin;
+import ch.conn.framework.packets.CHLoginMemberStatus;
+import ch.conn.framework.packets.CHLoginResult;
+import ch.conn.framework.packets.CHLogout;
+import ch.conn.framework.packets.CHLogoutResult;
+import ch.conn.framework.packets.CHSourcesendRequest;
+import ch.conn.framework.packets.CHSourcesendResponse;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
@@ -434,7 +434,8 @@ public class RECheCoProManager {
 		conn.write(new CHFilegetResponse(user, files));
 	}
 
-	private void processFilegetResponse(String user, File recivedFile, byte[] bytes) {
+	private void processFilegetResponse(String user, File recivedFile,
+			byte[] bytes) {
 
 		String path = (recivedFile.getPath()).replace(Integer.toString(port)
 				+ "/" + user, "");
