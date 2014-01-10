@@ -12,7 +12,7 @@ public class CHLogoutRequest extends CHPacket {
 		this.user = user;
 	}
 
-	public String getMyName() {
+	public String getUser() {
 		return user;
 	}
 }
