@@ -99,6 +99,18 @@ public class RECheCoProManager {
 		//
 		// }
 		// });
+
+		JMenuBar menubar = application.getFrame().getJMenuBar();
+		JButton fileSendButton = new JButton("Save to server");
+		menubar.add(fileSendButton);
+		application.getFrame().setJMenuBar(menubar);
+		fileSendButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				processFilelistRequest(new CHFilelistRequest(user));
+			}
+		});
 	}
 
 	private void setMemberSelectorListner() {
@@ -250,6 +262,7 @@ public class RECheCoProManager {
 			ex.printStackTrace();
 		}
 		conn.close();
+		connectionKilled();
 		System.out.println("client closed");
 
 	}
@@ -358,6 +371,20 @@ public class RECheCoProManager {
 	private void processFilelistRequest(CHFilelistRequest request) {
 		CFileList fileList = CHFileSystem.getFinalProjectFileList();
 		conn.write(new CHFilelistResponse(user, fileList));
+	}
+
+	/*********
+	 * êÿífèàóù
+	 *********/
+
+	private void connectionKilled() {
+		resetMenubar();
+	}
+
+	private void resetMenubar() {
+		JMenuBar menubar = application.getFrame().getJMenuBar();
+		menubar.remove(5);
+		application.getFrame().setJMenuBar(menubar);
 	}
 
 	/**********
