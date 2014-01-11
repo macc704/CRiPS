@@ -10,6 +10,7 @@ import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
 import clib.common.filesystem.sync.CFileList;
 import clib.common.filesystem.sync.CFileListDifference;
+import clib.common.filesystem.sync.CFileListUtils;
 
 public class CHFileSystem {
 
@@ -50,8 +51,13 @@ public class CHFileSystem {
 		return new CFileList(getUserDirForClient(user));
 	}
 
-	public static List<String> getRequestFilePaths(
-			List<CFileListDifference> differences, CDirectory copy) {
+	public static List<String> getRequestFilePaths(CFileList master,
+			CDirectory copyDir) {
+
+		CFileList copy = new CFileList(copyDir);
+
+		List<CFileListDifference> differences = CFileListUtils.compare(master,
+				copy);
 
 		List<String> requestFilePaths = new ArrayList<String>();
 		for (CFileListDifference aDifference : differences) {
@@ -61,7 +67,7 @@ public class CHFileSystem {
 				requestFilePaths.add(aDifference.getPath());
 				break;
 			case REMOVED:
-				copy.findChild(new CPath(aDifference.getPath())).delete();
+				copyDir.findChild(new CPath(aDifference.getPath())).delete();
 				break;
 			default:
 				throw new RuntimeException();
@@ -78,7 +84,7 @@ public class CHFileSystem {
 		List<CHFile> chFiles = new ArrayList<CHFile>();
 		for (String path : requestFilePaths) {
 			CFile file;
-			if (user.equals("") && port == 0) {
+			if (user.equals("") && port == -1) {
 				file = getFinalProjectDir().findFile(path);
 			} else {
 				file = getUserDirForServer(user, port).findFile(path);
@@ -92,15 +98,15 @@ public class CHFileSystem {
 
 	// for client
 	public static List<CHFile> getCHFiles(List<String> requestFilePaths) {
-		return getCHFiles(requestFilePaths, "", 0);
+		return getCHFiles(requestFilePaths, "", -1);
 	}
 
 	// for server
 	public static void saveFiles(List<CHFile> files, String user, int port) {
 
 		CDirectory cDir;
-		if (user.equals("") && port == 0) {
-			cDir = getFinalProjectDir();
+		if (port == -1) {
+			cDir = getUserDirForClient(user);
 		} else {
 			cDir = getUserDirForServer(user, port);
 		}
@@ -112,7 +118,7 @@ public class CHFileSystem {
 	}
 
 	// for client
-	public static void saveFiles(List<CHFile> files) {
-		saveFiles(files, "", 0);
+	public static void saveFiles(List<CHFile> files, String user) {
+		saveFiles(files, user, -1);
 	}
 }

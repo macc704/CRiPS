@@ -1,6 +1,5 @@
 package ch.server;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,13 +19,9 @@ import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.conn.framework.packets.CHSourcesendResponse;
+import ch.library.CHFileSystem;
 import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileSystem;
-import clib.common.filesystem.CPath;
 import clib.common.filesystem.sync.CFileList;
-import clib.common.filesystem.sync.CFileListDifference;
-import clib.common.filesystem.sync.CFileListUtils;
 
 public class CHServer {
 
@@ -187,74 +182,36 @@ public class CHServer {
 	}
 
 	private void processFileResponse(CHFileResponse response) {
-		CDirectory userDir = getUserDir(response.getUser());
-		for (CHFile aFile : response.getFiles()) {
-			CFile file = userDir.findOrCreateFile(aFile.getPath());
-			file.saveAsByte(aFile.getBytes());
-		}
-
+		CHFileSystem.saveFiles(response.getFiles(), response.getUser(), port);
 	}
 
 	private void processFileRequest(CHFileRequest request, CHConnection conn) {
-		String user = request.getUser();
-		CDirectory userDir = getUserDir(user);
 
-		List<CHFile> files = new ArrayList<CHFile>();
-		for (String path : request.getRequestFilePaths()) {
-			CFile file = userDir.findFile(path);
-			byte[] byteArray = file.loadAsByte();
-			files.add(new CHFile(path, byteArray));
-		}
+		List<CHFile> files = CHFileSystem.getCHFiles(
+				request.getRequestFilePaths(), request.getUser(), port);
 
-		connectionPool.sendToOne(new CHFileResponse(user, files),
+		connectionPool.sendToOne(new CHFileResponse(request.getUser(), files),
 				connectionPool.getUser(conn));
 	}
 
 	private void processFilelistRequest(CHFilelistRequest request,
 			CHConnection conn) {
 
-		CDirectory userDir = getUserDir(request.getUser());
-		CFileList fileList = new CFileList(userDir);
+		CFileList fileList = CHFileSystem.getServerFileList(request.getUser(),
+				port);
+
 		connectionPool.sendToOne(new CHFilelistResponse(request.getUser(),
 				fileList), connectionPool.getUser(conn));
 	}
 
 	private void processFilelistResponse(CHFilelistResponse response) {
 		String user = response.getUser();
+		CDirectory copyDir = CHFileSystem.getUserDirForServer(user, port);
 
-		CFileList fileListClient = response.getFileList();
-		File dir = getUserDir(user).toJavaFile();
-		CDirectory cDir = CFileSystem.findDirectory(dir.getAbsolutePath());
-		CFileList fileListServer = new CFileList(cDir);
-
-		List<CFileListDifference> differences = CFileListUtils.compare(
-				fileListClient, fileListServer);
-
-		List<String> requestFilePaths = new ArrayList<String>();
-		for (CFileListDifference aDifference : differences) {
-			switch (aDifference.getKind()) {
-			case CREATED:
-			case UPDATED:
-				requestFilePaths.add(aDifference.getPath());
-				break;
-			case REMOVED:
-				cDir.findChild(new CPath(aDifference.getPath())).delete();
-				break;
-			default:
-				throw new RuntimeException();
-			}
-		}
+		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
+				response.getFileList(), copyDir);
 
 		connectionPool.sendToOne(new CHFileRequest(null, requestFilePaths),
 				user);
-	}
-
-	private CDirectory getBaseDir() {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"CH/" + port);
-	}
-
-	private CDirectory getUserDir(String user) {
-		return getBaseDir().findOrCreateDirectory(user);
 	}
 }

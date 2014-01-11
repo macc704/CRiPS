@@ -42,14 +42,10 @@ import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHLogoutResponse;
 import ch.conn.framework.packets.CHSourcesendResponse;
+import ch.library.CHFileSystem;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileSystem;
-import clib.common.filesystem.CPath;
 import clib.common.filesystem.sync.CFileList;
-import clib.common.filesystem.sync.CFileListDifference;
-import clib.common.filesystem.sync.CFileListUtils;
 import clib.preference.model.CAbstractPreferenceCategory;
 
 public class RECheCoProManager {
@@ -340,77 +336,28 @@ public class RECheCoProManager {
 	}
 
 	private void processFileRequest(CHFileRequest request) {
-		CDirectory finalProjectDir = getFinalProjectDir();
-
-		List<CHFile> files = new ArrayList<CHFile>();
-		for (String path : request.getRequestFilePaths()) {
-			CFile file = finalProjectDir.findFile(path);
-			byte[] byteArray = file.loadAsByte();
-			files.add(new CHFile(path, byteArray));
-		}
-
+		List<CHFile> files = CHFileSystem.getCHFiles(request
+				.getRequestFilePaths());
 		conn.write(new CHFileResponse(user, files));
 	}
 
 	private void processFileResponse(CHFileResponse response) {
-		String user = response.getUser();
-		CDirectory cDir = getUserDir(user);
-
-		for (CHFile aFile : response.getFiles()) {
-			CFile file = cDir.findOrCreateFile(aFile.getPath());
-			file.saveAsByte(aFile.getBytes());
-		}
+		CHFileSystem.saveFiles(response.getFiles(), response.getUser());
 	}
 
 	private void processFilelistResponse(CHFilelistResponse response) {
 		String user = response.getUser();
+		CDirectory copyDir = CHFileSystem.getUserDirForClient(user);
 
-		CFileList fileListServer = response.getFileList();
-		CDirectory cDir = getUserDir(user);
-		CFileList fileListClient = new CFileList(cDir);
-
-		List<CFileListDifference> differences = CFileListUtils.compare(
-				fileListServer, fileListClient);
-
-		List<String> requestFilePaths = new ArrayList<String>();
-		for (CFileListDifference aDifference : differences) {
-			switch (aDifference.getKind()) {
-			case CREATED:
-			case UPDATED:
-				requestFilePaths.add(aDifference.getPath());
-				break;
-			case REMOVED:
-				cDir.findChild(new CPath(aDifference.getPath())).delete();
-				break;
-			default:
-				throw new RuntimeException();
-			}
-		}
+		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
+				response.getFileList(), copyDir);
 
 		conn.write(new CHFileRequest(user, requestFilePaths));
 	}
 
 	private void processFilelistRequest(CHFilelistRequest request) {
-
-		CDirectory finalProjectDir = getFinalProjectDir();
-		CFileList fileList = new CFileList(finalProjectDir);
-
+		CFileList fileList = CHFileSystem.getFinalProjectFileList();
 		conn.write(new CHFilelistResponse(user, fileList));
-
-	}
-
-	/****************
-	 * ÉtÉ@ÉCÉãëÄçÏä÷åW
-	 ****************/
-
-	private CDirectory getFinalProjectDir() {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/final");
-	}
-
-	private CDirectory getUserDir(String user) {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/.CH/" + user + "/final");
 	}
 
 	/**********
