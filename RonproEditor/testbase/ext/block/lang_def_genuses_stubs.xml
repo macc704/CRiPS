@@ -227,6 +227,39 @@
 	</BlockConnectors>
 </BlockGenus>
 
+
+<BlockGenus name="setter-local-objectarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="object"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setter-private-objectarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="object"/>
+	</BlockConnectors>
+</BlockGenus>
+
+
+<BlockGenus name="getter-local-objectarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="object"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getter-private-objectarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="object"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+
+
+
 <!--  以下，必要かどうか不明 -->
 
 <BlockGenus name="agent" kind="function" initlabel="" color="0 0 0"

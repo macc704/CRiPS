@@ -242,8 +242,9 @@ public class SContextMenuProvider {
 		}
 
 		if (rb.getBlock().getGenusName().contains("arrayobject")) {//”z—ñ
-			final String scope = rb.getBlock().getKind()
-					.substring(0, rb.getBlock().getKind().indexOf("-"));
+			final String scope = rb.getBlock().getGenusName()
+					.substring(0, rb.getBlock().getGenusName().indexOf("-"));
+
 			final String type = getBlockVariableType(rb.getBlock()
 					.getGenusName());
 
