@@ -124,6 +124,36 @@ public class MethodResolver {
 		methodToReturnType.put("fontsize(1)", "void");
 
 		// BCanvas
+		methodToReturnType.put("drawArc(7)", "void");
+		methodToReturnType.put("drawFillTriangle(7)", "void");
+		methodToReturnType.put("drawText(5)", "void");
+		methodToReturnType.put("isClick(0)", "boolean");
+		methodToReturnType.put("isSingleClick(0)", "boolean");
+		methodToReturnType.put("isDoubleClick(0)", "boolean");
+		methodToReturnType.put("isDragging(0)", "boolean");
+		methodToReturnType.put("isRightMouseDown(0)", "boolean");
+		methodToReturnType.put("isLefttMouseDown(0)", "boolean");
+		methodToReturnType.put("getMouseX(0)", "int");
+		methodToReturnType.put("getMouseY(0)", "int");
+		methodToReturnType.put("isKeyPressing(1)", "boolean");
+		methodToReturnType.put("isKeyCode(0)", "boolean");
+		methodToReturnType.put("isKeyDown(0)", "boolean");
+		methodToReturnType.put("getKeyCode(0)", "int");
+		methodToReturnType.put("clear(0)", "void");
+		methodToReturnType.put("update(0)", "void");
+		methodToReturnType.put("getImageWidth(0)", "int");
+		methodToReturnType.put("getImageHeight(0)", "int");
+		methodToReturnType.put("drawLine(5)", "void");
+		methodToReturnType.put("getCanvasWidth(0)", "int");
+		methodToReturnType.put("getCanvasHeight(0)", "int");
+		methodToReturnType.put("drawImage(5)", "void");
+		methodToReturnType.put("drawFillArc(7)", "void");
+		methodToReturnType.put("setLocation(2)", "void");
+		methodToReturnType.put("setSize(2)", "void");
+		methodToReturnType.put("getCanvas(0)", "Object");
+		methodToReturnType.put("getVolume(0)", "int");
+		methodToReturnType.put("setVolume(1)", "void");
+		methodToReturnType.put("getDefaultVolume(0)", "number");
 		// BSound
 		// BWindow
 	}

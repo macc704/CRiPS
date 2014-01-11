@@ -6,7 +6,7 @@ package bc.j2b.model;
 public class StLocalVariableModel extends StVariableDeclarationModel {
 
 	private boolean argument;
-	private boolean isExtendedForParameter = false;
+	private boolean isArray = false;
 
 	// public StLocalVariableModel() {
 	// this(false);
@@ -16,28 +16,25 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 		this.argument = argument;
 	}
 
-	public void setIsExtendedForParameter() {
-		this.isExtendedForParameter = true;
+	public void setArray(boolean array) {
+		this.isArray = array;
 	}
 
 	@Override
 	public String getGenusName() {
-		if (isExtendedForParameter) {
-			if (argument) {
-				return "proc-param-" + getBlockType();
-			}
-			return "local-var-extentobject";
-		} else {
-			if (argument) {
-				return "proc-param-" + getBlockType();
-			}
-			String genusName = convertJavaTypeToBlockType(getType());
-			if (genusName.equals("number")) {
-				genusName = "int-number";
-			}
-			return "local-var-" + genusName;
-
+		if (argument) {
+			return "proc-param-" + getBlockType();
 		}
+		String genusName = convertJavaTypeToBlockType(getType());
+		if (genusName.equals("number")) {
+			genusName = "int-number";
+		}
+
+		if (isArray) {
+			genusName += "-arrayobject";
+		}
+
+		return "local-var-" + genusName;
 	}
 
 }

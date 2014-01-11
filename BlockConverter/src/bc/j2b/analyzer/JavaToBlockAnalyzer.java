@@ -47,7 +47,6 @@ import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
 import org.eclipse.jdt.core.dom.ThisExpression;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.eclipse.jdt.core.dom.VariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
@@ -468,31 +467,30 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	private StPrivateVariableDeclarationModel analyzePrivateValue(
 			FieldDeclaration node) {
+		if (node.fragments().size() > 1) {
+			throw new RuntimeException(
+					"Two or more do not make a variable declaration simultaneously. ");
+		}
+
 		StPrivateVariableDeclarationModel model = new StPrivateVariableDeclarationModel();
-
-		int index = node.fragments().get(0).toString().indexOf("=");
-
+		VariableDeclarationFragment variable = (VariableDeclarationFragment) node
+				.fragments().get(0);
 		model.setType(node.getType().toString());
 		model.setId(idCounter.getNextId());
-		model.setName(node.fragments().get(0).toString()
-				.substring(0, node.fragments().get(0).toString().length()));
+		model.setName(variable.getName().toString());
+
+		if (node.getType().isArrayType()) {
+			model.setArray(true);
+		}
+
 		for (Object modifer : node.modifiers()) {
 			if (modifer.toString().equals("final")) {
 				model.setModifer("final-");
 			}
 		}
-
 		// initializeラベルの貼り付け
-		if (index != -1) {
-			model.setName(node
-					.fragments()
-					.get(0)
-					.toString()
-					.substring(0,
-							node.fragments().get(0).toString().indexOf("=")));
-			VariableDeclaration val = ((VariableDeclaration) node.fragments()
-					.get(0));
-			model.setInitializer(parseExpression(val.getInitializer()));
+		if (variable.getInitializer() != null) {
+			model.setInitializer(parseExpression(variable.getInitializer()));
 		}
 
 		variableResolver.addGlobalVariable(model);
@@ -520,9 +518,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// メソッド引数の処理
 		for (Object o : node.parameters()) {
 			SingleVariableDeclaration arg = ((SingleVariableDeclaration) o);
+			boolean isArray = false;
+			if (arg.getType().isArrayType()) {
+				isArray = true;
+			}
 			StLocalVariableModel argModel = createLocalVariableModel(arg
 					.getType().toString(), arg.getName().toString(),
-					arg.getInitializer(), true);
+					arg.getInitializer(), true, isArray);
 			model.addArgument(argModel);
 		}
 
@@ -554,9 +556,14 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// メソッド引数の処理
 		for (Object o : node.parameters()) {
 			SingleVariableDeclaration arg = ((SingleVariableDeclaration) o);
+			boolean isArray = false;
+			if (arg.getType().isArrayType()) {
+				isArray = true;
+			}
+
 			StLocalVariableModel argModel = createLocalVariableModel(arg
 					.getType().toString(), arg.getName().toString(),
-					arg.getInitializer(), true);
+					arg.getInitializer(), true, isArray);
 			argModel.setLineNumber(compilationUnit.getLineNumber(arg
 					.getStartPosition()));
 			model.addArgument(argModel);
@@ -657,7 +664,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		// counter
 		StatementModel counter = createLocalVariableModel("int", "counter",
-				null, false);
+				null, false, false);
 		ExLeteralModel initValue = new ExLeteralModel();
 		initValue.setType("number");
 		initValue.setValue("0");
@@ -681,7 +688,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		// endIndex
 		StLocalVariableModel endIndex = createLocalVariableModel("int",
-				"endIndex", null, false);
+				"endIndex", null, false, false);
 		endIndex.setInitializer(callActionMethodModel);
 		block.addChild(endIndex);
 
@@ -739,7 +746,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			// element = list.get(counter)
 			SingleVariableDeclaration param = node.getParameter();
 			StatementModel model = createLocalVariableModel(param.getType()
-					.toString(), param.getName().toString(), null, false);
+					.toString(), param.getName().toString(), null, false, false);
 
 			((StLocalVariableModel) model).setInitializer(callMethodModel);
 
@@ -1157,12 +1164,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// for (int i = 0; i < fragments.size(); i++) {
 		String typeString = typeString(node.getType());
 		if (node.getType().isArrayType()) {// Type i[]
-			// 配列を作る　とりあえず、通常の変数と同様に作成する
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 					.fragments().get(0);
 			StatementModel model = createLocalVariableModel(typeString,
 					fragment.getName().toString(), fragment.getInitializer(),
-					false);
+					false, true);
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
 			return model;
@@ -1173,7 +1179,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					.fragments().get(0);
 			StatementModel model = createLocalVariableModel(type.getType()
 					.toString(), fragment.getName().toString(),
-					fragment.getInitializer(), false);
+					fragment.getInitializer(), false, false);
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
 			return model;
@@ -1184,7 +1190,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					.fragments().get(0);
 			StatementModel model = createLocalVariableModel(typeString,
 					fragment.getName().toString(), fragment.getInitializer(),
-					false);
+					false, false);
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
 			return model;
@@ -1203,8 +1209,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		String typeString = typeString(node.getType());
 		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 				.fragments().get(0);
+
+		boolean isArray = false;
+		if (node.getType().isArrayType()) {
+			isArray = true;
+		}
+
 		StLocalVariableModel model = createLocalVariableModel(typeString,
-				fragment.getName().toString(), fragment.getInitializer(), false);
+				fragment.getName().toString(), fragment.getInitializer(),
+				false, isArray);
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 		return model;
@@ -1224,9 +1237,12 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	private StLocalVariableModel createLocalVariableModel(String type,
-			String name, Expression initializer, boolean argument) {
+			String name, Expression initializer, boolean argument, boolean array) {
 		// create local variable
 		StLocalVariableModel model = new StLocalVariableModel(argument);
+
+		model.setArray(array);
+
 		model.setId(idCounter.getNextId());
 		// String name = fragment.getName().toString();
 		model.setName(name);

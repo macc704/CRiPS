@@ -5,6 +5,7 @@ public class StPrivateVariableDeclarationModel extends
 
 	private final int privateVariableBlockHeight = 40;
 	private String modifer = "";
+	private boolean isArray = false;
 
 	public StPrivateVariableDeclarationModel() {
 		setBlockHeight(privateVariableBlockHeight);
@@ -14,12 +15,21 @@ public class StPrivateVariableDeclarationModel extends
 		this.modifer = modifer;
 	}
 
+	public void setArray(boolean array) {
+		this.isArray = array;
+	}
+
 	@Override
 	public String getGenusName() {
 		String genusName = convertJavaTypeToBlockType(getType());
 		if (genusName.equals("number")) {
 			genusName = "int-number";
 		}
+
+		if (isArray) {
+			genusName += "-arrayobject";
+		}
+
 		return "private-" + modifer + "var-" + genusName;
 	}
 

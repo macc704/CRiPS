@@ -108,6 +108,5 @@ public class HeaderLabel extends BlockLabel {
 		}
 		Block b = RenderableBlock.getRenderableBlock(getBlockID()).getBlock();
 		b.setHeaderLabel(text);
-		editableHeaderLabel = true;
 	}
 }
