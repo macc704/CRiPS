@@ -182,13 +182,15 @@ public class CHServer {
 	}
 
 	private void processFileResponse(CHFileResponse response) {
-		CHFileSystem.saveFiles(response.getFiles(), response.getUser(), port);
+		CHFileSystem.saveFiles(response.getFiles(),
+				CHFileSystem.getUserDirForServer(response.getUser(), port));
 	}
 
 	private void processFileRequest(CHFileRequest request, CHConnection conn) {
 
 		List<CHFile> files = CHFileSystem.getCHFiles(
-				request.getRequestFilePaths(), request.getUser(), port);
+				request.getRequestFilePaths(),
+				CHFileSystem.getUserDirForServer(request.getUser(), port));
 
 		connectionPool.sendToOne(new CHFileResponse(request.getUser(), files),
 				connectionPool.getUser(conn));

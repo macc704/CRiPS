@@ -45,6 +45,7 @@ import ch.conn.framework.packets.CHSourcesendResponse;
 import ch.library.CHFileSystem;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.sync.CFileList;
 import clib.preference.model.CAbstractPreferenceCategory;
 
@@ -173,7 +174,17 @@ public class RECheCoProManager {
 			}
 		});
 
+		JButton copyFileButton = new JButton("Save to MyProjects");
+		copyFileButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				copyUserDirToMyProjects(user);
+			}
+		});
+
 		menuBar.add(fileRequestButton);
+		menuBar.add(copyFileButton);
 
 		chApplication.getFrame().setJMenuBar(menuBar);
 	}
@@ -230,6 +241,19 @@ public class RECheCoProManager {
 			title = title + "-" + currentFileName;
 		}
 		chApplication.getFrame().setTitle(title);
+	}
+
+	private void copyUserDirToMyProjects(String user) {
+		CDirectory masterDir = CHFileSystem.getUserDirForClient(user);
+		CDirectory copyDir = CFileSystem.getExecuteDirectory()
+				.findOrCreateDirectory("MyProjects/" + user);
+		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
+				new CFileList(masterDir), copyDir);
+
+		List<CHFile> files = CHFileSystem.getCHFiles(requestFilePaths,
+				masterDir);
+		CHFileSystem.saveFiles(files, copyDir);
+		application.doRefresh();
 	}
 
 	/********************
@@ -362,13 +386,15 @@ public class RECheCoProManager {
 	}
 
 	private void processFileRequest(CHFileRequest request) {
-		List<CHFile> files = CHFileSystem.getCHFiles(request
-				.getRequestFilePaths());
+		List<CHFile> files = CHFileSystem.getCHFiles(
+				request.getRequestFilePaths(),
+				CHFileSystem.getFinalProjectDir());
 		conn.write(new CHFileResponse(user, files));
 	}
 
 	private void processFileResponse(CHFileResponse response) {
-		CHFileSystem.saveFiles(response.getFiles(), response.getUser());
+		CHFileSystem.saveFiles(response.getFiles(),
+				CHFileSystem.getUserDirForClient(response.getUser()));
 	}
 
 	private void processFilelistResponse(CHFilelistResponse response) {

@@ -14,9 +14,6 @@ import clib.common.filesystem.sync.CFileListUtils;
 
 public class CHFileSystem {
 
-	public static final int SERVER = 0;
-	public static final int CLIENT = 1;
-
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
 				"CH/" + port);
@@ -77,48 +74,22 @@ public class CHFileSystem {
 		return requestFilePaths;
 	}
 
-	// for server
 	public static List<CHFile> getCHFiles(List<String> requestFilePaths,
-			String user, int port) {
+			CDirectory dir) {
 
 		List<CHFile> chFiles = new ArrayList<CHFile>();
 		for (String path : requestFilePaths) {
-			CFile file;
-			if (user.equals("") && port == -1) {
-				file = getFinalProjectDir().findFile(path);
-			} else {
-				file = getUserDirForServer(user, port).findFile(path);
-			}
+			CFile file = dir.findFile(path);
 			byte[] byteArray = file.loadAsByte();
 			chFiles.add(new CHFile(path, byteArray));
 		}
-
 		return chFiles;
 	}
 
-	// for client
-	public static List<CHFile> getCHFiles(List<String> requestFilePaths) {
-		return getCHFiles(requestFilePaths, "", -1);
-	}
-
-	// for server
-	public static void saveFiles(List<CHFile> files, String user, int port) {
-
-		CDirectory cDir;
-		if (port == -1) {
-			cDir = getUserDirForClient(user);
-		} else {
-			cDir = getUserDirForServer(user, port);
-		}
-
+	public static void saveFiles(List<CHFile> files, CDirectory dir) {
 		for (CHFile aFile : files) {
-			CFile file = cDir.findOrCreateFile(aFile.getPath());
+			CFile file = dir.findOrCreateFile(aFile.getPath());
 			file.saveAsByte(aFile.getBytes());
 		}
-	}
-
-	// for client
-	public static void saveFiles(List<CHFile> files, String user) {
-		saveFiles(files, user, -1);
 	}
 }
