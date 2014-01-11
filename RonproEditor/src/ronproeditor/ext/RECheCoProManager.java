@@ -154,14 +154,27 @@ public class RECheCoProManager {
 		chApplication.getFrame().setDefaultCloseOperation(
 				JFrame.DISPOSE_ON_CLOSE);
 		initializeCHListeners(chApplication, user);
-		initializeCHMenu(chApplication);
+		initializeCHMenu(chApplication, user);
 	}
 
-	private void initializeCHMenu(REApplication chApplication) {
+	private void initializeCHMenu(final REApplication chApplication,
+			final String user) {
 		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
 		menuBar.getMenu(3).remove(4);
-
 		menuBar.add(connButton);
+
+		JButton fileRequestButton = new JButton("File request");
+		fileRequestButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				conn.write(new CHFilelistRequest(user));
+				chApplication.doRefresh();
+			}
+		});
+
+		menuBar.add(fileRequestButton);
+
 		chApplication.getFrame().setJMenuBar(menuBar);
 	}
 
