@@ -1,6 +1,7 @@
 package ronproeditor.ext;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
@@ -53,6 +55,8 @@ public class RECheCoProManager {
 
 	public static final String APP_NAME = "CheCoPro";
 	public static final String DEFAULT_NAME = "guest";
+	public static final String DEFAULT_PASSWAOD = "xxx";
+	public static final Color DEFAULT_COLOR = Color.WHITE;
 	public static final int DEFAULT_PORT = 10000;
 	public static final String IP = "localhost";
 
@@ -61,7 +65,9 @@ public class RECheCoProManager {
 	private CHMemberSelectorFrame msFrame;
 	private List<String> members = new ArrayList<String>();
 	private String user = DEFAULT_NAME;
+	private String password = DEFAULT_PASSWAOD;
 	private int port = DEFAULT_PORT;
+	private Color userColor = DEFAULT_COLOR;
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 	private JToggleButton connButton = new JToggleButton("“¯Šú’†", true);
 
@@ -81,6 +87,7 @@ public class RECheCoProManager {
 	private void initialize() {
 		application.getPreferenceManager().putCategory(
 				new CheCoProPreferenceCategory());
+		System.out.println("color : " + userColor);
 	}
 
 	/*******************
@@ -452,14 +459,18 @@ public class RECheCoProManager {
 	 ****************/
 
 	private static final String LOGINID_LABEL = "CheCoPro.loginid";
+	private static final String PASSWORD_LABEL = "CheCoPro.password";
 	private static final String PORTNUMBER_LABEL = "CheCoPro.portnumber";
+	private static final String COLOR_LABEL = "CheCoPro.color";
 
 	class CheCoProPreferenceCategory extends CAbstractPreferenceCategory {
 
 		private static final long serialVersionUID = 1L;
 
 		private JTextField nameField = new JTextField(15);
+		private JPasswordField passField = new JPasswordField(15);
 		private JComboBox<Integer> portBox = new JComboBox<Integer>();
+		private JComboBox<String> colorBox = new JComboBox<String>();
 		private JPanel panel = new CheCoProPreferencePanel();
 
 		@Override
@@ -478,11 +489,19 @@ public class RECheCoProManager {
 				user = getRepository().get(LOGINID_LABEL);
 				nameField.setText(user);
 			}
+			if (getRepository().exists(PASSWORD_LABEL)) {
+				password = getRepository().get(PASSWORD_LABEL);
+				passField.setText(password);
+			}
 			if (getRepository().exists(PORTNUMBER_LABEL)) {
 				portBox.setSelectedIndex(Integer.parseInt(getRepository().get(
 						PORTNUMBER_LABEL)));
 				port = Integer.parseInt(getRepository().get(PORTNUMBER_LABEL));
 			}
+			if (getRepository().exists(COLOR_LABEL)) {
+				colorBox.setSelectedItem(getRepository().get(COLOR_LABEL));
+			}
+
 			port += 20000;
 		}
 
@@ -490,8 +509,12 @@ public class RECheCoProManager {
 		public void save() {
 			user = nameField.getText();
 			getRepository().put(LOGINID_LABEL, user);
+			getRepository().put(PASSWORD_LABEL,
+					String.valueOf(passField.getPassword()));
 			getRepository().put(PORTNUMBER_LABEL,
 					Integer.toString(portBox.getSelectedIndex()));
+			getRepository().put(COLOR_LABEL,
+					(String) colorBox.getSelectedItem());
 		}
 
 		class CheCoProPreferencePanel extends JPanel {
@@ -500,17 +523,34 @@ public class RECheCoProManager {
 
 			public CheCoProPreferencePanel() {
 				FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
+
 				JPanel namePanel = new JPanel(flowLayout);
 				namePanel.add(new JLabel("Name : "));
 				namePanel.add(nameField);
+
+				JPanel passPanel = new JPanel(flowLayout);
+				passPanel.add(new JLabel("Password : "));
+				passPanel.add(passField);
+
 				JPanel portPanel = new JPanel(flowLayout);
 				portPanel.add(new JLabel("Group : "));
 				for (int i = 0; i < 51; i++) {
 					portBox.addItem(i);
 				}
 				portPanel.add(portBox);
+
+				JPanel colorPanel = new JPanel(flowLayout);
+				colorPanel.add(new JLabel("Color : "));
+				colorBox.addItem("cyan");
+				colorBox.addItem("lightgray");
+				colorBox.addItem("magenta");
+				colorBox.addItem("yellow");
+				colorPanel.add(colorBox);
+
 				this.add(namePanel, BorderLayout.CENTER);
+				this.add(passPanel, BorderLayout.CENTER);
 				this.add(portPanel, BorderLayout.CENTER);
+				this.add(colorPanel, BorderLayout.CENTER);
 			}
 		}
 
