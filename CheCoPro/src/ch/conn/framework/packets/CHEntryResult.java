@@ -2,17 +2,17 @@ package ch.conn.framework.packets;
 
 import ch.conn.framework.CHPacket;
 
-public class CHLoginResult extends CHPacket {
+public class CHEntryResult extends CHPacket {
 
 	private static final long serialVersionUID = 1L;
 
-	private int result;
+	private boolean result;
 
-	public CHLoginResult(int result) {
+	public CHEntryResult(boolean result) {
 		this.result = result;
 	}
 
-	public int isResult() {
+	public boolean isResult() {
 		return result;
 	}
 }

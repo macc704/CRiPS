@@ -9,6 +9,8 @@ import java.util.List;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
 import ch.conn.framework.CHUserState;
+import ch.conn.framework.packets.CHEntryRequest;
+import ch.conn.framework.packets.CHEntryResult;
 import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
@@ -111,7 +113,9 @@ public class CHServer {
 				Object obj = conn.read();
 				out.println("received by user: " + user + ", msssage: " + obj);
 
-				if (obj instanceof CHSourceChanged) {
+				if (obj instanceof CHEntryRequest) {
+					processEntryRequest((CHEntryRequest) obj);
+				} else if (obj instanceof CHSourceChanged) {
 					processSourceChanged((CHSourceChanged) obj);
 				} else if (obj instanceof CHLogoutRequest) {
 					processLogoutRequest(((CHLogoutRequest) obj), conn);
@@ -137,14 +141,18 @@ public class CHServer {
 		String password = request.getPassword();
 		// login process
 		if (login(user, conn) == false) {
-			connectionPool.sendToOne(new CHLoginResult(false), user);
+			connectionPool.sendToOne(new CHLoginResult(CHLoginCheck.FAILURE),
+					user);
 			return null;
 		}
 
 		CHLoginCheck loginCheck = new CHLoginCheck(user, password);
-		loginCheck.checkPattern(port);
+		int result = loginCheck.checkPattern(port);
 
-		connectionPool.sendToOne(new CHLoginResult(true), user);
+		connectionPool.sendToOne((new CHLoginResult(result)), user);
+		if (result == CHLoginCheck.NEW_ENTRY) {
+			return user;
+		}
 
 		List<CHUserState> userStates = new ArrayList<CHUserState>();
 		for (String aUser : getAllUsers()) {
@@ -159,6 +167,14 @@ public class CHServer {
 	private boolean login(String user, CHConnection conn) {
 		boolean result = connectionPool.login(user, conn);
 		return result;
+	}
+
+	private void processEntryRequest(CHEntryRequest request) {
+		CHLoginCheck loginCheck = new CHLoginCheck(request.getUser(),
+				request.getPassword());
+		connectionPool.sendToOne(
+				new CHEntryResult(loginCheck.entryNewUser(port)),
+				request.getUser());
 	}
 
 	private void processLogoutRequest(CHLogoutRequest request, CHConnection conn) {

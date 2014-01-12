@@ -1,5 +1,6 @@
 package ch.server;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ch.library.CHFileSystem;
@@ -22,10 +23,10 @@ public class CHLoginCheck {
 
 	public int checkPattern(int port) {
 		CFile userList = CHFileSystem.getEntryUserList(port);
-		List<List<String>> userDatas = CCSVFileIO.loadAsListList(userList);
-		for (List<String> aUserData : userDatas) {
-			String user = aUserData.get(0);
-			String password = aUserData.get(1);
+		List<List<String>> loadDatas = CCSVFileIO.loadAsListList(userList);
+		for (List<String> aLoadData : loadDatas) {
+			String user = aLoadData.get(0);
+			String password = aLoadData.get(1);
 			if (user.equals(this.user) && password.equals(this.password)) {
 				// 成功
 				CHServer.out.println("SUCCESS");
@@ -40,5 +41,25 @@ public class CHLoginCheck {
 		// 新規
 		CHServer.out.println("NEW_ENTRY");
 		return NEW_ENTRY;
+	}
+
+	public boolean entryNewUser(int port) {
+		boolean result = true;
+		CFile file = CHFileSystem.getEntryUserList(port);
+		List<List<String>> loadDatas = CCSVFileIO.loadAsListList(file);
+		for (List<String> aLoadData : loadDatas) {
+			if (user.equals(aLoadData.get(0))) {
+				CHServer.out.println("user : " + user + " is used.");
+				result = false;
+			}
+		}
+		if (result) {
+			List<String> newUser = new ArrayList<String>();
+			newUser.add(user);
+			newUser.add(password);
+			loadDatas.add(newUser);
+		}
+		CCSVFileIO.saveByListList(loadDatas, file);
+		return result;
 	}
 }

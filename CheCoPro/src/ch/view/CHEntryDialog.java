@@ -36,6 +36,7 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 	private void initialize() {
 		this.setTitle("CheCoPro entry");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setModal(true);
 		this.setBounds(100, 100, 400, 200);
 
 		JPanel gridPanel = new JPanel(new GridLayout(3, 0));
@@ -108,6 +109,8 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 		String actionCommand = e.getActionCommand();
 		if (actionCommand.equals("OK")) {
 			if (inputData()) {
+				user = userField.getText();
+				password = String.valueOf(passwordField.getPassword());
 				close();
 			}
 		} else if (actionCommand.equals("Cancel")) {

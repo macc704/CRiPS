@@ -34,6 +34,8 @@ import ronproeditor.views.REFrame;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
 import ch.conn.framework.CHUserState;
+import ch.conn.framework.packets.CHEntryRequest;
+import ch.conn.framework.packets.CHEntryResult;
 import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
@@ -45,6 +47,8 @@ import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHLogoutResponse;
 import ch.conn.framework.packets.CHSourcesendResponse;
 import ch.library.CHFileSystem;
+import ch.server.CHLoginCheck;
+import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileSystem;
@@ -292,8 +296,6 @@ public class RECheCoProManager {
 		conn.shakehandForClient();
 
 		if (login()) {
-			msFrame = new CHMemberSelectorFrame(user);
-			msFrame.open();
 			System.out.println("client established");
 		}
 
@@ -320,6 +322,8 @@ public class RECheCoProManager {
 
 		if (obj instanceof CHLoginResult) {
 			processLoginResult((CHLoginResult) obj);
+		} else if (obj instanceof CHEntryResult) {
+			processEntryResult((CHEntryResult) obj);
 		} else if (obj instanceof CHLoginMemberChanged) {
 			processLoginMemberChanged((CHLoginMemberChanged) obj);
 		} else if (obj instanceof CHSourcesendResponse) {
@@ -342,8 +346,25 @@ public class RECheCoProManager {
 	 **********************/
 
 	private void processLoginResult(CHLoginResult result) {
-		if (result.isResult() == false) {
+		if (result.isResult() == CHLoginCheck.FAILURE) {
 			conn.close();
+		} else if (result.isResult() == CHLoginCheck.NEW_ENTRY) {
+			CHEntryDialog entryDialog = new CHEntryDialog();
+			entryDialog.open();
+			user = entryDialog.getUser();
+			password = entryDialog.getPassword();
+			conn.write(new CHEntryRequest(user, password));
+		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
+			msFrame = new CHMemberSelectorFrame(user);
+			msFrame.open();
+		}
+	}
+
+	private void processEntryResult(CHEntryResult result) {
+		if (result.isResult()) {
+			// ìoò^ê¨å˜
+		} else {
+			// ìoò^é∏îs
 		}
 	}
 
