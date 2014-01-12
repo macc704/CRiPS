@@ -92,4 +92,9 @@ public class CHFileSystem {
 			file.saveAsByte(aFile.getBytes());
 		}
 	}
+
+	public static CFile getEntryUserList(int port) {
+		return CFileSystem.getExecuteDirectory().findOrCreateFile(
+				"CH/" + port + "/EntryUserList.csv");
+	}
 }

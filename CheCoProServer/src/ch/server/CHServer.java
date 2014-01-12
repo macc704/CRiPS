@@ -134,12 +134,15 @@ public class CHServer {
 
 	private String processLogin(CHLoginRequest request, CHConnection conn) {
 		String user = request.getUser();
-		out.println(user);
+		String password = request.getPassword();
 		// login process
 		if (login(user, conn) == false) {
 			connectionPool.sendToOne(new CHLoginResult(false), user);
 			return null;
 		}
+
+		CHLoginCheck loginCheck = new CHLoginCheck(user, password);
+		loginCheck.checkPattern(port);
 
 		connectionPool.sendToOne(new CHLoginResult(true), user);
 

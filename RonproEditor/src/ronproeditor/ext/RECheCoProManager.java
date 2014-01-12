@@ -67,7 +67,7 @@ public class RECheCoProManager {
 	private String user = DEFAULT_NAME;
 	private String password = DEFAULT_PASSWAOD;
 	private int port = DEFAULT_PORT;
-	private Color userColor = DEFAULT_COLOR;
+	// private Color userColor = DEFAULT_COLOR;
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 	private JToggleButton connButton = new JToggleButton("“¯Šú’†", true);
 
@@ -87,7 +87,6 @@ public class RECheCoProManager {
 	private void initialize() {
 		application.getPreferenceManager().putCategory(
 				new CheCoProPreferenceCategory());
-		System.out.println("color : " + userColor);
 	}
 
 	/*******************
@@ -312,7 +311,7 @@ public class RECheCoProManager {
 	}
 
 	private boolean login() {
-		conn.write(new CHLoginRequest(user, "xxxx"));
+		conn.write(new CHLoginRequest(user, password));
 		return conn.established();
 	}
 
@@ -508,6 +507,7 @@ public class RECheCoProManager {
 		@Override
 		public void save() {
 			user = nameField.getText();
+			password = String.valueOf(passField.getPassword());
 			getRepository().put(LOGINID_LABEL, user);
 			getRepository().put(PASSWORD_LABEL,
 					String.valueOf(passField.getPassword()));
