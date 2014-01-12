@@ -176,11 +176,11 @@ public class CCGraphFrame extends JFrame {
 				CategoryPlot plot = chart.getCategoryPlot();
 				NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
 				if (mode) {
-					numberAxis.setRange(0, 120);
+					numberAxis.setAutoRange(true);
 					button.setText("固定モード");
 					mode = false;
 				} else {
-					numberAxis.setAutoRange(true);
+					numberAxis.setRange(0, 120);
 					button.setText("自動モード");
 					mode = true;
 				}
