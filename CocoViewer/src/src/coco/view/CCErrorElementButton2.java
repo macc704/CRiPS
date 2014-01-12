@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 
@@ -41,6 +42,7 @@ public class CCErrorElementButton2 extends JButton {
 
 	private JFreeChart chart;
 	private ChartPanel chartpanel;
+	private ArrayList<CCGraphFrame> graphframes = new ArrayList<CCGraphFrame>();
 
 	public CCErrorElementButton2(int buttonWidth, int buttonHeight,
 			CCCompileErrorKind list, CDirectory libDir, CDirectory base,
@@ -126,8 +128,10 @@ public class CCErrorElementButton2 extends JButton {
 
 			@Override
 			public void chartMouseClicked(ChartMouseEvent arg0) {
-				new CCGraphFrame(list, libDir, base, ppProjectSet)
-						.setVisible(true);
+				CCGraphFrame graphframe = new CCGraphFrame(list, libDir, base,
+						ppProjectSet);
+				graphframes.add(graphframe);
+				graphframe.setVisible(true);
 			}
 		});
 
@@ -149,5 +153,12 @@ public class CCErrorElementButton2 extends JButton {
 		CategoryPlot plot = chart.getCategoryPlot();
 		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
 		numberAxis.setAutoRange(true);
+	}
+
+	public void closeGraphFrames() {
+		for (CCGraphFrame frame : graphframes) {
+			frame.projectViewerFrameClose();
+			frame.dispose();
+		}
 	}
 }

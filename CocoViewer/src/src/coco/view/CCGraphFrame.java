@@ -7,6 +7,9 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -60,6 +63,8 @@ public class CCGraphFrame extends JFrame {
 	private JFreeChart chart;
 	private ChartPanel chartpanel;
 
+	private ArrayList<PPProjectViewerFrame> projectviewers = new ArrayList<PPProjectViewerFrame>();
+
 	// default
 	public CCGraphFrame(CCCompileErrorKind list, CDirectory libDir,
 			CDirectory base, PPProjectSet ppProjectSet) {
@@ -79,6 +84,13 @@ public class CCGraphFrame extends JFrame {
 		setSize(width, height);
 		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - "
 				+ list.getMessage() + " ÇÃè⁄ç◊");
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				projectViewerFrameClose();
+			}
+		});
 	}
 
 	private void setGraphAndList() {
@@ -254,24 +266,24 @@ public class CCGraphFrame extends JFrame {
 
 					final PPProjectViewerFrame frame = new PPProjectViewerFrame(
 							model);
+					long beginTime = compileError.getBeginTime();
+					frame.getTimelinePane().getTimeModel2()
+							.setTime(new CTime(beginTime));
+					long endTime = compileError.getEndTime();
+					frame.getTimelinePane().getTimeModel()
+							.setTime(new CTime(endTime));
+					frame.openToggleExtraView();
+
 					frame.setBounds(50, 50, 1000, 700);
 					frame.setVisible(true);
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							// ê¬èCê≥ëOÅCê‘èCê≥å„
 							frame.fitScale();
-							frame.openToggleExtraView();
-
-							long beginTime = compileError.getBeginTime();
-							frame.getTimelinePane().getTimeModel2()
-									.setTime(new CTime(beginTime));
-
-							long endTime = compileError.getEndTime();
-							frame.getTimelinePane().getTimeModel()
-									.setTime(new CTime(endTime));
 						}
 					});
 
+					projectviewers.add(frame);
 				}
 			}
 		});
@@ -280,5 +292,11 @@ public class CCGraphFrame extends JFrame {
 		scrollPanel.getViewport().setView(table);
 
 		leftPanel.add(scrollPanel, BorderLayout.CENTER);
+	}
+
+	public void projectViewerFrameClose() {
+		for (PPProjectViewerFrame frame : projectviewers) {
+			frame.dispose();
+		}
 	}
 }
