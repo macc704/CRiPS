@@ -10,8 +10,8 @@ import java.io.PrintStream;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
-import ClassBlockFileModel.LangDefFileReWriter;
 import bc.BlockConverter;
+import bc.classblockfilewriters.LangDefFileReWriter;
 import bc.j2b.analyzer.JavaToBlockAnalyzer;
 import bc.j2b.model.CompilationUnitModel;
 import bc.utils.ASTParserWrapper;

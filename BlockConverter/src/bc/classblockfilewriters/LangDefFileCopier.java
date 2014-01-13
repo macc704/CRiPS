@@ -1,4 +1,4 @@
-package ClassBlockFileModel;
+package bc.classblockfilewriters;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,28 +10,35 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 
-public class LangDefGenusesCopier implements Copier {
+public class LangDefFileCopier implements Copier {
 
 	private BufferedReader br;
 
 	public void print(File file) {
+		// TODO Auto-generated method stub
 		try {
 			FileInputStream ldfReader = new FileInputStream(
-					"ext/block/lang_def_genuses.xml");
+					"ext/block/lang_def_turtle.xml");
 
-			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "UTF-8");
+			// FileReader ldfReader = new FileReader(
+			// "ext/block/lang_def_menu_turtle.xml");
+
+			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "SJIS");
 			br = new BufferedReader(ldfISR);
 
+			// File ldf = new File("/ext/block/lang_def.dtd");
+
 			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
-			PrintStream ps = new PrintStream(turtleByteArray);
+			PrintStream turtlePs = new PrintStream(turtleByteArray);
 			// すべての行をコピーする
 			String line;
 			while ((line = br.readLine()) != null) {
 				// 一行書き込み >>lang_def.xml
-				ps.println(line);
-				// プロジェクトのブロック定義ファイルの追加
-				if (line.contains("&lang_def_genuses_turtle")) {
-					ps.println("&lang_def_genuses_project;");
+				if (line.contains("lang_def_menu")) {
+					// メニューの書き換え
+					turtlePs.println("\t\t&lang_def_menu_project;");
+				} else {
+					turtlePs.println(line);
 				}
 			}
 			// menu情報のコピー
@@ -39,9 +46,10 @@ public class LangDefGenusesCopier implements Copier {
 			String ldfString = turtleByteArray.toString();
 
 			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile()
-					.getPath() + "/lang_def_genuses.xml");
-
-			OutputStreamWriter ldfFOS = new OutputStreamWriter(ldfOS, "UTF-8");
+					.getPath() + "/lang_def_project.xml");
+			// FileReader ldfReader = new FileReader(
+			// "ext/block/lang_def_menu_turtle.xml");
+			OutputStreamWriter ldfFOS = new OutputStreamWriter(ldfOS, "SJIS");
 			BufferedWriter ldfWriter = new BufferedWriter(ldfFOS);
 
 			ldfWriter.write(ldfString);

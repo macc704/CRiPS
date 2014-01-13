@@ -25,10 +25,14 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 		if (argument) {
 			return "proc-param-" + getBlockType();
 		}
+
 		String genusName = convertJavaTypeToBlockType(getType());
+
 		if (genusName.equals("number")) {
 			genusName = "int-number";
 		}
+
+		// object型の場合は、typeによりけりで名前をリネームしよう
 
 		if (isArray) {
 			genusName += "-arrayobject";

@@ -1198,9 +1198,6 @@ public class BlockGenus {
 							}
 							method.put("parameters", parameters);
 							methodList.add(method);
-							//genus.methods.put(className, method);
-							//if (key != null && value != null)
-							//genus.properties.put(key, value);
 						}
 					}
 				}
@@ -1408,7 +1405,6 @@ public class BlockGenus {
 						loadStubs(genusChild.getChildNodes(), newGenus);
 					} else if (genusChild.getNodeName().equals("ClassMethods")) {
 						//メソッドの読み込み
-
 						loadClassMethods(genusChild, newGenus);
 					}
 

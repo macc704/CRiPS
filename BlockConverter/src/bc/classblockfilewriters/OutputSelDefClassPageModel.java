@@ -1,4 +1,4 @@
-package ClassBlockFileModel;
+package bc.classblockfilewriters;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

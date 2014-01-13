@@ -1,4 +1,4 @@
-package ClassBlockFileModel;
+package bc.classblockfilewriters;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -146,7 +146,7 @@ public class LangDefFileReWriter {
 		if (superClassName != null
 				&& existCurrentDirectry(superClassName + ".java")) {
 			familyList.get(childName).addFamilyMember(superClassName);
-			methods = analyzeJavaFile(superClassName + ".java",
+			methods = analyzeJavaFile(superClassName,
 					new File(file.getParentFile().getPath() + "/"
 							+ superClassName + ".java"), childName);
 		}

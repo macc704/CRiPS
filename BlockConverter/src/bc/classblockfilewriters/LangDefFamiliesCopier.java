@@ -1,4 +1,4 @@
-package ClassBlockFileModel;
+package bc.classblockfilewriters;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -12,7 +12,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import ClassBlockFileModel.LangDefFileReWriter.Family;
+import bc.classblockfilewriters.LangDefFileReWriter.Family;
 
 public class LangDefFamiliesCopier implements Copier {
 

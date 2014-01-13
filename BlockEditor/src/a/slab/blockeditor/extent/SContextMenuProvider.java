@@ -248,8 +248,6 @@ public class SContextMenuProvider {
 			final String type = getBlockVariableType(rb.getBlock()
 					.getGenusName());
 
-			//一時的にrbのkindを変更する
-
 			//型に応じたゲッター、セッターの追加
 			JMenuItem elementGetter = new JMenuItem("「書込ブロック（要素）」の作成");
 			//getterの作成
@@ -270,7 +268,6 @@ public class SContextMenuProvider {
 				}
 			});
 
-			//rbのkindを戻す
 			menu.add(elementSetter);
 
 		}
@@ -279,12 +276,13 @@ public class SContextMenuProvider {
 				|| rb.getBlock().getGenusName().contains("listobject")) {
 			menu.add(createActionBlockMenu());
 			menu.add(createGetterBlockMenu());
-			//TODO menuにメソッドを追加
 
+			//TODO menuにメソッドを追加
 			for (String key : rb.getMethods().keySet()) {
 				menu.add(createClassMethodsCategory(key,
 						rb.getMethods().get(key)));
 			}
+
 			if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
 				{
 					JMenu category = new JMenu("Scanner");
