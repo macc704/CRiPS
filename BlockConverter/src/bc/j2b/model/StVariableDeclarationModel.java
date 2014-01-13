@@ -74,7 +74,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 		out.println("<Block id=\"" + getId() + "\" genus-name=\""
 				+ getGenusName() + "\">");
 		// label
-		makeIndent(out, indent);
+		makeIndent(out, indent + 1);
 		out.println("<Label>" + name + "</Label>");
 		// variable type
 		makeIndent(out, indent + 1);

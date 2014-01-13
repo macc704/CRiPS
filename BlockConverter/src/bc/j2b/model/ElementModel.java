@@ -200,8 +200,8 @@ public abstract class ElementModel {
 		} else if (type.equals("List") || type.equals("listobject")) {
 			return "listobject";
 		} else if (type.equals("BCanvas") || type.equals("BWindow")
-				|| type.equals("BSound")) {
-			return type.toLowerCase();
+				|| type.equals("BSound") || type.equals("Color")) {
+			return "object-" + type.toLowerCase();
 		} else {
 			return "object";
 		}

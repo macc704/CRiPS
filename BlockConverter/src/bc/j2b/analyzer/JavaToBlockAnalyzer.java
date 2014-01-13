@@ -2,6 +2,7 @@ package bc.j2b.analyzer;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -98,6 +99,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private IdCounter idCounter = new IdCounter(FIRST_ID_COUNTER);
 	private VariableResolver variableResolver = new VariableResolver();
 	private MethodResolver methodResolver = new MethodResolver();
+	private List<String> projectClasses = new LinkedList<String>();
 
 	private CompilationUnitModel currentCompilationUnit;
 	private CompilationUnit compilationUnit;
@@ -122,6 +124,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			methodResolver
 					.addMethodReturnType(method, addedMethods.get(method));
 		}
+
+		for (String name : file.getParentFile().list()) {
+			if (name.endsWith(".java")) {
+				projectClasses.add(name.substring(0, name.indexOf(".java")));
+			}
+		}
+
 		// arranged by sakai lab 2011/11/22
 		// abstParser = new AbstractionBlockByTagParser(file);
 		// StGlobalVariableModel variable = new StGlobalVariableModel();
@@ -564,6 +573,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			StLocalVariableModel argModel = createLocalVariableModel(arg
 					.getType().toString(), arg.getName().toString(),
 					arg.getInitializer(), true, isArray);
+
 			argModel.setLineNumber(compilationUnit.getLineNumber(arg
 					.getStartPosition()));
 			model.addArgument(argModel);
@@ -1242,6 +1252,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		StLocalVariableModel model = new StLocalVariableModel(argument);
 
 		model.setArray(array);
+
+		if (projectClasses.contains(type)) {
+			model.setProjectObject(true);
+		}
 
 		model.setId(idCounter.getNextId());
 		// String name = fragment.getName().toString();

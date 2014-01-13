@@ -177,13 +177,12 @@
 	</BlockDrawer>
     
 	<BlockDrawer name="obpro" type="factory" button-color="255 155 64">
-        <BlockGenusMember>private-var-bcanvas</BlockGenusMember>
-        <BlockGenusMember>local-var-bcanvas</BlockGenusMember>
-        <BlockGenusMember>private-var-bwindow</BlockGenusMember>
-        <BlockGenusMember>local-var-bwindow</BlockGenusMember>
-        <BlockGenusMember>private-var-bsound</BlockGenusMember>
-        <BlockGenusMember>local-var-bsound</BlockGenusMember>
-		<BlockGenusMember>local-var-listobject</BlockGenusMember>
+        <BlockGenusMember>private-var-object-bcanvas</BlockGenusMember>
+        <BlockGenusMember>local-var-object-bcanvas</BlockGenusMember>
+        <BlockGenusMember>private-var-object-bwindow</BlockGenusMember>
+        <BlockGenusMember>local-var-object-bwindow</BlockGenusMember>
+        <BlockGenusMember>private-var-object-bsound</BlockGenusMember>
+        <BlockGenusMember>local-var-object-bsound</BlockGenusMember>
         <BlockGenusMember>drawArc</BlockGenusMember>
         <BlockGenusMember>drawFillTriangle</BlockGenusMember>
         <BlockGenusMember>drawText</BlockGenusMember>

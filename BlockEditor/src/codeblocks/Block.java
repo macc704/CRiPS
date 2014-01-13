@@ -1884,6 +1884,7 @@ public class Block implements ISupportMemento {
 		Long id = null;
 		String genusName = null;
 		String label = null;
+		String headerLabel = null;
 		int lineNumber = -1;
 		Long parentID = NULL;
 		String pagelabel = null;
@@ -1946,6 +1947,8 @@ public class Block implements ISupportMemento {
 				child = children.item(i);
 				if (child.getNodeName().equals("Label")) {
 					label = child.getTextContent();
+				} else if (child.getNodeName().equals("HeaderLabel")) {
+					headerLabel = child.getTextContent();
 				} else if (child.getNodeName().equals("LineNumber")) {
 					lineNumber = Integer.parseInt(child.getTextContent());
 				} else if (child.getNodeName().equals("ParentBlock")) {
