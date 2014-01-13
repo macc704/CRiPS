@@ -67,11 +67,12 @@ public class RECheCoProManager {
 	private REApplication application;
 	private CHConnection conn;
 	private CHMemberSelectorFrame msFrame;
+	private List<CHUserState> userStates = new ArrayList<CHUserState>();
 	private List<String> members = new ArrayList<String>();
 	private String user = DEFAULT_NAME;
 	private String password = DEFAULT_PASSWAOD;
 	private int port = DEFAULT_PORT;
-	// private Color userColor = DEFAULT_COLOR;
+	private Color color = DEFAULT_COLOR;
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 	private JToggleButton connButton = new JToggleButton("“¯Šú’†", true);
 
@@ -133,7 +134,7 @@ public class RECheCoProManager {
 				public void actionPerformed(ActionEvent e) {
 					String name = e.getActionCommand();
 					msFrame.setDisable(name);
-					msFrame.setMembers(members);
+					msFrame.setMembers(userStates);
 					setMemberSelectorListner();
 
 					conn.write(new CHFilelistRequest(name));
@@ -209,7 +210,7 @@ public class RECheCoProManager {
 			public void windowClosing(WindowEvent e) {
 				chFrameMap.remove(user);
 				msFrame.setEnable(user);
-				msFrame.setMembers(members);
+				msFrame.setMembers(userStates);
 				setMemberSelectorListner();
 			}
 		});
@@ -219,6 +220,12 @@ public class RECheCoProManager {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						setCHTitleBar(chApplication);
+						if (chApplication.getFrame().getEditor() != null) {
+							chApplication.getFrame().getEditor().getViewer()
+									.getTextPane()
+									.setBackground(getUserColor(user));
+
+						}
 					}
 				});
 
@@ -251,6 +258,15 @@ public class RECheCoProManager {
 			title = title + "-" + currentFileName;
 		}
 		chApplication.getFrame().setTitle(title);
+	}
+
+	private Color getUserColor(String user) {
+		for (CHUserState aUserState : userStates) {
+			if (user.equals(aUserState.getUser())) {
+				return aUserState.getColor();
+			}
+		}
+		return DEFAULT_COLOR;
 	}
 
 	private void copyUserDirToMyProjects(String user) {
@@ -313,7 +329,7 @@ public class RECheCoProManager {
 	}
 
 	private boolean login() {
-		conn.write(new CHLoginRequest(user, password));
+		conn.write(new CHLoginRequest(user, password, color));
 		return conn.established();
 	}
 
@@ -370,13 +386,14 @@ public class RECheCoProManager {
 
 	private void processLoginMemberChanged(CHLoginMemberChanged result) {
 
-		for (CHUserState aUserState : result.getUserStates()) {
-			if (!members.contains(aUserState.getUser())) {
-				members.add(aUserState.getUser());
-			}
-		}
+		// for (CHUserState aUserState : result.getUserStates()) {
+		// if (members.contains(aUserState)) {
+		// members.add(aUserState.getUser());
+		// }
+		// }
 
-		msFrame.setMembers(members);
+		userStates = result.getUserStates();
+		msFrame.setMembers(result.getUserStates());
 		setMemberSelectorListner();
 
 	}
@@ -399,7 +416,7 @@ public class RECheCoProManager {
 	private void processLogoutResult(CHLogoutResponse result) {
 		if (!user.equals(result.getUser())) {
 			msFrame.addLoginedMember(result.getUser());
-			msFrame.setMembers(members);
+			msFrame.setMembers(userStates);
 			setMemberSelectorListner();
 		} else {
 			for (String aMember : members) {
@@ -520,9 +537,22 @@ public class RECheCoProManager {
 			}
 			if (getRepository().exists(COLOR_LABEL)) {
 				colorBox.setSelectedItem(getRepository().get(COLOR_LABEL));
+				changeStringToColor(getRepository().get(COLOR_LABEL));
 			}
 
 			port += 20000;
+		}
+
+		private void changeStringToColor(String str) {
+			if (str.equals("cyan")) {
+				color = Color.CYAN;
+			} else if (str.equals("lightgray")) {
+				color = Color.LIGHT_GRAY;
+			} else if (str.equals("magenta")) {
+				color = Color.MAGENTA;
+			} else if (str.equals("yellow")) {
+				color = Color.YELLOW;
+			}
 		}
 
 		@Override

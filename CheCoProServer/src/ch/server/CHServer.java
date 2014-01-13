@@ -1,5 +1,6 @@
 package ch.server;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -139,6 +140,7 @@ public class CHServer {
 	private String processLogin(CHLoginRequest request, CHConnection conn) {
 		String user = request.getUser();
 		String password = request.getPassword();
+		Color color = request.getColor();
 		// login process
 		if (login(user, conn) == false) {
 			connectionPool.sendToOne(new CHLoginResult(CHLoginCheck.FAILURE),
@@ -156,7 +158,7 @@ public class CHServer {
 
 		List<CHUserState> userStates = new ArrayList<CHUserState>();
 		for (String aUser : getAllUsers()) {
-			userStates.add(new CHUserState(aUser, true));
+			userStates.add(new CHUserState(aUser, true, color));
 		}
 
 		connectionPool.broadCast(new CHLoginMemberChanged(userStates));
@@ -186,7 +188,7 @@ public class CHServer {
 		if (result == true) {
 			List<CHUserState> userStates = new ArrayList<CHUserState>();
 			for (String aUser : getAllUsers()) {
-				userStates.add(new CHUserState(aUser, true));
+				userStates.add(new CHUserState(aUser, true, null));
 			}
 			connectionPool.broadCast(new CHLoginMemberChanged(userStates));
 		}

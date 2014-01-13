@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import ch.conn.framework.CHUserState;
+
 public class CHMemberSelectorFrame extends JFrame {
 
 	/**
@@ -31,30 +33,31 @@ public class CHMemberSelectorFrame extends JFrame {
 		this.setVisible(true);
 	}
 
-	public void setMembers(List<String> members) {
+	public void setMembers(List<CHUserState> userStates) {
 
 		this.getContentPane().removeAll();
 		JPanel buttonPanel = new JPanel();
 		this.getContentPane().add(buttonPanel);
 
-		for (final String aMember : members) {
-			JButton button = new JButton(aMember);
+		for (final CHUserState aUserState : userStates) {
+			JButton button = new JButton(aUserState.getUser());
+			button.setBackground(aUserState.getColor());
 
 			buttonPanel.add(button);
 
 			for (String aPushed : pushed) {
-				if (aMember.equals(aPushed)) {
+				if (aUserState.getUser().equals(aPushed)) {
 					button.setEnabled(false);
 				}
 			}
 
 			for (String aLoginedMember : loginedMembers) {
-				if (aMember.equals(aLoginedMember)) {
+				if (aUserState.getUser().equals(aLoginedMember)) {
 					button.setForeground(Color.RED);
 				}
 			}
 
-			if (aMember.equals(user)) {
+			if (aUserState.getUser().equals(user)) {
 				button.setEnabled(false);
 			}
 			buttons.add(button);
@@ -89,14 +92,14 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	public static void main(String[] args) {
 		CHMemberSelectorFrame frame = new CHMemberSelectorFrame("name");
-		List<String> members = new ArrayList<String>();
-		members.add("user1");
-		members.add("name");
-		members.add("user2");
+		List<CHUserState> userStates = new ArrayList<CHUserState>();
+		userStates.add(new CHUserState("user1", true, Color.CYAN));
+		userStates.add(new CHUserState("name", true, Color.LIGHT_GRAY));
+		userStates.add(new CHUserState("user2", true, Color.MAGENTA));
 		frame.open();
-		frame.setMembers(members);
-		members.add("user3");
-		frame.setMembers(members);
+		frame.setMembers(userStates);
+		userStates.add(new CHUserState("user3", true, Color.YELLOW));
+		frame.setMembers(userStates);
 
 	}
 }
