@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -166,7 +166,7 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	private void setChangeRangeButton(JPanel leftPanel) {
-		final JButton button = new JButton("自動モード");
+		final JToggleButton button = new JToggleButton("自動調整");
 
 		button.addMouseListener(new MouseAdapter() {
 			Boolean mode = true;
@@ -177,11 +177,9 @@ public class CCGraphFrame extends JFrame {
 				NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
 				if (mode) {
 					numberAxis.setAutoRange(true);
-					button.setText("固定モード");
 					mode = false;
 				} else {
 					numberAxis.setRange(0, 120);
-					button.setText("自動モード");
 					mode = true;
 				}
 			}

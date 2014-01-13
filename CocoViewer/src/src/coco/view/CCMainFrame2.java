@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JToggleButton;
 import javax.swing.border.LineBorder;
 
 import src.coco.model.CCCompileErrorKind;
@@ -108,7 +109,7 @@ public class CCMainFrame2 extends JFrame {
 	}
 
 	private void setChangeRangeBottun(JPanel panel) {
-		final JButton button = new JButton("自動モード");
+		final JToggleButton button = new JToggleButton("自動調整");
 
 		button.addMouseListener(new MouseAdapter() {
 			Boolean mode = true;
@@ -119,13 +120,11 @@ public class CCMainFrame2 extends JFrame {
 					for (CCErrorElementButton2 button : buttons) {
 						button.changeAutoRange();
 					}
-					button.setText("固定モード");
 					mode = false;
 				} else {
 					for (CCErrorElementButton2 button : buttons) {
 						button.changeLockedRange();
 					}
-					button.setText("自動モード");
 					mode = true;
 				}
 			}
