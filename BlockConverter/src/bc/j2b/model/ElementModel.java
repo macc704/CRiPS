@@ -173,7 +173,7 @@ public abstract class ElementModel {
 	}
 
 	// TODO
-	public static String convertJavaTypeToBlockType(String type) {
+	public static String convertJavaTypeToBlockGenusName(String type) {
 		if (type == null) {
 			return "void";
 		} else if (type.equals("object") || type.equals("Object")) {

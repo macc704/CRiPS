@@ -55,7 +55,7 @@ public class ExPostfixModel extends ExpressionModel {
 		postfix.setConnectorId(getId());
 		postfix.print(out, indent);
 
-		String connectorType = convertJavaTypeToBlockType(variable.getType());
+		String connectorType = getConnectorType(variable.getType());
 
 		// BeforeBlockÇ∆AfterBlockÇåüçıÇ∑ÇÈ
 		// ResolveBeforeAfterBlock(getParent().getParent());//2012.09.27
@@ -84,7 +84,8 @@ public class ExPostfixModel extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 2);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 2);

@@ -67,11 +67,9 @@ public class StSuperConstructorInvocationModel extends StatementModel {
 			for (ExpressionModel parameter : parameters) {
 				makeIndent(out, indent + 2);
 				out.println("<BlockConnector connector-kind=\"socket\" connector-type=\""
-						+ ElementModel.convertJavaTypeToBlockType(parameter
-								.getType())
+						+ ElementModel.getConnectorType(parameter.getType())
 						+ "\" init-type=\""
-						+ ElementModel.convertJavaTypeToBlockType(parameter
-								.getType())
+						+ ElementModel.getConnectorType(parameter.getType())
 						+ "\" label=\"\" position-type=\"single\" con-block-id=\""
 						+ parameter.getId() + "\"/>");
 			}

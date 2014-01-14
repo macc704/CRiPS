@@ -137,8 +137,8 @@ public class ExArrayInstanceCreationModel extends ExpressionModel {
 			int i = 0;
 			for (ExpressionModel arg : arguments) {
 				model.makeIndent(out, indent + 2);
-				String connectorType = ElementModel
-						.convertJavaTypeToBlockType(arg.getType());
+				String connectorType = ElementModel.getConnectorType(arg
+						.getType());
 				if (connectorType.equals("void")) {
 					connectorType = "poly"; // polyÇÃÇ™É}ÉVÇæÇÎÅD#matsuzawa 2013.01.09
 				}

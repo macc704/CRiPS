@@ -49,7 +49,7 @@ public class ExVariableSetterModel extends ExpressionModel {
 		}
 
 		// System.out.println(variable.getType());
-		String connectorType = convertJavaTypeToBlockType(variable.getType());
+		String connectorType = getConnectorType(variable.getType());
 		// System.out.println("connectorType" + connectorType);
 
 		rightExpression.setConnectorId(getId());

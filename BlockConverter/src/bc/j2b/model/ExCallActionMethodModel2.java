@@ -45,7 +45,7 @@ public class ExCallActionMethodModel2 extends ExpressionModel {
 				&& !((ExpressionModel) callMethod).getType().equals("void")
 				&& !(callMethod instanceof ExVariableSetterModel)) {
 			cmd = false;
-			connectorType = convertJavaTypeToBlockType(((ExpressionModel) callMethod)
+			connectorType = getConnectorType(((ExpressionModel) callMethod)
 					.getType());
 
 			genusName = "callGetterMethod2";

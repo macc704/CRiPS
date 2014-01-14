@@ -45,7 +45,8 @@ public class StReturnModel extends StatementModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);
@@ -69,8 +70,7 @@ public class StReturnModel extends StatementModel {
 
 		{// Socket
 			if (returnValue != null && returnValue.getId() != -1) {
-				String connectorType = convertJavaTypeToBlockType(returnValue
-						.getType());
+				String connectorType = getConnectorType(returnValue.getType());
 				makeIndent(out, indent + 1);
 				out.println("<Sockets num-sockets=\"1\">");
 				// blockConnecters

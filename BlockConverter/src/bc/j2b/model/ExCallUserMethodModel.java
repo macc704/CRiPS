@@ -80,7 +80,7 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 		}
 
 		// plug
-		String plugType = convertJavaTypeToBlockType(getType());
+		String plugType = getConnectorType(getType());
 		if (VOID.equals(plugType)) {
 			// #matsuzawa 2012.10.29
 			// for接続する親ブロック(if等の一番上のブロックも含むところがややこしい)

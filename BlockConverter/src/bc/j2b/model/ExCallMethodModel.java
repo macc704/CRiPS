@@ -126,7 +126,7 @@ public class ExCallMethodModel extends ExpressionModel {
 		}
 
 		// plug
-		String plugType = convertJavaTypeToBlockType(getType());
+		String plugType = getConnectorType(getType());
 		if (VOID.equals(plugType)) {
 			// #matsuzawa 2012.10.29
 			// for接続する親ブロック(if等の一番上のブロックも含むところがややこしい)
@@ -179,8 +179,8 @@ public class ExCallMethodModel extends ExpressionModel {
 			int i = 0;
 			for (ExpressionModel arg : arguments) {
 				model.makeIndent(out, indent + 2);
-				String connectorType = ElementModel
-						.convertJavaTypeToBlockType(arg.getType());
+				String connectorType = ElementModel.getConnectorType(arg
+						.getType());
 				if (connectorType.equals("void")) {
 					connectorType = "poly"; // polyのがマシだろ．#matsuzawa 2013.01.09
 				}

@@ -538,8 +538,7 @@ public class SContextMenuProvider {
 				.getBlockID());
 		Block typeBlock = Block.getBlock(newBlock.getSocketAt(0).getBlockID());
 		//listの型
-		String type = ElementModel.convertJavaTypeToBlockType(typeBlock
-				.getBlockLabel());
+		String type = ElementModel.getConnectorType(typeBlock.getBlockLabel());
 		if (newCommandRBlock.getBlock().getGenusName().equals("add")) {//要素を追加するメソッドの場合は、プラグの形を変える
 			newCommandRBlock.getBlock().getSocketAt(0).setKind(type);
 		}

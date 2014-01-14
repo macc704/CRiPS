@@ -1828,8 +1828,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			ExClassInstanceCreationModel classInstanceCreator = (ExClassInstanceCreationModel) parentVariableModel
 					.getInitializer();
 			callerModel.setType(ElementModel
-					.convertJavaTypeToBlockType(classInstanceCreator
-							.getAruguments().get(0).getType()));
+					.getConnectorType(classInstanceCreator.getAruguments()
+							.get(0).getType()));
 		}
 		return callerModel;
 	}
@@ -1860,7 +1860,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		name = node.getName().toString();
 
 		model.setName(name);
-		model.setType(ElementModel.convertJavaTypeToBlockType(methodResolver
+		model.setType(ElementModel.getConnectorType(methodResolver
 				.getReturnType(node)));
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node

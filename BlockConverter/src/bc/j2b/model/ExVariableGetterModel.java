@@ -44,6 +44,12 @@ public class ExVariableGetterModel extends ExpressionModel {
 
 		String connectorType = getConnectorType(variable.getType());
 
+		// if (variable.getGenusName().startsWith("local")) {
+		// genusName = genusName + "local-var-" + connectorType;
+		// } else {
+		// genusName = genusName + "private-var-" + connectorType;
+		// }
+
 		makeIndent(out, indent);
 		out.println("<BlockStub>");
 		makeIndent(out, indent + 1);

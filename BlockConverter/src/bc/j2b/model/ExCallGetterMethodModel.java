@@ -45,7 +45,7 @@ public class ExCallGetterMethodModel extends ExpressionModel {
 			arg.print(out, indent);
 		}
 
-		String connectorType = convertJavaTypeToBlockType(getType());
+		String connectorType = getConnectorType(getType());
 
 		// print BlockEditor File
 		// stubBlock
@@ -79,7 +79,8 @@ public class ExCallGetterMethodModel extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 2);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 2);

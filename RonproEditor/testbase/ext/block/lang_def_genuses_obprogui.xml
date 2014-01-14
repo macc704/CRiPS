@@ -485,14 +485,14 @@
 		</Stub>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
 		<Stub stub-genus="setter">
 			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setglobal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
 	</Stubs>
