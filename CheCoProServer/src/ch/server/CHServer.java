@@ -142,7 +142,7 @@ public class CHServer {
 		String password = request.getPassword();
 		Color color = request.getColor();
 		// login process
-		if (login(user, conn) == false) {
+		if (login(new CHUserState(user, true, color), conn) == false) {
 			connectionPool.sendToOne(new CHLoginResult(CHLoginCheck.FAILURE),
 					user);
 			return null;
@@ -156,18 +156,20 @@ public class CHServer {
 			return user;
 		}
 
-		List<CHUserState> userStates = new ArrayList<CHUserState>();
-		for (String aUser : getAllUsers()) {
-			userStates.add(new CHUserState(aUser, true, color));
-		}
+		List<CHUserState> userStates = connectionPool.getUserStates();
+		// for (String aUser : getAllUsers()) {
+		// colorが全て同じになる原因
+		// connectionManagerにCHUserStateのリストを追加する？
+		// userStates.add(new CHUserState(aUser, true, color));
+		// }
 
 		connectionPool.broadCast(new CHLoginMemberChanged(userStates));
 		connectionPool.sendToOne(new CHFilelistRequest(null), user);
 		return user;
 	}
 
-	private boolean login(String user, CHConnection conn) {
-		boolean result = connectionPool.login(user, conn);
+	private boolean login(CHUserState userState, CHConnection conn) {
+		boolean result = connectionPool.login(userState, conn);
 		return result;
 	}
 

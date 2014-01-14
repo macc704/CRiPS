@@ -559,6 +559,7 @@ public class RECheCoProManager {
 		public void save() {
 			user = nameField.getText();
 			password = String.valueOf(passField.getPassword());
+			changeStringToColor((String) colorBox.getSelectedItem());
 			getRepository().put(LOGINID_LABEL, user);
 			getRepository().put(PASSWORD_LABEL,
 					String.valueOf(passField.getPassword()));

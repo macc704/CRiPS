@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import ch.conn.framework.CHConnection;
+import ch.conn.framework.CHUserState;
 
 public class CHServerConnectionManager {
 
@@ -13,6 +14,7 @@ public class CHServerConnectionManager {
 
 	private Map<String, CHConnection> connections = new LinkedHashMap<String, CHConnection>();
 	private Map<CHConnection, String> users = new LinkedHashMap<CHConnection, String>();
+	private List<CHUserState> userStates = new ArrayList<CHUserState>();
 
 	public String getUser(CHConnection conn) {
 		return users.get(conn);
@@ -27,18 +29,23 @@ public class CHServerConnectionManager {
 		return new ArrayList<String>(users.values());
 	}
 
+	public List<CHUserState> getUserStates() {
+		return userStates;
+	}
+
 	// private List<CHConnection> getConnections() {
 	// return new ArrayList<CHConnection>(connections.values());
 	// }
 
-	public boolean login(String user, CHConnection conn) {
+	public boolean login(CHUserState userState, CHConnection conn) {
 		synchronized (lock) {
-			if (connections.containsKey(user)) {
-				logout(user);
+			if (connections.containsKey(userState.getUser())) {
+				logout(userState.getUser());
 			}
-			connections.put(user, conn);
-			users.put(conn, user);
-			CHServer.out.println("login user: " + user);
+			connections.put(userState.getUser(), conn);
+			users.put(conn, userState.getUser());
+			userStates.add(userState);
+			CHServer.out.println("login user: " + userState.getUser());
 			return true;
 		}
 	}
@@ -48,6 +55,7 @@ public class CHServerConnectionManager {
 		return logout(conn);
 	}
 
+	// userStates未処理
 	public boolean logout(CHConnection conn) {
 		synchronized (lock) {
 			if (users.containsKey(conn)) {
