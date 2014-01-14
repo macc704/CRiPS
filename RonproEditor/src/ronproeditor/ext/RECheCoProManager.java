@@ -40,6 +40,7 @@ import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHFilelistResponse;
+import ch.conn.framework.packets.CHFilesizeNotice;
 import ch.conn.framework.packets.CHLoginMemberChanged;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
@@ -361,6 +362,8 @@ public class RECheCoProManager {
 			processFilelistRequest((CHFilelistRequest) obj);
 		} else if (obj instanceof CHFilelistResponse) {
 			processFilelistResponse((CHFilelistResponse) obj);
+		} else if (obj instanceof CHFilesizeNotice) {
+			processFilesizeNotice((CHFilesizeNotice) obj);
 		}
 	}
 
@@ -461,6 +464,11 @@ public class RECheCoProManager {
 	private void processFilelistRequest(CHFilelistRequest request) {
 		CFileList fileList = CHFileSystem.getFinalProjectFileList();
 		conn.write(new CHFilelistResponse(user, fileList));
+	}
+
+	private void processFilesizeNotice(CHFilesizeNotice notice) {
+		int fileSize = notice.getFileSize();
+		System.out.println("size ; " + fileSize);
 	}
 
 	/*********

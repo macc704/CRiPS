@@ -76,7 +76,6 @@ public class CHFileSystem {
 
 	public static List<CHFile> getCHFiles(List<String> requestFilePaths,
 			CDirectory dir) {
-
 		List<CHFile> chFiles = new ArrayList<CHFile>();
 		for (String path : requestFilePaths) {
 			CFile file = dir.findFile(path);
@@ -84,6 +83,14 @@ public class CHFileSystem {
 			chFiles.add(new CHFile(path, byteArray));
 		}
 		return chFiles;
+	}
+
+	public static int getFileSize(List<CHFile> files) {
+		int fileSize = 0;
+		for (CHFile aFile : files) {
+			fileSize += aFile.getBytes().length;
+		}
+		return fileSize;
 	}
 
 	public static void saveFiles(List<CHFile> files, CDirectory dir) {

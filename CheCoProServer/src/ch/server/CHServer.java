@@ -16,6 +16,7 @@ import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHFilelistResponse;
+import ch.conn.framework.packets.CHFilesizeNotice;
 import ch.conn.framework.packets.CHLoginMemberChanged;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
@@ -214,6 +215,11 @@ public class CHServer {
 		List<CHFile> files = CHFileSystem.getCHFiles(
 				request.getRequestFilePaths(),
 				CHFileSystem.getUserDirForServer(request.getUser(), port));
+
+		int fileSize = CHFileSystem.getFileSize(files);
+
+		connectionPool.sendToOne(new CHFilesizeNotice(fileSize),
+				connectionPool.getUser(conn));
 
 		connectionPool.sendToOne(new CHFileResponse(request.getUser(), files),
 				connectionPool.getUser(conn));
