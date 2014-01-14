@@ -21,7 +21,12 @@ public class StPrivateVariableDeclarationModel extends
 
 	@Override
 	public String getGenusName() {
-		String genusName = convertJavaTypeToBlockGenusName(getType());
+		String genusName;
+		if (isProjectObject()) {
+			genusName = "object-" + getType();
+		} else {
+			genusName = convertJavaTypeToBlockGenusName(getType());
+		}
 		if (genusName.equals("number")) {
 			genusName = "int-number";
 		}

@@ -7,7 +7,6 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 
 	private boolean argument;
 	private boolean isArray = false;
-	private boolean isProjectObject = false;
 
 	// public StLocalVariableModel() {
 	// this(false);
@@ -21,10 +20,6 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 		this.isArray = array;
 	}
 
-	public void setProjectObject(boolean projectObject) {
-		this.isProjectObject = projectObject;
-	}
-
 	@Override
 	public String getGenusName() {
 		if (argument) {
@@ -32,7 +27,7 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 		}
 
 		String genusName;
-		if (isProjectObject) {
+		if (isProjectObject()) {
 			genusName = "object-" + getType();
 		} else {
 			genusName = convertJavaTypeToBlockGenusName(getType());

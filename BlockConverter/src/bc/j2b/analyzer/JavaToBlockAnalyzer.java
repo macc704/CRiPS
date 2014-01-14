@@ -241,6 +241,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				.getStartPosition() + fieldValue.getLength());
 
 		if (privateVariableModel != null) {
+			if (projectClasses.contains(privateVariableModel.getType()
+					.toString())) {
+				privateVariableModel.setProjectObject(true);
+			}
 			String lineComment = commentGetter.getLineComment(index);
 			String position = getPositionFromLineComment(lineComment);
 			// set position
@@ -481,31 +485,67 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					"Two or more do not make a variable declaration simultaneously. ");
 		}
 
-		StPrivateVariableDeclarationModel model = new StPrivateVariableDeclarationModel();
-		VariableDeclarationFragment variable = (VariableDeclarationFragment) node
-				.fragments().get(0);
-		model.setType(node.getType().toString());
-		model.setId(idCounter.getNextId());
-		model.setName(variable.getName().toString());
-
+		boolean isArray = false;
+		boolean isFinal = false;
 		if (node.getType().isArrayType()) {
-			model.setArray(true);
+			isArray = true;
 		}
 
 		for (Object modifer : node.modifiers()) {
 			if (modifer.toString().equals("final")) {
-				model.setModifer("final-");
+				isFinal = true;
 			}
 		}
-		// initializeƒ‰ƒxƒ‹‚Ì“\‚è•t‚¯
-		if (variable.getInitializer() != null) {
-			model.setInitializer(parseExpression(variable.getInitializer()));
+
+		StPrivateVariableDeclarationModel model;
+		if (node.getType().isParameterizedType()) {// Type< Type{, TYpe}>
+			ParameterizedType type = ((ParameterizedType) node.getType());
+
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
+					.fragments().get(0);
+			String variableType = type.getType().toString();
+			String variableName = fragment.getName().toString();
+
+			model = createPrivateVariable(variableType, variableName,
+					compilationUnit.getLineNumber(node.getStartPosition()),
+					fragment, isArray, isFinal);
+		} else {
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
+					.fragments().get(0);
+			String variableType = node.getType().toString();
+			String variableName = fragment.getName().toString();
+
+			model = createPrivateVariable(variableType, variableName,
+					compilationUnit.getLineNumber(node.getStartPosition()),
+					fragment, isArray, isFinal);
 		}
 
 		variableResolver.addGlobalVariable(model);
 
 		return model;
 
+	}
+
+	StPrivateVariableDeclarationModel createPrivateVariable(String type,
+			String name, int lineNumber, VariableDeclarationFragment variable,
+			boolean isArrayType, boolean isFinal) {
+		StPrivateVariableDeclarationModel model = new StPrivateVariableDeclarationModel();
+		model.setType(type);
+		model.setId(idCounter.getNextId());
+		model.setName(name);
+		model.setLineNumber(lineNumber);
+		if (variable.getInitializer() != null) {
+			model.setInitializer(parseExpression(variable.getInitializer()));
+		}
+
+		if (isArrayType) {
+			model.setArray(true);
+		}
+
+		if (isFinal) {
+			model.setModifer("final-");
+		}
+		return model;
 	}
 
 	// /**

@@ -125,9 +125,13 @@ public class OutputSelDefClassPageModel {
 							addedMethods
 									.put(Integer.toString(method.hashCode()),
 											method);
+							String paramSize = Integer.toString(method
+									.getParameters().size());
+							if (paramSize.equals("0")) {
+								paramSize = "";
+							}
 							this.addedMethods.put(method.getName() + "("
-									+ method.getParameters().size() + ")",
-									method.getreturnType());
+									+ paramSize + ")", method.getreturnType());
 						}
 					}
 				}

@@ -127,6 +127,7 @@ public class MethodResolver {
 		methodToReturnType.put("drawArc(7)", "void");
 		methodToReturnType.put("drawFillTriangle(7)", "void");
 		methodToReturnType.put("drawText(5)", "void");
+		methodToReturnType.put("drawText(4)", "void");
 		methodToReturnType.put("isClick()", "boolean");
 		methodToReturnType.put("isSingleClick()", "boolean");
 		methodToReturnType.put("isDoubleClick()", "boolean");

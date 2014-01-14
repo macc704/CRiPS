@@ -197,8 +197,8 @@ public abstract class ElementModel {
 			return "string";
 		} else if (type.equals("boolean")) {
 			return "boolean";
-		} else if (type.equals("List") || type.equals("listobject")) {
-			return "listobject";
+		} else if (type.equals("List") || type.equals("ArrayList")) {
+			return type.toLowerCase() + "object";
 		} else if (type.equals("BCanvas") || type.equals("BWindow")
 				|| type.equals("BSound") || type.equals("Color")) {
 			return "object-" + type.toLowerCase();

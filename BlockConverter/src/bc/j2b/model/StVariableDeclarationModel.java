@@ -9,6 +9,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 
 	private String name;
 	private String type;
+	private boolean isProjectObject = false;
 
 	private ExpressionModel initializer;
 
@@ -18,6 +19,14 @@ public class StVariableDeclarationModel extends StatementModel implements
 
 	public ExpressionModel getInitializer() {
 		return this.initializer;
+	}
+
+	public void setProjectObject(boolean projectObject) {
+		this.isProjectObject = projectObject;
+	}
+
+	public boolean isProjectObject() {
+		return this.isProjectObject;
 	}
 
 	/**
@@ -78,7 +87,9 @@ public class StVariableDeclarationModel extends StatementModel implements
 		out.println("<Label>" + name + "</Label>");
 		// variable type
 		makeIndent(out, indent + 1);
-		out.println("<HeaderLabel>" + getType() + "</HeaderLabel>");
+
+		out.println("<HeaderLabel>" + ElementModel.addEscapeSequence(getType())
+				+ "</HeaderLabel>");
 
 		{// 2013 09/26 ohata tag for line comment
 			// comment

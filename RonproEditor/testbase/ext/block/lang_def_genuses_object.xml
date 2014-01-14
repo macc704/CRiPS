@@ -953,6 +953,220 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="local-var-arraylistobject" kind="local-variable"
+	initlabel="t" header-label="ArrayList型の変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	<description>
+		<text>
+			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="private-var-listobject" kind="global-variable"
+	initlabel="t" header-label="List型の変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	<description>
+		<text>
+			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="private-var-arraylistobject" kind="global-variable"
+	initlabel="t" header-label="ArrayList型の変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	<description>
+		<text>
+			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
 <BlockGenus name="type-object" kind="function" initlabel="String"
 	editable-label="yes" header-label="" footer-label="型" color="16 240 27">
 	<BlockConnectors>
@@ -1275,7 +1489,7 @@
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="gloval"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
 		<Stub stub-genus="setter">
