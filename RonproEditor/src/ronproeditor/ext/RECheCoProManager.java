@@ -173,6 +173,11 @@ public class RECheCoProManager {
 			final String user) {
 		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
 		menuBar.getMenu(3).remove(4);
+
+		for (int i = 0; i < menuBar.getMenuCount(); i++) {
+			menuBar.getMenu(i).setBackground(getUserColor(user));
+		}
+
 		menuBar.add(connButton);
 
 		JButton fileRequestButton = new JButton("File request");
@@ -197,6 +202,8 @@ public class RECheCoProManager {
 		menuBar.add(fileRequestButton);
 		menuBar.add(copyFileButton);
 
+		menuBar.setBackground(getUserColor(user));
+
 		chApplication.getFrame().setJMenuBar(menuBar);
 	}
 
@@ -220,12 +227,12 @@ public class RECheCoProManager {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						setCHTitleBar(chApplication);
-						if (chApplication.getFrame().getEditor() != null) {
-							chApplication.getFrame().getEditor().getViewer()
-									.getTextPane()
-									.setBackground(getUserColor(user));
-
-						}
+						// if (chApplication.getFrame().getEditor() != null) {
+						// chApplication.getFrame().getEditor().getViewer()
+						// .getTextPane()
+						// .setBackground(getUserColor(user));
+						//
+						// }
 					}
 				});
 
