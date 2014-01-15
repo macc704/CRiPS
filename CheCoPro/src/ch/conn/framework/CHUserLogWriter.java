@@ -16,6 +16,16 @@ public class CHUserLogWriter {
 	public static final String CHDIR_PATH = "MyProjects/.CH";
 	public static final String LOGFILE = "chLog.csv";
 
+	public static final String LOGIN = "login";
+	public static final String LOGOUT = "logout";
+	public static final String SYNC_START = "start sync";
+	public static final String SYNC_STOP = "stop sync";
+	public static final String SEND_FILE = "send file";
+	public static final String RECIVE_FILE = "recive file";
+	public static final String COPY_FILE = "copy file";
+	public static final String COPY_CODE = "copy code";
+	public static final String PASTE_CODE = "paste code";
+
 	private List<List<String>> table = new ArrayList<List<String>>();
 	private List<String> row = new ArrayList<String>();
 	private DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -30,7 +40,7 @@ public class CHUserLogWriter {
 			table = CCSVFileIO.loadAsListList(file);
 		} else {
 			table.add(getHeaderList());
-			CCSVFileIO.saveByListList(table, getLogFile());
+			saveTableToFile();
 		}
 		initRow();
 	}
@@ -46,77 +56,111 @@ public class CHUserLogWriter {
 
 	public List<String> getHeaderList() {
 		List<String> header = new ArrayList<String>();
-		header.add("copy time");
+		header.add("time");
+		header.add("command");
 		header.add("from");
-		header.add("paste time");
 		header.add("to");
 		header.add("code");
 		return header;
 	}
 
-	public void setCopyTime() {
-		if (row.get(0) != null) {
+	public void writeCommand(String command) {
+		if (!row.get(0).equals("")) {
 			initRow();
-		} else if (row.get(0) == null) {
+		} else if (row.get(0).equals("")) {
 			row.set(0, formatter.format(new Date()));
 		}
-	}
-
-	public void setFrom(String path) {
-		if (row.get(1) != null) {
+		if (!row.get(1).equals("")) {
 			initRow();
-		} else if (row.get(1) == null) {
-			row.set(1, path);
+		} else if (row.get(1).equals("")) {
+			row.set(1, command);
 		}
 	}
 
-	public void setPasteTime() {
-		if (row.get(2) != null) {
+	public void writeFrom(String user) {
+		if (!row.get(2).equals("")) {
 			initRow();
-		} else if (row.get(2) == null) {
-			row.set(2, formatter.format(new Date()));
+		} else if (row.get(2).equals("")) {
+			row.set(2, user);
 		}
 	}
 
-	public void setTo(String path) {
-		if (row.get(3) != null) {
+	public void writeFrom(CFile file) {
+		if (!row.get(2).equals("")) {
 			initRow();
-		} else if (row.get(3) == null) {
-			row.set(3, path);
-			addTabel(row);
+		} else if (row.get(2).equals("")) {
+			row.set(2, file.getAbsolutePath().toString());
 		}
 	}
 
-	public void setCode(String code) {
-		if (row.get(4) != null) {
+	public void writeTo(String user) {
+		if (!row.get(3).equals("")) {
 			initRow();
-		} else if (row.get(4) == null) {
+		} else if (row.get(3).equals("")) {
+			row.set(3, user);
+		}
+	}
+
+	public void writeTo(CFile file) {
+		if (!row.get(3).equals("")) {
+			initRow();
+		} else if (row.get(3).equals("")) {
+			row.set(3, file.getAbsolutePath().toString());
+		}
+	}
+
+	public void writeCode(String code) {
+		if (!row.get(4).equals("")) {
+			initRow();
+		} else if (row.get(4).equals("")) {
 			row.set(4, code);
 		}
 	}
 
-	private void addTabel(List<String> row) {
-		if (row.size() == 5) {
-			table.add(row);
-			CCSVFileIO.saveByListList(table, getLogFile());
-			initRow();
-		}
+	public void addRowToTable() {
+		table.add(row);
+		initRow();
+	}
+
+	public void saveTableToFile() {
+		CCSVFileIO.saveByListList(table, getLogFile());
 	}
 
 	private void initRow() {
+		row = new ArrayList<String>();
 		for (int i = 0; i < 5; i++) {
-			row.add(null);
+			row.add("");
 		}
 	}
 
 	public static void main(String[] args) {
 		CHUserLogWriter log = new CHUserLogWriter();
-		log.setCopyTime();
-		log.setFrom("user1");
-		log.setCode("int i");
-		log.setPasteTime();
-		log.setTo("user2");
-		log.setCopyTime();
-		log.setTo("user3");
+		log.writeCommand(LOGIN);
+		log.addRowToTable();
+		log.writeCommand(SEND_FILE);
+		log.writeFrom("final/Final/java");
+		log.addRowToTable();
+		log.writeCommand(RECIVE_FILE);
+		log.writeFrom("user2");
+		log.writeTo("user1");
+		log.addRowToTable();
+		log.writeCommand(SYNC_START);
+		log.addRowToTable();
+		log.writeCommand(SYNC_STOP);
+		log.addRowToTable();
+		log.writeCommand(COPY_FILE);
+		log.writeFrom(".CH/user2/Final.java");
+		log.addRowToTable();
+		log.writeCommand(COPY_CODE);
+		log.writeFrom(".CH/user2/Final.java");
+		log.writeCode("int i");
+		log.addRowToTable();
+		log.writeCommand(PASTE_CODE);
+		log.writeTo("final/Final.java");
+		log.writeCode("int i");
+		log.addRowToTable();
+		log.writeCommand(LOGOUT);
+		log.addRowToTable();
+		log.saveTableToFile();
 	}
 }
