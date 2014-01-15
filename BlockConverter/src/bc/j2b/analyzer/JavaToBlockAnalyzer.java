@@ -509,6 +509,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model = createPrivateVariable(variableType, variableName,
 					compilationUnit.getLineNumber(node.getStartPosition()),
 					fragment, isArray, isFinal);
+			// parameterizedtype‚Ì•t—^
+			for (Object parameterizedType : type.typeArguments()) {
+				((StPrivateVariableDeclarationModel) (model))
+						.setParameterizedType(parameterizedType.toString());
+			}
 		} else {
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 					.fragments().get(0);
@@ -1225,11 +1230,18 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		} else if (node.getType().isParameterizedType()) {// Type< Type{, TYpe}>
 			ParameterizedType type = ((ParameterizedType) node.getType());
+
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 					.fragments().get(0);
+
 			StatementModel model = createLocalVariableModel(type.getType()
 					.toString(), fragment.getName().toString(),
 					fragment.getInitializer(), false, false);
+			for (Object parameterizedType : type.typeArguments()) {
+				((StLocalVariableModel) (model))
+						.setParameterizedType(parameterizedType.toString());
+			}
+
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
 			return model;

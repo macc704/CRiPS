@@ -1,5 +1,6 @@
 package bc.b2j.analyzer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -8,6 +9,7 @@ import java.util.regex.Pattern;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import bc.BlockConverter;
 import bc.b2j.model.AbstractionBlockModel;
@@ -359,6 +361,15 @@ public class BlockToJavaAnalyzer {
 				model.setType(blockInfo.getTextContent());
 			} else if (blockInfo.getNodeName() == "Collapsed") {
 				model.setCollapsed(true);
+			} else if (blockInfo.getNodeName() == "ParameterizedType") {
+				NodeList parameterizedTypes = blockInfo.getChildNodes();
+				ArrayList<String> types = new ArrayList<String>();
+				for (int i = 0; i < parameterizedTypes.getLength(); i++) {
+					if (parameterizedTypes.item(i).getNodeName().equals("Type")) {
+						types.add(parameterizedTypes.item(i).getTextContent());
+					}
+				}
+				model.setParameterizedType(types);
 			} else if (blockInfo.getNodeName() == "BeforeBlockId") {
 				model.setBeforeID(Integer.parseInt(blockInfo.getTextContent()));
 			} else if (blockInfo.getNodeName() == "AfterBlockId") {

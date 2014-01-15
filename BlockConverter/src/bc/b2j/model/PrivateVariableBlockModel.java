@@ -32,24 +32,66 @@ public class PrivateVariableBlockModel extends VariableBlockModel {
 	@Override
 	public void print(PrintStream out, int indent) {
 
-		makeIndent(out, indent);
+		if (getName().contains("listobject")) {
+			makeIndent(out, indent);
+			ArrayList<Integer> connectorIDs = getConnectorIDs();
+			BlockModel newDecl = BlockToJavaAnalyzer.getBlock(connectorIDs
+					.get(0));
+			// newキーワード変換
+			if (newDecl != null) {
+				ArrayList<Integer> newDeclConnectorIDs = newDecl
+						.getConnectorIDs();
+				BlockModel typeDecl = BlockToJavaAnalyzer
+						.getBlock(newDeclConnectorIDs.get(0));
+				out.print(getType() + "<" + typeDecl.getLabel() + "> "
+						+ getLabel());
+			} else {
+				out.print(getType() + "<");
+				ArrayList<String> parameterizedTypes = getParameterizedType();
+				for (int i = 0; i < parameterizedTypes.size(); i++) {
+					out.print(parameterizedTypes.get(i));
+					if (i + 1 < parameterizedTypes.size()) {
+						out.print(", ");
+					}
+				}
+				out.print("> " + getLabel());
 
-		out.print("private " + modifer + " " + getType() + " " + getLabel());
-		ArrayList<Integer> connectorIDs = getConnectorIDs();
+			}
 
-		for (int connectorID : connectorIDs) {
-			if (connectorID != BlockModel.NULL) {
-				out.print(" = ");
-				BlockToJavaAnalyzer.getBlock(connectorID).print(out, indent);
+			for (int connectorID : connectorIDs) {
+				if (connectorID != BlockModel.NULL) {
+					out.print(" = ");
+					BlockToJavaAnalyzer.getBlock(connectorID)
+							.print(out, indent);
+				}
+			}
+			out.println(";" + "//" + getComment() + "@(" + getX() + ", "
+					+ getY() + ")");
+			if (getAfterID() != BlockModel.NULL) {
+				BlockToJavaAnalyzer.getBlock(getAfterID()).print(out, indent);
+			}
+		} else {
+			makeIndent(out, indent);
+
+			out.print("private " + modifer + " " + getType() + " " + getLabel());
+			ArrayList<Integer> connectorIDs = getConnectorIDs();
+
+			for (int connectorID : connectorIDs) {
+				if (connectorID != BlockModel.NULL) {
+					out.print(" = ");
+					BlockToJavaAnalyzer.getBlock(connectorID)
+							.print(out, indent);
+				}
+			}
+
+			out.println(";" + "//" + getComment() + "@(" + getX() + ", "
+					+ getY() + ")");
+
+			if (getAfterID() != BlockModel.NULL) {
+				BlockToJavaAnalyzer.getBlock(getAfterID()).print(out, indent);
 			}
 		}
 
-		out.println(";" + "//" + getComment() + "@(" + getX() + ", " + getY()
-				+ ")");
-
-		if (getAfterID() != BlockModel.NULL) {
-			BlockToJavaAnalyzer.getBlock(getAfterID()).print(out, indent);
-		}
 	}
 
 	public String getPrivateValue() {

@@ -84,6 +84,8 @@ public class Block implements ISupportMemento {
 	//ohata added
 	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
 
+	private ArrayList<String> parameterizedTypes;
+
 	public Map<String, List<Map<String, List<String>>>> getMethods() {
 		return methods;
 	}
@@ -1794,6 +1796,15 @@ public class Block implements ISupportMemento {
 			saveString.append("</LineComment>");
 		}
 
+		if (parameterizedTypes != null) {
+			saveString.append("<ParameterizedType>");
+			for (String type : parameterizedTypes) {
+				saveString.append("<Type>" + type + "</Type>");
+
+			}
+			saveString.append("</ParameterizedType>");
+		}
+
 		saveString.append("<Location>");
 		saveString.append("<X>");
 		saveString.append(x);
@@ -1891,6 +1902,7 @@ public class Block implements ISupportMemento {
 		String badMsg = null;
 		Long beforeID = null;
 		Long afterID = null;
+		ArrayList<String> parameterizedTypes = new ArrayList<String>();
 		BlockConnector plug = null;
 		ArrayList<BlockConnector> sockets = new ArrayList<BlockConnector>();
 		HashMap<String, String> blockLangProperties = null;
@@ -1957,6 +1969,14 @@ public class Block implements ISupportMemento {
 					pagelabel = child.getTextContent();
 				} else if (child.getNodeName().equals("CompilerErrorMsg")) {
 					badMsg = child.getTextContent();
+				} else if (child.getNodeName().equals("ParameterizedType")) {
+					NodeList types = child.getChildNodes();
+					for (int j = 0; j < types.getLength(); j++) {
+						Node type = types.item(j);
+						if (type.getNodeName().equals("Type")) {
+							parameterizedTypes.add(type.getTextContent());
+						}
+					}
 				} else if (child.getNodeName().equals("BeforeBlockId")) {
 					beforeID = translateLong(
 							Long.parseLong(child.getTextContent()), idMapping);
@@ -2063,6 +2083,10 @@ public class Block implements ISupportMemento {
 				assert label != null : "Loading a block stub, but has a null label!";
 				block = new BlockStub(id, genusName, label, stubParentName,
 						stubParentGenus);
+			}
+
+			if (parameterizedTypes.size() > 0) {
+				block.parameterizedTypes = parameterizedTypes;
 			}
 
 			if (plug != null) {

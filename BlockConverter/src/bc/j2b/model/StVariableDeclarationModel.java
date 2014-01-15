@@ -1,6 +1,8 @@
 package bc.j2b.model;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StVariableDeclarationModel extends StatementModel implements
 		Cloneable {
@@ -10,8 +12,23 @@ public class StVariableDeclarationModel extends StatementModel implements
 	private String name;
 	private String type;
 	private boolean isProjectObject = false;
+	private List<String> parameterizedType = new ArrayList<String>();
+
+	private boolean isArray = false;
 
 	private ExpressionModel initializer;
+
+	public void setArray(boolean array) {
+		this.isArray = array;
+	}
+
+	public boolean isArray() {
+		return this.isArray;
+	}
+
+	public void setParameterizedType(String type) {
+		parameterizedType.add(type);
+	}
 
 	public StVariableDeclarationModel() {
 		setBlockHeight(variableBlockHeight);
@@ -109,6 +126,21 @@ public class StVariableDeclarationModel extends StatementModel implements
 			if (p != null) {// ohata privateÇ…ParentÇÕë∂ç›ÇµÇ»Ç¢ÇΩÇﬂÅAÇ±Ç±Ç≈Ç ÇÈÇ€Ç≈Ç‹Ç∑Å@
 				out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 			}
+		}
+
+		{//
+			// parameterizedtype
+			makeIndent(out, indent + 1);
+			out.println("<ParameterizedType>");
+
+			for (String type : parameterizedType) {
+				makeIndent(out, indent + 2);
+
+				out.println("<Type>" + type + "</Type>");
+			}
+
+			makeIndent(out, indent + 1);
+			out.println("</ParameterizedType>");
 		}
 
 		// location

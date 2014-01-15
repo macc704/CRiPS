@@ -6,7 +6,6 @@ package bc.j2b.model;
 public class StLocalVariableModel extends StVariableDeclarationModel {
 
 	private boolean argument;
-	private boolean isArray = false;
 
 	// public StLocalVariableModel() {
 	// this(false);
@@ -14,10 +13,6 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 
 	public StLocalVariableModel(boolean argument) {
 		this.argument = argument;
-	}
-
-	public void setArray(boolean array) {
-		this.isArray = array;
 	}
 
 	@Override
@@ -37,7 +32,7 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 			genusName = "int-number";
 		}
 
-		if (isArray) {
+		if (isArray()) {
 			genusName += "-arrayobject";
 		}
 

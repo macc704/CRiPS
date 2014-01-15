@@ -32,11 +32,26 @@ public class LocalVariableBlockModel extends VariableBlockModel {
 			BlockModel newDecl = BlockToJavaAnalyzer.getBlock(connectorIDs
 					.get(0));
 
-			ArrayList<Integer> newDeclConnectorIDs = newDecl.getConnectorIDs();
-			BlockModel typeDecl = BlockToJavaAnalyzer
-					.getBlock(newDeclConnectorIDs.get(0));
-
-			out.print(getType() + "<" + typeDecl.getLabel() + "> " + getLabel());
+			// newキーワード変換
+			if (newDecl != null) {
+				ArrayList<Integer> newDeclConnectorIDs = newDecl
+						.getConnectorIDs();
+				BlockModel typeDecl = BlockToJavaAnalyzer
+						.getBlock(newDeclConnectorIDs.get(0));
+				out.print(getType() + "<" + typeDecl.getLabel() + "> "
+						+ getLabel());
+			} else {
+				out.print(getType() + "<");
+				ArrayList<String> parameterizedType = getParameterizedType();
+				for (int i = 0; i < parameterizedType.size(); i++) {
+					String type = parameterizedType.get(i);
+					out.print(type);
+					if (i + 1 < parameterizedType.size()) {
+						out.print(",");
+					}
+				}
+				out.print("> " + getLabel());
+			}
 
 			for (int connectorID : connectorIDs) {
 				if (connectorID != BlockModel.NULL) {
@@ -68,5 +83,4 @@ public class LocalVariableBlockModel extends VariableBlockModel {
 			}
 		}
 	}
-
 }
