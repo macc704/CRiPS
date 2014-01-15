@@ -13,7 +13,7 @@ import clib.common.table.CCSVFileIO;
 
 public class CHUserLogWriter {
 
-	public static final String CHDIR_PATH = "MyProjects/.CH";
+	public static final String CHDIR_PATH = "MyProjects/final/.ch";
 	public static final String LOGFILE = "chLog.csv";
 
 	public static final String LOGIN = "login";

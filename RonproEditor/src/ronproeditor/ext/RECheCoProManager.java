@@ -33,6 +33,7 @@ import ronproeditor.REApplication;
 import ronproeditor.views.REFrame;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
+import ch.conn.framework.CHUserLogWriter;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHEntryRequest;
 import ch.conn.framework.packets.CHEntryResult;
@@ -76,6 +77,7 @@ public class RECheCoProManager {
 	private Color color = DEFAULT_COLOR;
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 	private JToggleButton connButton = new JToggleButton("ìØä˙íÜ", true);
+	private CHUserLogWriter logWriter = new CHUserLogWriter();
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -151,6 +153,7 @@ public class RECheCoProManager {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				conn.write(new CHLogoutRequest(user));
+				conn.close();
 			}
 		});
 	}
@@ -196,6 +199,9 @@ public class RECheCoProManager {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
+				logWriter.writeFrom(user);
+				logWriter.addRowToTable();
 				copyUserDirToMyProjects(user);
 			}
 		});
@@ -332,6 +338,7 @@ public class RECheCoProManager {
 		}
 		conn.close();
 		connectionKilled();
+		logWriter.saveTableToFile();
 		System.out.println("client closed");
 
 	}
@@ -342,6 +349,7 @@ public class RECheCoProManager {
 	}
 
 	private void readFromServer() {
+
 		Object obj = conn.read();
 
 		if (obj instanceof CHLoginResult) {
@@ -381,6 +389,8 @@ public class RECheCoProManager {
 			password = entryDialog.getPassword();
 			conn.write(new CHEntryRequest(user, password));
 		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
+			logWriter.writeCommand(CHUserLogWriter.LOGIN);
+			logWriter.addRowToTable();
 			msFrame = new CHMemberSelectorFrame(user);
 			msFrame.open();
 		}
@@ -389,8 +399,11 @@ public class RECheCoProManager {
 	private void processEntryResult(CHEntryResult result) {
 		if (result.isResult()) {
 			// ìoò^ê¨å˜
+			conn.write(new CHLoginRequest(user, password, color));
 		} else {
 			// ìoò^é∏îs
+			System.out.println("Entry failed");
+			conn.close();
 		}
 	}
 
@@ -435,11 +448,15 @@ public class RECheCoProManager {
 					chApplication.getFrame().setVisible(false);
 				}
 			}
+			logWriter.saveTableToFile();
 			conn.close();
 		}
 	}
 
 	private void processFileRequest(CHFileRequest request) {
+		logWriter.writeCommand(CHUserLogWriter.SEND_FILE);
+		logWriter.writeFrom(user);
+		logWriter.addRowToTable();
 		List<CHFile> files = CHFileSystem.getCHFiles(
 				request.getRequestFilePaths(),
 				CHFileSystem.getFinalProjectDir());
@@ -447,6 +464,9 @@ public class RECheCoProManager {
 	}
 
 	private void processFileResponse(CHFileResponse response) {
+		logWriter.writeCommand(CHUserLogWriter.RECIVE_FILE);
+		logWriter.writeFrom(response.getUser());
+		logWriter.addRowToTable();
 		CHFileSystem.saveFiles(response.getFiles(),
 				CHFileSystem.getUserDirForClient(response.getUser()));
 	}

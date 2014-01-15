@@ -100,4 +100,11 @@ public class CHServerConnectionManager {
 		}
 	}
 
+	public void sendToOne(Object obj, CHConnection conn) {
+		synchronized (lock) {
+			conn.write(obj);
+			CHServer.out.println("send to: " + conn + ", object: " + obj);
+		}
+	}
+
 }

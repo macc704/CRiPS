@@ -116,7 +116,9 @@ public class CHServer {
 				out.println("received by user: " + user + ", msssage: " + obj);
 
 				if (obj instanceof CHEntryRequest) {
-					processEntryRequest((CHEntryRequest) obj);
+					processEntryRequest((CHEntryRequest) obj, conn);
+				} else if (obj instanceof CHLoginRequest) {
+					processLogin((CHLoginRequest) obj, conn);
 				} else if (obj instanceof CHSourceChanged) {
 					processSourceChanged((CHSourceChanged) obj);
 				} else if (obj instanceof CHLogoutRequest) {
@@ -142,6 +144,14 @@ public class CHServer {
 		String user = request.getUser();
 		String password = request.getPassword();
 		Color color = request.getColor();
+
+		CHLoginCheck loginCheck = new CHLoginCheck(user, password);
+		int result = loginCheck.checkPattern(port);
+		if (result == CHLoginCheck.NEW_ENTRY) {
+			connectionPool.sendToOne(new CHLoginResult(result), conn);
+			return "newEntry";
+		}
+
 		// login process
 		if (login(new CHUserState(user, true, color), conn) == false) {
 			connectionPool.sendToOne(new CHLoginResult(CHLoginCheck.FAILURE),
@@ -149,13 +159,7 @@ public class CHServer {
 			return null;
 		}
 
-		CHLoginCheck loginCheck = new CHLoginCheck(user, password);
-		int result = loginCheck.checkPattern(port);
-
 		connectionPool.sendToOne((new CHLoginResult(result)), user);
-		if (result == CHLoginCheck.NEW_ENTRY) {
-			return user;
-		}
 
 		List<CHUserState> userStates = connectionPool.getUserStates();
 		// for (String aUser : getAllUsers()) {
@@ -174,12 +178,11 @@ public class CHServer {
 		return result;
 	}
 
-	private void processEntryRequest(CHEntryRequest request) {
+	private void processEntryRequest(CHEntryRequest request, CHConnection conn) {
 		CHLoginCheck loginCheck = new CHLoginCheck(request.getUser(),
 				request.getPassword());
 		connectionPool.sendToOne(
-				new CHEntryResult(loginCheck.entryNewUser(port)),
-				request.getUser());
+				new CHEntryResult(loginCheck.entryNewUser(port)), conn);
 	}
 
 	private void processLogoutRequest(CHLogoutRequest request, CHConnection conn) {
