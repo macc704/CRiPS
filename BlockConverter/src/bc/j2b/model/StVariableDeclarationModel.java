@@ -13,6 +13,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 	private String type;
 	private boolean isProjectObject = false;
 	private List<String> parameterizedType = new ArrayList<String>();
+	private String javaVariableType;
 
 	private boolean isArray = false;
 
@@ -40,6 +41,10 @@ public class StVariableDeclarationModel extends StatementModel implements
 
 	public void setProjectObject(boolean projectObject) {
 		this.isProjectObject = projectObject;
+	}
+
+	public void setJavaVariableType(String javaVariableType) {
+		this.javaVariableType = javaVariableType;
 	}
 
 	public boolean isProjectObject() {
@@ -107,6 +112,9 @@ public class StVariableDeclarationModel extends StatementModel implements
 
 		out.println("<HeaderLabel>" + ElementModel.addEscapeSequence(getType())
 				+ "</HeaderLabel>");
+
+		makeIndent(out, indent + 1);
+		out.println("<JavaType>" + javaVariableType + "</JavaType>");
 
 		{// 2013 09/26 ohata tag for line comment
 			// comment
@@ -212,8 +220,11 @@ public class StVariableDeclarationModel extends StatementModel implements
 		out.println("<Block id=\"" + getId() + "\" genus-name=\""
 				+ getArgGenusName() + "\">");
 		// label
-		makeIndent(out, indent);
+		makeIndent(out, indent + 1);
 		out.println("<Label>" + name + "</Label>");
+
+		makeIndent(out, indent + 1);
+		out.println("<JavaType>" + javaVariableType + "</JavaType>");
 
 		{// 2013 09/26 ohata tag for line comment
 			// comment

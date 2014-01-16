@@ -49,6 +49,8 @@ public class Block implements ISupportMemento {
 	private String footerLabel = null;
 	private String genusName;
 
+	private String javaType;
+
 	// block connection information
 	private List<BlockConnector> sockets;
 	private BlockConnector plug;
@@ -1785,6 +1787,12 @@ public class Block implements ISupportMemento {
 			saveString.append("</HeaderLabel>");
 		}
 
+		if (javaType != null) {
+			saveString.append("<JavaType>");
+			saveString.append(escape(javaType));
+			saveString.append("</JavaType>");
+		}
+
 		if (this.isBad) {
 			saveString.append("<CompilerErrorMsg>");
 			saveString.append(escape(pageLabel));
@@ -1906,6 +1914,7 @@ public class Block implements ISupportMemento {
 		BlockConnector plug = null;
 		ArrayList<BlockConnector> sockets = new ArrayList<BlockConnector>();
 		HashMap<String, String> blockLangProperties = null;
+		String javaType = null;
 		// int numSockets;
 		boolean hasFocus = false;
 
@@ -1963,6 +1972,8 @@ public class Block implements ISupportMemento {
 					headerLabel = child.getTextContent();
 				} else if (child.getNodeName().equals("LineNumber")) {
 					lineNumber = Integer.parseInt(child.getTextContent());
+				} else if (child.getNodeName().equals("JavaType")) {
+					javaType = child.getTextContent();
 				} else if (child.getNodeName().equals("ParentBlock")) {
 					parentID = Long.parseLong(child.getTextContent());
 				} else if (child.getNodeName().equals("PageLabel")) {
@@ -2115,6 +2126,10 @@ public class Block implements ISupportMemento {
 			// load language dependent properties
 			if (blockLangProperties != null && !blockLangProperties.isEmpty()) {
 				block.properties = blockLangProperties;
+			}
+
+			if (javaType != null) {
+				block.javaType = javaType;
 			}
 
 			// System.out.println("Loaded Block: "+block);

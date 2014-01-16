@@ -65,9 +65,7 @@ public class LocalVariableBlockModel extends VariableBlockModel {
 				BlockToJavaAnalyzer.getBlock(getAfterID()).print(out, indent);
 			}
 		} else {
-
 			makeIndent(out, indent);
-
 			out.print(getType() + " " + getLabel());
 			ArrayList<Integer> connectorIDs = getConnectorIDs();
 			for (int connectorID : connectorIDs) {

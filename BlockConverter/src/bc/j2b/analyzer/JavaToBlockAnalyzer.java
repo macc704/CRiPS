@@ -524,7 +524,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					compilationUnit.getLineNumber(node.getStartPosition()),
 					fragment, isArray, isFinal);
 		}
-
+		model.setJavaVariableType(node.getType().toString());
 		variableResolver.addGlobalVariable(model);
 
 		return model;
@@ -1308,6 +1308,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		StLocalVariableModel model = new StLocalVariableModel(argument);
 
 		model.setArray(array);
+
+		model.setJavaVariableType(type);
 
 		if (projectClasses.contains(type)) {
 			model.setProjectObject(true);

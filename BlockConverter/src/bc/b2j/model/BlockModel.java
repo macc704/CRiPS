@@ -23,6 +23,7 @@ public abstract class BlockModel {
 	private int posY = 0;
 	private String comment = "";
 	private ArrayList<String> parameterizedType;
+	private String javaType;
 
 	// Defines a NULL id for a Block
 	public static final int NULL = Integer.valueOf(-1);
@@ -255,6 +256,14 @@ public abstract class BlockModel {
 
 	public ArrayList<String> getParameterizedType() {
 		return this.parameterizedType;
+	}
+
+	public void setJavaTYpe(String javaType) {
+		this.javaType = javaType;
+	}
+
+	public String getJavaType() {
+		return this.javaType;
 	}
 
 	public void makeIndent(PrintStream out, int number) {

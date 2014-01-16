@@ -249,8 +249,6 @@ public abstract class ElementModel {
 	}
 
 	protected void resolveBeforeAfterBlock(ElementModel parent) {
-
-		System.out.println("label:" + getLabel());
 		if (parent instanceof StBlockModel) {
 			int i = 0;
 			while (i < ((StBlockModel) parent).getChildren().size()

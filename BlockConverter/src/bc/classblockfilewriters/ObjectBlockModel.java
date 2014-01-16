@@ -145,14 +145,14 @@ public class ObjectBlockModel extends BasicModel {
 						+ "\"></LangSpecProperty>", out, lineNumber);
 
 		if (getName().contains("arrayobject")) {
-			printStubs("<Stub stub-genus=\"setter" + getName() + "\">",
+			printStubs("<Stub stub-genus=\"setter-arrayelement\">",
 					"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
 							+ langSpecProperties.get("scope")
 							+ "\"></LangSpecProperty>",
 					"<LangSpecProperty key=\"scope\" value=\""
 							+ langSpecProperties.get("scope")
 							+ "\"></LangSpecProperty>", out, lineNumber);
-			printStubs("<Stub stub-genus=\"getter" + getName() + "\">",
+			printStubs("<Stub stub-genus=\"getter-arrayelement\">",
 					"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
 							+ langSpecProperties.get("scope")
 							+ "\"></LangSpecProperty>",

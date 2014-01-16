@@ -14,7 +14,7 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 			return;// 素通し
 		}
 		// private valueのセッターの場合、同じ構造化ブロック内に変数が無いため、エラーが発生する
-		if (getName().startsWith("setterprivate") || getName().contains("this")) {
+		if (getName().contains("private") || getName().contains("this")) {
 			return;// #ohata added
 		}
 		resolveCreatedVariable(getBeforeID());
@@ -28,7 +28,9 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 	}
 
 	private void resolveCreatedVariable(int blockID) {
+
 		BlockModel block = BlockToJavaAnalyzer.getBlock(blockID);
+
 		if (block instanceof LocalVariableBlockModel) {
 			return;
 		}
@@ -40,7 +42,7 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 
 		if (block.getBeforeID() == BlockModel.NULL) {
 			throw new RuntimeException("変数宣言する前に変数への代入を行っています:"
-					+ block.getGenusName());
+					+ block.getGenusName() + block.getLabel());
 		}
 		resolveCreatedVariable(block.getBeforeID());
 	}
@@ -50,7 +52,7 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 		makeIndent(out, indent);
 		if (getName().startsWith("this-setter")) {
 			out.print("this." + getLabel());
-		} else if (getName().contains("Array")) {
+		} else if (getName().contains("arrayobject")) {
 			out.print(getLabel() + "[");
 			BlockToJavaAnalyzer.getBlock(getConnectorIDs().get(0)).print(out,
 					indent);

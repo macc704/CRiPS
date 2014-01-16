@@ -768,7 +768,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 						throw new RuntimeException("error happened: "
 								+ blockNode.getNodeName() + " value: "
 								+ blockNode.getNodeValue() + " type: "
-								+ blockNode.getNodeName());
+								+ blockNode.getNodeName() + "content: "
+								+ blockNode.getTextContent());
 					}
 				}
 

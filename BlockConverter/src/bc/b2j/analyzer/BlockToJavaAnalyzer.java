@@ -24,7 +24,6 @@ import bc.b2j.model.NoProcparamDataBlockModel;
 import bc.b2j.model.NotExpressionModel;
 import bc.b2j.model.PageModel;
 import bc.b2j.model.PostfixExpressionModel;
-import bc.b2j.model.PrivateProcedureBlockModel;
 import bc.b2j.model.PrivateVariableBlockModel;
 import bc.b2j.model.ProcedureBlockModel;
 import bc.b2j.model.ProcedureParamBlockModel;
@@ -162,20 +161,12 @@ public class BlockToJavaAnalyzer {
 				parseBlock(block, model);
 				pageModel.addProcedure(model);
 				blockNode = blockNode.getNextSibling();
-
 			} else if ("constructor".equals(genus_name)) {// #ohata
-															// コンストラクタブロックの処理
 				ConstructorBlockModel model = new ConstructorBlockModel();
 				parseBlock(block, model);
 				model.setLabel(fileURI);
 				model.setURI(fileURI);
 				pageModel.addConstructor(model);
-				blockNode = blockNode.getNextSibling();
-			} else if ("private-procedure".equals(genus_name)) {// #ohata
-																// 使わない　プライベート変数宣言用の手続き型ブロック
-				PrivateProcedureBlockModel model = new PrivateProcedureBlockModel();
-				parseBlock(block, model);
-				// pageModel.addPrivateProcedure(model);
 				blockNode = blockNode.getNextSibling();
 			} else if (genus_name.startsWith("proc-param")) {
 				ProcedureParamBlockModel model = new ProcedureParamBlockModel();
@@ -374,6 +365,8 @@ public class BlockToJavaAnalyzer {
 				model.setBeforeID(Integer.parseInt(blockInfo.getTextContent()));
 			} else if (blockInfo.getNodeName() == "AfterBlockId") {
 				model.setAfterID(Integer.parseInt(blockInfo.getTextContent()));
+			} else if (blockInfo.getNodeName() == "JavaType") {
+				model.setJavaTYpe(blockInfo.getTextContent());
 			} else if (blockInfo.getNodeName() == "Plug") {
 				BlockConnectorModel conn = parseBlockConnector(blockInfo
 						.getFirstChild());
