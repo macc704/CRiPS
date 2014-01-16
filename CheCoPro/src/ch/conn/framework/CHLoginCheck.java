@@ -1,4 +1,4 @@
-package ch.server;
+package ch.conn.framework;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,17 +29,17 @@ public class CHLoginCheck {
 			String password = aLoadData.get(1);
 			if (user.equals(this.user) && password.equals(this.password)) {
 				// 成功
-				CHServer.out.println("SUCCESS");
+				// CHServer.out.println("SUCCESS");
 				return SUCCESS;
 			} else if (user.equals(this.user)
 					&& !password.equals(this.password)) {
 				// パスワード不一致
-				CHServer.out.println("FAILURE");
+				// CHServer.out.println("FAILURE");
 				return FAILURE;
 			}
 		}
 		// 新規
-		CHServer.out.println("NEW_ENTRY");
+		// CHServer.out.println("NEW_ENTRY");
 		return NEW_ENTRY;
 	}
 
@@ -49,7 +49,7 @@ public class CHLoginCheck {
 		List<List<String>> loadDatas = CCSVFileIO.loadAsListList(file);
 		for (List<String> aLoadData : loadDatas) {
 			if (user.equals(aLoadData.get(0))) {
-				CHServer.out.println("user : " + user + " is used.");
+				// CHServer.out.println("user : " + user + " is used.");
 				result = false;
 			}
 		}

@@ -5,6 +5,9 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -33,6 +36,7 @@ import ronproeditor.REApplication;
 import ronproeditor.views.REFrame;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
+import ch.conn.framework.CHLoginCheck;
 import ch.conn.framework.CHUserLogWriter;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHEntryRequest;
@@ -47,9 +51,8 @@ import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHLogoutResponse;
-import ch.conn.framework.packets.CHSourcesendResponse;
+import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
-import ch.server.CHLoginCheck;
 import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
@@ -77,7 +80,7 @@ public class RECheCoProManager {
 	private Color color = DEFAULT_COLOR;
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 	private JToggleButton connButton = new JToggleButton("“¯Šú’†", true);
-	private CHUserLogWriter logWriter = new CHUserLogWriter();
+	private CHUserLogWriter logWriter;
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -102,18 +105,45 @@ public class RECheCoProManager {
 	 *******************/
 
 	private void initializeREListener() {
-		// final RESourceViewer viewer;
-		// viewer = application.getFrame().getEditor().getViewer();
-		// viewer.getTextPane().addKeyListener(new KeyAdapter() {
-		// @Override
-		// public void keyReleased(KeyEvent e) {
-		//
-		// conn.write(new CHSourceChanged(user, viewer.getText(),
-		// application.getSourceManager().getCurrentFile()
-		// .getName()));
-		//
-		// }
-		// });
+
+		application.getSourceManager().addPropertyChangeListener(
+				new PropertyChangeListener() {
+
+					@Override
+					public void propertyChange(PropertyChangeEvent evt) {
+						if (application.getFrame().getEditor() != null) {
+							List<KeyListener> keyListeners = Arrays
+									.asList(application.getFrame().getEditor()
+											.getViewer().getTextPane()
+											.getKeyListeners());
+
+							for (KeyListener aKeyListener : keyListeners) {
+								application.getFrame().getEditor().getViewer()
+										.getTextPane()
+										.removeKeyListener(aKeyListener);
+							}
+
+							application.getFrame().getEditor().getViewer()
+									.getTextPane()
+									.addKeyListener(new KeyAdapter() {
+
+										@Override
+										public void keyReleased(KeyEvent e) {
+											conn.write(new CHSourceChanged(
+													user, application
+															.getFrame()
+															.getEditor()
+															.getViewer()
+															.getText(),
+													application
+															.getSourceManager()
+															.getCurrentFile()
+															.getName()));
+										}
+									});
+						}
+					}
+				});
 
 		JMenuBar menubar = application.getFrame().getJMenuBar();
 		JButton fileSendButton = new JButton("Save to server");
@@ -302,6 +332,7 @@ public class RECheCoProManager {
 
 	public void startCheCoPro() {
 
+		logWriter = new CHUserLogWriter();
 		initializeREListener();
 
 		new Thread() {
@@ -358,8 +389,8 @@ public class RECheCoProManager {
 			processEntryResult((CHEntryResult) obj);
 		} else if (obj instanceof CHLoginMemberChanged) {
 			processLoginMemberChanged((CHLoginMemberChanged) obj);
-		} else if (obj instanceof CHSourcesendResponse) {
-			processSourcesendResponse((CHSourcesendResponse) obj);
+		} else if (obj instanceof CHSourceChanged) {
+			processSourceChanged((CHSourceChanged) obj);
 		} else if (obj instanceof CHLogoutResponse) {
 			processLogoutResult((CHLogoutResponse) obj);
 		} else if (obj instanceof CHFileRequest) {
@@ -421,7 +452,7 @@ public class RECheCoProManager {
 
 	}
 
-	private void processSourcesendResponse(CHSourcesendResponse response) {
+	private void processSourceChanged(CHSourceChanged response) {
 		final String sender = response.getUser();
 		final String source = response.getSource();
 		final String senderCurrentFile = response.getCurrentFileName();

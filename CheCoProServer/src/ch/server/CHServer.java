@@ -9,6 +9,7 @@ import java.util.List;
 
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
+import ch.conn.framework.CHLoginCheck;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHEntryRequest;
 import ch.conn.framework.packets.CHEntryResult;
@@ -22,7 +23,6 @@ import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHSourceChanged;
-import ch.conn.framework.packets.CHSourcesendResponse;
 import ch.library.CHFileSystem;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.sync.CFileList;
@@ -202,10 +202,7 @@ public class CHServer {
 	}
 
 	private void processSourceChanged(CHSourceChanged request) {
-		connectionPool.broadCastExceptSender(
-				new CHSourcesendResponse(request.getUser(),
-						request.getSource(), request.getCurrentFileName()),
-				request.getUser());
+		connectionPool.broadCastExceptSender(request, request.getUser());
 	}
 
 	private void processFileResponse(CHFileResponse response) {
