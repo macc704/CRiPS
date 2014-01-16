@@ -44,9 +44,16 @@ public class ExVariableGetterModel extends ExpressionModel {
 		// stubBlock
 
 		String connectorType = getConnectorType(variable.getType());
-
+		String positionType = "mirror";
 		if (variable.isArray()) {
-			genusName += "-arrayelement";
+			genusName += "-arrayelement" + variable.getGenusName();
+			positionType = "single";
+		} else {
+			genusName += variable.getGenusName();
+		}
+
+		if (index != null) {
+			index.print(out, indent);
 		}
 
 		// if (variable.getGenusName().startsWith("local")) {
@@ -88,6 +95,22 @@ public class ExVariableGetterModel extends ExpressionModel {
 		makeIndent(out, indent + 2);
 		out.println("</Location>");
 
+		// Plug
+		makeIndent(out, indent + 2);
+		out.println("<Plug>");
+		// blockConnecters
+		makeIndent(out, indent + 3);
+		out.print("<BlockConnector connector-kind=\"plug\" connector-type=\""
+				+ connectorType + "\"" + " init-type=\"" + connectorType
+				+ "\" label=\"\" position-type=\"" + positionType + "\"");
+		if (getConnectorId() != -1) {
+			out.print(" con-block-id=\"" + getConnectorId() + "\"");
+		}
+		out.println("/>");
+		// end Socket
+		makeIndent(out, indent + 2);
+		out.println("</Plug>");
+
 		// socket
 		if (index != null) {
 			makeIndent(out, indent + 2);
@@ -99,27 +122,11 @@ public class ExVariableGetterModel extends ExpressionModel {
 					+ " init-type=\""
 					+ "number"
 					+ "\" label=\"\" position-type=\"single\"");
-
+			out.print(" con-block-id=\"" + index.getId() + "\"");
 			out.println("/>");
 			makeIndent(out, indent + 2);
 			out.println("</Sockets>");
 		}
-
-		// Plug
-		makeIndent(out, indent + 2);
-		out.println("<Plug>");
-		// blockConnecters
-		makeIndent(out, indent + 3);
-		out.print("<BlockConnector connector-kind=\"plug\" connector-type=\""
-				+ connectorType + "\"" + " init-type=\"" + connectorType
-				+ "\" label=\"\" position-type=\"mirror\"");
-		if (getConnectorId() != -1) {
-			out.print(" con-block-id=\"" + getConnectorId() + "\"");
-		}
-		out.println("/>");
-		// end Socket
-		makeIndent(out, indent + 2);
-		out.println("</Plug>");
 		// end Block
 		makeIndent(out, indent + 1);
 		out.println("</Block>");
