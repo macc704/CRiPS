@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -23,14 +24,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import ronproeditor.REApplication;
 import ronproeditor.views.REFrame;
@@ -58,6 +59,7 @@ import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.sync.CFileList;
+import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
 
 public class RECheCoProManager {
@@ -68,6 +70,19 @@ public class RECheCoProManager {
 	public static final Color DEFAULT_COLOR = Color.WHITE;
 	public static final int DEFAULT_PORT = 10000;
 	public static final String IP = "localhost";
+
+	private static int CTRL_DOWN_MASK = InputEvent.CTRL_DOWN_MASK;
+	static {
+		if (CJavaSystem.getInstance().isMac()) {
+			CTRL_DOWN_MASK = InputEvent.META_DOWN_MASK;
+		}
+	}
+	// private static int CTRL_MASK = KeyEvent.CTRL_MASK;
+	// static {
+	// if (CJavaSystem.getInstance().isMac()) {
+	// CTRL_MASK = KeyEvent.META_MASK;
+	// }
+	// }
 
 	private REApplication application;
 	private CHConnection conn;
@@ -106,42 +121,14 @@ public class RECheCoProManager {
 
 	private void initializeREListener() {
 
+		initializeREMenuListener();
+
 		application.getSourceManager().addPropertyChangeListener(
 				new PropertyChangeListener() {
 
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						if (application.getFrame().getEditor() != null) {
-							List<KeyListener> keyListeners = Arrays
-									.asList(application.getFrame().getEditor()
-											.getViewer().getTextPane()
-											.getKeyListeners());
-
-							for (KeyListener aKeyListener : keyListeners) {
-								application.getFrame().getEditor().getViewer()
-										.getTextPane()
-										.removeKeyListener(aKeyListener);
-							}
-
-							application.getFrame().getEditor().getViewer()
-									.getTextPane()
-									.addKeyListener(new KeyAdapter() {
-
-										@Override
-										public void keyReleased(KeyEvent e) {
-											conn.write(new CHSourceChanged(
-													user, application
-															.getFrame()
-															.getEditor()
-															.getViewer()
-															.getText(),
-													application
-															.getSourceManager()
-															.getCurrentFile()
-															.getName()));
-										}
-									});
-						}
+						initializeREKeyListener();
 					}
 				});
 
@@ -158,6 +145,69 @@ public class RECheCoProManager {
 		});
 	}
 
+	private void initializeREKeyListener() {
+		if (application.getFrame().getEditor() != null) {
+			List<KeyListener> keyListeners = Arrays.asList(application
+					.getFrame().getEditor().getViewer().getTextPane()
+					.getKeyListeners());
+
+			for (KeyListener aKeyListener : keyListeners) {
+				application.getFrame().getEditor().getViewer().getTextPane()
+						.removeKeyListener(aKeyListener);
+			}
+
+			application.getFrame().getEditor().getViewer().getTextPane()
+					.addKeyListener(new KeyAdapter() {
+
+						@Override
+						public void keyReleased(KeyEvent e) {
+							conn.write(new CHSourceChanged(user, application
+									.getFrame().getEditor().getViewer()
+									.getText(), application.getSourceManager()
+									.getCurrentFile().getName()));
+						}
+
+						@Override
+						public void keyPressed(KeyEvent e) {
+							if (e.getKeyCode() == KeyEvent.VK_C
+									|| e.getKeyCode() == KeyEvent.VK_X) {
+								int mod = e.getModifiersEx();
+								if ((mod & CTRL_DOWN_MASK) != 0) {
+									writeCopyLog();
+								}
+							}
+						}
+					});
+		}
+	}
+
+	private void initializeREMenuListener() {
+		JMenu menu = application.getFrame().getJMenuBar().getMenu(1);
+
+		List<JMenuItem> items = new ArrayList<JMenuItem>();
+		items.add(menu.getItem(3));
+		items.add(menu.getItem(4));
+
+		for (JMenuItem aItem : items) {
+			aItem.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					writeCopyLog();
+				}
+			});
+		}
+	}
+
+	private void writeCopyLog() {
+		String code = application.getFrame().getEditor().getViewer()
+				.getTextPane().getSelectedText();
+		logWriter.writeCommand(CHUserLogWriter.COPY_CODE);
+		logWriter.writeFrom(application.getSourceManager().getCCurrentFile());
+		logWriter.writeCode(code);
+		logWriter.addRowToTable();
+	}
+
 	private void setMemberSelectorListner() {
 		List<JButton> buttons = new ArrayList<JButton>(msFrame.getButtons());
 		for (JButton aButton : buttons) {
@@ -165,15 +215,18 @@ public class RECheCoProManager {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					String name = e.getActionCommand();
-					msFrame.setDisable(name);
+					String user = e.getActionCommand();
+					msFrame.setDisable(user);
 					msFrame.setMembers(userStates);
 					setMemberSelectorListner();
 
-					conn.write(new CHFilelistRequest(name));
+					conn.write(new CHFilelistRequest(user));
 
 					if (application != null) {
-						doOpenNewCH(name);
+						doOpenNewCH(user);
+						logWriter.writeCommand(CHUserLogWriter.OPEN_CHEDITOR);
+						logWriter.writeFrom(user);
+						logWriter.addRowToTable();
 					}
 				}
 			});
@@ -219,6 +272,9 @@ public class RECheCoProManager {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				logWriter.writeCommand(CHUserLogWriter.FILE_REQUEST);
+				logWriter.writeTo(user);
+				logWriter.addRowToTable();
 				conn.write(new CHFilelistRequest(user));
 				chApplication.doRefresh();
 			}
@@ -252,6 +308,9 @@ public class RECheCoProManager {
 		chApplication.getFrame().addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				logWriter.writeCommand(CHUserLogWriter.CLOSE_CHEDITOR);
+				logWriter.writeFrom(user);
+				logWriter.addRowToTable();
 				chFrameMap.remove(user);
 				msFrame.setEnable(user);
 				msFrame.setMembers(userStates);
@@ -264,22 +323,22 @@ public class RECheCoProManager {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						setCHTitleBar(chApplication);
-						// if (chApplication.getFrame().getEditor() != null) {
-						// chApplication.getFrame().getEditor().getViewer()
-						// .getTextPane()
-						// .setBackground(getUserColor(user));
-						//
-						// }
 					}
 				});
 
-		connButton.addChangeListener(new ChangeListener() {
+		connButton.addActionListener(new ActionListener() {
 
 			@Override
-			public void stateChanged(ChangeEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				if (connButton.isSelected()) {
+					logWriter.writeCommand(CHUserLogWriter.SYNC_START);
+					logWriter.writeFrom(user);
+					logWriter.addRowToTable();
 					connButton.setText("“¯Šú’†");
 				} else {
+					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
+					logWriter.writeFrom(user);
+					logWriter.addRowToTable();
 					connButton.setText("”ñ“¯Šú");
 				}
 			}
@@ -332,7 +391,7 @@ public class RECheCoProManager {
 
 	public void startCheCoPro() {
 
-		logWriter = new CHUserLogWriter();
+		logWriter = new CHUserLogWriter(user);
 		initializeREListener();
 
 		new Thread() {
@@ -369,7 +428,6 @@ public class RECheCoProManager {
 		}
 		conn.close();
 		connectionKilled();
-		logWriter.saveTableToFile();
 		System.out.println("client closed");
 
 	}
@@ -479,6 +537,8 @@ public class RECheCoProManager {
 					chApplication.getFrame().setVisible(false);
 				}
 			}
+			logWriter.writeCommand(CHUserLogWriter.LOGOUT);
+			logWriter.addRowToTable();
 			logWriter.saveTableToFile();
 			conn.close();
 		}
@@ -527,6 +587,9 @@ public class RECheCoProManager {
 	 *********/
 
 	private void connectionKilled() {
+		logWriter.writeCommand(CHUserLogWriter.LOGOUT);
+		logWriter.addRowToTable();
+		logWriter.saveTableToFile();
 		resetMenubar();
 	}
 

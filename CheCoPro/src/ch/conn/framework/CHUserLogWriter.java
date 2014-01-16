@@ -14,7 +14,7 @@ import clib.common.table.CCSVFileIO;
 public class CHUserLogWriter {
 
 	public static final String CHDIR_PATH = "MyProjects/final/.ch";
-	public static final String LOGFILE = "chLog.csv";
+	public static final String LOGFILE = "_CHLog.csv";
 
 	public static final String LOGIN = "login";
 	public static final String LOGOUT = "logout";
@@ -25,17 +25,22 @@ public class CHUserLogWriter {
 	public static final String COPY_FILE = "copy file";
 	public static final String COPY_CODE = "copy code";
 	public static final String PASTE_CODE = "paste code";
+	public static final String OPEN_CHEDITOR = "open cheditor";
+	public static final String CLOSE_CHEDITOR = "close cheditor";
+	public static final String FILE_REQUEST = "file request";
 
 	private List<List<String>> table = new ArrayList<List<String>>();
 	private List<String> row = new ArrayList<String>();
 	private DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	private String user;
 
-	public CHUserLogWriter() {
+	public CHUserLogWriter(String user) {
+		this.user = user;
 		initialize();
 	}
 
 	private void initialize() {
-		CFile file = getCHDir().findFile(LOGFILE);
+		CFile file = getCHDir().findFile(user + LOGFILE);
 		if (file != null) {
 			table = CCSVFileIO.loadAsListList(file);
 		} else {
@@ -51,7 +56,7 @@ public class CHUserLogWriter {
 	}
 
 	public CFile getLogFile() {
-		return getCHDir().findOrCreateFile(LOGFILE);
+		return getCHDir().findOrCreateFile(user + LOGFILE);
 	}
 
 	public List<String> getHeaderList() {
@@ -134,7 +139,7 @@ public class CHUserLogWriter {
 	}
 
 	public static void main(String[] args) {
-		CHUserLogWriter log = new CHUserLogWriter();
+		CHUserLogWriter log = new CHUserLogWriter("test");
 		log.writeCommand(LOGIN);
 		log.addRowToTable();
 		log.writeCommand(SEND_FILE);
