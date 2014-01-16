@@ -547,6 +547,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setArray(true);
 		}
 
+		if (projectClasses.contains(type)) {
+			model.setProjectObject(true);
+		}
+
 		if (isFinal) {
 			model.setModifer("final-");
 		}

@@ -17,10 +17,11 @@ public class StPrivateVariableDeclarationModel extends
 	@Override
 	public String getGenusName() {
 		String genusName;
+
 		if (isProjectObject()) {
 			genusName = "object-" + getType();
 		} else {
-			genusName = convertJavaTypeToBlockGenusName(getType());
+			genusName = convertJavaTypeToBlockGenusName(super.getType());
 		}
 		if (genusName.equals("number")) {
 			genusName = "int-number";
@@ -31,6 +32,14 @@ public class StPrivateVariableDeclarationModel extends
 		}
 
 		return "private-" + modifer + "var-" + genusName;
+	}
+
+	@Override
+	public String getType() {
+		if (isArray()) {
+			return super.getType().substring(0, super.getType().indexOf("[]"));
+		}
+		return super.getType();
 	}
 
 }

@@ -38,15 +38,24 @@ public class LangDefRewriterMain {
 
 	public void setLocalVariableBlockModel(String fileName,
 			Map<String, List<PublicMethodInfo>> methods) {
-		ObjectBlockModel classModel = new ObjectBlockModel("local-var-object-"
-				+ fileName, "local-variable", "initname",
+		ObjectBlockModel classObjectModel = new ObjectBlockModel(
+				"local-var-object-" + fileName, "local-variable", "initname",
 				fileName + "型の変数をつくり", "と名付ける", "230 0 255");
 		// 定義クラスブロックのプロパティをセットする
-		classModel.setMethods(methods);
-		classModel.setClassName(fileName);
-		requestObjectBlock.add(classModel);
+		classObjectModel.setMethods(methods);
+		classObjectModel.setClassName(fileName);
+		requestObjectBlock.add(classObjectModel);
 
 		// 配列の追加
+		ObjectBlockModel classObjectArrayModel = new ObjectBlockModel(
+				"local-var-object-" + fileName + "-arraybject",
+				"local-variable", "initname", fileName + "[]" + "型の変数をつくり",
+				"と名付ける", "230 0 255");
+		// 定義クラスブロックのプロパティをセットする
+		classObjectArrayModel.setMethods(methods);
+		classObjectArrayModel.setClassName(fileName);
+		requestObjectBlock.add(classObjectArrayModel);
+
 	}
 
 	public void setConvertBlockModel(String className) {
@@ -67,6 +76,15 @@ public class LangDefRewriterMain {
 		requestObjectBlock.add(classModel);
 
 		// 配列の追加
+		ObjectBlockModel classObjectArrayModel = new ObjectBlockModel(
+				"private-var-object-" + fileName + "-arrayobject",
+				"global-variable", "initname", fileName + "[]"
+						+ "型のインスタンス変数をつくり", "と名付ける", "230 0 255");
+		// 定義クラスブロックのプロパティをセットする
+		classObjectArrayModel.setMethods(methods);
+		classObjectArrayModel.setClassName(fileName);
+		requestObjectBlock.add(classObjectArrayModel);
+
 	}
 
 	public void printGenus() throws Exception {
