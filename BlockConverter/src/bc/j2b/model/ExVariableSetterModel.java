@@ -50,7 +50,9 @@ public class ExVariableSetterModel extends ExpressionModel {
 		}
 
 		if (variable.isArray()) {
-			genusName += "-arrayelement";
+			genusName += "-arrayelement" + variable.getGenusName();
+		} else {
+			genusName += variable.getGenusName();
 		}
 
 		// System.out.println(variable.getType());
