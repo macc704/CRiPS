@@ -57,6 +57,7 @@ import ch.library.CHFileSystem;
 import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.sync.CFileList;
 import clib.common.system.CJavaSystem;
@@ -121,14 +122,16 @@ public class RECheCoProManager {
 
 	private void initializeREListener() {
 
-		initializeREMenuListener();
+		initializeMenuListener(application);
 
 		application.getSourceManager().addPropertyChangeListener(
 				new PropertyChangeListener() {
 
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						initializeREKeyListener();
+						if (application.getFrame().getEditor() != null) {
+							initializeREKeyListener();
+						}
 					}
 				});
 
@@ -146,42 +149,45 @@ public class RECheCoProManager {
 	}
 
 	private void initializeREKeyListener() {
-		if (application.getFrame().getEditor() != null) {
-			List<KeyListener> keyListeners = Arrays.asList(application
-					.getFrame().getEditor().getViewer().getTextPane()
-					.getKeyListeners());
+		List<KeyListener> keyListeners = Arrays.asList(application.getFrame()
+				.getEditor().getViewer().getTextPane().getKeyListeners());
 
-			for (KeyListener aKeyListener : keyListeners) {
-				application.getFrame().getEditor().getViewer().getTextPane()
-						.removeKeyListener(aKeyListener);
-			}
-
+		for (KeyListener aKeyListener : keyListeners) {
 			application.getFrame().getEditor().getViewer().getTextPane()
-					.addKeyListener(new KeyAdapter() {
+					.removeKeyListener(aKeyListener);
+		}
 
-						@Override
-						public void keyReleased(KeyEvent e) {
-							conn.write(new CHSourceChanged(user, application
-									.getFrame().getEditor().getViewer()
-									.getText(), application.getSourceManager()
-									.getCurrentFile().getName()));
-						}
+		application.getFrame().getEditor().getViewer().getTextPane()
+				.addKeyListener(new KeyAdapter() {
 
-						@Override
-						public void keyPressed(KeyEvent e) {
-							if (e.getKeyCode() == KeyEvent.VK_C
-									|| e.getKeyCode() == KeyEvent.VK_X) {
-								int mod = e.getModifiersEx();
-								if ((mod & CTRL_DOWN_MASK) != 0) {
-									writeCopyLog();
-								}
+					@Override
+					public void keyReleased(KeyEvent e) {
+						conn.write(new CHSourceChanged(user, application
+								.getFrame().getEditor().getViewer().getText(),
+								application.getSourceManager().getCurrentFile()
+										.getName()));
+					}
+
+					@Override
+					public void keyPressed(KeyEvent e) {
+						if (e.getKeyCode() == KeyEvent.VK_C
+								|| e.getKeyCode() == KeyEvent.VK_X) {
+							int mod = e.getModifiersEx();
+							if ((mod & CTRL_DOWN_MASK) != 0) {
+								writeCopyLog(application);
+							}
+						} else if (e.getKeyCode() == KeyEvent.VK_V) {
+							int mod = e.getModifiersEx();
+							if ((mod & CTRL_DOWN_MASK) != 0) {
+								writePasteLog(application.getSourceManager()
+										.getCCurrentFile());
 							}
 						}
-					});
-		}
+					}
+				});
 	}
 
-	private void initializeREMenuListener() {
+	private void initializeMenuListener(final REApplication application) {
 		JMenu menu = application.getFrame().getJMenuBar().getMenu(1);
 
 		List<JMenuItem> items = new ArrayList<JMenuItem>();
@@ -193,18 +199,32 @@ public class RECheCoProManager {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					writeCopyLog();
+					writeCopyLog(application);
 				}
 			});
 		}
+
+		menu.getItem(5).addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				writePasteLog(application.getSourceManager().getCCurrentFile());
+			}
+		});
 	}
 
-	private void writeCopyLog() {
+	private void writeCopyLog(REApplication application) {
 		String code = application.getFrame().getEditor().getViewer()
 				.getTextPane().getSelectedText();
 		logWriter.writeCommand(CHUserLogWriter.COPY_CODE);
 		logWriter.writeFrom(application.getSourceManager().getCCurrentFile());
 		logWriter.writeCode(code);
+		logWriter.addRowToTable();
+	}
+
+	private void writePasteLog(CFile file) {
+		logWriter.writeCommand(CHUserLogWriter.PASTE_CODE);
+		logWriter.writeTo(file);
 		logWriter.addRowToTable();
 	}
 
@@ -245,6 +265,7 @@ public class RECheCoProManager {
 		REApplication chApplication = application.doOpenNewRE("MyProjects/.CH/"
 				+ user);
 		initializeCHEditor(chApplication, user);
+		initializeMenuListener(chApplication);
 		chFrameMap.put(user, chApplication);
 	}
 
@@ -323,6 +344,9 @@ public class RECheCoProManager {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						setCHTitleBar(chApplication);
+						if (chApplication.getFrame().getEditor() != null) {
+							initializeCHKeyListener(chApplication);
+						}
 					}
 				});
 
@@ -343,6 +367,37 @@ public class RECheCoProManager {
 				}
 			}
 		});
+	}
+
+	private void initializeCHKeyListener(final REApplication chApplication) {
+		List<KeyListener> keyListeners = Arrays.asList(chApplication.getFrame()
+				.getEditor().getViewer().getTextPane().getKeyListeners());
+
+		for (KeyListener aKeyListener : keyListeners) {
+			chApplication.getFrame().getEditor().getViewer().getTextPane()
+					.removeKeyListener(aKeyListener);
+		}
+
+		chApplication.getFrame().getEditor().getViewer().getTextPane()
+				.addKeyListener(new KeyAdapter() {
+
+					@Override
+					public void keyPressed(KeyEvent e) {
+						if (e.getKeyCode() == KeyEvent.VK_C
+								|| e.getKeyCode() == KeyEvent.VK_X) {
+							int mod = e.getModifiersEx();
+							if ((mod & CTRL_DOWN_MASK) != 0) {
+								writeCopyLog(chApplication);
+							}
+						} else if (e.getKeyCode() == KeyEvent.VK_V) {
+							int mod = e.getModifiersEx();
+							if ((mod & CTRL_DOWN_MASK) != 0) {
+								writePasteLog(chApplication.getSourceManager()
+										.getCCurrentFile());
+							}
+						}
+					}
+				});
 	}
 
 	private void removeListeners(REFrame frame) {
