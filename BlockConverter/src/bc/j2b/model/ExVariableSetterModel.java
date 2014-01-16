@@ -10,6 +10,7 @@ public class ExVariableSetterModel extends ExpressionModel {
 	private ExpressionModel rightExpression;
 	private ExpressionModel rightAssignment;
 	private String genusName = "setter";
+	private ExpressionModel index;
 
 	public ExVariableSetterModel() {
 		setBlockHeight(blockHeight);
@@ -36,8 +37,8 @@ public class ExVariableSetterModel extends ExpressionModel {
 		this.rightExpression = model;
 	}
 
-	public void setGenusName(String name) {
-		genusName = name;
+	public void setIndexModel(ExpressionModel indexModel) {
+		this.index = indexModel;
 	}
 
 	@Override
@@ -48,9 +49,17 @@ public class ExVariableSetterModel extends ExpressionModel {
 			rightAssignment.print(out, indent);
 		}
 
+		if (variable.isArray()) {
+			genusName += "-arrayelement";
+		}
+
 		// System.out.println(variable.getType());
 		String connectorType = getConnectorType(variable.getType());
 		// System.out.println("connectorType" + connectorType);
+
+		if (index != null) {
+			index.print(out, indent);
+		}
 
 		rightExpression.setConnectorId(getId());
 		rightExpression.print(out, indent);
@@ -71,7 +80,7 @@ public class ExVariableSetterModel extends ExpressionModel {
 		// genus-name
 		makeIndent(out, indent + 1);
 		out.println("<Block id=\"" + getId() + "\" genus-name=\"" + genusName
-				+ variable.getGenusName() + "\">");
+				+ "\">");
 		// label
 		makeIndent(out, indent + 2);
 		out.println("<Label>" + variable.getName() + "</Label>");
@@ -104,16 +113,46 @@ public class ExVariableSetterModel extends ExpressionModel {
 		}
 		// Socket
 		makeIndent(out, indent + 2);
-		out.println("<Sockets num-sockets=\"1\">");
-		// blockConnecters
-		makeIndent(out, indent + 3);
-		out.print("<BlockConnector connector-kind=\"socket\" connector-type=\""
-				+ connectorType + "\"" + " init-type=\"" + connectorType
-				+ "\" label=\"\" position-type=\"single\"");
-		if (rightExpression.getId() != -1) {
-			out.print(" con-block-id=\"" + rightExpression.getId() + "\"");
+		if (index != null) {
+			out.println("<Sockets num-sockets=\"2\">");
+			makeIndent(out, indent + 3);
+			out.print("<BlockConnector connector-kind=\"socket\" connector-type=\""
+					+ "number"
+					+ "\""
+					+ " init-type=\""
+					+ "number"
+					+ "\" label=\"\" position-type=\"single\"");
+			out.print(" con-block-id=\"" + index.getId() + "\"");
+			out.println("/>");
+
+			// blockConnecters
+			makeIndent(out, indent + 3);
+			out.print("<BlockConnector connector-kind=\"socket\" connector-type=\""
+					+ getElementConnector(getType())
+					+ "\""
+					+ " init-type=\""
+					+ getElementConnector(getType())
+					+ "\" label=\"\" position-type=\"single\"");
+			if (rightExpression.getId() != -1) {
+				out.print(" con-block-id=\"" + rightExpression.getId() + "\"");
+			}
+			out.println("/>");
+		} else {
+			out.println("<Sockets num-sockets=\"1\">");
+			// blockConnecters
+			makeIndent(out, indent + 3);
+			out.print("<BlockConnector connector-kind=\"socket\" connector-type=\""
+					+ connectorType
+					+ "\""
+					+ " init-type=\""
+					+ connectorType
+					+ "\" label=\"\" position-type=\"single\"");
+			if (rightExpression.getId() != -1) {
+				out.print(" con-block-id=\"" + rightExpression.getId() + "\"");
+			}
+			out.println("/>");
 		}
-		out.println("/>");
+
 		// end Socket
 		makeIndent(out, indent + 2);
 		out.println("</Sockets>");

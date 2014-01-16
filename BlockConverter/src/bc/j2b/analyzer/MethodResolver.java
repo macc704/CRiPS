@@ -80,6 +80,7 @@ public class MethodResolver {
 
 		methodToReturnType.put("file(1)", "void");
 		methodToReturnType.put("play()", "void");
+		methodToReturnType.put("play(1)", "void");
 		methodToReturnType.put("loop()", "void");
 		methodToReturnType.put("stop()", "void");
 		methodToReturnType.put("setVolume(1)", "void");
@@ -148,6 +149,7 @@ public class MethodResolver {
 		methodToReturnType.put("getCanvasWidth()", "int");
 		methodToReturnType.put("getCanvasHeight()", "int");
 		methodToReturnType.put("drawImage(5)", "void");
+		methodToReturnType.put("drawImage(3)", "void");
 		methodToReturnType.put("drawFillArc(7)", "void");
 		methodToReturnType.put("setLocation(2)", "void");
 		methodToReturnType.put("setSize(2)", "void");

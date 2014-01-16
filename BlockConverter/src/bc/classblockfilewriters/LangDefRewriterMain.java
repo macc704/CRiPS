@@ -9,21 +9,22 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class OutputSelDefClassPageModel {
+public class LangDefRewriterMain {
 
 	private File file;
 	// private String[] classpaths;
-	private List<ObjectBlockModel> requestObjectBlock = new ArrayList<ObjectBlockModel>();
+	private List<ObjectBlockModel> requestObjectBlock = new LinkedList<ObjectBlockModel>();
 	private FileInputStream ldfReader;
 	private String javaFileName;
 	Map<String, String> addedMethods = new HashMap<String, String>();
+	private List<ConvertBlockModel> requestConvertBlockModel = new LinkedList<ConvertBlockModel>();
 
-	public OutputSelDefClassPageModel(File file, String javaFileName) {
+	public LangDefRewriterMain(File file, String javaFileName) {
 		this.file = file;
 		this.javaFileName = javaFileName.substring(0,
 				javaFileName.indexOf(".java"));
@@ -35,18 +36,27 @@ public class OutputSelDefClassPageModel {
 		}
 	}
 
-	public void setLocalSelDefClass(String fileName,
+	public void setLocalVariableBlockModel(String fileName,
 			Map<String, List<PublicMethodInfo>> methods) {
 		ObjectBlockModel classModel = new ObjectBlockModel("local-var-object-"
 				+ fileName, "local-variable", "initname",
-				fileName + "型の変数をつくり", "と名付ける", "230 0 255 ");
+				fileName + "型の変数をつくり", "と名付ける", "230 0 255");
 		// 定義クラスブロックのプロパティをセットする
 		classModel.setMethods(methods);
 		classModel.setClassName(fileName);
 		requestObjectBlock.add(classModel);
+
+		// 配列の追加
 	}
 
-	public void setGlobalSelDefClass(String fileName,
+	public void setConvertBlockModel(String className) {
+		ConvertBlockModel model = new ConvertBlockModel("to" + className
+				+ "FromObject", "function", className + "型に変換する", "", "",
+				"45 201 255");
+		requestConvertBlockModel.add(model);
+	}
+
+	public void setInstanceVariableBlockMode(String fileName,
 			Map<String, List<PublicMethodInfo>> methods) {
 		ObjectBlockModel classModel = new ObjectBlockModel(
 				"private-var-object-" + fileName, "global-variable",
@@ -55,6 +65,8 @@ public class OutputSelDefClassPageModel {
 		classModel.setMethods(methods);
 		classModel.setClassName(fileName);
 		requestObjectBlock.add(classModel);
+
+		// 配列の追加
 	}
 
 	public void printGenus() throws Exception {
@@ -65,6 +77,10 @@ public class OutputSelDefClassPageModel {
 
 		for (ObjectBlockModel selDefClass : requestObjectBlock) {
 			selDefClass.print(ps, 0);
+		}
+
+		for (ConvertBlockModel model : requestConvertBlockModel) {
+			model.print(ps, 0);
 		}
 
 		String blockString = byteArray.toString();
@@ -109,6 +125,19 @@ public class OutputSelDefClassPageModel {
 			ps.println("</BlockDrawer>");
 
 			makeIndent(ps, ++lineNum);
+
+			ps.println("<BlockDrawer name=\"Project-Converter\" type=\"factory\" button-color=\"255 155 64\">");
+			lineNum++;
+
+			for (ConvertBlockModel model : requestConvertBlockModel) {
+				model.printMenuItem(ps, lineNum);
+			}
+
+			makeIndent(ps, --lineNum);
+			ps.println("</BlockDrawer>");
+
+			makeIndent(ps, ++lineNum);
+
 			ps.println("<BlockDrawer name=\"Project-Methods\" type=\"factory\" button-color=\"255 155 64\">");
 			lineNum++;
 

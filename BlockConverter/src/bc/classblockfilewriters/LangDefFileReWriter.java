@@ -42,7 +42,7 @@ public class LangDefFileReWriter {
 				+ "/lang_def_menu_project.xml");
 
 		// 同じディレクトリ内のすべてのjavaファイルをパースし、モデルに追加する
-		OutputSelDefClassPageModel selfDefModel = new OutputSelDefClassPageModel(
+		LangDefRewriterMain selfDefModel = new LangDefRewriterMain(
 				classDefFile, this.file.getName());
 		for (String name : file.getParentFile().list()) {
 			if (name.endsWith(".java")) {
@@ -58,9 +58,12 @@ public class LangDefFileReWriter {
 				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(
 						name, javaFile, name);
 				// ローカル変数ブロックのモデルを追加
-				selfDefModel.setLocalSelDefClass(name, methods);// メソッドリストを引数に追加
+				selfDefModel.setLocalVariableBlockModel(name, methods);// メソッドリストを引数に追加
 				// インスタンス変数ブロックのモデルを追加
-				selfDefModel.setGlobalSelDefClass(name, methods);
+				selfDefModel.setInstanceVariableBlockMode(name, methods);
+				// 型変換ブロックモデルの追加
+				selfDefModel.setConvertBlockModel(name);
+
 			}
 		}
 
@@ -89,10 +92,11 @@ public class LangDefFileReWriter {
 				return;
 			}
 		}
-
+		// メニューの出力
 		File cuiMenu = new File("ext/block/lang_def_menu_cui.xml");
 		selfDefModel.printMenu(projectMenuFile, cuiMenu);
-		// クラスのブロック情報を出力する
+
+		// プロジェクトのオブジェクトブロック情報を出力する
 		selfDefModel.printGenus();
 		this.addedMethods = selfDefModel.getAddedMethods();
 	}

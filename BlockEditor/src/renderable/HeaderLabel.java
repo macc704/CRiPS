@@ -78,8 +78,10 @@ public class HeaderLabel extends BlockLabel {
 				if (socket.getBlockID() == Block.NULL) {
 					BlockGenus blockGenus = BlockGenus.getGenusWithName(rb
 							.getGenus());
+
 					rb.getHeaderLabel()
 							.setText(blockGenus.getInitHeaderLabel());
+
 					continue;
 				}
 				RenderableBlock socketRBlock = RenderableBlock

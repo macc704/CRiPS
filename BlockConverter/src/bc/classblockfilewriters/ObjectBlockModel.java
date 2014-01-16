@@ -42,6 +42,7 @@ public class ObjectBlockModel extends BasicModel {
 	}
 
 	public void print(PrintStream out, int lineNumber) throws Exception {
+
 		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" "
 				+ "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\""
 				+ getInitialLabel() + "\"");
@@ -143,6 +144,24 @@ public class ObjectBlockModel extends BasicModel {
 						+ langSpecProperties.get("scope")
 						+ "\"></LangSpecProperty>", out, lineNumber);
 
+		if (getName().contains("arrayobject")) {
+			printStubs("<Stub stub-genus=\"setter" + getName() + "\">",
+					"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
+							+ langSpecProperties.get("scope")
+							+ "\"></LangSpecProperty>",
+					"<LangSpecProperty key=\"scope\" value=\""
+							+ langSpecProperties.get("scope")
+							+ "\"></LangSpecProperty>", out, lineNumber);
+			printStubs("<Stub stub-genus=\"getter" + getName() + "\">",
+					"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
+							+ langSpecProperties.get("scope")
+							+ "\"></LangSpecProperty>",
+					"<LangSpecProperty key=\"scope\" value=\""
+							+ langSpecProperties.get("scope")
+							+ "\"></LangSpecProperty>", out, lineNumber);
+
+		}
+
 		makeIndent(out, lineNumber);
 		out.println("</Stubs>");
 
@@ -231,11 +250,6 @@ public class ObjectBlockModel extends BasicModel {
 		makeIndent(out, lineNumber);
 		out.println("<LangSpecProperty key=\"" + key + "\" value=\"" + value
 				+ "\"></LangSpecProperty>");
-	}
-
-	public void printMenuItem(PrintStream out, int lineNumber) {
-		makeIndent(out, lineNumber);
-		out.println("<BlockGenusMember>" + getName() + "</BlockGenusMember>");
 	}
 
 }

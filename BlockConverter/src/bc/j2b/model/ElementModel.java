@@ -249,9 +249,12 @@ public abstract class ElementModel {
 	}
 
 	protected void resolveBeforeAfterBlock(ElementModel parent) {
+
+		System.out.println("label:" + getLabel());
 		if (parent instanceof StBlockModel) {
 			int i = 0;
-			while (((StBlockModel) parent).getChild(i) != null) {
+			while (i < ((StBlockModel) parent).getChildren().size()
+					&& ((StBlockModel) parent).getChild(i) != null) {
 				ElementModel child = ((StBlockModel) parent).getChild(i);
 
 				if (child.getId() == getId()) {
@@ -333,5 +336,34 @@ public abstract class ElementModel {
 		}
 
 		return s;
+	}
+
+	public static String getElementConnector(String type) {
+		if (type == null) {
+			return "void";
+		} else if (type.equals("object") || type.equals("Object")) {
+			return "object";
+		} else if (type.equals("void")) {
+			return "void";
+		} else if (type.equals("number")) {
+			return "number";
+		} else if (type.equals("double-number")) {
+			return "double-number";
+		} else if (type.equals("int") || type.equals("int[]")) {
+			// return "int-number";
+			return "number";
+		} else if (type.equals("double") || type.equals("float")
+				|| type.equals("double[]") || type.equals("float[]")) {
+			return "double-number";
+			// return "number";
+			// return "double";
+		} else if (type.equals("string") || type.equals("String")
+				|| type.equals("char") || type.equals("String[]")) {
+			return "string";
+		} else if (type.equals("boolean")) {
+			return "boolean";
+		} else {
+			return "object";
+		}
 	}
 }

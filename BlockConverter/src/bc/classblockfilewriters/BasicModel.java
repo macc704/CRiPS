@@ -1,6 +1,9 @@
 package bc.classblockfilewriters;
 
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class BasicModel {
 
@@ -10,6 +13,7 @@ public class BasicModel {
 	private String headerLabel;
 	private String footerLabel;
 	private String color;
+	private Map<String, HashSet<String>> connectors;
 
 	public BasicModel() {
 
@@ -23,6 +27,7 @@ public class BasicModel {
 		this.headerLabel = headerLabel;
 		this.footerLabel = footerLabel;
 		this.color = color;
+		this.connectors = new HashMap<String, HashSet<String>>();
 	}
 
 	public void setName(String str) {
@@ -78,4 +83,18 @@ public class BasicModel {
 	public String getColor() {
 		return color;
 	}
+
+	public void addConnector(String kind, HashSet<String> type) {
+		connectors.put(kind, type);
+	}
+
+	public Map<String, HashSet<String>> getConnectors() {
+		return this.connectors;
+	}
+
+	public void printMenuItem(PrintStream out, int lineNumber) {
+		makeIndent(out, lineNumber);
+		out.println("<BlockGenusMember>" + getName() + "</BlockGenusMember>");
+	}
+
 }

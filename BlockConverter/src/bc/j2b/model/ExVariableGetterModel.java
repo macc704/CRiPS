@@ -14,6 +14,7 @@ public class ExVariableGetterModel extends ExpressionModel {
 
 	private StVariableDeclarationModel variable;
 	private String genusName = "getter";
+	private ExpressionModel index;
 
 	/*
 	 * (non-Javadoc)
@@ -33,8 +34,8 @@ public class ExVariableGetterModel extends ExpressionModel {
 		this.variable = variable;
 	}
 
-	public void setGenusName(String name) {
-		this.genusName = name;
+	public void setIndexModel(ExpressionModel indexModel) {
+		this.index = indexModel;
 	}
 
 	public void print(PrintStream out, int indent) {
@@ -43,6 +44,10 @@ public class ExVariableGetterModel extends ExpressionModel {
 		// stubBlock
 
 		String connectorType = getConnectorType(variable.getType());
+
+		if (variable.isArray()) {
+			genusName += "-arrayelement";
+		}
 
 		// if (variable.getGenusName().startsWith("local")) {
 		// genusName = genusName + "local-var-" + connectorType;
@@ -61,7 +66,7 @@ public class ExVariableGetterModel extends ExpressionModel {
 		// genus-name
 		makeIndent(out, indent + 1);
 		out.println("<Block id=\"" + getId() + "\" genus-name=\"" + genusName
-				+ variable.getGenusName() + "\">");
+				+ "\">");
 		// label
 		makeIndent(out, indent + 2);
 		out.println("<Label>" + variable.getName() + "</Label>");
@@ -82,6 +87,24 @@ public class ExVariableGetterModel extends ExpressionModel {
 		out.println("<Y>" + getPosY() + "</Y>");
 		makeIndent(out, indent + 2);
 		out.println("</Location>");
+
+		// socket
+		if (index != null) {
+			makeIndent(out, indent + 2);
+			out.println("<Sockets num-sockets=\"1\">");
+			makeIndent(out, indent + 3);
+			out.print("<BlockConnector connector-kind=\"socket\" connector-type=\""
+					+ "number"
+					+ "\""
+					+ " init-type=\""
+					+ "number"
+					+ "\" label=\"\" position-type=\"single\"");
+
+			out.println("/>");
+			makeIndent(out, indent + 2);
+			out.println("</Sockets>");
+		}
+
 		// Plug
 		makeIndent(out, indent + 2);
 		out.println("<Plug>");

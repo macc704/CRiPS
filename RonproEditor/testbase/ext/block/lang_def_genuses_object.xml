@@ -1203,13 +1203,13 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-local-numberarrayelement">
+        <Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<Stub stub-genus="setter-local-numberarrayelement">
+		<Stub stub-genus="setter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -1252,13 +1252,13 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<Stub stub-genus="getter-local-stringarrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<Stub stub-genus="setter-local-stringarrayelement">
+		<Stub stub-genus="setter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -1301,13 +1301,13 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<Stub stub-genus="getter-private-stringarrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<Stub stub-genus="setter-private-stringarrayelement">
+		<Stub stub-genus="setter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -1350,13 +1350,13 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-private-numberarrayelement">
+        <Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<Stub stub-genus="setter-private-numberarrayelement">
+		<Stub stub-genus="setter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -1400,13 +1400,13 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-local-doublearrayelement">
+        <Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<Stub stub-genus="setter-local-doublearrayelement">
+		<Stub stub-genus="setter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -1449,13 +1449,13 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-local-objectarrayelement">
+        <Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<Stub stub-genus="setter-local-objectarrayelement">
+		<Stub stub-genus="setter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -1498,13 +1498,13 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-private-objectarrayelement">
+        <Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<Stub stub-genus="setter-private-objectarrayelement">
+		<Stub stub-genus="setter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>

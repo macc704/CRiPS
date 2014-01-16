@@ -1084,16 +1084,27 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="drawImage" kind="command" color="255 0 0"
+	initlabel="画像を描きます">
+	<BlockConnectors>
+        <BlockConnector label="画像のパス" connector-type="string" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="X座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="Y座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="幅" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="高さ" connector-type="double-number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawImage"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
 <BlockGenus name="drawFillArc" kind="command" color="255 0 0"
 	initlabel="塗りつぶした円を描きます">
 	<BlockConnectors>
         <BlockConnector label="色" connector-type="object" connector-kind="socket" ></BlockConnector>
         <BlockConnector label="X座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
         <BlockConnector label="Y座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
-        <BlockConnector label="幅" connector-type="double-number" connector-kind="socket"></BlockConnector>
-        <BlockConnector label="高さ" connector-type="double-number" connector-kind="socket"></BlockConnector>
-        <BlockConnector label="開始角度" connector-type="double-number" connector-kind="socket"></BlockConnector>
-        <BlockConnector label="円の角度" connector-type="double-number" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="drawFillImage"></LangSpecProperty>
@@ -1162,6 +1173,17 @@
 	initlabel="ボリュームを設定します">
 	<BlockConnectors>
         <BlockConnector connector-type="number" connector-kind="plug" position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getDefaultVolume"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="play" kind="command" color="255 0 0"
+	initlabel="音楽を再生します">
+	<BlockConnectors>
+        <BlockConnector label="どこの曲?" connector-type="string" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="getDefaultVolume"></LangSpecProperty>

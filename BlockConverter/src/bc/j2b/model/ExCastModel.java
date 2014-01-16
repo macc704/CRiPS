@@ -7,6 +7,7 @@ import java.util.List;
 public class ExCastModel extends ExpressionModel {
 
 	private List<ExpressionModel> arguments = new ArrayList<ExpressionModel>();
+	private boolean isProjectObject = false;
 
 	public ExCastModel() {
 	}
@@ -18,9 +19,13 @@ public class ExCastModel extends ExpressionModel {
 		}
 	}
 
+	public void setIsProjectObject(boolean isProjectObject) {
+		this.isProjectObject = isProjectObject;
+	}
+
 	@Override
 	public void print(PrintStream out, int indent) {
-		// System.out.println("A:" + getType());
+
 		int firstChildId = -1;
 		String plugConnector = "number";
 		String socketConnector = "number";
@@ -35,6 +40,7 @@ public class ExCastModel extends ExpressionModel {
 		}
 
 		String genusName = "";
+
 		if (getType().equals("int") || getType().equals("number")) {
 			plugConnector = "number";
 			socketConnector = "double-number";
@@ -53,7 +59,13 @@ public class ExCastModel extends ExpressionModel {
 			genusName = "toStringFromInt";
 			// throw new RuntimeException("toString() not supported");
 		} else {
-			throw new RuntimeException("not supported cast: " + getType());
+			if (isProjectObject) {
+				plugConnector = "object";
+				socketConnector = "object";
+				genusName = "to" + getType() + "FromObject";
+			} else {
+				throw new RuntimeException("not supported cast: " + getType());
+			}
 		}
 
 		// print BlockEditor File
@@ -66,7 +78,8 @@ public class ExCastModel extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);

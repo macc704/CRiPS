@@ -128,6 +128,8 @@
 <BlockGenus name="caller" kind="command" initlabel="" color="0 0 0" label="関数">
 </BlockGenus>
 
+
+<!--
 <BlockGenus name="getter-local-numberarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
 	<BlockConnectors>
         <BlockConnector label="" connector-kind="plug" connector-type="number"/>
@@ -177,7 +179,6 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<!-- -->
 <BlockGenus name="getter-private-numberarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
 	<BlockConnectors>
         <BlockConnector label="" connector-kind="plug" connector-type="number"/>
@@ -256,8 +257,22 @@
 		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
 	</BlockConnectors>
 </BlockGenus>
+-->
+
+<BlockGenus name="getter-arrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="poly"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
 
 
+<BlockGenus name="setter-arrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="poly"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="object"/>
+	</BlockConnectors>
+</BlockGenus>
 
 
 <!--  以下，必要かどうか不明 -->

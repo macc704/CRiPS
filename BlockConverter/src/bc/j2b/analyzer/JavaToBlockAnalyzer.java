@@ -1495,49 +1495,60 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return model;
 			} else if (node instanceof ArrayAccess) {
 				ArrayAccess arrayNode = (ArrayAccess) node;
-				// メソッド呼び出しモデル作成
-				ExCallMethodModel arraySetter = new ExCallMethodModel();
-				arraySetter.setId(idCounter.getNextId());
-				// インデックスの解析
+				model.setVariable(variableResolver.resolve(arrayNode.getArray()
+						.toString()));
+				model.setId(idCounter.getNextId());
+				model.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+
 				ExpressionModel variable = parseExpression(arrayNode.getIndex());
-				variable.setId(idCounter.getNextId());
+				variable.setParent(model);
+				model.setIndexModel(variable);
 
-				String scope = variableResolver.resolve(
-						arrayNode.getArray().toString()).getGenusName();
-
-				if (scope.startsWith("local")) {
-					scope = "local";
-				} else {
-					scope = "private";
-				}
-
-				if (variableResolver.resolve(arrayNode.getArray().toString())
-						.getType().contains("int")
-						|| variableResolver
-								.resolve(arrayNode.getArray().toString())
-								.getType().contains("number")) {
-					arraySetter.setName("setter-" + scope
-							+ "-numberarrayelement");
-				} else if (variableResolver
-						.resolve(arrayNode.getArray().toString()).getType()
-						.contains("String")) {
-					arraySetter.setName("setter-" + scope
-							+ "-stringarrayelement");
-				} else if (variableResolver
-						.resolve(arrayNode.getArray().toString()).getType()
-						.contains("double")) {
-					arraySetter.setName("setter-" + scope
-							+ "doublearrayelement");
-				} else {
-					System.out.println("not supported array setter:"
-							+ ((ArrayAccess) node).toString());
-				}
-
-				arraySetter
-						.setLabel(((ArrayAccess) node).getArray().toString());
-				arraySetter.addArgument(variable);
-				arraySetter.addArgument(model.getRightExpression());
-				return arraySetter;
+				// ArrayAccess arrayNode = (ArrayAccess) node;
+				// // メソッド呼び出しモデル作成
+				// ExCallMethodModel arraySetter = new ExCallMethodModel();
+				// arraySetter.setId(idCounter.getNextId());
+				// // インデックスの解析
+				// ExpressionModel variable =
+				// parseExpression(arrayNode.getIndex());
+				// variable.setId(idCounter.getNextId());
+				//
+				// String scope = variableResolver.resolve(
+				// arrayNode.getArray().toString()).getGenusName();
+				//
+				// if (scope.startsWith("local")) {
+				// scope = "local";
+				// } else {
+				// scope = "private";
+				// }
+				//
+				// if (variableResolver.resolve(arrayNode.getArray().toString())
+				// .getType().contains("int")
+				// || variableResolver
+				// .resolve(arrayNode.getArray().toString())
+				// .getType().contains("number")) {
+				// arraySetter.setName("setter-" + scope
+				// + "-numberarrayelement");
+				// } else if (variableResolver
+				// .resolve(arrayNode.getArray().toString()).getType()
+				// .contains("String")) {
+				// arraySetter.setName("setter-" + scope
+				// + "-stringarrayelement");
+				// } else if (variableResolver
+				// .resolve(arrayNode.getArray().toString()).getType()
+				// .contains("double")) {
+				// arraySetter.setName("setter-" + scope
+				// + "-doublearrayelement");
+				// } else {
+				// arraySetter.setName("setter-" + scope
+				// + "-objectarrayelement");
+				// }
+				// arraySetter
+				// .setLabel(((ArrayAccess) node).getArray().toString());
+				// arraySetter.addArgument(variable);
+				// arraySetter.addArgument(model.getRightExpression());
+				return model;
 			} else if (node instanceof FieldAccess) {
 				ExCallActionMethodModel2 thisSetterModel = new ExCallActionMethodModel2();
 				thisSetterModel.setId(idCounter.getNextId());
@@ -2332,6 +2343,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	 */
 	private ExpressionModel parseCastExpression(CastExpression node) {
 		ExCastModel model = new ExCastModel();
+
+		if (projectClasses.contains(node.getType().toString())) {
+			model.setIsProjectObject(true);
+		}
 		model.setType(node.getType().toString());
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
@@ -2364,19 +2379,19 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		if (variableResolver.resolve(node.getArray().toString()).getType()
 				.contains("int")) {
-			arrayGetter.setName("getter" + scope + "numberarrayelement");
+			arrayGetter.setName("getter-" + scope + "-numberarrayelement");
 			arrayGetter.setType("number");
 		} else if (variableResolver.resolve(node.getArray().toString())
 				.getType().contains("String")) {
-			arrayGetter.setName("getter" + scope + "stringarrayelement");
+			arrayGetter.setName("getter-" + scope + "-stringarrayelement");
 			arrayGetter.setType("string");
 		} else if (variableResolver.resolve(node.getArray().toString())
-				.getType().contains("double")) {
-			arrayGetter.setName("getter" + scope + "doublearrayelement");
+				.getType().contains("double-")) {
+			arrayGetter.setName("getter" + scope + "-doublearrayelement");
 			arrayGetter.setType("double-number");
 		} else {
-			System.out.println("not supported arraygetter block:"
-					+ node.getArray().toString());
+			arrayGetter.setName("getter-" + scope + "-objectarrayelement");
+			arrayGetter.setType("object");
 		}
 		arrayGetter.setLabel(node.getArray().toString());
 		arrayGetter.addArgument(index);
