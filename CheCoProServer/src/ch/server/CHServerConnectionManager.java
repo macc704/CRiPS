@@ -60,6 +60,13 @@ public class CHServerConnectionManager {
 		synchronized (lock) {
 			if (users.containsKey(conn)) {
 				String user = users.get(conn);
+				CHUserState state = null;
+				for (CHUserState aUserState : userStates) {
+					if (user.equals(aUserState.getUser())) {
+						state = aUserState;
+					}
+				}
+				userStates.remove(state);
 				connections.remove(user);
 				users.remove(conn);
 				conn.close();

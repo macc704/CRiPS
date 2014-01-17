@@ -17,8 +17,8 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private String user;
-	private String password;
+	private String user = "";
+	private String password = "";
 	// private String confirm;
 
 	private JTextField userField = new JTextField(15);

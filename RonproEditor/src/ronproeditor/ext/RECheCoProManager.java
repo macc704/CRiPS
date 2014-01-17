@@ -447,7 +447,6 @@ public class RECheCoProManager {
 	public void startCheCoPro() {
 
 		logWriter = new CHUserLogWriter(user);
-		initializeREListener();
 
 		new Thread() {
 			public void run() {
@@ -531,10 +530,15 @@ public class RECheCoProManager {
 			entryDialog.open();
 			user = entryDialog.getUser();
 			password = entryDialog.getPassword();
-			conn.write(new CHEntryRequest(user, password));
+			if (!user.equals("")) {
+				conn.write(new CHEntryRequest(user, password));
+			} else {
+				conn.close();
+			}
 		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
 			logWriter.writeCommand(CHUserLogWriter.LOGIN);
 			logWriter.addRowToTable();
+			initializeREListener();
 			msFrame = new CHMemberSelectorFrame(user);
 			msFrame.open();
 		}

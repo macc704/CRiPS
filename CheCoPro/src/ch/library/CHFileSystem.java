@@ -11,6 +11,7 @@ import clib.common.filesystem.CPath;
 import clib.common.filesystem.sync.CFileList;
 import clib.common.filesystem.sync.CFileListDifference;
 import clib.common.filesystem.sync.CFileListUtils;
+import clib.common.table.CCSVFileIO;
 
 public class CHFileSystem {
 
@@ -101,7 +102,26 @@ public class CHFileSystem {
 	}
 
 	public static CFile getEntryUserList(int port) {
+		if (getServerDir(port).findFile("EntryUserList.csv") == null) {
+			CFile file = getServerDir(port).findOrCreateFile(
+					"EntryUserList.csv");
+			initEntryUserList(file);
+		}
 		return CFileSystem.getExecuteDirectory().findOrCreateFile(
 				"CH/" + port + "/EntryUserList.csv");
+	}
+
+	public static CDirectory getServerDir(int port) {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
+				"CH/" + port);
+	}
+
+	public static void initEntryUserList(CFile file) {
+		List<List<String>> table = new ArrayList<List<String>>();
+		List<String> header = new ArrayList<String>();
+		header.add("User");
+		header.add("Password");
+		table.add(header);
+		CCSVFileIO.saveByListList(table, file);
 	}
 }
