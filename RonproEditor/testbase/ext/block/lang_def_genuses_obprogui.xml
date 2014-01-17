@@ -1112,6 +1112,39 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="drawFillArc" kind="command" color="255 0 0"
+	initlabel="塗りつぶした円を描きます">
+	<BlockConnectors>
+        <BlockConnector label="色" connector-type="object" connector-kind="socket" ></BlockConnector>
+        <BlockConnector label="X座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="Y座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="幅" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="高さ" connector-type="double-number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawFillImage"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="drawFillArc" kind="command" color="255 0 0"
+	initlabel="塗りつぶした円を描きます">
+	<BlockConnectors>
+        <BlockConnector label="色" connector-type="object" connector-kind="socket" ></BlockConnector>
+        <BlockConnector label="X座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="Y座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="幅" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="高さ" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="開始角度" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="終了角度" connector-type="double-number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawFillImage"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
 <BlockGenus name="setLocation" kind="command" color="255 0 0"
 	initlabel="位置を設定します">
 	<BlockConnectors>

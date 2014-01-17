@@ -32,6 +32,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 			checkWhetherCreatedVariable(block.getBeforeID());
 			return;
 		}
+
 		checkPlugBlock(block.getPlugID());
 	}
 

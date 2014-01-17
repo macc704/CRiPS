@@ -1834,13 +1834,12 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				// methodResolver.getReturnType(node);
 			} else {
 				// Listのgetなどは、listの型に合わせて変形する必要性
-				ExVariableGetterModel receiverModel = null;
+				ExpressionModel receiverModel = null;
 				StVariableDeclarationModel variable = variableResolver
 						.resolve(receiver.toString());
 
 				if (variable != null) {
-					receiverModel = parseVariableGetterExpression(variable
-							.getName());
+					receiverModel = parseExpression(receiver);
 					receiverModel.setLineNumber(compilationUnit
 							.getLineNumber(receiver.getStartPosition()));
 					ExCallActionMethodModel2 model = parseCallActionMethodExpression2(
