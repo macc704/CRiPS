@@ -161,11 +161,6 @@ public class CHServer {
 		connectionPool.sendToOne((new CHLoginResult(result)), user);
 
 		List<CHUserState> userStates = connectionPool.getUserStates();
-		// for (String aUser : getAllUsers()) {
-		// colorが全て同じになる原因
-		// connectionManagerにCHUserStateのリストを追加する？
-		// userStates.add(new CHUserState(aUser, true, color));
-		// }
 
 		connectionPool.broadCast(new CHLoginMemberChanged(userStates));
 		connectionPool.sendToOne(new CHFilelistRequest(null), user);

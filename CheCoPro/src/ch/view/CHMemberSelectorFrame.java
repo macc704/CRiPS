@@ -17,7 +17,6 @@ public class CHMemberSelectorFrame extends JFrame {
 	private String user;
 	private List<JButton> buttons = new ArrayList<JButton>();
 	private List<String> pushed = new ArrayList<String>();
-	private List<String> loginedMembers = new ArrayList<String>();
 
 	public CHMemberSelectorFrame(String myName) {
 		this.user = myName;
@@ -71,14 +70,6 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	public void setEnable(String user) {
 		pushed.remove(user);
-	}
-
-	public void addLoginedMember(String name) {
-		loginedMembers.add(name);
-	}
-
-	public void removeLoginedMember(String name) {
-		loginedMembers.remove(name);
 	}
 
 	public void setUser(String user) {

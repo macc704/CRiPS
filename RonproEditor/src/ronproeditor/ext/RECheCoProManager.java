@@ -51,7 +51,7 @@ import ch.conn.framework.packets.CHLoginMemberChanged;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutRequest;
-import ch.conn.framework.packets.CHLogoutResponse;
+import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.view.CHEntryDialog;
@@ -78,18 +78,11 @@ public class RECheCoProManager {
 			CTRL_DOWN_MASK = InputEvent.META_DOWN_MASK;
 		}
 	}
-	// private static int CTRL_MASK = KeyEvent.CTRL_MASK;
-	// static {
-	// if (CJavaSystem.getInstance().isMac()) {
-	// CTRL_MASK = KeyEvent.META_MASK;
-	// }
-	// }
 
 	private REApplication application;
 	private CHConnection conn;
 	private CHMemberSelectorFrame msFrame;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
-	// private List<String> members = new ArrayList<String>();
 	private String user = DEFAULT_NAME;
 	private String password = DEFAULT_PASSWAOD;
 	private int port = DEFAULT_PORT;
@@ -503,8 +496,8 @@ public class RECheCoProManager {
 			processLoginMemberChanged((CHLoginMemberChanged) obj);
 		} else if (obj instanceof CHSourceChanged) {
 			processSourceChanged((CHSourceChanged) obj);
-		} else if (obj instanceof CHLogoutResponse) {
-			processLogoutResult((CHLogoutResponse) obj);
+		} else if (obj instanceof CHLogoutResult) {
+			processLogoutResult((CHLogoutResult) obj);
 		} else if (obj instanceof CHFileRequest) {
 			processFileRequest((CHFileRequest) obj);
 		} else if (obj instanceof CHFileResponse) {
@@ -556,17 +549,9 @@ public class RECheCoProManager {
 	}
 
 	private void processLoginMemberChanged(CHLoginMemberChanged result) {
-
-		// for (CHUserState aUserState : result.getUserStates()) {
-		// if (members.contains(aUserState)) {
-		// members.add(aUserState.getUser());
-		// }
-		// }
-
 		userStates = result.getUserStates();
 		msFrame.setMembers(result.getUserStates());
 		setMemberSelectorListner();
-
 	}
 
 	private void processSourceChanged(CHSourceChanged response) {
@@ -584,18 +569,8 @@ public class RECheCoProManager {
 		});
 	}
 
-	private void processLogoutResult(CHLogoutResponse result) {
-		if (!user.equals(result.getUser())) {
-			// msFrame.addLoginedMember(result.getUser());
-			// msFrame.setMembers(userStates);
-			// setMemberSelectorListner();
-		} else {
-			// for (String aMember : members) {
-			// REApplication chApplication = chFrameMap.get(aMember);
-			// if (chApplication != null) {
-			// chApplication.getFrame().setVisible(false);
-			// }
-			// }
+	private void processLogoutResult(CHLogoutResult result) {
+		if (user.equals(result.getUser())) {
 			logWriter.writeCommand(CHUserLogWriter.LOGOUT);
 			logWriter.addRowToTable();
 			logWriter.saveTableToFile();
