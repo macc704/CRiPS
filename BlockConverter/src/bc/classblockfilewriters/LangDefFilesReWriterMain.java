@@ -15,7 +15,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import bc.j2b.analyzer.MethodAnalyzer;
 import bc.utils.ASTParserWrapper;
 
-public class LangDefFileReWriter {
+public class LangDefFilesReWriterMain {
 
 	private File file;
 	private String enc;
@@ -25,7 +25,7 @@ public class LangDefFileReWriter {
 
 	private Map<String, Family> familyList = new HashMap<String, Family>();
 
-	public LangDefFileReWriter(File file, String enc, String[] classpaths) {
+	public LangDefFilesReWriterMain(File file, String enc, String[] classpaths) {
 		this.file = file;
 		this.enc = enc;
 		this.classpaths = classpaths;
@@ -42,7 +42,7 @@ public class LangDefFileReWriter {
 				+ "/lang_def_menu_project.xml");
 
 		// 同じディレクトリ内のすべてのjavaファイルをパースし、モデルに追加する
-		LangDefRewriterMain selfDefModel = new LangDefRewriterMain(
+		LangDefFilesRewriter selfDefModel = new LangDefFilesRewriter(
 				classDefFile, this.file.getName());
 		for (String name : file.getParentFile().list()) {
 			if (name.endsWith(".java")) {
@@ -63,10 +63,11 @@ public class LangDefFileReWriter {
 				selfDefModel.setInstanceVariableBlockMode(name, methods);
 				// 型変換ブロックモデルの追加
 				selfDefModel.setConvertBlockModel(name);
+				// 引数ブロックモデルの追加
 
 			}
 		}
-
+		// 継承関係にあるブロック達をファミリーに出力
 		printLangDefFamilies();
 
 		// langDefファイルを作成する
@@ -104,12 +105,13 @@ public class LangDefFileReWriter {
 	private void printLangDefFamilies() {
 		// 登録しておいたfamilyListを整理する
 		List<String> deleteList = new LinkedList<String>();
+		// すべてのクラスの引数ブロックを、object型引数ブロックのファミリーとして出力する
+
 		for (String key : familyList.keySet()) {
 			if (existAsOtherFamilyMember(key)
 					|| familyList.get(key).getFamilyMember().size() == 1) {
 				deleteList.add(key);
 			}
-
 		}
 
 		for (String key : deleteList) {

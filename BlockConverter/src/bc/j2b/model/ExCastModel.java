@@ -8,6 +8,7 @@ public class ExCastModel extends ExpressionModel {
 
 	private List<ExpressionModel> arguments = new ArrayList<ExpressionModel>();
 	private boolean isProjectObject = false;
+	private String javaType;
 
 	public ExCastModel() {
 	}
@@ -63,6 +64,7 @@ public class ExCastModel extends ExpressionModel {
 				plugConnector = "object";
 				socketConnector = "object";
 				genusName = "to" + getType() + "FromObject";
+				javaType = getType();
 			} else {
 				throw new RuntimeException("not supported cast: " + getType());
 			}
@@ -81,6 +83,10 @@ public class ExCastModel extends ExpressionModel {
 		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
 				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
+		// javaType
+		makeIndent(out, indent + 1);
+		out.println("<JavaType>" + javaType + "</JavaType>");
+
 		// location
 		makeIndent(out, indent + 1);
 		out.println("<Location>");

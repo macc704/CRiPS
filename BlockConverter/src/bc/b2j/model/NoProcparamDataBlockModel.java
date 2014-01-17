@@ -116,6 +116,14 @@ public class NoProcparamDataBlockModel extends BlockModel {
 					.getBlock(getConnectorIDs().get(0));
 			blockModel.print(out, indent);
 			out.print(".toString()");
+		} else if (getGenusName().endsWith("FromObject")) {
+			BlockModel blockModel = BlockToJavaAnalyzer
+					.getBlock(getConnectorIDs().get(0));
+			out.print("(");
+			out.print("(" + getJavaType());
+			out.print(")");
+			blockModel.print(out, indent);
+			out.print(")");
 		}
 
 		/*

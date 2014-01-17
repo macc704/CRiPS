@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class LangDefRewriterMain {
+public class LangDefFilesRewriter {
 
 	private File file;
 	// private String[] classpaths;
@@ -24,7 +24,7 @@ public class LangDefRewriterMain {
 	Map<String, String> addedMethods = new HashMap<String, String>();
 	private List<ConvertBlockModel> requestConvertBlockModel = new LinkedList<ConvertBlockModel>();
 
-	public LangDefRewriterMain(File file, String javaFileName) {
+	public LangDefFilesRewriter(File file, String javaFileName) {
 		this.file = file;
 		this.javaFileName = javaFileName.substring(0,
 				javaFileName.indexOf(".java"));

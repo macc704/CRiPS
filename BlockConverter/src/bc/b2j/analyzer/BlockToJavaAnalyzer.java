@@ -297,6 +297,11 @@ public class BlockToJavaAnalyzer {
 		if (blockName.startsWith("getter") || blockName.contains("this")) {
 			return true;
 		}
+		// ‚Æ‚è‚ ‚¦‚¸
+		if (blockName.endsWith("FromObject")) {
+			return true;
+		}
+
 		for (String name : BlockConverter.ALL_DATA_BLOCKNAMES) {
 			if (name.equals(blockName)) {
 				return true;

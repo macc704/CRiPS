@@ -12,7 +12,7 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import bc.classblockfilewriters.LangDefFileReWriter.Family;
+import bc.classblockfilewriters.LangDefFilesReWriterMain.Family;
 
 public class LangDefFamiliesCopier implements Copier {
 

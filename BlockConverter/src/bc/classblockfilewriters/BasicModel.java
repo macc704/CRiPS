@@ -97,4 +97,78 @@ public class BasicModel {
 		out.println("<BlockGenusMember>" + getName() + "</BlockGenusMember>");
 	}
 
+	protected void printBlockConnectors(PrintStream out, int lineNumber,
+			String DefaultLabel) {
+		makeIndent(out, ++lineNumber);
+		out.println("<BlockConnectors>");
+
+		Map<String, HashSet<String>> connectors = getConnectors();
+
+		for (String connectorKind : connectors.keySet()) {
+			HashSet<String> types = connectors.get(connectorKind);
+			for (String connectorType : types) {
+				printBlockConnector(out, lineNumber, connectorKind,
+						connectorType);
+			}
+		}
+
+		makeIndent(out, lineNumber);
+		out.println("</BlockConnectors>");
+	}
+
+	protected void printBlockConnector(PrintStream out, int lineNumber,
+			String connectorKind, String connectorType) {
+		makeIndent(out, ++lineNumber);
+		out.println("<BlockConnector " + "connector-kind=\"" + connectorKind
+				+ "\" connector-type=\"" + connectorType + "\">"
+				+ "</BlockConnector>");
+	}
+
+	protected void printStub(String stub, String property1, String property2,
+			PrintStream out, int lineNumber) {
+		makeIndent(out, ++lineNumber);
+		out.println(stub);
+
+		makeIndent(out, ++lineNumber);
+		out.println("<LangSpecProperties>");
+
+		makeIndent(out, ++lineNumber);
+		out.println(property1);
+		makeIndent(out, lineNumber);
+		out.println(property2);
+
+		makeIndent(out, --lineNumber);
+		out.println("</LangSpecProperties>");
+
+		makeIndent(out, --lineNumber);
+		out.println("</Stub>");
+	}
+
+	protected void printStubs(String stub, String property1, String property2,
+			String property3, PrintStream out, int lineNumber) {
+		makeIndent(out, ++lineNumber);
+		out.println(stub);
+
+		makeIndent(out, ++lineNumber);
+		out.println("<LangSpecProperties>");
+
+		makeIndent(out, ++lineNumber);
+		out.println(property1);
+		makeIndent(out, lineNumber);
+		out.println(property2);
+
+		makeIndent(out, --lineNumber);
+		out.println("</LangSpecProperties>");
+
+		makeIndent(out, --lineNumber);
+		out.println("</Stub>");
+	}
+
+	protected void printLangSpecProperty(PrintStream out, int lineNumber,
+			String key, String value) {
+		makeIndent(out, lineNumber);
+		out.println("<LangSpecProperty key=\"" + key + "\" value=\"" + value
+				+ "\"></LangSpecProperty>");
+	}
+
 }

@@ -11,7 +11,7 @@ import java.io.PrintStream;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 import bc.BlockConverter;
-import bc.classblockfilewriters.LangDefFileReWriter;
+import bc.classblockfilewriters.LangDefFilesReWriterMain;
 import bc.j2b.analyzer.JavaToBlockAnalyzer;
 import bc.j2b.model.CompilationUnitModel;
 import bc.utils.ASTParserWrapper;
@@ -49,7 +49,7 @@ public class JavaToBlockMain {
 	public void process(File file, String enc, PrintStream out,
 			String[] classpaths) throws Exception {
 		// 言語定義ファイルの上書き
-		LangDefFileReWriter rewriter = new LangDefFileReWriter(file, enc,
+		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(file, enc,
 				classpaths);
 		rewriter.rewrite();
 
