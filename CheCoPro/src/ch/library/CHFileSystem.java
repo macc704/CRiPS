@@ -101,6 +101,18 @@ public class CHFileSystem {
 		}
 	}
 
+	public static void copyUserDirToMyProjects(String user) {
+		CDirectory masterDir = CHFileSystem.getUserDirForClient(user);
+		CDirectory copyDir = CFileSystem.getExecuteDirectory()
+				.findOrCreateDirectory("MyProjects/" + user);
+		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
+				new CFileList(masterDir), copyDir);
+
+		List<CHFile> files = CHFileSystem.getCHFiles(requestFilePaths,
+				masterDir);
+		CHFileSystem.saveFiles(files, copyDir);
+	}
+
 	public static CFile getEntryUserList(int port) {
 		if (getServerDir(port).findFile("EntryUserList.csv") == null) {
 			CFile file = getServerDir(port).findOrCreateFile(

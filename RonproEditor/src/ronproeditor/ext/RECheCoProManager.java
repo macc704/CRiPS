@@ -58,7 +58,6 @@ import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.sync.CFileList;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
@@ -96,14 +95,14 @@ public class RECheCoProManager {
 
 	public RECheCoProManager(REApplication application) {
 		this.application = application;
-		initialize();
+		initializePreference();
 	}
 
 	public RECheCoProManager() {
 		connectServer();
 	}
 
-	private void initialize() {
+	private void initializePreference() {
 		application.getPreferenceManager().putCategory(
 				new CheCoProPreferenceCategory());
 	}
@@ -114,7 +113,7 @@ public class RECheCoProManager {
 
 	private void initializeREListener() {
 
-		initializeMenuListener(application);
+		initializeREMenuListener(application);
 
 		application.getSourceManager().addPropertyChangeListener(
 				new PropertyChangeListener() {
@@ -179,7 +178,7 @@ public class RECheCoProManager {
 				});
 	}
 
-	private void initializeMenuListener(final REApplication application) {
+	private void initializeREMenuListener(final REApplication application) {
 		JMenu menu = application.getFrame().getJMenuBar().getMenu(1);
 
 		List<JMenuItem> items = new ArrayList<JMenuItem>();
@@ -256,7 +255,7 @@ public class RECheCoProManager {
 		REApplication chApplication = application.doOpenNewRE("MyProjects/.CH/"
 				+ user);
 		initializeCHEditor(chApplication, user);
-		initializeMenuListener(chApplication);
+		initializeREMenuListener(chApplication);
 		chFrameMap.put(user, chApplication);
 	}
 
@@ -286,11 +285,19 @@ public class RECheCoProManager {
 					logWriter.writeFrom(user);
 					logWriter.addRowToTable();
 					connButton.setText("“¯Šú’†");
+					if (chApplication.getFrame().getEditor() != null) {
+						chApplication.getFrame().getEditor().getViewer()
+								.getTextPane().setEditable(false);
+					}
 				} else {
 					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
 					logWriter.writeFrom(user);
 					logWriter.addRowToTable();
 					connButton.setText("”ñ“¯Šú");
+					if (chApplication.getFrame().getEditor() != null) {
+						chApplication.getFrame().getEditor().getViewer()
+								.getTextPane().setEditable(true);
+					}
 				}
 			}
 		});
@@ -310,7 +317,7 @@ public class RECheCoProManager {
 			}
 		});
 
-		JButton copyFileButton = new JButton("Save to MyProjects");
+		JButton copyFileButton = new JButton("Copy All to MyProjects");
 		copyFileButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -318,7 +325,8 @@ public class RECheCoProManager {
 				logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
 				logWriter.writeFrom(user);
 				logWriter.addRowToTable();
-				copyUserDirToMyProjects(user);
+				CHFileSystem.copyUserDirToMyProjects(user);
+				application.doRefresh();
 			}
 		});
 
@@ -355,6 +363,17 @@ public class RECheCoProManager {
 						setCHTitleBar(chApplication);
 						if (chApplication.getFrame().getEditor() != null) {
 							initializeCHKeyListener(chApplication);
+							JToggleButton connButton = (JToggleButton) chApplication
+									.getFrame().getJMenuBar().getComponent(5);
+							if (connButton.isSelected()) {
+								chApplication.getFrame().getEditor()
+										.getViewer().getTextPane()
+										.setEditable(false);
+							} else {
+								chApplication.getFrame().getEditor()
+										.getViewer().getTextPane()
+										.setEditable(true);
+							}
 						}
 					}
 				});
@@ -416,19 +435,6 @@ public class RECheCoProManager {
 			}
 		}
 		return DEFAULT_COLOR;
-	}
-
-	private void copyUserDirToMyProjects(String user) {
-		CDirectory masterDir = CHFileSystem.getUserDirForClient(user);
-		CDirectory copyDir = CFileSystem.getExecuteDirectory()
-				.findOrCreateDirectory("MyProjects/" + user);
-		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
-				new CFileList(masterDir), copyDir);
-
-		List<CHFile> files = CHFileSystem.getCHFiles(requestFilePaths,
-				masterDir);
-		CHFileSystem.saveFiles(files, copyDir);
-		application.doRefresh();
 	}
 
 	/********************
