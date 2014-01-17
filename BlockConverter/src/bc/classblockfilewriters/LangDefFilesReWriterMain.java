@@ -90,6 +90,7 @@ public class LangDefFilesReWriterMain {
 				File turtleMenu = new File("ext/block/lang_def_menu_turtle.xml");
 				selfDefModel.printMenu(projectMenuFile, turtleMenu);
 				selfDefModel.printGenus();
+				this.addedMethods = selfDefModel.getAddedMethods();
 				return;
 			}
 		}
