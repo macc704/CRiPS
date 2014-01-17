@@ -133,7 +133,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		} else if ("double-number".equals(getGenusName())
 				|| "number".equals(getGenusName())
 				|| getGenusName().startsWith("getter")) {
-			if (getGenusName().contains("Array")) {
+			if (getGenusName().contains("getter-arrayelement")) {
 				BlockModel index = BlockToJavaAnalyzer
 						.getBlock(getConnectorIDs().get(0));
 				out.print(getLabel() + "[");
