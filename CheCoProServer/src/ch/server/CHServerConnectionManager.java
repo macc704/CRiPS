@@ -42,10 +42,19 @@ public class CHServerConnectionManager {
 			if (connections.containsKey(userState.getUser())) {
 				logout(userState.getUser());
 			}
+			CHUserState state = userState;
+			for (CHUserState aUserState : userStates) {
+				if (userState.getUser().equals(aUserState.getUser())) {
+					state = aUserState;
+				}
+			}
+			userStates.remove(state);
+			state.setLogin(true);
+			userStates.add(state);
 			connections.put(userState.getUser(), conn);
 			users.put(conn, userState.getUser());
-			userStates.add(userState);
-			CHServer.out.println("login user: " + userState.getUser());
+			// userStates.add(userState);
+			CHServer.out.println("login user: " + state.getUser());
 			return true;
 		}
 	}
@@ -67,6 +76,8 @@ public class CHServerConnectionManager {
 					}
 				}
 				userStates.remove(state);
+				state.setLogin(false);
+				userStates.add(state);
 				connections.remove(user);
 				users.remove(conn);
 				conn.close();

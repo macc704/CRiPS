@@ -24,6 +24,10 @@ public class CHUserState extends CHPacket {
 		return login;
 	}
 
+	public void setLogin(boolean login) {
+		this.login = login;
+	}
+
 	public Color getColor() {
 		return color;
 	}

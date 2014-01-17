@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 import ch.conn.framework.CHConnection;
@@ -105,9 +104,9 @@ public class CHServer {
 		return conn;
 	}
 
-	private List<String> getAllUsers() {
-		return connectionPool.getAllUsers();
-	}
+	// private List<String> getAllUsers() {
+	// return connectionPool.getAllUsers();
+	// }
 
 	private void loopForOneClient(String user, CHConnection conn) {
 		try {
@@ -192,10 +191,7 @@ public class CHServer {
 	private boolean logout(CHConnection conn) {
 		boolean result = connectionPool.logout(conn);
 		if (result == true) {
-			List<CHUserState> userStates = new ArrayList<CHUserState>();
-			for (String aUser : getAllUsers()) {
-				userStates.add(new CHUserState(aUser, true, null));
-			}
+			List<CHUserState> userStates = connectionPool.getUserStates();
 			connectionPool.broadCast(new CHLoginMemberChanged(userStates));
 		}
 		return result;

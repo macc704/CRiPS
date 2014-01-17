@@ -89,7 +89,7 @@ public class RECheCoProManager {
 	private CHConnection conn;
 	private CHMemberSelectorFrame msFrame;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
-	private List<String> members = new ArrayList<String>();
+	// private List<String> members = new ArrayList<String>();
 	private String user = DEFAULT_NAME;
 	private String password = DEFAULT_PASSWAOD;
 	private int port = DEFAULT_PORT;
@@ -586,16 +586,16 @@ public class RECheCoProManager {
 
 	private void processLogoutResult(CHLogoutResponse result) {
 		if (!user.equals(result.getUser())) {
-			msFrame.addLoginedMember(result.getUser());
-			msFrame.setMembers(userStates);
-			setMemberSelectorListner();
+			// msFrame.addLoginedMember(result.getUser());
+			// msFrame.setMembers(userStates);
+			// setMemberSelectorListner();
 		} else {
-			for (String aMember : members) {
-				REApplication chApplication = chFrameMap.get(aMember);
-				if (chApplication != null) {
-					chApplication.getFrame().setVisible(false);
-				}
-			}
+			// for (String aMember : members) {
+			// REApplication chApplication = chFrameMap.get(aMember);
+			// if (chApplication != null) {
+			// chApplication.getFrame().setVisible(false);
+			// }
+			// }
 			logWriter.writeCommand(CHUserLogWriter.LOGOUT);
 			logWriter.addRowToTable();
 			logWriter.saveTableToFile();
