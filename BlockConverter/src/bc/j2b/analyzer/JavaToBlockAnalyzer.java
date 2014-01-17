@@ -1222,6 +1222,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// List<?> fragments = node.fragments();
 		// for (int i = 0; i < fragments.size(); i++) {
 		String typeString = typeString(node.getType());
+
 		if (node.getType().isArrayType()) {// Type i[]
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 					.fragments().get(0);
@@ -1263,6 +1264,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		} else {
 			throw new IllegalArgumentException("‚Ü‚¾–¢‘Î‰ž‚Ì AST node type ‚ð‰ðÍ‚µ‚Ü‚µ‚½.");
 		}
+
 	}
 
 	private StLocalVariableModel parseVariableDeclarationExpression(
@@ -1284,6 +1286,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		StLocalVariableModel model = createLocalVariableModel(typeString,
 				fragment.getName().toString(), fragment.getInitializer(),
 				false, isArray);
+
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 		return model;
@@ -1640,6 +1643,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setId(idCounter.getNextId());
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
+
 			model.setType(model.getType());
 
 			if (model instanceof ExLeteralModel) {
@@ -1846,6 +1850,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				}
 
 				return parseMethodCallExpression(node);
+
 			}
 
 			// if (methodResolver.getReturnType(node) == ExpressionModel.VOID) {
@@ -2003,6 +2008,12 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		model.setReceiver(receiverModel);
 		model.setCallMethod(callMethod);
+		// æ‚Écallmethod‚Ìplug‚ÌŒ^‚ðƒZƒbƒg‚µ‚Æ‚­
+		if (callMethod instanceof ExpressionModel
+				&& !((ExpressionModel) callMethod).getType().equals("void")) {
+			model.setType(ElementModel
+					.getConnectorType(((ExpressionModel) callMethod).getType()));
+		}
 		return model;
 	}
 

@@ -258,6 +258,7 @@
 		<BlockGenusMember>addToAfterCursor</BlockGenusMember>
 		<BlockGenusMember>removeAtCursor</BlockGenusMember>
 		<BlockGenusMember>shuffle</BlockGenusMember>
+        <BlockGenusMember>warpByTopLeft</BlockGenusMember>
 	</BlockDrawer>
 	
 	<BlockDrawer name="CardTurtle" type="factory" button-color="255 255 100">
