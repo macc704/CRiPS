@@ -12,9 +12,6 @@ import ch.conn.framework.CHUserState;
 
 public class CHMemberSelectorFrame extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private String user;
@@ -51,10 +48,8 @@ public class CHMemberSelectorFrame extends JFrame {
 				}
 			}
 
-			for (String aLoginedMember : loginedMembers) {
-				if (aUserState.getUser().equals(aLoginedMember)) {
-					button.setForeground(Color.RED);
-				}
+			if (!aUserState.isLogin()) {
+				button.setForeground(Color.RED);
 			}
 
 			if (aUserState.getUser().equals(user)) {
@@ -95,7 +90,7 @@ public class CHMemberSelectorFrame extends JFrame {
 		List<CHUserState> userStates = new ArrayList<CHUserState>();
 		userStates.add(new CHUserState("user1", true, Color.CYAN));
 		userStates.add(new CHUserState("name", true, Color.LIGHT_GRAY));
-		userStates.add(new CHUserState("user2", true, Color.MAGENTA));
+		userStates.add(new CHUserState("user2", false, Color.MAGENTA));
 		frame.open();
 		frame.setMembers(userStates);
 		userStates.add(new CHUserState("user3", true, Color.YELLOW));

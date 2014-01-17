@@ -732,14 +732,16 @@ public class RECheCoProManager {
 		}
 
 		private void changeStringToColor(String str) {
-			if (str.equals("cyan")) {
-				color = Color.CYAN;
-			} else if (str.equals("lightgray")) {
-				color = Color.LIGHT_GRAY;
-			} else if (str.equals("magenta")) {
-				color = Color.MAGENTA;
-			} else if (str.equals("yellow")) {
+			if (str.equals("Gray")) {
+				color = Color.GRAY;
+			} else if (str.equals("Blue")) {
+				color = Color.BLUE;
+			} else if (str.equals("Green")) {
+				color = Color.GREEN;
+			} else if (str.equals("Yellow")) {
 				color = Color.YELLOW;
+			} else if (str.equals("Orange")) {
+				color = Color.ORANGE;
 			}
 		}
 
@@ -781,10 +783,11 @@ public class RECheCoProManager {
 
 				JPanel colorPanel = new JPanel(flowLayout);
 				colorPanel.add(new JLabel("Color : "));
-				colorBox.addItem("cyan");
-				colorBox.addItem("lightgray");
-				colorBox.addItem("magenta");
-				colorBox.addItem("yellow");
+				colorBox.addItem("Gray");
+				colorBox.addItem("Blue");
+				colorBox.addItem("Green");
+				colorBox.addItem("Yellow");
+				colorBox.addItem("Orange");
 				colorPanel.add(colorBox);
 
 				this.add(namePanel, BorderLayout.CENTER);
