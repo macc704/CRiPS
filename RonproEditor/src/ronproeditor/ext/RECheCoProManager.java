@@ -88,7 +88,6 @@ public class RECheCoProManager {
 	private int port = DEFAULT_PORT;
 	private Color color = DEFAULT_COLOR;
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
-	private JToggleButton connButton = new JToggleButton("“¯Šú’†", true);
 	private CHUserLogWriter logWriter;
 
 	public static void main(String[] args) {
@@ -249,7 +248,6 @@ public class RECheCoProManager {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				conn.write(new CHLogoutRequest(user));
-				conn.close();
 			}
 		});
 	}
@@ -278,6 +276,24 @@ public class RECheCoProManager {
 		for (int i = 0; i < menuBar.getMenuCount(); i++) {
 			menuBar.getMenu(i).setBackground(getUserColor(user));
 		}
+		final JToggleButton connButton = new JToggleButton("“¯Šú’†", true);
+		connButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (connButton.isSelected()) {
+					logWriter.writeCommand(CHUserLogWriter.SYNC_START);
+					logWriter.writeFrom(user);
+					logWriter.addRowToTable();
+					connButton.setText("“¯Šú’†");
+				} else {
+					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
+					logWriter.writeFrom(user);
+					logWriter.addRowToTable();
+					connButton.setText("”ñ“¯Šú");
+				}
+			}
+		});
 
 		menuBar.add(connButton);
 
@@ -342,24 +358,6 @@ public class RECheCoProManager {
 						}
 					}
 				});
-
-		connButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (connButton.isSelected()) {
-					logWriter.writeCommand(CHUserLogWriter.SYNC_START);
-					logWriter.writeFrom(user);
-					logWriter.addRowToTable();
-					connButton.setText("“¯Šú’†");
-				} else {
-					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
-					logWriter.writeFrom(user);
-					logWriter.addRowToTable();
-					connButton.setText("”ñ“¯Šú");
-				}
-			}
-		});
 	}
 
 	private void initializeCHKeyListener(final REApplication chApplication) {
@@ -638,11 +636,14 @@ public class RECheCoProManager {
 	 **********/
 
 	public boolean shouldPrintSource(String sender, String senderCurrentFile) {
-		if (!connButton.isSelected()) {
-			return false;
-		}
 		if (!chFrameMap.containsKey(sender)) {
 			return false;
+		} else {
+			JToggleButton button = (JToggleButton) chFrameMap.get(sender)
+					.getFrame().getJMenuBar().getComponent(5);
+			if (!button.isSelected()) {
+				return false;
+			}
 		}
 		if (chFrameMap.get(sender).getFrame().getEditor() == null) {
 			return false;

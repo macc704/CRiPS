@@ -21,6 +21,7 @@ import ch.conn.framework.packets.CHLoginMemberChanged;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutRequest;
+import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import clib.common.filesystem.CDirectory;
@@ -135,7 +136,7 @@ public class CHServer {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		} finally {
-			logout(conn);
+			// logout(conn);
 		}
 	}
 
@@ -184,6 +185,8 @@ public class CHServer {
 	}
 
 	private boolean logout(CHConnection conn) {
+		connectionPool.sendToOne(
+				new CHLogoutResult(connectionPool.getUser(conn)), conn);
 		boolean result = connectionPool.logout(conn);
 		if (result == true) {
 			List<CHUserState> userStates = connectionPool.getUserStates();
