@@ -438,6 +438,10 @@ public class RECheCoProManager {
 	public void startCheCoPro() {
 
 		logWriter = new CHUserLogWriter(user);
+		if (port == DEFAULT_PORT + 20000) {
+			application.doOpenPreferencePage();
+			application.getPreferenceManager().saveToFile();
+		}
 
 		new Thread() {
 			public void run() {
@@ -623,12 +627,24 @@ public class RECheCoProManager {
 		logWriter.addRowToTable();
 		logWriter.saveTableToFile();
 		resetMenubar();
+		closeCHEditor();
 	}
 
 	private void resetMenubar() {
 		JMenuBar menubar = application.getFrame().getJMenuBar();
 		menubar.remove(5);
 		application.getFrame().setJMenuBar(menubar);
+	}
+
+	private void closeCHEditor() {
+		for (CHUserState userState : userStates) {
+			if (chFrameMap.containsKey(userState.getUser())) {
+				chFrameMap.get(userState.getUser()).getFrame()
+						.setVisible(false);
+				;
+				chFrameMap.remove(userState.getUser());
+			}
+		}
 	}
 
 	/**********
@@ -725,10 +741,10 @@ public class RECheCoProManager {
 		public void save() {
 			user = nameField.getText();
 			password = String.valueOf(passField.getPassword());
+			port = portBox.getSelectedIndex() + 20000;
 			changeStringToColor((String) colorBox.getSelectedItem());
 			getRepository().put(LOGINID_LABEL, user);
-			getRepository().put(PASSWORD_LABEL,
-					String.valueOf(passField.getPassword()));
+			getRepository().put(PASSWORD_LABEL, password);
 			getRepository().put(PORTNUMBER_LABEL,
 					Integer.toString(portBox.getSelectedIndex()));
 			getRepository().put(COLOR_LABEL,
