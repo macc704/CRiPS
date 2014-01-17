@@ -31,7 +31,7 @@ public class ParameterBlockModel extends BasicModel {
 
 		printBlockConnector(out, lineNumber, "plug", "object");
 		makeIndent(out, lineNumber + 1);
-		out.println("<JavaType>" + javaType + "</JavaType>");
+		out.println("<JavaType>" + addEscapeSequence(javaType) + "</JavaType>");
 
 		printStubs(out, lineNumber);
 

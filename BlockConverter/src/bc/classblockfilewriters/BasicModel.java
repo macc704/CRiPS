@@ -170,5 +170,17 @@ public class BasicModel {
 		out.println("<LangSpecProperty key=\"" + key + "\" value=\"" + value
 				+ "\"></LangSpecProperty>");
 	}
+	
+	public static String addEscapeSequence(String name) {
+		String s = name;
+		if (s.contains("<")) {
+			s = s.replaceAll("<", "&lt;");
+		}
+		if (name.contains(">")) {
+			s = s.replaceAll(">", "&gt;");
+		}
+
+		return s;
+	}
 
 }

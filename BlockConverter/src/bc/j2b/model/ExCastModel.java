@@ -85,7 +85,7 @@ public class ExCastModel extends ExpressionModel {
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// javaType
 		makeIndent(out, indent + 1);
-		out.println("<JavaType>" + javaType + "</JavaType>");
+		out.println("<JavaType>" + addEscapeSequence(javaType) + "</JavaType>");
 
 		// location
 		makeIndent(out, indent + 1);
