@@ -142,6 +142,30 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// variableResolver.addGlobalVariable(variable);
 	}
 
+	public JavaToBlockAnalyzer(File file, String enc,
+			Map<String, String> addedMethods, List<String> addedClasses) {
+		this.commentGetter = new JavaCommentManager(file, enc);
+		createThisModel();
+		createSuperModel();
+		for (String method : addedMethods.keySet()) {
+			methodResolver
+					.addMethodReturnType(method, addedMethods.get(method));
+		}
+
+		for (String name : addedClasses) {
+
+			projectClasses.add(name);
+
+		}
+
+		// arranged by sakai lab 2011/11/22
+		// abstParser = new AbstractionBlockByTagParser(file);
+		// StGlobalVariableModel variable = new StGlobalVariableModel();
+		// variable.setName("window");
+		// variable.setType("TurtleFrame");
+		// variableResolver.addGlobalVariable(variable);
+	}
+
 	public CompilationUnitModel getCompilationUnit() {
 		return currentCompilationUnit;
 	}

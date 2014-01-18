@@ -54,7 +54,7 @@ public class ExCastModel extends ExpressionModel {
 		} else if (getType().equals("toString")) {
 			// old
 			throw new RuntimeException("toString() not supported");
-		} else if (getType().equals("string")) {
+		} else if (getType().equals("string") || getType().equals("String")) {
 			plugConnector = "string";
 			socketConnector = "number";
 			genusName = "toStringFromInt";

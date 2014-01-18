@@ -91,10 +91,12 @@ public class HeaderLabel extends BlockLabel {
 						"callObjectMethodlocal-var-object")) {
 					rb.getHeaderLabel().setText("ObjectŒ^‚Ì•Ï”‚ğì‚èA");
 				} else {
-					rb.getHeaderLabel()
-							.setText(
-									socketRBlock.getBlockLabel().getText()
-											+ "Œ^‚Ì•Ï”‚ğì‚èA");
+					if (!socketRBlock.getBlockLabel().getText().equals("null")) {
+						rb.getHeaderLabel().setText(
+								socketRBlock.getBlockLabel().getText()
+										+ "Œ^‚Ì•Ï”‚ğì‚èA");
+
+					}
 				}
 			}
 			textChanged(rb.getHeaderLabel().getText());

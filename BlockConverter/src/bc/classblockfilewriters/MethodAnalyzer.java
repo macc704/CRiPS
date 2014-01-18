@@ -14,6 +14,7 @@ public class MethodAnalyzer extends ASTVisitor {
 	private List<PublicMethodInfo> methods = new ArrayList<PublicMethodInfo>();
 	private String superClassName;
 	private List<String> interfacesNames = new LinkedList<String>();
+	private List<String> classes = new LinkedList<String>();
 
 	public String getSuperClassName() {
 		return this.superClassName;
@@ -23,8 +24,13 @@ public class MethodAnalyzer extends ASTVisitor {
 		return this.interfacesNames;
 	}
 
+	public List<String> getClasses() {
+		return this.classes;
+	}
+
 	@Override
 	public boolean visit(TypeDeclaration node) {
+		classes.add(node.getName().toString());
 		// TODO Auto-generated method stub
 		if (node.getSuperclassType() != null) {
 			this.superClassName = node.getSuperclassType().toString();

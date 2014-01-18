@@ -82,27 +82,31 @@ public class ObjectBlockModel extends BasicModel {
 
 		makeIndent(out, lineNumber);
 		out.println("</LangSpecProperties>");
-		for (String key : methods.keySet()) {
-			makeIndent(out, lineNumber);
-			out.println("<ClassMethods class=\"" + key + "\">");
+		if (methods != null) {
+			for (String key : methods.keySet()) {
+				makeIndent(out, lineNumber);
+				out.println("<ClassMethods class=\"" + key + "\">");
 
-			lineNumber++;
-			for (PublicMethodInfo method : methods.get(key)) {
-				method.print(out, lineNumber);
+				lineNumber++;
+				for (PublicMethodInfo method : methods.get(key)) {
+					method.print(out, lineNumber);
+				}
+
+				makeIndent(out, --lineNumber);
+				out.println("</ClassMethods>");
 			}
-
-			makeIndent(out, --lineNumber);
-			out.println("</ClassMethods>");
 		}
+
 		out.println("</BlockGenus>");
 		out.println();
 		// コマンドブロック情報の書き出し
 		PublicMethodCommandWriter commandWriter = new PublicMethodCommandWriter();
-
-		for (String key : methods.keySet()) {
-			for (PublicMethodInfo method : methods.get(key)) {
-				commandWriter.setMethods(method);
-				commandWriter.printCommands(out);
+		if (methods != null) {
+			for (String key : methods.keySet()) {
+				for (PublicMethodInfo method : methods.get(key)) {
+					commandWriter.setMethods(method);
+					commandWriter.printCommands(out);
+				}
 			}
 		}
 

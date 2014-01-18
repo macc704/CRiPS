@@ -21,8 +21,11 @@ public class LangDefFilesReWriterMain {
 	private String[] classpaths;
 	private BufferedReader br;
 	private Map<String, String> addedMethods = new HashMap<String, String>();
+	private List<String> addedClasses = new LinkedList<String>();
 
 	private Map<String, Family> familyList = new HashMap<String, Family>();
+
+	private List<String> classes;
 
 	public LangDefFilesReWriterMain(File file, String enc, String[] classpaths) {
 		this.file = file;
@@ -60,6 +63,20 @@ public class LangDefFilesReWriterMain {
 				selfDefModel.setLocalVariableBlockModel(name, methods);// メソッドリストを引数に追加
 				// インスタンス変数ブロックのモデルを追加
 				selfDefModel.setInstanceVariableBlockMode(name, methods);
+				addedClasses.add(name);
+				for (String className : classes) {
+					if (!className.equals(name)) {
+						// ローカル変数ブロックのモデルを追加
+						selfDefModel.setLocalVariableBlockModel(className,
+								methods);// メソッドリストを引数に追加
+						// インスタンス変数ブロックのモデルを追加
+						selfDefModel.setInstanceVariableBlockMode(className,
+								methods);
+						addedClasses.add(className);
+					}
+
+				}
+
 				// 型変換ブロックモデルの追加
 				selfDefModel.setConvertBlockModel(name);
 				// 引数ブロックモデルの追加
@@ -100,6 +117,10 @@ public class LangDefFilesReWriterMain {
 		// プロジェクトのオブジェクトブロック情報を出力する
 		selfDefModel.printGenus();
 		this.addedMethods = selfDefModel.getAddedMethods();
+	}
+
+	public List<String> getAddedClasses() {
+		return this.addedClasses;
 	}
 
 	private void printLangDefFamilies() {
@@ -156,6 +177,8 @@ public class LangDefFilesReWriterMain {
 					new File(file.getParentFile().getPath() + "/"
 							+ superClassName + ".java"), childName);
 		}
+
+		classes = visitor.getClasses();
 
 		methods.put(name, visitor.getMethods());
 		return methods;

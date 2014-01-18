@@ -161,26 +161,30 @@ public class LangDefFilesRewriter {
 
 			Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();
 			for (ObjectBlockModel selDefClass : requestObjectBlock) {
-				for (String key : selDefClass.getMethods().keySet()) {
-					for (PublicMethodInfo method : selDefClass.getMethods()
-							.get(key)) {
-						if (addedMethods.get(Integer.toString((method
-								.hashCode()))) == null) {
-							PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
-							writer.setMethods(method);
-							writer.printMenuItem(ps, lineNum);
-							addedMethods
-									.put(Integer.toString(method.hashCode()),
-											method);
-							String paramSize = Integer.toString(method
-									.getParameters().size());
-							if (paramSize.equals("0")) {
-								paramSize = "";
+				if (selDefClass.getMethods() != null) {
+					for (String key : selDefClass.getMethods().keySet()) {
+						for (PublicMethodInfo method : selDefClass.getMethods()
+								.get(key)) {
+							if (addedMethods.get(Integer.toString((method
+									.hashCode()))) == null) {
+								PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
+								writer.setMethods(method);
+								writer.printMenuItem(ps, lineNum);
+								addedMethods.put(
+										Integer.toString(method.hashCode()),
+										method);
+								String paramSize = Integer.toString(method
+										.getParameters().size());
+								if (paramSize.equals("0")) {
+									paramSize = "";
+								}
+								this.addedMethods.put(method.getName() + "("
+										+ paramSize + ")",
+										method.getreturnType());
 							}
-							this.addedMethods.put(method.getName() + "("
-									+ paramSize + ")", method.getreturnType());
 						}
 					}
+
 				}
 			}
 
@@ -192,18 +196,20 @@ public class LangDefFilesRewriter {
 			addedMethods.clear();
 			for (ObjectBlockModel request : requestObjectBlock) {
 				if (request.getClassName().equals(javaFileName)) {
-					for (String key : request.getMethods().keySet()) {
-						for (PublicMethodInfo method : request.getMethods()
-								.get(key)) {
-							if (addedMethods.get(Integer.toString((method
-									.hashCode()))) == null
-									&& !key.equals(javaFileName)) {
-								PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
-								writer.setMethods(method);
-								writer.printMenuItem(ps, lineNum);
-								addedMethods.put(
-										Integer.toString(method.hashCode()),
-										method);
+					if (request.getMethods() != null) {
+						for (String key : request.getMethods().keySet()) {
+							for (PublicMethodInfo method : request.getMethods()
+									.get(key)) {
+								if (addedMethods.get(Integer.toString((method
+										.hashCode()))) == null
+										&& !key.equals(javaFileName)) {
+									PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
+									writer.setMethods(method);
+									writer.printMenuItem(ps, lineNum);
+									addedMethods
+											.put(Integer.toString(method
+													.hashCode()), method);
+								}
 							}
 						}
 					}
