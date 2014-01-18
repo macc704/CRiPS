@@ -253,6 +253,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 											・行番号のfontが追従しない問題を修正
  * 											・全角の「{」を変換しようとするとソース全体がおかしくなる問題を修正
  * 											・半角の{を入力したときに}を自動入力する機能を削除
+ * 2014/01/08 version 2.25.0 matsuzawa		・git参照のこと
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
@@ -270,8 +271,8 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.24.0";
-	public static final String BUILD_DATE = "2013/12/19";
+	public static final String VERSION = "2.25.0";
+	public static final String BUILD_DATE = "2014/01/08";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
@@ -303,6 +304,9 @@ public class REApplication implements ICFwApplication {
 	 * Variables.
 	 ***********************/
 
+	private String compileCommand;
+	private String runCommand;
+
 	private RESourceManager sourceManager = new RESourceManager();
 	private RELibraryManager libraryManager = new RELibraryManager(LIB_FOLDER);
 	private RESourceTemplateManager templateManager = new RESourceTemplateManager(
@@ -332,6 +336,7 @@ public class REApplication implements ICFwApplication {
 
 	private void main() {
 		initializeLookAndFeel();
+		initializeCommands();
 		initializeAndOpen(DEFAULT_ROOT);
 	}
 
@@ -364,6 +369,23 @@ public class REApplication implements ICFwApplication {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
+		}
+	}
+
+	private void initializeCommands() {
+		if (CJavaSystem.getInstance().hasCommand("java")) {
+			this.runCommand = "java";
+		} else {
+			JOptionPane.showMessageDialog(frame, "javaコマンドが見つかりません",
+					"起動時チェックにひっかかりました", JOptionPane.ERROR_MESSAGE);
+			// System.exit(0);
+		}
+
+		this.compileCommand = CJavaSystem.getInstance().getJavacCommand();
+		if (this.compileCommand == null) {
+			JOptionPane.showMessageDialog(frame, "javacコマンドが見つかりません",
+					"起動時チェックに引っかかりました", JOptionPane.ERROR_MESSAGE);
+			// System.exit(0);
 		}
 	}
 
@@ -744,7 +766,7 @@ public class REApplication implements ICFwApplication {
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
-		commands.add("javac");
+		commands.add(compileCommand);
 		if (CJavaSystem.getInstance().isMac()) {
 			commands.add("-J-Dfile.encoding="
 					+ RECommandExecuter.commandEncoding);
@@ -789,7 +811,7 @@ public class REApplication implements ICFwApplication {
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
-		commands.add("javac");
+		commands.add(compileCommand);
 		if (CJavaSystem.getInstance().isMac()) {
 			commands.add("-J-Dfile.encoding="
 					+ RECommandExecuter.commandEncoding);
@@ -870,7 +892,7 @@ public class REApplication implements ICFwApplication {
 				.getRootDirectory(), getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 		ArrayList<String> commands = new ArrayList<String>();
-		commands.add("java");
+		commands.add(runCommand);
 		commands.add("-classpath");
 		commands.add(cp);
 		commands.add(env.runnable);
