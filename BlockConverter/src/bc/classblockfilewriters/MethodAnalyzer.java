@@ -1,4 +1,4 @@
-package bc.j2b.analyzer;
+package bc.classblockfilewriters;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -8,8 +8,6 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
-
-import bc.classblockfilewriters.PublicMethodInfo;
 
 public class MethodAnalyzer extends ASTVisitor {
 

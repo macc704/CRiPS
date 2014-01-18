@@ -326,11 +326,13 @@ public abstract class ElementModel {
 
 	public static String addEscapeSequence(String name) {
 		String s = name;
-		if (s.contains("<")) {
-			s = s.replaceAll("<", "&lt;");
-		}
-		if (name.contains(">")) {
-			s = s.replaceAll(">", "&gt;");
+		if (s != null) {
+			if (s.contains("<")) {
+				s = s.replaceAll("<", "&lt;");
+			}
+			if (name.contains(">")) {
+				s = s.replaceAll(">", "&gt;");
+			}
 		}
 
 		return s;

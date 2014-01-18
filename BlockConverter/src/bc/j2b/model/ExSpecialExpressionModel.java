@@ -108,6 +108,24 @@ public class ExSpecialExpressionModel extends ExpressionModel {
 			// end Plug
 			makeIndent(out, indent + 1);
 			out.println("</Plug>");
+
+			if (parameter.size() > 0) {
+				makeIndent(out, indent + 1);
+				out.println("<Sockets num-sockets=\"" + parameter.size()
+						+ "\">");
+				for (ExpressionModel param : parameter) {
+					makeIndent(out, indent + 2);
+					out.println("<BlockConnector connector-kind=\"socket\" connector-type=\""
+							+ ElementModel.getConnectorType(param.getType())
+							+ "\" init-type=\""
+							+ param.getType()
+							+ "\" label=\"\""
+							+ " position-type=\"single\" con-block-id=\""
+							+ param.getId() + "\"/>");
+				}
+				makeIndent(out, indent + 1);
+				out.println("</Sockets>");
+			}
 		}
 
 		// end Block

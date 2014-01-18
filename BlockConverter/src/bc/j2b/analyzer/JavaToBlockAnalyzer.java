@@ -1861,8 +1861,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			} else {
 				// Listのgetなどは、listの型に合わせて変形する必要性
 				ExpressionModel receiverModel = null;
-				StVariableDeclarationModel variable = variableResolver
-						.resolve(receiver.toString());
+				StVariableDeclarationModel variable;
+				if (receiver instanceof ArrayAccess) {
+					variable = variableResolver
+							.resolve(((ArrayAccess) receiver).getArray()
+									.toString());
+					System.out.println(((ArrayAccess) receiver).getArray()
+							.toString());
+				} else {
+					variable = variableResolver.resolve(receiver.toString());
+				}
 
 				if (variable != null) {
 					receiverModel = parseExpression(receiver);

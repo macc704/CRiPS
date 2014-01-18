@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
-import bc.j2b.analyzer.MethodAnalyzer;
 import bc.utils.ASTParserWrapper;
 
 public class LangDefFilesReWriterMain {
