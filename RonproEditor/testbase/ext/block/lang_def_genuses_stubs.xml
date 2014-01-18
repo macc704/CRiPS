@@ -3,7 +3,20 @@
 <!-- Stub Genuses Do not remove unless you would like to remove the stub 
 	feature all together -->
 <!-- 動的ブロックについて、生成したいファクトリーをここで指定する。BlockGenusタグで「factorys="○○"」と指定する。複数のファクトリーに生成したい場合は、「,」で区切る。 -->
+
 <BlockGenus name="getterthis" kind="data" initlabel="自分" color="255 0 0">
+	<description>
+	</description>
+	<BlockConnectors>
+        <BlockConnector connector-kind="plug" connector-type="poly"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="gettersuper" kind="data" initlabel="親クラス" color="255 0 0">
 	<description>
 	</description>
 	<BlockConnectors>

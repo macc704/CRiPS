@@ -195,7 +195,7 @@ public class BlockToJavaAnalyzer {
 				pageModel.addPrivateVariableBlock(model);
 				blockNode = blockNode.getNextSibling();
 			} else if (genus_name.startsWith("setter")
-					|| genus_name.startsWith("this-setter")) {
+					|| genus_name.startsWith("thissetter")) {
 				SetterVariableBlockModel model = new SetterVariableBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -294,7 +294,8 @@ public class BlockToJavaAnalyzer {
 			return true;
 		}
 
-		if (blockName.startsWith("getter") || blockName.contains("this")) {
+		if (blockName.startsWith("getter") || blockName.contains("this")
+				|| blockName.contains("super")) {
 			return true;
 		}
 		// ‚Æ‚è‚ ‚¦‚¸

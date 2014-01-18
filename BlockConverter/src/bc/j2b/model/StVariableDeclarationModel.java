@@ -114,7 +114,8 @@ public class StVariableDeclarationModel extends StatementModel implements
 				+ "</HeaderLabel>");
 
 		makeIndent(out, indent + 1);
-		out.println("<JavaType>" + addEscapeSequence(javaVariableType) + "</JavaType>");
+		out.println("<JavaType>" + addEscapeSequence(javaVariableType)
+				+ "</JavaType>");
 
 		{// 2013 09/26 ohata tag for line comment
 			// comment
@@ -224,7 +225,8 @@ public class StVariableDeclarationModel extends StatementModel implements
 		out.println("<Label>" + name + "</Label>");
 
 		makeIndent(out, indent + 1);
-		out.println("<JavaType>" + javaVariableType + "</JavaType>");
+		out.println("<JavaType>" + addEscapeSequence(javaVariableType)
+				+ "</JavaType>");
 
 		{// 2013 09/26 ohata tag for line comment
 			// comment

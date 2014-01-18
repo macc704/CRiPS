@@ -5,6 +5,7 @@ import java.util.List;
 
 import bc.j2b.model.StLocalVariableModel;
 import bc.j2b.model.StPrivateVariableDeclarationModel;
+import bc.j2b.model.StSuperVariableModel;
 import bc.j2b.model.StThisVariableModel;
 import bc.j2b.model.StVariableDeclarationModel;
 
@@ -13,12 +14,17 @@ public class VariableResolver implements Cloneable {
 	private List<StPrivateVariableDeclarationModel> globalVariables = new ArrayList<StPrivateVariableDeclarationModel>();
 	private List<StLocalVariableModel> localVariables = new ArrayList<StLocalVariableModel>();
 	private StThisVariableModel thisValue = new StThisVariableModel();
+	private StSuperVariableModel superValue;
 
 	public VariableResolver() {
 	}
 
 	public void setThisValue(StThisVariableModel model) {
 		thisValue = model;
+	}
+
+	public void setSuperValue(StSuperVariableModel model) {
+		superValue = model;
 	}
 
 	public void addGlobalVariable(StPrivateVariableDeclarationModel var) {
@@ -32,6 +38,10 @@ public class VariableResolver implements Cloneable {
 	public StVariableDeclarationModel resolve(String name) {
 		if (name.equals("this")) {
 			return thisValue;
+		}
+
+		if (name.equals("super")) {
+			return superValue;
 		}
 
 		for (int i = 0; i < localVariables.size(); i++) {

@@ -45,6 +45,7 @@ import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
+import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 import org.eclipse.jdt.core.dom.ThisExpression;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
@@ -86,6 +87,7 @@ import bc.j2b.model.StMethodDeclarationModel;
 import bc.j2b.model.StPrivateVariableDeclarationModel;
 import bc.j2b.model.StReturnModel;
 import bc.j2b.model.StSuperConstructorInvocationModel;
+import bc.j2b.model.StSuperVariableModel;
 import bc.j2b.model.StThisVariableModel;
 import bc.j2b.model.StVariableDeclarationModel;
 import bc.j2b.model.StWhileModel;
@@ -120,6 +122,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			Map<String, String> addedMethods) {
 		this.commentGetter = new JavaCommentManager(file, enc);
 		createThisModel();
+		createSuperModel();
 		for (String method : addedMethods.keySet()) {
 			methodResolver
 					.addMethodReturnType(method, addedMethods.get(method));
@@ -1311,6 +1314,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		StLocalVariableModel model = new StLocalVariableModel(argument);
 
 		model.setArray(array);
+		createSuperModel();
 
 		model.setJavaVariableType(type);
 
@@ -1342,6 +1346,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		variableResolver.setThisValue(model);
 	}
 
+	private void createSuperModel() {
+		StSuperVariableModel model = new StSuperVariableModel();
+		model.setType("object");
+		model.setName("親クラス");
+
+		model.setId(idCounter.getNextId());
+		variableResolver.setSuperValue(model);
+	}
+
 	/************************************************************
 	 * 以下，Expressionの解析系
 	 ************************************************************/
@@ -1370,6 +1383,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseAssignementExpression((Assignment) node);
 			} else if (node instanceof MethodInvocation) {
 				return parseMethodInvocationExpression((MethodInvocation) node);
+			} else if (node instanceof SuperMethodInvocation) {
+				return parseMethodInvocationExpression((SuperMethodInvocation) node);
 			} else if (node instanceof PostfixExpression) {
 				return (ExpressionModel) parsePostfixExpression((PostfixExpression) node);
 			} else if (node instanceof PrefixExpression) {
@@ -1695,6 +1710,23 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// }
 	}
 
+	public ExpressionModel parseMethodInvocationExpression(
+			SuperMethodInvocation node) {
+		ExpressionModel superVariable = (ExpressionModel) parseVariableGetterExpression("super");
+		superVariable.setType("object");
+		superVariable.setId(idCounter.getNextId());
+		superVariable.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+
+		ExCallMethodModel callMethod = parseMethodCallExpression(node);
+
+		ExCallActionMethodModel2 model = createExCallActionBlock2(
+				superVariable, callMethod,
+				compilationUnit.getLineNumber(node.getStartPosition()));
+		// model.setReceiver(thisModel);
+		return model;
+	}
+
 	public ExpressionModel parseMethodInvocationIdentifer(MethodInvocation node) {
 		String fullName = node.toString();
 		// String siName = node.getName().getIdentifier();
@@ -1819,12 +1851,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseCallActionMethodExpression2(node, receiverModel);
 			}
 			if (receiver instanceof ThisExpression) {
-				// Ex2作る
-				ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
-				model.setId(idCounter.getNextId());
-				model.setLineNumber(compilationUnit.getLineNumber(node
-						.getStartPosition()));
-				// ExCallMethodModel callMethod = new ExCallMethodModel();
 				// thisキーワードブロック作成
 				ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
 				thisModel.setType("object");
@@ -1920,6 +1946,39 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	 * @return MethodInvocationの解析結果
 	 */
 	public ExCallMethodModel parseMethodCallExpression(MethodInvocation node) {
+		ExCallMethodModel model;
+		if (methodResolver.isRegisteredAsUserMethod(node)) {
+			model = new ExCallUserMethodModel();
+			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+		} else {
+			model = new ExCallMethodModel();
+		}
+
+		String name;
+
+		name = node.getName().toString();
+
+		model.setName(name);
+		model.setType(ElementModel.getConnectorType(methodResolver
+				.getReturnType(node)));
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		// 引数
+		for (int i = 0; i < node.arguments().size(); i++) {
+			ExpressionModel arg = parseExpression((Expression) node.arguments()
+					.get(i));
+			// if ("print".equals(model.getName()) &&
+			// numberRelationChecker(arg)) {
+			// arg = typeChangeModelCreater(arg);
+			// }
+			model.addArgument(arg);
+		}
+		return model;
+	}
+
+	public ExCallMethodModel parseMethodCallExpression(
+			SuperMethodInvocation node) {
 		ExCallMethodModel model;
 		if (methodResolver.isRegisteredAsUserMethod(node)) {
 			model = new ExCallUserMethodModel();

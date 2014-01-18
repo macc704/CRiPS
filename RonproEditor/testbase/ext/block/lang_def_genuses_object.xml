@@ -2,6 +2,7 @@
 
 <!-- Object -->
 
+
 <BlockGenus name="new-object" kind="function" initlabel="Turtle"
 	editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>

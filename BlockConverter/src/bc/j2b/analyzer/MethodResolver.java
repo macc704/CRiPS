@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 
 import bc.j2b.model.ExpressionModel;
 
@@ -170,7 +171,22 @@ public class MethodResolver {
 		return methodToReturnType.containsKey(toSignature(method));
 	}
 
+	public boolean isRegisteredAsReserved(SuperMethodInvocation method) {
+		return methodToReturnType.containsKey(toSignature(method));
+	}
+
 	public String getReturnType(MethodInvocation method) {
+		if (isRegisteredAsReserved(method)) {
+			return getReservedReturnType(toSignature(method));
+		} else if (isRegisteredAsUserMethod(method)) {
+			return getUserMethodType(method);
+		} else {
+			// throw new RuntimeException();
+			return null;
+		}
+	}
+
+	public String getReturnType(SuperMethodInvocation method) {
 		if (isRegisteredAsReserved(method)) {
 			return getReservedReturnType(toSignature(method));
 		} else if (isRegisteredAsUserMethod(method)) {
@@ -189,6 +205,10 @@ public class MethodResolver {
 	}
 
 	private String toSignature(MethodInvocation method) {
+		return toSignature(method.getName().toString(), method.arguments());
+	}
+
+	private String toSignature(SuperMethodInvocation method) {
 		return toSignature(method.getName().toString(), method.arguments());
 	}
 
@@ -220,6 +240,19 @@ public class MethodResolver {
 		return null;
 	}
 
+	public boolean isRegisteredAsUserMethod(SuperMethodInvocation method) {
+		String signature = toSignature(method);
+		return userMethods.containsKey(signature);
+	}
+
+	public String getUserMethodType(SuperMethodInvocation method) {
+		if (isRegisteredAsUserMethod(method)) {
+			String signature = toSignature(method);
+			return userMethods.get(signature);
+		}
+		return null;
+	}
+
 	public void putUserMethod(String name,
 			List<SingleVariableDeclaration> arguments, String returnType) {
 		String signature = toSignature(name, arguments);
@@ -243,6 +276,11 @@ public class MethodResolver {
 	/**
 	 */
 	public List<String> getArgumentLabels(MethodInvocation node) {
+		String signature = toSignature(node);
+		return argumentLabels.get(signature);
+	}
+
+	public List<String> getArgumentLabels(SuperMethodInvocation node) {
 		String signature = toSignature(node);
 		return argumentLabels.get(signature);
 	}
