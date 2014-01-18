@@ -270,7 +270,16 @@ public class RECheCoProManager {
 	private void initializeCHMenu(final REApplication chApplication,
 			final String user) {
 		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
-		menuBar.getMenu(3).remove(4);
+		for (int i = 7; i >= 0; i--) {
+			menuBar.getMenu(0).remove(i);
+		}
+		menuBar.getMenu(0).remove(1);
+		menuBar.getMenu(0).remove(1);
+		menuBar.getMenu(0).remove(4);
+		for (int i = 4; i > 0; i--) {
+			menuBar.getMenu(3).remove(i);
+		}
+		menuBar.getMenu(4).remove(0);
 
 		for (int i = 0; i < menuBar.getMenuCount(); i++) {
 			menuBar.getMenu(i).setBackground(getUserColor(user));
@@ -285,20 +294,18 @@ public class RECheCoProManager {
 					logWriter.writeFrom(user);
 					logWriter.addRowToTable();
 					connButton.setText("“¯Šú’†");
-					if (chApplication.getFrame().getEditor() != null) {
-						chApplication.getFrame().getEditor().getViewer()
-								.getTextPane().setEditable(false);
-					}
 				} else {
 					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
 					logWriter.writeFrom(user);
 					logWriter.addRowToTable();
 					connButton.setText("”ñ“¯Šú");
-					if (chApplication.getFrame().getEditor() != null) {
-						chApplication.getFrame().getEditor().getViewer()
-								.getTextPane().setEditable(true);
-					}
 				}
+				if (chApplication.getFrame().getEditor() != null) {
+					chApplication.getFrame().getEditor().getViewer()
+							.getTextPane()
+							.setEditable(!connButton.isSelected());
+				}
+				changeCHMenubar(chApplication, connButton.isSelected());
 			}
 		});
 
@@ -334,7 +341,7 @@ public class RECheCoProManager {
 		menuBar.add(copyFileButton);
 
 		menuBar.setBackground(getUserColor(user));
-
+		changeCHMenubar(chApplication, connButton.isSelected());
 		chApplication.getFrame().setJMenuBar(menuBar);
 	}
 
@@ -365,15 +372,11 @@ public class RECheCoProManager {
 							initializeCHKeyListener(chApplication);
 							JToggleButton connButton = (JToggleButton) chApplication
 									.getFrame().getJMenuBar().getComponent(5);
-							if (connButton.isSelected()) {
-								chApplication.getFrame().getEditor()
-										.getViewer().getTextPane()
-										.setEditable(false);
-							} else {
-								chApplication.getFrame().getEditor()
-										.getViewer().getTextPane()
-										.setEditable(true);
-							}
+							chApplication.getFrame().getEditor().getViewer()
+									.getTextPane()
+									.setEditable(!connButton.isSelected());
+							changeCHMenubar(chApplication,
+									connButton.isSelected());
 						}
 					}
 				});
@@ -435,6 +438,15 @@ public class RECheCoProManager {
 			}
 		}
 		return DEFAULT_COLOR;
+	}
+
+	private void changeCHMenubar(REApplication chApplication, boolean isSelected) {
+		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
+		for (int i = 0; i < 8; i++) {
+			if (i != 5) {
+				menuBar.getComponent(i).setEnabled(!isSelected);
+			}
+		}
 	}
 
 	/********************
