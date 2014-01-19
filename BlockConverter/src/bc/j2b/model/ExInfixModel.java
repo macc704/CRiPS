@@ -34,7 +34,7 @@ public class ExInfixModel extends ExpressionModel {
 	}
 
 	public String getType() {
-		if (operator.equals("equals")) {
+		if (operator.equals("equals") || operator.equals("instanceof")) {
 			return "boolean";
 		}
 
@@ -109,6 +109,10 @@ public class ExInfixModel extends ExpressionModel {
 
 		if (operator.equals("equals")) {
 			return "equals-string";
+		}
+
+		if (operator.equals("instanceof")) {
+			return operator;
 		}
 
 		if (getSocketType().equals("boolean")) {
@@ -240,7 +244,8 @@ public class ExInfixModel extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);

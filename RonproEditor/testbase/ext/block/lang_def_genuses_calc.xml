@@ -603,3 +603,21 @@
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
+
+<BlockGenus name="instanceof" kind="function"
+	initlabel="型が等しい" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="object" position-type="bottom">
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="object" position-type="bottom">
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>

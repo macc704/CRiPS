@@ -38,7 +38,7 @@ public class BlockConverter {
 			"equals-number-double", "not-equals-number-double", "sum-double",
 			"difference-double", "product-double", "quotient-double",
 			"remainder-double", "equals-boolean", "not-equals-boolean",
-			"equals-string" };
+			"equals-string", "instanceof" };
 
 	// 戻り値のないメソッドはここに登録
 	public static final String[] METHOD_CALL_BLOCKS = { "fd", "bk", "lt", "rt",

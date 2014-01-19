@@ -37,6 +37,8 @@ public class InfixCommandBlockModel extends CommandBlockModel {
 			setLabel("%");
 		} else if ("string-append".equals(name)) {
 			setLabel("+");
+		} else if (name.equals("instanceof")) {
+			setLabel("instanceof");
 		} else {
 			throw new RuntimeException("not supported infix expression:" + name);
 

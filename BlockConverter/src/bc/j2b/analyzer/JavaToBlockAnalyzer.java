@@ -30,6 +30,7 @@ import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.eclipse.jdt.core.dom.InstanceofExpression;
 import org.eclipse.jdt.core.dom.LineComment;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
@@ -1427,6 +1428,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return (ExpressionModel) parseFieldAccess(((FieldAccess) node));
 			} else if (node instanceof ArrayAccess) {
 				return (ExpressionModel) parseArrayAccess((ArrayAccess) node);
+			} else if (node instanceof InstanceofExpression) {
+				return (ExpressionModel) parseInstanceofExpression((InstanceofExpression) node);
 			}
 			throw new RuntimeException(
 					"The node type has not been supported yet node: "
@@ -1440,6 +1443,32 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					.getStartPosition()));
 			return special;
 		}
+	}
+
+	private ExpressionModel parseInstanceofExpression(InstanceofExpression node) {
+		String oparator = "instanceof";
+		// String type = infixTypeChecker(node);
+
+		ExInfixModel model = new ExInfixModel();
+		model.setOperator(oparator);
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		model.setLeftExpression(parseExpression(node.getLeftOperand()));
+
+		ExTypeModel typeModel = new ExTypeModel();
+		typeModel.setId(idCounter.getNextId());
+		typeModel.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		typeModel.setType(node.getRightOperand().toString());
+		typeModel.setParent(model);
+
+		model.setRightExpression(typeModel);
+
+		model.setType("boolean");
+
+		return model;
+
 	}
 
 	/**
