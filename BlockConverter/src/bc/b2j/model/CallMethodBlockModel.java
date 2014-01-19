@@ -197,7 +197,10 @@ public class CallMethodBlockModel extends CommandBlockModel {
 			}
 		}
 		if (BlockConverter.projectMethods.get(methodName + "("
-				+ getConnectorIDs().size() + ")") != null) {
+				+ getConnectorIDs().size() + ")") != null
+				&& !BlockConverter.projectMethods.get(
+						methodName + "(" + getConnectorIDs().size() + ")")
+						.equals("void")) {
 			return true;
 		}
 

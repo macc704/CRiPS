@@ -26,7 +26,7 @@ public class BlockConverter {
 			"gettermember-var-string", "gettermember-var-boolean",
 			"getterlocal-var-int-number", "getterlocal-var-double-number",
 			"getterlocal-var-string", "getterlocal-var-boolean", "new-object", /* ! */
-			"getterlocal-var-object" };
+			"getterlocal-var-object", "null" };
 
 	// ‰‰ŽZŽq‚ÍƒRƒR‚É“o˜^
 	public static final String[] INFIX_COMMAND_BLOCKS = { "lessthan",

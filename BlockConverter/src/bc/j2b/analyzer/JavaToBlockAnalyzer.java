@@ -34,6 +34,7 @@ import org.eclipse.jdt.core.dom.InstanceofExpression;
 import org.eclipse.jdt.core.dom.LineComment;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.NullLiteral;
 import org.eclipse.jdt.core.dom.NumberLiteral;
 import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.ParenthesizedExpression;
@@ -1396,7 +1397,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return (ExpressionModel) parseInfixExpression((InfixExpression) node);
 			} else if (node instanceof NumberLiteral
 					|| node instanceof BooleanLiteral
-					|| node instanceof StringLiteral) {
+					|| node instanceof StringLiteral
+					|| node instanceof NullLiteral) {
 				return (ExpressionModel) parseLeteralExpression(node);
 			} else if (node instanceof SimpleName) {
 				ExpressionModel model = (ExpressionModel) parseVariableGetterExpression(((SimpleName) node)
@@ -2184,11 +2186,19 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	 */
 	public ExLeteralModel parseLeteralExpression(Expression node) {
 		ExLeteralModel model = new ExLeteralModel();
-		model.setType(getLeteralType(node));
-		model.setValue(node.toString());
-		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node
-				.getStartPosition()));
+		if (node instanceof NullLiteral) {
+			model.setType("poly");
+			model.setValue("null");
+			model.setId(idCounter.getNextId());
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+		} else {
+			model.setType(getLeteralType(node));
+			model.setValue(node.toString());
+			model.setId(idCounter.getNextId());
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+		}
 		return model;
 	}
 

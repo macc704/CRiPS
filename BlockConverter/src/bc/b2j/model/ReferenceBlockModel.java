@@ -82,7 +82,7 @@ public class ReferenceBlockModel extends BlockModel {
 		if (method instanceof SetterVariableBlockModel) {
 			((SetterVariableBlockModel) method).setIsThisSetter(true);
 		}
-
+		System.out.println("hoge");
 		receiver.print(out, indent);
 		out.print(".");
 		method.print(out, indent);

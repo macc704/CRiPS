@@ -194,6 +194,8 @@ public class NoProcparamDataBlockModel extends BlockModel {
 				block.print(out, indent);
 			}
 			out.print(">()");
+		} else if (getGenusName().equals("null")) {
+			out.print(getGenusName());
 		} else {
 			out.print("java.awt.Color." + getGenusName());
 		}
