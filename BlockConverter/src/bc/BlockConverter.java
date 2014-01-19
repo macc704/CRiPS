@@ -69,7 +69,15 @@ public class BlockConverter {
 			/* input *//*
 						 * ,"getText" , "text"
 						 */, "clearText", "setActive", "isActive",
-			"toJapaneseMode", "toEnglishMode", "fontsize" };
+			"toJapaneseMode", "toEnglishMode", "fontsize", "drawArc",
+			"drawFillTriangle", "drawText", "isClick", "isSingleClick",
+			"isDoubleClick", "isDragging", "isRightMouseDown",
+			"isLeftMouseDown", "getMouseX", "getMouseY", "isKeyPressing",
+			"isKeyCode", "isKeyDown", "getKeyCode", "clear", "update",
+			"getImageWidth", "getImageHeight", "drawLine", "drawImage",
+			"drawLine", "getCanvasWidth", "getCanvasHeight", "drawImage",
+			"drawFillArc", "setLocation", "setSize", "getCanvas", "getVolume",
+			"setVolume", "getDefaultVolume" };
 
 	// ñﬂÇËílÇÃÇ†ÇÈÉÅÉ\ÉbÉhÇÕÇ±Ç±Ç…ìoò^ (è„Ç…Ç‡ìoò^ÇµÇ»Ç¢Ç∆É_ÉÅ)
 	public final static String[] FUNCTION_METHODCALL_BLOCKS = { "input",
@@ -84,7 +92,11 @@ public class BlockConverter {
 			"next", "nextInt", "nextDouble", "hashCode"/* math */, "sqrt",
 			"sin", "cos", "tan", "log", "toRadians",/* list */"get", "getSize",
 			"getCursor", "getObjectAtCursor", /* card */"getNumber",/* button */
-			"isClicked"/* input *//* ,"getText" */, "isActive", };
+			"isClicked"/* input *//* ,"getText" */, "isActive", "isClick",
+			"isSingleClick", "isDoubleClick", "isDragging", "isRightMouseDown",
+			"isLeftMouseDown", "getMouseX", "getMouseY", "isKeyPressing",
+			"isKeyCode", "isKeyDown", "getKeyCode", "getImageWidth",
+			"getImageHeight", "getCanvas", "getVolume", "getDefaultVolume" };
 
 	public static final String[] ALL_DATA_BLOCKNAMES;
 

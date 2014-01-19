@@ -157,7 +157,7 @@ public class MethodResolver {
 		methodToReturnType.put("getCanvas()", "Object");
 		methodToReturnType.put("getVolume()", "int");
 		methodToReturnType.put("setVolume(1)", "void");
-		methodToReturnType.put("getDefaultVolume()", "number");
+		methodToReturnType.put("getDefaultVolume()", "int");
 		// BSound
 		// BWindow
 	}

@@ -1652,7 +1652,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		} catch (Exception ex) {
 			// ex.printStackTrace();
 			ExSpecialExpressionModel special = new ExSpecialExpressionModel(
-					node.toString());
+					node.getParent().toString());
 			special.setId(idCounter.getNextId());
 			special.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));

@@ -91,7 +91,9 @@ public class HeaderLabel extends BlockLabel {
 						"callObjectMethodlocal-var-object")) {
 					rb.getHeaderLabel().setText("ObjectŒ^‚Ì•Ï”‚ğì‚èA");
 				} else {
-					if (!socketRBlock.getBlockLabel().getText().equals("null")) {
+					if (!socketRBlock.getBlockLabel().getText().equals("null")
+							&& !socketRBlock.getGenus().equals(
+									"callGetterMethod2")) {
 						rb.getHeaderLabel().setText(
 								socketRBlock.getBlockLabel().getText()
 										+ "Œ^‚Ì•Ï”‚ğì‚èA");

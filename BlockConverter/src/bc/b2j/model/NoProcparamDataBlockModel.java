@@ -139,7 +139,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		} else if ("string".equals(getGenusName())) {
 			out.print("\"" + getLabel() + "\"");
 		} else if (getGenusName().contains("this")) {
-			out.print("this" + getLabel());
+			out.print("this");
 		} else if (getGenusName().contains("super")) {
 			out.print("super" + getLabel());
 		} else if ("double-number".equals(getGenusName())

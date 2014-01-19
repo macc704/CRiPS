@@ -7,6 +7,12 @@ import bc.b2j.analyzer.BlockToJavaAnalyzer;
 
 public class SetterVariableBlockModel extends CommandBlockModel {
 
+	private boolean isThisSetter = false;
+
+	public void setIsThisSetter(boolean isThisSetter) {
+		this.isThisSetter = isThisSetter;
+	}
+
 	@Override
 	public void checkError() {
 		// #matsuzawa 応急処置 2012.11.24
@@ -49,10 +55,10 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 
 	@Override
 	public void print(PrintStream out, int indent) {
-		makeIndent(out, indent);
-		if (getName().startsWith("this-setter")) {
-			out.print("this." + getLabel());
-		} else if (getName().startsWith("setter-arrayelement")) {
+		if (!isThisSetter) {
+			makeIndent(out, indent);
+		}
+		if (getName().startsWith("setter-arrayelement")) {
 			out.print(getLabel() + "[");
 			BlockToJavaAnalyzer.getBlock(getConnectorIDs().get(0)).print(out,
 					indent);
