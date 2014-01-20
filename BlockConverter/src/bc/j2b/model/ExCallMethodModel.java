@@ -89,13 +89,14 @@ public class ExCallMethodModel extends ExpressionModel {
 		// print BlockEditor File
 		// genus-name
 		makeIndent(out, indent);
-
 		out.println("<Block id=\"" + getId() + "\" genus-name=\"" + getName()
 				+ "\">");
 		if (!label.equals("")) {
-			makeIndent(out, indent);
+			makeIndent(out, indent + 1);
 			out.println("<Label>" + label + "</Label>");
 		}
+		makeIndent(out, indent + 1);
+		out.println("<JavaType>" + label + "</JavaType>");
 		// lineNumber
 		makeIndent(out, indent + 1);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
@@ -185,9 +186,11 @@ public class ExCallMethodModel extends ExpressionModel {
 					connectorType = "poly"; // poly‚Ì‚ªƒ}ƒV‚¾‚ëD#matsuzawa 2013.01.09
 				}
 				String label = "";
+
 				if (argumentLabels != null && i < argumentLabels.size()) {
 					label = argumentLabels.get(i);
 				}
+
 				out.print("<BlockConnector connector-kind=\"socket\" connector-type=\""
 						+ connectorType
 						+ "\""

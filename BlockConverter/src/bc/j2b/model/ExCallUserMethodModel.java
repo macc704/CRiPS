@@ -37,7 +37,8 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 		// user method special(1)
 		makeIndent(out, indent);
 		out.print("<BlockStub>");
-		out.print("<StubParentName>" + getName() + "</StubParentName>");
+		out.println("<StubParentName>" + getName() + "</StubParentName>");
+		makeIndent(out, indent);
 		out.print("<StubParentGenus>procedure</StubParentGenus>");
 		out.println();
 

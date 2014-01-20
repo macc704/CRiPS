@@ -46,8 +46,12 @@ public class ExVariableGetterModel extends ExpressionModel {
 		String connectorType = getConnectorType(variable.getType());
 		String positionType = "mirror";
 		if (variable.isArray()) {
-			genusName += "-arrayelement" + variable.getGenusName();
-			positionType = "single";
+			if (index != null) {
+				genusName += "-arrayelement" + variable.getGenusName();
+				positionType = "single";
+			} else {
+				genusName += variable.getGenusName();
+			}
 		} else {
 			genusName += variable.getGenusName();
 		}

@@ -155,7 +155,7 @@ public class BlockToJavaAnalyzer {
 			NamedNodeMap BlockAttrs = block.getAttributes();
 			String genus_name = BlockAttrs.getNamedItem("genus-name")
 					.getNodeValue();
-
+			System.out.println(genus_name);
 			if ("procedure".equals(genus_name)) {
 				ProcedureBlockModel model = new ProcedureBlockModel();
 				parseBlock(block, model);
@@ -172,8 +172,7 @@ public class BlockToJavaAnalyzer {
 				ProcedureParamBlockModel model = new ProcedureParamBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
-			} else if (isMethodCallBlock(genus_name)
-					|| isProjectMethod(genus_name, block)) {
+			} else if (isMethodCallBlock(genus_name) || isProjectMethod(block)) {
 				CallMethodBlockModel model = new CallMethodBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -277,11 +276,13 @@ public class BlockToJavaAnalyzer {
 
 	}
 
-	private boolean isProjectMethod(String name, Node node) {
+	private boolean isProjectMethod(Node node) {
 		int i = getBlockSocketsNumber(node);
-		name = name + "(" + i + ")";
 
-		if (BlockConverter.projectMethods.get(name) != null) {
+		String label = getBlockLabel(node);
+		String methodName = label + "(" + i + ")";
+
+		if (BlockConverter.projectMethods.get(methodName) != null) {
 			return true;
 		}
 		return false;
@@ -421,6 +422,20 @@ public class BlockToJavaAnalyzer {
 		}
 
 		return num;
+	}
+
+	private String getBlockLabel(Node node) {
+
+		Node blockInfo = node.getFirstChild();
+
+		while (blockInfo != null) {
+			if (blockInfo.getNodeName() == "Label") {
+				return blockInfo.getTextContent();
+			}
+			blockInfo = blockInfo.getNextSibling();
+		}
+
+		return null;
 	}
 
 	/**

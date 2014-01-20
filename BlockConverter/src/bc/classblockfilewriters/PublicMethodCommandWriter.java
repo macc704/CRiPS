@@ -14,13 +14,16 @@ public class PublicMethodCommandWriter extends BasicModel {
 		int lineNum = 0;
 		makeIndent(out, lineNum);
 		String kind = "command";
-		if (method.getreturnType() != null
-				&& !method.getreturnType().equals("void")) {
-			kind = "function";
+		if (method.getReturnType() != null
+				&& !method.getReturnType().equals("void")) {
+			kind = "data";
 		}
-		out.println("<BlockGenus name=\"" + method.getName() + "\" kind=\""
+		out.println("<BlockGenus name=\"" + method.getFullName() + "\" kind=\""
 				+ kind + "\" initlabel=\"" + method.getName()
 				+ "\" color=\"255 0 0\">");
+
+		makeIndent(out, ++lineNum);
+		out.println("<JavaLabel>" + method.getName() + "</JavaLabel>");
 
 		makeIndent(out, ++lineNum);
 		if (method.getParameters() != null) {
@@ -28,11 +31,11 @@ public class PublicMethodCommandWriter extends BasicModel {
 
 			++lineNum;
 
-			if (method.getreturnType() != null
-					&& !method.getreturnType().equals("void")) {
+			if (method.getReturnType() != null
+					&& !method.getReturnType().equals("void")) {
 				makeIndent(out, lineNum);
 				out.println("<BlockConnector connector-kind=\"plug\" connector-type=\""
-						+ method.getreturnType() + "\"></BlockConnector>");
+						+ method.getReturnType() + "\"></BlockConnector>");
 			}
 
 			for (String parameter : method.getParameters()) {
@@ -76,7 +79,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 
 	public void printMenuItem(PrintStream out, int lineNumber) {
 		makeIndent(out, lineNumber);
-		out.println("<BlockGenusMember>" + method.getName()
+		out.println("<BlockGenusMember>" + method.getFullName()
 				+ "</BlockGenusMember>");
 	}
 

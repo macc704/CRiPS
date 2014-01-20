@@ -9,6 +9,7 @@ public class PublicMethodInfo extends BasicModel {
 	private String methodName;
 	private String modifier;
 	private String returnType;
+	private String fullName;
 	private List<String> parameters = new ArrayList<String>();
 
 	public PublicMethodInfo(String name, String kind, String initialLabel,
@@ -35,6 +36,10 @@ public class PublicMethodInfo extends BasicModel {
 		this.modifier = modifier;
 	}
 
+	public void setFuLLName(String fullName) {
+		this.fullName = fullName;
+	}
+
 	public void setParameters(List<String> parameters) {
 		this.parameters = parameters;
 	}
@@ -47,8 +52,12 @@ public class PublicMethodInfo extends BasicModel {
 		return parameters;
 	}
 
-	public String getreturnType() {
+	public String getReturnType() {
 		return returnType;
+	}
+
+	public String getFullName() {
+		return this.fullName;
 	}
 
 	public String getModifier() {

@@ -19,11 +19,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 	}
 
 	protected String getMethodName() {
-		if (stub == false) {
-			return getGenusName();
-		} else {// stub
-			return getLabel();
-		}
+		return getLabel();
 	}
 
 	@Override
@@ -196,7 +192,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 				return true;
 			}
 		}
-		if (BlockConverter.projectMethods.get(methodName + "("
+		if (BlockConverter.projectMethods.get(getLabel() + "("
 				+ getConnectorIDs().size() + ")") != null
 				&& !BlockConverter.projectMethods.get(
 						methodName + "(" + getConnectorIDs().size() + ")")

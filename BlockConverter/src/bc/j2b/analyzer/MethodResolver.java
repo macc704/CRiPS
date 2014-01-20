@@ -226,11 +226,22 @@ public class MethodResolver {
 	}
 
 	private Map<String, String> userMethods = new HashMap<String, String>();
+	private Map<String, String> projectMethods = new HashMap<String, String>();
 	private List<String> userConstructor = new ArrayList<String>();
 
 	public boolean isRegisteredAsUserMethod(MethodInvocation method) {
 		String signature = toSignature(method);
 		return userMethods.containsKey(signature);
+	}
+
+	public boolean isRegisteredAsProjectMethod(MethodInvocation method) {
+		String signature = toSignature(method);
+		return projectMethods.containsKey(signature);
+	}
+
+	public boolean isRegisteredAsProjectMethod(SuperMethodInvocation method) {
+		String signature = toSignature(method);
+		return projectMethods.containsKey(signature);
 	}
 
 	public String getUserMethodType(MethodInvocation method) {
@@ -299,6 +310,11 @@ public class MethodResolver {
 
 	public void addMethodReturnType(String name, String returnType) {
 		methodToReturnType.put(name, returnType);
+		projectMethods.put(name, returnType);
+	}
+
+	public void addArgumentLabels(String signature, List<String> arguments) {
+		argumentLabels.put(signature, arguments);
 	}
 
 	// private String getReturnType(MethodInvocation node) {

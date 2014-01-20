@@ -155,9 +155,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		for (String name : addedClasses) {
-
 			projectClasses.add(name);
-
 		}
 
 		// arranged by sakai lab 2011/11/22
@@ -1351,15 +1349,27 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setId(idCounter.getNextId());
 		// String name = fragment.getName().toString();
 		model.setName(name);
-		model.setType(type);
+		model.setType(convertBlockType(type));
 		variableResolver.addLocalVariable(model);
-
 		// int x = 3;ÇÃÇÊÇ§Ç…ÅCinitializerÇ™Ç¬Ç¢ÇƒÇ¢ÇÈèÍçá
 		if (initializer != null) {
 			model.setInitializer(parseExpression(initializer));
 		}
-
 		return model;
+	}
+
+	private String convertBlockType(String type) {
+		if ("int".equals(type)) {
+			return "number";
+		} else if ("String".equals(type)) {
+			return "string";
+		} else if ("double".equals(type)) {
+			return "double-number";
+		} else if ("boolean".equals(type)) {
+			return "boolean";
+		} else {
+			return type;
+		}
 	}
 
 	private void createThisModel() {
@@ -1921,12 +1931,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					variable = variableResolver
 							.resolve(((ArrayAccess) receiver).getArray()
 									.toString());
-					System.out.println(((ArrayAccess) receiver).getArray()
-							.toString());
 				} else {
 					variable = variableResolver.resolve(receiver.toString());
 				}
-
 				if (variable != null) {
 					receiverModel = parseExpression(receiver);
 					receiverModel.setLineNumber(compilationUnit
@@ -2010,27 +2017,40 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	 */
 	public ExCallMethodModel parseMethodCallExpression(MethodInvocation node) {
 		ExCallMethodModel model;
+		String name;
 		if (methodResolver.isRegisteredAsUserMethod(node)) {
 			model = new ExCallUserMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+			name = node.getName().toString();
+		} else if (methodResolver.isRegisteredAsProjectMethod(node)) {
+			model = new ExCallMethodModel();
+			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+			name = node.getName().toString() + "[";
+			for (Object param : node.arguments()) {
+				name += ("@" + parseExpression(((Expression) param)).getType());
+			}
+			name += "]";
+			System.out.println(name);
+			model.setLabel(node.getName().toString());
 		} else {
 			model = new ExCallMethodModel();
+			name = node.getName().toString();
 		}
-
-		String name;
-
-		name = node.getName().toString();
 
 		model.setName(name);
 		model.setType(ElementModel.getConnectorType(methodResolver
 				.getReturnType(node)));
+		System.out.println(ElementModel.getConnectorType(methodResolver
+				.getReturnType(node)));
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
+
 		// à¯êî
 		for (int i = 0; i < node.arguments().size(); i++) {
 			ExpressionModel arg = parseExpression((Expression) node.arguments()
 					.get(i));
+
 			// if ("print".equals(model.getName()) &&
 			// numberRelationChecker(arg)) {
 			// arg = typeChangeModelCreater(arg);
@@ -2042,17 +2062,33 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	public ExCallMethodModel parseMethodCallExpression(
 			SuperMethodInvocation node) {
+
 		ExCallMethodModel model;
+		String name;
 		if (methodResolver.isRegisteredAsUserMethod(node)) {
 			model = new ExCallUserMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+			name = node.getName().toString();
+		} else if (methodResolver.isRegisteredAsProjectMethod(node)) {
+			model = new ExCallMethodModel();
+			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+			name = node.getName().toString() + "[";
+			for (Object param : node.arguments()) {
+				name += ("@" + parseExpression(((Expression) param)).getType());
+			}
+			name += "]";
+			model.setLabel(node.getName().toString());
 		} else {
 			model = new ExCallMethodModel();
+			name = node.getName().toString();
 		}
-
-		String name;
-
-		name = node.getName().toString();
+		// ExCallMethodModel model;
+		// if (methodResolver.isRegisteredAsUserMethod(node)) {
+		// model = new ExCallUserMethodModel();
+		// model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+		// } else {
+		// model = new ExCallMethodModel();
+		// }
 
 		model.setName(name);
 		model.setType(ElementModel.getConnectorType(methodResolver

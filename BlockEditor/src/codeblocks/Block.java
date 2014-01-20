@@ -1768,7 +1768,8 @@ public class Block implements ISupportMemento {
 
 		// TODO ラベルの初期設定の値もXMLに書き加えるようにした。
 		if (!this.label.equals(this.getInitialLabel())
-				|| getGenus().getIsLabelEditable()) {
+				|| getGenus().getIsLabelEditable() || getKind().equals("data")
+				|| getKind().equals("command")) {
 			saveString.append("<Label>");
 			saveString.append(escape(label));
 			saveString.append("</Label>");

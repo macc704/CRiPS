@@ -31,7 +31,7 @@ public class ExClassInstanceCreationModel extends ExpressionModel {
 	 */
 	@Override
 	public String getType() {
-		return "void";
+		return name;
 	}
 
 	/**

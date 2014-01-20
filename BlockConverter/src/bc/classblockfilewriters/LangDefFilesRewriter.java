@@ -21,7 +21,7 @@ public class LangDefFilesRewriter {
 	private List<ObjectBlockModel> requestObjectBlock = new LinkedList<ObjectBlockModel>();
 	private FileInputStream ldfReader;
 	private String javaFileName;
-	Map<String, String> addedMethods = new HashMap<String, String>();
+	private Map<String, String> addedMethods = new HashMap<String, String>();
 	private List<ConvertBlockModel> requestConvertBlockModel = new LinkedList<ConvertBlockModel>();
 
 	public LangDefFilesRewriter(File file, String javaFileName) {
@@ -145,7 +145,6 @@ public class LangDefFilesRewriter {
 			makeIndent(ps, ++lineNum);
 
 			ps.println("<BlockDrawer name=\"Project-Converter\" type=\"factory\" button-color=\"255 155 64\">");
-			lineNum++;
 
 			for (ConvertBlockModel model : requestConvertBlockModel) {
 				model.printMenuItem(ps, lineNum);
@@ -157,7 +156,6 @@ public class LangDefFilesRewriter {
 			makeIndent(ps, ++lineNum);
 
 			ps.println("<BlockDrawer name=\"Project-Methods\" type=\"factory\" button-color=\"255 155 64\">");
-			lineNum++;
 
 			Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();
 			for (ObjectBlockModel selDefClass : requestObjectBlock) {
@@ -180,7 +178,7 @@ public class LangDefFilesRewriter {
 								}
 								this.addedMethods.put(method.getName() + "("
 										+ paramSize + ")",
-										method.getreturnType());
+										method.getReturnType());
 							}
 						}
 					}
@@ -191,8 +189,9 @@ public class LangDefFilesRewriter {
 			makeIndent(ps, --lineNum);
 			ps.println("</BlockDrawer>");
 
+			makeIndent(ps, lineNum++);
 			ps.println("<BlockDrawer name=\"Œp³ƒƒ\ƒbƒh\" type=\"factory\" button-color=\"255 155 64\">");
-			lineNum++;
+
 			addedMethods.clear();
 			for (ObjectBlockModel request : requestObjectBlock) {
 				if (request.getClassName().equals(javaFileName)) {

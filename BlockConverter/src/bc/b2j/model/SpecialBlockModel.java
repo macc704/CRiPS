@@ -27,7 +27,7 @@ public class SpecialBlockModel extends CommandBlockModel {
 			}
 		}
 		out.print(")");
-		System.out.println(getGenusName());
+
 		if ("special".equals(getGenusName())) {
 			out.print(";");
 			out.println();
