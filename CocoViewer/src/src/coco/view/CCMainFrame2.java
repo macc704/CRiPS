@@ -6,19 +6,19 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JToggleButton;
 import javax.swing.border.LineBorder;
 
 import src.coco.model.CCCompileErrorKind;
@@ -102,36 +102,61 @@ public class CCMainFrame2 extends JFrame {
 		headerPanel.setMaximumSize(new Dimension(width, height / 24));
 
 		setCompileErrorNumber(headerPanel);
-		setChangeRangeBottun(headerPanel);
+		setChangeGraphRangeComboBox(headerPanel);
 		// setAchivementsButton(headerPanel);
 
 		rootPanel.add(headerPanel, BorderLayout.NORTH);
 	}
 
-	private void setChangeRangeBottun(JPanel panel) {
-		final JToggleButton button = new JToggleButton("自動調整");
+	private void setChangeGraphRangeComboBox(JPanel panel) {
+		String[] labels = { "120秒固定モード", "グラフ概形モード  " };
+		final JComboBox<String> comboBox = new JComboBox<String>(labels);
 
-		button.addMouseListener(new MouseAdapter() {
-			Boolean mode = true;
+		comboBox.addActionListener(new ActionListener() {
 
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (mode) {
-					for (CCErrorElementButton2 button : buttons) {
-						button.changeAutoRange();
-					}
-					mode = false;
-				} else {
+			public void actionPerformed(ActionEvent e) {
+				if (comboBox.getSelectedIndex() == 0) {
 					for (CCErrorElementButton2 button : buttons) {
 						button.changeLockedRange();
 					}
-					mode = true;
+				} else if (comboBox.getSelectedIndex() == 1) {
+					for (CCErrorElementButton2 button : buttons) {
+						button.changeAutoRange();
+					}
+				} else {
+					throw new RuntimeException("グラフモードが選択されていません");
 				}
 			}
 		});
 
-		panel.add(button, BorderLayout.EAST);
+		panel.add(comboBox, BorderLayout.EAST);
 	}
+
+	// private void setChangeRangeBottun(JPanel panel) {
+	// final JToggleButton button = new JToggleButton("自動調整");
+	//
+	// button.addMouseListener(new MouseAdapter() {
+	// Boolean mode = true;
+	//
+	// @Override
+	// public void mouseClicked(MouseEvent e) {
+	// if (mode) {
+	// for (CCErrorElementButton2 button : buttons) {
+	// button.changeAutoRange();
+	// }
+	// mode = false;
+	// } else {
+	// for (CCErrorElementButton2 button : buttons) {
+	// button.changeLockedRange();
+	// }
+	// mode = true;
+	// }
+	// }
+	// });
+	//
+	// panel.add(button, BorderLayout.EAST);
+	// }
 
 	private void setCompileErrorNumber(JPanel headerPanel) {
 		JLabel label = new JLabel();

@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -13,11 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
@@ -106,7 +108,7 @@ public class CCGraphFrame extends JFrame {
 		JPanel leftPanel = new JPanel();
 		leftPanel.setLayout(new BorderLayout());
 
-		setChangeRangeButton(leftPanel);
+		setChangeGraphRangeComboBox(leftPanel);
 		setSourceList(leftPanel);
 
 		rootPanel.add(leftPanel, BorderLayout.WEST);
@@ -165,28 +167,52 @@ public class CCGraphFrame extends JFrame {
 		rootPanel.add(chartpanel, BorderLayout.WEST);
 	}
 
-	private void setChangeRangeButton(JPanel leftPanel) {
-		final JToggleButton button = new JToggleButton("自動調整");
+	private void setChangeGraphRangeComboBox(JPanel panel) {
+		String[] labels = { "120秒固定モード", "グラフ概形モード" };
+		final JComboBox<String> comboBox = new JComboBox<String>(labels);
 
-		button.addMouseListener(new MouseAdapter() {
-			Boolean mode = true;
+		comboBox.addActionListener(new ActionListener() {
 
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				CategoryPlot plot = chart.getCategoryPlot();
 				NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
-				if (mode) {
-					numberAxis.setAutoRange(true);
-					mode = false;
-				} else {
+
+				if (comboBox.getSelectedIndex() == 0) {
 					numberAxis.setRange(0, 120);
-					mode = true;
+				} else if (comboBox.getSelectedIndex() == 1) {
+					numberAxis.setAutoRange(true);
+				} else {
+					throw new RuntimeException("グラフモードが選択されていません");
 				}
 			}
 		});
 
-		leftPanel.add(button, BorderLayout.NORTH);
+		panel.add(comboBox, BorderLayout.NORTH);
 	}
+
+	// private void setChangeRangeButton(JPanel leftPanel) {
+	// final JToggleButton button = new JToggleButton("自動調整");
+	//
+	// button.addMouseListener(new MouseAdapter() {
+	// Boolean mode = true;
+	//
+	// @Override
+	// public void mouseClicked(MouseEvent e) {
+	// CategoryPlot plot = chart.getCategoryPlot();
+	// NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+	// if (mode) {
+	// numberAxis.setAutoRange(true);
+	// mode = false;
+	// } else {
+	// numberAxis.setRange(0, 120);
+	// mode = true;
+	// }
+	// }
+	// });
+	//
+	// leftPanel.add(button, BorderLayout.NORTH);
+	// }
 
 	private void setSourceList(JPanel leftPanel) {
 		String[] columnNames = { "発生時刻", "プログラム名", "修正時間" };
