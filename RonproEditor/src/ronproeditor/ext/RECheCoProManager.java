@@ -65,8 +65,8 @@ import clib.preference.model.CAbstractPreferenceCategory;
 public class RECheCoProManager {
 
 	public static final String APP_NAME = "CheCoPro";
-	public static final String DEFAULT_NAME = "guest";
-	public static final String DEFAULT_PASSWAOD = "xxx";
+	public static final String DEFAULT_NAME = "";
+	public static final String DEFAULT_PASSWAOD = "";
 	public static final Color DEFAULT_COLOR = Color.WHITE;
 	public static final int DEFAULT_PORT = 10000;
 	public static final String IP = "localhost";
@@ -122,21 +122,22 @@ public class RECheCoProManager {
 					public void propertyChange(PropertyChangeEvent evt) {
 						if (application.getFrame().getEditor() != null) {
 							initializeREKeyListener();
+							processFilelistRequest(new CHFilelistRequest(user));
 						}
 					}
 				});
 
-		JMenuBar menubar = application.getFrame().getJMenuBar();
-		JButton fileSendButton = new JButton("Save to server");
-		menubar.add(fileSendButton);
-		application.getFrame().setJMenuBar(menubar);
-		fileSendButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				processFilelistRequest(new CHFilelistRequest(user));
-			}
-		});
+		// JMenuBar menubar = application.getFrame().getJMenuBar();
+		// JButton fileSendButton = new JButton("Save to server");
+		// menubar.add(fileSendButton);
+		// application.getFrame().setJMenuBar(menubar);
+		// fileSendButton.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// processFilelistRequest(new CHFilelistRequest(user));
+		// }
+		// });
 	}
 
 	private void initializeREKeyListener() {
@@ -161,17 +162,21 @@ public class RECheCoProManager {
 
 					@Override
 					public void keyPressed(KeyEvent e) {
+						int mod = e.getModifiersEx();
 						if (e.getKeyCode() == KeyEvent.VK_C
 								|| e.getKeyCode() == KeyEvent.VK_X) {
-							int mod = e.getModifiersEx();
 							if ((mod & CTRL_DOWN_MASK) != 0) {
 								writeCopyLog(application);
 							}
 						} else if (e.getKeyCode() == KeyEvent.VK_V) {
-							int mod = e.getModifiersEx();
 							if ((mod & CTRL_DOWN_MASK) != 0) {
 								writePasteLog(application.getSourceManager()
 										.getCCurrentFile());
+							}
+						} else if (e.getKeyCode() == KeyEvent.VK_S) {
+							if ((mod & CTRL_DOWN_MASK) != 0) {
+								processFilelistRequest(new CHFilelistRequest(
+										user));
 							}
 						}
 					}
@@ -202,6 +207,15 @@ public class RECheCoProManager {
 				writePasteLog(application.getSourceManager().getCCurrentFile());
 			}
 		});
+
+		application.getFrame().getJMenuBar().getMenu(0).getItem(8)
+				.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						processFilelistRequest(new CHFilelistRequest(user));
+					}
+				});
 	}
 
 	private void writeCopyLog(REApplication application) {
@@ -293,6 +307,7 @@ public class RECheCoProManager {
 					logWriter.writeCommand(CHUserLogWriter.SYNC_START);
 					logWriter.writeFrom(user);
 					logWriter.addRowToTable();
+					conn.write(new CHFilelistRequest(user));
 					connButton.setText("“¯Šú’†");
 				} else {
 					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
@@ -311,18 +326,18 @@ public class RECheCoProManager {
 
 		menuBar.add(connButton);
 
-		JButton fileRequestButton = new JButton("File request");
-		fileRequestButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				logWriter.writeCommand(CHUserLogWriter.FILE_REQUEST);
-				logWriter.writeTo(user);
-				logWriter.addRowToTable();
-				conn.write(new CHFilelistRequest(user));
-				chApplication.doRefresh();
-			}
-		});
+		// JButton fileRequestButton = new JButton("File request");
+		// fileRequestButton.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// logWriter.writeCommand(CHUserLogWriter.FILE_REQUEST);
+		// logWriter.writeTo(user);
+		// logWriter.addRowToTable();
+		// conn.write(new CHFilelistRequest(user));
+		// chApplication.doRefresh();
+		// }
+		// });
 
 		JButton copyFileButton = new JButton("Copy All to MyProjects");
 		copyFileButton.addActionListener(new ActionListener() {
@@ -337,7 +352,7 @@ public class RECheCoProManager {
 			}
 		});
 
-		menuBar.add(fileRequestButton);
+		// menuBar.add(fileRequestButton);
 		menuBar.add(copyFileButton);
 
 		menuBar.setBackground(getUserColor(user));
@@ -367,7 +382,7 @@ public class RECheCoProManager {
 				new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						setCHTitleBar(chApplication);
+						setCHTitleBar(chApplication, user);
 						if (chApplication.getFrame().getEditor() != null) {
 							initializeCHKeyListener(chApplication);
 							JToggleButton connButton = (JToggleButton) chApplication
@@ -421,13 +436,8 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void setCHTitleBar(REApplication chApplication) {
-		String title = APP_NAME + " Editor";
-		if (chApplication.getFrame().getEditor() != null) {
-			String currentFileName = chApplication.getSourceManager()
-					.getCurrentFile().getName();
-			title = title + "-" + currentFileName;
-		}
+	private void setCHTitleBar(REApplication chApplication, String user) {
+		String title = user + "-" + APP_NAME + " Editor";
 		chApplication.getFrame().setTitle(title);
 	}
 
@@ -456,7 +466,7 @@ public class RECheCoProManager {
 	public void startCheCoPro() {
 
 		logWriter = new CHUserLogWriter(user);
-		if (port == DEFAULT_PORT + 20000) {
+		if (user.equals("")) {
 			application.doOpenPreferencePage();
 			application.getPreferenceManager().saveToFile();
 		}
