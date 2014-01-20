@@ -16,7 +16,6 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	private String user;
 	private List<JButton> buttons = new ArrayList<JButton>();
-	private List<String> pushed = new ArrayList<String>();
 
 	public CHMemberSelectorFrame(String myName) {
 		this.user = myName;
@@ -41,19 +40,10 @@ public class CHMemberSelectorFrame extends JFrame {
 
 			buttonPanel.add(button);
 
-			for (String aPushed : pushed) {
-				if (aUserState.getUser().equals(aPushed)) {
-					button.setEnabled(false);
-				}
-			}
-
 			if (!aUserState.isLogin()) {
 				button.setForeground(Color.RED);
 			}
 
-			if (aUserState.getUser().equals(user)) {
-				button.setEnabled(false);
-			}
 			buttons.add(button);
 		}
 		this.getContentPane().validate();
@@ -64,12 +54,8 @@ public class CHMemberSelectorFrame extends JFrame {
 		return buttons;
 	}
 
-	public void setDisable(String user) {
-		this.pushed.add(user);
-	}
-
-	public void setEnable(String user) {
-		pushed.remove(user);
+	public String getUser() {
+		return user;
 	}
 
 	public void setUser(String user) {

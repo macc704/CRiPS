@@ -241,17 +241,22 @@ public class RECheCoProManager {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					String user = e.getActionCommand();
-					msFrame.setDisable(user);
 					msFrame.setMembers(userStates);
 					setMemberSelectorListner();
 
-					conn.write(new CHFilelistRequest(user));
-
-					if (application != null) {
-						doOpenNewCH(user);
-						logWriter.writeCommand(CHUserLogWriter.OPEN_CHEDITOR);
-						logWriter.writeFrom(user);
-						logWriter.addRowToTable();
+					if (user.equals(msFrame.getUser())) {
+						application.getFrame().toFront();
+					} else {
+						if (chFrameMap.get(user) != null) {
+							chFrameMap.get(user).getFrame().toFront();
+						} else {
+							doOpenNewCH(user);
+							conn.write(new CHFilelistRequest(user));
+							logWriter
+									.writeCommand(CHUserLogWriter.OPEN_CHEDITOR);
+							logWriter.writeFrom(user);
+							logWriter.addRowToTable();
+						}
 					}
 				}
 			});
@@ -274,7 +279,7 @@ public class RECheCoProManager {
 	}
 
 	private void initializeCHEditor(REApplication chApplication, String user) {
-		chApplication.getFrame().setTitle(APP_NAME + " Editor");
+		chApplication.getFrame().setTitle(user + "-" + APP_NAME + " Editor");
 		chApplication.getFrame().setDefaultCloseOperation(
 				JFrame.DISPOSE_ON_CLOSE);
 		initializeCHListeners(chApplication, user);
@@ -391,7 +396,6 @@ public class RECheCoProManager {
 				logWriter.writeFrom(user);
 				logWriter.addRowToTable();
 				chFrameMap.remove(user);
-				msFrame.setEnable(user);
 				msFrame.setMembers(userStates);
 				setMemberSelectorListner();
 			}
