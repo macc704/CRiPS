@@ -303,6 +303,7 @@ public class RECheCoProManager {
 		for (CHUserState aUserState : userStates) {
 			if (user.equals(aUserState.getUser()) && !aUserState.isLogin()) {
 				connButton.doClick();
+				connButton.setEnabled(false);
 				connButton.setText("”ñ“¯Šú");
 			}
 		}
@@ -328,7 +329,7 @@ public class RECheCoProManager {
 							.getTextPane()
 							.setEditable(!connButton.isSelected());
 				}
-				changeCHMenubar(chApplication, connButton.isSelected(), user);
+				changeCHMenubar(chApplication, connButton.isSelected());
 			}
 		});
 
@@ -375,7 +376,7 @@ public class RECheCoProManager {
 		// }
 		// }
 
-		changeCHMenubar(chApplication, connButton.isSelected(), user);
+		changeCHMenubar(chApplication, connButton.isSelected());
 	}
 
 	private void initializeCHListeners(final REApplication chApplication,
@@ -409,7 +410,7 @@ public class RECheCoProManager {
 									.getTextPane()
 									.setEditable(!connButton.isSelected());
 							changeCHMenubar(chApplication,
-									connButton.isSelected(), user);
+									connButton.isSelected());
 						}
 					}
 				});
@@ -468,8 +469,7 @@ public class RECheCoProManager {
 		return DEFAULT_COLOR;
 	}
 
-	private void changeCHMenubar(REApplication chApplication,
-			boolean isSelected, String user) {
+	private void changeCHMenubar(REApplication chApplication, boolean isSelected) {
 		for (int i = 0; i < 7; i++) {
 			if (i != 5) {
 				chApplication.getFrame().getJMenuBar().getComponent(i)
@@ -601,6 +601,28 @@ public class RECheCoProManager {
 		userStates = result.getUserStates();
 		msFrame.setMembers(result.getUserStates());
 		setMemberSelectorListner();
+		for (CHUserState aUserState : userStates) {
+			if (chFrameMap.containsKey(aUserState.getUser())) {
+				controlSync(chFrameMap.get(aUserState.getUser()),
+						aUserState.isLogin());
+			}
+		}
+	}
+
+	private void controlSync(REApplication chApplication, boolean login) {
+		JToggleButton connButton = (JToggleButton) chApplication.getFrame()
+				.getJMenuBar().getComponent(5);
+		if (connButton.isSelected()) {
+			if (!login) {
+				connButton.doClick();
+				connButton.setEnabled(false);
+			}
+		} else {
+			if (login) {
+				connButton.setEnabled(true);
+				connButton.doClick();
+			}
+		}
 	}
 
 	private void processSourceChanged(CHSourceChanged response) {
