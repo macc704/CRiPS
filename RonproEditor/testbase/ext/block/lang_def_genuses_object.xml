@@ -1529,10 +1529,10 @@
 	color="255 255 100">
 </BlockGenus>
 
-<BlockGenus name="size" kind="data" initlabel="リストの大きさ"
-	color="255 255 100">
-	<BlockConnector label="" connector-kind="plug"
-		connector-type="number" />
+<BlockGenus name="size" kind="data" initlabel="リストの大きさ" color="255 255 100">
+    <BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="number" />
+    </BlockConnectors>
 </BlockGenus>
 
 

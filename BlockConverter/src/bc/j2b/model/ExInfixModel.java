@@ -101,8 +101,13 @@ public class ExInfixModel extends ExpressionModel {
 		String type = left.getType();// TODO Ç–Ç∆Ç‹Ç∏ç∂ë§ÇÃå^Ç…Ç†ÇÌÇπÇÈ
 		if ("int".equals(type)) {
 			return "number";
+		} else if ("double".equals(type)) {
+			return "double-number";
+		} else if ("string".equals(type)) {
+			return "string";
+		} else {
+			return "object";
 		}
-		return type;
 	}
 
 	public String getGenusName() {

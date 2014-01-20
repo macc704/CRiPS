@@ -158,8 +158,9 @@ public class MethodResolver {
 		methodToReturnType.put("getVolume()", "int");
 		methodToReturnType.put("setVolume(1)", "void");
 		methodToReturnType.put("getDefaultVolume()", "int");
-		// BSound
-		// BWindow
+
+		// List
+		methodToReturnType.put("size()", "int");
 	}
 
 	public boolean isRegistered(MethodInvocation method) {

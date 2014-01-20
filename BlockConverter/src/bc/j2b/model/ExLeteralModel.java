@@ -75,11 +75,19 @@ public class ExLeteralModel extends ExpressionModel {
 			out.println("<Block id=\"" + getId() + "\" genus-name=\"" + value
 					+ "\">");
 		} else {
-			out.println("<Block id=\"" + getId() + "\" genus-name=\""
-					+ getType() + "\">");
-			// label
-			makeIndent(out, indent + 1);
-			out.println("<Label>" + value + "</Label>");
+			if (getValue() == "null") {
+				out.println("<Block id=\"" + getId() + "\" genus-name=\""
+						+ "null" + "\">");
+				// label
+				makeIndent(out, indent + 1);
+				out.println("<Label>" + value + "</Label>");
+			} else {
+				out.println("<Block id=\"" + getId() + "\" genus-name=\""
+						+ getType() + "\">");
+				// label
+				makeIndent(out, indent + 1);
+				out.println("<Label>" + value + "</Label>");
+			}
 		}
 		// lineNumber
 		makeIndent(out, indent + 1);
