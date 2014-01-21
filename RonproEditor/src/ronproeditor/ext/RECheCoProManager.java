@@ -374,7 +374,7 @@ public class RECheCoProManager {
 		// }
 		// });
 
-		JButton pullButton = new JButton("Pull");
+		JButton pullButton = new JButton("æ‚è‚İ«");
 		pullButton.addActionListener(new ActionListener() {
 
 			@Override
