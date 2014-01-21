@@ -158,6 +158,14 @@ public class RECheCoProManager {
 								.getFrame().getEditor().getViewer().getText(),
 								application.getSourceManager().getCurrentFile()
 										.getName()));
+
+						int mod = e.getModifiersEx();
+						if (e.getKeyCode() == KeyEvent.VK_S) {
+							if ((mod & CTRL_DOWN_MASK) != 0) {
+								processFilelistRequest(new CHFilelistRequest(
+										user));
+							}
+						}
 					}
 
 					@Override
@@ -172,11 +180,6 @@ public class RECheCoProManager {
 							if ((mod & CTRL_DOWN_MASK) != 0) {
 								writePasteLog(application.getSourceManager()
 										.getCCurrentFile());
-							}
-						} else if (e.getKeyCode() == KeyEvent.VK_S) {
-							if ((mod & CTRL_DOWN_MASK) != 0) {
-								processFilelistRequest(new CHFilelistRequest(
-										user));
 							}
 						}
 					}
@@ -322,6 +325,7 @@ public class RECheCoProManager {
 					logWriter.writeFrom(user);
 					logWriter.addRowToTable();
 					conn.write(new CHFilelistRequest(user));
+					chApplication.doRefresh();
 					connButton.setText("“¯Šú’†");
 				} else {
 					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
@@ -371,6 +375,10 @@ public class RECheCoProManager {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// to‚à‚Ù‚µ‚¢
+				logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
+				logWriter.writeFrom(user);
+				logWriter.addRowToTable();
 				List<String> requestFilePaths = CHFileSystem
 						.getRequestFilePaths(
 								new CFileList(CHFileSystem

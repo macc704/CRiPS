@@ -62,7 +62,10 @@ public class CHFileSystem {
 			switch (aDifference.getKind()) {
 			case CREATED:
 			case UPDATED:
-				requestFilePaths.add(aDifference.getPath());
+				if (!aDifference.getPath().endsWith(".class")
+						&& !aDifference.getPath().endsWith(".xml")) {
+					requestFilePaths.add(aDifference.getPath());
+				}
 				break;
 			case REMOVED:
 				copyDir.findChild(new CPath(aDifference.getPath())).delete();
