@@ -77,7 +77,6 @@ public class CHPullDialog extends JDialog implements ActionListener {
 					this.dispose();
 				}
 			}
-			this.dispose();
 		}
 	}
 
