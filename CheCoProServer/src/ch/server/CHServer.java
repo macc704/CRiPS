@@ -25,7 +25,7 @@ import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.sync.CFileList;
+import clib.common.filesystem.sync.CFileHashList;
 
 public class CHServer {
 
@@ -222,7 +222,7 @@ public class CHServer {
 	private void processFilelistRequest(CHFilelistRequest request,
 			CHConnection conn) {
 
-		CFileList fileList = CHFileSystem.getServerFileList(request.getUser(),
+		CFileHashList fileList = CHFileSystem.getServerFileList(request.getUser(),
 				port);
 
 		connectionPool.sendToOne(new CHFilelistResponse(request.getUser(),

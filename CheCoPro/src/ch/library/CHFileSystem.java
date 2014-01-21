@@ -6,9 +6,10 @@ import java.util.List;
 import ch.conn.framework.CHFile;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileFilter;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
-import clib.common.filesystem.sync.CFileList;
+import clib.common.filesystem.sync.CFileHashList;
 import clib.common.filesystem.sync.CFileListDifference;
 import clib.common.filesystem.sync.CFileListUtils;
 import clib.common.table.CCSVFileIO;
@@ -35,40 +36,53 @@ public class CHFileSystem {
 	}
 
 	// processFilelistRequest and Response server
-	public static CFileList getServerFileList(String user, int port) {
-		return new CFileList(getUserDirForServer(user, port));
+	public static CFileHashList getServerFileList(String user, int port) {
+		return createFileList(getUserDirForServer(user, port));
 	}
 
 	// processFilelistRequest client
-	public static CFileList getFinalProjectFileList() {
-		return new CFileList(getFinalProjectDir());
+	public static CFileHashList getFinalProjectFileList() {
+		return createFileList(getFinalProjectDir());
 	}
 
 	// processFileListResponse client
-	public static CFileList getClientFileList(String user) {
-		return new CFileList(getUserDirForClient(user));
+	public static CFileHashList getClientFileList(String user) {
+		return createFileList(getUserDirForClient(user));
 	}
 
-	public static List<String> getRequestFilePaths(CFileList master,
-			CDirectory copyDir) {
+	/* 単体テスト対象！ */
+	public static void sync(CDirectory from, CDirectory to) {
+		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
+				createFileList(from), to);
+		List<CHFile> files = CHFileSystem.getCHFiles(requestFilePaths, from);
+		CHFileSystem.saveFiles(files, to);
+	}
 
-		CFileList copy = new CFileList(copyDir);
+	public static CFileHashList createFileList(CDirectory dir) {
+		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(".*",
+				".class", ".xml"));
+	}
 
-		List<CFileListDifference> differences = CFileListUtils.compare(master,
-				copy);
+	/*
+	 * TODO 2つの仕事してない？ TODO CFileListを返した方が良い？
+	 */
+	public static List<String> getRequestFilePaths(CFileHashList fromList,
+			CDirectory to) {
+
+		CFileHashList toList = createFileList(to);
+
+		List<CFileListDifference> differences = CFileListUtils.compare(
+				fromList, toList);
 
 		List<String> requestFilePaths = new ArrayList<String>();
 		for (CFileListDifference aDifference : differences) {
 			switch (aDifference.getKind()) {
 			case CREATED:
 			case UPDATED:
-				if (!aDifference.getPath().endsWith(".class")
-						&& !aDifference.getPath().endsWith(".xml")) {
-					requestFilePaths.add(aDifference.getPath());
-				}
+				requestFilePaths.add(aDifference.getPath());
 				break;
 			case REMOVED:
-				copyDir.findChild(new CPath(aDifference.getPath())).delete();
+				to.findChild(new CPath(aDifference.getPath())).delete();
 				break;
 			default:
 				throw new RuntimeException();
@@ -109,7 +123,7 @@ public class CHFileSystem {
 		CDirectory copyDir = CFileSystem.getExecuteDirectory()
 				.findOrCreateDirectory("MyProjects/" + user);
 		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
-				new CFileList(masterDir), copyDir);
+				createFileList(masterDir), copyDir);
 
 		List<CHFile> files = CHFileSystem.getCHFiles(requestFilePaths,
 				masterDir);

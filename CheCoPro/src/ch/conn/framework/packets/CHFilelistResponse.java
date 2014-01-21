@@ -1,16 +1,16 @@
 package ch.conn.framework.packets;
 
 import ch.conn.framework.CHPacket;
-import clib.common.filesystem.sync.CFileList;
+import clib.common.filesystem.sync.CFileHashList;
 
 public class CHFilelistResponse extends CHPacket {
 
 	private static final long serialVersionUID = 1L;
 
 	private String user;
-	private CFileList fileList;
+	private CFileHashList fileList;
 
-	public CHFilelistResponse(String user, CFileList fileList) {
+	public CHFilelistResponse(String user, CFileHashList fileList) {
 		this.user = user;
 		this.fileList = fileList;
 	}
@@ -19,7 +19,7 @@ public class CHFilelistResponse extends CHPacket {
 		return user;
 	}
 
-	public CFileList getFileList() {
+	public CFileHashList getFileList() {
 		return fileList;
 	}
 }

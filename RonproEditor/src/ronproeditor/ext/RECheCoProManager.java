@@ -58,7 +58,7 @@ import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
-import clib.common.filesystem.sync.CFileList;
+import clib.common.filesystem.sync.CFileHashList;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
 
@@ -370,24 +370,14 @@ public class RECheCoProManager {
 			}
 		});
 
-		JButton overwriteButton = new JButton("Overwrite final");
+		JButton overwriteButton = new JButton("Pull");
 		overwriteButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// to‚à‚Ù‚µ‚¢
-				logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
-				logWriter.writeFrom(user);
-				logWriter.addRowToTable();
-				List<String> requestFilePaths = CHFileSystem
-						.getRequestFilePaths(
-								new CFileList(CHFileSystem
-										.getUserDirForClient(user)),
-								CHFileSystem.getFinalProjectDir());
-				List<CHFile> files = CHFileSystem.getCHFiles(requestFilePaths,
-						CHFileSystem.getUserDirForClient(user));
-				CHFileSystem.saveFiles(files, CHFileSystem.getFinalProjectDir());
+				doPull(user);
 			}
+
 		});
 
 		// menuBar.add(fileRequestButton);
@@ -407,6 +397,15 @@ public class RECheCoProManager {
 		// }
 
 		changeCHMenubar(chApplication, connButton.isSelected());
+	}
+
+	private void doPull(final String user) {
+		logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
+		logWriter.writeFrom(user);
+		logWriter.addRowToTable();
+		CDirectory from = CHFileSystem.getUserDirForClient(user);
+		CDirectory to = CHFileSystem.getFinalProjectDir();
+		CHFileSystem.sync(from, to);
 	}
 
 	private void initializeCHListeners(final REApplication chApplication,
@@ -707,7 +706,7 @@ public class RECheCoProManager {
 	}
 
 	private void processFilelistRequest(CHFilelistRequest request) {
-		CFileList fileList = CHFileSystem.getFinalProjectFileList();
+		CFileHashList fileList = CHFileSystem.getFinalProjectFileList();
 		conn.write(new CHFilelistResponse(user, fileList));
 	}
 
