@@ -324,7 +324,6 @@ public class RECheCoProManager {
 					logWriter.writeFrom(user);
 					logWriter.addRowToTable();
 					conn.write(new CHFilelistRequest(user));
-					chApplication.doRefresh();
 					connButton.setText("“¯Šú’†");
 				} else {
 					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
@@ -474,19 +473,32 @@ public class RECheCoProManager {
 
 					@Override
 					public void keyPressed(KeyEvent e) {
+						int mod = e.getModifiersEx();
 						if (e.getKeyCode() == KeyEvent.VK_C
 								|| e.getKeyCode() == KeyEvent.VK_X) {
-							int mod = e.getModifiersEx();
 							if ((mod & CTRL_DOWN_MASK) != 0) {
 								writeCopyLog(chApplication);
 							}
 						} else if (e.getKeyCode() == KeyEvent.VK_V) {
-							int mod = e.getModifiersEx();
 							if ((mod & CTRL_DOWN_MASK) != 0) {
 								writePasteLog(chApplication.getSourceManager()
 										.getCCurrentFile());
 							}
+						} else if (e.getKeyCode() == KeyEvent.VK_S) {
+							if ((mod & CTRL_DOWN_MASK) != 0) {
+								setCHTitleBar(chApplication, user);
+							}
 						}
+					}
+
+					@Override
+					public void keyTyped(KeyEvent e) {
+						setCHTitleBar(chApplication, user);
+					}
+
+					@Override
+					public void keyReleased(KeyEvent e) {
+						setCHTitleBar(chApplication, user);
 					}
 				});
 	}
@@ -501,6 +513,11 @@ public class RECheCoProManager {
 
 	private void setCHTitleBar(REApplication chApplication, String user) {
 		String title = user + "-" + APP_NAME + " Editor";
+		if (chApplication.getFrame().getEditor() != null) {
+			if (chApplication.getFrame().getEditor().isDirty()) {
+				title += "*";
+			}
+		}
 		chApplication.getFrame().setTitle(title);
 	}
 
