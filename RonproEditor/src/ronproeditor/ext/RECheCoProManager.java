@@ -73,10 +73,10 @@ public class RECheCoProManager {
 	public static final int DEFAULT_PORT = 10000;
 	public static final String IP = "localhost";
 
-	private static int CTRL_DOWN_MASK = InputEvent.CTRL_DOWN_MASK;
+	private static int CTRL_MASK = InputEvent.CTRL_MASK;
 	static {
 		if (CJavaSystem.getInstance().isMac()) {
-			CTRL_DOWN_MASK = InputEvent.META_DOWN_MASK;
+			CTRL_MASK = InputEvent.META_MASK;
 		}
 	}
 
@@ -154,31 +154,35 @@ public class RECheCoProManager {
 		application.getFrame().getEditor().getViewer().getTextPane()
 				.addKeyListener(new KeyAdapter() {
 
+					int mod;
+
 					@Override
 					public void keyReleased(KeyEvent e) {
 						conn.write(new CHSourceChanged(user, application
 								.getFrame().getEditor().getViewer().getText(),
 								application.getSourceManager().getCurrentFile()
 										.getName()));
+						if (e.getKeyCode() == KeyEvent.VK_S) {
+							if ((mod & CTRL_MASK) != 0) {
+								processFilelistRequest(new CHFilelistRequest(
+										user));
+							}
+						}
 					}
 
 					@Override
 					public void keyPressed(KeyEvent e) {
-						int mod = e.getModifiersEx();
+						mod = e.getModifiers();
 						if (e.getKeyCode() == KeyEvent.VK_C
 								|| e.getKeyCode() == KeyEvent.VK_X) {
-							if ((mod & CTRL_DOWN_MASK) != 0) {
+							if ((mod & CTRL_MASK) != 0) {
 								writeCopyLog(application);
 							}
 						} else if (e.getKeyCode() == KeyEvent.VK_V) {
-							if ((mod & CTRL_DOWN_MASK) != 0) {
+							if ((mod & CTRL_MASK) != 0) {
+								System.out.println("paste");
 								writePasteLog(application.getSourceManager()
 										.getCCurrentFile());
-							}
-						} else if (e.getKeyCode() == KeyEvent.VK_S) {
-							if ((mod & CTRL_DOWN_MASK) != 0) {
-								processFilelistRequest(new CHFilelistRequest(
-										user));
 							}
 						}
 					}
@@ -473,19 +477,19 @@ public class RECheCoProManager {
 
 					@Override
 					public void keyPressed(KeyEvent e) {
-						int mod = e.getModifiersEx();
+						int mod = e.getModifiers();
 						if (e.getKeyCode() == KeyEvent.VK_C
 								|| e.getKeyCode() == KeyEvent.VK_X) {
-							if ((mod & CTRL_DOWN_MASK) != 0) {
+							if ((mod & CTRL_MASK) != 0) {
 								writeCopyLog(chApplication);
 							}
 						} else if (e.getKeyCode() == KeyEvent.VK_V) {
-							if ((mod & CTRL_DOWN_MASK) != 0) {
+							if ((mod & CTRL_MASK) != 0) {
 								writePasteLog(chApplication.getSourceManager()
 										.getCCurrentFile());
 							}
 						} else if (e.getKeyCode() == KeyEvent.VK_S) {
-							if ((mod & CTRL_DOWN_MASK) != 0) {
+							if ((mod & CTRL_MASK) != 0) {
 								setCHTitleBar(chApplication, user);
 							}
 						}
