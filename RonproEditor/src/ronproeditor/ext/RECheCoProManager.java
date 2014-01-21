@@ -383,6 +383,7 @@ public class RECheCoProManager {
 				if (java || material) {
 					doPull(user, createCFileFilter(java, material));
 				}
+				application.doRefresh();
 			}
 
 		});
@@ -550,10 +551,10 @@ public class RECheCoProManager {
 	public void startCheCoPro() {
 
 		logWriter = new CHUserLogWriter(user);
-		if (user.equals("")) {
-			application.doOpenPreferencePage();
-			application.getPreferenceManager().saveToFile();
-		}
+		// if (user.equals("")) {
+		// application.doOpenPreferencePage();
+		// application.getPreferenceManager().saveToFile();
+		// }
 
 		new Thread() {
 			public void run() {
