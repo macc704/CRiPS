@@ -138,6 +138,7 @@ public class CHServer {
 		} finally {
 			// logout(conn);
 		}
+		connectionPool.logout(conn);
 	}
 
 	private String processLogin(CHLoginRequest request, CHConnection conn) {
@@ -222,8 +223,8 @@ public class CHServer {
 	private void processFilelistRequest(CHFilelistRequest request,
 			CHConnection conn) {
 
-		CFileHashList fileList = CHFileSystem.getServerFileList(request.getUser(),
-				port);
+		CFileHashList fileList = CHFileSystem.getServerFileList(
+				request.getUser(), port);
 
 		connectionPool.sendToOne(new CHFilelistResponse(request.getUser(),
 				fileList), connectionPool.getUser(conn));
