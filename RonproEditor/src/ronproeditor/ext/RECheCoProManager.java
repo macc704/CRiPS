@@ -366,8 +366,25 @@ public class RECheCoProManager {
 			}
 		});
 
+		JButton overwriteButton = new JButton("Overwrite final");
+		overwriteButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				List<String> requestFilePaths = CHFileSystem
+						.getRequestFilePaths(
+								new CFileList(CHFileSystem
+										.getUserDirForClient(user)),
+								CHFileSystem.getFinalProjectDir());
+				List<CHFile> files = CHFileSystem.getCHFiles(requestFilePaths,
+						CHFileSystem.getUserDirForClient(user));
+				CHFileSystem.saveFiles(files, CHFileSystem.getFinalProjectDir());
+			}
+		});
+
 		// menuBar.add(fileRequestButton);
 		menuBar.add(copyFileButton);
+		menuBar.add(overwriteButton);
 
 		menuBar.setBackground(getUserColor(user));
 		chApplication.getFrame().setJMenuBar(menuBar);
@@ -474,7 +491,7 @@ public class RECheCoProManager {
 	}
 
 	private void changeCHMenubar(REApplication chApplication, boolean isSelected) {
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < 8; i++) {
 			if (i != 5) {
 				chApplication.getFrame().getJMenuBar().getComponent(i)
 						.setEnabled(!isSelected);
