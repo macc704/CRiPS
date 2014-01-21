@@ -19,7 +19,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 	}
 
 	protected String getMethodName() {
-		if (getJavaType() != null) {
+		if (getJavaLabel() != null) {
 			return getLabel();
 		}
 		return getJavaType();

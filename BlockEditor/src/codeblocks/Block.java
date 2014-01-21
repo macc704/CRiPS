@@ -156,6 +156,11 @@ public class Block implements ISupportMemento {
 			setFooterLabel(BlockGenus.getGenusWithName(genusName)
 					.getInitFooterLabel());
 
+			this.javaLabel = (BlockGenus.getGenusWithName(genusName)
+					.getJavaLabel());
+			this.javaType = (BlockGenus.getGenusWithName(genusName)
+					.getJavaType());
+
 			Iterable<String> arguumentIter = genus
 					.getInitialArgumentDescriptions();
 			for (String arg : arguumentIter) {
@@ -1794,6 +1799,12 @@ public class Block implements ISupportMemento {
 			saveString.append("<JavaType>");
 			saveString.append(escape(javaType));
 			saveString.append("</JavaType>");
+		}
+
+		if (javaLabel != null) {
+			saveString.append("<JavaLabel>");
+			saveString.append(escape(javaLabel));
+			saveString.append("</JavaLabel>");
 		}
 
 		if (this.isBad) {

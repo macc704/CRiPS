@@ -22,7 +22,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 				+ kind + "\" initlabel=\"" + method.getName()
 				+ "\" color=\"255 0 0\">");
 
-		makeIndent(out, ++lineNum);
+		makeIndent(out, lineNum + 1);
 		out.println("<JavaLabel>" + method.getName() + "</JavaLabel>");
 
 		makeIndent(out, ++lineNum);

@@ -97,6 +97,9 @@ public class BlockGenus {
 	//ohata add
 	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
 
+	private String javaType;
+	private String javaLabel;
+
 	public Map<String, List<Map<String, List<String>>>> getMethods() {
 		return methods;
 	}
@@ -706,6 +709,14 @@ public class BlockGenus {
 	 */
 	public List<List<BlockConnector>> getExpandGroups() {
 		return Collections.unmodifiableList(expandGroups);
+	}
+
+	public String getJavaLabel() {
+		return this.javaLabel;
+	}
+
+	public String getJavaType() {
+		return this.javaType;
 	}
 
 	/**
@@ -1406,6 +1417,10 @@ public class BlockGenus {
 					} else if (genusChild.getNodeName().equals("ClassMethods")) {
 						//メソッドの読み込み
 						loadClassMethods(genusChild, newGenus);
+					} else if (genusChild.getNodeName().equals("JavaLabel")) {
+						newGenus.javaLabel = genusChild.getTextContent();
+					} else if (genusChild.getNodeName().equals("JavaType")) {
+						newGenus.javaType = genusChild.getTextContent();
 					}
 
 				}
