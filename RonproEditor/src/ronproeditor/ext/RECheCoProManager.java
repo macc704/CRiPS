@@ -160,14 +160,6 @@ public class RECheCoProManager {
 								.getFrame().getEditor().getViewer().getText(),
 								application.getSourceManager().getCurrentFile()
 										.getName()));
-
-						int mod = e.getModifiersEx();
-						if (e.getKeyCode() == KeyEvent.VK_S) {
-							if ((mod & CTRL_DOWN_MASK) != 0) {
-								processFilelistRequest(new CHFilelistRequest(
-										user));
-							}
-						}
 					}
 
 					@Override
@@ -182,6 +174,11 @@ public class RECheCoProManager {
 							if ((mod & CTRL_DOWN_MASK) != 0) {
 								writePasteLog(application.getSourceManager()
 										.getCCurrentFile());
+							}
+						} else if (e.getKeyCode() == KeyEvent.VK_S) {
+							if ((mod & CTRL_DOWN_MASK) != 0) {
+								processFilelistRequest(new CHFilelistRequest(
+										user));
 							}
 						}
 					}
@@ -560,6 +557,8 @@ public class RECheCoProManager {
 
 		if (login()) {
 			System.out.println("client established");
+			CHFileSystem.getFinalProjectDir();
+			application.doRefresh();
 		}
 
 		try {
@@ -712,6 +711,9 @@ public class RECheCoProManager {
 		logWriter.addRowToTable();
 		CHFileSystem.saveFiles(response.getFiles(),
 				CHFileSystem.getUserDirForClient(response.getUser()));
+		if (chFrameMap.containsKey(response.getUser())) {
+			chFrameMap.get(response.getUser()).doRefresh();
+		}
 	}
 
 	private void processFilelistResponse(CHFilelistResponse response) {
