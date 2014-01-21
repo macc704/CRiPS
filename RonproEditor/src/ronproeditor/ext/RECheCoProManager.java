@@ -113,8 +113,8 @@ public class RECheCoProManager {
 	 * フレーム・リスナ関係
 	 *******************/
 
-	PropertyChangeListener rePropertyChangeListener;
-	KeyListener reKeyListener;
+	private PropertyChangeListener rePropertyChangeListener;
+	private KeyListener reKeyListener;
 
 	private void initializeREListener() {
 

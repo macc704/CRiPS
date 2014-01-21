@@ -138,7 +138,8 @@ public class CHServer {
 		} finally {
 			// logout(conn);
 		}
-		connectionPool.logout(conn);
+		conn.close();
+		logout(conn);
 	}
 
 	private String processLogin(CHLoginRequest request, CHConnection conn) {
@@ -186,8 +187,10 @@ public class CHServer {
 	}
 
 	private boolean logout(CHConnection conn) {
-		connectionPool.sendToOne(
-				new CHLogoutResult(connectionPool.getUser(conn)), conn);
+		if (conn.established()) {
+			connectionPool.sendToOne(
+					new CHLogoutResult(connectionPool.getUser(conn)), conn);
+		}
 		boolean result = connectionPool.logout(conn);
 		if (result == true) {
 			List<CHUserState> userStates = connectionPool.getUserStates();
