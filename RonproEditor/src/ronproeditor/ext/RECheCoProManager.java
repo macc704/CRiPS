@@ -301,7 +301,9 @@ public class RECheCoProManager {
 		menuBar.getMenu(0).remove(1);
 		menuBar.getMenu(0).remove(1);
 		menuBar.getMenu(0).remove(4);
-		for (int i = 4; i > 0; i--) {
+
+		int menuCount = menuBar.getMenu(3).getItemCount() - 1;
+		for (int i = menuCount; i > 0; i--) {
 			menuBar.getMenu(3).remove(i);
 		}
 		menuBar.getMenu(4).remove(0);
