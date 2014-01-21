@@ -113,21 +113,26 @@ public class RECheCoProManager {
 	 * フレーム・リスナ関係
 	 *******************/
 
+	PropertyChangeListener rePropertyChangeListener;
+	KeyListener reKeyListener;
+
 	private void initializeREListener() {
 
 		initializeREMenuListener(application);
 
-		application.getSourceManager().addPropertyChangeListener(
-				new PropertyChangeListener() {
+		rePropertyChangeListener = new PropertyChangeListener() {
 
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (application.getFrame().getEditor() != null) {
-							initializeREKeyListener();
-							processFilelistRequest(new CHFilelistRequest(user));
-						}
-					}
-				});
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (application.getFrame().getEditor() != null) {
+					initializeREKeyListener();
+					processFilelistRequest(new CHFilelistRequest(user));
+				}
+			}
+		};
+
+		application.getSourceManager().addPropertyChangeListener(
+				rePropertyChangeListener);
 
 		// JMenuBar menubar = application.getFrame().getJMenuBar();
 		// JButton fileSendButton = new JButton("Save to server");
@@ -143,50 +148,42 @@ public class RECheCoProManager {
 	}
 
 	private void initializeREKeyListener() {
-		List<KeyListener> keyListeners = Arrays.asList(application.getFrame()
-				.getEditor().getViewer().getTextPane().getKeyListeners());
 
-		for (KeyListener aKeyListener : keyListeners) {
-			application.getFrame().getEditor().getViewer().getTextPane()
-					.removeKeyListener(aKeyListener);
-		}
+		reKeyListener = new KeyAdapter() {
+			int mod;
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				conn.write(new CHSourceChanged(user, application.getFrame()
+						.getEditor().getViewer().getText(), application
+						.getSourceManager().getCurrentFile().getName()));
+				if (e.getKeyCode() == KeyEvent.VK_S) {
+					if ((mod & CTRL_MASK) != 0) {
+						processFilelistRequest(new CHFilelistRequest(user));
+					}
+				}
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				mod = e.getModifiers();
+				if (e.getKeyCode() == KeyEvent.VK_C
+						|| e.getKeyCode() == KeyEvent.VK_X) {
+					if ((mod & CTRL_MASK) != 0) {
+						writeCopyLog(application);
+					}
+				} else if (e.getKeyCode() == KeyEvent.VK_V) {
+					if ((mod & CTRL_MASK) != 0) {
+						System.out.println("paste");
+						writePasteLog(application.getSourceManager()
+								.getCCurrentFile());
+					}
+				}
+			}
+		};
 
 		application.getFrame().getEditor().getViewer().getTextPane()
-				.addKeyListener(new KeyAdapter() {
-
-					int mod;
-
-					@Override
-					public void keyReleased(KeyEvent e) {
-						conn.write(new CHSourceChanged(user, application
-								.getFrame().getEditor().getViewer().getText(),
-								application.getSourceManager().getCurrentFile()
-										.getName()));
-						if (e.getKeyCode() == KeyEvent.VK_S) {
-							if ((mod & CTRL_MASK) != 0) {
-								processFilelistRequest(new CHFilelistRequest(
-										user));
-							}
-						}
-					}
-
-					@Override
-					public void keyPressed(KeyEvent e) {
-						mod = e.getModifiers();
-						if (e.getKeyCode() == KeyEvent.VK_C
-								|| e.getKeyCode() == KeyEvent.VK_X) {
-							if ((mod & CTRL_MASK) != 0) {
-								writeCopyLog(application);
-							}
-						} else if (e.getKeyCode() == KeyEvent.VK_V) {
-							if ((mod & CTRL_MASK) != 0) {
-								System.out.println("paste");
-								writePasteLog(application.getSourceManager()
-										.getCCurrentFile());
-							}
-						}
-					}
-				});
+				.addKeyListener(reKeyListener);
 	}
 
 	private void initializeREMenuListener(final REApplication application) {
@@ -716,6 +713,7 @@ public class RECheCoProManager {
 			logWriter.addRowToTable();
 			logWriter.saveTableToFile();
 			conn.close();
+			removeListeners();
 		}
 	}
 
@@ -770,6 +768,17 @@ public class RECheCoProManager {
 		logWriter.saveTableToFile();
 		resetMenubar();
 		closeCHEditor();
+		msFrame.dispose();
+		removeListeners();
+	}
+
+	private void removeListeners() {
+		application.getSourceManager().removePropertyChangeListener(
+				rePropertyChangeListener);
+		if (reKeyListener != null) {
+			application.getFrame().getEditor().getViewer().getTextPane()
+					.removeKeyListener(reKeyListener);
+		}
 	}
 
 	private void resetMenubar() {
