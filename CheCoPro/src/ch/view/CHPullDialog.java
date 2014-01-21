@@ -71,7 +71,10 @@ public class CHPullDialog extends JDialog implements ActionListener {
 			setJavaChecked(javaCheckBox.isSelected());
 			setMaterialChecked(materialCheckBox.isSelected());
 			if (isJavaChecked()) {
-				this.dispose();
+				CHWarningDialog warningDialog = new CHWarningDialog();
+				if (warningDialog.isOk()) {
+					this.dispose();
+				}
 			}
 		}
 	}
