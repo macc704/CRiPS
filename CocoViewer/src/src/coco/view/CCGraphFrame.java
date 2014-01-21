@@ -215,9 +215,10 @@ public class CCGraphFrame extends JFrame {
 	// }
 
 	private void setSourceList(JPanel leftPanel) {
-		String[] columnNames = { "”­¶", "ƒvƒƒOƒ‰ƒ€–¼", "C³ŠÔ" };
+		String[] columnNames = { "C³‰ñ”", "”­¶", "ƒvƒƒOƒ‰ƒ€–¼", "C³ŠÔ" };
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		for (int i = 0; i < list.getErrors().size(); i++) {
+			String count = String.valueOf(i + 1);
 			String time = new CTime(list.getErrors().get(i).getBeginTime())
 					.toString();
 			String filename = list.getErrors().get(i).getFilenameNoPath();
@@ -225,7 +226,7 @@ public class CCGraphFrame extends JFrame {
 					.getCorrectionTime())
 					+ "•b";
 
-			String[] oneTableData = { time, filename, correctTime };
+			String[] oneTableData = { count, time, filename, correctTime };
 			model.addRow(oneTableData);
 		}
 
