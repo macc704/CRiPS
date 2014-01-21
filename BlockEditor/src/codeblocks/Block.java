@@ -49,7 +49,9 @@ public class Block implements ISupportMemento {
 	private String footerLabel = null;
 	private String genusName;
 
+	//新規追加属性
 	private String javaType;
+	private String javaLabel;
 
 	// block connection information
 	private List<BlockConnector> sockets;
@@ -1916,6 +1918,7 @@ public class Block implements ISupportMemento {
 		ArrayList<BlockConnector> sockets = new ArrayList<BlockConnector>();
 		HashMap<String, String> blockLangProperties = null;
 		String javaType = null;
+		String javaLabel = null;
 		// int numSockets;
 		boolean hasFocus = false;
 
@@ -1975,6 +1978,8 @@ public class Block implements ISupportMemento {
 					lineNumber = Integer.parseInt(child.getTextContent());
 				} else if (child.getNodeName().equals("JavaType")) {
 					javaType = child.getTextContent();
+				} else if (child.getNodeName().equals("JavaLabel")) {
+					javaLabel = child.getTextContent();
 				} else if (child.getNodeName().equals("ParentBlock")) {
 					parentID = Long.parseLong(child.getTextContent());
 				} else if (child.getNodeName().equals("PageLabel")) {
@@ -2131,6 +2136,11 @@ public class Block implements ISupportMemento {
 
 			if (javaType != null) {
 				block.javaType = javaType;
+			}
+
+			if (javaLabel != null) {
+				//TODO javaLabel set
+				block.javaLabel = javaLabel;
 			}
 
 			// System.out.println("Loaded Block: "+block);

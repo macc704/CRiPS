@@ -2032,6 +2032,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			name += "]";
 			System.out.println(name);
 			model.setLabel(node.getName().toString());
+			model.setJavaLabel(node.getName().toString());
 		} else {
 			model = new ExCallMethodModel();
 			name = node.getName().toString();
@@ -2078,6 +2079,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			}
 			name += "]";
 			model.setLabel(node.getName().toString());
+			model.setJavaLabel(node.getName().toString());
 		} else {
 			model = new ExCallMethodModel();
 			name = node.getName().toString();

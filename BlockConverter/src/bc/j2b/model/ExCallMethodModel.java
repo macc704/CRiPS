@@ -23,6 +23,7 @@ public class ExCallMethodModel extends ExpressionModel {
 	private List<String> argumentLabels;
 
 	private String label = "";
+	private String javaLabel = "";
 
 	public ExCallMethodModel() {
 		setBlockHeight(BLOCK_HEIGHT);
@@ -34,6 +35,10 @@ public class ExCallMethodModel extends ExpressionModel {
 
 	public String getName() {
 		return name;
+	}
+
+	public void setJavaLabel(String label) {
+		this.javaLabel = label;
 	}
 
 	public void addArgument(ExpressionModel arg) {
@@ -96,7 +101,7 @@ public class ExCallMethodModel extends ExpressionModel {
 			out.println("<Label>" + label + "</Label>");
 		}
 		makeIndent(out, indent + 1);
-		out.println("<JavaType>" + label + "</JavaType>");
+		out.println("<JavaLabel>" + javaLabel + "</JavaLabel>");
 		// lineNumber
 		makeIndent(out, indent + 1);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");

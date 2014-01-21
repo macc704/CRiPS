@@ -373,7 +373,9 @@ public class BlockToJavaAnalyzer {
 			} else if (blockInfo.getNodeName() == "AfterBlockId") {
 				model.setAfterID(Integer.parseInt(blockInfo.getTextContent()));
 			} else if (blockInfo.getNodeName() == "JavaType") {
-				model.setJavaTYpe(blockInfo.getTextContent());
+				model.setJavaType(blockInfo.getTextContent());
+			} else if (blockInfo.getNodeName() == "JavaLabel") {
+				model.setJavaLabel(blockInfo.getTextContent());
 			} else if (blockInfo.getNodeName() == "Plug") {
 				BlockConnectorModel conn = parseBlockConnector(blockInfo
 						.getFirstChild());
