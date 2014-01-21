@@ -36,7 +36,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 
 import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
-import ppv.view.frames.PPProjectViewerFrame;
 import pres.loader.model.IPLUnit;
 import pres.loader.model.PLFile;
 import pres.loader.model.PLProject;
@@ -65,7 +64,7 @@ public class CCGraphFrame extends JFrame {
 	private JFreeChart chart;
 	private ChartPanel chartpanel;
 
-	private ArrayList<PPProjectViewerFrame> projectviewers = new ArrayList<PPProjectViewerFrame>();
+	private ArrayList<CCSourceCompareViewer> projectviewers = new ArrayList<CCSourceCompareViewer>();
 
 	// default
 	public CCGraphFrame(CCCompileErrorKind list, CDirectory libDir,
@@ -289,7 +288,7 @@ public class CCGraphFrame extends JFrame {
 								"コンパイルエラー発生時のソースコード捜索に失敗しました");
 					}
 
-					final PPProjectViewerFrame frame = new PPProjectViewerFrame(
+					final CCSourceCompareViewer frame = new CCSourceCompareViewer(
 							model);
 					long beginTime = compileError.getBeginTime();
 					frame.getTimelinePane().getTimeModel2()
@@ -297,7 +296,7 @@ public class CCGraphFrame extends JFrame {
 					long endTime = compileError.getEndTime();
 					frame.getTimelinePane().getTimeModel()
 							.setTime(new CTime(endTime));
-					frame.openToggleExtraView();
+					// frame.openToggleExtraView();
 
 					frame.setBounds(50, 50, 1000, 700);
 					frame.setVisible(true);
@@ -320,7 +319,7 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	public void projectViewerFrameClose() {
-		for (PPProjectViewerFrame frame : projectviewers) {
+		for (CCSourceCompareViewer frame : projectviewers) {
 			frame.dispose();
 		}
 	}

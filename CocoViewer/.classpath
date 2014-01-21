@@ -3,11 +3,14 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CommonLibrary"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/PresVisualizer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PresCore"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CTimeLineView"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.20.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.15.jar"/>
 	<classpathentry kind="lib" path="lib/super-csv-2.1.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CSwing"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PresVisualizer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CTable"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CSwingApp"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
