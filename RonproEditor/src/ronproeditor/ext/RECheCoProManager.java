@@ -56,8 +56,10 @@ import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
+import ch.view.CHPullDialog;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileFilter;
 import clib.common.filesystem.sync.CFileHashList;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
@@ -357,32 +359,37 @@ public class RECheCoProManager {
 		// }
 		// });
 
-		JButton copyFileButton = new JButton("Copy All to MyProjects");
-		copyFileButton.addActionListener(new ActionListener() {
+		// JButton copyFileButton = new JButton("Copy All to MyProjects");
+		// copyFileButton.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
+		// logWriter.writeFrom(user);
+		// logWriter.addRowToTable();
+		// CHFileSystem.copyUserDirToMyProjects(user);
+		// application.doRefresh();
+		// }
+		// });
+
+		JButton pullButton = new JButton("Pull");
+		pullButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
-				logWriter.writeFrom(user);
-				logWriter.addRowToTable();
-				CHFileSystem.copyUserDirToMyProjects(user);
-				application.doRefresh();
-			}
-		});
-
-		JButton overwriteButton = new JButton("Pull");
-		overwriteButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doPull(user);
+				CHPullDialog pullDialog = new CHPullDialog(user);
+				boolean java = pullDialog.isJavaChecked();
+				boolean material = pullDialog.isMaterialCecked();
+				if (java || material) {
+					doPull(user, createCFileFilter(java, material));
+				}
 			}
 
 		});
 
 		// menuBar.add(fileRequestButton);
-		menuBar.add(copyFileButton);
-		menuBar.add(overwriteButton);
+		// menuBar.add(copyFileButton);
+		menuBar.add(pullButton);
 
 		menuBar.setBackground(getUserColor(user));
 		chApplication.getFrame().setJMenuBar(menuBar);
@@ -399,13 +406,25 @@ public class RECheCoProManager {
 		changeCHMenubar(chApplication, connButton.isSelected());
 	}
 
-	private void doPull(final String user) {
+	private void doPull(final String user, CFileFilter filter) {
 		logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
 		logWriter.writeFrom(user);
 		logWriter.addRowToTable();
 		CDirectory from = CHFileSystem.getUserDirForClient(user);
 		CDirectory to = CHFileSystem.getFinalProjectDir();
-		CHFileSystem.sync(from, to);
+		CHFileSystem.pull(from, to, filter);
+	}
+
+	private CFileFilter createCFileFilter(boolean java, boolean material) {
+		if (java && material) {
+			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", ".*xml");
+		} else if (java && !material) {
+			return CFileFilter.ACCEPT_BY_NAME_FILTER("*.java");
+		} else if (!java && material) {
+			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml",
+					"*.java");
+		}
+		return null;
 	}
 
 	private void initializeCHListeners(final REApplication chApplication,
@@ -498,7 +517,7 @@ public class RECheCoProManager {
 	}
 
 	private void changeCHMenubar(REApplication chApplication, boolean isSelected) {
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 7; i++) {
 			if (i != 5) {
 				chApplication.getFrame().getJMenuBar().getComponent(i)
 						.setEnabled(!isSelected);

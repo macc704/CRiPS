@@ -25,6 +25,7 @@ public class CHWarningDialog extends JDialog implements ActionListener {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setBounds(100, 100, 350, 150);
+		this.setResizable(false);
 
 		JLabel label = new JLabel("あなたのプロジェクトに上書きしてもよろしいですか？");
 

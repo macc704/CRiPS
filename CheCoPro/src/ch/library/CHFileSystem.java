@@ -58,9 +58,21 @@ public class CHFileSystem {
 		CHFileSystem.saveFiles(files, to);
 	}
 
+	public static void pull(CDirectory from, CDirectory to, CFileFilter filter) {
+		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths1(
+				createFileList(from, filter), to);
+		List<CHFile> files = CHFileSystem.getCHFiles(requestFilePaths, from);
+		CHFileSystem.saveFiles(files, to);
+	}
+
 	public static CFileHashList createFileList(CDirectory dir) {
 		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(".*",
 				".class", ".xml"));
+	}
+
+	public static CFileHashList createFileList(CDirectory dir,
+			CFileFilter filter) {
+		return new CFileHashList(dir, filter);
 	}
 
 	/*
@@ -83,6 +95,32 @@ public class CHFileSystem {
 				break;
 			case REMOVED:
 				to.findChild(new CPath(aDifference.getPath())).delete();
+				break;
+			default:
+				throw new RuntimeException();
+			}
+		}
+
+		return requestFilePaths;
+	}
+
+	// 一時繋ぎ
+	public static List<String> getRequestFilePaths1(CFileHashList fromList,
+			CDirectory to) {
+
+		CFileHashList toList = createFileList(to);
+
+		List<CFileListDifference> differences = CFileListUtils.compare(
+				fromList, toList);
+
+		List<String> requestFilePaths = new ArrayList<String>();
+		for (CFileListDifference aDifference : differences) {
+			switch (aDifference.getKind()) {
+			case CREATED:
+			case UPDATED:
+				requestFilePaths.add(aDifference.getPath());
+				break;
+			case REMOVED:
 				break;
 			default:
 				throw new RuntimeException();
