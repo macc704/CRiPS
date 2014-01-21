@@ -315,7 +315,7 @@ public class RECheCoProManager {
 			if (user.equals(aUserState.getUser()) && !aUserState.isLogin()) {
 				connButton.doClick();
 				connButton.setEnabled(false);
-				connButton.setText("”ñ“¯Šú");
+				connButton.setText("”ñ“¯Šú’†");
 			}
 		}
 
@@ -333,7 +333,7 @@ public class RECheCoProManager {
 					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
 					logWriter.writeFrom(user);
 					logWriter.addRowToTable();
-					connButton.setText("”ñ“¯Šú");
+					connButton.setText("”ñ“¯Šú’†");
 				}
 				if (chApplication.getFrame().getEditor() != null) {
 					chApplication.getFrame().getEditor().getViewer()
