@@ -1,5 +1,3 @@
-﻿/MyProject
-/MyProjects
+/MyProject*
 /.Trash
-/MyProjects.*
-
+/*.log
