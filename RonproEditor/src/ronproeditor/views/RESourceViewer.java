@@ -28,6 +28,7 @@ import javax.swing.text.Highlighter;
 
 import ronproeditor.REApplication;
 import ronproeditor.source.NonWrappingTextPane;
+import clib.view.textpane.CJavaCodeKit;
 import clib.view.textpane.CTextPaneUtils;
 
 public class RESourceViewer extends JPanel {
@@ -55,7 +56,7 @@ public class RESourceViewer extends JPanel {
 		// this.textArea = new JTextArea();
 		// textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute,
 		// new Integer(4));
-		textPane.setEditorKit(new REJavaCodeKit());
+		textPane.setEditorKit(new CJavaCodeKit());
 		this.lineNumberView = new LineNumberView(textPane);
 
 		JScrollPane scroll = new JScrollPane(textPane);
@@ -186,7 +187,6 @@ public class RESourceViewer extends JPanel {
 			fontHeight = fontMetrics.getHeight();
 			fontAscent = fontMetrics.getAscent();
 			topInset = text.getInsets().top;
-			setFont(font);
 		}
 
 		public FontMetrics getFontMetrics() {

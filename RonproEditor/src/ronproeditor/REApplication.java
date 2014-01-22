@@ -33,6 +33,9 @@ import ronproeditor.dialogs.REDirtyOptionDialog;
 import ronproeditor.dialogs.RERefactoringFileNameDialog;
 import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
+import ronproeditor.ext.RECocoViewerManager;
+import ronproeditor.ext.RECreateCocoDataManager;
+import ronproeditor.ext.RECheCoProManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
@@ -338,7 +341,10 @@ public class REApplication implements ICFwApplication {
 	private REFlowViewerManager flowManager;
 	private REGeneRefManager generefManager;
 	private REPresVisualizerManager ppvManager;
+	private RECheCoProManager checoproManager; // CheCoPro(kato)
 	private GUI deno;
+	private RECocoViewerManager cocoViewerManager;
+	private RECreateCocoDataManager createCocoDataManager;
 
 	/***********************
 	 * Construct & Start
@@ -347,7 +353,11 @@ public class REApplication implements ICFwApplication {
 	private void main() {
 		initializeLookAndFeel();
 		initializeCommands();
-		prepareRootDirectory();
+		initializeAndOpen(DEFAULT_ROOT);
+	}
+
+	private void initializeAndOpen(String rootDirName) {
+		prepareRootDirectory(rootDirName);
 		createAndOpenWindow();
 		prepareDialogs();
 
@@ -357,6 +367,9 @@ public class REApplication implements ICFwApplication {
 		flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
 		ppvManager = new REPresVisualizerManager(this);
+		cocoViewerManager = new RECocoViewerManager(this);
+		createCocoDataManager = new RECreateCocoDataManager(this);
+		checoproManager = new RECheCoProManager(this);
 
 		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
 				"*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
@@ -404,8 +417,8 @@ public class REApplication implements ICFwApplication {
 		copyFileNameDialog.setTitle("ファイル（クラス）のコピー");
 	}
 
-	private void prepareRootDirectory() {
-		File root = new File(DEFAULT_ROOT);
+	private void prepareRootDirectory(String rootDirName) {
+		File root = new File(rootDirName);
 		if (!root.exists()) {
 			root.mkdir();
 		}
@@ -1186,6 +1199,11 @@ public class REApplication implements ICFwApplication {
 		generefManager.openGeneRefBrowser();
 	}
 
+	// CheCoPro(kato)
+	public void doStartCheCoPro() {
+		checoproManager.startCheCoPro();
+	}
+
 	private void copyDatFileToProject() {
 		try {
 			// TODO 応急処置　macだとNullPointerExceptionが出る
@@ -1210,6 +1228,45 @@ public class REApplication implements ICFwApplication {
 			ex.printStackTrace();
 			CErrorDialog.show(frame, "OpenPPV中にエラーが発生しました．", ex);
 		}
+	}
+
+	public void doCreateCocoData() {
+		try {
+			createCocoDataManager.createCocoData();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Create CocoData中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doOpenCocoViewer() {
+		try {
+			cocoViewerManager.openCocoViewer(createCocoDataManager
+					.getppProjectSet());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Open CocoViewer中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doClearCash() {
+		try {
+			ppvManager.clearCash();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Clear Cash中にエラーが発生しました．", ex);
+		}
+	}
+
+	public REApplication doOpenNewRE(String dirPath) {
+		REApplication application = new REApplication();
+		File dir = new File(dirPath);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		application.initializeAndOpen(dirPath);
+		// 返り値追加（kato）
+		return application;
 	}
 
 	// private void sourceColoringTest(){

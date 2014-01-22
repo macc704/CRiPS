@@ -16,7 +16,8 @@
     		
     		<fileset dir="../../commonlibrary/CommonLibrary/bin"/>
     		<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/CEncodingDetector.jar"/>
-    		<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/commons-csv-20070730.jar"/>    		
+    		<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/commons-csv-20070730.jar"/>
+    		<zipfileset excludes="META-INF/*.SF" src="../../commonlibrary/CommonLibrary/lib/commons-codec-1.9.jar"/>
     		<fileset dir="../../commonlibrary/CSwing/bin"/>
     		<fileset dir="../../commonlibrary/CSwingApp/bin"/>
     		<fileset dir="../../commonlibrary/CTable/bin"/>
@@ -54,6 +55,11 @@
     		<fileset dir="../NoviceDebugger/bin"/>
     		<zipfileset excludes="META-INF/*.SF,com/sun/tools/example/**/*" src="../NoviceDebugger/lib/tools1.7.0_mac.jar"/>
     		    		
+    		<fileset dir="../CocoViewer/bin"/>
+    		<zipfileset excludes="META-INF/*.SF" src="../CocoViewer/lib/super-csv-2.1.0.jar"/>
+    		
+    		<fileset dir="../CheCoPro/bin"/>
+    		
     		<!--<fileset dir="../ReflectionSupportSystem/bin"/>-->
         </jar>
     	
