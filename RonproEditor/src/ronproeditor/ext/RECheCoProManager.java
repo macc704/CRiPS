@@ -71,7 +71,7 @@ public class RECheCoProManager {
 	public static final String DEFAULT_PASSWAOD = "";
 	public static final Color DEFAULT_COLOR = Color.WHITE;
 	public static final int DEFAULT_PORT = 10000;
-	public static final String IP = "localhost";
+	public static final String IP = "163.43.140.82";
 
 	private static int CTRL_MASK = InputEvent.CTRL_MASK;
 	static {
