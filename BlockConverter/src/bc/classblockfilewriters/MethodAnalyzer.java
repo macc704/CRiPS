@@ -65,7 +65,11 @@ public class MethodAnalyzer extends ASTVisitor {
 				parameters.add(node.parameters().get(i).toString());
 				SingleVariableDeclaration param = (SingleVariableDeclaration) node
 						.parameters().get(i);
-				fullName += "@" + convertBlockType(param.getType().toString());
+				String paramType = param.getType().toString();
+				if (paramType.equals("double")) {
+					paramType = "int";
+				}
+				fullName += "@" + convertBlockConnectorType(paramType);
 
 			}
 			fullName += "]";
@@ -78,20 +82,20 @@ public class MethodAnalyzer extends ASTVisitor {
 		return super.visit(node);
 	}
 
-	private String convertBlockType(String s) {
-		if ("int".equals(s)) {
-			return "number";
-		} else if ("String".equals(s)) {
-			return "string";
-		} else if ("double".equals(s)) {
-			return "double-number";
-		} else if ("boolean".equals(s)) {
-			return "boolean";
-		} else if ("void".equals(s)) {
-			return "void";
-		}
-		return s;
-	}
+	// private String convertBlockType(String s) {
+	// if ("int".equals(s)) {
+	// return "number";
+	// } else if ("String".equals(s)) {
+	// return "string";
+	// } else if ("double".equals(s)) {
+	// return "double-number";
+	// } else if ("boolean".equals(s)) {
+	// return "boolean";
+	// } else if ("void".equals(s)) {
+	// return "void";
+	// }
+	// return s;
+	// }
 
 	private String convertBlockConnectorType(String s) {
 		if ("int".equals(s)) {

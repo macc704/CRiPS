@@ -2022,15 +2022,23 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model = new ExCallUserMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
 			name = node.getName().toString();
-		} else if (methodResolver.isRegisteredAsProjectMethod(node)) {
+		} else if (methodResolver.isRegisteredAsProjectMethod(node)
+				|| node.getName().toString().equals("drawFillArc")
+				|| node.getName().toString().equals("drawText")) {
 			model = new ExCallMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
 			name = node.getName().toString() + "[";
 			for (Object param : node.arguments()) {
-				name += ("@" + parseExpression(((Expression) param)).getType());
+				String paramType = ElementModel
+						.getConnectorType(parseExpression(((Expression) param))
+								.getType());
+				if (paramType.equals("double-number")) {
+					paramType = "number";
+				}
+				name += ("@" + paramType);
 			}
 			name += "]";
-			System.out.println(name);
+
 			model.setLabel(node.getName().toString());
 			model.setJavaLabel(node.getName().toString());
 		} else {
@@ -2041,8 +2049,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setName(name);
 		model.setType(ElementModel.getConnectorType(methodResolver
 				.getReturnType(node)));
-		System.out.println(ElementModel.getConnectorType(methodResolver
-				.getReturnType(node)));
+
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
@@ -2075,7 +2082,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
 			name = node.getName().toString() + "[";
 			for (Object param : node.arguments()) {
-				name += ("@" + parseExpression(((Expression) param)).getType());
+				String paramType = ElementModel
+						.getConnectorType(parseExpression(((Expression) param))
+								.getType());
+				if (paramType.equals("double-number")) {
+					paramType = "number";
+				}
+				name += ("@" + paramType);
 			}
 			name += "]";
 			model.setLabel(node.getName().toString());

@@ -156,10 +156,8 @@ public class Block implements ISupportMemento {
 			setFooterLabel(BlockGenus.getGenusWithName(genusName)
 					.getInitFooterLabel());
 
-			this.javaLabel = (BlockGenus.getGenusWithName(genusName)
-					.getJavaLabel());
-			this.javaType = (BlockGenus.getGenusWithName(genusName)
-					.getJavaType());
+			javaLabel = (BlockGenus.getGenusWithName(genusName).getJavaLabel());
+			javaType = (BlockGenus.getGenusWithName(genusName).getJavaType());
 
 			Iterable<String> arguumentIter = genus
 					.getInitialArgumentDescriptions();

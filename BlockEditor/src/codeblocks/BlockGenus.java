@@ -712,11 +712,11 @@ public class BlockGenus {
 	}
 
 	public String getJavaLabel() {
-		return this.javaLabel;
+		return javaLabel;
 	}
 
 	public String getJavaType() {
-		return this.javaType;
+		return javaType;
 	}
 
 	/**
@@ -1244,6 +1244,7 @@ public class BlockGenus {
 						.getNamedItem("name").toString());
 				if (nameMatcher.find()) // will be true
 					newGenus.genusName = nameMatcher.group(1);
+
 				// assert that no other genus has this name
 				assert nameToGenus.get(newGenus.genusName) == null : "Block genus names must be unique.  A block genus already exists with this name: "
 						+ newGenus.genusName;

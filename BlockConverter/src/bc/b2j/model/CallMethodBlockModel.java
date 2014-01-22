@@ -19,10 +19,11 @@ public class CallMethodBlockModel extends CommandBlockModel {
 	}
 
 	protected String getMethodName() {
-		if (getJavaLabel() != null) {
+		if (stub == false) {
+			return getGenusName();
+		} else {// stub
 			return getLabel();
 		}
-		return getJavaType();
 	}
 
 	@Override
@@ -44,11 +45,16 @@ public class CallMethodBlockModel extends CommandBlockModel {
 
 	public void printOne(PrintStream out, int indent) {
 
-		String methodName = getMethodName();
+		String methodName;
+		if (getJavaLabel() != null) {
+			methodName = getJavaLabel();
+		} else {
+			methodName = getMethodName();
+		}
 
 		if ("int".equals(methodName) || "double".equals(methodName)
 				|| "toString".equals(methodName)) {
-			printCast(out, indent);
+			printCast(out, indent, methodName);
 			return;
 		}
 
@@ -59,7 +65,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 
 		// ì¡éÍÉPÅ[ÉX
 		if ("empty".equals(methodName)) {
-			if (isCommand()) {
+			if (isCommand(methodName)) {
 				out.print(";");
 				out.println();
 			}
@@ -75,7 +81,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 			}
 
 			out.print("hashCode()");
-			if (isCommand()) {
+			if (isCommand(methodName)) {
 				out.print(";");
 				out.println();
 			}
@@ -116,17 +122,17 @@ public class CallMethodBlockModel extends CommandBlockModel {
 		out.print(")");
 
 		// if (!(isFunctionMethodCallBlock(methodName))) {
-		if (isCommand()) {
+		if (isCommand(methodName)) {
 			out.print(";");
 			out.println();
 		}
 	}
 
-	private boolean isCommand() {
+	private boolean isCommand(String methodName) {
 		if (stub) {
 			return getPlugID() == BlockModel.NULL;
 		}
-		return !isFunctionMethodCallBlock(getMethodName());
+		return !isFunctionMethodCallBlock(methodName);
 	}
 
 	// private boolean hasReference() {
@@ -162,7 +168,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 		}
 	}
 
-	private void printCast(PrintStream out, int indent) {
+	private void printCast(PrintStream out, int indent, String methodName) {
 
 		if (!(isFunctionMethodCallBlock(getMethodName()))) {
 			makeIndent(out, indent);
@@ -195,7 +201,8 @@ public class CallMethodBlockModel extends CommandBlockModel {
 				return true;
 			}
 		}
-		if (BlockConverter.projectMethods.get(getLabel() + "("
+
+		if (BlockConverter.projectMethods.get(methodName + "("
 				+ getConnectorIDs().size() + ")") != null
 				&& !BlockConverter.projectMethods.get(
 						methodName + "(" + getConnectorIDs().size() + ")")

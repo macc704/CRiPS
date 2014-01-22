@@ -47,11 +47,12 @@ public class BlockConverter {
 			"acos", "log", "ln", "sleep", "hide", "update", "warp",
 			"warpByTopLeft", "size", "scale", "large", "small", "wide",
 			"narrow", "tall", "little", "show", "getX", "getY", "getWidth",
-			"getHeight", "int", "double", "toString", /* ! */"x", "y", "width",
-			"height", "setShow", "isShow", "key", "keyDown", "mouseX",
-			"mouseY", "mouseClicked", "leftMouseClicked", "rightMouseClicked",
-			"doubleClick", "mouseDown", "leftMouseDown", "rightMouseDown",
-			"intersects", "contains", "image", "text"/* !! */, "looks"
+			"getHeight", "int", "double", "toString", /* ! */
+			"x", "y", "width", "height", "setShow", "isShow", "key", "keyDown",
+			"mouseX", "mouseY", "mouseClicked", "leftMouseClicked",
+			"rightMouseClicked", "doubleClick", "mouseDown", "leftMouseDown",
+			"rightMouseDown", "intersects", "contains", "image",
+			"text"/* !! */, "looks"
 			/* !sound! */, "file", "setFile", "play", "loop", "stop",
 			"isPlaying", "getVolume", "setVolume"
 			/* text */, "getText", "loadOnMemory"
@@ -70,14 +71,18 @@ public class BlockConverter {
 						 * ,"getText" , "text"
 						 */, "clearText", "setActive", "isActive",
 			"toJapaneseMode", "toEnglishMode", "fontsize", "drawArc",
-			"drawFillTriangle", "drawText", "isClick", "isSingleClick",
-			"isDoubleClick", "isDragging", "isRightMouseDown",
+			"drawFillTriangle", "drawText[@Color@string@number@number@Font]",
+			"drawText[@Color@string@number@number]", "isClick",
+			"isSingleClick", "isDoubleClick", "isDragging", "isRightMouseDown",
 			"isLeftMouseDown", "getMouseX", "getMouseY", "isKeyPressing",
 			"isKeyCode", "isKeyDown", "getKeyCode", "clear", "update",
 			"getImageWidth", "getImageHeight", "drawLine", "drawImage",
 			"drawLine", "getCanvasWidth", "getCanvasHeight", "drawImage",
-			"drawFillArc", "setLocation", "setSize", "getCanvas", "getVolume",
-			"setVolume", "getDefaultVolume" };
+			"drawFillArc[@Color@number@number]",
+			"drawFillArc[@Color@number@number@number@number]",
+			"drawFillArc[@Color@number@number@number@number@number@number]",
+			"setLocation", "setSize", "getCanvas", "getVolume", "setVolume",
+			"getDefaultVolume" };
 
 	// ñﬂÇËílÇÃÇ†ÇÈÉÅÉ\ÉbÉhÇÕÇ±Ç±Ç…ìoò^ (è„Ç…Ç‡ìoò^ÇµÇ»Ç¢Ç∆É_ÉÅ)
 	public final static String[] FUNCTION_METHODCALL_BLOCKS = { "input",
@@ -96,7 +101,8 @@ public class BlockConverter {
 			"isSingleClick", "isDoubleClick", "isDragging", "isRightMouseDown",
 			"isLeftMouseDown", "getMouseX", "getMouseY", "isKeyPressing",
 			"isKeyCode", "isKeyDown", "getKeyCode", "getImageWidth",
-			"getImageHeight", "getCanvas", "getVolume", "getDefaultVolume" };
+			"getImageHeight", "getCanvas", "getVolume", "getDefaultVolume",
+			"size" };
 
 	public static final String[] ALL_DATA_BLOCKNAMES;
 
