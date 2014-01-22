@@ -52,6 +52,8 @@ public class ExCallActionMethodModel2 extends ExpressionModel {
 		}
 
 		if (receiver.getLabel().equals("é©ï™")
+				&& receiver.getType().equals("object")
+				|| receiver.getLabel().equals("êeÉNÉâÉX")
 				&& receiver.getType().equals("object")) {
 			genusName = "callThisActionMethod2";
 		}

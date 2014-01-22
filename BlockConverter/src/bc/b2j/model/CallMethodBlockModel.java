@@ -48,6 +48,8 @@ public class CallMethodBlockModel extends CommandBlockModel {
 		String methodName;
 		if (getJavaLabel() != null) {
 			methodName = getJavaLabel();
+		} else if (getMethodName().equals("callerProcedure")) {
+			methodName = getLabel();
 		} else {
 			methodName = getMethodName();
 		}
