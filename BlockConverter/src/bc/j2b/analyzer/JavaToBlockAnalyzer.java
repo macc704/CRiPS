@@ -1990,8 +1990,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				sp.addParameter(paramModel);
 			}
 		} else {
-			sp = new ExSpecialExpressionModel(expression + typeArguments
-					+ node.getName());
+			sp = new ExSpecialExpressionModel(node.toString());
 			sp.setId(idCounter.getNextId());
 			sp.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
