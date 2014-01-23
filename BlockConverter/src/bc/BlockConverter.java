@@ -71,18 +71,19 @@ public class BlockConverter {
 						 * ,"getText" , "text"
 						 */, "clearText", "setActive", "isActive",
 			"toJapaneseMode", "toEnglishMode", "fontsize", "drawArc",
-			"drawFillTriangle", "drawText[@Color@string@number@number@Font]",
-			"drawText[@Color@string@number@number]", "isClick",
+			"drawFillTriangle",
+			"drawText[@object@string@number@number@object]",
+			"drawText[@object@string@number@number]", "isClick",
 			"isSingleClick", "isDoubleClick", "isDragging", "isRightMouseDown",
 			"isLeftMouseDown", "getMouseX", "getMouseY", "isKeyPressing",
 			"isKeyCode", "isKeyDown", "getKeyCode", "clear", "update",
 			"getImageWidth", "getImageHeight", "drawLine", "drawImage",
 			"drawLine", "getCanvasWidth", "getCanvasHeight", "drawImage",
-			"drawFillArc[@Color@number@number]",
-			"drawFillArc[@Color@number@number@number@number]",
-			"drawFillArc[@Color@number@number@number@number@number@number]",
+			"drawFillArc[@objet@number@number]",
+			"drawFillArc[@object@number@number@number@number]",
+			"drawFillArc[@object@number@number@number@number@number@number]",
 			"setLocation", "setSize", "getCanvas", "getVolume", "setVolume",
-			"getDefaultVolume" };
+			"getDefaultVolume", "remove[@number]", "remove[@object]", "get" };
 
 	// ñﬂÇËílÇÃÇ†ÇÈÉÅÉ\ÉbÉhÇÕÇ±Ç±Ç…ìoò^ (è„Ç…Ç‡ìoò^ÇµÇ»Ç¢Ç∆É_ÉÅ)
 	public final static String[] FUNCTION_METHODCALL_BLOCKS = { "input",
@@ -102,7 +103,7 @@ public class BlockConverter {
 			"isLeftMouseDown", "getMouseX", "getMouseY", "isKeyPressing",
 			"isKeyCode", "isKeyDown", "getKeyCode", "getImageWidth",
 			"getImageHeight", "getCanvas", "getVolume", "getDefaultVolume",
-			"size" };
+			"size", "get" };
 
 	public static final String[] ALL_DATA_BLOCKNAMES;
 

@@ -171,7 +171,8 @@
         <BlockGenusMember>clear</BlockGenusMember>
         <BlockGenusMember>isEmpty</BlockGenusMember>
         <BlockGenusMember>contains</BlockGenusMember>
-        <BlockGenusMember>remove</BlockGenusMember>
+        <BlockGenusMember>remove[@number]</BlockGenusMember>
+        <BlockGenusMember>remove[@object]</BlockGenusMember>
         <BlockGenusMember>size</BlockGenusMember>
         <BlockGenusMember>enhancedfor</BlockGenusMember>
 	</BlockDrawer>

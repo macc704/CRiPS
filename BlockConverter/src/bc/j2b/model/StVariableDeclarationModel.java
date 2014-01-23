@@ -31,6 +31,10 @@ public class StVariableDeclarationModel extends StatementModel implements
 		parameterizedType.add(type);
 	}
 
+	public List<String> getParameterizedType() {
+		return this.parameterizedType;
+	}
+
 	public StVariableDeclarationModel() {
 		setBlockHeight(variableBlockHeight);
 	}

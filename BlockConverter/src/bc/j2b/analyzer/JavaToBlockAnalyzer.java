@@ -1956,6 +1956,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		// This method is not registered.
+		return makeSpecialExpressionModel(node);
+	}
+
+	private ExSpecialExpressionModel makeSpecialExpressionModel(
+			MethodInvocation node) {
 		String expression = node.getExpression().toString();
 		if (expression != null) {
 			expression += ".";
@@ -1964,26 +1969,33 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (node.typeArguments().size() > 0) {
 			typeArguments = "&lt;" + node.typeArguments().toString() + "&gt;";
 		}
-
-		ExSpecialExpressionModel sp = new ExSpecialExpressionModel(expression
-				+ typeArguments + node.getName());
-		sp.setId(idCounter.getNextId());
-		sp.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
-
-		for (Object param : node.arguments()) {
-			if (param instanceof ExSpecialExpressionModel) {
-				ExSpecialExpressionModel spblock = new ExSpecialExpressionModel(
-						node.toString());
-				spblock.setId(idCounter.getNextId());
-				spblock.setLineNumber(compilationUnit.getLineNumber(node
-						.getStartPosition()));
-				return spblock;
+		ExSpecialExpressionModel sp;
+		if (node.arguments().size() > 0) {
+			sp = new ExSpecialExpressionModel(expression + typeArguments
+					+ node.getName());
+			sp.setId(idCounter.getNextId());
+			sp.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			for (Object param : node.arguments()) {
+				if (param instanceof ExSpecialExpressionModel) {
+					ExSpecialExpressionModel spblock = new ExSpecialExpressionModel(
+							node.toString());
+					spblock.setId(idCounter.getNextId());
+					spblock.setLineNumber(compilationUnit.getLineNumber(node
+							.getStartPosition()));
+					return spblock;
+				}
+				ExpressionModel paramModel = parseExpression((Expression) param);
+				paramModel.setParent(sp);
+				sp.addParameter(paramModel);
 			}
-			ExpressionModel paramModel = parseExpression((Expression) param);
-			paramModel.setParent(sp);
-			sp.addParameter(paramModel);
+		} else {
+			sp = new ExSpecialExpressionModel(expression + typeArguments
+					+ node.getName());
+			sp.setId(idCounter.getNextId());
+			sp.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
 		}
-
 		return sp;
 	}
 
@@ -1994,11 +2006,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				&& callerModel.getName().equals("get")) {
 			StVariableDeclarationModel parentVariableModel = variableResolver
 					.resolve(receiverModel.getLabel());
-			ExClassInstanceCreationModel classInstanceCreator = (ExClassInstanceCreationModel) parentVariableModel
-					.getInitializer();
+
 			callerModel.setType(ElementModel
-					.getConnectorType(classInstanceCreator.getAruguments()
-							.get(0).getType()));
+					.getConnectorType(parentVariableModel
+							.getParameterizedType().get(0)));
 		}
 		return callerModel;
 	}
@@ -2024,7 +2035,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			name = node.getName().toString();
 		} else if (methodResolver.isRegisteredAsProjectMethod(node)
 				|| node.getName().toString().equals("drawFillArc")
-				|| node.getName().toString().equals("drawText")) {
+				|| node.getName().toString().equals("drawText")
+				|| node.getName().toString().equals("remove")) {// メソッド名を全て変更する必要あり！　今は応急処置
 			model = new ExCallMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
 			name = node.getName().toString() + "[";

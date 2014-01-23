@@ -161,6 +161,7 @@ public class MethodResolver {
 
 		// List
 		methodToReturnType.put("size()", "int");
+		methodToReturnType.put("remove(1)", "void");
 	}
 
 	public boolean isRegistered(MethodInvocation method) {

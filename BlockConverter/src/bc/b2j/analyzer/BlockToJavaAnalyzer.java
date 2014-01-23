@@ -155,7 +155,7 @@ public class BlockToJavaAnalyzer {
 			NamedNodeMap BlockAttrs = block.getAttributes();
 			String genus_name = BlockAttrs.getNamedItem("genus-name")
 					.getNodeValue();
-			System.out.println(genus_name);
+
 			if ("procedure".equals(genus_name)) {
 				ProcedureBlockModel model = new ProcedureBlockModel();
 				parseBlock(block, model);
@@ -170,6 +170,10 @@ public class BlockToJavaAnalyzer {
 				blockNode = blockNode.getNextSibling();
 			} else if (genus_name.startsWith("proc-param")) {
 				ProcedureParamBlockModel model = new ProcedureParamBlockModel();
+				parseBlock(block, model);
+				blockNode = blockNode.getNextSibling();
+			} else if (genus_name.startsWith("caller")) {// method-call (stub)
+				CallMethodBlockModel model = new CallMethodBlockModel(true);
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
 			} else if (isMethodCallBlock(genus_name) || isProjectMethod(block)) {
@@ -244,10 +248,6 @@ public class BlockToJavaAnalyzer {
 				SpecialBlockModel model = new SpecialBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("caller")) {// method-call (stub)
-				CallMethodBlockModel model = new CallMethodBlockModel(true);
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
 			} else if (genus_name.startsWith("return")) {// #matsuzawa return
 				ReturnBlockModel model = new ReturnBlockModel();
 				parseBlock(block, model);
@@ -277,10 +277,10 @@ public class BlockToJavaAnalyzer {
 	}
 
 	private boolean isProjectMethod(Node node) {
-		int i = getBlockSocketsNumber(node);
+		String paramNum = getBlockSocketsNumber(node);
 
 		String label = getBlockLabel(node);
-		String methodName = label + "(" + i + ")";
+		String methodName = label + "(" + paramNum + ")";
 
 		if (BlockConverter.projectMethods.get(methodName) != null) {
 			return true;
@@ -296,7 +296,7 @@ public class BlockToJavaAnalyzer {
 		}
 
 		if (blockName.startsWith("getter") || blockName.contains("this")
-				|| blockName.contains("super")) {
+				|| blockName.equals("gettersuper")) {
 			return true;
 		}
 		// ‚Æ‚è‚ ‚¦‚¸
@@ -408,7 +408,7 @@ public class BlockToJavaAnalyzer {
 		blockModels.put(model.getId(), model);
 	}
 
-	private int getBlockSocketsNumber(Node node) {
+	private String getBlockSocketsNumber(Node node) {
 		int num = 0;
 		Node blockInfo = node.getFirstChild();
 
@@ -423,7 +423,11 @@ public class BlockToJavaAnalyzer {
 			blockInfo = blockInfo.getNextSibling();
 		}
 
-		return num;
+		if (num == 0) {
+			return "";
+		}
+
+		return String.valueOf(num);
 	}
 
 	private String getBlockLabel(Node node) {

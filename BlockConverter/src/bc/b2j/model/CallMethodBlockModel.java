@@ -204,14 +204,27 @@ public class CallMethodBlockModel extends CommandBlockModel {
 			}
 		}
 
-		if (BlockConverter.projectMethods.get(methodName + "("
-				+ getConnectorIDs().size() + ")") != null
+		String paramNum = getParamNum();
+
+		if (BlockConverter.projectMethods
+				.get(methodName + "(" + paramNum + ")") != null
 				&& !BlockConverter.projectMethods.get(
-						methodName + "(" + getConnectorIDs().size() + ")")
-						.equals("void")) {
+						methodName + "(" + paramNum + ")").equals("void")) {
 			return true;
 		}
 
 		return false;
+	}
+
+	private String getParamNum() {
+		if (getConnectorIDs() != null) {
+			if (getConnectorIDs().size() == 0) {
+				return "";
+			} else {
+				return String.valueOf(getConnectorIDs().size());
+			}
+		} else {
+			return null;
+		}
 	}
 }
