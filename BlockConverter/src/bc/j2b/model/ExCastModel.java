@@ -56,9 +56,17 @@ public class ExCastModel extends ExpressionModel {
 			throw new RuntimeException("toString() not supported");
 		} else if (getType().equals("string") || getType().equals("String")) {
 			plugConnector = "string";
-			socketConnector = "number";
-			genusName = "toStringFromInt";
-			// throw new RuntimeException("toString() not supported");
+			socketConnector = ElementModel.getConnectorType(arguments.get(0)
+					.getType());
+			if (socketConnector.equals("string")) {
+				genusName = "toStringFromString";
+			} else if (socketConnector.equals("number")) {
+				genusName = "toStringFromInt";
+			} else {
+				throw new RuntimeException("not supported Cast:"
+						+ arguments.get(0).getType() + "to String");
+			}
+
 		} else {
 			if (isProjectObject) {
 				plugConnector = "object";

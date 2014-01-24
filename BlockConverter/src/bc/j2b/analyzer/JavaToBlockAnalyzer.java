@@ -1410,8 +1410,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					|| node instanceof StringLiteral
 					|| node instanceof NullLiteral) {
 				return (ExpressionModel) parseLeteralExpression(node);
-			} else if (node instanceof SimpleName) {
-				ExpressionModel model = (ExpressionModel) parseVariableGetterExpression(((SimpleName) node)
+			} else if (node instanceof SimpleName
+					|| node instanceof ThisExpression) {
+				ExpressionModel model = (ExpressionModel) parseVariableGetterExpression(node
 						.toString());
 				model.setLineNumber(compilationUnit.getLineNumber(node
 						.getStartPosition()));
@@ -1926,18 +1927,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			} else {
 				// Listのgetなどは、listの型に合わせて変形する必要性
 				ExpressionModel receiverModel = null;
-				StVariableDeclarationModel variable;
-				if (receiver instanceof ArrayAccess) {
-					variable = variableResolver
-							.resolve(((ArrayAccess) receiver).getArray()
-									.toString());
-				} else {
-					variable = variableResolver.resolve(receiver.toString());
-				}
-				if (variable != null) {
-					receiverModel = parseExpression(receiver);
-					receiverModel.setLineNumber(compilationUnit
-							.getLineNumber(receiver.getStartPosition()));
+				receiverModel = parseExpression(receiver);
+
+				if (receiverModel != null) {
 					ExCallActionMethodModel2 model = parseCallActionMethodExpression2(
 							node, receiverModel);
 

@@ -25,6 +25,7 @@ public class ReferenceBlockModel extends BlockModel {
 
 	@Override
 	public void print(PrintStream out, int indent) {
+		System.out.println(getGenusName());
 		if (getGenusName().endsWith("2")) {
 			print2(out, indent);
 			if (getAfterID() != -1) {

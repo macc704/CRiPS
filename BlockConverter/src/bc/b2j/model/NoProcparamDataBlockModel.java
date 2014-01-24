@@ -15,7 +15,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 			return;// ‘f’Ê‚µ
 		}
 		if (getName().startsWith("getterprivate") || getName().contains("this")
-				|| getName().contains("super")) {
+				|| getName().contains("gettersuper")) {
 			return;// #ohata added
 		}
 		if (!getGenusName().startsWith("getter")) {
@@ -118,6 +118,12 @@ public class NoProcparamDataBlockModel extends BlockModel {
 					.getBlock(getConnectorIDs().get(0));
 			blockModel.print(out, indent);
 			out.print(".toString()");
+		} else if ("toStringFromString".equals(getGenusName())) {
+			BlockModel blockModel = BlockToJavaAnalyzer
+					.getBlock(getConnectorIDs().get(0));
+			out.print("(String)(");
+			blockModel.print(out, indent);
+			out.print(")");
 		} else if (getGenusName().endsWith("FromObject")) {
 			BlockModel blockModel = BlockToJavaAnalyzer
 					.getBlock(getConnectorIDs().get(0));
@@ -140,8 +146,8 @@ public class NoProcparamDataBlockModel extends BlockModel {
 			out.print("\"" + getLabel() + "\"");
 		} else if (getGenusName().contains("this")) {
 			out.print("this");
-		} else if (getGenusName().contains("super")) {
-			out.print("super" + getLabel());
+		} else if (getGenusName().contains("gettersuper")) {
+			out.print("super");
 		} else if ("double-number".equals(getGenusName())
 				|| "number".equals(getGenusName())
 				|| getGenusName().startsWith("getter")) {

@@ -155,6 +155,7 @@ public class BlockToJavaAnalyzer {
 			NamedNodeMap BlockAttrs = block.getAttributes();
 			String genus_name = BlockAttrs.getNamedItem("genus-name")
 					.getNodeValue();
+			System.out.println(genus_name);
 
 			if ("procedure".equals(genus_name)) {
 				ProcedureBlockModel model = new ProcedureBlockModel();
@@ -172,7 +173,8 @@ public class BlockToJavaAnalyzer {
 				ProcedureParamBlockModel model = new ProcedureParamBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("caller")) {// method-call (stub)
+			} else if (genus_name.startsWith("caller")) {// isMethodCall
+															// isProjectMethodの前にやらないとエラーが発生する可能性有り
 				CallMethodBlockModel model = new CallMethodBlockModel(true);
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -180,7 +182,7 @@ public class BlockToJavaAnalyzer {
 				CallMethodBlockModel model = new CallMethodBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
-			} else if (isDataBlock(genus_name)) {
+			} else if (isDataBlock(genus_name)) {// isMethodCall
 				NoProcparamDataBlockModel model = new NoProcparamDataBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -279,7 +281,7 @@ public class BlockToJavaAnalyzer {
 	private boolean isProjectMethod(Node node) {
 		String paramNum = getBlockSocketsNumber(node);
 
-		String label = getBlockLabel(node);
+		String label = getJavaLabel(node);
 		String methodName = label + "(" + paramNum + ")";
 
 		if (BlockConverter.projectMethods.get(methodName) != null) {
@@ -430,12 +432,26 @@ public class BlockToJavaAnalyzer {
 		return String.valueOf(num);
 	}
 
-	private String getBlockLabel(Node node) {
+	// private String getBlockLabel(Node node) {
+	//
+	// Node blockInfo = node.getFirstChild();
+	//
+	// while (blockInfo != null) {
+	// if (blockInfo.getNodeName() == "Label") {
+	// return blockInfo.getTextContent();
+	// }
+	// blockInfo = blockInfo.getNextSibling();
+	// }
+	//
+	// return null;
+	// }
+
+	private String getJavaLabel(Node node) {
 
 		Node blockInfo = node.getFirstChild();
 
 		while (blockInfo != null) {
-			if (blockInfo.getNodeName() == "Label") {
+			if (blockInfo.getNodeName() == "JavaLabel") {
 				return blockInfo.getTextContent();
 			}
 			blockInfo = blockInfo.getNextSibling();

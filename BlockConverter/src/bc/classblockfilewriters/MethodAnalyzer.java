@@ -97,7 +97,7 @@ public class MethodAnalyzer extends ASTVisitor {
 	// return s;
 	// }
 
-	private String convertBlockConnectorType(String s) {
+	public static String convertBlockConnectorType(String s) {
 		if ("int".equals(s)) {
 			return "number";
 		} else if ("String".equals(s)) {

@@ -9,6 +9,7 @@ public class PostfixExpressionModel extends BlockModel {
 
 	@Override
 	public void checkError() {
+		System.out.println(getBeforeID());
 		resolveCreatedVariable(getBeforeID());
 		if (getConnectorIDs().get(0) == BlockModel.NULL) {
 			throw new RuntimeException("ブロックが完全に組まれていませんE： " + getGenusName());
@@ -25,6 +26,19 @@ public class PostfixExpressionModel extends BlockModel {
 		}
 		BlockModel block = BlockToJavaAnalyzer.getBlock(blockID);
 		if (block instanceof LocalVariableBlockModel) {
+			return;
+		}
+		if (getGenusName().indexOf("proc-param") != -1) {
+			return;// 素通し
+		}
+		if (getName().startsWith("getterprivate") || getName().contains("this")
+				|| getName().contains("gettersuper")) {
+			return;// #ohata added
+		}
+		if (!getGenusName().startsWith("getter")) {
+			return;
+		}
+		if (getGenusName().contains("array")) {// とりあえず
 			return;
 		}
 		resolveCreatedVariable(block.getBeforeID());

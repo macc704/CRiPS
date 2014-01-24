@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bc.b2j.analyzer.BlockToJavaAnalyzer;
+import bc.classblockfilewriters.MethodAnalyzer;
 
 public class ProcedureBlockModel extends CommandBlockModel {
 
@@ -21,6 +22,22 @@ public class ProcedureBlockModel extends CommandBlockModel {
 		if (getAfterID() != BlockModel.NULL) {
 			BlockToJavaAnalyzer.getBlock(getAfterID()).checkError();
 		}
+	}
+
+	public String getKey() {
+		String key = getLabel() + "[";
+		ArrayList<Integer> connectorIDs = getConnectorIDs();
+		for (int i = 0; i + 1 < connectorIDs.size(); i++) {
+			int connectorID = connectorIDs.get(i);
+			String type = BlockToJavaAnalyzer.getBlock(connectorID).getType();
+			if (type.equals("double-number") || type.equals("double")) {
+				type = "int";
+			}
+			type = MethodAnalyzer.convertBlockConnectorType(type);
+			key += "@" + type;
+		}
+		key += "]";
+		return key;
 	}
 
 	@Override

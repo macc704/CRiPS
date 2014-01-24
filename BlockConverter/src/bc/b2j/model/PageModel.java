@@ -107,9 +107,7 @@ public class PageModel extends BlockModel {
 			procedure.print(ps, 0);
 			String blockString = byteArray.toString();
 			BCSystem.out.println("blockString:" + blockString);
-			String name = procedure.getLabel();
-			BCSystem.out.println("name:" + name);
-			out.replace(name, blockString);
+			out.replace(procedure.getKey(), blockString);
 		}
 	}
 	/*

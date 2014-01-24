@@ -5,7 +5,9 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -15,9 +17,11 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import bc.BCSystem;
+import bc.classblockfilewriters.MethodAnalyzer;
 import bc.j2b.analyzer.JavaCommentManager;
 import bc.utils.ASTParserWrapper;
 import bc.utils.FileReader;
@@ -92,9 +96,10 @@ public class OutputSourceModel {
 
 		// "今ある順の"　後ろから置き換え処理 (しないと，後のメソッド位置が都度後方へずれるため)
 		List<MethodDeclaration> methods = getMethods();
+
 		Collections.reverse(methods);
 		for (MethodDeclaration method : methods) {
-			String name = method.getName().toString();
+			String name = convertMethodNameToBlockMethodName(method);
 			if ((method.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
 				continue;
 			}
@@ -119,6 +124,24 @@ public class OutputSourceModel {
 		ps.close();
 	}
 
+	private String convertMethodNameToBlockMethodName(MethodDeclaration method) {
+		String fullName = method.getName().toString() + "[";
+		for (int i = 0; i < method.parameters().size(); i++) {
+			SingleVariableDeclaration param = (SingleVariableDeclaration) method
+					.parameters().get(i);
+			String paramType = param.getType().toString();
+			if (paramType.equals("double")) {
+				paramType = "int";
+			}
+			fullName += "@"
+					+ MethodAnalyzer.convertBlockConnectorType(paramType);
+
+		}
+		fullName += "]";
+
+		return fullName;
+	}
+
 	private void createPrivateValues() throws Exception {// #ohata added
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		// check
@@ -133,7 +156,7 @@ public class OutputSourceModel {
 	private void createNewMethods() throws Exception {
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		// check
-		List<String> newNames = calcNewNames();
+		Map<String, String> newNames = calcNewNames();
 
 		if (newNames.size() <= 0) {
 			return;
@@ -186,13 +209,26 @@ public class OutputSourceModel {
 	 * 
 	 * }
 	 */
-	private void createNewMethods(List<String> newNames) throws Exception {
+	private void createNewMethods(Map<String, String> newNames)
+			throws Exception {
 		String src = FileReader.readFile(file, enc);
 
 		int cursor = getLastMethodFinishPosition();
 
-		for (String newName : newNames) {
-			String newStub = "\n\n" + "void " + newName + "(){}";
+		for (String key : newNames.keySet()) {
+			List<String> parameters = getParameters(key);
+
+			String newStub = "\n\n" + "void " + newNames.get(key) + "(";
+			// 一時的な引数をつける処理
+			for (int i = 0; i < parameters.size(); i++) {
+				String param = parameters.get(0) + " s" + String.valueOf(i);
+				newStub += param;
+				if (i + 1 < parameters.size()) {
+					newStub += ",";
+				}
+			}
+			newStub += "){}";
+
 			String newSrc = src.substring(0, cursor) + newStub
 					+ src.substring(cursor);
 			src = newSrc;
@@ -201,6 +237,39 @@ public class OutputSourceModel {
 		PrintStream ps = new PrintStream(file, enc);
 		ps.print(src);
 		ps.close();
+	}
+
+	private String restoreParameter(String parameter) {
+		String param;
+
+		if ("number".equals(parameter)) {
+			param = "int";
+		} else if ("boolean".equals(parameter)) {
+			param = "boolean";
+		} else if ("string".equals(parameter)) {
+			param = "String";
+		} else {
+			param = "Object";
+		}
+
+		return param;
+	}
+
+	private List<String> getParameters(String method) {
+		Pattern p = Pattern.compile("@[a-z]+");
+		List<String> parameters = new LinkedList<String>();
+		while (true) {
+			Matcher m = p.matcher(method);
+			if (m.find()) {
+				parameters.add(restoreParameter(m.group().substring(1)));
+				method = method.substring(method.indexOf(m.group())
+						+ m.group().length());
+			} else {
+				break;
+			}
+		}
+
+		return parameters;
 	}
 
 	private int getFirstMethodBeginPosition() {
@@ -264,15 +333,15 @@ public class OutputSourceModel {
 		return newNames;
 	}
 
-	private List<String> calcNewNames() {
+	private Map<String, String> calcNewNames() {
 		BCSystem.out.println("calc newNames");
-		List<String> newNames = new ArrayList<String>();
+		Map<String, String> newNames = new HashMap<String, String>();
 		List<String> names = new ArrayList<String>(requests.keySet());
 
 		for (String name : names) {
 			BCSystem.out.println("name:" + name);
 			if (findMethod(name) == null) {
-				newNames.add(name);
+				newNames.put(name, name.substring(0, name.indexOf("[")));
 			}
 		}
 
@@ -295,9 +364,7 @@ public class OutputSourceModel {
 			throw new RuntimeException(
 					"More than two Class Declaration has been Found.");
 		}
-		BCSystem.out.println("types.get(0).getMethods:"
-				+ types.get(0).getMethods());
-		BCSystem.out.println("get(0) end");
+
 		return Arrays.asList(types.get(0).getMethods());
 	}
 
@@ -368,7 +435,7 @@ public class OutputSourceModel {
 
 	private MethodDeclaration findMethod(String name) {
 		for (MethodDeclaration method : getMethods()) {
-			if (method.getName().toString().equals(name)) {
+			if (convertMethodNameToBlockMethodName(method).equals(name)) {
 				return method;
 			}
 		}

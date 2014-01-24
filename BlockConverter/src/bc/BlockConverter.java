@@ -21,11 +21,12 @@ public class BlockConverter {
 	public static final String[] DATA_BLOCKNAMES = { "toIntFromDouble",
 			"toIntFromString", "toDoubleFromInt", "toDoubleFromString",
 			"toStringFromInt", "toStringFromDouble", "toStringFromObject",
-			"double-number", "number", "string", "true", "false", "pi", "e",
-			"gettermember-ver-int-number", "gettermember-ver-double-number",
-			"gettermember-var-string", "gettermember-var-boolean",
-			"getterlocal-var-int-number", "getterlocal-var-double-number",
-			"getterlocal-var-string", "getterlocal-var-boolean", "new-object", /* ! */
+			"toStringFromString", "double-number", "number", "string", "true",
+			"false", "pi", "e", "gettermember-ver-int-number",
+			"gettermember-ver-double-number", "gettermember-var-string",
+			"gettermember-var-boolean", "getterlocal-var-int-number",
+			"getterlocal-var-double-number", "getterlocal-var-string",
+			"getterlocal-var-boolean", "new-object", /* ! */
 			"getterlocal-var-object", "null" };
 
 	// ‰‰ŽZŽq‚ÍƒRƒR‚É“o˜^
@@ -103,7 +104,9 @@ public class BlockConverter {
 			"isLeftMouseDown", "getMouseX", "getMouseY", "isKeyPressing",
 			"isKeyCode", "isKeyDown", "getKeyCode", "getImageWidth",
 			"getImageHeight", "getCanvas", "getVolume", "getDefaultVolume",
-			"size", "get" };
+			"size", "get", "Math.random", "Math.sqrt", "Math.sin", "Math.cos",
+			"Math.tan", "Math.log", "Math.toRadians", "getCanvasWidth",
+			"getCanvasHeight" };
 
 	public static final String[] ALL_DATA_BLOCKNAMES;
 

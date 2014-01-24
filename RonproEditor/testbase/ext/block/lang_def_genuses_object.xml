@@ -1557,6 +1557,7 @@
 
 <BlockGenus name="remove[@number]" kind="command" initlabel="要素を削除する"
 	color="255 255 100">
+    <JavaLabel>remove</JavaLabel>
 	<BlockConnectors>
 		<BlockConnector label="どこの？" connector-kind="socket"
 			connector-type="number" />
@@ -1565,6 +1566,7 @@
 
 <BlockGenus name="get" kind="data" initlabel="要素を取り出す"
 	color="255 255 100">
+    <JavaLabel>get</JavaLabel>
 	<BlockConnectors>
         <BlockConnector label="" connector-kind="plug"
         connector-type="object" />
@@ -1575,6 +1577,7 @@
 
 <BlockGenus name="remove[@object]" kind="command" initlabel="要素を削除する"
 	color="255 255 100">
+    <JavaLabel>remove</JavaLabel>
 	<BlockConnectors>
 		<BlockConnector label="どれを？" connector-kind="socket"
         connector-type="object" />
