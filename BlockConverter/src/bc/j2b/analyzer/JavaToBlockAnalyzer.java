@@ -1344,7 +1344,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		StLocalVariableModel model = new StLocalVariableModel(argument);
 
 		model.setArray(array);
-		createSuperModel();
 
 		model.setJavaVariableType(type);
 
@@ -2027,7 +2026,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	public ExCallMethodModel parseMethodCallExpression(MethodInvocation node) {
 		ExCallMethodModel model;
 		String name;
-		System.out.println(node.getExpression().toString());
 		Expression caller = node.getExpression();
 		String analyzingSourceName = this.commentGetter.getSourceName();
 
@@ -2048,7 +2046,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				name += ("@" + paramType);
 			}
 			name += "]";
-			System.out.println(name);
+
 			model.setJavaType(methodResolver.getMethodJavaReturnType(name));
 			name = node.getName().toString();
 		} else if (methodResolver.isRegisteredAsProjectMethod(node)

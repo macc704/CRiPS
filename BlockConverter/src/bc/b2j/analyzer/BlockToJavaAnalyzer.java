@@ -159,7 +159,6 @@ public class BlockToJavaAnalyzer {
 			NamedNodeMap BlockAttrs = block.getAttributes();
 			String genus_name = BlockAttrs.getNamedItem("genus-name")
 					.getNodeValue();
-			System.out.println(genus_name);
 
 			if ("procedure".equals(genus_name)) {
 				ProcedureBlockModel model = new ProcedureBlockModel();

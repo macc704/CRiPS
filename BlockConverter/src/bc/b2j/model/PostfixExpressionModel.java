@@ -9,7 +9,6 @@ public class PostfixExpressionModel extends BlockModel {
 
 	@Override
 	public void checkError() {
-		System.out.println(getBeforeID());
 		resolveCreatedVariable(getBeforeID());
 		if (getConnectorIDs().get(0) == BlockModel.NULL) {
 			throw new RuntimeException("ブロックが完全に組まれていませんE： " + getGenusName());

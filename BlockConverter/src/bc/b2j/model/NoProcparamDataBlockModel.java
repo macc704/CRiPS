@@ -133,11 +133,9 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		} else if (getGenusName().endsWith("FromObject")) {
 			BlockModel blockModel = BlockToJavaAnalyzer
 					.getBlock(getConnectorIDs().get(0));
-			out.print("(");
 			out.print("(" + getJavaType());
 			out.print(")");
 			blockModel.print(out, indent);
-			out.print(")");
 		}
 
 		/*
@@ -214,14 +212,13 @@ public class NoProcparamDataBlockModel extends BlockModel {
 	}
 
 	public String getType() {
-		System.out.println(stubParentID);
-
 		if (!stubParentID.equals("null")) {
 			return BlockToJavaAnalyzer.getBlock(Integer.valueOf(stubParentID))
 					.getJavaType();
-		} else {// thisValue
+		} else if (getName().contains("this")) {// thisValue
 			return getJavaType();
+		} else {
+			return super.getType();
 		}
-
 	}
 }
