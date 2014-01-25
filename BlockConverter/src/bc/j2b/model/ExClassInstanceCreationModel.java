@@ -68,6 +68,9 @@ public class ExClassInstanceCreationModel extends ExpressionModel {
 		} else if (name.equals("ArrayList")) {
 			out.println("<Block id=\"" + getId()
 					+ "\" genus-name=\"new-listobject\">");
+		} else if (name.equals("LinkedList")) {
+			out.println("<Block id=\"" + getId()
+					+ "\" genus-name=\"new-linkedlistobject\">");
 		} else {
 			out.println("<Block id=\"" + getId()
 					+ "\" genus-name=\"new-object\">");

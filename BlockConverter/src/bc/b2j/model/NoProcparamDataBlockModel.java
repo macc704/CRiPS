@@ -133,9 +133,11 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		} else if (getGenusName().endsWith("FromObject")) {
 			BlockModel blockModel = BlockToJavaAnalyzer
 					.getBlock(getConnectorIDs().get(0));
+			out.print("(");
 			out.print("(" + getJavaType());
 			out.print(")");
 			blockModel.print(out, indent);
+			out.print(")");
 		}
 
 		/*
@@ -198,6 +200,14 @@ public class NoProcparamDataBlockModel extends BlockModel {
 			}
 		} else if (getGenusName().startsWith("new-listobject")) {
 			out.print("new ArrayList<");
+			ArrayList<Integer> connectorIDs = getConnectorIDs();
+			for (int connectorID : connectorIDs) {
+				BlockModel block = BlockToJavaAnalyzer.getBlock(connectorID);
+				block.print(out, indent);
+			}
+			out.print(">()");
+		} else if (getGenusName().startsWith("new-linkedlistobject")) {
+			out.print("new LinkedList<");
 			ArrayList<Integer> connectorIDs = getConnectorIDs();
 			for (int connectorID : connectorIDs) {
 				BlockModel block = BlockToJavaAnalyzer.getBlock(connectorID);

@@ -106,7 +106,7 @@ public class BlockConverter {
 			"getImageHeight", "getCanvas", "getVolume", "getDefaultVolume",
 			"size", "get", "Math.random", "Math.sqrt", "Math.sin", "Math.cos",
 			"Math.tan", "Math.log", "Math.toRadians", "getCanvasWidth",
-			"getCanvasHeight" };
+			"getCanvasHeight", "removeFirst" };
 
 	public static final String[] ALL_DATA_BLOCKNAMES;
 

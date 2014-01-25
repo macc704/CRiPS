@@ -884,6 +884,40 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+
+<BlockGenus name="new-linkedlistobject" kind="function" initlabel="LinkedList"
+	header-label="新しく" footer-label="を作る" color="16 240 27">
+	<description>
+		<text>
+			指定した型のリストを生成します
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
+		<BlockConnector label="何型の？" connector-kind="socket"
+			connector-type="poly">
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="getter" kind="object">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter" kind="object">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
 <BlockGenus name="local-var-listobject" kind="local-variable"
 	initlabel="t" header-label="List型の変数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">

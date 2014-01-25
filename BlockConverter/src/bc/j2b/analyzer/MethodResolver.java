@@ -95,7 +95,7 @@ public class MethodResolver {
 		methodToReturnType.put("addLast(1)", "void");
 		methodToReturnType.put("addAll(1)", "void");
 		methodToReturnType.put("moveAllTo(1)", "void");
-		methodToReturnType.put("removeFirst()", "void");
+		methodToReturnType.put("removeFirst()", "Object");
 		methodToReturnType.put("removeLast()", "void");
 		methodToReturnType.put("removeAll()", "void");
 		methodToReturnType.put("getCursor()", "int");

@@ -909,7 +909,11 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="removeFirst" kind="command" initlabel="最初の要素を削除する" color="255 255 100">
+<BlockGenus name="removeFirst" kind="data" initlabel="最初の要素を削除して取り出す" color="255 255 100">
+    <BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="object" position-type="single"/>
+	</BlockConnectors>
+    <JavaType>Object</JavaType>
 </BlockGenus>
 
 <BlockGenus name="removeLast" kind="command" initlabel="最後の要素を削除する" color="255 255 100">
