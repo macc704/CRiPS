@@ -145,13 +145,19 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	public JavaToBlockAnalyzer(File file, String enc,
-			Map<String, String> addedMethods, List<String> addedClasses) {
+			Map<String, String> addedMethods,
+			Map<String, String> addedMethodsJavaType, List<String> addedClasses) {
 		this.commentGetter = new JavaCommentManager(file, enc);
 		createThisModel();
 		createSuperModel();
 		for (String method : addedMethods.keySet()) {
 			methodResolver
 					.addMethodReturnType(method, addedMethods.get(method));
+		}
+
+		for (String method : addedMethodsJavaType.keySet()) {
+			methodResolver.addMethodJavaReturnType(method,
+					addedMethodsJavaType.get(method));
 		}
 
 		for (String name : addedClasses) {
@@ -2044,6 +2050,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 			model.setLabel(node.getName().toString());
 			model.setJavaLabel(node.getName().toString());
+			model.setJavaType(methodResolver.getMethodJavaReturnType(name));
 		} else {
 			model = new ExCallMethodModel();
 			name = node.getName().toString();

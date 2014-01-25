@@ -206,4 +206,8 @@ public class NoProcparamDataBlockModel extends BlockModel {
 			out.print("java.awt.Color." + getGenusName());
 		}
 	}
+
+	public String getType() {
+		return BlockToJavaAnalyzer.getBlock(getParentID()).getJavaType();
+	}
 }

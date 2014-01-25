@@ -58,6 +58,7 @@ public class MethodAnalyzer extends ASTVisitor {
 			if (node.getReturnType2() != null) {
 				model.setReturnType(convertBlockConnectorType(node
 						.getReturnType2().toString()));
+				model.setJavaType(node.getReturnType2().toString());
 			}
 
 			String fullName = node.getName().toString() + "[";

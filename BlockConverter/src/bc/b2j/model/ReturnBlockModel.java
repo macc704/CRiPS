@@ -54,6 +54,8 @@ public class ReturnBlockModel extends CommandBlockModel {
 
 		BlockConnectorModel socket = getSockets().get(0);
 		String blocktype = socket.getType();
+		System.out.println(BlockToJavaAnalyzer.getBlock(
+				getSockets().get(0).getId()).getType());
 		if (blocktype.equals("number")) {
 			return "int";
 		} else if (blocktype.equals("double-number")) {
@@ -62,6 +64,9 @@ public class ReturnBlockModel extends CommandBlockModel {
 			return "boolean";
 		} else if (blocktype.equals("string")) {
 			return "String";
+		} else if (blocktype.equals("object")) {
+			return BlockToJavaAnalyzer.getBlock(getSockets().get(0).getId())
+					.getType();
 		}
 		return "void";
 	}

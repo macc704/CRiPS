@@ -95,7 +95,7 @@ public class PageModel extends BlockModel {
 			constructor.print(ps, 0);
 			String blockString = byteArray.toString();
 			BCSystem.out.println("blockString:" + blockString);
-			String name = constructor.getLabel();
+			String name = constructor.getKey();
 			BCSystem.out.println("name:" + name);
 			out.replace(name, blockString);
 		}

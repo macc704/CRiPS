@@ -334,18 +334,18 @@ public class OutputSourceModel {
 	}
 
 	private Map<String, String> calcNewNames() {
-		BCSystem.out.println("calc newNames");
+		System.out.println("calc newNames");
 		Map<String, String> newNames = new HashMap<String, String>();
 		List<String> names = new ArrayList<String>(requests.keySet());
 
 		for (String name : names) {
-			BCSystem.out.println("name:" + name);
+			System.out.println("name:" + name);
 			if (findMethod(name) == null) {
 				newNames.put(name, name.substring(0, name.indexOf("[")));
 			}
 		}
 
-		BCSystem.out.println("calc New Names return :" + newNames);
+		System.out.println("calc New Names return :" + newNames);
 		return newNames;
 	}
 

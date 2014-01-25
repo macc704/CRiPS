@@ -23,13 +23,22 @@ public abstract class BlockModel {
 	private int posY = 0;
 	private String comment = "";
 	private ArrayList<String> parameterizedType;
-	private String javaType;
-	private String javaLabel;
+	private String javaType;// javaの型
+	private String javaLabel;// javaのラベル　メソッド用
+	private int parentID = -1;// 変数ブロックの親のID
 
 	// Defines a NULL id for a Block
 	public static final int NULL = Integer.valueOf(-1);
 
 	public BlockModel() {
+	}
+
+	public void setParentID(int id) {
+		this.parentID = id;
+	}
+
+	public int getParentID() {
+		return this.parentID;
 	}
 
 	/**

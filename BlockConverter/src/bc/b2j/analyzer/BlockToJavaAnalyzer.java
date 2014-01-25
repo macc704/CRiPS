@@ -370,6 +370,8 @@ public class BlockToJavaAnalyzer {
 					}
 				}
 				model.setParameterizedType(types);
+			} else if (blockInfo.getNodeName() == "ParentID") {
+				model.setParentID((Integer.parseInt(blockInfo.getTextContent())));
 			} else if (blockInfo.getNodeName() == "BeforeBlockId") {
 				model.setBeforeID(Integer.parseInt(blockInfo.getTextContent()));
 			} else if (blockInfo.getNodeName() == "AfterBlockId") {

@@ -55,7 +55,8 @@ public class JavaToBlockMain {
 
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
 		JavaToBlockAnalyzer visitor = new JavaToBlockAnalyzer(file, enc,
-				rewriter.getAddedMethods(), rewriter.getAddedClasses());
+				rewriter.getAddedMethods(), rewriter.getAddedMethodsJavaType(),
+				rewriter.getAddedClasses());
 
 		unit.accept(visitor);
 

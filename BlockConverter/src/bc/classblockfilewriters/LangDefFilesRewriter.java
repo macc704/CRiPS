@@ -22,6 +22,7 @@ public class LangDefFilesRewriter {
 	private FileInputStream ldfReader;
 	private String javaFileName;
 	private Map<String, String> addedMethods = new HashMap<String, String>();
+	private Map<String, String> addedMethodsJavaType = new HashMap<String, String>();
 	private List<ConvertBlockModel> requestConvertBlockModel = new LinkedList<ConvertBlockModel>();
 
 	public LangDefFilesRewriter(File file, String javaFileName) {
@@ -176,9 +177,12 @@ public class LangDefFilesRewriter {
 								if (paramSize.equals("0")) {
 									paramSize = "";
 								}
-								this.addedMethods.put(method.getName() + "("
-										+ paramSize + ")",
+								String addedMethodName = method.getName() + "("
+										+ paramSize + ")";
+								this.addedMethods.put(addedMethodName,
 										method.getReturnType());
+								this.addedMethodsJavaType.put(addedMethodName,
+										method.getJavaType());
 							}
 						}
 					}
@@ -243,6 +247,10 @@ public class LangDefFilesRewriter {
 
 	public Map<String, String> getAddedMethods() {
 		return this.addedMethods;
+	}
+
+	public Map<String, String> getAddedMethodsJavaType() {
+		return this.addedMethodsJavaType;
 	}
 
 	public void makeIndent(PrintStream out, int number) {

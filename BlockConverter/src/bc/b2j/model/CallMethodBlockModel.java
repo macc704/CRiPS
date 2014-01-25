@@ -227,4 +227,9 @@ public class CallMethodBlockModel extends CommandBlockModel {
 			return null;
 		}
 	}
+
+	public String getType() {
+		return getJavaType();
+	}
+
 }

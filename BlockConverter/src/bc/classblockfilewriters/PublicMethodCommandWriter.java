@@ -24,6 +24,8 @@ public class PublicMethodCommandWriter extends BasicModel {
 
 		makeIndent(out, lineNum + 1);
 		out.println("<JavaLabel>" + method.getName() + "</JavaLabel>");
+		makeIndent(out, lineNum + 1);
+		out.println("<JavaType>" + method.getReturnType() + "</JavaType>");
 
 		makeIndent(out, ++lineNum);
 		if (method.getParameters() != null) {

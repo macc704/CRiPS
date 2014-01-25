@@ -228,6 +228,7 @@ public class MethodResolver {
 
 	private Map<String, String> userMethods = new HashMap<String, String>();
 	private Map<String, String> projectMethods = new HashMap<String, String>();
+	private Map<String, String> projectMethodsJavaTypes = new HashMap<String, String>();// 返り値付きメソッドの本当の返り値をここに保存する...
 	private List<String> userConstructor = new ArrayList<String>();
 
 	public boolean isRegisteredAsUserMethod(MethodInvocation method) {
@@ -312,6 +313,14 @@ public class MethodResolver {
 	public void addMethodReturnType(String name, String returnType) {
 		methodToReturnType.put(name, returnType);
 		projectMethods.put(name, returnType);
+	}
+
+	public void addMethodJavaReturnType(String name, String returnType) {
+		projectMethodsJavaTypes.put(name, returnType);
+	}
+
+	public String getMethodJavaReturnType(String name) {
+		return projectMethodsJavaTypes.get(name);
 	}
 
 	public void addArgumentLabels(String signature, List<String> arguments) {

@@ -21,6 +21,7 @@ public class LangDefFilesReWriterMain {
 	private String[] classpaths;
 	private BufferedReader br;
 	private Map<String, String> addedMethods = new HashMap<String, String>();
+	private Map<String, String> addedMethodsJavaType = new HashMap<String, String>();
 	private List<String> addedClasses = new LinkedList<String>();
 
 	private Map<String, Family> familyList = new HashMap<String, Family>();
@@ -107,6 +108,8 @@ public class LangDefFilesReWriterMain {
 				selfDefModel.printMenu(projectMenuFile, turtleMenu);
 				selfDefModel.printGenus();
 				this.addedMethods = selfDefModel.getAddedMethods();
+				this.addedMethodsJavaType = selfDefModel
+						.getAddedMethodsJavaType();
 				return;
 			}
 		}
@@ -186,6 +189,10 @@ public class LangDefFilesReWriterMain {
 
 	public Map<String, String> getAddedMethods() {
 		return this.addedMethods;
+	}
+
+	public Map<String, String> getAddedMethodsJavaType() {
+		return this.addedMethodsJavaType;
 	}
 
 	private Boolean existCurrentDirectry(String fileName) {

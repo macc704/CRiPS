@@ -118,4 +118,10 @@ public class ReferenceBlockModel extends BlockModel {
 		}
 	}
 
+	public String getType() {
+		BlockModel method = BlockToJavaAnalyzer.getBlock(getConnectorIDs().get(
+				1));
+		return method.getType();
+	}
+
 }

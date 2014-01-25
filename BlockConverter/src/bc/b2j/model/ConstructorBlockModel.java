@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bc.b2j.analyzer.BlockToJavaAnalyzer;
+import bc.classblockfilewriters.MethodAnalyzer;
 
 public class ConstructorBlockModel extends CommandBlockModel {
 	// #ohata added
-	
+
 	private String uri;
-	
+
 	@Override
 	public void checkError() {
 
@@ -26,12 +27,28 @@ public class ConstructorBlockModel extends CommandBlockModel {
 		}
 	}
 
+	public String getKey() {
+		String key = uri + "[";
+		ArrayList<Integer> connectorIDs = getConnectorIDs();
+		for (int i = 0; i + 1 < connectorIDs.size(); i++) {
+			int connectorID = connectorIDs.get(i);
+			String type = BlockToJavaAnalyzer.getBlock(connectorID).getType();
+			if (type.equals("double-number") || type.equals("double")) {
+				type = "int";
+			}
+			type = MethodAnalyzer.convertBlockConnectorType(type);
+			key += "@" + type;
+		}
+		key += "]";
+		return key;
+	}
+
 	@Override
 	public void print(PrintStream out, int indent) {
-		//makeIndent(out, indent); 
-		
-		//BlockToJavaAnalyzer.getBlock(373).print(out, indent);
-		//main の先頭ラインを獲得して、それより前に書き込む必要
+		// makeIndent(out, indent);
+
+		// BlockToJavaAnalyzer.getBlock(373).print(out, indent);
+		// main の先頭ラインを獲得して、それより前に書き込む必要
 		out.print("public");
 		out.print(" ");
 		out.print(" " + uri + "(");
@@ -51,12 +68,14 @@ public class ConstructorBlockModel extends CommandBlockModel {
 			BlockToJavaAnalyzer.getBlock(getAfterID()).print(out, indent + 1);
 		}
 		makeIndent(out, indent);
-		if(isCollapsed()){
-			out.print("}//" + getComment() + "@(" + getX() + ", " + getY() + ")" + " [close]");	
-		}else{
-			out.print("}//" + getComment() + "@(" + getX() + ", " + getY() + ")" + " [open]");
+		if (isCollapsed()) {
+			out.print("}//" + getComment() + "@(" + getX() + ", " + getY()
+					+ ")" + " [close]");
+		} else {
+			out.print("}//" + getComment() + "@(" + getX() + ", " + getY()
+					+ ")" + " [open]");
 		}
-		
+
 	}
 
 	public List<BlockModel> getAllChildren() {
@@ -82,8 +101,8 @@ public class ConstructorBlockModel extends CommandBlockModel {
 		return children;
 	}
 
-	public void setURI(String str){
+	public void setURI(String str) {
 		uri = str;
 	}
-	
+
 }

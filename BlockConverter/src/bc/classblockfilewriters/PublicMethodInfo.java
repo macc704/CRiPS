@@ -8,9 +8,10 @@ public class PublicMethodInfo extends BasicModel {
 
 	private String methodName;
 	private String modifier;
-	private String returnType;
+	private String returnType;// メソッドの返り値　ただし、ここでのreturnTypeはコネクターの形の5種類になっている
 	private String fullName;
 	private List<String> parameters = new ArrayList<String>();
+	private String javaType;// こちらをメソッドの素の返り値の型とする
 
 	public PublicMethodInfo(String name, String kind, String initialLabel,
 			String headerLabel, String footerLabel, String color) {
@@ -26,6 +27,14 @@ public class PublicMethodInfo extends BasicModel {
 	}
 
 	public PublicMethodInfo() {
+	}
+
+	public void setJavaType(String returnType) {
+		this.javaType = returnType;
+	}
+
+	public String getJavaType() {
+		return this.javaType;
 	}
 
 	public void setName(String name) {
