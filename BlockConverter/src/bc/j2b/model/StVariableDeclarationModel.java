@@ -51,6 +51,10 @@ public class StVariableDeclarationModel extends StatementModel implements
 		this.javaVariableType = javaVariableType;
 	}
 
+	public String getJavaVariableType() {
+		return javaVariableType;
+	}
+
 	public boolean isProjectObject() {
 		return this.isProjectObject;
 	}

@@ -7,6 +7,12 @@ import bc.b2j.analyzer.BlockToJavaAnalyzer;
 
 public class NoProcparamDataBlockModel extends BlockModel {
 
+	private String stubParentID;
+
+	public void setStubParentID(String id) {
+		stubParentID = id;
+	}
+
 	@Override
 	public void checkError() {
 		// #matsuzawa âûã}èàíu 2012.11.24
@@ -208,6 +214,14 @@ public class NoProcparamDataBlockModel extends BlockModel {
 	}
 
 	public String getType() {
-		return BlockToJavaAnalyzer.getBlock(getParentID()).getJavaType();
+		System.out.println(stubParentID);
+
+		if (!stubParentID.equals("null")) {
+			return BlockToJavaAnalyzer.getBlock(Integer.valueOf(stubParentID))
+					.getJavaType();
+		} else {// thisValue
+			return getJavaType();
+		}
+
 	}
 }

@@ -81,6 +81,11 @@ public class ExVariableGetterModel extends ExpressionModel {
 		// label
 		makeIndent(out, indent + 2);
 		out.println("<Label>" + variable.getName() + "</Label>");
+		if (variable.getGenusName().equals("this")) {
+			makeIndent(out, indent + 2);
+			out.println("<JavaType>" + variable.getJavaVariableType()
+					+ "</JavaType>");
+		}
 		// lineNumber
 		makeIndent(out, indent + 2);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");

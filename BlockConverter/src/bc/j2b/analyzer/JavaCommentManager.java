@@ -11,9 +11,16 @@ import bc.utils.FileReader;
 public class JavaCommentManager {
 
 	private String source;
+	private String sourceName;
 
 	public JavaCommentManager(File file, String enc) {
 		source = FileReader.readFile(file, enc);
+		sourceName = file.getName().substring(0,
+				file.getName().indexOf(".java"));
+	}
+
+	public String getSourceName() {
+		return this.sourceName;
 	}
 
 	/**

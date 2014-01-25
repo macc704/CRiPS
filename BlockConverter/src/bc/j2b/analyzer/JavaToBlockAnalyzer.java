@@ -1383,6 +1383,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		StThisVariableModel model = new StThisVariableModel();
 		model.setType("object");
 		model.setName("Ž©•ª");
+		model.setJavaVariableType(commentGetter.getSourceName());
 
 		model.setId(idCounter.getNextId());
 		variableResolver.setThisValue(model);
@@ -2026,9 +2027,29 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	public ExCallMethodModel parseMethodCallExpression(MethodInvocation node) {
 		ExCallMethodModel model;
 		String name;
-		if (methodResolver.isRegisteredAsUserMethod(node)) {
+		System.out.println(node.getExpression().toString());
+		Expression caller = node.getExpression();
+		String analyzingSourceName = this.commentGetter.getSourceName();
+
+		if (methodResolver.isRegisteredAsUserMethod(node)
+				&& (caller == null || caller.toString().equals("this") || variableResolver
+						.resolve(caller.toString()).getJavaVariableType()
+						.equals(analyzingSourceName))) {
 			model = new ExCallUserMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+			name = node.getName().toString() + "[";
+			for (Object param : node.arguments()) {
+				String paramType = ElementModel
+						.getConnectorType(parseExpression(((Expression) param))
+								.getType());
+				if (paramType.equals("double-number")) {
+					paramType = "number";
+				}
+				name += ("@" + paramType);
+			}
+			name += "]";
+			System.out.println(name);
+			model.setJavaType(methodResolver.getMethodJavaReturnType(name));
 			name = node.getName().toString();
 		} else if (methodResolver.isRegisteredAsProjectMethod(node)
 				|| node.getName().toString().equals("drawFillArc")

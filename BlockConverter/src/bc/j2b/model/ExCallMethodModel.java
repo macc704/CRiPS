@@ -42,6 +42,10 @@ public class ExCallMethodModel extends ExpressionModel {
 		this.javaLabel = label;
 	}
 
+	protected String getJavaType() {
+		return this.javaType;
+	}
+
 	public void addArgument(ExpressionModel arg) {
 		// if (arg == null) {
 		// throw new RuntimeException();

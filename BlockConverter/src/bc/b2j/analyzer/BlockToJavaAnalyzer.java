@@ -135,6 +135,7 @@ public class BlockToJavaAnalyzer {
 	private void resolveBlock(Node node, PageModel pageModel) {
 
 		Node blockNode = node;
+		String parentBlockID = null;
 
 		while (blockNode.getNodeName() != "Block"
 				&& blockNode.getNodeName() != "BlockStub") {
@@ -148,6 +149,9 @@ public class BlockToJavaAnalyzer {
 			if (block.getNodeName() == "BlockStub") {
 				block = block.getFirstChild();
 				while (block.getNodeName() != "Block") {
+					if (block.getNodeName() == "StubParentID") {
+						parentBlockID = block.getTextContent();
+					}
 					block = block.getNextSibling();
 				}
 			}
@@ -182,9 +186,12 @@ public class BlockToJavaAnalyzer {
 				CallMethodBlockModel model = new CallMethodBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
-			} else if (isDataBlock(genus_name)) {// isMethodCall
+			} else if (isDataBlock(genus_name)) {// ここが変数の参照ブロックを解析するはず
 				NoProcparamDataBlockModel model = new NoProcparamDataBlockModel();
 				parseBlock(block, model);
+				if (parentBlockID != null) {
+					model.setStubParentID(parentBlockID);
+				}
 				blockNode = blockNode.getNextSibling();
 			} else if (isInfixCommandBlock(genus_name)) {
 				InfixCommandBlockModel model = new InfixCommandBlockModel();

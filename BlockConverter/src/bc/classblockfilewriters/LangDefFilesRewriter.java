@@ -181,7 +181,8 @@ public class LangDefFilesRewriter {
 										+ paramSize + ")";
 								this.addedMethods.put(addedMethodName,
 										method.getReturnType());
-								this.addedMethodsJavaType.put(addedMethodName,
+								this.addedMethodsJavaType.put(
+										method.getFullName(),
 										method.getJavaType());
 							}
 						}

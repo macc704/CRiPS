@@ -719,4 +719,23 @@ public class BlockStub extends Block {
 		buf.append("</BlockStub>");
 		return buf.toString();
 	}
+
+	public String getSaveString(int x, int y, String commentSaveString,
+			boolean collapsed, String comment) {
+		StringBuffer buf = new StringBuffer();
+		buf.append("<BlockStub>");
+		buf.append("<StubParentName>");
+		buf.append(parentName);
+		buf.append("</StubParentName>");
+		buf.append("<StubParentGenus>");
+		buf.append(parentGenus);
+		buf.append("</StubParentGenus>");
+		buf.append("<StubParentID>");
+		buf.append(parentNameToParentBlock.get(parentName + parentGenus));
+		buf.append("</StubParentID>");
+		buf.append(super.getSaveString(x, y, commentSaveString, collapsed,
+				comment));
+		buf.append("</BlockStub>");
+		return buf.toString();
+	}
 }

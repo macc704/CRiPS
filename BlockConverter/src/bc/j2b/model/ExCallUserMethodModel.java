@@ -51,6 +51,11 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 		// user method special(3)
 		makeIndent(out, indent);
 		out.println("<Label>" + getName() + "</Label>");
+		// javaType
+		if (getJavaType() != null) {
+			makeIndent(out, indent);
+			out.println("<JavaType>" + getJavaType() + "</JavaType>");
+		}
 		// lineNumber
 		makeIndent(out, indent + 1);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");

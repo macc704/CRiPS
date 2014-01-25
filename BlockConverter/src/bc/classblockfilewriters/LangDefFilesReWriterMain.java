@@ -120,6 +120,8 @@ public class LangDefFilesReWriterMain {
 		// プロジェクトのオブジェクトブロック情報を出力する
 		selfDefModel.printGenus();
 		this.addedMethods = selfDefModel.getAddedMethods();
+		this.addedMethodsJavaType = selfDefModel
+				.getAddedMethodsJavaType();
 	}
 
 	public List<String> getAddedClasses() {
