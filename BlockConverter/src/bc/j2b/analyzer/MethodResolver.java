@@ -135,7 +135,7 @@ public class MethodResolver {
 		methodToReturnType.put("isDoubleClick()", "boolean");
 		methodToReturnType.put("isDragging()", "boolean");
 		methodToReturnType.put("isRightMouseDown()", "boolean");
-		methodToReturnType.put("isLefttMouseDown()", "boolean");
+		methodToReturnType.put("isLeftMouseDown()", "boolean");
 		methodToReturnType.put("getMouseX()", "int");
 		methodToReturnType.put("getMouseY()", "int");
 		methodToReturnType.put("isKeyPressing(1)", "boolean");
@@ -158,6 +158,7 @@ public class MethodResolver {
 		methodToReturnType.put("getVolume()", "int");
 		methodToReturnType.put("setVolume(1)", "void");
 		methodToReturnType.put("getDefaultVolume()", "int");
+		methodToReturnType.put("isMouseDown()", "boolean");
 
 		// List
 		methodToReturnType.put("size()", "int");

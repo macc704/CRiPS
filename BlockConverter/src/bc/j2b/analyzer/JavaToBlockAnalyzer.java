@@ -1734,7 +1734,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setType(model.getType());
 
 			if (model instanceof ExLeteralModel) {
-				((ExLeteralModel) model).setValue("-1"
+				((ExLeteralModel) model).setValue("-"
 						+ ((ExLeteralModel) model).getValue());
 			} else {
 				ExInfixModel minusModel = new ExInfixModel();
