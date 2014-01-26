@@ -34,6 +34,12 @@ public class ExInfixModel extends ExpressionModel {
 	}
 
 	public String getType() {
+
+		// 左右がpolyだったら、
+		if (left.getType().equals("poly") && right.getType().equals("poly")) {
+			return "poly";
+		}
+
 		if (operator.equals("equals") || operator.equals("instanceof")) {
 			return "boolean";
 		}
@@ -55,6 +61,7 @@ public class ExInfixModel extends ExpressionModel {
 		} else if (getSocketType().equals("number")) {
 			return "number";
 		} else {
+
 			return "string";// TODO 本当にこれでいいのか 2012.11.13 #matsuzawa
 		}
 
@@ -81,6 +88,11 @@ public class ExInfixModel extends ExpressionModel {
 		// if (getType().equals("string")) {
 		// return "string";
 		// }
+		// 左右がpolyだったら、
+		if (left.getType().equals("poly") && right.getType().equals("poly")) {
+			return "poly";
+		}
+
 		if (left.getType().toLowerCase().equals("boolean")
 				|| right.getType().toLowerCase().equals("boolean")) {
 			return "boolean";

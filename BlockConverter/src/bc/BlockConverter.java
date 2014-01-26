@@ -84,7 +84,8 @@ public class BlockConverter {
 			"drawFillArc[@object@number@number@number@number]",
 			"drawFillArc[@object@number@number@number@number@number@number]",
 			"setLocation", "setSize", "getCanvas", "getVolume", "setVolume",
-			"getDefaultVolume", "remove[@number]", "remove[@object]", "get" };
+			"getDefaultVolume", "remove[@number]", "remove[@object]", "get",
+			"isMouseDown" };
 
 	// ñﬂÇËílÇÃÇ†ÇÈÉÅÉ\ÉbÉhÇÕÇ±Ç±Ç…ìoò^ (è„Ç…Ç‡ìoò^ÇµÇ»Ç¢Ç∆É_ÉÅ)
 	public final static String[] FUNCTION_METHODCALL_BLOCKS = { "input",
@@ -106,7 +107,7 @@ public class BlockConverter {
 			"getImageHeight", "getCanvas", "getVolume", "getDefaultVolume",
 			"size", "get", "Math.random", "Math.sqrt", "Math.sin", "Math.cos",
 			"Math.tan", "Math.log", "Math.toRadians", "getCanvasWidth",
-			"getCanvasHeight", "removeFirst" };
+			"getCanvasHeight", "removeFirst", "isMouseDown" };
 
 	public static final String[] ALL_DATA_BLOCKNAMES;
 

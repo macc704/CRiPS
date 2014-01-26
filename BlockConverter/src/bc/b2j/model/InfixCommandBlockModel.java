@@ -95,8 +95,9 @@ public class InfixCommandBlockModel extends CommandBlockModel {
 			out.print("(");
 		}
 
-		if (BlockToJavaAnalyzer.getBlock(getPlugID()).getGenusName()
-				.equals("string-append")) {
+		if (getPlugID() != -1
+				&& BlockToJavaAnalyzer.getBlock(getPlugID()).getGenusName()
+						.equals("string-append")) {
 			out.print("(");
 		}
 
@@ -116,8 +117,9 @@ public class InfixCommandBlockModel extends CommandBlockModel {
 			out.print(")");
 		}
 
-		if (BlockToJavaAnalyzer.getBlock(getPlugID()).getGenusName()
-				.equals("string-append")) {
+		if (getPlugID() != -1
+				&& BlockToJavaAnalyzer.getBlock(getPlugID()).getGenusName()
+						.equals("string-append")) {
 			out.print(")");
 		}
 
