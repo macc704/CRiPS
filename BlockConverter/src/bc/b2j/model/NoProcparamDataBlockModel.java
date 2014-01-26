@@ -222,13 +222,17 @@ public class NoProcparamDataBlockModel extends BlockModel {
 	}
 
 	public String getType() {
-		if (!stubParentID.equals("null")) {
-			return BlockToJavaAnalyzer.getBlock(Integer.valueOf(stubParentID))
-					.getJavaType();
-		} else if (getName().contains("this")) {// thisValue
-			return getJavaType();
+		if (this.getGenusName().equals("null")) {
+			return "null";
 		} else {
-			return super.getType();
+			if (!stubParentID.equals("null")) {
+				return BlockToJavaAnalyzer.getBlock(
+						Integer.valueOf(stubParentID)).getJavaType();
+			} else if (getName().contains("this")) {// thisValue
+				return getJavaType();
+			} else {
+				return super.getType();
+			}
 		}
 	}
 }

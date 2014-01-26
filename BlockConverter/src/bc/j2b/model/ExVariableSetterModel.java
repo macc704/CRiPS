@@ -49,7 +49,7 @@ public class ExVariableSetterModel extends ExpressionModel {
 			rightAssignment.print(out, indent);
 		}
 
-		if (variable.isArray()) {
+		if (variable.isArray() && index != null) {
 			genusName += "-arrayelement" + variable.getGenusName();
 		} else {
 			genusName += variable.getGenusName();

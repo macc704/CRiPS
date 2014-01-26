@@ -28,6 +28,9 @@ public class CallMethodBlockModel extends CommandBlockModel {
 
 	@Override
 	public void checkError() {
+		if ("cui-print".equals(getMethodName())) {
+			return;
+		}
 
 		List<Integer> connectorIDs = getConnectorIDs();
 		for (int connectorID : connectorIDs) {
@@ -116,9 +119,11 @@ public class CallMethodBlockModel extends CommandBlockModel {
 		out.print("(");
 		List<Integer> connectorIDs = getConnectorIDs();
 		for (int connectorID : connectorIDs) {
-			BlockToJavaAnalyzer.getBlock(connectorID).print(out, indent);
-			if (connectorIDs.get(connectorIDs.size() - 1) != connectorID) {
-				out.print(",");
+			if (connectorID != -1) {
+				BlockToJavaAnalyzer.getBlock(connectorID).print(out, indent);
+				if (connectorIDs.get(connectorIDs.size() - 1) != connectorID) {
+					out.print(",");
+				}
 			}
 		}
 		out.print(")");

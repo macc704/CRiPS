@@ -93,7 +93,8 @@ public class PublicMethodInfo extends BasicModel {
 		lineNum++;
 		for (String parameter : parameters) {
 			makeIndent(out, lineNum);
-			out.println("<Parameter>" + parameter + "</Parameter>");
+			out.println("<Parameter>" + addEscapeSequence(parameter)
+					+ "</Parameter>");
 		}
 		makeIndent(out, --lineNum);
 		out.println("</MethodProperty>");

@@ -83,9 +83,13 @@ public class ProcedureBlockModel extends CommandBlockModel {
 
 	public String getReturnType() {
 		// Calc!! このモデルには無理があるけど．．． #matsuzawa
+
 		for (BlockModel child : getAllChildren()) {
 			if (child instanceof ReturnBlockModel) {
-				return ((ReturnBlockModel) child).getReturnType();
+				String returnType = ((ReturnBlockModel) child).getReturnType();
+				if (!returnType.equals("null")) {
+					return returnType;
+				}
 			}
 		}
 		return "void";

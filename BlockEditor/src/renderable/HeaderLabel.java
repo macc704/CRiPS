@@ -91,14 +91,26 @@ public class HeaderLabel extends BlockLabel {
 						"callObjectMethodlocal-var-object")) {
 					rb.getHeaderLabel().setText("ObjectŒ^‚Ì•Ï”‚ğì‚èA");
 				} else {
-					if (!socketRBlock.getBlockLabel().getText().equals("null")
-							&& !socketRBlock.getGenus().equals(
-									"callGetterMethod2")) {
-						rb.getHeaderLabel().setText(
-								socketRBlock.getBlockLabel().getText()
-										+ "Œ^‚Ì•Ï”‚ğì‚èA");
+					if (!socketRBlock.getBlockLabel().getText().equals("null")) {
+						if (socketRBlock.getBlock().getGenusName()
+								.startsWith("new-")) {
+							rb.getHeaderLabel().setText(
+									socketRBlock.getBlockLabel().getText()
+											+ "Œ^‚Ì•Ï”‚ğì‚èA");
+						} else {
+							if (Block.getBlock(socketRBlock.getBlockID())
+									.getJavaType() != null) {
+								rb.getHeaderLabel().setText(
+										Block.getBlock(
+												socketRBlock.getBlockID())
+												.getJavaType()
+												+ "Œ^‚Ì•Ï”‚ğì‚èA");
 
+							}
+
+						}
 					}
+
 				}
 			}
 			textChanged(rb.getHeaderLabel().getText());

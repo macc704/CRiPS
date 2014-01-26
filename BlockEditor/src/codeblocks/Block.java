@@ -94,6 +94,10 @@ public class Block implements ISupportMemento {
 		return methods;
 	}
 
+	public String getJavaType() {
+		return this.javaType;
+	}
+
 	/**
 	 * Constructs a new Block from the specified information. This class
 	 * constructor is protected as block loading from XML content or the

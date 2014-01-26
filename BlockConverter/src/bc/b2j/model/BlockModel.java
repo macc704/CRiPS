@@ -273,6 +273,9 @@ public abstract class BlockModel {
 	}
 
 	public String getJavaType() {
+		if (this.label.equals("null")) {
+			return "null";
+		}
 		return this.javaType;
 	}
 

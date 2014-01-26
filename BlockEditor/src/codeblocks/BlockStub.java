@@ -738,4 +738,10 @@ public class BlockStub extends Block {
 		buf.append("</BlockStub>");
 		return buf.toString();
 	}
+
+	public String getJavaType() {
+		return Block.getBlock(
+				parentNameToParentBlock.get(parentName + parentGenus))
+				.getJavaType();
+	}
 }
