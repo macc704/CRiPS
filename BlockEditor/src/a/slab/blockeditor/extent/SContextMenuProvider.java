@@ -463,23 +463,37 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCallClassMethodMenu(
 			final Map<String, List<String>> method) {
-
+		String blockParam = "[";
 		String param = "(";
 		for (int i = 0; i < method.get("parameters").size(); i++) {
+			blockParam += "@" + getBlockType(method.get("parameters").get(i));
 			param += method.get("parameters").get(i);
 			if (i + 1 != method.get("parameters").size()) {
 				param += ", ";
 			}
 		}
-
 		param += ")";
+		blockParam += "]";
+		final String paramName = blockParam;
 		JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createCallMethod(method.get("name").get(0));
+				createCallMethod(method.get("name").get(0) + paramName);
 			}
 		});
 		return item;
+	}
+
+	private String getBlockType(String type) {
+		if (type.equals("int") || type.equals("double")) {
+			return "number";
+		} else if (type.equals("String")) {
+			return "string";
+		} else if (type.equals("boolean")) {
+			return "boolean";
+		} else {
+			return "object";
+		}
 	}
 
 	/**

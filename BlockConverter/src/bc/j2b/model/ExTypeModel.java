@@ -4,6 +4,12 @@ import java.io.PrintStream;
 
 public class ExTypeModel extends ExpressionModel {
 
+	private String label;
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
 	@Override
 	public void print(PrintStream out, int indent) {
 
@@ -14,7 +20,7 @@ public class ExTypeModel extends ExpressionModel {
 				+ "type-object" + "\">");
 		// label
 		makeIndent(out, indent + 1);
-		out.println("<Label>" + getType() + "</Label>");
+		out.println("<Label>" + label + "</Label>");
 		// lineNumber
 		makeIndent(out, indent + 1);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");

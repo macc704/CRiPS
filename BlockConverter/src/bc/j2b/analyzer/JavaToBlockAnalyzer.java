@@ -1480,6 +1480,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		typeModel.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 		typeModel.setType(node.getRightOperand().toString());
+		typeModel.setLabel(node.getRightOperand().toString());
 		typeModel.setParent(model);
 
 		model.setRightExpression(typeModel);
