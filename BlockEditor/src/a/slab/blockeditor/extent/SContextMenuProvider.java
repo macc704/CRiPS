@@ -253,8 +253,8 @@ public class SContextMenuProvider {
 			//getterの作成
 			elementGetter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new SStubCreator("setter-" + scope + "-" + type
-							+ "arrayelement", rb).doWork(e);
+					new SStubCreator("setter-arrayelement" + scope + "-var-"
+							+ type + "-arrayobject", rb).doWork(e);
 				}
 			});
 			menu.add(elementGetter);
@@ -263,8 +263,8 @@ public class SContextMenuProvider {
 			JMenuItem elementSetter = new JMenuItem("「値ブロック（要素）」の作成");
 			elementSetter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new SStubCreator("getter-" + scope + "-" + type
-							+ "arrayelement", rb).doWork(e);
+					new SStubCreator("getter-arrayelement" + scope + "-var-"
+							+ type + "-arrayobject", rb).doWork(e);
 				}
 			});
 
@@ -385,11 +385,12 @@ public class SContextMenuProvider {
 				category.add(createCallListMethodMenu("size", "要素数"));
 				category.add(createCallListMethodMenu("add", "追加する"));
 				category.add(createCallListMethodMenu("clear", "全ての要素を削除する"));
-				category.add(createCallListMethodMenu("contains",
-						"リストがある要素があるか調べる"));
+				category.add(createCallListMethodMenu("contains", "ある要素があるか調べる"));
 				category.add(createCallListMethodMenu("isEmpty", "リストが空か調べる"));
-				category.add(createCallListMethodMenu("remove",
+				category.add(createCallListMethodMenu("remove[@number]",
 						"指定した番号の要素を削除する"));
+				category.add(createCallListMethodMenu("remove[@object]",
+						"指定した要素を削除する"));
 				menu.add(category);
 			}
 
@@ -742,7 +743,7 @@ public class SContextMenuProvider {
 
 	private String getBlockVariableType(String name) {
 		if (name.contains("number") || name.contains("int")) {
-			return "number";
+			return "int-number";
 		}
 
 		if (name.contains("String") || name.contains("string")) {

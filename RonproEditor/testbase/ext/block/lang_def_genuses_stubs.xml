@@ -282,8 +282,8 @@
 
 <BlockGenus name="setter-arrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
 	<BlockConnectors>
-        <BlockConnector label="どこに？" connector-kind="socket" connector-type="poly"/>
-        <BlockConnector label="なにを？" connector-kind="socket" connector-type="object"/>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="poly"/>
 	</BlockConnectors>
 </BlockGenus>
 
