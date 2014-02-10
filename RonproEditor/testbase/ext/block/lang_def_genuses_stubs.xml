@@ -8,7 +8,7 @@
 	<description>
 	</description>
 	<BlockConnectors>
-        <BlockConnector connector-kind="plug" connector-type="poly"
+        <BlockConnector connector-kind="plug" connector-type="object"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
@@ -20,7 +20,7 @@
 	<description>
 	</description>
 	<BlockConnectors>
-        <BlockConnector connector-kind="plug" connector-type="poly"
+        <BlockConnector connector-kind="plug" connector-type="object"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>

@@ -27,7 +27,10 @@
 	<BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20">
 		<BlockGenusMember>callActionMethod2</BlockGenusMember>
 		<BlockGenusMember>callGetterMethod2</BlockGenusMember>
-        <BlockGenusMember>callThisActionMethod2</BlockGenusMember>
+		<BlockGenusMember>callThisActionMethod2</BlockGenusMember>
+		<BlockGenusMember>type-object</BlockGenusMember>
+		<BlockGenusMember>getterthis</BlockGenusMember>
+		<BlockGenusMember>gettersuper</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer name="分岐、繰返" type="factory" button-color="255 80 0">
@@ -54,6 +57,7 @@
 		<BlockGenusMember>equals-boolean</BlockGenusMember>
 		<BlockGenusMember>not-equals-boolean</BlockGenusMember>
 		<BlockGenusMember>equals-string</BlockGenusMember>
+		<BlockGenusMember>instanceof</BlockGenusMember>
 		<BlockGenusMember>and</BlockGenusMember>
 		<BlockGenusMember>or</BlockGenusMember>
 		<BlockGenusMember>not</BlockGenusMember>
@@ -76,7 +80,6 @@
 		<BlockGenusMember>product</BlockGenusMember>
 		<BlockGenusMember>quotient</BlockGenusMember>
 		<BlockGenusMember>remainder</BlockGenusMember>
-
 		<BlockGenusMember>sum-double</BlockGenusMember>
 		<BlockGenusMember>difference-double</BlockGenusMember>
 		<BlockGenusMember>product-double</BlockGenusMember>
@@ -102,9 +105,12 @@
 		<BlockGenusMember>local-var-string</BlockGenusMember>
 		<BlockGenusMember>local-var-boolean</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
-		<!-- <BlockGenusMember>private-var-int-number</BlockGenusMember> -->
-        <BlockGenusMember>local-var-object</BlockGenusMember>
-
+		<BlockGenusMember>local-var-object</BlockGenusMember>
+		<BlockGenusMember>local-var-listobject</BlockGenusMember>
+		<BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
+		<BlockGenusMember>local-var-int-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>local-var-double-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>local-var-object-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-int-number</BlockGenusMember>
 		<BlockGenusMember>private-var-double-number</BlockGenusMember>
 		<BlockGenusMember>private-var-string</BlockGenusMember>
@@ -113,6 +119,12 @@
 		<BlockGenusMember>private-var-object-Text</BlockGenusMember>
 		<BlockGenusMember>private-var-object-Image</BlockGenusMember>
 		<BlockGenusMember>private-var-object-Sound</BlockGenusMember>
+		<BlockGenusMember>private-var-listobject</BlockGenusMember>
+		<BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
+		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>private-var-object-arrayobject</BlockGenusMember>
+		<BlockGenusMember>private-final-var-int-number</BlockGenusMember>
+		
 	</BlockDrawer>
 
 	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
@@ -149,81 +161,53 @@
 		<BlockGenusMember>black</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="試作ブロック" type="factory" button-color="255 155 64">
-		<BlockGenusMember>local-var-listobject</BlockGenusMember>
-        <BlockGenusMember>local-var-object-arrayobject</BlockGenusMember>
-		<BlockGenusMember>new-listobject</BlockGenusMember>
-		<BlockGenusMember>type-object</BlockGenusMember>
-		<BlockGenusMember>new-arrayobject-numberarray</BlockGenusMember>
-		<BlockGenusMember>new-arrayobject-stringarray</BlockGenusMember>
-		<BlockGenusMember>new-arrayobject-double-numberarray</BlockGenusMember>
-		<BlockGenusMember>new-arrayobject-objectarray</BlockGenusMember>
-        <BlockGenusMember>private-var-object-arrayobject</BlockGenusMember>
-		<BlockGenusMember>local-var-listobject</BlockGenusMember>
-		<BlockGenusMember>private-final-var-int-number</BlockGenusMember>
-		<BlockGenusMember>local-var-int-number-arrayobject</BlockGenusMember>
-		<BlockGenusMember>local-var-double-number-arrayobject</BlockGenusMember>
-		<BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
-        <BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
-        <BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>
-        <BlockGenusMember>get</BlockGenusMember>
-        <BlockGenusMember>add</BlockGenusMember>
-        <BlockGenusMember>clear</BlockGenusMember>
-        <BlockGenusMember>isEmpty</BlockGenusMember>
-        <BlockGenusMember>contains</BlockGenusMember>
-        <BlockGenusMember>remove[@number]</BlockGenusMember>
-        <BlockGenusMember>remove[@object]</BlockGenusMember>
-        <BlockGenusMember>size</BlockGenusMember>
-        <BlockGenusMember>enhancedfor</BlockGenusMember>
-	</BlockDrawer>
-    
 	<BlockDrawer name="obpro" type="factory" button-color="255 155 64">
-        <BlockGenusMember>private-var-object-bcanvas</BlockGenusMember>
-        <BlockGenusMember>local-var-object-bcanvas</BlockGenusMember>
-        <BlockGenusMember>private-var-object-bwindow</BlockGenusMember>
-        <BlockGenusMember>local-var-object-bwindow</BlockGenusMember>
-        <BlockGenusMember>private-var-object-bsound</BlockGenusMember>
-        <BlockGenusMember>local-var-object-bsound</BlockGenusMember>
-        <BlockGenusMember>drawArc</BlockGenusMember>
-        <BlockGenusMember>drawFillTriangle</BlockGenusMember>
-        <BlockGenusMember>drawText[@object@string@number@number]</BlockGenusMember>
-        <BlockGenusMember>drawText[@object@string@number@number@object]</BlockGenusMember>
-        <BlockGenusMember>isClick</BlockGenusMember>
-        <BlockGenusMember>isSingleClick</BlockGenusMember>
-        <BlockGenusMember>isDoubleClick</BlockGenusMember>
-        <BlockGenusMember>isDragging</BlockGenusMember>
-        <BlockGenusMember>isRightMouseDown</BlockGenusMember>
-        <BlockGenusMember>isLeftMouseDown</BlockGenusMember>
-        <BlockGenusMember>isMouseDown</BlockGenusMember>
-        <BlockGenusMember>getMouseX</BlockGenusMember>
-        <BlockGenusMember>getMouseY</BlockGenusMember>
-        <BlockGenusMember>isKeyPressing</BlockGenusMember>
-        <BlockGenusMember>isKeyDown</BlockGenusMember>
-        <BlockGenusMember>getKeyCode</BlockGenusMember>
-        <BlockGenusMember>clear</BlockGenusMember>
-        <BlockGenusMember>update</BlockGenusMember>
-        <BlockGenusMember>getImageWidth</BlockGenusMember>
-        <BlockGenusMember>getImageHeight</BlockGenusMember>
-        <BlockGenusMember>drawLine</BlockGenusMember>
-        <BlockGenusMember>sleep</BlockGenusMember>
-        <BlockGenusMember>getCanvasWidth</BlockGenusMember>
-        <BlockGenusMember>getCanvasHeight</BlockGenusMember>
-        <BlockGenusMember>drawImage</BlockGenusMember>
-        <BlockGenusMember>drawFillArc[@object@number@number]</BlockGenusMember>
-        <BlockGenusMember>drawFillArc[@object@number@number@number@number]</BlockGenusMember>
-        <BlockGenusMember>drawFillArc[@object@number@number@number@number@number@number]</BlockGenusMember>
-        <BlockGenusMember>setLocation</BlockGenusMember>
-        <BlockGenusMember>setSize</BlockGenusMember>
-        <BlockGenusMember>getCanvas</BlockGenusMember>
-        <BlockGenusMember>show</BlockGenusMember>
-        <BlockGenusMember>loop</BlockGenusMember>
-        <BlockGenusMember>play</BlockGenusMember>
-        <BlockGenusMember>stop</BlockGenusMember>
-        <BlockGenusMember>isPlaying</BlockGenusMember>
-        <BlockGenusMember>loop</BlockGenusMember>
-        <BlockGenusMember>setVolume</BlockGenusMember>
-        <BlockGenusMember>getVolume</BlockGenusMember>
-        <BlockGenusMember>getDefaultVolume</BlockGenusMember>
+		<BlockGenusMember>private-var-object-bcanvas</BlockGenusMember>
+		<BlockGenusMember>local-var-object-bcanvas</BlockGenusMember>
+		<BlockGenusMember>private-var-object-bwindow</BlockGenusMember>
+		<BlockGenusMember>local-var-object-bwindow</BlockGenusMember>
+		<BlockGenusMember>private-var-object-bsound</BlockGenusMember>
+		<BlockGenusMember>local-var-object-bsound</BlockGenusMember>
+		<BlockGenusMember>drawArc</BlockGenusMember>
+		<BlockGenusMember>drawFillTriangle</BlockGenusMember>
+		<BlockGenusMember>drawText[@object@string@number@number]</BlockGenusMember>
+		<BlockGenusMember>drawText[@object@string@number@number@object]</BlockGenusMember>
+		<BlockGenusMember>isClick</BlockGenusMember>
+		<BlockGenusMember>isSingleClick</BlockGenusMember>
+		<BlockGenusMember>isDoubleClick</BlockGenusMember>
+		<BlockGenusMember>isDragging</BlockGenusMember>
+		<BlockGenusMember>isRightMouseDown</BlockGenusMember>
+		<BlockGenusMember>isLeftMouseDown</BlockGenusMember>
+		<BlockGenusMember>isMouseDown</BlockGenusMember>
+		<BlockGenusMember>getMouseX</BlockGenusMember>
+		<BlockGenusMember>getMouseY</BlockGenusMember>
+		<BlockGenusMember>isKeyPressing</BlockGenusMember>
+		<BlockGenusMember>isKeyDown</BlockGenusMember>
+		<BlockGenusMember>getKeyCode</BlockGenusMember>
+		<BlockGenusMember>clear</BlockGenusMember>
+		<BlockGenusMember>update</BlockGenusMember>
+		<BlockGenusMember>getImageWidth</BlockGenusMember>
+		<BlockGenusMember>getImageHeight</BlockGenusMember>
+		<BlockGenusMember>drawLine</BlockGenusMember>
+		<BlockGenusMember>sleep</BlockGenusMember>
+		<BlockGenusMember>getCanvasWidth</BlockGenusMember>
+		<BlockGenusMember>getCanvasHeight</BlockGenusMember>
+		<BlockGenusMember>drawImage</BlockGenusMember>
+		<BlockGenusMember>drawFillArc[@object@number@number]</BlockGenusMember>
+		<BlockGenusMember>drawFillArc[@object@number@number@number@number]</BlockGenusMember>
+		<BlockGenusMember>drawFillArc[@object@number@number@number@number@number@number]</BlockGenusMember>
+		<BlockGenusMember>setLocation</BlockGenusMember>
+		<BlockGenusMember>setSize</BlockGenusMember>
+		<BlockGenusMember>getCanvas</BlockGenusMember>
+		<BlockGenusMember>show</BlockGenusMember>
+		<BlockGenusMember>loop</BlockGenusMember>
+		<BlockGenusMember>play</BlockGenusMember>
+		<BlockGenusMember>stop</BlockGenusMember>
+		<BlockGenusMember>isPlaying</BlockGenusMember>
+		<BlockGenusMember>loop</BlockGenusMember>
+		<BlockGenusMember>setVolume</BlockGenusMember>
+		<BlockGenusMember>getVolume</BlockGenusMember>
+		<BlockGenusMember>getDefaultVolume</BlockGenusMember>
 	</BlockDrawer>
 
 </BlockDrawerSet>
