@@ -27,6 +27,7 @@ public class PublicMethodInfo extends BasicModel {
 	}
 
 	public PublicMethodInfo() {
+		setColor("255 0 0");
 	}
 
 	public void setJavaType(String returnType) {

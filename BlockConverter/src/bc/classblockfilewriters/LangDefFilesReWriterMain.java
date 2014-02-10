@@ -54,10 +54,6 @@ public class LangDefFilesReWriterMain {
 						+ name);
 				name = name.substring(0, name.indexOf(".java"));
 
-				Family family = new Family();
-				family.addFamilyMember(name);
-				familyList.put(name, family);
-
 				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(
 						name, javaFile, name);
 				// ローカル変数ブロックのモデルを追加
@@ -77,7 +73,6 @@ public class LangDefFilesReWriterMain {
 					}
 
 				}
-
 				// 型変換ブロックモデルの追加
 				selfDefModel.setConvertBlockModel(name);
 				// 引数ブロックモデルの追加
@@ -120,8 +115,7 @@ public class LangDefFilesReWriterMain {
 		// プロジェクトのオブジェクトブロック情報を出力する
 		selfDefModel.printGenus();
 		this.addedMethods = selfDefModel.getAddedMethods();
-		this.addedMethodsJavaType = selfDefModel
-				.getAddedMethodsJavaType();
+		this.addedMethodsJavaType = selfDefModel.getAddedMethodsJavaType();
 	}
 
 	public List<String> getAddedClasses() {

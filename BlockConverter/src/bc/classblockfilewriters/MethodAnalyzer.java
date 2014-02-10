@@ -45,15 +45,21 @@ public class MethodAnalyzer extends ASTVisitor {
 	}
 
 	public boolean visit(MethodDeclaration node) {
+
 		List<String> parameters = new ArrayList<String>();
 		if (!node.getName().toString().equals("main")
 				&& !(node.getModifiers() == Modifier.PRIVATE)) {
 
 			PublicMethodInfo model = new PublicMethodInfo();
-			model.setName(node.getName().toString());
-
+			if (node.isConstructor()) {
+				model.setName("new-" + node.getName().toString().toLowerCase());
+				model.setInitialLabel(node.getName().toString());
+				model.setReturnType("object");
+				model.setJavaType(node.getName().toString());
+			} else {
+				model.setName(node.getName().toString());
+			}
 			// オーバーロード対応版のメソッドの名前をセット
-
 			model.setModifier("public");
 			if (node.getReturnType2() != null) {
 				model.setReturnType(convertBlockConnectorType(node
@@ -61,7 +67,7 @@ public class MethodAnalyzer extends ASTVisitor {
 				model.setJavaType(node.getReturnType2().toString());
 			}
 
-			String fullName = node.getName().toString() + "[";
+			String fullName = model.getName() + "[";
 			for (int i = 0; i < node.parameters().size(); i++) {
 				parameters.add(node.parameters().get(i).toString());
 				SingleVariableDeclaration param = (SingleVariableDeclaration) node

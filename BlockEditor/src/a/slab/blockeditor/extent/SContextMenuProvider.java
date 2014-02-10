@@ -476,21 +476,31 @@ public class SContextMenuProvider {
 		param += ")";
 		blockParam += "]";
 		final String paramName = blockParam;
-		JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				createCallMethod(method.get("name").get(0) + paramName);
-			}
-		});
-		return item;
+		if (method.get("name").get(0).startsWith("new-")) {
+			JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
+			item.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					createConstructor(method.get("name").get(0) + paramName);
+				}
+			});
+			return item;
+		} else {
+			JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
+			item.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					createCallMethod(method.get("name").get(0) + paramName);
+				}
+			});
+			return item;
+		}
 	}
 
 	private String getBlockType(String type) {
-		if (type.equals("int") || type.equals("double")) {
+		if (type.startsWith("int") || type.startsWith("double")) {
 			return "number";
-		} else if (type.equals("String")) {
+		} else if (type.startsWith("String")) {
 			return "string";
-		} else if (type.equals("boolean")) {
+		} else if (type.startsWith("boolean")) {
 			return "boolean";
 		} else {
 			return "object";
@@ -517,6 +527,12 @@ public class SContextMenuProvider {
 			}
 		});
 		return item;
+	}
+
+	private void createConstructor(String name) {
+		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
+				name);
+		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20);
 	}
 
 	private void createCallMethod(String name) {

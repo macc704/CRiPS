@@ -297,10 +297,7 @@ public class BlockToJavaAnalyzer {
 	}
 
 	private boolean isDataBlock(String blockName) {
-		if (blockName.startsWith("new-object")
-				|| blockName.startsWith("new-arrayobject")
-				|| blockName.startsWith("new-listobject")
-				|| blockName.startsWith("new-linkedlistobject")) {
+		if (blockName.startsWith("new-")) {
 			return true;
 		}
 

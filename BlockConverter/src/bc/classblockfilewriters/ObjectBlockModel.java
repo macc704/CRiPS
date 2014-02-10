@@ -105,7 +105,7 @@ public class ObjectBlockModel extends BasicModel {
 			for (String key : methods.keySet()) {
 				for (PublicMethodInfo method : methods.get(key)) {
 					commandWriter.setMethods(method);
-					commandWriter.printCommands(out);
+					commandWriter.printCommand(out);
 				}
 			}
 		}

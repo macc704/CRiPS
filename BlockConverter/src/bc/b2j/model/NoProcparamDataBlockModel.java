@@ -214,6 +214,24 @@ public class NoProcparamDataBlockModel extends BlockModel {
 				block.print(out, indent);
 			}
 			out.print(">()");
+		} else if (getGenusName().startsWith("new-")) {
+			out.print("new " + typeString(getLabel()));
+			// 引数（なんだろね） CallMethodからコピー　#matsuzawa 2012.11.06
+			out.print("(");
+			ArrayList<Integer> connectorIDs = getConnectorIDs();
+			boolean first = true;
+			for (int connectorID : connectorIDs) {
+				BlockModel block = BlockToJavaAnalyzer.getBlock(connectorID);
+				if (block == null) {
+					continue;
+				}
+				if (!first) {
+					out.print(",");
+				}
+				block.print(out, indent);
+				first = false;
+			}
+			out.print(")");
 		} else if (getGenusName().equals("null")) {
 			out.print(getGenusName());
 		} else {
