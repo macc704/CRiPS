@@ -381,9 +381,10 @@ public class SContextMenuProvider {
 
 			if (rb.getBlock().getGenusName().contains("listobject")) {
 				JMenu category = new JMenu("List");
-				category.add(createCallListMethodMenu("get", "x番値の要素取得"));
+				category.add(createCallListMethodMenu("get[@number]",
+						"x番値の要素取得"));
 				category.add(createCallListMethodMenu("size", "要素数"));
-				category.add(createCallListMethodMenu("add", "追加する"));
+				category.add(createCallListMethodMenu("add[@object]", "追加する"));
 				category.add(createCallListMethodMenu("clear", "全ての要素を削除する"));
 				category.add(createCallListMethodMenu("contains", "ある要素があるか調べる"));
 				category.add(createCallListMethodMenu("isEmpty", "リストが空か調べる"));

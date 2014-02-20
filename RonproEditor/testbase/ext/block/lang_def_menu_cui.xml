@@ -208,6 +208,13 @@
 		<BlockGenusMember>setVolume</BlockGenusMember>
 		<BlockGenusMember>getVolume</BlockGenusMember>
 		<BlockGenusMember>getDefaultVolume</BlockGenusMember>
+        <BlockGenusMember>size</BlockGenusMember>
+        <BlockGenusMember>add[@object]</BlockGenusMember>
+        <BlockGenusMember>contains</BlockGenusMember>
+        <BlockGenusMember>isEmpty</BlockGenusMember>
+        <BlockGenusMember>remove[@number]</BlockGenusMember>
+        <BlockGenusMember>remove[@object]</BlockGenusMember>
+        <BlockGenusMember>get</BlockGenusMember>
 	</BlockDrawer>
 
 </BlockDrawerSet>

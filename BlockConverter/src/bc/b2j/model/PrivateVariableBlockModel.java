@@ -43,10 +43,10 @@ public class PrivateVariableBlockModel extends VariableBlockModel {
 						.getConnectorIDs();
 				BlockModel typeDecl = BlockToJavaAnalyzer
 						.getBlock(newDeclConnectorIDs.get(0));
-				out.print(getType() + "<" + typeDecl.getLabel() + "> "
-						+ getLabel());
+				out.print("private " + getType() + "<" + typeDecl.getLabel()
+						+ "> " + getLabel());
 			} else {
-				out.print(getType() + "<");
+				out.print("private " + getType() + "<");
 				ArrayList<String> parameterizedTypes = getParameterizedType();
 				for (int i = 0; i < parameterizedTypes.size(); i++) {
 					out.print(parameterizedTypes.get(i));

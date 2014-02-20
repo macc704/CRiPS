@@ -1420,6 +1420,13 @@
 </BlockGenus>
 
 
+<BlockGenus name="add[@object]" kind="command" initlabel="追加する" color="255 255 100">
+    <BlockConnectors>
+        <BlockConnector label="何を？" connector-kind="socket" connector-type="object" />
+    </BlockConnectors>
+</BlockGenus>
+
+
 <BlockGenus name="isEmpty" kind="data" initlabel="空か調べる"
 	color="255 255 100">
 	<BlockConnectors>
