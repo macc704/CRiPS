@@ -55,6 +55,7 @@ import a.slab.blockeditor.SBlockEditorListener;
 import bc.BCSystem;
 import bc.apps.BlockToJavaMain;
 import bc.apps.JavaToBlockMain;
+import clib.common.filesystem.CFilename;
 import clib.view.dialogs.CErrorDialog;
 import clib.view.screenshot.CScreenShotTaker;
 import codeblocks.BlockConnectorShape;
@@ -158,18 +159,18 @@ public class WorkspaceController {
 		Document doc;
 		try {
 			builder = factory.newDocumentBuilder();
-			
+
 			String langDefLocation = /* workingDirectory + */LANG_DEF_FILEPATH;
 			doc = builder.parse(new File(langDefLocation));
-			
+
 			BCSystem.out.println("langDefLocation:" + langDefLocation);
-			
+
 			langDefRoot = doc.getDocumentElement();
 
 			// set the dirty flag for the language definition file
 			// to true now that a new file has been set
 			langDefDirty = true;
-			
+
 			BCSystem.out.println("langdeffile:" + langDefLocation);
 
 		} catch (ParserConfigurationException e) {
@@ -720,7 +721,11 @@ public class WorkspaceController {
 				JMenuItem item = new JMenuItem("SS");
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						createSSTaker().takeToFile();
+						CScreenShotTaker taker = createSSTaker();
+						String name = new CFilename(wc.getSelectedJavaFile())
+								.getName();
+						taker.getChooser().setSelectedFile(new File(name));
+						taker.takeToFile();
 					}
 				});
 				//topPane.add(b);
@@ -918,7 +923,7 @@ public class WorkspaceController {
 	}
 
 	private void convertToJava0(String saveString, String enc) throws Exception {
-		
+
 		if (state == COMPILE_ERROR) {
 			throw new RuntimeException("Javaファイルにコンパイルエラーがあり、ブロック構築できません。");
 		}
@@ -930,7 +935,7 @@ public class WorkspaceController {
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(xmlFileName),
 				SBlockEditor.ENCODING_BLOCK_XML));
-		
+
 		bw.write(saveString);
 		bw.flush();
 		bw.close();
@@ -1006,9 +1011,9 @@ public class WorkspaceController {
 			}
 		}
 	}
-	
-	public Workspace getWorkspace(){
+
+	public Workspace getWorkspace() {
 		return workspace;
 	}
-	
+
 }

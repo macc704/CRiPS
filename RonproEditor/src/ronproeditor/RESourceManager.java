@@ -8,6 +8,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 import ronproeditor.helpers.FileSystemUtil;
 import ronproeditor.helpers.MatcherUtil;
@@ -276,6 +277,11 @@ public class RESourceManager implements ICFwResourceRepository {
 
 	public CDirectory getCRootDirectory() {
 		return (CDirectory) toCFile(getRootDirectory());
+	}
+
+	public List<CDirectory> getAllProjects() {
+		return getCRootDirectory().getDirectoryChildren(
+				CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
 	}
 
 	public CFileFilter getDirFilter() {

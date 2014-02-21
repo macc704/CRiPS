@@ -135,7 +135,11 @@ public class BlockLink {
 			Block plugBlock = Block.getBlock(lastPlugBlockID);
 			BlockConnector plugBlockPlug = BlockLinkChecker
 					.getPlugEquivalent(plugBlock);
-			if (plugBlockPlug != null && plugBlockPlug.hasBlock()) {
+			if (plugBlockPlug != null && plugBlockPlug.hasBlock()
+					&& !plug.getKind().contains("param")) {
+				if (isVariable(socket.getKind())) {
+					return;
+				}
 				Block socketBlock = Block.getBlock(plugBlockPlug.getBlockID());
 				BlockLink link = BlockLink.getBlockLink(plugBlock, socketBlock,
 						plugBlockPlug, socket);
@@ -149,6 +153,7 @@ public class BlockLink {
 						new WorkspaceEvent(RenderableBlock.getRenderableBlock(
 								socketBlock.getBlockID()).getParentWidget(),
 								link, WorkspaceEvent.BLOCKS_DISCONNECTED));
+
 			}
 		}
 		if (plug.hasBlock()) {
@@ -172,6 +177,16 @@ public class BlockLink {
 		if (clickSound != null) {
 			//System.out.println("playing click sound");
 			clickSound.play();
+		}
+	}
+
+	private boolean isVariable(String kind) {
+		if (kind.equals("number") || kind.equals("string")
+				|| kind.equals("double-number") || kind.equals("boolean")
+				|| kind.equals("object")) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 

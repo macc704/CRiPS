@@ -12,5 +12,9 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/CompileErrorAnalytics"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/NoviceDebugger"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CSwingApp"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CChart"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CTable"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CTimeLineView"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PresVisualizer"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

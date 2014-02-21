@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            class="presplugin.editors.PresExtendedJavaEditor"
+            contributorClass="org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditorActionContributor"
+            default="true"
+            extensions="java"
+            icon="icons/sample.gif"
+            id="presplugin.editors.PresExtendedJavaEditor"
+            name="PresExtendedJavaEditor">
+      </editor>
+   </extension>
+   <!--
+   <extension point="org.eclipse.ui.editorActions">      
+      <editorContribution
+            targetID="presplugin.editors.PresExtendedJavaEditor"
+            id="presplugin.editors.PresExtendedJavaEditor.editorActions">
+         //From jdt.debug.ui 
+         <action
+               label="PresEx_AddBreakpoint"
+               class="org.eclipse.debug.ui.actions.RulerToggleBreakpointActionDelegate"
+               actionID="RulerDoubleClick"
+               id="org.eclipse.jdt.debug.ui.actions.ManageBreakpointRulerAction">
+         </action>      
+         //From jdt.ui           
+         <action
+               label="PresEx_JavaSelectRuler"
+               class="org.eclipse.jdt.internal.ui.javaeditor.JavaSelectRulerAction"
+               actionID="RulerClick"
+               id="org.eclipse.jdt.internal.ui.javaeditor.JavaSelectRulerAction">
+         </action>
+      </editorContribution>      
+   </extension>
+   -->
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup
+            class="presplugin.PresPlugin">
+      </startup>
+   </extension>
+</plugin>

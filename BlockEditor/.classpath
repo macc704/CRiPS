@@ -10,5 +10,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/BlockConverter"/>
 	<classpathentry kind="lib" path="lib/slcodeblocks.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CSwing"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CommonLibrary"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1941,61 +1941,67 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	private static void catchBlockSetHighlight(RenderableBlock catchedRBlock,
 			WorkspaceWidget widget) {
-		if (ScopeChecker.isCompareBlock(catchedRBlock.getBlock())
-				&& ScopeChecker.isAloneBlock(catchedRBlock.getBlock())) {
-			for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターの参照元を探す
-				Block catchedBlock = catchedRBlock.getBlock();
-				int index;
+		try {
+			if (ScopeChecker.isCompareBlock(catchedRBlock.getBlock())
+					&& ScopeChecker.isAloneBlock(catchedRBlock.getBlock())) {
+				for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターの参照元を探す
+					Block catchedBlock = catchedRBlock.getBlock();
+					int index;
 
-				if ((index = catchedBlock.getBlockLabel().indexOf("に書き込む")) != -1) {
-					if (rb.getBlock()
-							.getBlockLabel()
-							.equals(catchedBlock.getBlockLabel().substring(0,
-									index))) {
-						rb.highlighter.setHighlightColor(Color.yellow);
+					if ((index = catchedBlock.getBlockLabel().indexOf("に書き込む")) != -1) {
+						if (rb.getBlock()
+								.getBlockLabel()
+								.equals(catchedBlock.getBlockLabel().substring(
+										0, index))) {
+							rb.highlighter.setHighlightColor(Color.yellow);
+						}
+					} else if ((index = catchedBlock.getBlockLabel().indexOf(
+							"の値")) != -1) {
+						if (rb.getBlock()
+								.getBlockLabel()
+								.equals(catchedBlock.getBlockLabel().substring(
+										0, index))) {
+							rb.highlighter.setHighlightColor(Color.yellow);
+						}
+					} else if ((index = catchedBlock.getBlockLabel().indexOf(
+							"を増やす")) != -1) {
+						if (rb.getBlock()
+								.getBlockLabel()
+								.equals(catchedBlock.getBlockLabel().substring(
+										0, index))) {
+							rb.highlighter.setHighlightColor(Color.yellow);
+						}
 					}
-				} else if ((index = catchedBlock.getBlockLabel().indexOf("の値")) != -1) {
-					if (rb.getBlock()
-							.getBlockLabel()
-							.equals(catchedBlock.getBlockLabel().substring(0,
-									index))) {
+				}
+			} else {
+				for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターメソッドはすべてハイライトする
+					if (rb.getGenus().equals(
+							"getter" + catchedRBlock.getGenus())
+							&& rb.getBlock()
+									.getBlockLabel()
+									.equals(catchedRBlock.getBlock()
+											.getBlockLabel() + "の値")) {
 						rb.highlighter.setHighlightColor(Color.yellow);
-					}
-				} else if ((index = catchedBlock.getBlockLabel()
-						.indexOf("を増やす")) != -1) {
-					if (rb.getBlock()
-							.getBlockLabel()
-							.equals(catchedBlock.getBlockLabel().substring(0,
-									index))) {
+					} else if (rb.getGenus().equals(
+							"setter" + catchedRBlock.getGenus())
+							&& rb.getBlock()
+									.getBlockLabel()
+									.equals(catchedRBlock.getBlock()
+											.getBlockLabel() + "に書き込む")) {
+						rb.highlighter.setHighlightColor(Color.yellow);
+					} else if (rb.getGenus().equals(
+							"inc" + catchedRBlock.getGenus())
+							&& rb.getBlock()
+									.getBlockLabel()
+									.equals(catchedRBlock.getBlock()
+											.getBlockLabel() + "を増やす")) {
 						rb.highlighter.setHighlightColor(Color.yellow);
 					}
 				}
-			}
-		} else {
-			for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターメソッドはすべてハイライトする
-				if (rb.getGenus().equals("getter" + catchedRBlock.getGenus())
-						&& rb.getBlock()
-								.getBlockLabel()
-								.equals(catchedRBlock.getBlock()
-										.getBlockLabel() + "の値")) {
-					rb.highlighter.setHighlightColor(Color.yellow);
-				} else if (rb.getGenus().equals(
-						"setter" + catchedRBlock.getGenus())
-						&& rb.getBlock()
-								.getBlockLabel()
-								.equals(catchedRBlock.getBlock()
-										.getBlockLabel() + "に書き込む")) {
-					rb.highlighter.setHighlightColor(Color.yellow);
-				} else if (rb.getGenus().equals(
-						"inc" + catchedRBlock.getGenus())
-						&& rb.getBlock()
-								.getBlockLabel()
-								.equals(catchedRBlock.getBlock()
-										.getBlockLabel() + "を増やす")) {
-					rb.highlighter.setHighlightColor(Color.yellow);
-				}
-			}
 
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 
 	}
@@ -2167,12 +2173,26 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			// wc.saveString(wc.getSaveString());
 			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
 		} else {
+			//moveSocketBlocks(this);
 			blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID)
 					.getY()
 					+ RenderableBlock.getRenderableBlock(blockID).getWidth(),
 					"down");
+
 		}
 	}
+
+	//	private void moveSocketBlocks(RenderableBlock rb) {
+	//		for (BlockConnector socket : BlockLinkChecker.getSocketEquivalents(rb
+	//				.getBlock())) {
+	//			if (socket.hasBlock()) {
+	//				RenderableBlock socketBlock = RenderableBlock
+	//						.getRenderableBlock(socket.getBlockID());
+	//				moveSocketBlocks(socketBlock);
+	//			}
+	//		}
+	//		rb.setLocation(rb.getX(), rb.getY() + 50);
+	//	}
 
 	//abstractionブロック内のブロックのスコープをチェックする
 	private boolean checkBlocks(ScopeChecker scpChecker, BlockLink link,

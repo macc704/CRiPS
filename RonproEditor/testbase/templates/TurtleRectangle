@@ -7,7 +7,7 @@ public class CLASSNAME extends Turtle {
 
 	//起動処理
 	public static void main(String[] args) {
-		Turtle.startTurtle(new CLASSNAME());
+		Turtle.startTurtle(new CLASSNAME(), args);
 	}
 
 	//タートルを動かす処理

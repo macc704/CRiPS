@@ -35,6 +35,7 @@ import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
+import ronproeditor.ext.REPresVisualizerManager;
 import ronproeditor.helpers.FileSystemUtil;
 import ronproeditor.helpers.JavaEnv;
 import ronproeditor.helpers.NewZipUtil;
@@ -245,7 +246,25 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 2013/10/16 version 2.19.0 matsuzawa		・上記新バージョンを統合したweek3用バージョン．
  * 2013/10/22 version 2.19.1 matsuzawa		・ファイルコピーの不具合修正
  * 											・BE スコープ判定機能
- * 											・DENO Blockエディタ版を削除	
+ * 											・DENO Blockエディタ版を削除
+ * 2013/10/30 version 2.20.0 matsuzawa		・PPV組み込み
+ * 											・BE ハイライトbugfix
+ * 											・行番号のfontが追従しない問題を修正
+ * 											・全角の「{」を変換しようとするとソース全体がおかしくなる問題を修正
+ * 											・半角の{を入力したときに}を自動入力する機能を削除
+ * 2013/12/4 version 2.21.0 matsuzawa		・詳細はgitログを参照のこと
+ * 												・いくつかbugfix
+ * 												・BlockEditor微調整
+ * 												・全角スペース表示など
+ * 2013/12/15 version 2.22.0 matsuzawa		・blibの更新　blib.jar 1.5.26
+ * 											・Debuggerでupdate()が反映されるのが遅い問題を解決
+ * 												・blibの更新 waitrepaintモード
+ * 												・waitrepaint引数
+ * 												・Turtleテンプレ変更 argsを引数とする
+ * 2013/12/17 version 2.23.0 matsuzawa		・git参照のこと
+ * 2013/12/17 version 2.23.1 matsuzawa		・git参照のこと 19日バージョン
+ * 2013/12/19 version 2.24.0 matsuzawa		・git参照のこと Cocoviewer巻き戻し
+ * 2014/01/08 version 2.25.0 matsuzawa		・git参照のこと
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
@@ -263,8 +282,8 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.19.1";
-	public static final String BUILD_DATE = "2013/10/22";
+	public static final String VERSION = "2.25.0";
+	public static final String BUILD_DATE = "2014/01/08";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
@@ -296,6 +315,9 @@ public class REApplication implements ICFwApplication {
 	 * Variables.
 	 ***********************/
 
+	private String compileCommand;
+	private String runCommand;
+
 	private RESourceManager sourceManager = new RESourceManager();
 	private RELibraryManager libraryManager = new RELibraryManager(LIB_FOLDER);
 	private RESourceTemplateManager templateManager = new RESourceTemplateManager(
@@ -315,6 +337,7 @@ public class REApplication implements ICFwApplication {
 	private REBlockEditorManager blockManager;
 	private REFlowViewerManager flowManager;
 	private REGeneRefManager generefManager;
+	private REPresVisualizerManager ppvManager;
 	private GUI deno;
 
 	/***********************
@@ -323,6 +346,7 @@ public class REApplication implements ICFwApplication {
 
 	private void main() {
 		initializeLookAndFeel();
+		initializeCommands();
 		prepareRootDirectory();
 		createAndOpenWindow();
 		prepareDialogs();
@@ -332,6 +356,7 @@ public class REApplication implements ICFwApplication {
 		blockManager = new REBlockEditorManager(this);
 		flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
+		ppvManager = new REPresVisualizerManager(this);
 
 		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
 				"*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
@@ -349,6 +374,23 @@ public class REApplication implements ICFwApplication {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
+		}
+	}
+
+	private void initializeCommands() {
+		if (CJavaSystem.getInstance().hasCommand("java")) {
+			this.runCommand = "java";
+		} else {
+			JOptionPane.showMessageDialog(frame, "javaコマンドが見つかりません",
+					"起動時チェックにひっかかりました", JOptionPane.ERROR_MESSAGE);
+			// System.exit(0);
+		}
+
+		this.compileCommand = CJavaSystem.getInstance().getJavacCommand();
+		if (this.compileCommand == null) {
+			JOptionPane.showMessageDialog(frame, "javacコマンドが見つかりません",
+					"起動時チェックに引っかかりました", JOptionPane.ERROR_MESSAGE);
+			// System.exit(0);
 		}
 	}
 
@@ -727,7 +769,7 @@ public class REApplication implements ICFwApplication {
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
-		commands.add("javac");
+		commands.add(compileCommand);
 		if (CJavaSystem.getInstance().isMac()) {
 			commands.add("-J-Dfile.encoding="
 					+ RECommandExecuter.commandEncoding);
@@ -772,7 +814,7 @@ public class REApplication implements ICFwApplication {
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
-		commands.add("javac");
+		commands.add(compileCommand);
 		if (CJavaSystem.getInstance().isMac()) {
 			commands.add("-J-Dfile.encoding="
 					+ RECommandExecuter.commandEncoding);
@@ -853,7 +895,7 @@ public class REApplication implements ICFwApplication {
 				.getRootDirectory(), getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 		ArrayList<String> commands = new ArrayList<String>();
-		commands.add("java");
+		commands.add(runCommand);
 		commands.add("-classpath");
 		commands.add(cp);
 		commands.add(env.runnable);
@@ -870,19 +912,19 @@ public class REApplication implements ICFwApplication {
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		
+
 		if (deno != null && deno.isRunning()) {
-			JOptionPane.showMessageDialog(frame, "前のデバッグ画面が開きっぱなしです", "実行できません",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "前のデバッグ画面が開きっぱなしです",
+					"実行できません", JOptionPane.ERROR_MESSAGE);
 			return;
-			//CFrameUtils.toFront(deno.getFrame());
-			//return;
+			// CFrameUtils.toFront(deno.getFrame());
+			// return;
 		}
 
 		// パス等取得
 		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager()
 				.getRootDirectory(), getSourceManager().getCurrentFile());
-		String args[] = new String[5];
+		String args[] = new String[6];
 		// ソースパス
 		args[0] = "-sourcepath";
 		args[1] = env.dir.getAbsolutePath();
@@ -897,15 +939,18 @@ public class REApplication implements ICFwApplication {
 		args[3] = libString;
 		// クラス名
 		args[4] = env.runnable;
-		
+		// waitrepaint
+		args[5] = "waitrepaint";
+
 		// xml
-//		String[] libs = getLibraryManager().getLibsAsArray();
-//		try {
-//			new JavaToBlockMain().run(getSourceManager().getCurrentFile(), REApplication.SRC_ENCODING, libs);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			CErrorDialog.show(getFrame(), "Block変換時のエラー", e);
-//		}
+		// String[] libs = getLibraryManager().getLibsAsArray();
+		// try {
+		// new JavaToBlockMain().run(getSourceManager().getCurrentFile(),
+		// REApplication.SRC_ENCODING, libs);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// CErrorDialog.show(getFrame(), "Block変換時のエラー", e);
+		// }
 
 		NDebuggerManager.registerListener(new NDebuggerListener() {
 			public void stepPressed() {
@@ -931,19 +976,19 @@ public class REApplication implements ICFwApplication {
 			public void speedSet(int speed) {
 				writePresLog(PRCommandLog.SubType.DEBUG_SPEED, speed);
 			}
-			
+
 			public void contPressed() {
 				writePresLog(PRCommandLog.SubType.DEBUG_CONT);
 			}
-			
+
 			public void breakpointSet() {
 				writePresLog(PRCommandLog.SubType.DEBUG_BPSET);
 			}
-			
+
 			public void breakpointClear() {
 				writePresLog(PRCommandLog.SubType.DEBUG_BPCLR);
 			}
-			
+
 			public void changeAPMode(String mode) {
 				writePresLog(PRCommandLog.SubType.DEBUG_CHANGEMODE, mode);
 			}
@@ -958,21 +1003,20 @@ public class REApplication implements ICFwApplication {
 		});
 		deno = new GUI();
 		deno.run(args);
-		deno.getFrame().addWindowFocusListener(
-				new WindowFocusListener() {
-					public void windowLostFocus(WindowEvent e) {
-						writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
-					}
+		deno.getFrame().addWindowFocusListener(new WindowFocusListener() {
+			public void windowLostFocus(WindowEvent e) {
+				writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
+			}
 
-					public void windowGainedFocus(WindowEvent e) {
-						writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
-					}
-				});
+			public void windowGainedFocus(WindowEvent e) {
+				writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
+			}
+		});
 		CommandInterpreter cmdint = new CommandInterpreter(deno.getEnv());
-		//deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
-		//if(blockManager.getBlockEditor() != null) {
-		//	deno.beMode();
-		//}
+		// deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
+		// if(blockManager.getBlockEditor() != null) {
+		// deno.beMode();
+		// }
 		cmdint.executeCommand("run");
 	}
 
@@ -1164,6 +1208,15 @@ public class REApplication implements ICFwApplication {
 			generefManager.deleteDatFileFromProject();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void doOpenPPV() {
+		try {
+			ppvManager.openPresVisualizer();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "OpenPPV中にエラーが発生しました．", ex);
 		}
 	}
 
