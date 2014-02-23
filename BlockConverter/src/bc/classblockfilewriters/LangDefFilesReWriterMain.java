@@ -69,12 +69,11 @@ public class LangDefFilesReWriterMain {
 								methods);
 						addedClasses.add(className);
 					}
-
 				}
 				// 型変換ブロックモデルの追加
 				selfDefModel.setConvertBlockModel(name);
 				// 引数ブロックモデルの追加
-
+				selfDefModel.setParameterBlockModel(name, methods);
 			}
 		}
 		// 継承関係にあるブロック達をファミリーに出力

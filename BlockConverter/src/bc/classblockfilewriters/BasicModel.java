@@ -97,8 +97,7 @@ public class BasicModel {
 		out.println("<BlockGenusMember>" + getName() + "</BlockGenusMember>");
 	}
 
-	protected void printBlockConnectors(PrintStream out, int lineNumber,
-			String DefaultLabel) {
+	protected void printBlockConnectors(PrintStream out, int lineNumber) {
 		makeIndent(out, ++lineNumber);
 		out.println("<BlockConnectors>");
 
@@ -122,6 +121,7 @@ public class BasicModel {
 		out.println("<BlockConnector " + "connector-kind=\"" + connectorKind
 				+ "\" connector-type=\"" + connectorType + "\">"
 				+ "</BlockConnector>");
+		makeIndent(out, --lineNumber);
 	}
 
 	protected void printStub(String stub, String property1, String property2,
@@ -170,7 +170,7 @@ public class BasicModel {
 		out.println("<LangSpecProperty key=\"" + key + "\" value=\"" + value
 				+ "\"></LangSpecProperty>");
 	}
-	
+
 	public static String addEscapeSequence(String name) {
 		String s = name;
 		if (s.contains("<")) {

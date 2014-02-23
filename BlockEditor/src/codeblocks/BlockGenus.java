@@ -319,8 +319,10 @@ public class BlockGenus {
 	 *         block; false otherwise
 	 */
 	public boolean isObjectTypeVariableDeclBlock() {
-		if (genusName.startsWith("local-var-object") || //#matsuzawa 2012.11.06
-				genusName.startsWith("private-var-object")) {//#ohata added
+		if (genusName.startsWith("local-var-object")
+				|| //#matsuzawa 2012.11.06
+				genusName.startsWith("private-var-object")
+				|| genusName.startsWith("proc-param-object")) {//#ohata added
 			return true;
 		}
 		return genusName.equals("local-var-object")

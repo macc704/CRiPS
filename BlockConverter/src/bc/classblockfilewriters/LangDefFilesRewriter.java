@@ -24,6 +24,7 @@ public class LangDefFilesRewriter {
 	private Map<String, String> addedMethods = new HashMap<String, String>();
 	private Map<String, String> addedMethodsJavaType = new HashMap<String, String>();
 	private List<ConvertBlockModel> requestConvertBlockModel = new LinkedList<ConvertBlockModel>();
+	private List<ParameterBlockModel> requestParameterBlockModel = new LinkedList<ParameterBlockModel>();
 
 	public LangDefFilesRewriter(File file, String javaFileName) {
 		this.file = file;
@@ -66,6 +67,16 @@ public class LangDefFilesRewriter {
 		requestConvertBlockModel.add(model);
 	}
 
+	public void setParameterBlockModel(String className,
+			Map<String, List<PublicMethodInfo>> methods) {
+		ParameterBlockModel model = new ParameterBlockModel(
+				"proc-param-object-" + className.toLowerCase(), "param",
+				className + "å^à¯êî", "", "", "200 200 200", className);
+		model.setMethods(methods);
+		requestParameterBlockModel.add(model);
+
+	}
+
 	public void setInstanceVariableBlockMode(String fileName,
 			Map<String, List<PublicMethodInfo>> methods) {
 		ObjectBlockModel classModel = new ObjectBlockModel(
@@ -99,6 +110,10 @@ public class LangDefFilesRewriter {
 		}
 
 		for (ConvertBlockModel model : requestConvertBlockModel) {
+			model.print(ps, 0);
+		}
+
+		for (ParameterBlockModel model : requestParameterBlockModel) {
 			model.print(ps, 0);
 		}
 
@@ -148,6 +163,17 @@ public class LangDefFilesRewriter {
 			ps.println("<BlockDrawer name=\"Project-Converter\" type=\"factory\" button-color=\"255 155 64\">");
 
 			for (ConvertBlockModel model : requestConvertBlockModel) {
+				model.printMenuItem(ps, lineNum);
+			}
+
+			makeIndent(ps, --lineNum);
+			ps.println("</BlockDrawer>");
+
+			makeIndent(ps, ++lineNum);
+
+			ps.println("<BlockDrawer name=\"Project-Parameter\" type=\"factory\" button-color=\"255 155 64\">");
+
+			for (ParameterBlockModel model : requestParameterBlockModel) {
 				model.printMenuItem(ps, lineNum);
 			}
 

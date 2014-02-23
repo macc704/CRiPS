@@ -3,12 +3,14 @@ package bc.classblockfilewriters;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class ParameterBlockModel extends BasicModel {
 
 	private String javaType;
 	private Map<String, String> langSpecProperties = new HashMap<String, String>();
+	private Map<String, List<PublicMethodInfo>> methods;
 
 	public ParameterBlockModel(String name, String kind, String initialLabel,
 			String headerLabel, String footerLabel, String color,
@@ -23,18 +25,24 @@ public class ParameterBlockModel extends BasicModel {
 		this.javaType = javaType;
 	}
 
+	public void setMethods(Map<String, List<PublicMethodInfo>> methods) {
+		this.methods = methods;
+	}
+
 	public void print(PrintStream out, int lineNumber) throws Exception {
 
 		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" "
 				+ "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\""
-				+ getInitialLabel() + "\"" + " color=\"" + getColor() + "\">");
-
-		printBlockConnector(out, lineNumber, "plug", "object");
-		makeIndent(out, lineNumber + 1);
+				+ getInitialLabel() + "\"" + " editable-label=\"yes\" "
+				+ "is-starter=\"yes\" is-terminator=\"yes\"" + " color=\""
+				+ getColor() + "\">");
+		lineNumber++;
+		printBlockConnectors(out, lineNumber);
+		makeIndent(out, lineNumber);
 		out.println("<JavaType>" + addEscapeSequence(javaType) + "</JavaType>");
 
 		printStubs(out, lineNumber);
-
+		makeIndent(out, lineNumber);
 		out.println("<LangSpecProperties>");
 
 		for (String langSpecProperty : langSpecProperties.keySet()) {
@@ -45,6 +53,21 @@ public class ParameterBlockModel extends BasicModel {
 		makeIndent(out, lineNumber);
 		out.println("</LangSpecProperties>");
 
+		if (methods != null) {
+			for (String key : methods.keySet()) {
+				makeIndent(out, lineNumber);
+				out.println("<ClassMethods class=\"" + key + "\">");
+
+				lineNumber++;
+				for (PublicMethodInfo method : methods.get(key)) {
+					method.print(out, lineNumber);
+				}
+
+				makeIndent(out, --lineNumber);
+				out.println("</ClassMethods>");
+			}
+		}
+
 		out.println("</BlockGenus>");
 	}
 
@@ -53,18 +76,6 @@ public class ParameterBlockModel extends BasicModel {
 
 		makeIndent(out, lineNumber);
 		out.println("<Stubs>");
-
-		printStub("<Stub stub-genus=\"callActionMethod\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\"" + scope
-						+ "\"></LangSpecProperty>", out, lineNumber);
-		printStub("<Stub stub-genus=\"callGetterMethod\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + scope
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\"" + scope
-						+ "\"></LangSpecProperty>", out, lineNumber);
 
 		printStubs("<Stub stub-genus=\"getter\">",
 				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + scope
@@ -81,71 +92,8 @@ public class ParameterBlockModel extends BasicModel {
 				"<LangSpecProperty key=\"scope\" value=\"" + scope
 						+ "\"></LangSpecProperty>", out, lineNumber);
 
-		printStubs("<Stub stub-genus=\"getter-arrayelement\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
-						+ scope + "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\"" + scope
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"stack-type\" value=\""
-						+ "breed-procedure" + "\"></LangSpecProperty>", out,
-				lineNumber);
-
-		printStub("<Stub stub-genus=\"getter-arrayelement\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
-						+ scope + "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\"" + scope
-						+ "\"></LangSpecProperty>", out, lineNumber);
 		makeIndent(out, lineNumber);
 		out.println("</Stubs>");
 	}
-
-	// <BlockGenus name="proc-param-object" kind="param" initlabel="オブジェクト型引数"
-	// editable-label="yes" label-unique="yes" is-starter="yes"
-	// is-terminator="yes"
-	// color="200 200 200">
-	// <BlockConnectors>
-	// <BlockConnector connector-kind="plug"
-	// connector-type="object"></BlockConnector>
-	// </BlockConnectors>
-	// <Stubs>
-	// <Stub stub-genus="getter">
-	// <LangSpecProperties>
-	// <LangSpecProperty key="vm-cmd-name"
-	// value="eval-local"></LangSpecProperty>
-	// <LangSpecProperty key="scope" value="local"></LangSpecProperty>
-	// <LangSpecProperty key="stack-type"
-	// value="breed-procedure"></LangSpecProperty>
-	// </LangSpecProperties>
-	// </Stub>
-	// <Stub stub-genus="setter">
-	// <LangSpecProperties>
-	// <LangSpecProperty key="vm-cmd-name"
-	// value="eval-local"></LangSpecProperty>
-	// <LangSpecProperty key="scope" value="local"></LangSpecProperty>
-	// </LangSpecProperties>
-	// </Stub>
-	// <Stub stub-genus="getter-arrayelement">
-	// <LangSpecProperties>
-	// <LangSpecProperty key="vm-cmd-name"
-	// value="eval-local"></LangSpecProperty>
-	// <LangSpecProperty key="scope" value="local"></LangSpecProperty>
-	// <LangSpecProperty key="stack-type"
-	// value="breed-procedure"></LangSpecProperty>
-	// </LangSpecProperties>
-	// </Stub>
-	// <Stub stub-genus="setter-arrayelement">
-	// <LangSpecProperties>
-	// <LangSpecProperty key="vm-cmd-name"
-	// value="eval-local"></LangSpecProperty>
-	// <LangSpecProperty key="scope" value="local"></LangSpecProperty>
-	// </LangSpecProperties>
-	// </Stub>
-	// </Stubs>
-	// <LangSpecProperties>
-	// <LangSpecProperty key="type" value="object"></LangSpecProperty>
-	// <LangSpecProperty key="stack-type"
-	// value="breed-procedure"></LangSpecProperty>
-	// </LangSpecProperties>
-	// </BlockGenus>
 
 }

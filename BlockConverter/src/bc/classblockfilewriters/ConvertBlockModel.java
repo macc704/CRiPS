@@ -27,7 +27,7 @@ public class ConvertBlockModel extends BasicModel {
 				+ "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\""
 				+ getInitialLabel() + "\"" + " color=\"" + getColor() + "\">");
 
-		printBlockConnectors(out, lineNumber, getInitialLabel());
+		printBlockConnectors(out, lineNumber);
 
 		out.println("</BlockGenus>");
 
