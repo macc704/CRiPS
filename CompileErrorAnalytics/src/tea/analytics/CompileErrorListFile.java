@@ -40,10 +40,12 @@ public class CompileErrorListFile {
 
 	/****************************************************
 	 * Output
+	 * 
+	 * @param file
 	 ****************************************************/
 
-	public void outputErrorList() throws IOException, FileNotFoundException {
-		File file = new File("./CompileError.csv");
+	public void outputErrorList(File file) throws IOException,
+			FileNotFoundException {
 		makeCSVFile(file);
 
 		PrintWriter pw = new PrintWriter(new BufferedWriter(
@@ -134,10 +136,11 @@ public class CompileErrorListFile {
 			// buf.append(CAMMA);
 
 			/*** どちらでもない **/
-			buf.append("NA");
-			buf.append(CAMMA);
-			buf.append("NA");
-			buf.append(CAMMA);
+			// 静大のものと二重に出力されているのでコメントアウト by hirao
+			// buf.append("NA");
+			// buf.append(CAMMA);
+			// buf.append("NA");
+			// buf.append(CAMMA);
 
 			// 最初のセグメントのコンパイルエラーを取得
 			CDiagnostic compileError = history.getSegments().getFirst()
