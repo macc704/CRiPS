@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE BlockLangDef SYSTEM "lang_def.dtd">
+
+<BlockLangDef>
+
+	<BlockConnectorShapes>
+		&lang_def_connectorshapes;
+	</BlockConnectorShapes>
+
+	<BlockDrawerSets>
+		&lang_def_menu_cui;
+	</BlockDrawerSets>
+
+	<BlockGenuses>
+		&lang_def_genuses;
+	</BlockGenuses>
+
+	<BlockFamilies>
+		&lang_def_families;
+	</BlockFamilies>
+
+	%lang_def_etc;
+
+</BlockLangDef>

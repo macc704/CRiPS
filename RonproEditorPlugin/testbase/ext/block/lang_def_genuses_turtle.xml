@@ -1,0 +1,1025 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Blocks created by sakai lab -->
+
+<!-- MOVEMENT -->
+
+<BlockGenus name="fd" kind="command" initlabel="進む" color="255 0 0">
+	<description>
+		<text>
+			タートルを
+			<arg n="1" />
+			歩数分進めます。
+		</text>
+		<arg-description n="1" name="steps">
+			進める歩数をセットします。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="歩数" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="50"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="fd"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="bk" kind="command" initlabel="戻る" color="255 0 0">
+	<description>
+		<text>
+			タートルを
+			<arg n="1" />
+			歩数分戻ります。
+		</text>
+		<arg-description n="1" name="steps">
+			戻る歩数をセットします。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="歩数" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="50"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="bk"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="lt" kind="command" initlabel="左へ回る" color="255 0 0">
+	<description>
+		<text>
+			タートルを
+			<arg n="1" />
+			角度分左に回します。
+		</text>
+		<arg-description n="1" name="degs">
+			左に回る角度をセットします。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="角度" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="90"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="lt"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="rt" kind="command" initlabel="右へ回る" color="255 0 0">
+	<description>
+		<text>
+			タートルを
+			<arg n="1" />
+			角度分右に回ります。
+		</text>
+		<arg-description n="1" name="degs">
+			右に回る角度をセットします。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="角度" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="90"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="rt"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="random" kind="function" initlabel="乱数を作り、その値"
+	color="15 20 220">
+	<description>
+		<text>
+			0から指定した値
+			<arg n="1" />
+			の間の数値を一つランダムに返します。
+		</text>
+		<arg-description n="1" doc-name="number">
+			The upper integer in
+			the range.
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+		<BlockConnector label="0から" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="10" />
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="random"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="color" kind="command" initlabel="ペンの色を変える"
+	color="255 0 0">
+	<description>
+		<text>タートルの軌跡に使用したい色を指定します。</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="色" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="red" label="赤"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="setc"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="up" kind="command" initlabel="ペンを上げる"
+	color="255 0 0">
+	<description>
+		<text>ペンを上げます。ペンを上げている間は、タートルの軌跡が描かれません。</text>
+	</description>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="pu"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="down" kind="command" initlabel="ペンを下ろす"
+	color="255 0 0">
+	<description>
+		<text>ペンを下げます。ペンを下げている間は、タートルの軌跡が描かれます。</text>
+	</description>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="pd"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="input" kind="function" initlabel="コンソールから入力し、その値"
+	color="255 0 0">
+	<description>
+		<text>コンソールから文字を入力します。</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="number" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="input"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="print" kind="command" initlabel="コンソールに出力する"
+	color="255 0 0">
+	<description>
+		<text>セットした文字をコンソールに出力します。</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="string">
+			<DefaultArg genus-name="string" label="あいうえお"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="sleep" kind="command" initlabel="待つ" color="255 0 0">
+	<description>
+		<text>
+			タートルを
+			<arg n="1" />
+			秒止めます。
+		</text>
+		<arg-description n="1" name="seconds">
+			止める秒数をセットします。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="秒" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="sleep"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="warp" kind="command" initlabel="ワープする"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが指定したX座標
+			<arg n="1" />
+			とY座標
+			<arg n="2" />
+			にワープします
+		</text>
+		<arg-description n="1" name="point">
+			ワープするX座標。
+		</arg-description>
+		<arg-description n="2" name="point">
+			ワープするY座標。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="X座標" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="100"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="Y座標" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="100"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="sleep"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="warpByTopLeft" kind="command" initlabel="(左上の座標指定で)ワープする"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector label="X座標" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="100"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="Y座標" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="100"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="sleep"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getX" kind="function" initlabel="X座標の値"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルがいる位置のX座標を調べ、その値を返します。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getX"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getY" kind="function" initlabel="Y座標の値"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルがいる位置のY座標を調べ、その値を返します。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getY"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="size" kind="command" initlabel="大きさを変える"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが指定した横の長さ
+			<arg n="1" />
+			と縦の長さ
+			<arg n="2" />
+			の大きさになります。
+		</text>
+		<arg-description n="1" name="length">
+			変化させる横の長さ。
+		</arg-description>
+		<arg-description n="2" name="length">
+			変化させる縦の長さ。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="横の長さ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="100"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="縦の長さ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="100"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="sleep"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getWidth" kind="function" initlabel="幅を調べ、その値"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが自分の横の幅を調べ、その値を返します。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getWidth"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getHeight" kind="function" initlabel="高さを調べ、その値"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが自分の縦の幅を調べ、その値を返します。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getHeight"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="scale" kind="command" initlabel="大きさを変える"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが指定した倍率
+			<arg n="1" />
+			の大きさになります。
+		</text>
+		<arg-description n="1" name="length">
+			縦横の変化させる倍率。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="倍率" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="100"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="sleep"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="large" kind="command" initlabel="縦・横の幅を大きくする"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが縦横の幅が指定した数値
+			<arg n="1" />
+			だけ大きくなります。
+		</text>
+		<arg-description n="1" name="length">
+			大きくする分の長さ。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="長さ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="50"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="large"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="small" kind="command" initlabel="縦・横の幅を小さくする"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが縦横の幅が指定した数値
+			<arg n="1" />
+			だけ小さくなります。
+		</text>
+		<arg-description n="1" name="length">
+			小さくする分の長さ。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="長さ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="50"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="small"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="wide" kind="command" initlabel="横の幅を大きくする"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが横の幅が指定した数値
+			<arg n="1" />
+			だけ大きくなります。
+		</text>
+		<arg-description n="1" name="length">
+			大きくする分の長さ。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="長さ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="50"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="wide"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="narrow" kind="command" initlabel="横の幅を小さくする"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが横の幅が指定した数値
+			<arg n="1" />
+			だけ小さくなります。
+		</text>
+		<arg-description n="1" name="length">
+			小さくする分の長さ。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="長さ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="50"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="narrow"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="tall" kind="command" initlabel="縦の幅を大きくする"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが縦の幅が指定した数値
+			<arg n="1" />
+			だけ大きくなります。
+		</text>
+		<arg-description n="1" name="length">
+			大きくする分の長さ。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="長さ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="50"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="tall"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="little" kind="command" initlabel="縦の幅を小さくする"
+	color="255 0 0">
+	<description>
+		<text>
+			タートル横の幅が指定した数値
+			<arg n="1" />
+			だけ小さくなります。
+		</text>
+		<arg-description n="1" name="length">
+			小さくする分の長さ。
+		</arg-description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="長さ" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="50"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="little"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="update" kind="command" initlabel="再描画する"
+	color="255 0 0">
+	<description>
+		<text>
+			再描画されます。
+		</text>
+	</description>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="update"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="show" kind="command" initlabel="表示する"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが表示されます。
+		</text>
+	</description>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="hide"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="hide" kind="command" initlabel="非表示にする"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが非表示になります。
+		</text>
+	</description>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="hide"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="setShow" kind="command" initlabel="表示状態を設定する"
+	color="255 0 0">
+	<description>
+		<text>
+			タートルが表示されます。
+		</text>
+	</description>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="hide"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- Ishikawa 2012 -->
+<BlockGenus name="isShow" kind="function" initlabel="表示されているかどうか調べる"
+	color="255 0 0">
+	<description>
+		<text>タートルが表示されているかどうかを調べます。表示されていれば真を、されていなかれば偽を返します
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="isShow"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="looks" kind="command" initlabel="見た目を変える"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="object">
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="looks"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="image" kind="command" color="255 0 0"
+	initlabel="画像ファイルを設定する">
+	<BlockConnectors>
+		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="image"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- <BlockGenus name="show" kind="command" color="255 0 0" initlabel="表示する"> 
+	<BlockConnectors> <BlockConnector connector-type="boolean" connector-kind="socket"></BlockConnector> 
+	</BlockConnectors> <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" 
+	value="show"></LangSpecProperty> </LangSpecProperties> </BlockGenus> -->
+
+<BlockGenus name="text" kind="command" color="255 0 0"
+	initlabel="テキストを設定する">
+	<BlockConnectors>
+		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="show"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getText" kind="data" color="255 0 0"
+	initlabel="テキストを取得する">
+	<description>
+		<text>コンソールから文字を入力します。</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
+</BlockGenus>
+
+<BlockGenus name="key" kind="data" color="255 0 0" initlabel="押されているキーのキーコードを調べる">
+	<BlockConnectors>
+		<BlockConnector connector-type="number" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="keyDown" kind="function" color="255 0 0"
+	initlabel="指定したキーが押されているか調べる">
+	<BlockConnectors>
+		<BlockConnector connector-type="boolean"
+			connector-kind="plug" position-type="single"></BlockConnector>
+		<BlockConnector connector-type="number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="keyDown"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="mouseX" kind="data" color="255 0 0"
+	initlabel="マウスの現在地のX座標を取得する">
+	<BlockConnectors>
+		<BlockConnector connector-type="number" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="mouseX"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="mouseY" kind="data" color="255 0 0"
+	initlabel="マウスの現在地のY座標を取得する">
+	<BlockConnectors>
+		<BlockConnector connector-type="number" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="mouseY"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="mouseClicked" kind="function" initlabel="マウスがクリックされたか調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="mouseClicked"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="leftMouseClicked" kind="function"
+	initlabel="マウスが左クリックされたか調べる" color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="leftMouseClicked"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="rightMouseClicked" kind="function"
+	initlabel="マウスが右クリックされたか調べる" color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="rightMouseClicked"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="doubleClick" kind="function" initlabel="マウスがダブルクリックされたか調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="doubleClick"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="mouseDown" kind="function" initlabel="マウスが押されたか調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="mouseDown"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="leftMouseDown" kind="function" initlabel="マウスの左ボタンが押されたか調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="leftMouseDown"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="rightMouseDown" kind="function" initlabel="マウスの右ボタンが押されたか調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="rightMouseDown"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="intersects" kind="function" initlabel="オブジェクトが重なっているかどうか調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-type="boolean"
+			connector-kind="plug"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="object">
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="intersects"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
+<BlockGenus name="contains" kind="function" initlabel="オブジェクトが指定した座標を含む位置にいるか調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-type="boolean"
+			connector-kind="plug"></BlockConnector>
+		<BlockConnector label="X座標" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="100"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="Y座標" connector-kind="socket"
+			connector-type="number">
+			<DefaultArg genus-name="number" label="100"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="contains"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- SoundTurtle -->
+
+<BlockGenus name="file" kind="command" initlabel="ファイルを設定する"
+	color="30 30 200">
+	<BlockConnectors>
+		<BlockConnector connector-type="string" connector-kind="socket">
+			<DefaultArg genus-name="string" label="filename"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="play" kind="command" initlabel="再生する"
+	color="30 30 200">
+</BlockGenus>
+
+<BlockGenus name="loop" kind="command" initlabel="ループ再生する"
+	color="30 30 200">
+</BlockGenus>
+
+<BlockGenus name="stop" kind="command" initlabel="停止する"
+	color="30 30 200">
+</BlockGenus>
+
+<BlockGenus name="isPlaying" kind="data" initlabel="再生しているかどうか"
+	color="30 30 200">
+	<BlockConnectors>
+		<BlockConnector connector-type="boolean"
+			connector-kind="plug">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getVolume" kind="data" initlabel="音量の値"
+	color="30 30 200">
+	<BlockConnectors>
+		<BlockConnector connector-type="number" connector-kind="plug">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setVolume" kind="command" initlabel="音量を設定する"
+	color="30 30 200">
+	<BlockConnectors>
+		<BlockConnector connector-type="number" connector-kind="socket">
+			<DefaultArg genus-name="number" label="80"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="loadOnMemory" kind="command" initlabel="メモリに読み込む"
+	color="30 30 200">
+</BlockGenus>
+
+<BlockGenus name="get" kind="data" initlabel="要素" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="object"/>
+		<!-- <BlockConnector label="の" connector-kind="socket" connector-type="object" position-type="single"/>  -->
+		<BlockConnector label="番地" connector-kind="socket" connector-type="number" position-type="single">
+			<DefaultArg genus-name="number" label="0"></DefaultArg>
+		</BlockConnector>		
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getSize" kind="data" initlabel="要素数" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="add" kind="command" initlabel="追加する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="addFirst" kind="command" initlabel="最初に追加する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="addLast" kind="command" initlabel="最後に追加する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="addAll" kind="command" initlabel="中身を全て追加する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="誰の？" connector-kind="socket" connector-type="object" position-type="single"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="moveAllTo" kind="command" initlabel="全ての中身を移動する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="どこに？" connector-kind="socket" connector-type="object" position-type="single"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="removeFirst" kind="command" initlabel="最初の要素を削除する" color="255 255 100">
+</BlockGenus>
+
+<BlockGenus name="removeLast" kind="command" initlabel="最後の要素を削除する" color="255 255 100">
+</BlockGenus>
+
+<BlockGenus name="removeAll" kind="command" initlabel="全ての要素を削除する" color="255 255 100">
+</BlockGenus>
+
+<BlockGenus name="getCursor" kind="data" initlabel="カーソル位置" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setCursor" kind="command" initlabel="カーソル位置を設定する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="新しい位置" connector-kind="socket" connector-type="number" position-type="single">
+			<DefaultArg genus-name="number" label="0"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="moveCursorToNext" kind="command" initlabel="カーソルを進める" color="255 255 100">
+</BlockGenus>
+
+<BlockGenus name="moveCursorToPrevious" kind="command" initlabel="カーソルを戻す" color="255 255 100">
+</BlockGenus>
+
+<BlockGenus name="getObjectAtCursor" kind="data" initlabel="カーソル位置の要素" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="object"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="addToBeforeCursor" kind="command" initlabel="カーソルの前に追加する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="addToAfterCursor" kind="command" initlabel="カーソルの後に追加する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="removeAtCursor" kind="command" initlabel="カーソルの位置にある要素を削除する" color="255 255 100">
+</BlockGenus>
+
+<BlockGenus name="shuffle" kind="command" initlabel="かき混ぜる" color="255 255 100">
+</BlockGenus>
+
+<BlockGenus name="setBgColor" kind="command" initlabel="背景色を設定する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="色" connector-kind="socket" connector-type="color" position-type="single"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<!-- card turtle -->
+
+<BlockGenus name="getNumber" kind="data" initlabel="番号" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<!-- 
+<BlockGenus name="fontsize" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="pt？" connector-kind="socket" connector-type="number" position-type="single"/>
+	</BlockConnectors>
+</BlockGenus>
+ -->
+ 
+ <!-- button turtle -->
+<BlockGenus name="isClicked" kind="data" initlabel="クリックされた" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="boolean"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<!-- input turtle -->
+
+<BlockGenus name="clearText" kind="command" initlabel="テキストを空にする" color="255 255 100"/>
+
+<BlockGenus name="setActive" kind="command" initlabel="活動状態を変える" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="活動状態" connector-kind="socket"	connector-type="boolean">
+			<!-- <DefaultArg genus-name="boolean" label="true"></DefaultArg> -->
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="fd"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="isActive" kind="data" initlabel="活動中か" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="boolean"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="toJapaneseMode" kind="command" initlabel="日本語モードにする" color="255 255 100"/>
+<BlockGenus name="toEnglishMode" kind="command" initlabel="英語モードにする" color="255 255 100"/>
+
+<BlockGenus name="fontsize" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="サイズ" connector-kind="socket" connector-type="number">
+			<DefaultArg genus-name="number" label="20"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>

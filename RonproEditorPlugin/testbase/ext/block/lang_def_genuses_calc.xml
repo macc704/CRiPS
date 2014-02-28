@@ -1,0 +1,605 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- number 計算　-->
+
+<BlockGenus name="sum" kind="function" initlabel="+" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="number" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="sum"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="difference" kind="function" initlabel="-"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="number" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="difference"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="product" kind="function" initlabel="x"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="number" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="product"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="quotient" kind="function" initlabel="÷"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="number" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="quotient"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="remainder" kind="function" initlabel="割り算の余り"
+	color="15 20 220">	
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="number" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="quotient"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
+<!-- number 比較演算　-->
+
+<BlockGenus name="equals-number" kind="function" initlabel="等しい"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="not-equals-number" kind="function"
+	initlabel="等しくない" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="lessthan" kind="function" initlabel="&lt;"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="less-than"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="lessthanorequalto" kind="function"
+	initlabel="≤" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="less-than-or-equal-to"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="greaterthan" kind="function" initlabel="&gt;"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="greater-than"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="greaterthanorequalto" kind="function"
+	initlabel="≥" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="greater-than-or-equal-to"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- double 計算 -->
+<BlockGenus name="sum-double" kind="function" initlabel="+"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="double-number" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="sum"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="difference-double" kind="function"
+	initlabel="-" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="double-number" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="difference"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="product-double" kind="function" initlabel="x"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="double-number" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="product"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="quotient-double" kind="function" initlabel="÷"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="double-number" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="quotient"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="remainder-double" kind="function"
+	initlabel="割り算の余り" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="double-number" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="quotient"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- double 比較演算 -->
+
+<BlockGenus name="equals-number-double" kind="function"
+	initlabel="等しい" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="not-equals-number-double" kind="function"
+	initlabel="等しくない" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="lessthan-double" kind="function" initlabel="&lt;"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="less-than"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="lessthanorequalto-double" kind="function"
+	initlabel="≤" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="less-than-or-equal-to"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="greaterthan-double" kind="function"
+	initlabel="&gt;" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="greater-than"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="greaterthanorequalto-double" kind="function"
+	initlabel="≥" color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="greater-than-or-equal-to"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- String　計算 -->
+
+<BlockGenus name="string-append" kind="function" initlabel="連結する"
+	color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"
+			position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="string" position-type="bottom">
+			<DefaultArg genus-name="string" label="あいう"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="string" position-type="bottom">
+			<DefaultArg genus-name="string" label="えお"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="sentence"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- String　比較演算 -->
+<BlockGenus name="equals-string" kind="function" initlabel="等しい"
+	color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="string" position-type="bottom">
+			<DefaultArg genus-name="string" label="あいう"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="string" position-type="bottom">
+			<DefaultArg genus-name="string" label="あいう"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="not-equals-string" kind="function"
+	initlabel="等しくない" color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="string" position-type="bottom">
+			<DefaultArg genus-name="string" label="あいう"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="string" position-type="bottom">
+			<DefaultArg genus-name="string" label="えお"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- boolean　演算 -->
+
+<BlockGenus name="or" kind="function" initlabel="もしくは" color="255 0 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="boolean" position-type="bottom">
+			<DefaultArg genus-name="true" label="真"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="boolean" position-type="bottom">
+			<DefaultArg genus-name="true" label="真"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="or"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="and" kind="function" initlabel="かつ" color="255 0 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="boolean" position-type="bottom">
+			<DefaultArg genus-name="true" label="真"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="boolean" position-type="bottom">
+			<DefaultArg genus-name="true" label="真"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="and"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="not" kind="function" initlabel="反転したもの" color="255 0 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="boolean"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="not"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- boolean　比較演算 -->
+
+<BlockGenus name="equals-boolean" kind="function" initlabel="等しい"
+	color="255 0 255">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="boolean" position-type="bottom">
+			<DefaultArg genus-name="true" label="真"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="boolean" position-type="bottom">
+			<DefaultArg genus-name="true" label="真"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="not-equals-boolean" kind="function"
+	initlabel="等しくない" color="255 0 255">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="boolean" position-type="bottom">
+			<DefaultArg genus-name="true" label="真"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="boolean" position-type="bottom">
+			<DefaultArg genus-name="false" label="偽"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>

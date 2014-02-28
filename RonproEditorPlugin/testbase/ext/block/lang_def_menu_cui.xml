@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BlockDrawerSet name="factory" type="stack" location="southwest"
+	window-per-drawer="no" drawer-draggable="no">
+
+	<BlockDrawer name="CUI" type="factory" button-color="0 102 51">
+		<BlockGenusMember>cui-print</BlockGenusMember>
+		<BlockGenusMember>cui-println</BlockGenusMember>
+		<BlockGenusMember>cui-random</BlockGenusMember>
+		<BlockGenusMember>hashCode</BlockGenusMember>
+		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
+		<BlockGenusMember>next</BlockGenusMember>
+		<BlockGenusMember>nextInt</BlockGenusMember>
+		<BlockGenusMember>nextDouble</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="構造化" type="factory" button-color="255 255 255">
+		<BlockGenusMember>abstraction</BlockGenusMember>
+		<BlockGenusMember>procedure</BlockGenusMember>
+		<BlockGenusMember>proc-param-number</BlockGenusMember>
+		<BlockGenusMember>proc-param-double-number</BlockGenusMember>
+		<BlockGenusMember>proc-param-boolean</BlockGenusMember>
+		<BlockGenusMember>proc-param-string</BlockGenusMember>
+		<BlockGenusMember>return</BlockGenusMember>	
+	</BlockDrawer>
+	
+	<BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20">
+		<BlockGenusMember>callActionMethod2</BlockGenusMember>
+		<BlockGenusMember>callGetterMethod2</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="分岐、繰返" type="factory" button-color="255 80 0">
+		<BlockGenusMember>ifelse</BlockGenusMember>
+		<BlockGenusMember>while</BlockGenusMember>
+		<BlockGenusMember>dowhile</BlockGenusMember>
+		<BlockGenusMember>break</BlockGenusMember>
+		<BlockGenusMember>continue</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="調べる" type="factory" button-color="204 204 102">
+		<BlockGenusMember>equals-number</BlockGenusMember>
+		<BlockGenusMember>not-equals-number</BlockGenusMember>
+		<BlockGenusMember>lessthan</BlockGenusMember>
+		<BlockGenusMember>greaterthan</BlockGenusMember>
+		<BlockGenusMember>lessthanorequalto</BlockGenusMember>
+		<BlockGenusMember>greaterthanorequalto</BlockGenusMember>
+		<BlockGenusMember>equals-number-double</BlockGenusMember>
+		<BlockGenusMember>not-equals-number-double</BlockGenusMember>
+		<BlockGenusMember>lessthan-double</BlockGenusMember>
+		<BlockGenusMember>greaterthan-double</BlockGenusMember>
+		<BlockGenusMember>lessthanorequalto-double</BlockGenusMember>
+		<BlockGenusMember>greaterthanorequalto-double</BlockGenusMember>
+		<BlockGenusMember>equals-boolean</BlockGenusMember>
+		<BlockGenusMember>not-equals-boolean</BlockGenusMember>		
+		<BlockGenusMember>equals-string</BlockGenusMember>	
+		<BlockGenusMember>and</BlockGenusMember>
+		<BlockGenusMember>or</BlockGenusMember>
+		<BlockGenusMember>not</BlockGenusMember>
+		<BlockGenusMember>true</BlockGenusMember>
+		<BlockGenusMember>false</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="文字列" type="factory" button-color="45 201 255">
+		<BlockGenusMember>string-append</BlockGenusMember>
+		<BlockGenusMember>string</BlockGenusMember>
+		<BlockGenusMember>toStringFromInt</BlockGenusMember>
+		<BlockGenusMember>toStringFromDouble</BlockGenusMember>
+		<BlockGenusMember>toStringFromObject</BlockGenusMember>
+		<BlockGenusMember>local-var-string</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="計算" type="factory" button-color="102 129 255">
+		<BlockGenusMember>sum</BlockGenusMember>
+		<BlockGenusMember>difference</BlockGenusMember>
+		<BlockGenusMember>product</BlockGenusMember>
+		<BlockGenusMember>quotient</BlockGenusMember>
+		<BlockGenusMember>remainder</BlockGenusMember>
+
+		<BlockGenusMember>sum-double</BlockGenusMember>
+		<BlockGenusMember>difference-double</BlockGenusMember>
+		<BlockGenusMember>product-double</BlockGenusMember>
+		<BlockGenusMember>quotient-double</BlockGenusMember>
+		<BlockGenusMember>remainder-double</BlockGenusMember>
+
+		<BlockGenusMember>number</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="数学" type="factory" button-color="102 129 255">
+		<BlockGenusMember>cui-random</BlockGenusMember>
+		<BlockGenusMember>sqrt</BlockGenusMember>
+		<BlockGenusMember>sin</BlockGenusMember>
+		<BlockGenusMember>cos</BlockGenusMember>
+		<BlockGenusMember>tan</BlockGenusMember>
+		<BlockGenusMember>log</BlockGenusMember>
+		<BlockGenusMember>toRadians</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="変数の定義" type="factory" button-color="230 0 255">
+		<BlockGenusMember>local-var-int-number</BlockGenusMember>
+		<BlockGenusMember>local-var-double-number</BlockGenusMember>
+		<BlockGenusMember>local-var-string</BlockGenusMember>
+		<BlockGenusMember>local-var-boolean</BlockGenusMember>
+		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
+		<!--  <BlockGenusMember>private-var-int-number</BlockGenusMember>-->
+		<!-- <BlockGenusMember>local-var-object</BlockGenusMember> -->
+	</BlockDrawer>
+
+	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
+		<BlockGenusMember>toIntFromDouble</BlockGenusMember>
+		<BlockGenusMember>toIntFromString</BlockGenusMember>
+		<BlockGenusMember>toDoubleFromInt</BlockGenusMember>
+		<BlockGenusMember>toDoubleFromString</BlockGenusMember>
+		<BlockGenusMember>toStringFromInt</BlockGenusMember>
+		<BlockGenusMember>toStringFromDouble</BlockGenusMember>
+		<BlockGenusMember>toStringFromObject</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="値" type="factory" button-color="255 61 200">
+		<BlockGenusMember>number</BlockGenusMember>
+		<BlockGenusMember>double-number</BlockGenusMember>
+		<BlockGenusMember>string</BlockGenusMember>
+		<BlockGenusMember>true</BlockGenusMember>
+		<BlockGenusMember>false</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="色" type="factory" button-color="255 155 64">
+		<BlockGenusMember>blue</BlockGenusMember>
+		<BlockGenusMember>cyan</BlockGenusMember>
+		<BlockGenusMember>green</BlockGenusMember>
+		<BlockGenusMember>magenta</BlockGenusMember>
+		<BlockGenusMember>orange</BlockGenusMember>
+		<BlockGenusMember>pink</BlockGenusMember>
+		<BlockGenusMember>red</BlockGenusMember>
+		<BlockGenusMember>white</BlockGenusMember>
+		<BlockGenusMember>yellow</BlockGenusMember>
+		<BlockGenusMember>gray</BlockGenusMember>
+		<BlockGenusMember>lightGray</BlockGenusMember>
+		<BlockGenusMember>darkGray</BlockGenusMember>
+		<BlockGenusMember>black</BlockGenusMember>
+	</BlockDrawer>
+
+
+</BlockDrawerSet>
