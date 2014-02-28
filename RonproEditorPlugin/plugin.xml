@@ -18,11 +18,20 @@
          <action
                label="&amp;Open BlockEditor"
                icon="icons/sample.gif"
-               class="ronproeditorplugin.actions.SampleAction"
+               class="blockEditorplugin.actions.BlockEditorAction"
                tooltip="Hello, Eclipse world"
                menubarPath="sampleMenu/sampleGroup"
                toolbarPath="sampleGroup"
                id="ronproeditorplugin.actions.SampleAction">
+         </action>
+         <action
+               class="cocoviewer.actions.CocoviewerAction"
+               icon="icons/sample.gif"
+               id="ronproeditorplugin.actions.SampleAction"
+               label="&amp;CocoViewer"
+               menubarPath="sampleMenu/sampleGroup"
+               style="push"
+               toolbarPath="sampleGroup">
          </action>
       </actionSet>
    </extension>

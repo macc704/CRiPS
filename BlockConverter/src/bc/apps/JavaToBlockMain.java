@@ -39,9 +39,11 @@ public class JavaToBlockMain {
 	public String run(File file, String enc, String[] classpaths)
 			throws Exception {
 		String filePath = ExtensionChanger.changeToXmlExtension(file.getPath());
-
-		process(file, enc, new PrintStream(new File(filePath),
-				BlockConverter.ENCODING_BLOCK_XML), classpaths);
+		File xml = new File(filePath);
+		xml.createNewFile();
+		System.out.println(xml.getPath());
+		PrintStream hoge = new PrintStream(xml,BlockConverter.ENCODING_BLOCK_XML); 
+		process(file, enc, hoge, classpaths);
 		return filePath;
 	}
 

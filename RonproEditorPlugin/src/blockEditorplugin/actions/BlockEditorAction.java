@@ -1,18 +1,20 @@
-package ronproeditorplugin.actions;
+package blockEditorplugin.actions;
 
+import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowStateListener;
 import java.io.File;
 
+import javax.swing.SwingUtilities;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.browser.WindowEvent;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
+import org.eclipse.ui.editors.text.TextEditor;
 
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
@@ -22,43 +24,60 @@ import clib.common.thread.ICTask;
 import controller.WorkspaceController;
 
 /**
- * Our sample action implements workbench action delegate.
- * The action proxy will be created by the workbench and
- * shown in the UI. When the user tries to use the action,
- * this delegate will be created and execution will be 
- * delegated to it.
+ * Our sample action implements workbench action delegate. The action proxy will
+ * be created by the workbench and shown in the UI. When the user tries to use
+ * the action, this delegate will be created and execution will be delegated to
+ * it.
+ * 
  * @see IWorkbenchWindowActionDelegate
  */
-public class SampleAction implements IWorkbenchWindowActionDelegate {
+public class BlockEditorAction implements IWorkbenchWindowActionDelegate {
 	private static final String LANG_DEF_PATH = "ext/block/lang_def.xml";
-	private static final String LANG_DEF_TURTLE_PATH = "ext/block/lang_def_turtle.xml";
+	// private static final String LANG_DEF_TURTLE_PATH =
+	// "ext/block/lang_def_turtle.xml";
 	private static final String IMAGES_PATH = "ext/block/images/";
+	public static final String LIB_FOLDER = "lib";
+
+	private static final String ENCODING = "SJIS";
 
 	private IWorkbenchWindow window;
 	private WorkspaceController blockEditor;
 
+	private CTaskManager man = new CTaskManager();
+
 	/**
 	 * The constructor.
 	 */
-	public SampleAction() {
+	public BlockEditorAction() {
 	}
 
 	/**
-	 * The action has been activated. The argument of the
-	 * method represents the 'real' action sitting
-	 * in the workbench UI.
+	 * The action has been activated. The argument of the method represents the
+	 * 'real' action sitting in the workbench UI.
+	 * 
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-		MessageDialog.openInformation(
-			window.getShell(),
-			"RonproEditorPlugin",
-			"Hello, Eclipse world");
+		// MessageDialog.openInformation(
+		// window.getShell(),
+		// "RonproEditorPlugin",
+		// "Hello, Eclipse world");
+		man.start();
+		man.setPriority(Thread.currentThread().getPriority() - 1);
+	
 		blockEditor = new WorkspaceController(IMAGES_PATH);
 		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 		blockEditor.loadFreshWorkspace();
 
-		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				createAndShowGUI();
+			}
+		});
+
+	}
+
+	public void createAndShowGUI() {
 		blockEditor.createAndShowGUI(blockEditor, new SBlockEditorListener() {
 
 			public void blockConverted(File file) {
@@ -86,81 +105,79 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 				// app.doCompile();
 			}
 
-		}, "SJIS");
+		}, ENCODING);
 		blockEditor.getFrame().addWindowFocusListener(
 				new WindowFocusListener() {
 
-
 					@Override
-					public void windowGainedFocus(java.awt.event.WindowEvent e) {
+					public void windowGainedFocus(WindowEvent e) {
 						// TODO Auto-generated method stub
-						
+
 					}
 
 					@Override
-					public void windowLostFocus(java.awt.event.WindowEvent e) {
+					public void windowLostFocus(WindowEvent e) {
 						// TODO Auto-generated method stub
-						
+
 					}
 				});
 		// writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
 		blockEditor.getFrame().addWindowStateListener(
 				new WindowStateListener() {
-
-
 					@Override
-					public void windowStateChanged(java.awt.event.WindowEvent e) {
+					public void windowStateChanged(WindowEvent e) {
 						// TODO Auto-generated method stub
-						
+
 					}
 				});
+
+		doCompileBlock();
 	}
 
-	
 	private boolean isWorkspaceOpened() {
 		return blockEditor != null && blockEditor.getFrame() != null
 				&& blockEditor.getFrame().isVisible();
 	}
 
-	
 	/**
-	 * Selection in the workbench has been changed. We 
-	 * can change the state of the 'real' action here
-	 * if we want, but this can only happen after 
-	 * the delegate has been created.
+	 * Selection in the workbench has been changed. We can change the state of
+	 * the 'real' action here if we want, but this can only happen after the
+	 * delegate has been created.
+	 * 
 	 * @see IWorkbenchWindowActionDelegate#selectionChanged
 	 */
 	public void selectionChanged(IAction action, ISelection selection) {
 	}
 
 	/**
-	 * We can use this method to dispose of any system
-	 * resources we previously allocated.
+	 * We can use this method to dispose of any system resources we previously
+	 * allocated.
+	 * 
 	 * @see IWorkbenchWindowActionDelegate#dispose
 	 */
 	public void dispose() {
 	}
 
 	/**
-	 * We will cache window object in order to
-	 * be able to provide parent shell for the message dialog.
+	 * We will cache window object in order to be able to provide parent shell
+	 * for the message dialog.
+	 * 
 	 * @see IWorkbenchWindowActionDelegate#init
 	 */
 	public void init(IWorkbenchWindow window) {
 		this.window = window;
 	}
-	
-	private CTaskManager man = new CTaskManager();
 
 	public void doCompileBlock() {
-		System.out.println(window.getActivePage().getActiveEditor().getTitle());
+
 		IEditorPart editorPart = window.getActivePage().getActiveEditor();
-		
-		final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart.getEditorInput();
+
+		final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart
+				.getEditorInput();
 		IFile file = fileEditorInput.getFile();
-		
+
 		final File target = file.getFullPath().toFile();
-	
+
 		man.addTask(new ICTask() {
 
 			public void doTask() {
@@ -173,22 +190,16 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 					return;
 				}
 
-			//	writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK);
+				//writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK);
 				// app.doCompileBlocking(false);
 
 				String message = "default";
-				try {
-//					message = app.doCompile2(false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				if (message.length() != 0) {// has compile error
-//					writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
-					doCompileErrorBlockEditor(target);
-					return;
-				}
-
+				
+//				if (message.length() != 0) {// has compile error
+//				// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
+//					doCompileErrorBlockEditor(target);
+//					return;
+//				}
 
 				doRefleshBlock(target);
 				// TODO Auto-generated method stub
@@ -198,6 +209,8 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 		});
 	}
 	
+	
+
 	protected void doRefleshBlock(final File javaFile) {
 		blockEditor.setState(WorkspaceController.BLOCK_SHOWING);
 		// Thread thread = new Thread() {
@@ -209,28 +222,27 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 			public void doTask() {
 				try {
 					// xmlファイル生成
-//					String[] libs = app.getLibraryManager().getLibsAsArray();
-//					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
+					 String[] libs = {"/Users/ohata/git/CRiPS/RonproEditor/testbase/lib/blib.jar"};
+					// writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 					// File javaFile = app.getSourceManager().getCurrentFile();
+					
 					String xmlFilePath = new JavaToBlockMain().run(javaFile,
-							"SJIS", null);
+							"SJIS", libs);
 
 					// BlockEditorに反映
 					// lang def ファイル
 
-
-						blockEditor.setLangDefFilePath(LANG_DEF_PATH);
-
+					blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 
 					// blockEditor.resetLanguage();
 					// blockEditor.setLangDefDirty(true);
 					blockEditor.resetWorkspace();
 					blockEditor.loadProjectFromPath(new File(xmlFilePath)
 							.getPath());
-	//				writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
+					// writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
 				} catch (Exception ex) {
 					ex.printStackTrace();
-		//			CErrorDialog.show(app.getFrame(), "Block変換時のエラー", ex);
+					// CErrorDialog.show(app.getFrame(), "Block変換時のエラー", ex);
 				}
 			}
 		});
@@ -238,7 +250,6 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 		// thread.start();
 	}
 
-	
 	private void doCompileErrorBlockEditor(final File target) {
 		blockEditor.setState(WorkspaceController.COMPILE_ERROR);
 		// Thread thread = new Thread() {
@@ -263,7 +274,7 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 		// thread.setPriority(Thread.currentThread().getPriority() - 1);
 		// thread.start();
 	}
-	
+
 	private void doLockBlockEditor() {
 		if (!isWorkspaceOpened()) {
 			return;
@@ -317,5 +328,9 @@ public class SampleAction implements IWorkbenchWindowActionDelegate {
 		blockEditorFile.append("</BlockLangDef>");
 		return blockEditorFile.toString();
 	}
+	
+	
+	
+	
 
 }

@@ -10,7 +10,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
  jp.ac.shizuoka.inf.ce.cs.commonlibrary,
  org.eclipse.ui.workbench,
- org.eclipse.ui.ide;bundle-version="3.9.1"
+ org.eclipse.ui.ide;bundle-version="3.9.1",
+ org.eclipse.ui.editors,
+ org.eclipse.jface
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/jcommon-1.0.0-rc1.jar,
