@@ -5,6 +5,16 @@ Bundle-SymbolicName: RonproEditorPlugin;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: ronproeditorplugin.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.eclipse.jdt.core,
+ org.eclipse.core.resources,
+ jp.ac.shizuoka.inf.ce.cs.commonlibrary
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: lib/jcommon-1.0.0-rc1.jar,
+ lib/jfreechart-1.0.0-rc1.jar,
+ lib/JimiProClasses.jar,
+ lib/slcodeblocks.jar,
+ lib/starlogotng.jar,
+ lib/TableLayout.jar,
+ .

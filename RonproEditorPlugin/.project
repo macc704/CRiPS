@@ -25,4 +25,16 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>BCsrc</name>
+			<type>2</type>
+			<location>/Users/ohata/git/CRiPS/BlockConverter/src</location>
+		</link>
+		<link>
+			<name>BEsrc</name>
+			<type>2</type>
+			<location>/Users/ohata/git/CRiPS/BlockEditor/src</location>
+		</link>
+	</linkedResources>
 </projectDescription>
