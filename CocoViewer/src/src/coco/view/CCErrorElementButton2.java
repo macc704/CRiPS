@@ -18,6 +18,7 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import ppv.app.datamanager.PPProjectSet;
 import src.coco.model.CCCompileErrorList;
 import clib.common.filesystem.CDirectory;
 
@@ -34,14 +35,20 @@ public class CCErrorElementButton2 extends JButton implements
 	private int height;
 
 	private CCCompileErrorList list;
+
 	private CDirectory baseDir;
+	private CDirectory libDir;
+	private PPProjectSet ppProjectSet;
 
 	public CCErrorElementButton2(CCCompileErrorList list, int width,
-			int height, CDirectory baseDir) {
+			int height, CDirectory baseDir, CDirectory libDir,
+			PPProjectSet ppProjectSet) {
 		this.list = list;
 		this.width = width;
 		this.height = height;
 		this.baseDir = baseDir;
+		this.libDir = libDir;
+		this.ppProjectSet = ppProjectSet;
 		super.setLayout(null);
 		makeGraph();
 	}
@@ -112,8 +119,8 @@ public class CCErrorElementButton2 extends JButton implements
 	@Override
 	public void chartMouseClicked(ChartMouseEvent arg0) {
 		// TODO Auto-generated method stub
-		CCGraphFrame frame = new CCGraphFrame(list, baseDir);
-		frame.openGraph();
+		CCGraphFrame frame = new CCGraphFrame(list, baseDir, libDir,
+				ppProjectSet);
 		frame.setVisible(true);
 	}
 

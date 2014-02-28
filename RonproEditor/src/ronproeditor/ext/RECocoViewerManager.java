@@ -1,5 +1,6 @@
 package ronproeditor.ext;
 
+import ppv.app.datamanager.PPProjectSet;
 import ronproeditor.REApplication;
 import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.controller.CCCompileErrorLoader;
@@ -8,7 +9,7 @@ import src.coco.view.CCMainFrame2;
 import clib.common.filesystem.CDirectory;
 
 public class RECocoViewerManager {
-	REApplication application;
+	private REApplication application;
 
 	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvフォルダに展開する
 	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv";
@@ -18,13 +19,18 @@ public class RECocoViewerManager {
 		this.application = application;
 	}
 
-	public void openCocoViewer() {
+	public void openCocoViewer(PPProjectSet ppProjectSet) {
 		CCCompileErrorManager manager = new CCCompileErrorManager();
 		loadData(manager);
 
 		CDirectory ppvRoot = application.getSourceManager().getCRootDirectory()
 				.findOrCreateDirectory(PPV_ROOT_DIR);
-		new CCMainFrame2(manager, ppvRoot).setVisible(true);
+		CDirectory libDir = application.getLibraryManager().getDir();
+		manager.setBaseDir(ppvRoot);
+		manager.setLibDir(libDir);
+		manager.setPPProjectSet(ppProjectSet);
+
+		new CCMainFrame2(manager).setVisible(true);
 	}
 
 	private void loadData(CCCompileErrorManager manager) {

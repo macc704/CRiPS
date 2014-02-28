@@ -160,7 +160,7 @@ public class PPDataManager {
 
 	}
 
-	private void loadProjectSet(PPProjectSet projectSet, boolean load,
+	public void loadProjectSet(PPProjectSet projectSet, boolean load,
 			boolean compile) {
 		List<CDirectory> dirs = projectSet.getDir().getDirectoryChildren();
 		monitor.setWorkTitle("Loading Projects");

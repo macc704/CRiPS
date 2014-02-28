@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import ppv.app.datamanager.PPProjectSet;
+import clib.common.filesystem.CDirectory;
+
 public class CCCompileErrorManager {
 	// HashMap‚Å‚Í‡˜‚ª•ÛØ‚³‚ê‚È‚¢‚Ì‚ÅLinkedHashMap‚É•ÏX
 	private LinkedHashMap<Integer, CCCompileErrorList> lists = new LinkedHashMap<Integer, CCCompileErrorList>();
 	private LinkedHashMap<String, Integer> ids = new LinkedHashMap<String, Integer>();
 	private int totalErrorCount = 0;
+
+	private CDirectory baseDir;
+	private CDirectory libDir;
+	private PPProjectSet ppProjectSet;
 
 	public CCCompileErrorManager() {
 
@@ -53,5 +60,29 @@ public class CCCompileErrorManager {
 		}
 
 		return correctTime;
+	}
+
+	public void setBaseDir(CDirectory baseDir) {
+		this.baseDir = baseDir;
+	}
+
+	public CDirectory getBaseDir() {
+		return baseDir;
+	}
+
+	public void setLibDir(CDirectory libDir) {
+		this.libDir = libDir;
+	}
+
+	public CDirectory getLibDir() {
+		return libDir;
+	}
+
+	public void setPPProjectSet(PPProjectSet ppProjectSet) {
+		this.ppProjectSet = ppProjectSet;
+	}
+
+	public PPProjectSet getPPProjectSet() {
+		return ppProjectSet;
 	}
 }

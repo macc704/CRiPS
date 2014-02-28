@@ -20,7 +20,7 @@ public class CCViewerStart {
 		CCCompileErrorLoader errorloader = new CCCompileErrorLoader(manager);
 		errorloader.load("CompileErrorLog.csv");
 
-		CCMainFrame2 frame = new CCMainFrame2(manager, null);
+		CCMainFrame2 frame = new CCMainFrame2(manager);
 		frame.setVisible(true);
 	}
 }

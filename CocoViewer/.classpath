@@ -6,5 +6,10 @@
 	<classpathentry kind="lib" path="lib/jcommon-1.0.20.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.15.jar"/>
 	<classpathentry kind="lib" path="lib/super-csv-2.1.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PresVisualizer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/PresCore"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CTimeLineView"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CSwing"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CTable"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

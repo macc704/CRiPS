@@ -13,8 +13,8 @@ import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.JToolTip;
+import javax.swing.SwingUtilities;
 
 import org.jfree.chart.ChartColor;
 import org.jfree.chart.ChartFactory;
@@ -27,12 +27,15 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import ppv.app.datamanager.PPDataManager;
+import ppv.app.datamanager.PPProjectSet;
+import pres.loader.model.IPLUnit;
+import pres.loader.model.PLFile;
+import pres.loader.model.PLProject;
 import src.coco.model.CCCompileError;
 import src.coco.model.CCCompileErrorList;
 import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileElement;
-import clib.common.filesystem.CPath;
+import clib.common.time.CTime;
 
 public class CCGraphFrame extends JFrame {
 
@@ -48,20 +51,26 @@ public class CCGraphFrame extends JFrame {
 	private CCCompileErrorList list;
 
 	private CDirectory baseDir;
+	private CDirectory libDir;
+	private PPProjectSet ppProjectSet;
 
 	// default
-	public CCGraphFrame(CCCompileErrorList list, CDirectory baseDir) {
+	public CCGraphFrame(CCCompileErrorList list, CDirectory baseDir,
+			CDirectory libDir, PPProjectSet ppProjectSet) {
 		this.list = list;
 		this.baseDir = baseDir;
+		this.libDir = libDir;
+		this.ppProjectSet = ppProjectSet;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		width = (int) (d.width * 0.75);
 		height = (int) (d.height * 0.75);
 		initialize();
+		setGraphAndTable();
 	}
 
-	public void openGraph() {
-		makeGraph();
-		makeSourceList();
+	private void setGraphAndTable() {
+		setGraph();
+		setSourceTable();
 		add(rootPanel);
 		getContentPane().add(rootPanel, BorderLayout.CENTER);
 		pack();
@@ -75,7 +84,7 @@ public class CCGraphFrame extends JFrame {
 				+ list.getMessage() + " の詳細");
 	}
 
-	private void makeGraph() {
+	private void setGraph() {
 		// 日本語が文字化けしないテーマ
 		// ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 		// グラフデータを設定する
@@ -89,6 +98,7 @@ public class CCGraphFrame extends JFrame {
 		JFreeChart chart = ChartFactory.createLineChart(list.getMessage()
 				+ "の修正時間   レア度: " + list.getRare(), "修正回数", "修正時間", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
+
 		// フォント指定しないと文字化けする
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 		chart.getLegend().setItemFont(new Font("Font2DHandle", Font.PLAIN, 16));
@@ -135,7 +145,7 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	// TODO リスト部分の実装
-	private void makeSourceList() {
+	private void setSourceTable() {
 		// java7からDefaultListModelに格納するクラスを指定しなければならない
 		DefaultListModel<String> model = new DefaultListModel<String>();
 		for (int i = 0; i < list.getErrors().size(); i++) {
@@ -154,47 +164,64 @@ public class CCGraphFrame extends JFrame {
 					CCCompileError compileError = list.getErrors().get(index);
 
 					// ファイルパスに必要な要素の取り出し
-					String projectname = compileError.getProjectname();
-					String beginTime = String.valueOf(compileError
-							.getBeginTime());
+					String projectname = compileError.getProjectName();
 					String filename = compileError.getFilename();
 
-					// コンパイルエラー発生時のファイルパスを設定
-					// TODO Eclipse対応できてない
-					CPath path = new CPath("\\ppv.data\\cash\\hoge\\"
-							+ projectname + "\\" + beginTime
-							+ "\\ProjectBase\\" + filename);
-
-					// 論プロからの起動を想定，CocoViewerのみではbaseDirはnull
 					if (baseDir == null) {
 						System.out.println("baseDir null");
-					} else {
-						// プログラムソースを捜し，それがnullでないこと＋ファイルであることを確認
-						CFileElement fileElement = baseDir.findChild(path);
-						if (fileElement.isFile() && fileElement != null) {
-							CFile file = (CFile) fileElement;
-							System.out.println("find!  "
-									+ list.getErrors().get(index)
-											.getBeginTime());
-							// プログラムファイルの内容を表示する
-							StringBuffer buf = new StringBuffer();
-							String line = "";
-							if ((line = file.loadText()) != null) {
-								buf.append(line);
-								buf.append("\n");
-								System.out.println(line);
+						return;
+					}
+
+					if (ppProjectSet == null) {
+						PPDataManager datamanager = new PPDataManager(baseDir);
+						datamanager.setLibDir(libDir);
+
+						CDirectory projectSetDir = datamanager
+								.getDataDir()
+								.findDirectory(compileError.getProjectSetName());
+						ppProjectSet = new PPProjectSet(projectSetDir);
+						datamanager.loadProjectSet(ppProjectSet, true, true);
+					}
+
+					IPLUnit model = null;
+					for (PLProject project : ppProjectSet.getProjects()) {
+						if (project.getName().equals(projectname)) {
+							// 単体のみ
+							for (PLFile file : project.getFiles()) {
+								if (file.getName().equals(filename)) {
+									model = file;
+								}
 							}
 
-							// TODO RESourceViewerを使って表示できるようにしましょう
-							JTextPane textPane = new JTextPane();
-							textPane.setText(buf.toString());
-							textPane.setCaretPosition(0);
-							JFrame frame = new JFrame();
-							frame.add(textPane, BorderLayout.CENTER);
-							frame.pack();
-							frame.setVisible(true);
+							// そのプロジェクト全体
+							// model = project.getRootPackage();
 						}
 					}
+
+					if (model == null) {
+						throw new RuntimeException(
+								"コンパイルエラー発生時のソースコード捜索に失敗しました");
+					}
+
+					final CCSourceCompareViewer frame = new CCSourceCompareViewer(
+							model);
+					long beginTime = compileError.getBeginTime();
+					frame.getTimelinePane().getTimeModel2()
+							.setTime(new CTime(beginTime));
+					long endTime = compileError.getEndTime();
+					frame.getTimelinePane().getTimeModel()
+							.setTime(new CTime(endTime));
+					// frame.openToggleExtraView();
+
+					frame.setBounds(50, 50, 1000, 700);
+					frame.setVisible(true);
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							// 青修正前，赤修正後
+							frame.fitScale();
+						}
+					});
+
 				}
 			}
 		});

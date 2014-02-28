@@ -38,11 +38,11 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 
 		buf.append("ErrorID");
 		buf.append(CAMMA);
-		buf.append("プロジェクト名");
-		buf.append(CAMMA);
-		buf.append("ファイル名");
+		buf.append("ファイルパス");
 		buf.append(CAMMA);
 		buf.append("発生時刻");
+		buf.append(CAMMA);
+		buf.append("修正完了時刻");
 		buf.append(CAMMA);
 		buf.append("修正時間");
 		// buf.append("ErrorID,ファイル名,発生時刻,修正時間");
@@ -103,38 +103,33 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 
 		// spiltは直接\\で区切ることができないので，いったん/に変換する
 		// 理由については後日調査すること
-		String projectname = "";
-		String filename;
-		long beginTime = 0;
-
 		String filepath = lines.get(2).replace("\\", "/");
-		String[] filepathSegments = filepath.split("/");
-		if (filepathSegments.length > 4) {
-			// 暫定論プロのみ
-			// TODO パスの切り出し方改良
-			projectname = filepathSegments[filepathSegments.length - 4];
-			filename = filepathSegments[filepathSegments.length - 1];
-			// 開始時刻はファイルのフルパスから持ってくる
-			beginTime = Long
-					.parseLong(filepathSegments[filepathSegments.length - 3]);
+
+		long beginTime = 0;
+		if (lines.get(12).indexOf(" ") == -1) {
+			beginTime = Long.parseLong(lines.get(12));
 		} else {
-			filename = lines.get(2);
+			beginTime = calculationCorrectTimeAsMills(lines.get(12));
 		}
 
-		// long beginTime = calculationBeginTime(lines.get(14));
-		// long beginTime = 0;
+		long endTime = 0;
+		if (lines.get(13).indexOf(" ") == -1) {
+			endTime = Long.parseLong(lines.get(13));
+		} else {
+			endTime = calculationCorrectTimeAsMills(lines.get(13));
+		}
 
 		// 修正時間は取り出して時間を計算することに成功した
-		int correctTime = calculationCorrectTime(lines.get(14));
+		int correctTime = Integer.parseInt(lines.get(18));
 
 		// データを書き込む
 		buf.append(String.valueOf(errorID));
 		buf.append(CAMMA);
-		buf.append(projectname);
-		buf.append(CAMMA);
-		buf.append(filename);
+		buf.append(filepath);
 		buf.append(CAMMA);
 		buf.append(String.valueOf(beginTime));
+		buf.append(CAMMA);
+		buf.append(String.valueOf(endTime));
 		buf.append(CAMMA);
 		buf.append(String.valueOf(correctTime));
 		pw.println(buf.toString());
@@ -161,7 +156,7 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 	// return calender.getTimeInMillis();
 	// }
 
-	private int calculationCorrectTime(String time) {
+	private int calculationCorrectTimeAsMills(String time) {
 		String[] tokanizer = time.split(":");
 		int hour = Integer.parseInt(tokanizer[0]) * 3600;
 		int minute = Integer.parseInt(tokanizer[1]) * 60;
