@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -62,13 +63,14 @@ public class CCGraphFrame extends JFrame {
 		this.libDir = libDir;
 		this.ppProjectSet = ppProjectSet;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		width = (int) (d.width * 0.75);
-		height = (int) (d.height * 0.75);
+		width = (int) (d.width * 0.6);
+		height = (int) (d.height * 0.6);
 		initialize();
 		setGraphAndTable();
 	}
 
 	private void setGraphAndTable() {
+		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
 		setGraph();
 		setSourceTable();
 		add(rootPanel);

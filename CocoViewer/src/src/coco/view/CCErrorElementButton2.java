@@ -1,7 +1,10 @@
 package src.coco.view;
 
 import java.awt.BasicStroke;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.JButton;
 
@@ -22,8 +25,7 @@ import ppv.app.datamanager.PPProjectSet;
 import src.coco.model.CCCompileErrorList;
 import clib.common.filesystem.CDirectory;
 
-public class CCErrorElementButton2 extends JButton implements
-		ChartMouseListener {
+public class CCErrorElementButton2 extends JButton {
 
 	/**
 	 * minigraphÇï\é¶Ç∑ÇÈ chartPanelÇ™ActionListenerÇ…ëŒâûÇµÇƒÇ¢Ç»Ç¢ÇÃÇ≈ÅAMouseListenerÇ≈é¿ëï
@@ -40,6 +42,8 @@ public class CCErrorElementButton2 extends JButton implements
 	private CDirectory libDir;
 	private PPProjectSet ppProjectSet;
 
+	private ChartPanel chartpanel;
+
 	public CCErrorElementButton2(CCCompileErrorList list, int width,
 			int height, CDirectory baseDir, CDirectory libDir,
 			PPProjectSet ppProjectSet) {
@@ -49,7 +53,15 @@ public class CCErrorElementButton2 extends JButton implements
 		this.baseDir = baseDir;
 		this.libDir = libDir;
 		this.ppProjectSet = ppProjectSet;
+
+		super.setPreferredSize(new Dimension(width, height));
 		super.setLayout(null);
+		addComponentListener(new ComponentAdapter() {
+			public void componentResized(ComponentEvent e) {
+				chartpanel.setBounds(1, 1, getWidth(), getHeight());
+				validate();
+			}
+		});
 		makeGraph();
 	}
 
@@ -102,9 +114,21 @@ public class CCErrorElementButton2 extends JButton implements
 		renderer.setSeriesStroke(0, new BasicStroke(1));
 		renderer.setSeriesShapesVisible(0, true);
 
-		ChartPanel chartpanel = new ChartPanel(chart);
-		chartpanel.addChartMouseListener(this);
+		chartpanel = new ChartPanel(chart);
 		chartpanel.setBounds(0, 0, width, height);
+
+		chartpanel.addChartMouseListener(new ChartMouseListener() {
+			@Override
+			public void chartMouseMoved(ChartMouseEvent arg0) {
+			}
+
+			@Override
+			public void chartMouseClicked(ChartMouseEvent arg0) {
+				CCGraphFrame graphframe = new CCGraphFrame(list, baseDir,
+						libDir, ppProjectSet);
+				graphframe.setVisible(true);
+			}
+		});
 
 		// TODO: ToolTipÇ™è„éËÇ≠ï\é¶Ç≈Ç´Ç»Ç¢
 		chartpanel.setToolTipText(list.getErrors().size() + " : "
@@ -116,17 +140,4 @@ public class CCErrorElementButton2 extends JButton implements
 		add(chartpanel);
 	}
 
-	@Override
-	public void chartMouseClicked(ChartMouseEvent arg0) {
-		// TODO Auto-generated method stub
-		CCGraphFrame frame = new CCGraphFrame(list, baseDir, libDir,
-				ppProjectSet);
-		frame.setVisible(true);
-	}
-
-	@Override
-	public void chartMouseMoved(ChartMouseEvent arg0) {
-		// TODO Auto-generated method stub
-
-	}
 }

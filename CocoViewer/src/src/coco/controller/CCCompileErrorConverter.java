@@ -109,14 +109,14 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		if (lines.get(12).indexOf(" ") == -1) {
 			beginTime = Long.parseLong(lines.get(12));
 		} else {
-			beginTime = calculationCorrectTimeAsMills(lines.get(12));
+			beginTime = calculationCorrectTimeAsMills(lines.get(12).split(" ")[1]);
 		}
 
 		long endTime = 0;
 		if (lines.get(13).indexOf(" ") == -1) {
 			endTime = Long.parseLong(lines.get(13));
 		} else {
-			endTime = calculationCorrectTimeAsMills(lines.get(13));
+			endTime = calculationCorrectTimeAsMills(lines.get(13).split(" ")[1]);
 		}
 
 		// C³ŠÔ‚Íæ‚èo‚µ‚ÄŠÔ‚ğŒvZ‚·‚é‚±‚Æ‚É¬Œ÷‚µ‚½
