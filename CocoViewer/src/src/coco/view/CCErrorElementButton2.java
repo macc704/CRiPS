@@ -45,6 +45,8 @@ public class CCErrorElementButton2 extends JButton {
 	private PPProjectSet ppProjectSet;
 
 	private ChartPanel chartpanel;
+	private JFreeChart chart;
+
 	private List<CCGraphFrame> graphframes = new ArrayList<CCGraphFrame>();
 
 	public CCErrorElementButton2(CCCompileErrorList list, int width,
@@ -75,8 +77,8 @@ public class CCErrorElementButton2 extends JButton {
 		// グラフデータを設定する
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
-			dataset.addValue(list.getErrors().get(i).getCorrectTime(), "修正時間",
-					Integer.toString(i + 1));
+			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
+					"修正時間", Integer.toString(i + 1));
 		}
 
 		// TODO: グラフの生成 messageが長すぎる場合、短くする処理をどうするか
@@ -86,8 +88,8 @@ public class CCErrorElementButton2 extends JButton {
 			message = message.substring(0, 9) + "...";
 		}
 
-		JFreeChart chart = ChartFactory.createLineChart(message, "修正回数",
-				"修正時間", dataset, PlotOrientation.VERTICAL, false, false, false);
+		chart = ChartFactory.createLineChart(message, "修正回数", "修正時間", dataset,
+				PlotOrientation.VERTICAL, false, false, false);
 		// フォント指定しないと文字化けする
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 
@@ -103,7 +105,7 @@ public class CCErrorElementButton2 extends JButton {
 		numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		numberAxis.setVerticalTickLabels(false);
 		numberAxis.setAutoRangeStickyZero(true);
-		numberAxis.setRangeWithMargins(0, 60);
+		numberAxis.setRangeWithMargins(0, 120);
 		numberAxis.setLabelFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
 		// x軸の設定
@@ -148,6 +150,18 @@ public class CCErrorElementButton2 extends JButton {
 		for (CCGraphFrame frame : graphframes) {
 			frame.dispose();
 		}
+	}
+
+	public void changeLockedRange() {
+		CategoryPlot plot = chart.getCategoryPlot();
+		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+		numberAxis.setRangeWithMargins(0, 120);
+	}
+
+	public void changeAutoRange() {
+		CategoryPlot plot = chart.getCategoryPlot();
+		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+		numberAxis.setAutoRange(true);
 	}
 
 }

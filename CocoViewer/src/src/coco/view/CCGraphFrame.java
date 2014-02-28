@@ -5,6 +5,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -13,13 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 import org.jfree.chart.ChartColor;
 import org.jfree.chart.ChartFactory;
@@ -55,6 +58,8 @@ public class CCGraphFrame extends JFrame {
 	private JPanel rootPanel = new JPanel();
 	private CCCompileErrorList list;
 
+	private JFreeChart chart;
+
 	private CDirectory baseDir;
 	private CDirectory libDir;
 	private PPProjectSet ppProjectSet;
@@ -77,11 +82,23 @@ public class CCGraphFrame extends JFrame {
 
 	private void setGraphAndTable() {
 		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.X_AXIS));
+
 		setGraph();
-		setSourceTable();
+		setWestPanel();
+
 		add(rootPanel);
 		getContentPane().add(rootPanel, BorderLayout.CENTER);
 		pack();
+	}
+
+	private void setWestPanel() {
+		JPanel westpanel = new JPanel();
+		westpanel.setLayout(new BorderLayout());
+
+		setChangeGraphRangeComboBox(westpanel);
+		setSourceTable(westpanel);
+
+		rootPanel.add(westpanel);
 	}
 
 	private void initialize() {
@@ -105,12 +122,12 @@ public class CCGraphFrame extends JFrame {
 		// グラフデータを設定する
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
-			dataset.addValue(list.getErrors().get(i).getCorrectTime(), "修正時間",
-					Integer.toString(i + 1));
+			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
+					"修正時間", Integer.toString(i + 1));
 		}
 
 		// グラフの生成
-		JFreeChart chart = ChartFactory.createLineChart(list.getMessage()
+		chart = ChartFactory.createLineChart(list.getMessage()
 				+ "の修正時間   レア度: " + list.getRare(), "修正回数", "修正時間", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
 
@@ -159,23 +176,66 @@ public class CCGraphFrame extends JFrame {
 		// rootPanel.add(chartpanel);
 	}
 
-	// TODO リスト部分の実装
-	private void setSourceTable() {
-		// java7からDefaultListModelに格納するクラスを指定しなければならない
-		DefaultListModel<String> model = new DefaultListModel<String>();
+	private void setChangeGraphRangeComboBox(JPanel panel) {
+		String[] labels = { "120秒固定モード", "グラフ概形モード" };
+		final JComboBox<String> comboBox = new JComboBox<String>(labels);
+
+		comboBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CategoryPlot plot = chart.getCategoryPlot();
+				NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+
+				if (comboBox.getSelectedIndex() == 0) {
+					numberAxis.setRange(0, 120);
+				} else if (comboBox.getSelectedIndex() == 1) {
+					numberAxis.setAutoRange(true);
+				} else {
+					throw new RuntimeException("グラフモードが選択されていません");
+				}
+			}
+		});
+
+		// comboBox.setSize(new Dimension(width / 12, height / 12));
+		panel.add(comboBox, BorderLayout.NORTH);
+	}
+
+	private void setSourceTable(JPanel panel) {
+		String[] columnNames = { "修正回数", "発生時刻", "プログラム名", "修正時間" };
+		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		for (int i = 0; i < list.getErrors().size(); i++) {
-			model.addElement((i + 1) + " 回目の修正時間 ： "
-					+ list.getErrors().get(i).getCorrectTime() + "秒");
+			String count = String.valueOf(i + 1);
+			String time = new CTime(list.getErrors().get(i).getBeginTime())
+					.toString();
+			String filename = list.getErrors().get(i).getFilenameNoPath();
+			String correctTime = String.valueOf(list.getErrors().get(i)
+					.getCorrectionTime())
+					+ "秒";
+
+			String[] oneTableData = { count, time, filename, correctTime };
+			model.addRow(oneTableData);
 		}
 
-		final JList<String> jlist = new JList<String>(model);
-		jlist.addMouseListener(new MouseAdapter() {
+		final JTable table = new JTable(model);
+		table.setDefaultEditor(Object.class, null); // テーブルを編集不可にする
+
+		// // java7からDefaultListModelに格納するクラスを指定しなければならない
+		// DefaultListModel<String> model = new DefaultListModel<String>();
+		// for (int i = 0; i < list.getErrors().size(); i++) {
+		// model.addElement((i + 1) + " 回目の修正時間 ： "
+		// + list.getErrors().get(i).getCorrectTime() + "秒");
+		// }
+		//
+		// final JList<String> jlist = new JList<String>(model);
+
+		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				// 左クリック二回でオープンする
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() >= 2) {
 					// 選択された要素がリストの何番目であるのかを取得し，その時のコンパイルエラー情報を取得
-					int index = jlist.getSelectedIndex();
+					int index = table.getSelectedRow();
 					CCCompileError compileError = list.getErrors().get(index);
 
 					// ファイルパスに必要な要素の取り出し
@@ -242,16 +302,27 @@ public class CCGraphFrame extends JFrame {
 			}
 		});
 
-		// TODO スクロールパネルのサイズ調整
 		JScrollPane scrollPanel = new JScrollPane();
-		scrollPanel.getViewport().setView(jlist);
+		scrollPanel.getViewport().setView(table);
 
-		rootPanel.add(scrollPanel, BorderLayout.EAST);
+		panel.add(scrollPanel, BorderLayout.CENTER);
 	}
 
 	public void closeSourceViewers() {
 		for (CCSourceCompareViewer viewer : sourceviewers) {
 			viewer.dispose();
 		}
+	}
+
+	public void changeLockedRange() {
+		CategoryPlot plot = chart.getCategoryPlot();
+		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+		numberAxis.setRangeWithMargins(0, 120);
+	}
+
+	public void changeAutoRange() {
+		CategoryPlot plot = chart.getCategoryPlot();
+		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+		numberAxis.setAutoRange(true);
 	}
 }

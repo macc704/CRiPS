@@ -55,7 +55,7 @@ public class CCCompileErrorManager {
 		int correctTime = 0;
 		for (CCCompileErrorList errorlist : lists.values()) {
 			for (CCCompileError compileError : errorlist.getErrors()) {
-				correctTime += compileError.getCorrectTime();
+				correctTime += compileError.getCorrectionTime();
 			}
 		}
 

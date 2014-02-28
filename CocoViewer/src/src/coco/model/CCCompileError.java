@@ -6,7 +6,7 @@ public class CCCompileError {
 	private String filePath;
 	private long beginTime;
 	private long endTime;
-	private int correctTime;
+	private int correctionTime;
 
 	public CCCompileError() {
 
@@ -18,7 +18,7 @@ public class CCCompileError {
 		this.filePath = filePath;
 		this.beginTime = beginTime;
 		this.endTime = endTime;
-		this.correctTime = correctTime;
+		this.correctionTime = correctTime;
 	}
 
 	public int getErrorID() {
@@ -53,7 +53,7 @@ public class CCCompileError {
 		return endTime;
 	}
 
-	public int getCorrectTime() {
-		return correctTime;
+	public int getCorrectionTime() {
+		return correctionTime;
 	}
 }

@@ -5,12 +5,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -63,10 +66,10 @@ public class CCMainFrame2 extends JFrame {
 		// titleなどの設定
 		frameSetting();
 
-		// 全体のコンパイル数表示
-		setCompileErrorNumber();
+		// window上部
+		setHeader();
 
-		// ボタンを配置する
+		// window下部・ボタン配置
 		setButtonsPanel();
 
 		// レイアウトした配置でコンテンツを追加
@@ -77,6 +80,17 @@ public class CCMainFrame2 extends JFrame {
 		//
 		// }
 		// });
+	}
+
+	private void setHeader() {
+		JPanel headerpanel = new JPanel();
+		headerpanel.setLayout(new BorderLayout());
+		headerpanel.setMaximumSize(new Dimension(width, height / 24));
+
+		setCompileErrorNumber(headerpanel);
+		setChangeGraphRangeButton(headerpanel);
+
+		rootPanel.add(headerpanel, BorderLayout.NORTH);
 	}
 
 	private void frameSetting() {
@@ -94,7 +108,7 @@ public class CCMainFrame2 extends JFrame {
 		});
 	}
 
-	private void setCompileErrorNumber() {
+	private void setCompileErrorNumber(JPanel panel) {
 		JLabel label = new JLabel();
 		String string = "あなたのこれまでの総コンパイルエラー数 ： " + manager.getTotalErrorCount();
 		label.setText(string);
@@ -106,8 +120,33 @@ public class CCMainFrame2 extends JFrame {
 		// label の背景を設定する場合は背景を不透明にする処理を加えること
 		// label.setBackground(Color.yellow);
 		// label.setOpaque(true);
-		rootPanel.add(BorderLayout.NORTH, label);
+		panel.add(BorderLayout.NORTH, label);
 		// rootPanel.add(achivementButton);
+	}
+
+	private void setChangeGraphRangeButton(JPanel panel) {
+		String[] labels = { "120秒固定モード", "グラフ概形モード  " };
+		final JComboBox<String> comboBox = new JComboBox<String>(labels);
+
+		comboBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (comboBox.getSelectedIndex() == 0) {
+					for (CCErrorElementButton2 button : buttons) {
+						button.changeLockedRange();
+					}
+				} else if (comboBox.getSelectedIndex() == 1) {
+					for (CCErrorElementButton2 button : buttons) {
+						button.changeAutoRange();
+					}
+				} else {
+					throw new RuntimeException("グラフモードが選択されていません");
+				}
+			}
+		});
+
+		panel.add(comboBox, BorderLayout.EAST);
 	}
 
 	private void setButtonsPanel() {
