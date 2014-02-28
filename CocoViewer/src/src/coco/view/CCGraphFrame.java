@@ -7,6 +7,10 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -55,6 +59,8 @@ public class CCGraphFrame extends JFrame {
 	private CDirectory libDir;
 	private PPProjectSet ppProjectSet;
 
+	private List<CCSourceCompareViewer> sourceviewers = new ArrayList<CCSourceCompareViewer>();
+
 	// default
 	public CCGraphFrame(CCCompileErrorList list, CDirectory baseDir,
 			CDirectory libDir, PPProjectSet ppProjectSet) {
@@ -84,6 +90,13 @@ public class CCGraphFrame extends JFrame {
 		setSize(width, height);
 		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - "
 				+ list.getMessage() + " の詳細");
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				closeSourceViewers();
+			}
+		});
 	}
 
 	private void setGraph() {
@@ -205,25 +218,26 @@ public class CCGraphFrame extends JFrame {
 								"コンパイルエラー発生時のソースコード捜索に失敗しました");
 					}
 
-					final CCSourceCompareViewer frame = new CCSourceCompareViewer(
+					final CCSourceCompareViewer sourceviewer = new CCSourceCompareViewer(
 							model);
 					long beginTime = compileError.getBeginTime();
-					frame.getTimelinePane().getTimeModel2()
+					sourceviewer.getTimelinePane().getTimeModel2()
 							.setTime(new CTime(beginTime));
 					long endTime = compileError.getEndTime();
-					frame.getTimelinePane().getTimeModel()
+					sourceviewer.getTimelinePane().getTimeModel()
 							.setTime(new CTime(endTime));
 					// frame.openToggleExtraView();
 
-					frame.setBounds(50, 50, 1000, 700);
-					frame.setVisible(true);
+					sourceviewer.setBounds(50, 50, 1000, 700);
+					sourceviewer.setVisible(true);
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							// 青修正前，赤修正後
-							frame.fitScale();
+							sourceviewer.fitScale();
 						}
 					});
 
+					sourceviewers.add(sourceviewer);
 				}
 			}
 		});
@@ -233,5 +247,11 @@ public class CCGraphFrame extends JFrame {
 		scrollPanel.getViewport().setView(jlist);
 
 		rootPanel.add(scrollPanel, BorderLayout.EAST);
+	}
+
+	public void closeSourceViewers() {
+		for (CCSourceCompareViewer viewer : sourceviewers) {
+			viewer.dispose();
+		}
 	}
 }

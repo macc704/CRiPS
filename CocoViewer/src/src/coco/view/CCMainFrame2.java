@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -81,6 +83,15 @@ public class CCMainFrame2 extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(width, height);
 		setTitle(APP_NAME + " " + VERSION);
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				for (CCErrorElementButton2 button : buttons) {
+					button.closeGraphFrame();
+				}
+			}
+		});
 	}
 
 	private void setCompileErrorNumber() {

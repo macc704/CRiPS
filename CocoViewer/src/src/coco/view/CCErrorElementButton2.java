@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 
@@ -43,6 +45,7 @@ public class CCErrorElementButton2 extends JButton {
 	private PPProjectSet ppProjectSet;
 
 	private ChartPanel chartpanel;
+	private List<CCGraphFrame> graphframes = new ArrayList<CCGraphFrame>();
 
 	public CCErrorElementButton2(CCCompileErrorList list, int width,
 			int height, CDirectory baseDir, CDirectory libDir,
@@ -127,6 +130,7 @@ public class CCErrorElementButton2 extends JButton {
 				CCGraphFrame graphframe = new CCGraphFrame(list, baseDir,
 						libDir, ppProjectSet);
 				graphframe.setVisible(true);
+				graphframes.add(graphframe);
 			}
 		});
 
@@ -138,6 +142,12 @@ public class CCErrorElementButton2 extends JButton {
 		// System.out.println(chartpanel.getToolTipText());
 
 		add(chartpanel);
+	}
+
+	public void closeGraphFrame() {
+		for (CCGraphFrame frame : graphframes) {
+			frame.dispose();
+		}
 	}
 
 }
