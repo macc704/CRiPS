@@ -190,14 +190,11 @@ public class LangDefFilesRewriter {
 					for (String key : selDefClass.getMethods().keySet()) {
 						for (PublicMethodInfo method : selDefClass.getMethods()
 								.get(key)) {
-							if (addedMethods.get(Integer.toString((method
-									.hashCode()))) == null) {
+							if (addedMethods.get(method.getName()) == null) {
 								PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
 								writer.setMethods(method);
 								writer.printMenuItem(ps, lineNum);
-								addedMethods.put(
-										Integer.toString(method.hashCode()),
-										method);
+								addedMethods.put(method.getName(), method);
 								String paramSize = Integer.toString(method
 										.getParameters().size());
 								if (paramSize.equals("0")) {
