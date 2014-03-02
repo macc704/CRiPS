@@ -34,7 +34,6 @@ public class CCCompileErrorLoader extends CCFileLoader {
 		correctTime = Integer.parseInt(tokenizer[4]);
 
 		error.setData(errorID, filePath, beginTime, endTime, correctTime);
-		manager.getList(errorID).addError(error);
-		manager.totalErrorCountUp();
+		manager.addError(error);
 	}
 }

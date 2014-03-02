@@ -26,8 +26,9 @@ public class CCConverterStart {
 
 		CCCompileErrorConverter errorconverter = new CCCompileErrorConverter(
 				manager);
-		errorconverter.convertData("CompileError.csv", "CompileErrorLog.csv");
+		errorconverter.convertData("CCCompileError.csv", "CompileErrorLog.csv");
 
+		System.out.println("Convert Success!");
 		// CCAddCompileErrorKinds addcompileerrorkinds = new
 		// CCAddCompileErrorKinds(
 		// manager, kindloader.getLines());

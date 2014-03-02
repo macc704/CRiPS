@@ -2,6 +2,7 @@ package src.coco;
 
 import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.controller.CCCompileErrorLoader;
+import src.coco.controller.CCMetricsLoader;
 import src.coco.model.CCCompileErrorManager;
 import src.coco.view.CCMainFrame2;
 
@@ -19,6 +20,9 @@ public class CCViewerStart {
 
 		CCCompileErrorLoader errorloader = new CCCompileErrorLoader(manager);
 		errorloader.load("CompileErrorLog.csv");
+
+		CCMetricsLoader metricsloader = new CCMetricsLoader(manager);
+		metricsloader.load("FileMetrics.csv");
 
 		CCMainFrame2 frame = new CCMainFrame2(manager);
 		frame.setVisible(true);

@@ -83,7 +83,7 @@ public class CCAchivementFrame extends JFrame {
 
 	private void compileErrorCorrectTimeAchive(CCAchivementData data) {
 		// コンパイルエラー修正時間による報酬
-		int correctTime = manager.getAllCorrectTime();
+		int correctTime = manager.getErrorTotalCorrectionTime();
 		if (data.getThreshold() > correctTime) {
 			System.out.println("CorrectTime : " + data.getHirotitle() + " : "
 					+ data.getExplanation());

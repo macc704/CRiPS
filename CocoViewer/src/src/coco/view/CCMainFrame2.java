@@ -3,6 +3,7 @@ package src.coco.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.border.LineBorder;
 
 import src.coco.model.CCCompileErrorList;
 import src.coco.model.CCCompileErrorManager;
@@ -110,18 +112,43 @@ public class CCMainFrame2 extends JFrame {
 
 	private void setCompileErrorNumber(JPanel panel) {
 		JLabel label = new JLabel();
-		String string = "あなたのこれまでの総コンパイルエラー数 ： " + manager.getTotalErrorCount();
+		if (manager.getTotalErrorCount() == 0) {
+			throw new RuntimeException("CocoViewer用データが作成されていない可能性があります");
+		}
+		int count = manager.getTotalErrorCount();
+		long time = manager.getTotalErrorCorrectionTime();
+		int wokingtime = manager.getTotalWorkingTime() * 60;
+		double rate = manager.getCompileErrorCorrectionTimeRate();
+
+		String timeStr = timeToString(time);
+		String workingStr = timeToString(wokingtime);
+		long avg = time / count;
+
+		String string = "<html>これまでのコンパイルエラー修正数: " + count
+				+ "　　これまでのコンパイルエラー修正時間累計: " + timeStr + "<br>"
+				+ "１つあたり修正時間平均: " + avg + "秒" + "  これまでの総作業時間:  " + workingStr
+				+ "<br>" + "  コンパイルエラー修正時間割合:  " + rate + "%" + "</html>";
+
 		label.setText(string);
-		// CCAchivementButton achivementButton = new CCAchivementButton(manager,
-		// label);
-		// achivementButton.setBounds(10, 5, 350, 25);
-		label.setBounds(10, 5, 350, 25);
+		label.setMaximumSize(new Dimension(width, height / 24));
+		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
 
 		// label の背景を設定する場合は背景を不透明にする処理を加えること
 		// label.setBackground(Color.yellow);
 		// label.setOpaque(true);
-		panel.add(BorderLayout.NORTH, label);
-		// rootPanel.add(achivementButton);
+
+		LineBorder lineborder = new LineBorder(Color.YELLOW, 2, true);
+		label.setBorder(lineborder);
+
+		panel.add(label, BorderLayout.WEST);
+	}
+
+	private String timeToString(long time) {
+		long hour = time / 60 / 60;
+		long minute = (time / 60) % 60;
+		long second = time % 60;
+		String timeStr = hour + "時間" + minute + "分" + second + "秒";
+		return timeStr;
 	}
 
 	private void setChangeGraphRangeButton(JPanel panel) {
@@ -187,10 +214,20 @@ public class CCMainFrame2 extends JFrame {
 
 	// クリックできないボタンを作成
 	private JButton setEmptyButton(CCCompileErrorList list) {
-		JButton emptyButton = new JButton("未発生");
+		String message = "";
+		if (list != null) {
+			message = list.getMessage();
+		}
+		String rare = "";
+		if (list != null) {
+			rare = "(レア度" + Integer.toString(list.getRare()) + ")";
+		}
+		JButton emptyButton = new JButton("<html><center>未発生</center><br/>"
+				+ message + rare + "</html>");
 		emptyButton.setEnabled(false);
 		emptyButton.setToolTipText("未発生です");
 		emptyButton.setBackground(Color.GRAY);
+		emptyButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
 		return emptyButton;
 	}
 }

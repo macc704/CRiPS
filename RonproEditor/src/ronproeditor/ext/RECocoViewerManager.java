@@ -4,6 +4,7 @@ import ppv.app.datamanager.PPProjectSet;
 import ronproeditor.REApplication;
 import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.controller.CCCompileErrorLoader;
+import src.coco.controller.CCMetricsLoader;
 import src.coco.model.CCCompileErrorManager;
 import src.coco.view.CCMainFrame2;
 import clib.common.filesystem.CDirectory;
@@ -14,6 +15,7 @@ public class RECocoViewerManager {
 	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvフォルダに展開する
 	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv";
 	private static String DATA_FILE = "CompileErrorLog.csv";
+	private static String METRICS_FILE = "FileMetrics.csv";
 
 	public RECocoViewerManager(REApplication application) {
 		this.application = application;
@@ -45,5 +47,8 @@ public class RECocoViewerManager {
 
 		CCCompileErrorLoader errorLoader = new CCCompileErrorLoader(manager);
 		errorLoader.load(ppvRootPath + DATA_FILE);
+
+		CCMetricsLoader metricsLoader = new CCMetricsLoader(manager);
+		metricsLoader.load(ppvRootPath + METRICS_FILE);
 	}
 }

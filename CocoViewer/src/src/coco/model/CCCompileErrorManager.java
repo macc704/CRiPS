@@ -11,7 +11,10 @@ public class CCCompileErrorManager {
 	// HashMapÇ≈ÇÕèáèòÇ™ï€èÿÇ≥ÇÍÇ»Ç¢ÇÃÇ≈LinkedHashMapÇ…ïœçX
 	private LinkedHashMap<Integer, CCCompileErrorList> lists = new LinkedHashMap<Integer, CCCompileErrorList>();
 	private LinkedHashMap<String, Integer> ids = new LinkedHashMap<String, Integer>();
+
 	private int totalErrorCount = 0;
+	private int totalErrorCorrectionTime = 0;
+	private int totalWorkingTime = 0;
 
 	private CDirectory baseDir;
 	private CDirectory libDir;
@@ -22,8 +25,7 @@ public class CCCompileErrorManager {
 	}
 
 	public void put(int id, int rare, String message) {
-		CCCompileErrorList list = new CCCompileErrorList();
-		list.setMessageData(rare, message);
+		CCCompileErrorList list = new CCCompileErrorList(rare, message);
 		lists.put(id, list);
 		ids.put(message, id);
 	}
@@ -35,9 +37,9 @@ public class CCCompileErrorManager {
 		return lists.get(id);
 	}
 
-	public void totalErrorCountUp() {
-		totalErrorCount++;
-	}
+	// public void totalErrorCountUp() {
+	// totalErrorCount++;
+	// }
 
 	public int getTotalErrorCount() {
 		return totalErrorCount;
@@ -49,17 +51,6 @@ public class CCCompileErrorManager {
 
 	public int getMessagesID(String message) {
 		return ids.get(message);
-	}
-
-	public int getAllCorrectTime() {
-		int correctTime = 0;
-		for (CCCompileErrorList errorlist : lists.values()) {
-			for (CCCompileError compileError : errorlist.getErrors()) {
-				correctTime += compileError.getCorrectionTime();
-			}
-		}
-
-		return correctTime;
 	}
 
 	public void setBaseDir(CDirectory baseDir) {
@@ -84,5 +75,36 @@ public class CCCompileErrorManager {
 
 	public PPProjectSet getPPProjectSet() {
 		return ppProjectSet;
+	}
+
+	public void addError(CCCompileError error) {
+		getList(error.getErrorID()).addError(error);
+		totalErrorCorrectionTime += error.getCorrectionTime();
+		totalErrorCount++;
+	}
+
+	public double getCompileErrorCorrectionTimeRate() {
+		double workingtime = (double) totalErrorCorrectionTime
+				/ (totalWorkingTime * 60);
+		workingtime += 0.005;
+		int tmp = (int) (workingtime * 1000);
+		workingtime = (double) tmp / 10;
+		return workingtime;
+	}
+
+	public void addTotalWorkingTime(int workingTime) {
+		totalWorkingTime += workingTime;
+	}
+
+	public int getTotalWorkingTime() {
+		return totalWorkingTime;
+	}
+
+	public int getErrorTotalCorrectionTime() {
+		return totalErrorCorrectionTime;
+	}
+
+	public int getTotalErrorCorrectionTime() {
+		return totalErrorCorrectionTime;
 	}
 }
