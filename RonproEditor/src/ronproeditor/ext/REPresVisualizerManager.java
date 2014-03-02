@@ -8,12 +8,15 @@ import ppv.app.datamanager.IPPVLoader;
 import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPRonproPPVLoader;
 import ronproeditor.REApplication;
+import clib.common.compiler.CJavaCompilerFactory;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileElement;
 import clib.common.filesystem.CFileFilter;
 import clib.common.filesystem.CFilename;
 import clib.common.io.CIOUtils;
+import clib.common.thread.ICTask;
+import clib.view.progress.CPanelProcessingMonitor;
 
 // TODO ppDataManagerがnullの時があるのがいやですね．後で修正
 // TODO 毎回全部コンパイルし直すのがいやですね．あとで修正
@@ -29,11 +32,30 @@ public class REPresVisualizerManager {
 
 	private PPDataManager ppDataManager;
 
+	private CPanelProcessingMonitor monitor = new CPanelProcessingMonitor();
+
 	public REPresVisualizerManager(REApplication application) {
 		this.application = application;
 	}
 
 	public void openPresVisualizer() {
+		// 確認ダイアログ
+		int res;
+		if (!CJavaCompilerFactory.hasEmbededJavaCompiler()) {
+			res = JOptionPane.showConfirmDialog(null,
+					"JDKを利用していない場合，処理時間が長くなりますが，よろしいですか？", "コンパイラのチェック",
+					JOptionPane.OK_CANCEL_OPTION);
+			if (res != JOptionPane.OK_OPTION) {
+				return;
+			}
+		}
+
+		res = JOptionPane.showConfirmDialog(null, "データの作成には時間がかかりますが，よろしいですか？",
+				"データの作成", JOptionPane.OK_CANCEL_OPTION);
+		if (res != JOptionPane.OK_OPTION) {
+			return;
+		}
+
 		exportAndImportAll();
 		ppDataManager.setLibDir(application.getLibraryManager().getDir());
 		ppDataManager.openProjectSet(PPV_PROJECTSET_NAME, true, true, false);
@@ -44,32 +66,80 @@ public class REPresVisualizerManager {
 	}
 
 	public void exportAndImportAll() {
-		CDirectory ppvRoot = application.getSourceManager().getCRootDirectory()
-				.findOrCreateDirectory(PPV_ROOT_DIR);
+		final CDirectory ppvRoot = application.getSourceManager()
+				.getCRootDirectory().findOrCreateDirectory(PPV_ROOT_DIR);
 
+		// 起動高速化のためcashは消さない
+		monitor.setWorkTitle("Deleting...");
+		monitor.doTaskWithDialog(new ICTask() {
+			public void doTask() {
+				try {
+					cleardata(ppvRoot);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+
+		this.ppDataManager = new PPDataManager(ppvRoot);
+		CDirectory ppvRootDir = ppDataManager.getBaseDir();
+		final CDirectory tmpDir = ppvRootDir.findOrCreateDirectory(PPV_TMP_DIR);
+
+		monitor.setWorkTitle("Zip Exporting...");
+		monitor.doTaskWithDialog(new ICTask() {
+			public void doTask() {
+				try {
+					exportAllProjects(tmpDir);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+
+		monitor.setWorkTitle("UnZip...");
+		monitor.doTaskWithDialog(new ICTask() {
+			public void doTask() {
+				try {
+					importAllProjects(PPV_PROJECTSET_NAME, tmpDir);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});
+	}
+
+	private void cleardata(CDirectory ppvRoot) {
 		List<CFileElement> elements = ppvRoot.getChildren(CFileFilter
 				.IGNORE_BY_NAME_FILTER("ppv.data"));
 		elements.add(ppvRoot.findOrCreateDirectory("ppv.data")
 				.findOrCreateDirectory("data"));
+
+		monitor.setMax(elements.size());
 		for (CFileElement element : elements) {
 			boolean deleted = element.delete();
 			if (!deleted) {
 				throw new RuntimeException(elements.toString() + "を削除できませんでした．");
 			}
+			monitor.progress(1);
 		}
-
-		this.ppDataManager = new PPDataManager(ppvRoot);
-		CDirectory ppvRootDir = ppDataManager.getBaseDir();
-		CDirectory tmpDir = ppvRootDir.findOrCreateDirectory(PPV_TMP_DIR);
-		exportAllProjects(tmpDir);
-		importAllProjects(PPV_PROJECTSET_NAME, tmpDir);
 	}
 
 	private void exportAllProjects(CDirectory tmpDir) {
 		List<CDirectory> projects = application.getSourceManager()
 				.getAllProjects();
+
+		monitor.setMax(projects.size());
 		for (CDirectory project : projects) {
-			exportOneProject(project, tmpDir);
+			CDirectory pres = project.findOrCreateDirectory(".pres2");
+			if (pres.findFile("pres2.log") != null) {
+				exportOneProject(project, tmpDir);
+			} else {
+				System.out.println(project.getNameByString()
+						+ "においてpres2.logが見つかりません");
+				// throw new RuntimeException(project.getNameByString()
+				// + "においてpres2.logが見つかりません");
+			}
+			monitor.progress(1);
 		}
 	}
 

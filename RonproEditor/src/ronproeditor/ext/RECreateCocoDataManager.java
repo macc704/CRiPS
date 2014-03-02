@@ -1,5 +1,7 @@
 package ronproeditor.ext;
 
+import javax.swing.JOptionPane;
+
 import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
 import ronproeditor.REApplication;
@@ -22,6 +24,13 @@ public class RECreateCocoDataManager {
 	}
 
 	public void createCocoData() {
+		int res = JOptionPane.showConfirmDialog(null,
+				"データの作成には時間がかかりますが，よろしいですか？", "データの作成",
+				JOptionPane.OK_CANCEL_OPTION);
+		if (res != JOptionPane.OK_OPTION) {
+			return;
+		}
+
 		// CompileError.csvを自動的にエクスポートする
 		autoExportCompileErrorCSV();
 
