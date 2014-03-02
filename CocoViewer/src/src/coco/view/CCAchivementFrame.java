@@ -74,7 +74,7 @@ public class CCAchivementFrame extends JFrame {
 
 	private void compileErrorKindsAchive(CCAchivementData data) {
 		// コンパイルエラー種類による報酬
-		int kinds = manager.getAllLists().size();
+		int kinds = manager.getAllKinds().size();
 		if (data.getThreshold() > kinds) {
 			System.out.println("ErrorKinds : " + data.getHirotitle() + " : "
 					+ data.getExplanation());

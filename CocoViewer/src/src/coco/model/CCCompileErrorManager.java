@@ -9,7 +9,7 @@ import clib.common.filesystem.CDirectory;
 
 public class CCCompileErrorManager {
 	// HashMapÇ≈ÇÕèáèòÇ™ï€èÿÇ≥ÇÍÇ»Ç¢ÇÃÇ≈LinkedHashMapÇ…ïœçX
-	private LinkedHashMap<Integer, CCCompileErrorList> lists = new LinkedHashMap<Integer, CCCompileErrorList>();
+	private LinkedHashMap<Integer, CCCompileErrorKind> kinds = new LinkedHashMap<Integer, CCCompileErrorKind>();
 	private LinkedHashMap<String, Integer> ids = new LinkedHashMap<String, Integer>();
 
 	private int totalErrorCount = 0;
@@ -25,16 +25,16 @@ public class CCCompileErrorManager {
 	}
 
 	public void put(int id, int rare, String message) {
-		CCCompileErrorList list = new CCCompileErrorList(rare, message);
-		lists.put(id, list);
+		CCCompileErrorKind kind = new CCCompileErrorKind(rare, message);
+		kinds.put(id, kind);
 		ids.put(message, id);
 	}
 
-	public CCCompileErrorList getList(int id) {
-		if (!lists.containsKey(id)) {
+	public CCCompileErrorKind getKind(int id) {
+		if (!kinds.containsKey(id)) {
 			put(id, 6, "dummy");
 		}
-		return lists.get(id);
+		return kinds.get(id);
 	}
 
 	// public void totalErrorCountUp() {
@@ -45,8 +45,8 @@ public class CCCompileErrorManager {
 		return totalErrorCount;
 	}
 
-	public List<CCCompileErrorList> getAllLists() {
-		return new ArrayList<CCCompileErrorList>(lists.values());
+	public List<CCCompileErrorKind> getAllKinds() {
+		return new ArrayList<CCCompileErrorKind>(kinds.values());
 	}
 
 	public int getMessagesID(String message) {
@@ -78,18 +78,22 @@ public class CCCompileErrorManager {
 	}
 
 	public void addError(CCCompileError error) {
-		getList(error.getErrorID()).addError(error);
+		getKind(error.getErrorID()).addError(error);
 		totalErrorCorrectionTime += error.getCorrectionTime();
 		totalErrorCount++;
 	}
 
 	public double getCompileErrorCorrectionTimeRate() {
-		double workingtime = (double) totalErrorCorrectionTime
+		if (totalWorkingTime == 0) {
+			return 0;
+		}
+
+		double rate = (double) totalErrorCorrectionTime
 				/ (totalWorkingTime * 60);
-		workingtime += 0.005;
-		int tmp = (int) (workingtime * 1000);
-		workingtime = (double) tmp / 10;
-		return workingtime;
+		rate += 0.0005;
+		int tmp = (int) (rate * 1000);
+		rate = (double) tmp / 10;
+		return rate;
 	}
 
 	public void addTotalWorkingTime(int workingTime) {

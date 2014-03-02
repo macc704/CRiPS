@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Calendar;
 import java.util.List;
 
 import src.coco.model.CCCompileErrorManager;
@@ -52,37 +53,7 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 	protected void separeteData(List<String> lines) throws IOException {
 		StringBuffer buf = new StringBuffer();
 
-		// // errorIDはmessageListをmanagerに作ってindexOfメソッドで解決
-		// // 存在していないerrorIDの場合、新しくエラーメッセージを記録する
-		// // 先にシンボルなどのチェックをしてからgetMessageIDをする形にし、（シンボル）などに対応した
-		// int errorID = 0;
-		// String element = "";
-		// if (lines.get(7) != null) {
-		// element = "（" + lines.get(7) + "）";
-		// }
-		//
-		// String message = lines.get(5) + element;
-		//
-		// try {
-		// errorID = manager.getMessagesID(message);
-		// } catch (Exception e) {
-		// errorID = addErrorID;
-		// manager.put(errorID, 6, message);
-		// addErrorID++;
-		// }
-		//
-		// String projectname = "";
-		// String filename = lines.get(4);
-		//
-		// // 開始時刻はファイルのフルパスから持ってくる
-		// // long beginTime = calculationBeginTime(lines.get(14));
-		// long beginTime = 0;
-		//
-		// // 修正時間は取り出して時間を計算することに成功した
-		// int correctTime = calculationCorrectTime(lines.get(16));
-
 		// errorIDはmessageListをmanagerに作ってindexOfメソッドで解決
-		// 存在していないerrorIDの場合、新しくエラーメッセージを記録する
 		// 先にシンボルなどのチェックをしてからgetMessageIDをする形にし、（シンボル）などに対応した
 		int errorID = 0;
 		String element = "";
@@ -95,7 +66,10 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		try {
 			errorID = manager.getMessagesID(message);
 		} catch (Exception e) {
+			// ErrorKindsに存在しない場合は，カウントしない
 			return;
+
+			// 新しくエラーメッセージを記録する場合の処理
 			// errorID = addErrorID;
 			// manager.put(errorID, 6, message);
 			// addErrorID++;
@@ -109,17 +83,17 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		if (lines.get(12).indexOf(" ") == -1) {
 			beginTime = Long.parseLong(lines.get(12));
 		} else {
-			beginTime = calculationCorrectTimeAsMills(lines.get(12).split(" ")[1]);
+			beginTime = changeDateStringToLong(lines.get(12));
 		}
 
 		long endTime = 0;
 		if (lines.get(13).indexOf(" ") == -1) {
 			endTime = Long.parseLong(lines.get(13));
 		} else {
-			endTime = calculationCorrectTimeAsMills(lines.get(13).split(" ")[1]);
+			endTime = changeDateStringToLong(lines.get(13));
 		}
 
-		// 修正時間は取り出して時間を計算することに成功した
+		// correctionTime は CT値
 		int correctTime = Integer.parseInt(lines.get(18));
 
 		// データを書き込む
@@ -137,30 +111,22 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		// + correctTime + "\n");
 	}
 
-	// private long calculationBeginTime(String data) {
-	// String[] tokenizer = data.split(" ");
-	// String[] dates = tokenizer[0].split("/");
-	// String[] times = tokenizer[1].split(":");
-	//
-	// int year = Integer.parseInt(dates[0]);
-	// int month = Integer.parseInt(dates[1]);
-	// int day = Integer.parseInt(dates[2]);
-	// int hour = Integer.parseInt(times[0]);
-	// int minute = Integer.parseInt(times[1]);
-	// // int second = Integer.parseInt(times[2]);
-	// int second = 0;
-	//
-	// Calendar calender = Calendar.getInstance();
-	// calender.set(year, month, day, hour, minute, second);
-	//
-	// return calender.getTimeInMillis();
-	// }
+	private long changeDateStringToLong(String data) {
+		String[] tokenizer = data.split(" ");
+		String[] dates = tokenizer[0].split("/");
+		String[] times = tokenizer[1].split(":");
 
-	private int calculationCorrectTimeAsMills(String time) {
-		String[] tokanizer = time.split(":");
-		int hour = Integer.parseInt(tokanizer[0]) * 3600;
-		int minute = Integer.parseInt(tokanizer[1]) * 60;
-		int second = Integer.parseInt(tokanizer[2]);
-		return hour + minute + second;
+		int year = Integer.parseInt(dates[0]);
+		int month = Integer.parseInt(dates[1]);
+		int day = Integer.parseInt(dates[2]);
+
+		int hour = Integer.parseInt(times[0]);
+		int minute = Integer.parseInt(times[1]);
+		int second = Integer.parseInt(times[2]);
+
+		Calendar calender = Calendar.getInstance();
+		calender.set(year, month, day, hour, minute, second);
+
+		return calender.getTimeInMillis();
 	}
 }

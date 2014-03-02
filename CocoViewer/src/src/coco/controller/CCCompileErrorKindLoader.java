@@ -7,7 +7,8 @@ import src.coco.model.CCCompileErrorManager;
 public class CCCompileErrorKindLoader extends CCCsvFileLoader {
 
 	private CCCompileErrorManager manager;
-	private int linesNumber = 1;
+
+	// private int linesNumber = 1;
 
 	public CCCompileErrorKindLoader(CCCompileErrorManager manager) {
 		this.manager = manager;
@@ -24,22 +25,11 @@ public class CCCompileErrorKindLoader extends CCCsvFileLoader {
 		String message = lines.get(2);
 
 		manager.put(index, rare, message);
-		linesNumber++;
+		// linesNumber++;
 	}
 
 	// Å‰‚Ìó‘Ô‚Å’Ç‰Á‚µ‚½ƒGƒ‰[‚Ì”‚ğ•Û‘¶‚µ‚Ä‚¨‚­
-	public int getLines() {
-		return linesNumber;
-	}
-
-	// protected void separeteData(String line) {
-	// // TODO Auto-generated method stub
-	// StringTokenizer st = new StringTokenizer(line, ",");
-	//
-	// int index = Integer.parseInt(st.nextToken().toString());
-	// String message = st.nextToken().toString();
-	// // System.out.println(index + " : " + message);
-	// manager.put(index, message);
+	// public int getLines() {
+	// return linesNumber;
 	// }
-
 }

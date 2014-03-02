@@ -24,7 +24,7 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import ppv.app.datamanager.PPProjectSet;
-import src.coco.model.CCCompileErrorList;
+import src.coco.model.CCCompileErrorKind;
 import clib.common.filesystem.CDirectory;
 
 public class CCErrorElementButton2 extends JButton {
@@ -38,7 +38,7 @@ public class CCErrorElementButton2 extends JButton {
 	private int width;
 	private int height;
 
-	private CCCompileErrorList list;
+	private CCCompileErrorKind list;
 
 	private CDirectory baseDir;
 	private CDirectory libDir;
@@ -49,7 +49,7 @@ public class CCErrorElementButton2 extends JButton {
 
 	private List<CCGraphFrame> graphframes = new ArrayList<CCGraphFrame>();
 
-	public CCErrorElementButton2(CCCompileErrorList list, int width,
+	public CCErrorElementButton2(CCCompileErrorKind list, int width,
 			int height, CDirectory baseDir, CDirectory libDir,
 			PPProjectSet ppProjectSet) {
 		this.list = list;
@@ -61,28 +61,26 @@ public class CCErrorElementButton2 extends JButton {
 
 		super.setPreferredSize(new Dimension(width, height));
 		super.setLayout(null);
+
 		addComponentListener(new ComponentAdapter() {
 			public void componentResized(ComponentEvent e) {
 				chartpanel.setBounds(1, 1, getWidth(), getHeight());
 				validate();
 			}
 		});
+
 		makeGraph();
 	}
 
 	private void makeGraph() {
-		// 日本語が文字化けしないテーマ(フォント指定で避けたので使わない)
-		// ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
-
-		// グラフデータを設定する
+		// グラフデータ設定
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
 			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
 					"修正時間", Integer.toString(i + 1));
 		}
 
-		// TODO: グラフの生成 messageが長すぎる場合、短くする処理をどうするか
-		// 10文字くらいで区切って、ToolTipで補完する手段を考え中
+		// TODO: ミニグラフのタイトルメッセージ表示 現在は10文字のみ表示
 		String message = list.getMessage();
 		if (list.getMessage().length() > 10) {
 			message = message.substring(0, 9) + "...";
@@ -90,17 +88,16 @@ public class CCErrorElementButton2 extends JButton {
 
 		chart = ChartFactory.createLineChart(message, "修正回数", "修正時間", dataset,
 				PlotOrientation.VERTICAL, false, false, false);
-		// フォント指定しないと文字化けする
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 
-		// 背景色のセット
+		// 背景色セット
 		chart.setBackgroundPaint(new CCGraphBackgroundColor().graphColor(list
 				.getRare()));
 
-		// Plotクラスを準備
+		// Plotクラスを準備（順番重要）
 		CategoryPlot plot = chart.getCategoryPlot();
 
-		// 縦軸の設定 ・ 軸は整数値のみを指すようにする
+		// y軸 ・ 軸は整数値のみ
 		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
 		numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		numberAxis.setVerticalTickLabels(false);
@@ -108,20 +105,22 @@ public class CCErrorElementButton2 extends JButton {
 		numberAxis.setRangeWithMargins(0, 120);
 		numberAxis.setLabelFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
-		// x軸の設定
+		// x軸
 		CategoryAxis domainAxis = (CategoryAxis) plot.getDomainAxis();
 		domainAxis.setLabelFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
-		// プロットの設定
+		// プロット設定
 		LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot
 				.getRenderer();
 		renderer.setSeriesPaint(0, ChartColor.RED);
 		renderer.setSeriesStroke(0, new BasicStroke(1));
 		renderer.setSeriesShapesVisible(0, true);
 
+		// グラフをchartpanelに載せる
 		chartpanel = new ChartPanel(chart);
 		chartpanel.setBounds(0, 0, width, height);
 
+		// クリック時に修正詳細画面を表示
 		chartpanel.addChartMouseListener(new ChartMouseListener() {
 			@Override
 			public void chartMouseMoved(ChartMouseEvent arg0) {
@@ -136,12 +135,10 @@ public class CCErrorElementButton2 extends JButton {
 			}
 		});
 
-		// TODO: ToolTipが上手く表示できない
+		// TODO: ToolTip表示
 		chartpanel.setToolTipText(list.getErrors().size() + " : "
 				+ list.getMessage());
 		chartpanel.setDisplayToolTips(true);
-		// デバッグ用
-		// System.out.println(chartpanel.getToolTipText());
 
 		add(chartpanel);
 	}

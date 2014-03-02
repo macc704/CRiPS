@@ -24,6 +24,15 @@ public class CCViewerStart {
 		CCMetricsLoader metricsloader = new CCMetricsLoader(manager);
 		metricsloader.load("FileMetrics.csv");
 
+		// 事前にEclipseからPPVにかけておけば，ソースコードを閲覧できる（ただし時間がかかる）
+		// if (CFileSystem.getHomeDirectory().findDirectory(".ppvdata") != null)
+		// {
+		// CDirectory dir = CFileSystem.getHomeDirectory()
+		// .findOrCreateDirectory(".ppvdata");
+		// manager.setLibDir(dir.findOrCreateDirectory("ppv.lib"));
+		// manager.setBaseDir(dir);
+		// }
+
 		CCMainFrame2 frame = new CCMainFrame2(manager);
 		frame.setVisible(true);
 	}

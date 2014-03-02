@@ -35,13 +35,12 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
 import pres.loader.model.IPLUnit;
 import pres.loader.model.PLFile;
 import pres.loader.model.PLProject;
 import src.coco.model.CCCompileError;
-import src.coco.model.CCCompileErrorList;
+import src.coco.model.CCCompileErrorKind;
 import clib.common.filesystem.CDirectory;
 import clib.common.time.CTime;
 
@@ -56,26 +55,28 @@ public class CCGraphFrame extends JFrame {
 	private int height = 560;
 
 	private JPanel rootPanel = new JPanel();
-	private CCCompileErrorList list;
-
 	private JFreeChart chart;
 
+	private CCCompileErrorKind list;
+
 	private CDirectory baseDir;
-	private CDirectory libDir;
+	// private CDirectory libDir;
 	private PPProjectSet ppProjectSet;
 
 	private List<CCSourceCompareViewer> sourceviewers = new ArrayList<CCSourceCompareViewer>();
 
 	// default
-	public CCGraphFrame(CCCompileErrorList list, CDirectory baseDir,
+	public CCGraphFrame(CCCompileErrorKind list, CDirectory baseDir,
 			CDirectory libDir, PPProjectSet ppProjectSet) {
 		this.list = list;
 		this.baseDir = baseDir;
-		this.libDir = libDir;
+		// this.libDir = libDir;
 		this.ppProjectSet = ppProjectSet;
+
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		width = (int) (d.width * 0.6);
 		height = (int) (d.height * 0.6);
+
 		initialize();
 		setGraphAndTable();
 	}
@@ -119,30 +120,31 @@ public class CCGraphFrame extends JFrame {
 	private void setGraph() {
 		// 日本語が文字化けしないテーマ
 		// ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
-		// グラフデータを設定する
+
+		// グラフデータ設定
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
 			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
 					"修正時間", Integer.toString(i + 1));
 		}
 
-		// グラフの生成
+		// グラフ生成
 		chart = ChartFactory.createLineChart(list.getMessage()
 				+ "の修正時間   レア度: " + list.getRare(), "修正回数", "修正時間", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
 
-		// フォント指定しないと文字化けする
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 		chart.getLegend().setItemFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
-		// 背景色のセット
+		// 背景色セット
 		chart.setBackgroundPaint(new CCGraphBackgroundColor().graphColor(list
 				.getRare()));
 
-		// TODO: CategoryPlotを継承してクリック可能にして使える情報を増やすこと
+		// Plotクラスを準備（順番重要）
+		// TODO: プロットクリック機能
 		CategoryPlot plot = chart.getCategoryPlot();
 
-		// y軸の設定 ・ 軸は整数値のみを指すようにする
+		// y軸 ・ 軸は整数値のみ
 		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
 		numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		numberAxis.setVerticalTickLabels(false);
@@ -150,22 +152,22 @@ public class CCGraphFrame extends JFrame {
 		numberAxis.setRange(0, 120);
 		numberAxis.setLabelFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
-		// x軸の設定
+		// x軸
 		CategoryAxis domainAxis = (CategoryAxis) plot.getDomainAxis();
 		domainAxis.setLabelFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
-		// プロットの設定
+		// プロット設定
 		LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot
 				.getRenderer();
 		renderer.setSeriesPaint(0, ChartColor.RED);
 		renderer.setSeriesStroke(0, new BasicStroke(2));
 		renderer.setSeriesShapesVisible(0, true);
 
-		// グラフをJPanel上に配置する
+		// グラフをchartpanelに載せる
 		ChartPanel chartpanel = new ChartPanel(chart);
 		// chartpanel.setBounds(0, 0, width - 15, height - 40);
 
-		// TODO: TIPS表示されない
+		// TODO: TOOLTIP表示
 		JToolTip tooltip = new JToolTip();
 		chartpanel.setToolTipText(list.getErrors().size() + " : "
 				+ list.getMessage());
@@ -213,8 +215,8 @@ public class CCGraphFrame extends JFrame {
 					.getCorrectionTime())
 					+ "秒";
 
-			String[] oneTableData = { count, time, filename, correctTime };
-			model.addRow(oneTableData);
+			String[] oneColumn = { count, time, filename, correctTime };
+			model.addRow(oneColumn);
 		}
 
 		final JTable table = new JTable(model);
@@ -234,28 +236,28 @@ public class CCGraphFrame extends JFrame {
 				// 左クリック二回でオープンする
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() >= 2) {
-					// 選択された要素がリストの何番目であるのかを取得し，その時のコンパイルエラー情報を取得
 					int index = table.getSelectedRow();
 					CCCompileError compileError = list.getErrors().get(index);
 
-					// ファイルパスに必要な要素の取り出し
 					String projectname = compileError.getProjectName();
 					String filename = compileError.getFilename();
 
 					if (baseDir == null) {
-						System.out.println("baseDir null");
-						return;
+						throw new RuntimeException("PPVのbaseとなるフォルダが指定されていません");
 					}
 
+					// PPVにかけてから起動していないなら，コンパイル（時間がかかるので非推奨）
 					if (ppProjectSet == null) {
-						PPDataManager datamanager = new PPDataManager(baseDir);
-						datamanager.setLibDir(libDir);
-
-						CDirectory projectSetDir = datamanager
-								.getDataDir()
-								.findDirectory(compileError.getProjectSetName());
-						ppProjectSet = new PPProjectSet(projectSetDir);
-						datamanager.loadProjectSet(ppProjectSet, true, true);
+						throw new RuntimeException("PPVでコンパイルされていません");
+						// PPDataManager datamanager = new
+						// PPDataManager(baseDir);
+						// datamanager.setLibDir(libDir);
+						//
+						// CDirectory projectSetDir = datamanager
+						// .getDataDir()
+						// .findDirectory(compileError.getProjectSetName());
+						// ppProjectSet = new PPProjectSet(projectSetDir);
+						// datamanager.loadProjectSet(ppProjectSet, true, true);
 					}
 
 					IPLUnit model = null;
@@ -278,18 +280,20 @@ public class CCGraphFrame extends JFrame {
 								"コンパイルエラー発生時のソースコード捜索に失敗しました");
 					}
 
+					// ProjectViewer → 簡易なソース比較ウィンドウに変更
 					final CCSourceCompareViewer sourceviewer = new CCSourceCompareViewer(
 							model);
+
 					long beginTime = compileError.getBeginTime();
 					sourceviewer.getTimelinePane().getTimeModel2()
 							.setTime(new CTime(beginTime));
 					long endTime = compileError.getEndTime();
 					sourceviewer.getTimelinePane().getTimeModel()
 							.setTime(new CTime(endTime));
-					// frame.openToggleExtraView();
 
 					sourceviewer.setBounds(50, 50, 1000, 700);
 					sourceviewer.setVisible(true);
+
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							// 青修正前，赤修正後

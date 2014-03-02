@@ -17,23 +17,15 @@ public class CCCompileErrorLoader extends CCFileLoader {
 
 	@Override
 	protected void separeteData(String line) {
-		CCCompileError error = new CCCompileError();
-
 		// Œ©‚Ã‚ç‚¢‚½‚ßA’¼Úˆø”‚É“n‚·¨ˆêŸ•Ï”‚Éˆê’UŠi”[‚µ‚Ä‚©‚çˆø”‚ğ“n‚·A‚É•ÏX
 		String[] tokenizer = line.split(",");
-		int errorID;
-		String filePath;
-		long beginTime;
-		long endTime;
-		int correctTime;
+		int errorID = Integer.parseInt(tokenizer[0]);
+		String filePath = tokenizer[1];
+		long beginTime = Long.parseLong(tokenizer[2]);
+		long endTime = Long.parseLong(tokenizer[3]);
+		int correctTime = Integer.parseInt(tokenizer[4]);
 
-		errorID = Integer.parseInt(tokenizer[0]);
-		filePath = tokenizer[1];
-		beginTime = Long.parseLong(tokenizer[2]);
-		endTime = Long.parseLong(tokenizer[3]);
-		correctTime = Integer.parseInt(tokenizer[4]);
-
-		error.setData(errorID, filePath, beginTime, endTime, correctTime);
-		manager.addError(error);
+		manager.addError(new CCCompileError(errorID, filePath, beginTime,
+				endTime, correctTime));
 	}
 }

@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
-import src.coco.model.CCCompileErrorList;
+import src.coco.model.CCCompileErrorKind;
 import src.coco.model.CCCompileErrorManager;
 
 public class CCMainFrame2 extends JFrame {
@@ -112,9 +112,7 @@ public class CCMainFrame2 extends JFrame {
 
 	private void setCompileErrorNumber(JPanel panel) {
 		JLabel label = new JLabel();
-		if (manager.getTotalErrorCount() == 0) {
-			throw new RuntimeException("CocoViewer用データが作成されていない可能性があります");
-		}
+
 		int count = manager.getTotalErrorCount();
 		long time = manager.getTotalErrorCorrectionTime();
 		int wokingtime = manager.getTotalWorkingTime() * 60;
@@ -122,7 +120,10 @@ public class CCMainFrame2 extends JFrame {
 
 		String timeStr = timeToString(time);
 		String workingStr = timeToString(wokingtime);
-		long avg = time / count;
+		long avg = 0;
+		if (count != 0) {
+			avg = time / count;
+		}
 
 		String string = "<html>これまでのコンパイルエラー修正数: " + count
 				+ "　　これまでのコンパイルエラー修正時間累計: " + timeStr + "<br>"
@@ -179,7 +180,7 @@ public class CCMainFrame2 extends JFrame {
 	private void setButtonsPanel() {
 
 		// エラーIDごとの数値を書き込み、ボタンを実装する
-		for (CCCompileErrorList list : manager.getAllLists()) {
+		for (CCCompileErrorKind list : manager.getAllKinds()) {
 			CCErrorElementButton2 button = new CCErrorElementButton2(list,
 					buttonWidth, buttonHeight, manager.getBaseDir(),
 					manager.getLibDir(), manager.getPPProjectSet());
@@ -191,15 +192,15 @@ public class CCMainFrame2 extends JFrame {
 				/ buttonHeight, width / buttonWidth));
 		// ボタンを配置する
 		int i = 1;
-		int errorkindsCount = 48;
+		int errorkindsCount = manager.getAllKinds().size();
 		for (int x = 0; x < Math.sqrt(errorkindsCount); x++) {
 			for (int y = 0; y < Math.sqrt(errorkindsCount); y++) {
-				if (manager.getAllLists().size() >= i) {
-					if (manager.getList(i).getErrors().size() > 0) {
+				if (manager.getAllKinds().size() >= i) {
+					if (manager.getKind(i).getErrors().size() > 0) {
 						buttonsEreaPanel.add(buttons.get(i - 1));
 					} else {
 						buttonsEreaPanel
-								.add(setEmptyButton(manager.getList(i)));
+								.add(setEmptyButton(manager.getKind(i)));
 					}
 					i++;
 				} else {
@@ -213,7 +214,7 @@ public class CCMainFrame2 extends JFrame {
 	}
 
 	// クリックできないボタンを作成
-	private JButton setEmptyButton(CCCompileErrorList list) {
+	private JButton setEmptyButton(CCCompileErrorKind list) {
 		String message = "";
 		if (list != null) {
 			message = list.getMessage();
