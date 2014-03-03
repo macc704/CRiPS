@@ -149,7 +149,6 @@ public class OutputSourceModel {
 		if (newNames.size() <= 0) {
 			return;
 		}
-
 		createNewPrivateValue(newNames);
 	}
 
@@ -179,6 +178,7 @@ public class OutputSourceModel {
 
 		PrintStream ps = new PrintStream(file, enc);
 		ps.print(src);
+		this.unit = ASTParserWrapper.parse(file, enc, classpaths);// cash
 		ps.close();
 	}
 
@@ -191,6 +191,21 @@ public class OutputSourceModel {
 			cursor = getFirstMethodBeginPosition();
 		} else {
 			cursor = privateValues.get(0).getStartPosition();
+		}
+		return cursor;
+	}
+
+	private int getLastPrivateVariableEndPosition() {// #ohata added
+		int cursor;
+
+		List<FieldDeclaration> privateValues = getPrivateValues();
+
+		if (privateValues.size() == 0) {
+			return -1;
+		} else {
+			cursor = privateValues.get(privateValues.size() - 1)
+					.getStartPosition()
+					+ privateValues.get(privateValues.size() - 1).getLength();
 		}
 		return cursor;
 	}
@@ -275,16 +290,20 @@ public class OutputSourceModel {
 	private int getFirstMethodBeginPosition() {
 		List<MethodDeclaration> methods = getMethods();
 		int start;
-		if (methods.size() <= 0) {// 現状の仕様では，メソッドが一つ以上ないといけない
-			Pattern p = Pattern
-					.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]+[{]");
-			String src = FileReader.readFile(file, enc);
-			Matcher m = p.matcher(src);
-			if (m.find()) {
-				start = m.group().length();
-			} else {
-				throw new RuntimeException("Class Declaration Not Found.");
+		if (methods.size() <= 0) {
+			start = getLastPrivateVariableEndPosition();
+			if (start == -1) {// private変数が無い
+				Pattern p = Pattern
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?[\n]");
+				String src = FileReader.readFile(file, enc);
+				Matcher m = p.matcher(src);
+				if (m.find()) {
+					start = m.group().length();
+				} else {
+					throw new RuntimeException("Class Declaration Not Found.");
+				}
 			}
+
 		} else {
 			MethodDeclaration last = methods.get(0);
 
@@ -296,19 +315,19 @@ public class OutputSourceModel {
 	private int getLastMethodFinishPosition() {
 		List<MethodDeclaration> methods = getMethods();
 		int end;
-		if (methods.size() <= 0) {// 現状の仕様では，メソッドが一つ以上ないといけない
-			// public class hoge{までの文字数を獲得する
-			// (public)? +class + (.)+ +{
-			Pattern p = Pattern
-					.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]+[{]");
-			String src = FileReader.readFile(file, enc);
-			Matcher m = p.matcher(src);
-			if (m.find()) {
-				end = m.group().length();
-			} else {
-				throw new RuntimeException("Class Declaration Not Found.");
+		if (methods.size() <= 0) {
+			end = getLastPrivateVariableEndPosition();
+			if (end == -1) {
+				Pattern p = Pattern
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?[\n]");
+				String src = FileReader.readFile(file, enc);
+				Matcher m = p.matcher(src);
+				if (m.find()) {
+					end = m.group().length();
+				} else {
+					throw new RuntimeException("Class Declaration Not Found.");
+				}
 			}
-
 		} else {
 			MethodDeclaration last = methods.get(methods.size() - 1);
 			int start = last.getStartPosition();
