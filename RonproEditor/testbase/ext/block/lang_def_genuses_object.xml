@@ -1454,7 +1454,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="get" kind="data" initlabel="要素を取り出す"
+<BlockGenus name="get[@number]" kind="data" initlabel="要素を取り出す"
 	color="255 255 100">
     <JavaLabel>get</JavaLabel>
 	<BlockConnectors>

@@ -214,7 +214,7 @@
         <BlockGenusMember>isEmpty</BlockGenusMember>
         <BlockGenusMember>remove[@number]</BlockGenusMember>
         <BlockGenusMember>remove[@object]</BlockGenusMember>
-        <BlockGenusMember>get</BlockGenusMember>
+        <BlockGenusMember>get[@number]</BlockGenusMember>
 	</BlockDrawer>
 
 </BlockDrawerSet>

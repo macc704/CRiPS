@@ -77,7 +77,7 @@ public class LangDefFilesReWriterMain {
 			}
 		}
 		// 継承関係にあるブロック達をファミリーに出力
-		// printLangDefFamilies();
+		printLangDefFamilies();
 
 		// langDefファイルを作成する
 		Copier langDefXml = new LangDefFileCopier();
@@ -119,38 +119,38 @@ public class LangDefFilesReWriterMain {
 		return this.addedClasses;
 	}
 
-	// private void printLangDefFamilies() {
-	// // 登録しておいたfamilyListを整理する
-	// List<String> deleteList = new LinkedList<String>();
-	// // すべてのクラスの引数ブロックを、object型引数ブロックのファミリーとして出力する
-	//
-	// for (String key : familyList.keySet()) {
-	// if (existAsOtherFamilyMember(key)
-	// || familyList.get(key).getFamilyMember().size() == 1) {
-	// deleteList.add(key);
-	// }
-	// }
-	//
-	// for (String key : deleteList) {
-	// familyList.remove(key);
-	// }
-	//
-	// LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
-	// langDefFamilies.setProjectFamilies(familyList);
-	// langDefFamilies.print(file);
-	// // 残ったファミリーを追加したlang_def_familiesを現在のディレクトリに出力する
-	// }
-	//
-	// private boolean existAsOtherFamilyMember(String name) {
-	// for (String key : familyList.keySet()) {
-	// if (!key.equals(name)
-	// && familyList.get(key).getFamilyMember().contains(name)) {
-	// return true;
-	// }
-	// }
-	//
-	// return false;
-	// }
+	private void printLangDefFamilies() {
+		// // 登録しておいたfamilyListを整理する
+		// List<String> deleteList = new LinkedList<String>();
+		// // すべてのクラスの引数ブロックを、object型引数ブロックのファミリーとして出力する
+		//
+		// for (String key : familyList.keySet()) {
+		// if (existAsOtherFamilyMember(key)
+		// || familyList.get(key).getFamilyMember().size() == 1) {
+		// deleteList.add(key);
+		// }
+		// }
+		//
+		// for (String key : deleteList) {
+		// familyList.remove(key);
+		// }
+		//
+		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
+		// langDefFamilies.setProjectFamilies(familyList);
+		langDefFamilies.print(file);
+		// // 残ったファミリーを追加したlang_def_familiesを現在のディレクトリに出力する
+		// }
+		//
+		// private boolean existAsOtherFamilyMember(String name) {
+		// for (String key : familyList.keySet()) {
+		// if (!key.equals(name)
+		// && familyList.get(key).getFamilyMember().contains(name)) {
+		// return true;
+		// }
+		// }
+		//
+		// return false;
+	}
 
 	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name,
 			File file, String childName) throws IOException {
