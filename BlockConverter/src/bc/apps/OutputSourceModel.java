@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import bc.BCSystem;
 import bc.classblockfilewriters.MethodAnalyzer;
@@ -203,9 +204,12 @@ public class OutputSourceModel {
 		if (privateValues.size() == 0) {
 			return -1;
 		} else {
+			VariableDeclarationFragment var = (VariableDeclarationFragment) (privateValues
+					.get(privateValues.size() - 1).fragments().get(0));
 			cursor = privateValues.get(privateValues.size() - 1)
 					.getStartPosition()
-					+ privateValues.get(privateValues.size() - 1).getLength();
+					+ privateRequests.get(var.getName().toString()).length()
+					- 1;
 		}
 		return cursor;
 	}
@@ -348,7 +352,7 @@ public class OutputSourceModel {
 				newNames.add(privateRequest);
 			}
 		}
-		BCSystem.out.println("calc New Names return :" + newNames);
+
 		return newNames;
 	}
 
