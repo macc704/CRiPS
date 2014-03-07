@@ -14,7 +14,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.ui.editors.text.TextEditor;
 
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
@@ -31,7 +30,7 @@ import controller.WorkspaceController;
  * 
  * @see IWorkbenchWindowActionDelegate
  */
-public class BlockEditorAction implements IWorkbenchWindowActionDelegate {
+public class BlockEditorAction implements IWorkbenchWindowActionDelegate{
 	private static final String LANG_DEF_PATH = "ext/block/lang_def.xml";
 	// private static final String LANG_DEF_TURTLE_PATH =
 	// "ext/block/lang_def_turtle.xml";
@@ -64,7 +63,7 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate {
 		// "Hello, Eclipse world");
 		man.start();
 		man.setPriority(Thread.currentThread().getPriority() - 1);
-	
+		
 		blockEditor = new WorkspaceController(IMAGES_PATH);
 		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 		blockEditor.loadFreshWorkspace();
@@ -88,6 +87,18 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate {
 				// app.doCompileBlocking(true);
 				// successMessageDialog();// TODO
 				// dirty = false;
+//				
+//				openedTextEditor.setFocus();
+//				IEditorPart editorPart = window.getActivePage()
+//						.getActiveEditor();
+//
+//				ITextEditor textEditor = (ITextEditor) editorPart;
+//				openedTextEditor = textEditor;
+//				ITextOperationTarget target = (ITextOperationTarget) textEditor
+//						.getAdapter(ITextOperationTarget.class);
+//				
+//				target.doOperation(ISourceViewer.FORMAT);
+
 			}
 
 			public void blockDebugRun() {
@@ -175,8 +186,7 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate {
 		final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart
 				.getEditorInput();
 		IFile file = fileEditorInput.getFile();
-
-		final File target = file.getFullPath().toFile();
+		final File target = file.getLocation().toFile();
 
 		man.addTask(new ICTask() {
 
@@ -190,16 +200,17 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate {
 					return;
 				}
 
-				//writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK);
+				// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK);
 				// app.doCompileBlocking(false);
 
-				String message = "default";
-				
-//				if (message.length() != 0) {// has compile error
-//				// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
-//					doCompileErrorBlockEditor(target);
-//					return;
-//				}
+//				String message = "default";
+
+				// if (message.length() != 0) {// has compile error
+				// //
+				// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
+				// doCompileErrorBlockEditor(target);
+				// return;
+				// }
 
 				doRefleshBlock(target);
 				// TODO Auto-generated method stub
@@ -208,8 +219,6 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate {
 			// TODO Auto-generated method stub
 		});
 	}
-	
-	
 
 	protected void doRefleshBlock(final File javaFile) {
 		blockEditor.setState(WorkspaceController.BLOCK_SHOWING);
@@ -222,10 +231,9 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate {
 			public void doTask() {
 				try {
 					// xmlファイル生成
-					 String[] libs = {"/Users/ohata/git/CRiPS/RonproEditor/testbase/lib/blib.jar"};
+					String[] libs = { "/Users/ohata/git/CRiPS/RonproEditor/testbase/lib/blib.jar" };
 					// writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 					// File javaFile = app.getSourceManager().getCurrentFile();
-					
 					String xmlFilePath = new JavaToBlockMain().run(javaFile,
 							"SJIS", libs);
 
@@ -250,30 +258,30 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate {
 		// thread.start();
 	}
 
-	private void doCompileErrorBlockEditor(final File target) {
-		blockEditor.setState(WorkspaceController.COMPILE_ERROR);
-		// Thread thread = new Thread() {
-		//
-		// @Override
-		// public void run() {
-		man.addTask(new ICTask() {
-
-			public void doTask() {
-				try {
-					// xmlファイル生成
-					String emptyWorkSpace = emptyBEWorkSpacePrint();
-					String emptyFactory = emptyBEFactoryPrint();
-
-					// BlockEditorに反映
-					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
-					blockEditor.setCompileErrorTitle(target.getName());
-				} catch (Exception ex) {
-				}
-			}
-		});
-		// thread.setPriority(Thread.currentThread().getPriority() - 1);
-		// thread.start();
-	}
+//	private void doCompileErrorBlockEditor(final File target) {
+//		blockEditor.setState(WorkspaceController.COMPILE_ERROR);
+//		// Thread thread = new Thread() {
+//		//
+//		// @Override
+//		// public void run() {
+//		man.addTask(new ICTask() {
+//
+//			public void doTask() {
+//				try {
+//					// xmlファイル生成
+//					String emptyWorkSpace = emptyBEWorkSpacePrint();
+//					String emptyFactory = emptyBEFactoryPrint();
+//
+//					// BlockEditorに反映
+//					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
+//					blockEditor.setCompileErrorTitle(target.getName());
+//				} catch (Exception ex) {
+//				}
+//			}
+//		});
+//		// thread.setPriority(Thread.currentThread().getPriority() - 1);
+//		// thread.start();
+//	}
 
 	private void doLockBlockEditor() {
 		if (!isWorkspaceOpened()) {
@@ -328,9 +336,6 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate {
 		blockEditorFile.append("</BlockLangDef>");
 		return blockEditorFile.toString();
 	}
-	
-	
-	
-	
+
 
 }
