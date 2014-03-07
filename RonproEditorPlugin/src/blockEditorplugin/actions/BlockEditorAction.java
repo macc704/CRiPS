@@ -12,6 +12,9 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.ISelectionListener;
+import org.eclipse.ui.ISelectionService;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
@@ -38,6 +41,7 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate{
 	public static final String LIB_FOLDER = "lib";
 
 	private static final String ENCODING = "SJIS";
+	ISelectionService ss;
 
 	private IWorkbenchWindow window;
 	private WorkspaceController blockEditor;
@@ -68,12 +72,26 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate{
 		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 		blockEditor.loadFreshWorkspace();
 
+		ISelectionListener listener = new ISelectionListener() {
+			
+			@Override
+			public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+				// TODO Auto-generated method stub
+				if(isWorkspaceOpened()){
+					doCompileBlock();
+				}
+			}
+		};
+		
+		window.getActivePage().addSelectionListener(listener);
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				createAndShowGUI();
 			}
 		});
 
+		
 	}
 
 	public void createAndShowGUI() {
@@ -182,7 +200,7 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate{
 	public void doCompileBlock() {
 
 		IEditorPart editorPart = window.getActivePage().getActiveEditor();
-
+		
 		final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart
 				.getEditorInput();
 		IFile file = fileEditorInput.getFile();
@@ -231,19 +249,14 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate{
 			public void doTask() {
 				try {
 					// xmlファイル生成
-					String[] libs = { "/Users/ohata/git/CRiPS/RonproEditor/testbase/lib/blib.jar" };
+					String[] libs = { "lib/blib.jar" };
 					// writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 					// File javaFile = app.getSourceManager().getCurrentFile();
 					String xmlFilePath = new JavaToBlockMain().run(javaFile,
 							"SJIS", libs);
 
-					// BlockEditorに反映
-					// lang def ファイル
-
 					blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 
-					// blockEditor.resetLanguage();
-					// blockEditor.setLangDefDirty(true);
 					blockEditor.resetWorkspace();
 					blockEditor.loadProjectFromPath(new File(xmlFilePath)
 							.getPath());
@@ -336,6 +349,5 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate{
 		blockEditorFile.append("</BlockLangDef>");
 		return blockEditorFile.toString();
 	}
-
 
 }
