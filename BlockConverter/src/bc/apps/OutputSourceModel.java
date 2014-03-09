@@ -298,7 +298,8 @@ public class OutputSourceModel {
 			start = getLastPrivateVariableEndPosition();
 			if (start == -1) {// privateïœêîÇ™ñ≥Ç¢
 				Pattern p = Pattern
-						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?[\n]");
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?"
+								+ System.getProperty("line.separator"));
 				String src = FileReader.readFile(file, enc);
 				Matcher m = p.matcher(src);
 				if (m.find()) {
@@ -323,7 +324,8 @@ public class OutputSourceModel {
 			end = getLastPrivateVariableEndPosition();
 			if (end == -1) {
 				Pattern p = Pattern
-						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?[\n]");
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?"
+								+ System.getProperty("line.separator"));
 				String src = FileReader.readFile(file, enc);
 				Matcher m = p.matcher(src);
 				if (m.find()) {
