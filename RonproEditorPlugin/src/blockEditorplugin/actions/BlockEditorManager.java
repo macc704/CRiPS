@@ -2,26 +2,29 @@ package blockEditorplugin.actions;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
 import java.io.File;
 
 import javax.swing.SwingUtilities;
 
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.IExecutionListener;
+import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.jface.viewers.IPostSelectionProvider;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IPropertyListener;
-import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.commands.ICommandService;
 
+import presplugin.editors.PresExtendedJavaEditor;
+import ronproeditorplugin.Activator;
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
@@ -29,19 +32,18 @@ import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
 import controller.WorkspaceController;
 
-public class BlockEditorManager implements IAdaptable {
+public class BlockEditorManager {
 	private static final String LANG_DEF_PATH = "ext/block/lang_def.xml";
 	// private static final String LANG_DEF_TURTLE_PATH =
 	// "ext/block/lang_def_turtle.xml";
 	private static final String IMAGES_PATH = "ext/block/images/";
 	public static final String LIB_FOLDER = "lib";
-
+	
 	private static final String ENCODING = "SJIS";
 	private WorkspaceController blockEditor;
 	private CTaskManager man = new CTaskManager();
 
 	private static IWorkbenchWindow window;
-	
 
 	public BlockEditorManager(IWorkbenchWindow window) {
 		man.start();
@@ -50,82 +52,100 @@ public class BlockEditorManager implements IAdaptable {
 		blockEditor = new WorkspaceController(IMAGES_PATH);
 		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 		blockEditor.loadFreshWorkspace();
-		this.window = window;
-		//タブの切り替えのリスナー登録
+		BlockEditorManager.window = window;
 		window.getActivePage().getActiveEditor().getEditorSite().getWorkbenchWindow().getPartService().addPartListener(partListener);
-		//エディタのテキストが保存されたら再読み込み
-		IEditorPart editorPart = window.getActivePage().getActiveEditor();
-		editorPart.addPropertyListener(ipListener);
+		// エディタのテキストが保存されたら再読み込み
+		ICommandService service = (ICommandService) Activator.getDefault().getWorkbench().getService(ICommandService.class);
+		service.addExecutionListener(saveListener);
+		// タブの切り替えのリスナー登録
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				createAndShowGUI();
-				
+				try {
+					createAndShowGUI();
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
-		
-		
 	}
 	
-	private IPartListener partListener = new IPartListener() {
+
+	
+	private IExecutionListener saveListener = new IExecutionListener() {
 		
 		@Override
-		public void partOpened(IWorkbenchPart part) {
+		public void preExecute(String commandId, ExecutionEvent event) {
 			// TODO Auto-generated method stub
-			System.out.println("hogeoopen");
-		}
-		
-		@Override
-		public void partDeactivated(IWorkbenchPart part) {
-			// TODO Auto-generated method stub
-			System.out.println("hoged");
-		}
-		
-		@Override
-		public void partClosed(IWorkbenchPart part) {
-			// TODO Auto-generated method stub
-			System.out.println("hogec");
-		}
-		
-		@Override
-		public void partBroughtToTop(IWorkbenchPart part) {
-			// TODO Auto-generated method stub
-			System.out.println("hoget");
-		}
-		
-		@Override
-		public void partActivated(IWorkbenchPart part) {
-			// TODO Auto-generated method stub
-			if(isWorkspaceOpened()){
-				doCompileBlock();	
-			}
 			
 		}
-	};
-	
-	private IPropertyListener ipListener = new IPropertyListener() {
 		
 		@Override
-		public void propertyChanged(Object source, int propId) {
+		public void postExecuteSuccess(String commandId, Object returnValue) {
 			// TODO Auto-generated method stub
-			System.out.println(propId);
+			if(commandId.endsWith("org.eclipse.ui.file.save")){
+				if(isWorkspaceOpened()){
+					try {
+						doCompileBlock();
+					} catch (CoreException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
+				}
+			}
+		}
+		
+		@Override
+		public void postExecuteFailure(String commandId,
+				ExecutionException exception) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void notHandled(String commandId, NotHandledException exception) {
+			// TODO Auto-generated method stub
+			
 		}
 	};
 
-	private ISelectionListener listener = new ISelectionListener() {
-		
+	private IPartListener partListener = new IPartListener() {
+
 		@Override
-		public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		public void partOpened(IWorkbenchPart part) {
 			// TODO Auto-generated method stub
-			IWorkbenchPart h = window.getActivePage().getActivePart();
-			if(!window.getActivePage().getActivePart().equals(part)){
-				System.out.println("hoge");	
-				
+		}
+
+		@Override
+		public void partDeactivated(IWorkbenchPart part) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void partClosed(IWorkbenchPart part) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void partBroughtToTop(IWorkbenchPart part) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void partActivated(IWorkbenchPart part) {
+			// TODO Auto-generated method stub
+			if (isWorkspaceOpened() && part instanceof PresExtendedJavaEditor) {
+				try {
+					doCompileBlock();
+				} catch (CoreException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
-			
 		}
 	};
-	
-	public void createAndShowGUI() {
+
+	public void createAndShowGUI() throws CoreException {
 		blockEditor.createAndShowGUI(blockEditor, new SBlockEditorListener() {
 
 			public void blockConverted(File file) {
@@ -188,9 +208,53 @@ public class BlockEditorManager implements IAdaptable {
 					@Override
 					public void windowStateChanged(WindowEvent e) {
 						// TODO Auto-generated method stub
-
+						
 					}
 				});
+		blockEditor.getFrame().addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				ICommandService service = (ICommandService) Activator.getDefault().getWorkbench().getService(ICommandService.class);
+				service.removeExecutionListener(saveListener);
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		doCompileBlock();
 	}
@@ -201,16 +265,19 @@ public class BlockEditorManager implements IAdaptable {
 	}
 
 	public void setWindow(IWorkbenchWindow window) {
-		this.window = window;
+		BlockEditorManager.window = window;
 	}
 
-	public void doCompileBlock() {
+	public void doCompileBlock() throws CoreException {
 		IEditorPart editorPart = window.getActivePage().getActiveEditor();
 		final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart
 				.getEditorInput();
 		IFile file = fileEditorInput.getFile();
 		final File target = file.getLocation().toFile();
-
+		
+		IResource resource = file;
+		int max  = resource.findMaxProblemSeverity(IMarker.PROBLEM , true, IResource.DEPTH_INFINITE);
+		if(max != 2){
 		man.addTask(new ICTask() {
 
 			public void doTask() {
@@ -223,24 +290,46 @@ public class BlockEditorManager implements IAdaptable {
 					return;
 				}
 
-				// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK);
-				// app.doCompileBlocking(false);
-
-				// String message = "default";
-
-				// if (message.length() != 0) {// has compile error
-				// //
-				// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
-				// doCompileErrorBlockEditor(target);
-				// return;
-				// }
-
 				doRefleshBlock(target);
 				// TODO Auto-generated method stub
 			}
 			// });
 			// TODO Auto-generated method stub
 		});
+		}else{
+			// if (message.length() != 0) {// has compile error
+			// //
+			// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
+			doCompileErrorBlockEditor(target);
+			// return;
+			// }
+			
+		}
+	}
+	
+	private void doCompileErrorBlockEditor(final File target) {
+		blockEditor.setState(WorkspaceController.COMPILE_ERROR);
+		// Thread thread = new Thread() {
+		//
+		// @Override
+		// public void run() {
+		man.addTask(new ICTask() {
+
+			public void doTask() {
+				try {
+					// xmlファイル生成
+					String emptyWorkSpace = emptyBEWorkSpacePrint();
+					String emptyFactory = emptyBEFactoryPrint();
+
+					// BlockEditorに反映
+					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
+					blockEditor.setCompileErrorTitle(target.getName());
+				} catch (Exception ex) {
+				}
+			}
+		});
+		// thread.setPriority(Thread.currentThread().getPriority() - 1);
+		// thread.start();
 	}
 
 	protected void doRefleshBlock(final File javaFile) {
@@ -355,12 +444,4 @@ public class BlockEditorManager implements IAdaptable {
 		return blockEditorFile.toString();
 	}
 
-	@Override
-	public Object getAdapter(Class adapter) {
-		// TODO Auto-generated method stub
-		if(adapter.equals((WorkspaceController.class))){
-			return blockEditor;
-		}
-		return null;
-	}
 }

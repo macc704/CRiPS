@@ -1,29 +1,9 @@
 package blockEditorplugin.actions;
 
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowStateListener;
-import java.io.File;
-
-import javax.swing.SwingUtilities;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.ISelectionService;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-
-import a.slab.blockeditor.SBlockEditorListener;
-import bc.BlockConverter;
-import bc.apps.JavaToBlockMain;
-import clib.common.thread.CTaskManager;
-import clib.common.thread.ICTask;
-import controller.WorkspaceController;
 
 /**
  * Our sample action implements workbench action delegate. The action proxy will
@@ -36,7 +16,6 @@ import controller.WorkspaceController;
 public class BlockEditorAction implements IWorkbenchWindowActionDelegate{
 
 	private IWorkbenchWindow window;
-	private BlockEditorManager beManager;
 
 
 	/**
@@ -52,7 +31,8 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate{
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	public void run(IAction action) {
-			beManager = new BlockEditorManager(window);			
+		
+			new BlockEditorManager(window);
 	}
 
 	/**
@@ -72,6 +52,7 @@ public class BlockEditorAction implements IWorkbenchWindowActionDelegate{
 	 * @see IWorkbenchWindowActionDelegate#dispose
 	 */
 	public void dispose() {
+		
 	}
 
 	/**
