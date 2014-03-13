@@ -1,5 +1,11 @@
 /a
 /bc
+/blockEditorplugin
+/cocoviewer
 /codeblocks
 /codeblockutil
-/blockEditorplugin
+/controller
+/renderable
+/ronproeditorplugin
+/util
+/workspace
