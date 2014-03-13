@@ -413,10 +413,8 @@ public class BlockEditorManager {
 				}
 			}
 		});
-		// thread.setPriority(Thread.currentThread().getPriority() - 1);
-		// thread.start();
-
 	}
+	
 
 	private String emptyBEWorkSpacePrint() {
 		StringBuffer blockEditorFile = new StringBuffer();
