@@ -439,7 +439,6 @@ public class SContextMenuProvider {
 				name);
 		RenderableBlock returnBlock = createNewBlock(rb.getParentWidget(),
 				"return");
-		RenderableBlock getter = SStubCreator.createStub("getter", rb);
 
 		//ƒ‰ƒxƒ‹’£‘Ö‚¦
 		Block methodBlock = newCommandRBlock.getBlock();

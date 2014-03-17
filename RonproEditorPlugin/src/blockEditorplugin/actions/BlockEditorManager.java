@@ -2,7 +2,6 @@ package blockEditorplugin.actions;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowListener;
 import java.awt.event.WindowStateListener;
 import java.io.File;
 
@@ -23,11 +22,18 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.commands.ICommandService;
 
+import pres.core.model.PRFileLog;
+import pres.core.model.PRLog;
+import presplugin.PresPlugin;
 import presplugin.editors.PresExtendedJavaEditor;
 import ronproeditorplugin.Activator;
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
 import controller.WorkspaceController;
@@ -149,7 +155,7 @@ public class BlockEditorManager {
 		blockEditor.createAndShowGUI(blockEditor, new SBlockEditorListener() {
 
 			public void blockConverted(File file) {
-				// writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
+				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
 				// app.doRefreshCurrentEditor();
 				// app.doFormat();
 				// app.doBlockToJavaSave();
@@ -177,85 +183,39 @@ public class BlockEditorManager {
 			}
 
 			public void blockRun() {
-				// writeBlockEditingLog(BlockEditorLog.SubType.RUN);
+				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
 				// app.doRun();
 			}
 
 			public void blockCompile() {
-				// writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
+				writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
 				// app.doCompile();
 			}
 
 		}, ENCODING);
 		blockEditor.getFrame().addWindowFocusListener(
 				new WindowFocusListener() {
-
-					@Override
-					public void windowGainedFocus(WindowEvent e) {
-						// TODO Auto-generated method stub
-						// System.out.println("hoge");
+					public void windowLostFocus(WindowEvent e) {
+						writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
 					}
 
-					@Override
-					public void windowLostFocus(WindowEvent e) {
-						// TODO Auto-generated method stub
-						// System.out.println("hogelost");
+					public void windowGainedFocus(WindowEvent e) {
+						writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
 					}
 				});
-		// writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
+		writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
 		blockEditor.getFrame().addWindowStateListener(
 				new WindowStateListener() {
-					@Override
 					public void windowStateChanged(WindowEvent e) {
-						// TODO Auto-generated method stub
-						
+						if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
+							writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
+							ICommandService service = (ICommandService) Activator.getDefault().getWorkbench().getService(ICommandService.class);
+							service.removeExecutionListener(saveListener);
+						} else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
+							// do nothing
+						}
 					}
 				});
-		blockEditor.getFrame().addWindowListener(new WindowListener() {
-			
-			@Override
-			public void windowOpened(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-			@Override
-			public void windowClosing(WindowEvent e) {
-				// TODO Auto-generated method stub
-			}
-			
-			@Override
-			public void windowClosed(WindowEvent e) {
-				// TODO Auto-generated method stub
-				ICommandService service = (ICommandService) Activator.getDefault().getWorkbench().getService(ICommandService.class);
-				service.removeExecutionListener(saveListener);
-			}
-			
-			@Override
-			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-
 		doCompileBlock();
 	}
 
@@ -299,7 +259,7 @@ public class BlockEditorManager {
 		}else{
 			// if (message.length() != 0) {// has compile error
 			// //
-			// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
+			writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
 			doCompileErrorBlockEditor(target);
 			// return;
 			// }
@@ -344,7 +304,7 @@ public class BlockEditorManager {
 				try {
 					// xmlファイル生成
 					String[] libs = { "lib/blib.jar" };
-					// writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
+					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 					// File javaFile = app.getSourceManager().getCurrentFile();
 					String xmlFilePath = new JavaToBlockMain().run(javaFile,
 							"SJIS", libs);
@@ -354,7 +314,7 @@ public class BlockEditorManager {
 					blockEditor.resetWorkspace();
 					blockEditor.loadProjectFromPath(new File(xmlFilePath)
 							.getPath());
-					// writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
+					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					// CErrorDialog.show(app.getFrame(), "Block変換時のエラー", ex);
@@ -441,5 +401,50 @@ public class BlockEditorManager {
 		blockEditorFile.append("</BlockLangDef>");
 		return blockEditorFile.toString();
 	}
+	
+	private void writeBlockEditingLog(BlockEditorLog.SubType subType,
+			String... texts) {
+		try {
+//			if (!app.getSourceManager().hasCurrentFile()) {
+//				return;
+//			}
 
+			IEditorPart editorPart = window.getActivePage().getActiveEditor();
+			final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart
+					.getEditorInput();
+			IFile file = fileEditorInput.getFile();
+			CFile target = (CFile) CFileSystem.convertToCFile(file.getLocation().toFile());
+			CDirectory project = new CDirectory(new CPath(file.getProject().getProject().getLocation().toFile()));
+			
+			CPath path = target.getRelativePath(project);
+			
+			PRLog log = new BlockEditorLog(subType, path, texts);
+//			PresPlugin.getDefault().getPres()
+			writePresLog(log, file);
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	private void writePresLog(PRLog log, IFile file){
+		PresPlugin.getDefault().getPres().getManager().getRecordingProject(file).record(log);
+	}
+}
+
+class BlockEditorLog extends PRFileLog {
+	public static enum Type implements PRLogType {
+		BLOCK_COMMAND_RECORD
+	};
+
+	public static enum SubType implements PRLogSubType {
+		ANY, BLOCK_TO_JAVA, BLOCK_TO_JAVA_ERROR, JAVA_TO_BLOCK, JAVA_TO_BLOCK_ERROR, COMPILE, RUN, DEBUGRUN, OPENED, CLOSEED, FOCUS_GAINED, FOCUS_LOST, LOADING_START, LOADING_END
+	};
+
+	/**
+	 * Constructor
+	 */
+	public BlockEditorLog(SubType subType, CPath path, Object[] args) {
+		super(Type.BLOCK_COMMAND_RECORD, subType, path, args);
+	}
 }

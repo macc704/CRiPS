@@ -42,6 +42,10 @@ public class EclipsePresAdapter {
 
 	public EclipsePresAdapter() {
 	}
+	
+	public PresProjectManager getManager(){
+		return this.manager;
+	}
 
 	public void initialize() {
 		this.initializeEventHandlers();

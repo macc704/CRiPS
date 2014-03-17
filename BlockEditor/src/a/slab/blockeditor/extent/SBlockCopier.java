@@ -143,8 +143,6 @@ public class SBlockCopier {
 		}
 		RenderableBlock newRb = BlockUtilities.cloneBlock(rb.getBlock());
 		newRb.setLocation(rb.getX() + 200, rb.getY()); // 新しく生成するブロックのポジション
-		Long before = Block.getBlock(rb.getBlockID()).getBeforeBlockID();
-		Long socket = Block.getBlock(rb.getBlockID()).getPlugBlockID();
 		newRb.setParentWidget(rb.getParentWidget());
 		rb.getParent().add(newRb, 0);
 		MouseEvent me = new MouseEvent(newRb, e.getID(), e.getWhen(),
