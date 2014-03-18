@@ -16,13 +16,14 @@ public class TextFormatter implements Runnable {
 	
 	@Override
 	public void run() {
+		
 		// TODO Auto-generated method stub
 		IEditorPart editorPart = window.getActivePage()
 				.getActiveEditor();
 		ITextEditor textEditor = (ITextEditor) editorPart;
 		ITextOperationTarget target = (ITextOperationTarget) textEditor
 				.getAdapter(ITextOperationTarget.class);
-		
+		textEditor.doRevertToSaved();
 		target.doOperation(ISourceViewer.FORMAT);
 		textEditor.doSave(null);
 	}

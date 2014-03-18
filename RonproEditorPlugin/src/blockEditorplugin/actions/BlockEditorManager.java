@@ -160,6 +160,8 @@ public class BlockEditorManager {
 				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
 				Display.getDefault().asyncExec(new TextFormatter(window));
 				
+				
+				
 				// app.doRefreshCurrentEditor();
 				// app.doFormat();
 				// app.doBlockToJavaSave();
@@ -183,9 +185,6 @@ public class BlockEditorManager {
 
 			public void blockCompile() {
 				writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
-
-				
-				
 				// app.doCompile();
 			}
 
