@@ -15,6 +15,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
@@ -44,7 +45,7 @@ public class BlockEditorManager {
 	// "ext/block/lang_def_turtle.xml";
 	private static final String IMAGES_PATH = "ext/block/images/";
 	public static final String LIB_FOLDER = "lib";
-	
+
 	private static final String ENCODING = "SJIS";
 	private WorkspaceController blockEditor;
 	private CTaskManager man = new CTaskManager();
@@ -59,9 +60,12 @@ public class BlockEditorManager {
 		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 		blockEditor.loadFreshWorkspace();
 		BlockEditorManager.window = window;
-		window.getActivePage().getActiveEditor().getEditorSite().getWorkbenchWindow().getPartService().addPartListener(partListener);
+		window.getActivePage().getActiveEditor().getEditorSite()
+				.getWorkbenchWindow().getPartService()
+				.addPartListener(partListener);
 		// エディタのテキストが保存されたら再読み込み
-		ICommandService service = (ICommandService) Activator.getDefault().getWorkbench().getService(ICommandService.class);
+		ICommandService service = (ICommandService) Activator.getDefault()
+				.getWorkbench().getService(ICommandService.class);
 		service.addExecutionListener(saveListener);
 		// タブの切り替えのリスナー登録
 		SwingUtilities.invokeLater(new Runnable() {
@@ -75,43 +79,41 @@ public class BlockEditorManager {
 			}
 		});
 	}
-	
 
-	
 	private IExecutionListener saveListener = new IExecutionListener() {
-		
+
 		@Override
 		public void preExecute(String commandId, ExecutionEvent event) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 		@Override
 		public void postExecuteSuccess(String commandId, Object returnValue) {
 			// TODO Auto-generated method stub
-			if(commandId.endsWith("org.eclipse.ui.file.save")){
-				if(isWorkspaceOpened()){
+			if (commandId.endsWith("org.eclipse.ui.file.save")) {
+				if (isWorkspaceOpened()) {
 					try {
 						doCompileBlock();
 					} catch (CoreException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}	
+					}
 				}
 			}
 		}
-		
+
 		@Override
 		public void postExecuteFailure(String commandId,
 				ExecutionException exception) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 		@Override
 		public void notHandled(String commandId, NotHandledException exception) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	};
 
@@ -156,6 +158,8 @@ public class BlockEditorManager {
 
 			public void blockConverted(File file) {
 				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
+				Display.getDefault().asyncExec(new TextFormatter(window));
+				
 				// app.doRefreshCurrentEditor();
 				// app.doFormat();
 				// app.doBlockToJavaSave();
@@ -164,21 +168,11 @@ public class BlockEditorManager {
 				// dirty = false;
 				//
 				// openedTextEditor.setFocus();
-				// IEditorPart editorPart = window.getActivePage()
-				// .getActiveEditor();
-				//
-				// ITextEditor textEditor = (ITextEditor) editorPart;
-				// openedTextEditor = textEditor;
-				// ITextOperationTarget target = (ITextOperationTarget)
-				// textEditor
-				// .getAdapter(ITextOperationTarget.class);
-				//
-				// target.doOperation(ISourceViewer.FORMAT);
 
 			}
 
 			public void blockDebugRun() {
-				// writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
+				writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
 				// app.doDebugRun();
 			}
 
@@ -189,6 +183,9 @@ public class BlockEditorManager {
 
 			public void blockCompile() {
 				writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
+
+				
+				
 				// app.doCompile();
 			}
 
@@ -209,7 +206,9 @@ public class BlockEditorManager {
 					public void windowStateChanged(WindowEvent e) {
 						if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
 							writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
-							ICommandService service = (ICommandService) Activator.getDefault().getWorkbench().getService(ICommandService.class);
+							ICommandService service = (ICommandService) Activator
+									.getDefault().getWorkbench()
+									.getService(ICommandService.class);
 							service.removeExecutionListener(saveListener);
 						} else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
 							// do nothing
@@ -234,39 +233,40 @@ public class BlockEditorManager {
 				.getEditorInput();
 		IFile file = fileEditorInput.getFile();
 		final File target = file.getLocation().toFile();
-		
+
 		IResource resource = file;
-		int max  = resource.findMaxProblemSeverity(IMarker.PROBLEM , true, IResource.DEPTH_INFINITE);
-		if(max != 2){
-		man.addTask(new ICTask() {
+		int max = resource.findMaxProblemSeverity(IMarker.PROBLEM, true,
+				IResource.DEPTH_INFINITE);
+		if (max != 2) {
+			man.addTask(new ICTask() {
 
-			public void doTask() {
+				public void doTask() {
 
-				if (!isWorkspaceOpened()) {
-					return;
+					if (!isWorkspaceOpened()) {
+						return;
+					}
+					if (!fileEditorInput.exists()) {
+						doLockBlockEditor();
+						return;
+					}
+
+					doRefleshBlock(target);
+					// TODO Auto-generated method stub
 				}
-				if (!fileEditorInput.exists()) {
-					doLockBlockEditor();
-					return;
-				}
-
-				doRefleshBlock(target);
+				// });
 				// TODO Auto-generated method stub
-			}
-			// });
-			// TODO Auto-generated method stub
-		});
-		}else{
+			});
+		} else {
 			// if (message.length() != 0) {// has compile error
 			// //
 			writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
 			doCompileErrorBlockEditor(target);
 			// return;
 			// }
-			
+
 		}
 	}
-	
+
 	private void doCompileErrorBlockEditor(final File target) {
 		blockEditor.setState(WorkspaceController.COMPILE_ERROR);
 		// Thread thread = new Thread() {
@@ -374,7 +374,6 @@ public class BlockEditorManager {
 			}
 		});
 	}
-	
 
 	private String emptyBEWorkSpacePrint() {
 		StringBuffer blockEditorFile = new StringBuffer();
@@ -401,34 +400,36 @@ public class BlockEditorManager {
 		blockEditorFile.append("</BlockLangDef>");
 		return blockEditorFile.toString();
 	}
-	
+
 	private void writeBlockEditingLog(BlockEditorLog.SubType subType,
 			String... texts) {
 		try {
-//			if (!app.getSourceManager().hasCurrentFile()) {
-//				return;
-//			}
+			// if (!app.getSourceManager().hasCurrentFile()) {
+			// return;
+			// }
 
 			IEditorPart editorPart = window.getActivePage().getActiveEditor();
 			final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart
 					.getEditorInput();
 			IFile file = fileEditorInput.getFile();
-			CFile target = (CFile) CFileSystem.convertToCFile(file.getLocation().toFile());
-			CDirectory project = new CDirectory(new CPath(file.getProject().getProject().getLocation().toFile()));
-			
+			CFile target = (CFile) CFileSystem.convertToCFile(file
+					.getLocation().toFile());
+			CDirectory project = new CDirectory(new CPath(file.getProject()
+					.getProject().getLocation().toFile()));
+
 			CPath path = target.getRelativePath(project);
-			
+
 			PRLog log = new BlockEditorLog(subType, path, texts);
-//			PresPlugin.getDefault().getPres()
 			writePresLog(log, file);
-			
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
-	
-	private void writePresLog(PRLog log, IFile file){
-		PresPlugin.getDefault().getPres().getManager().getRecordingProject(file).record(log);
+
+	private void writePresLog(PRLog log, IFile file) {
+		PresPlugin.getDefault().getPres().getManager()
+				.getRecordingProject(file).record(log);
 	}
 }
 
