@@ -160,8 +160,6 @@ public class BlockEditorManager {
 				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
 				Display.getDefault().asyncExec(new TextFormatter(window));
 				
-				
-				
 				// app.doRefreshCurrentEditor();
 				// app.doFormat();
 				// app.doBlockToJavaSave();
@@ -180,6 +178,17 @@ public class BlockEditorManager {
 
 			public void blockRun() {
 				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
+//				ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+//				ILaunchConfigurationType type = manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
+//				try {
+//					ILaunchConfigurationWorkingCopy config = type.newInstance(null, Activator.PLUGIN_ID);
+//					//config.launch(ILaunchManager.RUN_MODE, window.getWorkbench().getProgressService().);
+//				} catch (CoreException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+				
+				//window.getActivePage().getActiveEditor().
 				// app.doRun();
 			}
 
