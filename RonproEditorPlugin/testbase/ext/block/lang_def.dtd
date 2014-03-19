@@ -168,6 +168,8 @@
 <!ENTITY lang_def_menu_cui SYSTEM "lang_def_menu_cui.xml">
 <!ENTITY lang_def_connectorshapes SYSTEM "lang_def_connectorshapes.xml">
 <!ENTITY lang_def_genuses SYSTEM "lang_def_genuses.xml">
+<!ENTITY lang_def_genuses_obprogui SYSTEM "lang_def_genuses_obprogui.xml">
+<!ENTITY lang_def_genuses_obprogui SYSTEM "lang_def_genuses_obprocui.xml">
 <!ENTITY lang_def_genuses_stubs SYSTEM "lang_def_genuses_stubs.xml">
 <!ENTITY lang_def_genuses_datatypes SYSTEM "lang_def_genuses_datatypes.xml">
 <!ENTITY lang_def_genuses_variable SYSTEM "lang_def_genuses_variable.xml">
@@ -179,5 +181,5 @@
 <!ENTITY lang_def_genuses_turtle SYSTEM "lang_def_genuses_turtle.xml">
 <!ENTITY lang_def_families SYSTEM "lang_def_families.xml">
 <!ENTITY lang_def_etc SYSTEM "lang_def_etc.xml">
-<!ENTITY lang_def_class SYSTEM "lang_def_class/xml"><!-- added by Ohata-->
+<!ENTITY lang_def_genuses_project SYSTEM "lang_def_genuses_project.xml"><!-- added by Ohata-->
 

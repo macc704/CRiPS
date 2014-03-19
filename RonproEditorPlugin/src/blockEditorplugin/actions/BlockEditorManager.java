@@ -317,7 +317,8 @@ public class BlockEditorManager {
 					String xmlFilePath = new JavaToBlockMain().run(javaFile,
 							"SJIS", libs);
 
-					blockEditor.setLangDefFilePath(LANG_DEF_PATH);
+					blockEditor.setLangDefFilePath(javaFile.getParentFile()
+							.getPath() + "/lang_def_project.xml");
 
 					blockEditor.resetWorkspace();
 					blockEditor.loadProjectFromPath(new File(xmlFilePath)

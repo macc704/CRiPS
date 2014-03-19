@@ -386,3 +386,24 @@
 		<BlockConnector connector-kind="socket" connector-type="object"></BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
+
+<BlockGenus name="toStringFromString" kind="function"
+	initlabel="文字列型に変換する" color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="string"></BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="null" kind="data" initlabel="null"
+	editable-label="no"  color="16 240 27">
+	<description>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="poly"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-null"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>

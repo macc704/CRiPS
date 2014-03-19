@@ -154,7 +154,20 @@
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
-		</Stub>				
+		</Stub>
+        <Stub stub-genus="getter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="type" value="object"></LangSpecProperty>
