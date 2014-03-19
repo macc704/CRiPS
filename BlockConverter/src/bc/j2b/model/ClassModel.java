@@ -14,11 +14,10 @@ public class ClassModel extends ElementModel {
 	private String name;
 	private List<StMethodDeclarationModel> methods = new ArrayList<StMethodDeclarationModel>();
 	private String superClass;
-	
+
 	// #ohata added parameter
 	private List<StConstructorDeclarationModel> constructors = new ArrayList<StConstructorDeclarationModel>();
 	private List<StPrivateVariableDeclarationModel> privateValues = new ArrayList<StPrivateVariableDeclarationModel>();
-	
 
 	/**
 	 * @param name
@@ -41,19 +40,22 @@ public class ClassModel extends ElementModel {
 	 * @param superClass
 	 */
 	public void setSuperClass(String superClass) {
-		this.superClass = superClass;
+		// superclassに<が入った時は、エスケープシーケンスをつける
+		this.superClass = ElementModel.addEscapeSequence(superClass);
 	}
 
-	public void addPrivateVariable(StPrivateVariableDeclarationModel privateValue){
+	public void addPrivateVariable(
+			StPrivateVariableDeclarationModel privateValue) {
 		this.privateValues.add(privateValue);
 	}
-	
+
 	public void addMethod(StMethodDeclarationModel method) {
 		method.setParent(this);
 		this.methods.add(method);
 	}
-	//#ohata added 
-	public void addConstructor(StConstructorDeclarationModel constructor){
+
+	// #ohata added
+	public void addConstructor(StConstructorDeclarationModel constructor) {
 		constructor.setParent(this);
 		this.constructors.add(constructor);
 	}
@@ -61,12 +63,12 @@ public class ClassModel extends ElementModel {
 	public List<StMethodDeclarationModel> getMethods() {
 		return methods;
 	}
-	
-	public List<StPrivateVariableDeclarationModel> getPrivateValues(){
+
+	public List<StPrivateVariableDeclarationModel> getPrivateValues() {
 		return privateValues;
 	}
-	
-	public List<StConstructorDeclarationModel> getConstructors(){
+
+	public List<StConstructorDeclarationModel> getConstructors() {
 		return constructors;
 	}
 
@@ -82,7 +84,7 @@ public class ClassModel extends ElementModel {
 		// pageBlocks
 		makeIndent(out, indent + 1);
 		out.println("<PageBlocks>");
-		
+
 		for (int i = 0; i < privateValues.size(); i++) {
 			ElementModel child = privateValues.get(i);
 			child.print(out, indent + 2);
@@ -92,7 +94,7 @@ public class ClassModel extends ElementModel {
 			ElementModel child = constructors.get(i);
 			child.print(out, indent + 2);
 		}
-		
+
 		for (int i = 0; i < methods.size(); i++) {
 			ElementModel child = methods.get(i);
 			child.print(out, indent + 2);

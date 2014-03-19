@@ -5,17 +5,24 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import bc.BCSystem;
+import bc.classblockfilewriters.MethodAnalyzer;
 import bc.j2b.analyzer.JavaCommentManager;
 import bc.utils.ASTParserWrapper;
 import bc.utils.FileReader;
@@ -90,9 +97,10 @@ public class OutputSourceModel {
 
 		// "今ある順の"　後ろから置き換え処理 (しないと，後のメソッド位置が都度後方へずれるため)
 		List<MethodDeclaration> methods = getMethods();
+
 		Collections.reverse(methods);
 		for (MethodDeclaration method : methods) {
-			String name = method.getName().toString();
+			String name = convertMethodNameToBlockMethodName(method);
 			if ((method.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
 				continue;
 			}
@@ -117,6 +125,24 @@ public class OutputSourceModel {
 		ps.close();
 	}
 
+	private String convertMethodNameToBlockMethodName(MethodDeclaration method) {
+		String fullName = method.getName().toString() + "[";
+		for (int i = 0; i < method.parameters().size(); i++) {
+			SingleVariableDeclaration param = (SingleVariableDeclaration) method
+					.parameters().get(i);
+			String paramType = param.getType().toString();
+			if (paramType.equals("double")) {
+				paramType = "int";
+			}
+			fullName += "@"
+					+ MethodAnalyzer.convertBlockConnectorType(paramType);
+
+		}
+		fullName += "]";
+
+		return fullName;
+	}
+
 	private void createPrivateValues() throws Exception {// #ohata added
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		// check
@@ -124,14 +150,13 @@ public class OutputSourceModel {
 		if (newNames.size() <= 0) {
 			return;
 		}
-
 		createNewPrivateValue(newNames);
 	}
 
 	private void createNewMethods() throws Exception {
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		// check
-		List<String> newNames = calcNewNames();
+		Map<String, String> newNames = calcNewNames();
 
 		if (newNames.size() <= 0) {
 			return;
@@ -154,6 +179,7 @@ public class OutputSourceModel {
 
 		PrintStream ps = new PrintStream(file, enc);
 		ps.print(src);
+		this.unit = ASTParserWrapper.parse(file, enc, classpaths);// cash
 		ps.close();
 	}
 
@@ -166,6 +192,24 @@ public class OutputSourceModel {
 			cursor = getFirstMethodBeginPosition();
 		} else {
 			cursor = privateValues.get(0).getStartPosition();
+		}
+		return cursor;
+	}
+
+	private int getLastPrivateVariableEndPosition() {// #ohata added
+		int cursor;
+
+		List<FieldDeclaration> privateValues = getPrivateValues();
+
+		if (privateValues.size() == 0) {
+			return -1;
+		} else {
+			VariableDeclarationFragment var = (VariableDeclarationFragment) (privateValues
+					.get(privateValues.size() - 1).fragments().get(0));
+			cursor = privateValues.get(privateValues.size() - 1)
+					.getStartPosition()
+					+ privateRequests.get(var.getName().toString()).length()
+					- 1;
 		}
 		return cursor;
 	}
@@ -184,13 +228,26 @@ public class OutputSourceModel {
 	 * 
 	 * }
 	 */
-	private void createNewMethods(List<String> newNames) throws Exception {
+	private void createNewMethods(Map<String, String> newNames)
+			throws Exception {
 		String src = FileReader.readFile(file, enc);
 
 		int cursor = getLastMethodFinishPosition();
 
-		for (String newName : newNames) {
-			String newStub = "\n\n" + "void " + newName + "(){}";
+		for (String key : newNames.keySet()) {
+			List<String> parameters = getParameters(key);
+
+			String newStub = "\n\n" + "void " + newNames.get(key) + "(";
+			// 一時的な引数をつける処理
+			for (int i = 0; i < parameters.size(); i++) {
+				String param = parameters.get(0) + " s" + String.valueOf(i);
+				newStub += param;
+				if (i + 1 < parameters.size()) {
+					newStub += ",";
+				}
+			}
+			newStub += "){}";
+
 			String newSrc = src.substring(0, cursor) + newStub
 					+ src.substring(cursor);
 			src = newSrc;
@@ -201,29 +258,89 @@ public class OutputSourceModel {
 		ps.close();
 	}
 
-	private int getFirstMethodBeginPosition() {
-		List<MethodDeclaration> methods = getMethods();
-		if (methods.size() <= 0) {// 現状の仕様では，メソッドが一つ以上ないといけない
-			throw new RuntimeException("no any method found.");
+	private String restoreParameter(String parameter) {
+		String param;
+
+		if ("number".equals(parameter)) {
+			param = "int";
+		} else if ("boolean".equals(parameter)) {
+			param = "boolean";
+		} else if ("string".equals(parameter)) {
+			param = "String";
+		} else {
+			param = "Object";
 		}
 
-		MethodDeclaration last = methods.get(0);
+		return param;
+	}
 
-		int start = last.getStartPosition();
+	private List<String> getParameters(String method) {
+		Pattern p = Pattern.compile("@[a-z]+");
+		List<String> parameters = new LinkedList<String>();
+		while (true) {
+			Matcher m = p.matcher(method);
+			if (m.find()) {
+				parameters.add(restoreParameter(m.group().substring(1)));
+				method = method.substring(method.indexOf(m.group())
+						+ m.group().length());
+			} else {
+				break;
+			}
+		}
+
+		return parameters;
+	}
+
+	private int getFirstMethodBeginPosition() {
+		List<MethodDeclaration> methods = getMethods();
+		int start;
+		if (methods.size() <= 0) {
+			start = getLastPrivateVariableEndPosition();
+			if (start == -1) {// private変数が無い
+				Pattern p = Pattern
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?"
+								+ System.getProperty("line.separator"));
+				String src = FileReader.readFile(file, enc);
+				Matcher m = p.matcher(src);
+				if (m.find()) {
+					start = m.group().length();
+				} else {
+					throw new RuntimeException("Class Declaration Not Found.");
+				}
+			}
+
+		} else {
+			MethodDeclaration last = methods.get(0);
+
+			start = last.getStartPosition();
+		}
 		return start;
 	}
 
 	private int getLastMethodFinishPosition() {
 		List<MethodDeclaration> methods = getMethods();
-
-		if (methods.size() <= 0) {// 現状の仕様では，メソッドが一つ以上ないといけない
-			throw new RuntimeException("no any method found.");
+		int end;
+		if (methods.size() <= 0) {
+			end = getLastPrivateVariableEndPosition();
+			if (end == -1) {
+				Pattern p = Pattern
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?"
+								+ System.getProperty("line.separator"));
+				String src = FileReader.readFile(file, enc);
+				Matcher m = p.matcher(src);
+				if (m.find()) {
+					end = m.group().length();
+				} else {
+					throw new RuntimeException("Class Declaration Not Found.");
+				}
+			}
+		} else {
+			MethodDeclaration last = methods.get(methods.size() - 1);
+			int start = last.getStartPosition();
+			int len = last.getLength();
+			end = start + len;
 		}
 
-		MethodDeclaration last = methods.get(methods.size() - 1);
-		int start = last.getStartPosition();
-		int len = last.getLength();
-		int end = start + len;
 		// the last position
 		return end;
 	}
@@ -237,23 +354,20 @@ public class OutputSourceModel {
 				newNames.add(privateRequest);
 			}
 		}
-		BCSystem.out.println("calc New Names return :" + newNames);
+
 		return newNames;
 	}
 
-	private List<String> calcNewNames() {
-		BCSystem.out.println("calc newNames");
-		List<String> newNames = new ArrayList<String>();
+	private Map<String, String> calcNewNames() {
+		Map<String, String> newNames = new HashMap<String, String>();
 		List<String> names = new ArrayList<String>(requests.keySet());
 
 		for (String name : names) {
-			BCSystem.out.println("name:" + name);
 			if (findMethod(name) == null) {
-				newNames.add(name);
+				newNames.put(name, name.substring(0, name.indexOf("[")));
 			}
 		}
 
-		BCSystem.out.println("calc New Names return :" + newNames);
 		return newNames;
 	}
 
@@ -272,9 +386,7 @@ public class OutputSourceModel {
 			throw new RuntimeException(
 					"More than two Class Declaration has been Found.");
 		}
-		BCSystem.out.println("types.get(0).getMethods:"
-				+ types.get(0).getMethods());
-		BCSystem.out.println("get(0) end");
+
 		return Arrays.asList(types.get(0).getMethods());
 	}
 
@@ -345,7 +457,7 @@ public class OutputSourceModel {
 
 	private MethodDeclaration findMethod(String name) {
 		for (MethodDeclaration method : getMethods()) {
-			if (method.getName().toString().equals(name)) {
+			if (convertMethodNameToBlockMethodName(method).equals(name)) {
 				return method;
 			}
 		}

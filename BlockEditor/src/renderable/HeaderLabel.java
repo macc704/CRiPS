@@ -9,6 +9,8 @@ import codeblocks.BlockGenus;
 
 public class HeaderLabel extends BlockLabel {
 
+	private boolean editableHeaderLabel = false;
+
 	public HeaderLabel(String initLabelText, BlockLabel.Type labelType,
 			boolean isEditable, long blockID) {
 		super(initLabelText, labelType, isEditable, blockID, true, new Color(
@@ -70,13 +72,16 @@ public class HeaderLabel extends BlockLabel {
 	 * @param RenderableBlock
 	 */
 	private void RenameHeaderLabel(RenderableBlock rb) {
-		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
+		if (rb.getBlock().isObjectTypeVariableDeclBlock()
+				&& !editableHeaderLabel) {
 			for (BlockConnector socket : rb.getBlock().getSockets()) {
 				if (socket.getBlockID() == Block.NULL) {
 					BlockGenus blockGenus = BlockGenus.getGenusWithName(rb
 							.getGenus());
+
 					rb.getHeaderLabel()
 							.setText(blockGenus.getInitHeaderLabel());
+
 					continue;
 				}
 				RenderableBlock socketRBlock = RenderableBlock
@@ -86,12 +91,30 @@ public class HeaderLabel extends BlockLabel {
 						"callObjectMethodlocal-var-object")) {
 					rb.getHeaderLabel().setText("ObjectŒ^‚Ì•Ï”‚ğì‚èA");
 				} else {
-					rb.getHeaderLabel()
-							.setText(
+					if (!socketRBlock.getBlockLabel().getText().equals("null")) {
+						if (socketRBlock.getBlock().getGenusName()
+								.startsWith("new-")) {
+							rb.getHeaderLabel().setText(
 									socketRBlock.getBlockLabel().getText()
 											+ "Œ^‚Ì•Ï”‚ğì‚èA");
+						} else {
+							if (Block.getBlock(socketRBlock.getBlockID())
+									.getJavaType() != null) {
+								rb.getHeaderLabel().setText(
+										Block.getBlock(
+												socketRBlock.getBlockID())
+												.getJavaType()
+												+ "Œ^‚Ì•Ï”‚ğì‚èA");
+
+							}
+
+						}
+					}
+
 				}
 			}
+			textChanged(rb.getHeaderLabel().getText());
+		} else {
 			textChanged(rb.getHeaderLabel().getText());
 		}
 	}

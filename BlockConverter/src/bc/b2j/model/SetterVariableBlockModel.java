@@ -7,15 +7,21 @@ import bc.b2j.analyzer.BlockToJavaAnalyzer;
 
 public class SetterVariableBlockModel extends CommandBlockModel {
 
+	private boolean isThisSetter = false;
+
+	public void setIsThisSetter(boolean isThisSetter) {
+		this.isThisSetter = isThisSetter;
+	}
+
 	@Override
 	public void checkError() {
 		// #matsuzawa 応急処置 2012.11.24
 		if (getGenusName().indexOf("proc-param") != -1) {
 			return;// 素通し
 		}
-		//private valueのセッターの場合、同じ構造化ブロック内に変数が無いため、エラーが発生する
-		if(getName().startsWith("setterprivate")){
-			return;// #ohata added 
+		// private valueのセッターの場合、同じ構造化ブロック内に変数が無いため、エラーが発生する
+		if (getName().contains("private") || getName().contains("this")) {
+			return;// #ohata added
 		}
 		resolveCreatedVariable(getBeforeID());
 		if (getConnectorIDs().get(0) == BlockModel.NULL) {
@@ -28,25 +34,39 @@ public class SetterVariableBlockModel extends CommandBlockModel {
 	}
 
 	private void resolveCreatedVariable(int blockID) {
-		if (blockID == BlockModel.NULL) {
-			throw new RuntimeException("変数宣言する前に変数への代入を行っています");
-		}
+
 		BlockModel block = BlockToJavaAnalyzer.getBlock(blockID);
+
 		if (block instanceof LocalVariableBlockModel) {
 			return;
 		}
-		//プライベート変数の場合はbeforeが無いため、処理を終える
-		if(block.getGenusName().startsWith("private-")){//#ohata added
+		// プライベート変数の場合はbeforeが無いため、処理を終える
+		if (block.getGenusName().contains("private")
+				|| block.getGenusName().contains("array")) {// #ohata added
 			return;
+		}
+
+		if (block.getBeforeID() == BlockModel.NULL) {
+			throw new RuntimeException("変数宣言する前に変数への代入を行っています:"
+					+ block.getGenusName() + block.getLabel());
 		}
 		resolveCreatedVariable(block.getBeforeID());
 	}
 
 	@Override
 	public void print(PrintStream out, int indent) {
-		makeIndent(out, indent);
-
-		out.print(getLabel());
+		if (!isThisSetter) {
+			makeIndent(out, indent);
+		}
+		if (getName().startsWith("setter-arrayelement")) {
+			out.print(getLabel() + "[");
+			BlockToJavaAnalyzer.getBlock(getConnectorIDs().get(0)).print(out,
+					indent);
+			getConnectorIDs().remove(0);
+			out.print("]");
+		} else {
+			out.print(getLabel());
+		}
 		ArrayList<Integer> connectorIDs = getConnectorIDs();
 		for (int connectorID : connectorIDs) {
 			if (connectorID != BlockModel.NULL) {

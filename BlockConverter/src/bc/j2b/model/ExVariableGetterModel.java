@@ -13,6 +13,8 @@ import java.io.PrintStream;
 public class ExVariableGetterModel extends ExpressionModel {
 
 	private StVariableDeclarationModel variable;
+	private String genusName = "getter";
+	private ExpressionModel index;
 
 	/*
 	 * (non-Javadoc)
@@ -32,12 +34,37 @@ public class ExVariableGetterModel extends ExpressionModel {
 		this.variable = variable;
 	}
 
+	public void setIndexModel(ExpressionModel indexModel) {
+		this.index = indexModel;
+	}
+
 	public void print(PrintStream out, int indent) {
 
 		// print BlockEditor File
 		// stubBlock
 
-		String connectorType = convertJavaTypeToBlockType(variable.getType());
+		String connectorType = getConnectorType(variable.getType());
+		String positionType = "mirror";
+		if (variable.isArray()) {
+			if (index != null) {
+				genusName += "-arrayelement" + variable.getGenusName();
+				positionType = "single";
+			} else {
+				genusName += variable.getGenusName();
+			}
+		} else {
+			genusName += variable.getGenusName();
+		}
+
+		if (index != null) {
+			index.print(out, indent);
+		}
+
+		// if (variable.getGenusName().startsWith("local")) {
+		// genusName = genusName + "local-var-" + connectorType;
+		// } else {
+		// genusName = genusName + "private-var-" + connectorType;
+		// }
 
 		makeIndent(out, indent);
 		out.println("<BlockStub>");
@@ -49,17 +76,23 @@ public class ExVariableGetterModel extends ExpressionModel {
 				+ "</StubParentGenus>");
 		// genus-name
 		makeIndent(out, indent + 1);
-		out.println("<Block id=\"" + getId() + "\" genus-name=\"getter"
-				+ variable.getGenusName() + "\">");
+		out.println("<Block id=\"" + getId() + "\" genus-name=\"" + genusName
+				+ "\">");
 		// label
 		makeIndent(out, indent + 2);
 		out.println("<Label>" + variable.getName() + "</Label>");
+		if (variable.getGenusName().equals("this")) {
+			makeIndent(out, indent + 2);
+			out.println("<JavaType>" + variable.getJavaVariableType()
+					+ "</JavaType>");
+		}
 		// lineNumber
 		makeIndent(out, indent + 2);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 2);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 2);
@@ -70,6 +103,7 @@ public class ExVariableGetterModel extends ExpressionModel {
 		out.println("<Y>" + getPosY() + "</Y>");
 		makeIndent(out, indent + 2);
 		out.println("</Location>");
+
 		// Plug
 		makeIndent(out, indent + 2);
 		out.println("<Plug>");
@@ -77,7 +111,7 @@ public class ExVariableGetterModel extends ExpressionModel {
 		makeIndent(out, indent + 3);
 		out.print("<BlockConnector connector-kind=\"plug\" connector-type=\""
 				+ connectorType + "\"" + " init-type=\"" + connectorType
-				+ "\" label=\"\" position-type=\"mirror\"");
+				+ "\" label=\"\" position-type=\"" + positionType + "\"");
 		if (getConnectorId() != -1) {
 			out.print(" con-block-id=\"" + getConnectorId() + "\"");
 		}
@@ -85,6 +119,23 @@ public class ExVariableGetterModel extends ExpressionModel {
 		// end Socket
 		makeIndent(out, indent + 2);
 		out.println("</Plug>");
+
+		// socket
+		if (index != null) {
+			makeIndent(out, indent + 2);
+			out.println("<Sockets num-sockets=\"1\">");
+			makeIndent(out, indent + 3);
+			out.print("<BlockConnector connector-kind=\"socket\" connector-type=\""
+					+ "number"
+					+ "\""
+					+ " init-type=\""
+					+ "number"
+					+ "\" label=\"\" position-type=\"single\"");
+			out.print(" con-block-id=\"" + index.getId() + "\"");
+			out.println("/>");
+			makeIndent(out, indent + 2);
+			out.println("</Sockets>");
+		}
 		// end Block
 		makeIndent(out, indent + 1);
 		out.println("</Block>");

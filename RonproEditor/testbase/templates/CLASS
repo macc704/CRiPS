@@ -1,0 +1,21 @@
+import java.util.*;
+
+/**
+ * プログラム名：
+ * 作成者： 
+ * 作成日： 日付
+ */
+public class CLASSNAME{
+	//デフォルトコンストラクタ
+	public CLASSNAME() {
+		super();
+	}
+
+}
+
+
+
+
+
+
+

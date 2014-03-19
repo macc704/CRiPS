@@ -34,7 +34,13 @@ public class ExInfixModel extends ExpressionModel {
 	}
 
 	public String getType() {
-		if (operator.equals("equals")) {
+
+		// 左右がpolyだったら、
+		if (left.getType().equals("poly") && right.getType().equals("poly")) {
+			return "poly";
+		}
+
+		if (operator.equals("equals") || operator.equals("instanceof")) {
 			return "boolean";
 		}
 
@@ -55,6 +61,7 @@ public class ExInfixModel extends ExpressionModel {
 		} else if (getSocketType().equals("number")) {
 			return "number";
 		} else {
+
 			return "string";// TODO 本当にこれでいいのか 2012.11.13 #matsuzawa
 		}
 
@@ -81,6 +88,11 @@ public class ExInfixModel extends ExpressionModel {
 		// if (getType().equals("string")) {
 		// return "string";
 		// }
+		// 左右がpolyだったら、
+		if (left.getType().equals("poly") && right.getType().equals("poly")) {
+			return "poly";
+		}
+
 		if (left.getType().toLowerCase().equals("boolean")
 				|| right.getType().toLowerCase().equals("boolean")) {
 			return "boolean";
@@ -101,14 +113,23 @@ public class ExInfixModel extends ExpressionModel {
 		String type = left.getType();// TODO ひとまず左側の型にあわせる
 		if ("int".equals(type)) {
 			return "number";
+		} else if ("double".equals(type)) {
+			return "double-number";
+		} else if ("string".equals(type)) {
+			return "string";
+		} else {
+			return "object";
 		}
-		return type;
 	}
 
 	public String getGenusName() {
 
 		if (operator.equals("equals")) {
 			return "equals-string";
+		}
+
+		if (operator.equals("instanceof")) {
+			return operator;
 		}
 
 		if (getSocketType().equals("boolean")) {
@@ -240,7 +261,8 @@ public class ExInfixModel extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);

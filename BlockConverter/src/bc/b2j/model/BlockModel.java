@@ -22,11 +22,23 @@ public abstract class BlockModel {
 	private int posX = 0;
 	private int posY = 0;
 	private String comment = "";
+	private ArrayList<String> parameterizedType;
+	private String javaType;// javaの型
+	private String javaLabel;// javaのラベル　メソッド用
+	private int parentID = -1;// 変数ブロックの親のID
 
 	// Defines a NULL id for a Block
 	public static final int NULL = Integer.valueOf(-1);
 
 	public BlockModel() {
+	}
+
+	public void setParentID(int id) {
+		this.parentID = id;
+	}
+
+	public int getParentID() {
+		return this.parentID;
 	}
 
 	/**
@@ -248,9 +260,36 @@ public abstract class BlockModel {
 
 	}
 
+	public void setParameterizedType(ArrayList<String> parameterizedType) {
+		this.parameterizedType = parameterizedType;
+	}
+
+	public ArrayList<String> getParameterizedType() {
+		return this.parameterizedType;
+	}
+
+	public void setJavaType(String javaType) {
+		this.javaType = javaType;
+	}
+
+	public String getJavaType() {
+		if (this.label.equals("null")) {
+			return "null";
+		}
+		return this.javaType;
+	}
+
+	public void setJavaLabel(String javaLabel) {
+		this.javaLabel = javaLabel;
+	}
+
+	public String getJavaLabel() {
+		return this.javaLabel;
+	}
+
 	public void makeIndent(PrintStream out, int number) {
-		// for (int i = 0; i < number; i++) {
-		// out.print("\t");
-		// }
+		for (int i = 0; i < number; i++) {
+			out.print("\t");
+		}
 	}
 }

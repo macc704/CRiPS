@@ -45,7 +45,9 @@ public abstract class RESourceTemplate {
 }
 
 class DefaultTemplate extends RESourceTemplate {
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ronproeditor.RESourceTemplate#getName()
 	 */
 	@Override
@@ -53,12 +55,14 @@ class DefaultTemplate extends RESourceTemplate {
 		return "Default";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ronproeditor.RESourceTemplate#getSourceSource()
 	 */
 	@Override
 	protected String getSourceSource() {
-		return "public class " + CLASSNAME + " {}";
+		return "public class " + CLASSNAME + " {" + "\r\n" + "}";
 	}
 }
 
@@ -69,7 +73,9 @@ class FileTemplate extends RESourceTemplate {
 		this.file = file;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ronproeditor.RESourceTemplate#getName()
 	 */
 	@Override
@@ -77,7 +83,9 @@ class FileTemplate extends RESourceTemplate {
 		return file.getName();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ronproeditor.RESourceTemplate#getSourceSource()
 	 */
 	@Override

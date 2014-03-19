@@ -28,6 +28,9 @@ public class CallMethodBlockModel extends CommandBlockModel {
 
 	@Override
 	public void checkError() {
+		if ("cui-print".equals(getMethodName())) {
+			return;
+		}
 
 		List<Integer> connectorIDs = getConnectorIDs();
 		for (int connectorID : connectorIDs) {
@@ -44,12 +47,19 @@ public class CallMethodBlockModel extends CommandBlockModel {
 	}
 
 	public void printOne(PrintStream out, int indent) {
-		
-		String methodName = getMethodName();
+
+		String methodName;
+		if (getJavaLabel() != null) {
+			methodName = getJavaLabel();
+		} else if (getMethodName().equals("callerProcedure")) {
+			methodName = getLabel();
+		} else {
+			methodName = getMethodName();
+		}
 
 		if ("int".equals(methodName) || "double".equals(methodName)
 				|| "toString".equals(methodName)) {
-			printCast(out, indent);
+			printCast(out, indent, methodName);
 			return;
 		}
 
@@ -60,7 +70,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 
 		// ì¡éÍÉPÅ[ÉX
 		if ("empty".equals(methodName)) {
-			if (isCommand()) {
+			if (isCommand(methodName)) {
 				out.print(";");
 				out.println();
 			}
@@ -76,7 +86,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 			}
 
 			out.print("hashCode()");
-			if (isCommand()) {
+			if (isCommand(methodName)) {
 				out.print(";");
 				out.println();
 			}
@@ -109,25 +119,27 @@ public class CallMethodBlockModel extends CommandBlockModel {
 		out.print("(");
 		List<Integer> connectorIDs = getConnectorIDs();
 		for (int connectorID : connectorIDs) {
-			BlockToJavaAnalyzer.getBlock(connectorID).print(out, indent);
-			if (connectorIDs.get(connectorIDs.size() - 1) != connectorID) {
-				out.print(",");
+			if (connectorID != -1) {
+				BlockToJavaAnalyzer.getBlock(connectorID).print(out, indent);
+				if (connectorIDs.get(connectorIDs.size() - 1) != connectorID) {
+					out.print(",");
+				}
 			}
 		}
 		out.print(")");
 
 		// if (!(isFunctionMethodCallBlock(methodName))) {
-		if (isCommand()) {
+		if (isCommand(methodName)) {
 			out.print(";");
 			out.println();
 		}
 	}
 
-	private boolean isCommand() {
+	private boolean isCommand(String methodName) {
 		if (stub) {
 			return getPlugID() == BlockModel.NULL;
 		}
-		return !isFunctionMethodCallBlock(getMethodName());
+		return !isFunctionMethodCallBlock(methodName);
 	}
 
 	// private boolean hasReference() {
@@ -163,7 +175,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 		}
 	}
 
-	private void printCast(PrintStream out, int indent) {
+	private void printCast(PrintStream out, int indent, String methodName) {
 
 		if (!(isFunctionMethodCallBlock(getMethodName()))) {
 			makeIndent(out, indent);
@@ -196,6 +208,33 @@ public class CallMethodBlockModel extends CommandBlockModel {
 				return true;
 			}
 		}
+
+		String paramNum = getParamNum();
+
+		if (BlockConverter.projectMethods
+				.get(methodName + "(" + paramNum + ")") != null
+				&& !BlockConverter.projectMethods.get(
+						methodName + "(" + paramNum + ")").equals("void")) {
+			return true;
+		}
+
 		return false;
 	}
+
+	private String getParamNum() {
+		if (getConnectorIDs() != null) {
+			if (getConnectorIDs().size() == 0) {
+				return "";
+			} else {
+				return String.valueOf(getConnectorIDs().size());
+			}
+		} else {
+			return null;
+		}
+	}
+
+	public String getType() {
+		return getJavaType();
+	}
+
 }

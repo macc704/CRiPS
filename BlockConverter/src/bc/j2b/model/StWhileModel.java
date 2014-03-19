@@ -18,7 +18,7 @@ public class StWhileModel extends StatementModel {
 		setBlockHeight(blockHeight);
 		this.isDo = isDo;
 	}
-	
+
 	public void setTestClause(ExpressionModel testClause) {
 		testClause.setParent(this);
 		this.testClause = testClause;
@@ -75,7 +75,8 @@ public class StWhileModel extends StatementModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);

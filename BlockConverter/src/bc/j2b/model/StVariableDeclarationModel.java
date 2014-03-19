@@ -1,6 +1,8 @@
 package bc.j2b.model;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StVariableDeclarationModel extends StatementModel implements
 		Cloneable {
@@ -9,11 +11,52 @@ public class StVariableDeclarationModel extends StatementModel implements
 
 	private String name;
 	private String type;
+	private boolean isProjectObject = false;
+	private List<String> parameterizedType = new ArrayList<String>();
+	private String javaVariableType;
+
+	private boolean isArray = false;
 
 	private ExpressionModel initializer;
 
+	public void setArray(boolean array) {
+		this.isArray = array;
+	}
+
+	public boolean isArray() {
+		return this.isArray;
+	}
+
+	public void setParameterizedType(String type) {
+		parameterizedType.add(type);
+	}
+
+	public List<String> getParameterizedType() {
+		return this.parameterizedType;
+	}
+
 	public StVariableDeclarationModel() {
 		setBlockHeight(variableBlockHeight);
+	}
+
+	public ExpressionModel getInitializer() {
+		return this.initializer;
+	}
+
+	public void setProjectObject(boolean projectObject) {
+		this.isProjectObject = projectObject;
+	}
+
+	public void setJavaVariableType(String javaVariableType) {
+		this.javaVariableType = javaVariableType;
+	}
+
+	public String getJavaVariableType() {
+		return javaVariableType;
+	}
+
+	public boolean isProjectObject() {
+		return this.isProjectObject;
 	}
 
 	/**
@@ -70,11 +113,17 @@ public class StVariableDeclarationModel extends StatementModel implements
 		out.println("<Block id=\"" + getId() + "\" genus-name=\""
 				+ getGenusName() + "\">");
 		// label
-		makeIndent(out, indent);
+		makeIndent(out, indent + 1);
 		out.println("<Label>" + name + "</Label>");
 		// variable type
 		makeIndent(out, indent + 1);
-		out.println("<HeaderLabel>" + getType() + "</HeaderLabel>");
+
+		out.println("<HeaderLabel>" + ElementModel.addEscapeSequence(getType())
+				+ "</HeaderLabel>");
+
+		makeIndent(out, indent + 1);
+		out.println("<JavaType>" + addEscapeSequence(javaVariableType)
+				+ "</JavaType>");
 
 		{// 2013 09/26 ohata tag for line comment
 			// comment
@@ -82,19 +131,35 @@ public class StVariableDeclarationModel extends StatementModel implements
 			out.println("<LineComment>" + getComment() + "</LineComment>");
 		}
 
-		{// 2013 09/26 hakamata tag for linenumber and parent block parent blockÇÕébíË
+		{// 2013 09/26 hakamata tag for linenumber and parent block parent
+			// blockÇÕébíË
 			// lineNumber
 			makeIndent(out, indent + 1);
 			out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 			// parent
 			makeIndent(out, indent + 1);
 			ElementModel p = getParent() instanceof StExpressionModel ? getParent()
-					.getParent() : getParent();		
-			if(p!=null){//ohata privateÇ…ParentÇÕë∂ç›ÇµÇ»Ç¢ÇΩÇﬂÅAÇ±Ç±Ç≈Ç ÇÈÇ€Ç≈Ç‹Ç∑Å@
-				out.println("<ParentBlock>" + p.getId() + "</ParentBlock>"); 		
+					.getParent() : getParent();
+			if (p != null) {// ohata privateÇ…ParentÇÕë∂ç›ÇµÇ»Ç¢ÇΩÇﬂÅAÇ±Ç±Ç≈Ç ÇÈÇ€Ç≈Ç‹Ç∑Å@
+				out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 			}
 		}
-		
+
+		{//
+			// parameterizedtype
+			makeIndent(out, indent + 1);
+			out.println("<ParameterizedType>");
+
+			for (String type : parameterizedType) {
+				makeIndent(out, indent + 2);
+
+				out.println("<Type>" + type + "</Type>");
+			}
+
+			makeIndent(out, indent + 1);
+			out.println("</ParameterizedType>");
+		}
+
 		// location
 		makeIndent(out, indent + 1);
 		out.println("<Location>");
@@ -141,7 +206,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 			return null;
 		}
 	}
-	
+
 	public String getGenusName() {
 		return null;
 	}
@@ -164,21 +229,26 @@ public class StVariableDeclarationModel extends StatementModel implements
 		out.println("<Block id=\"" + getId() + "\" genus-name=\""
 				+ getArgGenusName() + "\">");
 		// label
-		makeIndent(out, indent);
+		makeIndent(out, indent + 1);
 		out.println("<Label>" + name + "</Label>");
+
+		makeIndent(out, indent + 1);
+		out.println("<JavaType>" + addEscapeSequence(javaVariableType)
+				+ "</JavaType>");
 
 		{// 2013 09/26 ohata tag for line comment
 			// comment
 			makeIndent(out, indent + 1);
 			out.println("<LineComment>" + getComment() + "</LineComment>");
 		}
-		
-		{// 2013 09/26 hakamata tag for linenumber and parent block parent blockÇÕébíË
+
+		{// 2013 09/26 hakamata tag for linenumber and parent block parent
+			// blockÇÕébíË
 			// lineNumber
-		makeIndent(out, indent + 1);
-		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
+			makeIndent(out, indent + 1);
+			out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		}
-		
+
 		// location
 		makeIndent(out, indent + 1);
 		out.println("<Location>");
@@ -200,17 +270,16 @@ public class StVariableDeclarationModel extends StatementModel implements
 		// end Plug
 		makeIndent(out, indent + 1);
 		out.println("</Plug>");
-		
+
 		// line comment
 
-		
 		// end Block
 		makeIndent(out, indent);
 		out.println("</Block>");
 	}
 
 	public String getBlockType() {
-		return convertJavaTypeToBlockType(type);
+		return getConnectorType(type);
 	}
 
 	private String getArgGenusName() {

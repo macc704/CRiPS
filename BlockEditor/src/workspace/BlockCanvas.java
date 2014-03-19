@@ -201,8 +201,10 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
 		//not yet implemented
 		CHoverScrollPane scroll = (CHoverScrollPane) scrollPane;
 		Point p = new Point();
-		p.x = block.getX() - scroll.getWidth() / 4 < 0 ? 0 : block.getX() - scroll.getWidth() / 4;
-		p.y = block.getY() - scroll.getHeight() / 2 < 0 ? 0 : block.getY() - scroll.getHeight() / 2;
+		p.x = block.getX() - scroll.getWidth() / 4 < 0 ? 0 : block.getX()
+				- scroll.getWidth() / 4;
+		p.y = block.getY() - scroll.getHeight() / 2 < 0 ? 0 : block.getY()
+				- scroll.getHeight() / 2;
 		scroll.setViewPosition(p);
 	}
 
@@ -300,7 +302,6 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
 			throw new RuntimeException(
 					"Invariant Violated: May not add null Pages");
 		} else if (position < 0 || position > pages.size()) {
-			System.out.println(position + ", " + pages.size());
 			throw new RuntimeException(
 					"Invariant Violated: Specified position out of bounds");
 		}

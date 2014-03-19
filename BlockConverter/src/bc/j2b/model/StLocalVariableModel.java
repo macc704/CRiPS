@@ -20,10 +20,22 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 		if (argument) {
 			return "proc-param-" + getBlockType();
 		}
-		String genusName = convertJavaTypeToBlockType(getType());
+
+		String genusName;
+		if (isProjectObject()) {
+			genusName = "object-" + getType();
+		} else {
+			genusName = convertJavaTypeToBlockGenusName(getType());
+		}
+
 		if (genusName.equals("number")) {
 			genusName = "int-number";
 		}
+
+		if (isArray()) {
+			genusName += "-arrayobject";
+		}
+
 		return "local-var-" + genusName;
 	}
 

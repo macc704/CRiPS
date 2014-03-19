@@ -22,6 +22,10 @@ public class ExCallMethodModel extends ExpressionModel {
 	private List<ExpressionModel> arguments = new ArrayList<ExpressionModel>();
 	private List<String> argumentLabels;
 
+	private String label = "";
+	private String javaLabel;
+	private String javaType;
+
 	public ExCallMethodModel() {
 		setBlockHeight(BLOCK_HEIGHT);
 	}
@@ -32,6 +36,14 @@ public class ExCallMethodModel extends ExpressionModel {
 
 	public String getName() {
 		return name;
+	}
+
+	public void setJavaLabel(String label) {
+		this.javaLabel = label;
+	}
+
+	protected String getJavaType() {
+		return this.javaType;
 	}
 
 	public void addArgument(ExpressionModel arg) {
@@ -63,6 +75,14 @@ public class ExCallMethodModel extends ExpressionModel {
 		this.argumentLabels = argumentLabels;
 	}
 
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public void setJavaType(String javaType) {
+		this.javaType = javaType;
+	}
+
 	@Override
 	public void print(PrintStream out, int indent) {
 
@@ -85,12 +105,25 @@ public class ExCallMethodModel extends ExpressionModel {
 		makeIndent(out, indent);
 		out.println("<Block id=\"" + getId() + "\" genus-name=\"" + getName()
 				+ "\">");
+		if (!label.equals("")) {
+			makeIndent(out, indent + 1);
+			out.println("<Label>" + label + "</Label>");
+		}
+		makeIndent(out, indent + 1);
+		if (javaLabel != null) {
+			out.println("<JavaLabel>" + javaLabel + "</JavaLabel>");
+		}
+
+		if (javaType != null) {
+			out.println("<JavaType>" + javaType + "</JavaType>");
+		}
 		// lineNumber
 		makeIndent(out, indent + 1);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);
@@ -114,7 +147,7 @@ public class ExCallMethodModel extends ExpressionModel {
 		}
 
 		// plug
-		String plugType = convertJavaTypeToBlockType(getType());
+		String plugType = getConnectorType(getType());
 		if (VOID.equals(plugType)) {
 			// #matsuzawa 2012.10.29
 			// for接続する親ブロック(if等の一番上のブロックも含むところがややこしい)
@@ -167,15 +200,17 @@ public class ExCallMethodModel extends ExpressionModel {
 			int i = 0;
 			for (ExpressionModel arg : arguments) {
 				model.makeIndent(out, indent + 2);
-				String connectorType = ElementModel
-						.convertJavaTypeToBlockType(arg.getType());
+				String connectorType = ElementModel.getConnectorType(arg
+						.getType());
 				if (connectorType.equals("void")) {
 					connectorType = "poly"; // polyのがマシだろ．#matsuzawa 2013.01.09
 				}
 				String label = "";
+
 				if (argumentLabels != null && i < argumentLabels.size()) {
 					label = argumentLabels.get(i);
 				}
+
 				out.print("<BlockConnector connector-kind=\"socket\" connector-type=\""
 						+ connectorType
 						+ "\""

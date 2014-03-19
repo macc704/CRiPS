@@ -79,9 +79,17 @@ public class ReferenceBlockModel extends BlockModel {
 			throw new RuntimeException("method is null");
 		}
 
+		if (method instanceof SetterVariableBlockModel) {
+			((SetterVariableBlockModel) method).setIsThisSetter(true);
+		}
+
 		receiver.print(out, indent);
 		out.print(".");
 		method.print(out, indent);
+
+		if (method instanceof SpecialBlockModel) {
+			out.println(";");
+		}
 	}
 
 	public void methodCallPrint(PrintStream out, BlockModel model, int indent) {
@@ -107,6 +115,12 @@ public class ReferenceBlockModel extends BlockModel {
 			// }
 			// out.print(")");
 		}
+	}
+
+	public String getType() {
+		BlockModel method = BlockToJavaAnalyzer.getBlock(getConnectorIDs().get(
+				1));
+		return method.getType();
 	}
 
 }

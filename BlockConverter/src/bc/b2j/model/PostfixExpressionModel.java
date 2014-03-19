@@ -27,6 +27,19 @@ public class PostfixExpressionModel extends BlockModel {
 		if (block instanceof LocalVariableBlockModel) {
 			return;
 		}
+		if (getGenusName().indexOf("proc-param") != -1) {
+			return;// ‘f’Ê‚µ
+		}
+		if (getName().startsWith("getterprivate") || getName().contains("this")
+				|| getName().contains("gettersuper")) {
+			return;// #ohata added
+		}
+		if (!getGenusName().startsWith("getter")) {
+			return;
+		}
+		if (getGenusName().contains("array")) {// ‚Æ‚è‚ ‚¦‚¸
+			return;
+		}
 		resolveCreatedVariable(block.getBeforeID());
 	}
 

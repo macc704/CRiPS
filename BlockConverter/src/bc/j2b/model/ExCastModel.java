@@ -7,6 +7,8 @@ import java.util.List;
 public class ExCastModel extends ExpressionModel {
 
 	private List<ExpressionModel> arguments = new ArrayList<ExpressionModel>();
+	private boolean isProjectObject = false;
+	private String javaType;
 
 	public ExCastModel() {
 	}
@@ -18,9 +20,13 @@ public class ExCastModel extends ExpressionModel {
 		}
 	}
 
+	public void setIsProjectObject(boolean isProjectObject) {
+		this.isProjectObject = isProjectObject;
+	}
+
 	@Override
 	public void print(PrintStream out, int indent) {
-		// System.out.println("A:" + getType());
+
 		int firstChildId = -1;
 		String plugConnector = "number";
 		String socketConnector = "number";
@@ -35,6 +41,7 @@ public class ExCastModel extends ExpressionModel {
 		}
 
 		String genusName = "";
+
 		if (getType().equals("int") || getType().equals("number")) {
 			plugConnector = "number";
 			socketConnector = "double-number";
@@ -47,13 +54,28 @@ public class ExCastModel extends ExpressionModel {
 		} else if (getType().equals("toString")) {
 			// old
 			throw new RuntimeException("toString() not supported");
-		} else if (getType().equals("string")) {
+		} else if (getType().equals("string") || getType().equals("String")) {
 			plugConnector = "string";
-			socketConnector = "number";
-			genusName = "toStringFromInt";
-			// throw new RuntimeException("toString() not supported");
+			socketConnector = ElementModel.getConnectorType(arguments.get(0)
+					.getType());
+			if (socketConnector.equals("string")) {
+				genusName = "toStringFromString";
+			} else if (socketConnector.equals("number")) {
+				genusName = "toStringFromInt";
+			} else {
+				throw new RuntimeException("not supported Cast:"
+						+ arguments.get(0).getType() + "to String");
+			}
+
 		} else {
-			throw new RuntimeException("not supported cast: " + getType());
+			if (isProjectObject) {
+				plugConnector = "object";
+				socketConnector = "object";
+				genusName = "to" + getType() + "FromObject";
+				javaType = getType();
+			} else {
+				throw new RuntimeException("not supported cast: " + getType());
+			}
 		}
 
 		// print BlockEditor File
@@ -66,8 +88,13 @@ public class ExCastModel extends ExpressionModel {
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
+		// javaType
+		makeIndent(out, indent + 1);
+		out.println("<JavaType>" + addEscapeSequence(javaType) + "</JavaType>");
+
 		// location
 		makeIndent(out, indent + 1);
 		out.println("<Location>");

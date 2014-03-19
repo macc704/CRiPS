@@ -19,7 +19,6 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 
 	@Override
 	public void print(PrintStream out, int indent) {
-
 		// arguments
 		for (ExpressionModel arg : getArguments()) {
 			arg.setConnectorId(getId());
@@ -30,14 +29,16 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 		if (!(getParent() instanceof StIfElseModel)
 				&& !(getParent() instanceof StWhileModel)
 				&& !(getParent() instanceof StLocalVariableModel)// 応急処置
-				&& !(getParent() instanceof ExCallUserMethodModel)) {// 応急処置
+				&& !(getParent() instanceof ExCallUserMethodModel)
+				&& !(getParent() instanceof StReturnModel)) {// 応急処置
 			resolveBeforeAfterBlock(getParent().getParent());
 		}
 
 		// user method special(1)
 		makeIndent(out, indent);
 		out.print("<BlockStub>");
-		out.print("<StubParentName>" + getName() + "</StubParentName>");
+		out.println("<StubParentName>" + getName() + "</StubParentName>");
+		makeIndent(out, indent);
 		out.print("<StubParentGenus>procedure</StubParentGenus>");
 		out.println();
 
@@ -50,12 +51,18 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 		// user method special(3)
 		makeIndent(out, indent);
 		out.println("<Label>" + getName() + "</Label>");
+		// javaType
+		if (getJavaType() != null) {
+			makeIndent(out, indent);
+			out.println("<JavaType>" + getJavaType() + "</JavaType>");
+		}
 		// lineNumber
 		makeIndent(out, indent + 1);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);
@@ -79,7 +86,7 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 		}
 
 		// plug
-		String plugType = convertJavaTypeToBlockType(getType());
+		String plugType = getConnectorType(getType());
 		if (VOID.equals(plugType)) {
 			// #matsuzawa 2012.10.29
 			// for接続する親ブロック(if等の一番上のブロックも含むところがややこしい)

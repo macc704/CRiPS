@@ -33,6 +33,8 @@ import ronproeditor.dialogs.REDirtyOptionDialog;
 import ronproeditor.dialogs.RERefactoringFileNameDialog;
 import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
+import ronproeditor.ext.RECocoViewerManager;
+import ronproeditor.ext.RECreateCocoDataManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
@@ -261,10 +263,9 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 												・blibの更新 waitrepaintモード
  * 												・waitrepaint引数
  * 												・Turtleテンプレ変更 argsを引数とする
- * 2013/12/17 version 2.23.0 matsuzawa		・git参照のこと
- * 2013/12/17 version 2.23.1 matsuzawa		・git参照のこと 19日バージョン
- * 2013/12/19 version 2.24.0 matsuzawa		・git参照のこと Cocoviewer巻き戻し
- * 2014/01/08 version 2.25.0 matsuzawa		・git参照のこと
+ * 2013/12/17 version 2.23.0 matsuzawa		・gitを参照のこと
+ * 												・主な変更点　cocoviewerのくみこみ
+ * 2013/12/17 version 2.23.1 matsuzawa		・gitを参照のこと
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
@@ -282,8 +283,8 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.25.0";
-	public static final String BUILD_DATE = "2014/01/08";
+	public static final String VERSION = "2.23.1";
+	public static final String BUILD_DATE = "2013/12/17";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
@@ -315,9 +316,6 @@ public class REApplication implements ICFwApplication {
 	 * Variables.
 	 ***********************/
 
-	private String compileCommand;
-	private String runCommand;
-
 	private RESourceManager sourceManager = new RESourceManager();
 	private RELibraryManager libraryManager = new RELibraryManager(LIB_FOLDER);
 	private RESourceTemplateManager templateManager = new RESourceTemplateManager(
@@ -339,6 +337,8 @@ public class REApplication implements ICFwApplication {
 	private REGeneRefManager generefManager;
 	private REPresVisualizerManager ppvManager;
 	private GUI deno;
+	private RECocoViewerManager cocoViewerManager;
+	private RECreateCocoDataManager createCocoDataManager;
 
 	/***********************
 	 * Construct & Start
@@ -346,7 +346,6 @@ public class REApplication implements ICFwApplication {
 
 	private void main() {
 		initializeLookAndFeel();
-		initializeCommands();
 		prepareRootDirectory();
 		createAndOpenWindow();
 		prepareDialogs();
@@ -357,6 +356,8 @@ public class REApplication implements ICFwApplication {
 		flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
 		ppvManager = new REPresVisualizerManager(this);
+		cocoViewerManager = new RECocoViewerManager(this);
+		createCocoDataManager = new RECreateCocoDataManager(this);
 
 		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
 				"*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
@@ -374,23 +375,6 @@ public class REApplication implements ICFwApplication {
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-		}
-	}
-
-	private void initializeCommands() {
-		if (CJavaSystem.getInstance().hasCommand("java")) {
-			this.runCommand = "java";
-		} else {
-			JOptionPane.showMessageDialog(frame, "javaコマンドが見つかりません",
-					"起動時チェックにひっかかりました", JOptionPane.ERROR_MESSAGE);
-			// System.exit(0);
-		}
-
-		this.compileCommand = CJavaSystem.getInstance().getJavacCommand();
-		if (this.compileCommand == null) {
-			JOptionPane.showMessageDialog(frame, "javacコマンドが見つかりません",
-					"起動時チェックに引っかかりました", JOptionPane.ERROR_MESSAGE);
-			// System.exit(0);
 		}
 	}
 
@@ -769,7 +753,7 @@ public class REApplication implements ICFwApplication {
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
-		commands.add(compileCommand);
+		commands.add("javac");
 		if (CJavaSystem.getInstance().isMac()) {
 			commands.add("-J-Dfile.encoding="
 					+ RECommandExecuter.commandEncoding);
@@ -814,7 +798,7 @@ public class REApplication implements ICFwApplication {
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
-		commands.add(compileCommand);
+		commands.add("javac");
 		if (CJavaSystem.getInstance().isMac()) {
 			commands.add("-J-Dfile.encoding="
 					+ RECommandExecuter.commandEncoding);
@@ -895,7 +879,7 @@ public class REApplication implements ICFwApplication {
 				.getRootDirectory(), getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 		ArrayList<String> commands = new ArrayList<String>();
-		commands.add(runCommand);
+		commands.add("java");
 		commands.add("-classpath");
 		commands.add(cp);
 		commands.add(env.runnable);
@@ -1209,6 +1193,24 @@ public class REApplication implements ICFwApplication {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			CErrorDialog.show(frame, "OpenPPV中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doCreateCocoData() {
+		try {
+			createCocoDataManager.createCocoData();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Create CocoData中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doOpenCocoViewer() {
+		try {
+			cocoViewerManager.openCocoViewer();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Open CocoViewer中にエラーが発生しました．", ex);
 		}
 	}
 

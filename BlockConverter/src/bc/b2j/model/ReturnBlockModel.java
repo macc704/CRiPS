@@ -62,8 +62,21 @@ public class ReturnBlockModel extends CommandBlockModel {
 			return "boolean";
 		} else if (blocktype.equals("string")) {
 			return "String";
+		} else if (blocktype.equals("object")) {
+			String returnType;
+			if (getSockets().size() == 1) {
+				returnType = BlockToJavaAnalyzer.getBlock(
+						getSockets().get(0).getId()).getType();
+			} else {
+				returnType = BlockToJavaAnalyzer.getBlock(
+						getSockets().get(1).getId()).getType();
+			}
+
+			if (returnType.contains("[")) {
+				returnType = returnType.substring(0, returnType.indexOf("["));
+			}
+			return returnType;
 		}
 		return "void";
 	}
-
 }

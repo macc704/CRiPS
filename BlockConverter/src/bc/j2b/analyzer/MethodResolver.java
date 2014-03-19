@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.eclipse.jdt.core.dom.MethodInvocation;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 
 import bc.j2b.model.ExpressionModel;
 
@@ -80,6 +81,7 @@ public class MethodResolver {
 
 		methodToReturnType.put("file(1)", "void");
 		methodToReturnType.put("play()", "void");
+		methodToReturnType.put("play(1)", "void");
 		methodToReturnType.put("loop()", "void");
 		methodToReturnType.put("stop()", "void");
 		methodToReturnType.put("setVolume(1)", "void");
@@ -93,7 +95,7 @@ public class MethodResolver {
 		methodToReturnType.put("addLast(1)", "void");
 		methodToReturnType.put("addAll(1)", "void");
 		methodToReturnType.put("moveAllTo(1)", "void");
-		methodToReturnType.put("removeFirst()", "void");
+		methodToReturnType.put("removeFirst()", "Object");
 		methodToReturnType.put("removeLast()", "void");
 		methodToReturnType.put("removeAll()", "void");
 		methodToReturnType.put("getCursor()", "int");
@@ -122,6 +124,45 @@ public class MethodResolver {
 		methodToReturnType.put("toJapaneseMode()", "void");
 		methodToReturnType.put("toEnglishMode()", "void");
 		methodToReturnType.put("fontsize(1)", "void");
+
+		// BCanvas
+		methodToReturnType.put("drawArc(7)", "void");
+		methodToReturnType.put("drawFillTriangle(7)", "void");
+		methodToReturnType.put("drawText(5)", "void");
+		methodToReturnType.put("drawText(4)", "void");
+		methodToReturnType.put("isClick()", "boolean");
+		methodToReturnType.put("isSingleClick()", "boolean");
+		methodToReturnType.put("isDoubleClick()", "boolean");
+		methodToReturnType.put("isDragging()", "boolean");
+		methodToReturnType.put("isRightMouseDown()", "boolean");
+		methodToReturnType.put("isLeftMouseDown()", "boolean");
+		methodToReturnType.put("getMouseX()", "int");
+		methodToReturnType.put("getMouseY()", "int");
+		methodToReturnType.put("isKeyPressing(1)", "boolean");
+		methodToReturnType.put("isKeyCode()", "boolean");
+		methodToReturnType.put("isKeyDown()", "boolean");
+		methodToReturnType.put("getKeyCode()", "int");
+		methodToReturnType.put("clear()", "void");
+		methodToReturnType.put("update()", "void");
+		methodToReturnType.put("getImageWidth()", "int");
+		methodToReturnType.put("getImageHeight()", "int");
+		methodToReturnType.put("drawLine(5)", "void");
+		methodToReturnType.put("getCanvasWidth()", "int");
+		methodToReturnType.put("getCanvasHeight()", "int");
+		methodToReturnType.put("drawImage(5)", "void");
+		methodToReturnType.put("drawImage(3)", "void");
+		methodToReturnType.put("drawFillArc(7)", "void");
+		methodToReturnType.put("setLocation(2)", "void");
+		methodToReturnType.put("setSize(2)", "void");
+		methodToReturnType.put("getCanvas()", "Object");
+		methodToReturnType.put("getVolume()", "int");
+		methodToReturnType.put("setVolume(1)", "void");
+		methodToReturnType.put("getDefaultVolume()", "int");
+		methodToReturnType.put("isMouseDown()", "boolean");
+
+		// List
+		methodToReturnType.put("size()", "int");
+		methodToReturnType.put("remove(1)", "void");
 	}
 
 	public boolean isRegistered(MethodInvocation method) {
@@ -133,7 +174,22 @@ public class MethodResolver {
 		return methodToReturnType.containsKey(toSignature(method));
 	}
 
+	public boolean isRegisteredAsReserved(SuperMethodInvocation method) {
+		return methodToReturnType.containsKey(toSignature(method));
+	}
+
 	public String getReturnType(MethodInvocation method) {
+		if (isRegisteredAsReserved(method)) {
+			return getReservedReturnType(toSignature(method));
+		} else if (isRegisteredAsUserMethod(method)) {
+			return getUserMethodType(method);
+		} else {
+			// throw new RuntimeException();
+			return null;
+		}
+	}
+
+	public String getReturnType(SuperMethodInvocation method) {
 		if (isRegisteredAsReserved(method)) {
 			return getReservedReturnType(toSignature(method));
 		} else if (isRegisteredAsUserMethod(method)) {
@@ -155,6 +211,10 @@ public class MethodResolver {
 		return toSignature(method.getName().toString(), method.arguments());
 	}
 
+	private String toSignature(SuperMethodInvocation method) {
+		return toSignature(method.getName().toString(), method.arguments());
+	}
+
 	private String toSignature(String name, List<?> arguments) {
 		StringBuffer buf = new StringBuffer();
 		buf.append(name);
@@ -168,6 +228,8 @@ public class MethodResolver {
 	}
 
 	private Map<String, String> userMethods = new HashMap<String, String>();
+	private Map<String, String> projectMethods = new HashMap<String, String>();
+	private Map<String, String> projectMethodsJavaTypes = new HashMap<String, String>();// 返り値付きメソッドの本当の返り値をここに保存する...
 	private List<String> userConstructor = new ArrayList<String>();
 
 	public boolean isRegisteredAsUserMethod(MethodInvocation method) {
@@ -175,7 +237,30 @@ public class MethodResolver {
 		return userMethods.containsKey(signature);
 	}
 
+	public boolean isRegisteredAsProjectMethod(MethodInvocation method) {
+		String signature = toSignature(method);
+		return projectMethods.containsKey(signature);
+	}
+
+	public boolean isRegisteredAsProjectMethod(SuperMethodInvocation method) {
+		String signature = toSignature(method);
+		return projectMethods.containsKey(signature);
+	}
+
 	public String getUserMethodType(MethodInvocation method) {
+		if (isRegisteredAsUserMethod(method)) {
+			String signature = toSignature(method);
+			return userMethods.get(signature);
+		}
+		return null;
+	}
+
+	public boolean isRegisteredAsUserMethod(SuperMethodInvocation method) {
+		String signature = toSignature(method);
+		return userMethods.containsKey(signature);
+	}
+
+	public String getUserMethodType(SuperMethodInvocation method) {
 		if (isRegisteredAsUserMethod(method)) {
 			String signature = toSignature(method);
 			return userMethods.get(signature);
@@ -189,14 +274,13 @@ public class MethodResolver {
 		userMethods.put(signature, returnType);
 		putArgumentLabels(signature, arguments);
 	}
-	
+
 	public void putUserConstructor(String name,
-			List<SingleVariableDeclaration> arguments){
+			List<SingleVariableDeclaration> arguments) {
 		String signature = toSignature(name, arguments);
 		userConstructor.add(signature);
 		putArgumentLabels(signature, arguments);
 	}
-	
 
 	public void reset() {
 		userMethods.clear();
@@ -211,6 +295,11 @@ public class MethodResolver {
 		return argumentLabels.get(signature);
 	}
 
+	public List<String> getArgumentLabels(SuperMethodInvocation node) {
+		String signature = toSignature(node);
+		return argumentLabels.get(signature);
+	}
+
 	/**
 	 */
 	private void putArgumentLabels(String signature,
@@ -220,6 +309,23 @@ public class MethodResolver {
 			labels.add(argument.getName().toString());
 		}
 		argumentLabels.put(signature, labels);
+	}
+
+	public void addMethodReturnType(String name, String returnType) {
+		methodToReturnType.put(name, returnType);
+		projectMethods.put(name, returnType);
+	}
+
+	public void addMethodJavaReturnType(String name, String returnType) {
+		projectMethodsJavaTypes.put(name, returnType);
+	}
+
+	public String getMethodJavaReturnType(String name) {
+		return projectMethodsJavaTypes.get(name);
+	}
+
+	public void addArgumentLabels(String signature, List<String> arguments) {
+		argumentLabels.put(signature, arguments);
 	}
 
 	// private String getReturnType(MethodInvocation node) {

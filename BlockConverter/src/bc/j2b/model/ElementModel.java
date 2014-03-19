@@ -23,10 +23,9 @@ public abstract class ElementModel {
 	private int posY = 20;
 	private String comment = "any Comment";
 	protected int blockHeight;
-	
+
 	private int lineNumber = -1;
 
-	
 	// protected OpenBlocksCodePrinter coder = new OpenBlocksCodePrinter();
 
 	/**
@@ -148,14 +147,14 @@ public abstract class ElementModel {
 		this.posY = y;
 	}
 
-	public String getComment(){
+	public String getComment() {
 		return this.comment;
 	}
-	
-	public void setComment(String str){
+
+	public void setComment(String str) {
 		this.comment = str;
 	}
-	
+
 	protected void setBlockHeight(int blockHeight) {
 		this.blockHeight = blockHeight;
 	}
@@ -174,7 +173,42 @@ public abstract class ElementModel {
 	}
 
 	// TODO
-	public static String convertJavaTypeToBlockType(String type) {
+	public static String convertJavaTypeToBlockGenusName(String type) {
+		if (type == null) {
+			return "void";
+		} else if (type.equals("object") || type.equals("Object")) {
+			return "object";
+		} else if (type.equals("void")) {
+			return "void";
+		} else if (type.equals("number")) {
+			return "number";
+		} else if (type.equals("double-number")) {
+			return "double-number";
+		} else if (type.equals("int") || type.equals("int[]")) {
+			// return "int-number";
+			return "number";
+		} else if (type.equals("double") || type.equals("float")
+				|| type.equals("double[]") || type.equals("float[]")) {
+			return "double-number";
+			// return "number";
+			// return "double";
+		} else if (type.equals("string") || type.equals("String")
+				|| type.equals("char") || type.equals("String[]")) {
+			return "string";
+		} else if (type.equals("boolean")) {
+			return "boolean";
+		} else if (type.equals("List") || type.equals("ArrayList")
+				|| type.equals("LinkedList")) {
+			return type.toLowerCase() + "object";
+		} else if (type.equals("BCanvas") || type.equals("BWindow")
+				|| type.equals("BSound") || type.equals("Color")) {
+			return "object-" + type.toLowerCase();
+		} else {
+			return "object";
+		}
+	}
+
+	public static String getConnectorType(String type) {
 		if (type == null) {
 			return "void";
 		} else if (type.equals("object") || type.equals("Object")) {
@@ -197,9 +231,14 @@ public abstract class ElementModel {
 			return "string";
 		} else if (type.equals("boolean")) {
 			return "boolean";
+		} else if (type.equals("List") || type.equals("listobject")
+				|| type.equals("int[]") || type.equals("double[]")
+				|| type.equals("String[]") || type.equals("Object[]")) {
+			return "object";
 		} else {
 			return "object";
 		}
+
 	}
 
 	public String getClassName() {
@@ -213,8 +252,10 @@ public abstract class ElementModel {
 	protected void resolveBeforeAfterBlock(ElementModel parent) {
 		if (parent instanceof StBlockModel) {
 			int i = 0;
-			while (((StBlockModel) parent).getChild(i) != null) {
+			while (i < ((StBlockModel) parent).getChildren().size()
+					&& ((StBlockModel) parent).getChild(i) != null) {
 				ElementModel child = ((StBlockModel) parent).getChild(i);
+
 				if (child.getId() == getId()) {
 					// BeforeBlockId‚ðÝ’è
 					if (i == 0) {
@@ -268,7 +309,7 @@ public abstract class ElementModel {
 	public String getLabel() {
 		return "default label";
 	}
-	
+
 	/**
 	 * @return the lineNumber
 	 */
@@ -282,5 +323,48 @@ public abstract class ElementModel {
 	 */
 	public void setLineNumber(int lineNumber) {
 		this.lineNumber = lineNumber;
+	}
+
+	public static String addEscapeSequence(String name) {
+		String s = name;
+		if (s != null) {
+			if (s.contains("<")) {
+				s = s.replaceAll("<", "&lt;");
+			}
+			if (name.contains(">")) {
+				s = s.replaceAll(">", "&gt;");
+			}
+		}
+
+		return s;
+	}
+
+	public static String getElementConnector(String type) {
+		if (type == null) {
+			return "void";
+		} else if (type.equals("object") || type.equals("Object")) {
+			return "object";
+		} else if (type.equals("void")) {
+			return "void";
+		} else if (type.equals("number")) {
+			return "number";
+		} else if (type.equals("double-number")) {
+			return "double-number";
+		} else if (type.equals("int") || type.equals("int[]")) {
+			// return "int-number";
+			return "number";
+		} else if (type.equals("double") || type.equals("float")
+				|| type.equals("double[]") || type.equals("float[]")) {
+			return "double-number";
+			// return "number";
+			// return "double";
+		} else if (type.equals("string") || type.equals("String")
+				|| type.equals("char") || type.equals("String[]")) {
+			return "string";
+		} else if (type.equals("boolean")) {
+			return "boolean";
+		} else {
+			return "object";
+		}
 	}
 }

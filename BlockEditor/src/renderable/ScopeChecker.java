@@ -48,49 +48,6 @@ public class ScopeChecker {
 					compareBlock.getBlockLabel().indexOf(
 							compareBlock.getLabelSuffix()));
 
-			//			//参照元を探索する
-			//			long originID = searchCompareBlockOrigin(cmpBlock, compareBlockName);
-			//			if (originID == -1) {
-			//				originID = searchCompareBlockOrigin(beforeBlock,
-			//						compareBlockName);
-			//			}
-			//
-			//			if (originID == -1) {//参照元の探索に失敗
-			//				originBlock = cmpBlock;
-			//				originBlock = purcePlugBlock(originBlock);
-			//				while (Block.getBlock(originBlock.getAfterBlockID()) != null) {
-			//					originBlock = Block.getBlock(originBlock.getAfterBlockID());
-			//				}
-			//				//自分の持ってるブロックの中を探索
-			//				originID = searchCompareBlockOrigin(originBlock,
-			//						compareBlockName);
-			//				//失敗
-			//				if (originID == -1) {
-			//					BCSystem.out.println("doesnt exist originBlock:"
-			//							+ cmpBlock.getBlockLabel());
-			//					RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
-			//							.setBlockHighlightColor(Color.RED);
-			//					return false;
-			//				}
-			//			}
-			//
-			//			originBlock = Block.getBlock(originID);//参照元ブロック
-			//			//スコープチェックするブロックの所属する親を探す
-			//			Block compareBlockParent = Block
-			//					.getBlock(searchParentBlockID(RenderableBlock
-			//							.getRenderableBlock(cmpBlock.getBlockID())));
-			//
-			//			if (compareBlockParent == null) {//探索失敗
-			//				compareBlockParent = Block
-			//						.getBlock(searchParentBlockID(RenderableBlock
-			//								.getRenderableBlock(beforeBlock.getBlockID())));
-			//				if (compareBlockParent == null) {
-			//					RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
-			//							.setBlockHighlightColor(Color.RED);
-			//					return false;
-			//				}
-			//			}
-
 			//所属できる場所かどうか確認する
 			if (confirmCompareBlockIsBelongable(cmpBlock, beforeBlock,
 					compareBlockName)) {
@@ -307,11 +264,13 @@ public class ScopeChecker {
 	//	}
 
 	public static boolean isCompareBlock(Block block) {
+		if (block.getGenusName().equals("gettersuper")
+				|| block.getGenusName().equals("getterthis")) {
+			return false;
+		}
 		if (block.getGenusName().startsWith("getter")
 				|| block.getGenusName().startsWith("setter")
-				|| block.getGenusName().startsWith("inc")
-				|| block.getGenusName().equals("callActionMethod2")
-				|| block.getGenusName().equals("callGetterMethod2")) {
+				|| block.getGenusName().startsWith("inc")) {
 			return true;
 		}
 		return false;

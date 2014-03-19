@@ -42,8 +42,8 @@ public class CompileErrorListFile {
 	 * Output
 	 ****************************************************/
 
-	public void outputErrorList() throws IOException, FileNotFoundException {
-		File file = new File("./CompileError.csv");
+	public void outputErrorList(File file, boolean coco) throws IOException,
+			FileNotFoundException {
 		makeCSVFile(file);
 
 		PrintWriter pw = new PrintWriter(new BufferedWriter(
@@ -93,14 +93,14 @@ public class CompileErrorListFile {
 		pw.println(buf.toString());
 
 		for (CompileErrorAnalyzerList analyze : compileErrorAnalyzes) {
-			writeErrorList(analyze, pw);
+			writeErrorList(analyze, pw, coco);
 		}
 
 		pw.close();
 	}
 
-	private void writeErrorList(CompileErrorAnalyzerList analyze, PrintWriter pw) {
-
+	private void writeErrorList(CompileErrorAnalyzerList analyze,
+			PrintWriter pw, boolean coco) {
 		// 静大
 		String[] line = analyze.getProject().getName().split("-");
 
@@ -134,17 +134,22 @@ public class CompileErrorListFile {
 			// buf.append(CAMMA);
 
 			/*** どちらでもない **/
-			buf.append("NA");
-			buf.append(CAMMA);
-			buf.append("NA");
-			buf.append(CAMMA);
+			// buf.append("NA");
+			// buf.append(CAMMA);
+			// buf.append("NA");
+			// buf.append(CAMMA);
 
 			// 最初のセグメントのコンパイルエラーを取得
 			CDiagnostic compileError = history.getSegments().getFirst()
 					.getCompileError();
 
-			// ファイル名
-			buf.append(compileError.getNoPathSourceName());
+			// ファイル名 cocoViewerからならフルパス
+			if (coco) {
+				buf.append(compileError.getSourceName());
+			} else {
+				buf.append(compileError.getNoPathSourceName());
+			}
+
 			buf.append(CAMMA);
 
 			CMessageParser parser = compileError.getMessageParser();
@@ -239,16 +244,30 @@ public class CompileErrorListFile {
 
 			}
 
+			// cocoViewerの時はミリ秒を返す
 			// エラー発生時刻
-			buf.append(history.getStart().getTime());
-			buf.append(CAMMA);
-			// エラー修正時刻
-			if (history.getEnd() == null) {
-				buf.append("-");
+			if (coco) {
+				buf.append(history.getStart().getTime().getAsLong());
 				buf.append(CAMMA);
+				// エラー修正時刻
+				if (history.getEnd() == null) {
+					buf.append("-");
+					buf.append(CAMMA);
+				} else {
+					buf.append(history.getEnd().getTime().getAsLong());
+					buf.append(CAMMA);
+				}
 			} else {
-				buf.append(history.getEnd().getTime());
+				buf.append(history.getStart().getTime());
 				buf.append(CAMMA);
+				// エラー修正時刻
+				if (history.getEnd() == null) {
+					buf.append("-");
+					buf.append(CAMMA);
+				} else {
+					buf.append(history.getEnd().getTime());
+					buf.append(CAMMA);
+				}
 			}
 
 			// CT
@@ -308,7 +327,7 @@ public class CompileErrorListFile {
 
 		String fileName = history.getSegments().getFirst().getCompileError()
 				.getSourceName();
-		fileName = fileName.substring(fileName.lastIndexOf("\\") + 1);
+		fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
 
 		// 警告の場合
 		if (fileName.equals("no name")) {

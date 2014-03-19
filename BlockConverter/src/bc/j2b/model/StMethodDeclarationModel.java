@@ -95,7 +95,8 @@ public class StMethodDeclarationModel extends StatementModel {
 			out.println("<LineComment>" + getComment() + "</LineComment>");
 		}
 
-		{// 2013 09/26 hakamata tag for linenumber and parent block parent block‚ÍŽb’è
+		{// 2013 09/26 hakamata tag for linenumber and parent block parent
+			// block‚ÍŽb’è
 			// lineNumber
 			makeIndent(out, indent + 1);
 			out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
@@ -116,7 +117,7 @@ public class StMethodDeclarationModel extends StatementModel {
 		makeIndent(out, indent + 1);
 		out.println("</Location>");
 		// afterBlockId
-		if (body.getChildrenSize() != 0) {
+		if (body != null && body.getChildrenSize() != 0) {
 			makeIndent(out, indent + 1);
 			out.println("<AfterBlockId>" + body.getChild(0).getId()
 					+ "</AfterBlockId>");

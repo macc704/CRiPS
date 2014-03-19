@@ -37,6 +37,8 @@ public class InfixCommandBlockModel extends CommandBlockModel {
 			setLabel("%");
 		} else if ("string-append".equals(name)) {
 			setLabel("+");
+		} else if (name.equals("instanceof")) {
+			setLabel("instanceof");
 		} else {
 			throw new RuntimeException("not supported infix expression:" + name);
 
@@ -92,6 +94,13 @@ public class InfixCommandBlockModel extends CommandBlockModel {
 		if (leftOperand instanceof InfixCommandBlockModel) {
 			out.print("(");
 		}
+
+		if (getPlugID() != -1
+				&& BlockToJavaAnalyzer.getBlock(getPlugID()).getGenusName()
+						.equals("string-append")) {
+			out.print("(");
+		}
+
 		leftOperand.print(out, indent);
 		if (leftOperand instanceof InfixCommandBlockModel) {
 			out.print(")");
@@ -107,5 +116,12 @@ public class InfixCommandBlockModel extends CommandBlockModel {
 		if (rightOperand instanceof InfixCommandBlockModel) {
 			out.print(")");
 		}
+
+		if (getPlugID() != -1
+				&& BlockToJavaAnalyzer.getBlock(getPlugID()).getGenusName()
+						.equals("string-append")) {
+			out.print(")");
+		}
+
 	}
 }

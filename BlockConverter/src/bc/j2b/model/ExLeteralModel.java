@@ -57,11 +57,17 @@ public class ExLeteralModel extends ExpressionModel {
 		// genus-name
 		makeIndent(out, indent);
 		if (originalType.equals("poly")) {
-			out.println("<Block id=\"" + getId() + "\" genus-name=\""
-					+ "special-expression" + "\">");
+			if (getValue() == "null") {
+				out.println("<Block id=\"" + getId() + "\" genus-name=\""
+						+ "null" + "\">");
+			} else {
+				out.println("<Block id=\"" + getId() + "\" genus-name=\""
+						+ "special-expression" + "\">");
+			}
 			// label
 			makeIndent(out, indent + 1);
 			out.println("<Label>" + value + "</Label>");
+
 		} else if (originalType.equals("boolean")) {
 			out.println("<Block id=\"" + getId() + "\" genus-name=\"" + value
 					+ "\">");
@@ -69,18 +75,27 @@ public class ExLeteralModel extends ExpressionModel {
 			out.println("<Block id=\"" + getId() + "\" genus-name=\"" + value
 					+ "\">");
 		} else {
-			out.println("<Block id=\"" + getId() + "\" genus-name=\""
-					+ getType() + "\">");
-			// label
-			makeIndent(out, indent + 1);
-			out.println("<Label>" + value + "</Label>");
+			if (getValue() == "null") {
+				out.println("<Block id=\"" + getId() + "\" genus-name=\""
+						+ "null" + "\">");
+				// label
+				makeIndent(out, indent + 1);
+				out.println("<Label>" + value + "</Label>");
+			} else {
+				out.println("<Block id=\"" + getId() + "\" genus-name=\""
+						+ getType() + "\">");
+				// label
+				makeIndent(out, indent + 1);
+				out.println("<Label>" + value + "</Label>");
+			}
 		}
 		// lineNumber
 		makeIndent(out, indent + 1);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
 		// parent
 		makeIndent(out, indent + 1);
-		ElementModel p = getParent() instanceof StExpressionModel ? getParent().getParent() : getParent();
+		ElementModel p = getParent() instanceof StExpressionModel ? getParent()
+				.getParent() : getParent();
 		out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 		// location
 		makeIndent(out, indent + 1);
