@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>RonproEditorPlugin</name>
+	<name>RonproEditorCorePlugin</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -25,6 +25,18 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>BCsrc</name>
+			<type>2</type>
+			<locationURI>GIT_PARENT/BlockConverter/src</locationURI>
+		</link>
+		<link>
+			<name>BEsrc</name>
+			<type>2</type>
+			<locationURI>GIT_PARENT/BlockEditor/src</locationURI>
+		</link>
+	</linkedResources>
 	<variableList>
 		<variable>
 			<name>GIT_PARENT</name>
