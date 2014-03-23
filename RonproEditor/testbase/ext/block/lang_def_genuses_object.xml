@@ -929,6 +929,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
+			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>	
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -1142,6 +1143,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
+			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>

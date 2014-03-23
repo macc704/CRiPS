@@ -105,5 +105,10 @@
 	<FamilyMember>remainder-double</FamilyMember>
 </BlockFamily>
 
-
+<BlockFamily>
+    <BlockGenusMember>local-var-string</BlockGenusMember>
+    <BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
+    <BlockGenusMember>private-var-string</BlockGenusMember>
+    <BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
+</BlockFamily>
 

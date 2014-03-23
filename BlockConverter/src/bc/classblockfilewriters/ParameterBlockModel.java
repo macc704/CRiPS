@@ -33,7 +33,9 @@ public class ParameterBlockModel extends BasicModel {
 
 		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" "
 				+ "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\""
-				+ getInitialLabel() + "\"" + " editable-label=\"yes\" "
+				+ getInitialLabel() + "\"" + " header-label=\""
+				+ getHeaderLabel() + "\"" + " footer-label=\""
+				+ getFooterLabel() + "\"" + " editable-label=\"yes\" "
 				+ "is-starter=\"yes\" is-terminator=\"yes\"" + " color=\""
 				+ getColor() + "\">");
 		lineNumber++;

@@ -71,7 +71,8 @@ public class LangDefFilesRewriter {
 			Map<String, List<PublicMethodInfo>> methods) {
 		ParameterBlockModel model = new ParameterBlockModel(
 				"proc-param-object-" + className.toLowerCase(), "param",
-				className + "Œ^ˆø”", "", "", "200 200 200", className);
+				className + "Œ^ˆø”", className + "Œ^‚Ì‰¼ˆø”‚ğì‚èA", "‚Æ–¼•t‚¯‚é",
+				"200 200 200", className);
 		model.setMethods(methods);
 		requestParameterBlockModel.add(model);
 
