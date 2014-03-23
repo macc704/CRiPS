@@ -28,7 +28,6 @@
 		<BlockGenusMember>callActionMethod2</BlockGenusMember>
 		<BlockGenusMember>callGetterMethod2</BlockGenusMember>
 		<BlockGenusMember>callThisActionMethod2</BlockGenusMember>
-		<BlockGenusMember>type-object</BlockGenusMember>
 		<BlockGenusMember>getterthis</BlockGenusMember>
 		<BlockGenusMember>gettersuper</BlockGenusMember>
 	</BlockDrawer>
@@ -85,7 +84,6 @@
 		<BlockGenusMember>product-double</BlockGenusMember>
 		<BlockGenusMember>quotient-double</BlockGenusMember>
 		<BlockGenusMember>remainder-double</BlockGenusMember>
-
 		<BlockGenusMember>number</BlockGenusMember>
 	</BlockDrawer>
 
@@ -106,26 +104,30 @@
 		<BlockGenusMember>local-var-boolean</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
 		<BlockGenusMember>local-var-object</BlockGenusMember>
-		<BlockGenusMember>local-var-listobject</BlockGenusMember>
-		<BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
-		<BlockGenusMember>local-var-int-number-arrayobject</BlockGenusMember>
-		<BlockGenusMember>local-var-double-number-arrayobject</BlockGenusMember>
-		<BlockGenusMember>local-var-object-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-int-number</BlockGenusMember>
 		<BlockGenusMember>private-var-double-number</BlockGenusMember>
 		<BlockGenusMember>private-var-string</BlockGenusMember>
 		<BlockGenusMember>private-var-boolean</BlockGenusMember>
 		<BlockGenusMember>private-var-object</BlockGenusMember>
-		<BlockGenusMember>private-var-object-Text</BlockGenusMember>
-		<BlockGenusMember>private-var-object-Image</BlockGenusMember>
-		<BlockGenusMember>private-var-object-Sound</BlockGenusMember>
+		<BlockGenusMember>private-final-var-int-number</BlockGenusMember>
+		<BlockGenusMember>private-final-var-string</BlockGenusMember>
+	</BlockDrawer>
+	
+	<BlockDrawer name="配列・リスト" type="factory" button-color="230 0 255">
+		<BlockGenusMember>local-var-listobject</BlockGenusMember>
+		<BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
+		<BlockGenusMember>local-var-int-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>local-var-double-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>local-var-object-arrayobject</BlockGenusMember>	
 		<BlockGenusMember>private-var-listobject</BlockGenusMember>
 		<BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-object-arrayobject</BlockGenusMember>
-		<BlockGenusMember>private-final-var-int-number</BlockGenusMember>
-		
+		<BlockGenusMember>new-listobject</BlockGenusMember>
+		<BlockGenusMember>new-linkedlistobject</BlockGenusMember>	
+		<BlockGenusMember>type-object</BlockGenusMember>			
 	</BlockDrawer>
+	
 
 	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
 		<BlockGenusMember>toIntFromDouble</BlockGenusMember>
@@ -160,7 +162,7 @@
 		<BlockGenusMember>darkGray</BlockGenusMember>
 		<BlockGenusMember>black</BlockGenusMember>
 	</BlockDrawer>
-
+  
 	<BlockDrawer name="obpro" type="factory" button-color="255 155 64">
 		<BlockGenusMember>private-var-object-bcanvas</BlockGenusMember>
 		<BlockGenusMember>local-var-object-bcanvas</BlockGenusMember>
