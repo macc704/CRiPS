@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="plugin_export" name="build">
+	<tstamp>
+		<format property="now.time" pattern="yyyyMMddhhmm"/>
+	</tstamp>	
+	<target name="plugin_export">
+		<pde.exportPlugins destination="packages/RonproEditorPlugin" exportSource="false" exportType="zip" filename="BEPlugin-${now.time}.zip" plugins="jp.ac.shizuoka.inf.ce.cs.commonlibrary,jp.ac.shizuoka.inf.ce.cs.pres.core,jp.ac.shizuoka.inf.cs.ce.pres.eclipseui,RonproEditorPlugin" useJARFormat="true" />
+	</target>
+</project>
