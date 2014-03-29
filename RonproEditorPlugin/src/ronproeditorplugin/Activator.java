@@ -27,6 +27,9 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+//		File file = new File(System.getProperty("user.dir"));
+//		System.out.println(System.getProperty("os.name"));
+//		System.setProperty("user.dir", file.getParentFile().getParentFile().getAbsolutePath());
 		plugin = this;
 	}
 

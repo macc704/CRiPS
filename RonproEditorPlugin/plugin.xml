@@ -82,6 +82,18 @@
          </toolbar>
       </menuContribution>
    </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ant.core.antRunner"
+            name="Ronpro">
+         <property
+               name="appName"
+               value="Ronpro">
+         </property>
+      </product>
+   </extension>
 
 <!--
    <extension
