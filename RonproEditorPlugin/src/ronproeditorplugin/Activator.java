@@ -1,6 +1,10 @@
 package ronproeditorplugin;
 
+import java.io.File;
+
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -27,8 +31,12 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-//		File file = new File(System.getProperty("user.dir"));
+		File file = new File(System.getProperty("user.dir"));
 //		System.out.println(System.getProperty("os.name"));
+		if(!System.getProperty("user.dir").contains("testbase") && System.getProperty("os.name").contains("Mac")){
+			System.setProperty("user.dir", file.getParentFile().getParentFile().getParentFile().getAbsolutePath());
+		}
+		
 //		System.setProperty("user.dir", file.getParentFile().getParentFile().getAbsolutePath());
 		plugin = this;
 	}
