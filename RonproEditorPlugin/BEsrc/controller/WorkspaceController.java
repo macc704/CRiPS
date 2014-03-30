@@ -34,8 +34,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
@@ -216,39 +214,6 @@ public class WorkspaceController {
 		}
 	}
 
-	public void setLangDefFilePath(String filePath, IWorkbenchWindow window) {
-
-		LANG_DEF_FILEPATH = filePath; // do we really need to save the file
-		// path?
-
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder;
-		Document doc;
-		try {
-			builder = factory.newDocumentBuilder();
-
-			String langDefLocation = /* workingDirectory + */LANG_DEF_FILEPATH;
-			doc = builder.parse(new File(langDefLocation));
-			MessageDialog.openInformation(window.getShell(), "RonproEditorPlugin",
-					doc.getBaseURI());
-		
-
-			langDefRoot = doc.getDocumentElement();
-
-			// set the dirty flag for the language definition file
-			// to true now that a new file has been set
-			langDefDirty = true;
-
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (SAXException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
-	
 	/**
 	 * Sets the Lang Def File to the specified File langDefFile.
 	 * 
@@ -264,9 +229,9 @@ public class WorkspaceController {
 		Document doc;
 		try {
 			builder = factory.newDocumentBuilder();
-			
+
 			doc = builder.parse(langDefFile);
-		
+
 			langDefRoot = doc.getDocumentElement();
 
 			// set the dirty flag for the language definition file
@@ -359,13 +324,12 @@ public class WorkspaceController {
 		saveString.append("</CODEBLOCKS>");
 		return saveString.toString();
 	}
-	
+
 	/**
 	 * Loads a fresh workspace based on the default specifications in the
 	 * language definition file. The block canvas will have no live blocks.
 	 */
 	public void loadFreshWorkspace() {
-		
 		// need to just reset workspace (no need to reset language) unless
 		// language was never loaded
 		// reset only if workspace actually exists

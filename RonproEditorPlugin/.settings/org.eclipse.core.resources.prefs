@@ -1,4 +1,9 @@
 eclipse.preferences.version=1
 encoding//BCsrc/bc/b2j/model/SetterVariableBlockModel.java=UTF-8
+encoding//BCsrc/bc/b2j/model/VariableBlockModel.java=SJIS
+encoding//BCsrc/bc/classblockfilewriters/LangDefFileDtdCopier.java=SJIS
+encoding//BCsrc/bc/classblockfilewriters/LangDefFilesReWriterMain.java=SJIS
+encoding//BCsrc/bc/classblockfilewriters/LangDefFilesRewriter.java=SJIS
+encoding//BEsrc/a/slab/blockeditor/extent/SContextMenuProvider.java=SJIS
 encoding//BEsrc/controller/WorkspaceController.java=UTF-8
 encoding//BEsrc/workspace/Page.java=UTF-8
