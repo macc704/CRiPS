@@ -20,7 +20,7 @@ public class LangDefGenusesCopier implements Copier {
 	public void print(File file) {
 		try {
 			FileInputStream ldfReader = new FileInputStream(
-					"ext/block/lang_def_genuses.xml");
+					System.getProperty("user.dir")+ "/ext/block/lang_def_genuses.xml");
 
 			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "UTF-8");
 			br = new BufferedReader(ldfISR);

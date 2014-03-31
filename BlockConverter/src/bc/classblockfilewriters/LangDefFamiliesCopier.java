@@ -15,8 +15,6 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import org.eclipse.swt.widgets.Display;
-
 import bc.classblockfilewriters.LangDefFilesReWriterMain.Family;
 
 public class LangDefFamiliesCopier implements Copier {

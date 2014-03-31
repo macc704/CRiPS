@@ -21,7 +21,7 @@ public class LangDefFileCopier implements Copier {
 		// TODO Auto-generated method stub
 		try {
 			FileInputStream ldfReader = new FileInputStream(
-					"ext/block/lang_def_turtle.xml");
+					System.getProperty("user.dir") + "/ext/block/lang_def_turtle.xml");
 
 			// FileReader ldfReader = new FileReader(
 			// "ext/block/lang_def_menu_turtle.xml");

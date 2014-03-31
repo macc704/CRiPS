@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 public class LangDefFileCopier implements Copier {
 
 	private BufferedReader br;
@@ -18,7 +21,7 @@ public class LangDefFileCopier implements Copier {
 		// TODO Auto-generated method stub
 		try {
 			FileInputStream ldfReader = new FileInputStream(
-					"ext/block/lang_def_turtle.xml");
+					System.getProperty("user.dir") + "/ext/block/lang_def_turtle.xml");
 
 			// FileReader ldfReader = new FileReader(
 			// "ext/block/lang_def_menu_turtle.xml");
@@ -56,6 +59,12 @@ public class LangDefFileCopier implements Copier {
 			ldfWriter.flush();
 			ldfWriter.close();
 		} catch (Exception e) {
+			JFrame frame = new JFrame();
+			JLabel label = new JLabel(e.getMessage());
+			frame.add(label);
+			frame.setSize(300, 300);
+			frame.setLocationRelativeTo(null);
+			frame.setVisible(true);
 			e.printStackTrace();
 			throw new RuntimeException("言語定義ファイル出力時にエラーが発生しました：lang_def_file");
 		}

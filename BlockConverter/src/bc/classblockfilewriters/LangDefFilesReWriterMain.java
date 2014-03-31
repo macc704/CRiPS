@@ -96,7 +96,7 @@ public class LangDefFilesReWriterMain {
 
 		while ((str = br.readLine()) != null) {
 			if (str.contains(" extends Turtle")) {
-				File turtleMenu = new File("ext/block/lang_def_menu_turtle.xml");
+				File turtleMenu = new File(System.getProperty("user.dir"),"ext/block/lang_def_menu_turtle.xml");
 				selfDefModel.printMenu(projectMenuFile, turtleMenu);
 				selfDefModel.printGenus();
 				this.addedMethods = selfDefModel.getAddedMethods();
@@ -106,7 +106,7 @@ public class LangDefFilesReWriterMain {
 			}
 		}
 		// メニューの出力
-		File cuiMenu = new File("ext/block/lang_def_menu_cui.xml");
+		File cuiMenu = new File(System.getProperty("user.dir"),"ext/block/lang_def_menu_cui.xml");
 		selfDefModel.printMenu(projectMenuFile, cuiMenu);
 
 		// プロジェクトのオブジェクトブロック情報を出力する
