@@ -22,7 +22,8 @@ Bundle-ClassPath: lib/jcommon-1.0.0-rc1.jar,
  lib/slcodeblocks.jar,
  lib/starlogotng.jar,
  lib/TableLayout.jar,
- .
+ .,
+ lib/super-csv-2.1.0.jar
 Import-Package: org.eclipse.debug.core,
  org.eclipse.jdt.internal.ui.javaeditor,
  org.eclipse.jdt.launching,

@@ -36,6 +36,21 @@
 			<type>2</type>
 			<locationURI>GIT_PARENT/BlockEditor/src</locationURI>
 		</link>
+		<link>
+			<name>CCsrc</name>
+			<type>2</type>
+			<locationURI>GIT_PARENT/CocoViewer/src</locationURI>
+		</link>
+		<link>
+			<name>CEsrc</name>
+			<type>2</type>
+			<location>C:/User/student/home/git/CRiPS/CompileErrorAnalytics/src</location>
+		</link>
+		<link>
+			<name>PPsrc</name>
+			<type>2</type>
+			<locationURI>GIT_PARENT/PresVisualizer/src</locationURI>
+		</link>
 	</linkedResources>
 	<variableList>
 		<variable>

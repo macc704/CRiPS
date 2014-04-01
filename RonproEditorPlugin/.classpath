@@ -8,6 +8,9 @@
 	<classpathentry exported="true" kind="lib" path="lib/TableLayout.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="CEsrc"/>
+	<classpathentry kind="src" path="PPsrc"/>
+	<classpathentry kind="src" path="CCsrc"/>
 	<classpathentry kind="src" path="BEsrc">
 		<attributes>
 			<attribute name="ignore_optional_problems" value="true"/>
@@ -19,5 +22,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/super-csv-2.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
