@@ -6,11 +6,11 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-public class TextFormatter implements Runnable {
+public class TextFormatAction implements Runnable {
 	
 	private IWorkbenchWindow window;
 	
-	public TextFormatter(IWorkbenchWindow window){
+	public TextFormatAction(IWorkbenchWindow window){
 		this.window = window;
 	}
 	

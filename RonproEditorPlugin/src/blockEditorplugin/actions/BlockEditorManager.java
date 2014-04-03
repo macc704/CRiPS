@@ -8,7 +8,6 @@ import java.io.File;
 import javax.swing.SwingUtilities;
 
 import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IFile;
@@ -93,6 +92,7 @@ public class BlockEditorManager {
 	}
 
 	private IExecutionListener saveListener = new IExecutionListener() {
+		// eclipse上のsaveイベントリスナー
 
 		@Override
 		public void preExecute(String commandId, ExecutionEvent event) {
@@ -116,16 +116,16 @@ public class BlockEditorManager {
 		}
 
 		@Override
-		public void postExecuteFailure(String commandId,
-				ExecutionException exception) {
+		public void notHandled(String commandId, NotHandledException exception) {
 			// TODO Auto-generated method stub
 
 		}
 
 		@Override
-		public void notHandled(String commandId, NotHandledException exception) {
+		public void postExecuteFailure(String commandId,
+				org.eclipse.core.commands.ExecutionException exception) {
 			// TODO Auto-generated method stub
-
+			
 		}
 	};
 
@@ -170,7 +170,8 @@ public class BlockEditorManager {
 
 			public void blockConverted(File file) {
 				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
-				Display.getDefault().asyncExec(new TextFormatter(window));
+				Display.getDefault().asyncExec(new TextFormatAction(window));
+				Display.getDefault().asyncExec(new OrganizedImportAction(window));
 
 				// app.doRefreshCurrentEditor();
 				// app.doFormat();
@@ -288,6 +289,7 @@ public class BlockEditorManager {
 		final File target = file.getLocation().toFile();
 
 		IResource resource = file;
+
 		int max = resource.findMaxProblemSeverity(IMarker.PROBLEM, true,
 				IResource.DEPTH_INFINITE);
 		if (max != 2) {
