@@ -28,7 +28,7 @@
 </BlockGenus>
 
 <BlockGenus name="proc-param-number" kind="param" initlabel="整数型引数"
-	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes"
+	editable-label="yes" header-label="整数型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
 	color="200 200 200">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
@@ -55,7 +55,7 @@
 </BlockGenus>
 
 <BlockGenus name="proc-param-double-number" kind="param" initlabel="実数型引数"
-	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes"
+	editable-label="yes" header-label="実数型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
 	color="200 200 200">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
@@ -82,7 +82,7 @@
 </BlockGenus>
 
 <BlockGenus name="proc-param-boolean" kind="param" initlabel="真偽型引数"
-	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes"
+	editable-label="yes" header-label="真偽型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
 	color="200 200 200">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"></BlockConnector>
@@ -109,7 +109,7 @@
 </BlockGenus>
 
 <BlockGenus name="proc-param-string" kind="param" initlabel="文字列型引数"
-	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes"
+	editable-label="yes" header-label="文字列型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
 	color="200 200 200">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>

@@ -11,6 +11,11 @@
 		<BlockGenusMember>next</BlockGenusMember>
 		<BlockGenusMember>nextInt</BlockGenusMember>
 		<BlockGenusMember>nextDouble</BlockGenusMember>
+		<BlockGenusMember>hasNextInt</BlockGenusMember>
+		<BlockGenusMember>hasNextDouble</BlockGenusMember>
+		<BlockGenusMember>input-getInt</BlockGenusMember>
+		<BlockGenusMember>input-getDouble</BlockGenusMember>
+		<BlockGenusMember>input-getString</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer name="構造化" type="factory" button-color="255 255 255">

@@ -58,7 +58,7 @@ public class BlockConverter {
 			"isPlaying", "getVolume", "setVolume"
 			/* text */, "getText", "loadOnMemory"
 			/* cui */, "cui-print", "cui-println", "cui-random", "next",
-			"nextInt", "nextDouble", "hashCode"
+			"nextInt", "nextDouble", "hashCode", "input-getInt", "input-getDouble", "input-getString"
 			/* empty! */, "empty"
 			/* math */, "sqrt", "sin", "cos", "tan", "log", "toRadians",
 			/* list */"get", "getSize", "add", "addFirst", "addLast", "addAll",
@@ -85,7 +85,7 @@ public class BlockConverter {
 			"drawFillArc[@object@number@number@number@number@number@number]",
 			"setLocation", "setSize", "getCanvas", "getVolume", "setVolume",
 			"getDefaultVolume", "remove[@number]", "remove[@object]", "get",
-			"get[@number]", "isMouseDown" };
+			"get[@number]", "isMouseDown", "hasNextInt", "hasNextDouble" };
 
 	// ñﬂÇËílÇÃÇ†ÇÈÉÅÉ\ÉbÉhÇÕÇ±Ç±Ç…ìoò^ (è„Ç…Ç‡ìoò^ÇµÇ»Ç¢Ç∆É_ÉÅ)
 	public final static String[] FUNCTION_METHODCALL_BLOCKS = { "input",
@@ -107,7 +107,8 @@ public class BlockConverter {
 			"getImageHeight", "getCanvas", "getVolume", "getDefaultVolume",
 			"size", "get", "Math.random", "Math.sqrt", "Math.sin", "Math.cos",
 			"Math.tan", "Math.log", "Math.toRadians", "getCanvasWidth",
-			"getCanvasHeight", "removeFirst", "isMouseDown", "get[@number]" };
+			"getCanvasHeight", "removeFirst", "isMouseDown", "get[@number]",
+			"hasNextInt", "hasNextDouble" , "Input.getInt", "Input.getDouble", "Input.getString"};
 
 	public static final String[] ALL_DATA_BLOCKNAMES;
 

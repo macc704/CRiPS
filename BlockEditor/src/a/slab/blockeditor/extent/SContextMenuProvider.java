@@ -288,6 +288,8 @@ public class SContextMenuProvider {
 					JMenu category = new JMenu("Scanner");
 					category.add(createCallMethodMenu("next", "“ü—Í‚ğó‚¯æ‚é(•¶š—ñŒ^)"));
 					category.add(createCallMethodMenu("nextInt", "“ü—Í‚ğó‚¯æ‚é(®”Œ^)"));
+					category.add(createCallMethodMenu("hasNextInt", "“ü—Í‚ª®”Œ^‚©‚Ç‚¤‚©’²‚×‚é"));
+					category.add(createCallMethodMenu("hasNextDouble", "“ü—Í‚ªÀ”Œ^‚©‚Ç‚¤‚©’²‚×‚é"));
 					category.add(createCallMethodMenu("nextDouble",
 							"“ü—Í‚ğó‚¯æ‚é(À”Œ^)"));
 					menu.add(category);

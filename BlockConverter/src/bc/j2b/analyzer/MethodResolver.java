@@ -51,6 +51,8 @@ public class MethodResolver {
 		methodToReturnType.put("next()", "String");
 		methodToReturnType.put("nextInt()", "int");
 		methodToReturnType.put("nextDouble()", "double");
+		methodToReturnType.put("hasNextInt()", "boolean");
+		methodToReturnType.put("hasNextDouble()", "boolean");
 
 		methodToReturnType.put("fd(1)", "void");
 		methodToReturnType.put("bk(1)", "void");

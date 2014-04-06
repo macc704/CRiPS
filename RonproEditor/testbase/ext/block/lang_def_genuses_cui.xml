@@ -106,10 +106,49 @@
 	</BlockConnectors>
 </BlockGenus>
 
+<BlockGenus name="hasNextDouble" kind="data" initlabel="入力がdouble型か調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+
+<BlockGenus name="hasNextInt" kind="data" initlabel="入力がint型か調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean">
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
 <BlockGenus name="hashCode" kind="function" initlabel="ハッシュ値を求める"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"/>
 		<BlockConnector connector-kind="socket" connector-type="string"/>
+	</BlockConnectors>
+</BlockGenus>
+
+
+<BlockGenus name="input-getInt" kind="data" initlabel="キーボードから整数を入力し、その値"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="input-getString" kind="data" initlabel="キーボードから文字列を入力し、その値"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="input-getDouble" kind="data" initlabel="キーボードから実数を入力し、その値"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"/>
 	</BlockConnectors>
 </BlockGenus>

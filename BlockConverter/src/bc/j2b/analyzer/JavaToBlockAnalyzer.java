@@ -1886,6 +1886,21 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			callMethod.setType("string");
 			callMethod.setName("toStringFromDouble");
 			return callMethod;
+		} else if (fullName.startsWith("Input.getInt(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("number");
+			callMethod.setName("input-getInt");
+			return callMethod;
+		} else if (fullName.startsWith("Input.getString(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("string");
+			callMethod.setName("input-getString");
+			return callMethod;
+		} else if (fullName.startsWith("Input.getDouble(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("double");
+			callMethod.setName("input-getDouble");
+			return callMethod;
 		} else if (fullName.endsWith("hashCode()")) {
 			Expression receiver = node.getExpression();
 			if (receiver != null) {
