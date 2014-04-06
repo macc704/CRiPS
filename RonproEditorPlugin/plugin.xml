@@ -50,7 +50,7 @@
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
-               label="Ronpro Plugins"
+               label="論プロプラグイン"
                mnemonic="M"
                id="RonproPlugin.menus.openBlockEditorMenu">
             <command

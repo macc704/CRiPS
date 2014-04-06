@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.0-rc1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.0-rc1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/JimiProClasses.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/slcodeblocks.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/starlogotng.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/TableLayout.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="BEsrc">
@@ -18,6 +12,12 @@
 			<attribute name="ignore_optional_problems" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.0-rc1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.0-rc1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/JimiProClasses.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/slcodeblocks.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/starlogotng.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/TableLayout.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

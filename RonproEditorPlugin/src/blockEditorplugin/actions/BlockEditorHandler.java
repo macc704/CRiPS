@@ -9,7 +9,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 public class BlockEditorHandler extends AbstractHandler {
 
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		// TODO Auto-generated method stub
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);

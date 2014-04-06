@@ -14,7 +14,6 @@ public class TextFormatAction implements Runnable {
 		this.window = window;
 	}
 	
-	@Override
 	public void run() {
 		
 		// TODO Auto-generated method stub

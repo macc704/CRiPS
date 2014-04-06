@@ -6,7 +6,6 @@ import org.eclipse.core.commands.ExecutionException;
 
 public class CocoviewerHandler extends AbstractHandler {
 
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		// TODO Auto-generated method stub
 		// OpenCocoViewƒNƒŠƒbƒN‚Ìˆ—

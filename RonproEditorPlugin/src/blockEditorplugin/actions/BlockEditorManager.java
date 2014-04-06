@@ -94,13 +94,11 @@ public class BlockEditorManager {
 	private IExecutionListener saveListener = new IExecutionListener() {
 		// eclipse上のsaveイベントリスナー
 
-		@Override
 		public void preExecute(String commandId, ExecutionEvent event) {
 			// TODO Auto-generated method stub
 
 		}
 
-		@Override
 		public void postExecuteSuccess(String commandId, Object returnValue) {
 			// TODO Auto-generated method stub
 			if (commandId.endsWith("org.eclipse.ui.file.save")) {
@@ -115,13 +113,11 @@ public class BlockEditorManager {
 			}
 		}
 
-		@Override
 		public void notHandled(String commandId, NotHandledException exception) {
 			// TODO Auto-generated method stub
 
 		}
 
-		@Override
 		public void postExecuteFailure(String commandId,
 				org.eclipse.core.commands.ExecutionException exception) {
 			// TODO Auto-generated method stub
@@ -131,27 +127,21 @@ public class BlockEditorManager {
 
 	private IPartListener partListener = new IPartListener() {
 
-		@Override
 		public void partOpened(IWorkbenchPart part) {
-			// TODO Auto-generated method stub
 		}
 
-		@Override
 		public void partDeactivated(IWorkbenchPart part) {
 			// TODO Auto-generated method stub
 		}
 
-		@Override
 		public void partClosed(IWorkbenchPart part) {
 			// TODO Auto-generated method stub
 		}
 
-		@Override
 		public void partBroughtToTop(IWorkbenchPart part) {
 			// TODO Auto-generated method stub
 		}
 
-		@Override
 		public void partActivated(IWorkbenchPart part) {
 			// TODO Auto-generated method stub
 			if (isWorkspaceOpened() && part instanceof PresExtendedJavaEditor) {
