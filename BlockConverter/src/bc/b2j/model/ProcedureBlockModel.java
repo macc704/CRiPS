@@ -49,9 +49,6 @@ public class ProcedureBlockModel extends CommandBlockModel {
 		// main の先頭ラインを獲得して、それより前に書き込む必要
 
 		out.print("public");
-		if ("main".equals(getLabel())) {
-			out.print(" static");
-		}
 		out.print(" ");
 		out.print(returnType);
 		out.print(" " + getLabel() + "(");
