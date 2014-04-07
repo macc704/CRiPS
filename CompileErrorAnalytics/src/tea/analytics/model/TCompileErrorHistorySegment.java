@@ -128,6 +128,9 @@ public class TCompileErrorHistorySegment implements ICTimeOrderable {
 	public boolean isWorking(IPLUnit unit) {
 
 		try {
+			if (unit == null) {
+				throw new IllegalArgumentException();
+			}
 			// コンパイルエラーの修正ができてない場合はfalse
 			if (getEnd() == null || getStart() == null) {
 				return false;
@@ -150,8 +153,9 @@ public class TCompileErrorHistorySegment implements ICTimeOrderable {
 
 			return true;
 		} catch (Exception ex) {
-			//ex.printStackTrace();
-			System.err.println(ex.getMessage());
+			System.err.println("Error@TCompileErrorHistory unit:" + unit);
+			ex.printStackTrace();
+			// ex.getMessage();
 			return false;
 		}
 	}

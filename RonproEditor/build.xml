@@ -53,7 +53,10 @@
     		
     		<fileset dir="../NoviceDebugger/bin"/>
     		<zipfileset excludes="META-INF/*.SF,com/sun/tools/example/**/*" src="../NoviceDebugger/lib/tools1.7.0_mac.jar"/>
-    		    		
+    		
+    		<fileset dir="../CocoViewer/bin"/>
+    		<zipfileset excludes="META-INF/*.SF" src="../CocoViewer/lib/super-csv-2.1.0.jar"/>
+    		
     		<!--<fileset dir="../ReflectionSupportSystem/bin"/>-->
         </jar>
     	

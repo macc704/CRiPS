@@ -198,6 +198,9 @@ public class REFrame extends JFrame {
 	private Action actionOpenGeneRefBrowser;
 	// private JCheckBoxMenuItem useRSSystem;
 	private Action actionOpenPPV;
+	private Action actionOpenCocoViewer; // add hirao
+	private Action actionCreateCocoData; // add hirao
+	private Action actionClearCash; // add hirao
 	private Action actionBytecode;
 
 	// ÅuHelpÅv
@@ -297,6 +300,10 @@ public class REFrame extends JFrame {
 		menuTools.add(actionOpenGeneRefBrowser);
 		// menuTools.add(useRSSystem);
 		menuTools.add(actionOpenPPV);
+		menuTools.add(actionOpenCocoViewer);
+		menuTools.add(actionCreateCocoData);
+		menuTools.add(actionClearCash);
+
 		if (CJavaSystem.getInstance().isWindows()) {
 			menuTools.addSeparator();
 			menuTools.add(actionBytecode);
@@ -598,7 +605,7 @@ public class REFrame extends JFrame {
 		// }
 		// });
 		// useRSSystem.setEnabled(true);
-		
+
 		{
 			Action action = new AbstractAction() {
 				public void actionPerformed(ActionEvent e) {
@@ -606,10 +613,44 @@ public class REFrame extends JFrame {
 				}
 			};
 			action.putValue(Action.NAME, "Open PPV");
-			//action.putValue(Action.ACCELERATOR_KEY,
-			//		KeyStroke.getKeyStroke(KeyEvent.VK_B, CTRL_MASK));
+			// action.putValue(Action.ACCELERATOR_KEY,
+			// KeyStroke.getKeyStroke(KeyEvent.VK_B, CTRL_MASK));
 			action.setEnabled(true);
 			actionOpenPPV = action;
+		}
+
+		// add hirao
+		{
+			Action action = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doCreateCocoData();
+				}
+			};
+			action.putValue(Action.NAME, "Create CocoData");
+			action.setEnabled(true);
+			actionCreateCocoData = action;
+		}
+
+		{
+			Action action = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doOpenClearCash();
+				}
+			};
+			action.putValue(Action.NAME, "Clear Cash");
+			action.setEnabled(true);
+			actionClearCash = action;
+		}
+
+		{
+			Action action = new AbstractAction() {
+				public void actionPerformed(ActionEvent e) {
+					application.doOpenCocoViewer();
+				}
+			};
+			action.putValue(Action.NAME, "Open CocoViewer");
+			action.setEnabled(true);
+			actionOpenCocoViewer = action;
 		}
 
 		// --ByteCode

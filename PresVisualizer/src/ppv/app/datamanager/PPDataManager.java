@@ -103,29 +103,30 @@ public class PPDataManager {
 	 *********************************************************/
 
 	public PPProjectSet openProjectSet(String projectSetName, boolean load,
-			boolean compile) {
+			boolean compile, boolean coco) {
 		if (getDataDir().findDirectory(projectSetName) == null) {
 			throw new RuntimeException(
 					"openProjectSet そのような名前のProjectSetはありません．projectSetName = "
 							+ projectSetName);
 		}
 		CDirectory projectSetDir = getDataDir().findDirectory(projectSetName);
-		return openProjectSet2(projectSetDir, load, compile);
+		return openProjectSet2(projectSetDir, load, compile, coco);
 	}
 
 	@Deprecated
 	public PPProjectSet openProjectSet(final CDirectory projectSetDir,
 			boolean load) {
-		return openProjectSet2(projectSetDir, load, false);
+		return openProjectSet2(projectSetDir, load, false, false);
 	}
 
 	private PPProjectSet openProjectSet2(final CDirectory projectSetDir,
-			final boolean load, final boolean compile) {
+			final boolean load, final boolean compile, final boolean coco) {
 		final PPProjectSet projectSet = new PPProjectSet(projectSetDir);
 		monitor.doTaskWithDialog(new ICTask() {
 			public void doTask() {
 				try {
-					openProjectSetInternal(monitor, projectSet, load, compile);
+					openProjectSetInternal(monitor, projectSet, load, compile,
+							coco);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					CErrorDialog.show(null, "", ex);
@@ -136,10 +137,31 @@ public class PPDataManager {
 	}
 
 	private void openProjectSetInternal(CPanelProcessingMonitor monitor,
-			PPProjectSet projectSet, boolean load, boolean compile)
+			PPProjectSet projectSet, boolean load, boolean compile, boolean coco)
 			throws IOException {
-
 		// create a projectset
+		loadProjectSet(projectSet, load, compile);
+
+		// open view
+		final PPProjectSetViewerFrame viewer = new PPProjectSetViewerFrame(
+				projectSet);
+		if (!coco) {
+			viewer.setBounds(100, 100, 500, 500);
+			viewer.setVisible(true);
+		} else {
+			viewer.doPrintCompileErrorCSV(baseDir);
+		}
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				viewer.fitScale();
+			}
+		});
+
+	}
+
+	public void loadProjectSet(PPProjectSet projectSet, boolean load,
+			boolean compile) {
 		List<CDirectory> dirs = projectSet.getDir().getDirectoryChildren();
 		monitor.setWorkTitle("Loading Projects");
 		monitor.setMax(dirs.size());
@@ -170,18 +192,6 @@ public class PPDataManager {
 				createCompileCash(projectSet, monitor);
 			}
 		}
-
-		// open view
-		final PPProjectSetViewerFrame viewer = new PPProjectSetViewerFrame(
-				projectSet);
-		viewer.setBounds(100, 100, 500, 500);
-		viewer.setVisible(true);
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				viewer.fitScale();
-			}
-		});
-
 	}
 
 	private PLProject createProject(CDirectory dir, String srcDirName) {

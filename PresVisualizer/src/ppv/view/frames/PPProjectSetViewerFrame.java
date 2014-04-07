@@ -32,6 +32,7 @@ import pres.loader.model.PLProject;
 import tea.analytics.CompileErrorAnalyzerList;
 import tea.analytics.CompileErrorListFile;
 import tea.analytics.model.TCompilePoint;
+import clib.common.filesystem.CDirectory;
 import clib.common.thread.ICTask;
 import clib.view.dialogs.CErrorDialog;
 import clib.view.progress.CPanelProcessingMonitor;
@@ -143,7 +144,7 @@ public class PPProjectSetViewerFrame extends JFrame {
 				item.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						printMetrics();
+						printMetrics(new File("./FileMetrics.csv"));
 					}
 				});
 				menu.add(item);
@@ -154,7 +155,20 @@ public class PPProjectSetViewerFrame extends JFrame {
 				item.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						printCompileErrorAnalysis();
+						printCompileErrorAnalysis(
+								new File("./CompileError.csv"), false);
+					}
+				});
+				menu.add(item);
+			}
+
+			{
+				JMenuItem item = new JMenuItem("CompileAnalysis(coco)");
+				item.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						printCompileErrorAnalysis(new File(
+								"./CCCompileError.csv"), true);
 					}
 				});
 				menu.add(item);
@@ -205,14 +219,13 @@ public class PPProjectSetViewerFrame extends JFrame {
 		});
 	}
 
-	private void printMetrics() {
+	private void printMetrics(final File file) {
 		monitor.doTaskWithDialog(new ICTask() {
 			public void doTask() {
 				try {
 					PPMetricsPrinter printer = new PPMetricsPrinter();
 					// printer.printMetrics(projectSet, System.out);
-					FileOutputStream out = new FileOutputStream(new File(
-							"./FileMetrics.csv"));
+					FileOutputStream out = new FileOutputStream(file);
 					printer.printMetrics(projectSet, out, monitor);
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -222,7 +235,14 @@ public class PPProjectSetViewerFrame extends JFrame {
 		});
 	}
 
-	private void printCompileErrorAnalysis() {
+	public void doPrintCompileErrorCSV(CDirectory baseDir) {
+		printCompileErrorAnalysis(new File(baseDir.getAbsolutePath().toString()
+				+ "/CompileError.csv"), true);
+		printMetrics(new File(baseDir.getAbsolutePath().toString()
+				+ "/FileMetrics.csv"));
+	}
+
+	private void printCompileErrorAnalysis(File outfile, boolean coco) {
 		// CompileErrorAnalysis
 		List<CompileErrorAnalyzerList> analyzers = new ArrayList<CompileErrorAnalyzerList>();
 		for (PLProject project : projectSet.getProjects()) {
@@ -236,8 +256,10 @@ public class PPProjectSetViewerFrame extends JFrame {
 		// FileOutput
 		CompileErrorListFile file = new CompileErrorListFile(analyzers);
 		try {
-			file.outputErrorList();
-			file.outputPatternList();
+			file.outputErrorList(outfile, coco);
+			if (!coco) {
+				file.outputPatternList();
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

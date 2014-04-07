@@ -33,6 +33,8 @@ import ronproeditor.dialogs.REDirtyOptionDialog;
 import ronproeditor.dialogs.RERefactoringFileNameDialog;
 import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
+import ronproeditor.ext.RECocoViewerManager;
+import ronproeditor.ext.RECreateCocoDataManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
@@ -339,6 +341,8 @@ public class REApplication implements ICFwApplication {
 	private REGeneRefManager generefManager;
 	private REPresVisualizerManager ppvManager;
 	private GUI deno;
+	private RECreateCocoDataManager createCocoDataManager;
+	private RECocoViewerManager cocoViewerManager;
 
 	/***********************
 	 * Construct & Start
@@ -357,6 +361,8 @@ public class REApplication implements ICFwApplication {
 		flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
 		ppvManager = new REPresVisualizerManager(this);
+		createCocoDataManager = new RECreateCocoDataManager(this);
+		cocoViewerManager = new RECocoViewerManager(this);
 
 		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
 				"*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
@@ -1209,6 +1215,34 @@ public class REApplication implements ICFwApplication {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			CErrorDialog.show(frame, "OpenPPV中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doCreateCocoData() {
+		try {
+			createCocoDataManager.createCocoData();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Create CocoData中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doOpenCocoViewer() {
+		try {
+			cocoViewerManager.openCocoViewer(createCocoDataManager
+					.getPPProjectSet());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Open CocoViewer中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doOpenClearCash() {
+		try {
+			ppvManager.clearCash();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Clear Cash中にエラーが発生しました．", ex);
 		}
 	}
 
