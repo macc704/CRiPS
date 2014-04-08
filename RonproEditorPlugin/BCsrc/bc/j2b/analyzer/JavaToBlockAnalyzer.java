@@ -636,7 +636,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	private StMethodDeclarationModel analyzeMethod(MethodDeclaration node) {
-		if ("main".equals(node.getName().toString())) {
+		if ("main".equals(node.getName().toString())
+				&& !node.parameters().isEmpty()
+				&& node.parameters().get(0).toString().equals("String[] args")) {
 			// return false;
 			return null;
 		}

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="RonproPluginFeature"
-      label="RonproPluginFeature"
-      version="1.0.0.qualifier"
+      label="jp.ac.shizuoka.inf.ce.cs.ronproeditorpluginfeature"
+      version="1.0.0"
       provider-name="Salai laboratory">
 
    <description url="http://www.example.com/description">
@@ -62,7 +62,7 @@
          id="jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.0"
          unpack="false"/>
 
 </feature>
