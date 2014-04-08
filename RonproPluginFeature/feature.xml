@@ -2,7 +2,7 @@
 <feature
       id="RonproPlugins"
       label="RonproPlugins"
-      version="1.0.0"
+      version="1.0.1"
       provider-name="Salai laboratory">
 
    <description url="http://www.example.com/description">
@@ -17,6 +17,10 @@
    <license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
+
+   <url>
+      <update url="http://Ohata1016.github.com/RonproEditorPluginSite/"/>
+   </url>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
@@ -60,7 +64,7 @@
          id="jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin"
          download-size="0"
          install-size="0"
-         version="1.0.0"
+         version="1.0.1"
          unpack="false"/>
 
 </feature>
