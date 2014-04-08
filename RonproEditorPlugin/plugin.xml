@@ -20,6 +20,12 @@
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.openCocoViewer">
       </command>
+      
+      <command
+            name="Create CocoData"
+            categoryId="RonproEditorPlugin.commands.category"
+            id="RonproPlugin.commands.createCocoData">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -32,6 +38,11 @@
 	  <handler
             commandId="RonproPlugin.commands.openCocoViewer"
             class="cocoviewer.actions.CocoviewerHandler">
+      </handler>
+
+	  <handler
+            commandId="RonproPlugin.commands.createCocoData"
+            class="createcocodata.actions.CreateCocodataHandler">
       </handler>
 
    </extension>
@@ -50,7 +61,7 @@
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
-               label="Ronpro Plugins"
+               label="RonproPlugins"
                mnemonic="M"
                id="RonproPlugin.menus.openBlockEditorMenu">
             <command
@@ -62,6 +73,11 @@
                   commandId="RonproPlugin.commands.openCocoViewer"
                   mnemonic="S"
                   id="RonproPlugins.menus.openCocoViewer">
+            </command>
+            <command
+                  commandId="RonproPlugin.commands.createCocoData"
+                  mnemonic="S"
+                  id="RonproPlugins.menus.createCocoData">
             </command>
          </menu>
       </menuContribution>
