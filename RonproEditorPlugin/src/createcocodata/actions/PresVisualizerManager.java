@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import ppv.app.datamanager.IPPVLoader;
@@ -35,8 +36,6 @@ public class PresVisualizerManager {
 	private static String PPV_PROJECTSET_NAME = "hoge";// projectset名
 	private static IPPVLoader PPV_ROADER = new PPEclipsePPVLoader();
 
-	private static String LIB_DIR = "";
-
 	private PPDataManager ppDataManager;
 
 	private CPanelProcessingMonitor monitor = new CPanelProcessingMonitor();
@@ -64,8 +63,20 @@ public class PresVisualizerManager {
 
 		exportAndImportAll();
 		// ライブラリの場所
-		ppDataManager.setLibDir(ppDataManager.getBaseDir()
-				.findOrCreateDirectory(new CPath("ppv.lib")));
+		String eclipsePath = null;
+		try {
+			eclipsePath = Platform.getInstallLocation().getURL().toURI()
+					.toString();
+			// 頭に付いている"file:/"を削除
+			eclipsePath = eclipsePath.split("file:/")[1];
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		CDirectory libDir = new CDirectory(new CPath(eclipsePath))
+				.findOrCreateDirectory("plugins");
+		ppDataManager.setLibDir(libDir);
+
 		ppDataManager.openProjectSet(PPV_PROJECTSET_NAME, true, true, false);
 	}
 
@@ -138,6 +149,13 @@ public class PresVisualizerManager {
 		String projectRoot = root.getLocation().toFile().getAbsolutePath()
 				.toString();
 
+		// CDirectory project = new CDirectory(new CPath(projectRoot));
+		//
+		// CFilename projectName = project.getName();
+		// projectName.setExtension("zip");
+		// CFile zipfile = tmpDir.findOrCreateFile(projectName);
+		// CIOUtils.zip(project, zipfile);
+
 		List<CDirectory> projects = new CDirectory(new CPath(projectRoot))
 				.getDirectoryChildren(CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
 
@@ -157,10 +175,14 @@ public class PresVisualizerManager {
 	}
 
 	private void exportOneProject(CDirectory project, CDirectory tmpDir) {
+		// zip export eclipse の export → archive file が使えないか？
 		CFilename projectName = project.getName();
 		projectName.setExtension("zip");
+		CDirectory projectdir = tmpDir.findOrCreateDirectory(project
+				.getNameByString());
+		project.copyTo(projectdir);
 		CFile zipfile = tmpDir.findOrCreateFile(projectName);
-		CIOUtils.zip(project, zipfile);
+		CIOUtils.zip(projectdir, zipfile);
 	}
 
 	private void importAllProjects(String projectSetName, CDirectory tmpDir) {

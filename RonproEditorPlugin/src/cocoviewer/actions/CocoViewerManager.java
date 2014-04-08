@@ -2,11 +2,13 @@ package cocoviewer.actions;
 
 import org.eclipse.ui.IWorkbenchWindow;
 
+import ppv.app.datamanager.PPProjectSet;
 import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.controller.CCCompileErrorLoader;
 import src.coco.controller.CCMetricsLoader;
 import src.coco.model.CCCompileErrorManager;
 import src.coco.view.CCMainFrame2;
+import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileSystem;
 
 public class CocoViewerManager {
@@ -18,6 +20,10 @@ public class CocoViewerManager {
 	// private String ERROR_DATA_FILE = "CompileError.csv";
 	private String ERROR_LOG_FILE = "/CompileErrorLog.csv";
 	private String METRICS_FILE = "/FileMetrics.csv";
+
+	private CDirectory baseDir;
+	private CDirectory libDir;
+	private PPProjectSet projectset;
 
 	public CocoViewerManager(IWorkbenchWindow window) {
 		CCCompileErrorManager manager = new CCCompileErrorManager();
@@ -31,8 +37,23 @@ public class CocoViewerManager {
 		CCMetricsLoader metricsloader = new CCMetricsLoader(manager);
 		metricsloader.load(PPV_ROOT_DIR + METRICS_FILE);
 
+		manager.setBaseDir(baseDir);
+		manager.setLibDir(libDir);
+		manager.setPPProjectSet(projectset);
+
 		CCMainFrame2 frame = new CCMainFrame2(manager);
 		frame.setVisible(true);
 	}
 
+	public void setBaseDir(CDirectory baseDir) {
+		this.baseDir = baseDir;
+	}
+
+	public void setLibDir(CDirectory libDir) {
+		this.libDir = libDir;
+	}
+
+	public void setProjectset(PPProjectSet projectset) {
+		this.projectset = projectset;
+	}
 }

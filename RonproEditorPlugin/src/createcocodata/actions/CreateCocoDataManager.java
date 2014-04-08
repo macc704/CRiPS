@@ -2,6 +2,7 @@ package createcocodata.actions;
 
 import javax.swing.JOptionPane;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import ppv.app.datamanager.PPDataManager;
@@ -11,7 +12,6 @@ import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.model.CCCompileErrorManager;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileSystem;
-import clib.common.filesystem.CPath;
 
 public class CreateCocoDataManager {
 
@@ -56,8 +56,22 @@ public class CreateCocoDataManager {
 		PPDataManager ppDataManager = ppvManager.getPPDataManager();
 
 		// TODO: ƒ‰ƒCƒuƒ‰ƒŠ‚ÌêŠ
-		ppDataManager.setLibDir(new CDirectory(new CPath(PPV_ROOT_DIR))
-				.findOrCreateDirectory("ppv.lib"));
+		String eclipsePath = null;
+		try {
+			eclipsePath = Platform.getInstallLocation().getURL().toURI()
+					.toString();
+			// “ª‚É•t‚¢‚Ä‚¢‚é"file:/"‚ğíœ
+			eclipsePath = eclipsePath.split("file:/")[1];
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// System.out.println("eclipsePath: " + eclipsePath);
+		CDirectory libDir = CFileSystem.findDirectory(eclipsePath)
+				.findOrCreateDirectory("plugins");
+		// System.out.println(libDir.toString());
+		ppDataManager.setLibDir(libDir);
+
 		// TODO Hardcoding
 		ppProjectSet = ppDataManager.openProjectSet("hoge", true, true, true);
 	}

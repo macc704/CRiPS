@@ -44,7 +44,7 @@
 		<link>
 			<name>CEsrc</name>
 			<type>2</type>
-			<location>C:/User/student/home/git/CRiPS/CompileErrorAnalytics/src</location>
+			<locationURI>GIT_PARENT/CompileErrorAnalytics/src</locationURI>
 		</link>
 		<link>
 			<name>PPsrc</name>
