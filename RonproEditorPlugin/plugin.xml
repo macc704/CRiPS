@@ -26,6 +26,12 @@
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.createCocoData">
       </command>
+      
+      <command
+            name="Clear Cash"
+            categoryId="RonproEditorPlugin.commands.category"
+            id="RonproPlugin.commands.clearCash">
+      </command>
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -45,6 +51,10 @@
             class="createcocodata.actions.CreateCocodataHandler">
       </handler>
 
+	  <handler
+            commandId="RonproPlugin.commands.clearCash"
+            class="clearcash.actions.ClearCashHandler">
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -78,6 +88,11 @@
                   commandId="RonproPlugin.commands.createCocoData"
                   mnemonic="S"
                   id="RonproPlugins.menus.createCocoData">
+            </command>
+            <command
+                  commandId="RonproPlugin.commands.clearCash"
+                  mnemonic="S"
+                  id="RonproPlugins.menus.clearCash">
             </command>
          </menu>
       </menuContribution>
