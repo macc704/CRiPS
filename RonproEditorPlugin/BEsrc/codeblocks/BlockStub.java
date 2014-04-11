@@ -134,13 +134,14 @@ public class BlockStub extends Block {
 			// set socket type to be parent socket type or plug if parent has no
 			// sockets
 			if (stubGenus.contains("arrayelement")) {
+				mySoc = this.getSocketAt(1);
 				String type = getArrayBlockType(stubGenus);
 				if (parent.getNumSockets() > 0)
-					this.setSocketAt(0, "number", mySoc.getPositionType(),
+					this.setSocketAt(1, type, mySoc.getPositionType(),
 							mySoc.getLabel(), mySoc.isLabelEditable(),
 							mySoc.isExpandable(), mySoc.getBlockID());
 				else
-					this.setSocketAt(0, "number", mySoc.getPositionType(),
+					this.setSocketAt(1, type, mySoc.getPositionType(),
 							mySoc.getLabel(), mySoc.isLabelEditable(),
 							mySoc.isExpandable(), mySoc.getBlockID());
 			} else {
