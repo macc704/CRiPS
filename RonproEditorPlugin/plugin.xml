@@ -11,15 +11,15 @@
       </category>
       <!--メニューカテゴリのコマンド-->
       <command
-            name="Open BlockEditor" 
+            name="Open BlockEditor Hinoki" 
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.openBlockEditor">
       </command>
-      <command
+<!--      <command
             name="Open CocoViewer"
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.openCocoViewer">
-      </command>
+      </command>-->
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -29,28 +29,28 @@
             class="blockEditorplugin.actions.BlockEditorHandler">
       </handler>
 
-	  <handler
+<!--	  <handler
             commandId="RonproPlugin.commands.openCocoViewer"
             class="cocoviewer.actions.CocoviewerHandler">
-      </handler>
+      </handler>-->
 
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
          <!--ショートカットの登録 したければどうぞ-->
-      <key
+<!--      <key
             commandId="RonproPlugin.commands.openBlockEditor"
             contextId="org.eclipse.ui.contexts.window"
             sequence="M1+O"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
-      </key>
+      </key>-->
    </extension>
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
-               label="論プロプラグイン"
+               label="RonproPlugins"
                mnemonic="M"
                id="RonproPlugin.menus.openBlockEditorMenu">
             <command
@@ -58,11 +58,11 @@
                   mnemonic="S"
                   id="RonproPlugins.menus.openBlockEditor">
             </command>
-            <command
+<!--            <command
                   commandId="RonproPlugin.commands.openCocoViewer"
                   mnemonic="S"
                   id="RonproPlugins.menus.openCocoViewer">
-            </command>
+            </command>-->
          </menu>
       </menuContribution>
       <menuContribution
@@ -74,11 +74,11 @@
                   icon="icons/sample.gif"
                   id="RonproPlugin.toolbars.openBlockEditorCommand">
             </command>
-            <command
+<!--            <command
                   commandId="RonproPlugin.commands.openCocoViewer"
                   icon="icons/sample.gif"
                   id="RonproPlugin.toolbars.openBlockEditorCommand">
-            </command>
+            </command>-->
          </toolbar>
       </menuContribution>
    </extension>

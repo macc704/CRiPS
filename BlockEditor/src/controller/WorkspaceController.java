@@ -642,7 +642,7 @@ public class WorkspaceController {
 		JPanel topPane = new JPanel();
 
 		{// create save button
-			JButton saveButton = new JButton("Save as Java");
+			JButton saveButton = new JButton("Save as Java and Compile");
 			saveButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					wc.convertToJava(wc.getSaveString(), enc);
@@ -663,20 +663,20 @@ public class WorkspaceController {
 		//			topPane.add(runButton);
 		//		}
 
-		{// create compile button
-			JButton runButton = new JButton("Compile");
-			runButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (dirty) {
-						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					ronproEditor.blockCompile();
-				}
-			});
-			topPane.add(runButton);
-		}
+//		{// create compile button
+//			JButton runButton = new JButton("Compile");
+//			runButton.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					if (dirty) {
+//						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
+//								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
+//						return;
+//					}
+//					ronproEditor.blockCompile();
+//				}
+//			});
+//			topPane.add(runButton);
+//		}
 
 		{// create run button
 			JButton runButton = new JButton("Run");
