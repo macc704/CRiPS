@@ -240,7 +240,7 @@ public class OutputSourceModel {
 			String newStub = "\n\n" + "void " + newNames.get(key) + "(";
 			// ˆê“I‚Èˆø”‚ğ‚Â‚¯‚éˆ—
 			for (int i = 0; i < parameters.size(); i++) {
-				String param = parameters.get(0) + " s" + String.valueOf(i);
+				String param = parameters.get(i) + " s" + String.valueOf(i);
 				newStub += param;
 				if (i + 1 < parameters.size()) {
 					newStub += ",";
