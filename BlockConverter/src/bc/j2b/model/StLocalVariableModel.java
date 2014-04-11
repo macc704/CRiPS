@@ -18,7 +18,12 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 	@Override
 	public String getGenusName() {
 		if (argument) {
-			return "proc-param-" + getBlockType();
+			if(isProjectObject()){
+				return "proc-param-object-" + getJavaVariableType();
+			}else{
+				return "proc-param-" + getBlockType();	
+			}
+			
 		}
 
 		String genusName;
