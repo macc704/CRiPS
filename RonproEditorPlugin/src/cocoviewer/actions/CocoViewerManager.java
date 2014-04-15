@@ -13,7 +13,7 @@ import clib.common.filesystem.CFileSystem;
 
 public class CocoViewerManager {
 
-	// TODO: ƒf[ƒ^‚ğ’u‚­êŠEppvrootƒtƒHƒ‹ƒ_‚ÌêŠ
+	// TODO: ãƒ‡ãƒ¼ã‚¿ã‚’ç½®ãå ´æ‰€ãƒ»ppvrootãƒ•ã‚©ãƒ«ãƒ€ã®å ´æ‰€
 	private String PPV_ROOT_DIR = CFileSystem.getHomeDirectory()
 			.findOrCreateDirectory(".ppvdata").getAbsolutePath().toString();
 	private String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv";

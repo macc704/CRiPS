@@ -17,9 +17,9 @@ public class CreateCocoDataManager {
 
 	private String PPV_ROOT_DIR = CFileSystem.getHomeDirectory()
 			.findOrCreateDirectory(".ppvdata").getAbsolutePath().toString();
-	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv"; // ext“à‚ÌErrorKinds
-	private static String ORIGINAL_DATA_FILE = "/CompileError.csv"; // ppv‚©‚ço—Í‚³‚ê‚écsvƒtƒ@ƒCƒ‹
-	private static String DATA_FILE = "/CompileErrorLog.csv"; // Coco—p‚ÌƒRƒ“ƒpƒCƒ‹ƒGƒ‰[ƒf[ƒ^
+	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv"; // extå†…ã®ErrorKinds
+	private static String ORIGINAL_DATA_FILE = "/CompileError.csv"; // ppvã‹ã‚‰å‡ºåŠ›ã•ã‚Œã‚‹csvãƒ•ã‚¡ã‚¤ãƒ«
+	private static String DATA_FILE = "/CompileErrorLog.csv"; // Cocoç”¨ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ãƒ‡ãƒ¼ã‚¿
 
 	private PPProjectSet ppProjectSet;
 
@@ -27,7 +27,7 @@ public class CreateCocoDataManager {
 
 	public CreateCocoDataManager(IWorkbenchWindow window) {
 		// TODO Auto-generated constructor stub
-		// WorkSpace‚ÌƒpƒX‚ğæ“¾‚·‚é
+		// WorkSpaceã®ãƒ‘ã‚¹ã‚’å–å¾—ã™ã‚‹
 		// IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		// IWorkspaceRoot root = workspace.getRoot();
 		// System.out.println(root.getLocation().toFile().getAbsolutePath()
@@ -38,16 +38,16 @@ public class CreateCocoDataManager {
 
 	public void createCocoData() {
 		int res = JOptionPane.showConfirmDialog(null,
-				"ƒf[ƒ^‚Ìì¬‚É‚ÍŠÔ‚ª‚©‚©‚è‚Ü‚·‚ªC‚æ‚ë‚µ‚¢‚Å‚·‚©H", "ƒf[ƒ^‚Ìì¬",
+				"ãƒ‡ãƒ¼ã‚¿ã®ä½œæˆã«ã¯æ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™ãŒï¼Œã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ", "ãƒ‡ãƒ¼ã‚¿ã®ä½œæˆ",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (res != JOptionPane.OK_OPTION) {
 			return;
 		}
 
-		// CompileError.csv‚ğ©“®“I‚ÉƒGƒNƒXƒ|[ƒg‚·‚é
+		// CompileError.csvã‚’è‡ªå‹•çš„ã«ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆã™ã‚‹
 		autoExportCompileErrorCSV();
 
-		// ©“®“I‚ÉƒGƒNƒXƒ|[ƒg‚µ‚½ƒtƒ@ƒCƒ‹‚ğCoco—pƒf[ƒ^‚É•ÏŠ·‚·‚é
+		// è‡ªå‹•çš„ã«ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’Cocoç”¨ãƒ‡ãƒ¼ã‚¿ã«å¤‰æ›ã™ã‚‹
 		convertCompileErrorData();
 	}
 
@@ -55,12 +55,12 @@ public class CreateCocoDataManager {
 		ppvManager.exportAndImportAll();
 		PPDataManager ppDataManager = ppvManager.getPPDataManager();
 
-		// TODO: ƒ‰ƒCƒuƒ‰ƒŠ‚ÌêŠ
+		// TODO: ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®å ´æ‰€
 		String eclipsePath = null;
 		try {
 			eclipsePath = Platform.getInstallLocation().getURL().toURI()
 					.toString();
-			// “ª‚É•t‚¢‚Ä‚¢‚é"file:/"‚ğíœ
+			// é ­ã«ä»˜ã„ã¦ã„ã‚‹"file:/"ã‚’å‰Šé™¤
 			eclipsePath = eclipsePath.split("file:/")[1];
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -81,12 +81,12 @@ public class CreateCocoDataManager {
 
 		checkAllFileExist();
 
-		// ƒGƒ‰[‚Ìí—Şƒf[ƒ^‚ğƒ[ƒh
+		// ã‚¨ãƒ©ãƒ¼ã®ç¨®é¡ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰
 		CCCompileErrorKindLoader kindloader = new CCCompileErrorKindLoader(
 				manager);
 		kindloader.load(KINDS_FILE);
 
-		// CompileErrorƒf[ƒ^‚ğCoco—p‚ÉƒRƒ“ƒo[ƒg
+		// CompileErrorãƒ‡ãƒ¼ã‚¿ã‚’Cocoç”¨ã«ã‚³ãƒ³ãƒãƒ¼ãƒˆ
 		try {
 			CCCompileErrorConverter errorConverter = new CCCompileErrorConverter(
 					manager);

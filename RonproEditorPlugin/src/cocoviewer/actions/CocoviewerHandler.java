@@ -11,7 +11,7 @@ public class CocoviewerHandler extends AbstractHandler {
 	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		// TODO Auto-generated method stub
-		// OpenCocoViewƒNƒŠƒbƒN‚Ìˆ—
+		// OpenCocoViewã‚¯ãƒªãƒƒã‚¯æ™‚ã®å‡¦ç†
 		IWorkbenchWindow window = HandlerUtil
 				.getActiveWorkbenchWindowChecked(event);
 		new CocoViewerManager(window);

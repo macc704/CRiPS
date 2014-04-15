@@ -8,9 +8,9 @@ import ppv.app.datamanager.PPDataManager;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileSystem;
 
-// TODO lib‚ÌƒtƒHƒ‹ƒ_İ’è
-// TODO ZIP‚ÌƒtƒHƒ‹ƒ_\¬
-// TODO ƒoƒbƒNƒOƒ‰ƒEƒ“ƒhˆ—
+// TODO libã®ãƒ•ã‚©ãƒ«ãƒ€è¨­å®š
+// TODO ZIPã®ãƒ•ã‚©ãƒ«ãƒ€æ§‹æˆ
+// TODO ãƒãƒƒã‚¯ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰å‡¦ç†
 public class ClearCashManager {
 
 	private String PPV_ROOT_DIR = CFileSystem.getHomeDirectory()
@@ -23,22 +23,22 @@ public class ClearCashManager {
 	}
 
 	public void clearCash() {
-		// Šm”Fƒ_ƒCƒAƒƒO
+		// ç¢ºèªãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 		int res = JOptionPane.showConfirmDialog(null,
-				"Cash‚Ìíœ‚É‚ÍŠÔ‚ª‚©‚©‚è‚Ü‚·‚ªC‚æ‚ë‚µ‚¢‚Å‚·‚©H", "cash‚Ìíœ",
+				"Cashã®å‰Šé™¤ã«ã¯æ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™ãŒï¼Œã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ", "cashã®å‰Šé™¤",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (res != JOptionPane.OK_OPTION) {
 			return;
 		}
 
-		// cash‚ğíœ‚µ‚Ä‚¢‚éi’»ƒ_ƒCƒ„ƒƒO‚ğ—˜—p‚µ‚½‚¢‚Ì‚ÅCPPDataManager‚ÌŠÖ”‚ğŒÄ‚Ô
+		// cashã‚’å‰Šé™¤ã—ã¦ã„ã‚‹é€²æ—ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ã‚’åˆ©ç”¨ã—ãŸã„ã®ã§ï¼ŒPPDataManagerã®é–¢æ•°ã‚’å‘¼ã¶
 		CDirectory ppvRoot = CFileSystem.findDirectory(PPV_ROOT_DIR);
 
 		this.ppDataManager = new PPDataManager(ppvRoot);
 		try {
 			ppDataManager.clearCompileCash();
 		} catch (Exception ex) {
-			throw new RuntimeException("cash‚ªíœ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½D");
+			throw new RuntimeException("cashãŒå‰Šé™¤ã§ãã¾ã›ã‚“ã§ã—ãŸï¼");
 		}
 	}
 }

@@ -74,11 +74,11 @@ public class BlockEditorManager {
 		window.getActivePage().getActiveEditor().getEditorSite()
 				.getWorkbenchWindow().getPartService()
 				.addPartListener(partListener);
-		// �G�f�B�^�̃e�L�X�g���ۑ����ꂽ��ēǂݍ���
+		// エディタのテキストが保存されたら再読み込み
 		ICommandService service = (ICommandService) Activator.getDefault()
 				.getWorkbench().getService(ICommandService.class);
 		service.addExecutionListener(saveListener);
-		// �^�u�̐؂�ւ��̃��X�i�[�o�^
+		// タブの切り替えのリスナー登録
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -92,7 +92,7 @@ public class BlockEditorManager {
 	}
 
 	private IExecutionListener saveListener = new IExecutionListener() {
-		// eclipse���save�C�x���g���X�i�[
+		// eclipse上のsaveイベントリスナー
 
 		public void preExecute(String commandId, ExecutionEvent event) {
 			// TODO Auto-generated method stub
@@ -322,11 +322,11 @@ public class BlockEditorManager {
 
 			public void doTask() {
 				try {
-					// xml�t�@�C������
+					// xmlファイル生成
 					String emptyWorkSpace = emptyBEWorkSpacePrint();
 					String emptyFactory = emptyBEFactoryPrint();
 
-					// BlockEditor�ɔ��f
+					// BlockEditorに反映
 					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
 					blockEditor.setCompileErrorTitle(target.getName());
 				} catch (Exception ex) {
@@ -347,7 +347,7 @@ public class BlockEditorManager {
 
 			public void doTask() {
 				try {
-					// xml�t�@�C������
+					// xmlファイル生成
 					String[] libs = { "lib/blib.jar" };
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 					// File javaFile = app.getSourceManager().getCurrentFile();
@@ -363,7 +363,7 @@ public class BlockEditorManager {
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
 				} catch (Exception ex) {
 					ex.printStackTrace();
-					// CErrorDialog.show(app.getFrame(), "Block�ϊ����̃G���[", ex);
+					// CErrorDialog.show(app.getFrame(), "Block変換時のエラー", ex);
 				}
 			}
 		});
@@ -381,11 +381,11 @@ public class BlockEditorManager {
 	//
 	// public void doTask() {
 	// try {
-	// // xml�t�@�C������
+	// // xmlファイル生成
 	// String emptyWorkSpace = emptyBEWorkSpacePrint();
 	// String emptyFactory = emptyBEFactoryPrint();
 	//
-	// // BlockEditor�ɔ��f
+	// // BlockEditorに反映
 	// blockEditor.loadProject(emptyWorkSpace, emptyFactory);
 	// blockEditor.setCompileErrorTitle(target.getName());
 	// } catch (Exception ex) {
@@ -409,11 +409,11 @@ public class BlockEditorManager {
 
 			public void doTask() {
 				try {
-					// xml�t�@�C������
+					// xmlファイル生成
 					String emptyWorkSpace = emptyBEWorkSpacePrint();
 					String emptyFactory = emptyBEFactoryPrint();
 
-					// BlockEditor�ɔ��f
+					// BlockEditorに反映
 					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
 				} catch (Exception ex) {
 				}

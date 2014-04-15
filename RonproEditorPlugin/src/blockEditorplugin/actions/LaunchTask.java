@@ -26,7 +26,7 @@ public class LaunchTask implements IWorkspaceRunnable {
 	private IWorkbenchWindow window;
 	public void run(IProgressMonitor monitor) throws CoreException {
 		// TODO Auto-generated method stub
-		monitor.beginTask("launchŽÀŒ±", 100);
+		monitor.beginTask("launchå®Ÿé¨“", 100);
 		try {
 			ILaunchConfiguration config = createConfiguration(new SubProgressMonitor(monitor, 20));
 			launch(new SubProgressMonitor(monitor, 80), config, false);

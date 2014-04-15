@@ -25,14 +25,14 @@ import clib.common.io.CIOUtils;
 import clib.common.thread.ICTask;
 import clib.view.progress.CPanelProcessingMonitor;
 
-// TODO ZIP‚ÌƒtƒHƒ‹ƒ_\¬
-// TODO ƒoƒbƒNƒOƒ‰ƒEƒ“ƒhˆ—
+// TODO ZIPã®ãƒ•ã‚©ãƒ«ãƒ€æ§‹æˆ
+// TODO ãƒãƒƒã‚¯ã‚°ãƒ©ã‚¦ãƒ³ãƒ‰å‡¦ç†
 public class PresVisualizerManager {
 
 	private String PPV_ROOT_DIR = CFileSystem.getHomeDirectory()
 			.findOrCreateDirectory(".ppvdata").getAbsolutePath().toString();
-	private static String PPV_TMP_DIR = "tmp";// zipƒtƒ@ƒCƒ‹‚ğ“WŠJ‚·‚é‚½‚ß‚ÌˆêƒtƒHƒ‹ƒ_ /.ppv’†
-	private static String PPV_PROJECTSET_NAME = "hoge";// projectset–¼
+	private static String PPV_TMP_DIR = "tmp";// zipãƒ•ã‚¡ã‚¤ãƒ«ã‚’å±•é–‹ã™ã‚‹ãŸã‚ã®ä¸€æ™‚ãƒ•ã‚©ãƒ«ãƒ€ /.ppvä¸­
+	private static String PPV_PROJECTSET_NAME = "hoge";// projectsetå
 	private static IPPVLoader PPV_ROADER = new PPEclipsePPVLoader();
 
 	private PPDataManager ppDataManager;
@@ -43,30 +43,30 @@ public class PresVisualizerManager {
 	}
 
 	public void openPresVisualizer() {
-		// Šm”Fƒ_ƒCƒAƒƒO
+		// ç¢ºèªãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 		int res;
 		if (!CJavaCompilerFactory.hasEmbededJavaCompiler()) {
 			res = JOptionPane.showConfirmDialog(null,
-					"JDK‚ğ—˜—p‚µ‚Ä‚¢‚È‚¢ê‡Cˆ—ŠÔ‚ª’·‚­‚È‚è‚Ü‚·‚ªC‚æ‚ë‚µ‚¢‚Å‚·‚©H", "ƒRƒ“ƒpƒCƒ‰‚Ìƒ`ƒFƒbƒN",
+					"JDKã‚’åˆ©ç”¨ã—ã¦ã„ãªã„å ´åˆï¼Œå‡¦ç†æ™‚é–“ãŒé•·ããªã‚Šã¾ã™ãŒï¼Œã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ", "ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã®ãƒã‚§ãƒƒã‚¯",
 					JOptionPane.OK_CANCEL_OPTION);
 			if (res != JOptionPane.OK_OPTION) {
 				return;
 			}
 		}
 
-		res = JOptionPane.showConfirmDialog(null, "ƒf[ƒ^‚Ìì¬‚É‚ÍŠÔ‚ª‚©‚©‚è‚Ü‚·‚ªC‚æ‚ë‚µ‚¢‚Å‚·‚©H",
-				"ƒf[ƒ^‚Ìì¬", JOptionPane.OK_CANCEL_OPTION);
+		res = JOptionPane.showConfirmDialog(null, "ãƒ‡ãƒ¼ã‚¿ã®ä½œæˆã«ã¯æ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™ãŒï¼Œã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ",
+				"ãƒ‡ãƒ¼ã‚¿ã®ä½œæˆ", JOptionPane.OK_CANCEL_OPTION);
 		if (res != JOptionPane.OK_OPTION) {
 			return;
 		}
 
 		exportAndImportAll();
-		// ƒ‰ƒCƒuƒ‰ƒŠ‚ÌêŠ
+		// ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®å ´æ‰€
 		String eclipsePath = null;
 		try {
 			eclipsePath = Platform.getInstallLocation().getURL().toURI()
 					.toString();
-			// “ª‚É•t‚¢‚Ä‚¢‚é"file:/"‚ğíœ
+			// é ­ã«ä»˜ã„ã¦ã„ã‚‹"file:/"ã‚’å‰Šé™¤
 			eclipsePath = eclipsePath.split("file:/")[1];
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,7 +86,7 @@ public class PresVisualizerManager {
 	public void exportAndImportAll() {
 		final CDirectory ppvRoot = CFileSystem.findDirectory(PPV_ROOT_DIR);
 
-		// ‹N“®‚‘¬‰»‚Ì‚½‚ßcash‚ÍÁ‚³‚È‚¢
+		// èµ·å‹•é«˜é€ŸåŒ–ã®ãŸã‚cashã¯æ¶ˆã•ãªã„
 		monitor.setWorkTitle("Deleting...");
 		monitor.doTaskWithDialog(new ICTask() {
 			public void doTask() {
@@ -135,14 +135,14 @@ public class PresVisualizerManager {
 		for (CFileElement element : elements) {
 			boolean deleted = element.delete();
 			if (!deleted) {
-				throw new RuntimeException(elements.toString() + "‚ğíœ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½D");
+				throw new RuntimeException(elements.toString() + "ã‚’å‰Šé™¤ã§ãã¾ã›ã‚“ã§ã—ãŸï¼");
 			}
 			monitor.progress(1);
 		}
 	}
 
 	private void exportAllProjects(CDirectory tmpDir) {
-		// Project‚ÌƒpƒX‚ğ‚Á‚Ä‚­‚é
+		// Projectã®ãƒ‘ã‚¹ã‚’æŒã£ã¦ãã‚‹
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceRoot root = workspace.getRoot();
 		String projectRoot = root.getLocation().toFile().getAbsolutePath()
@@ -158,16 +158,16 @@ public class PresVisualizerManager {
 				exportOneProject(project, tmpDir);
 			} else {
 				System.out.println(project.getNameByString()
-						+ "‚É‚¨‚¢‚Äpres2.log‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+						+ "ã«ãŠã„ã¦pres2.logãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“");
 				// throw new RuntimeException(project.getNameByString()
-				// + "‚É‚¨‚¢‚Äpres2.log‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+				// + "ã«ãŠã„ã¦pres2.logãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“");
 			}
 			monitor.progress(1);
 		}
 	}
 
 	private void exportOneProject(CDirectory project, CDirectory tmpDir) {
-		// TODO zip export eclipse ‚Ì export ¨ archive file ‚ªg‚¦‚È‚¢‚©H
+		// TODO zip export eclipse ã® export â†’ archive file ãŒä½¿ãˆãªã„ã‹ï¼Ÿ
 		CFilename projectName = project.getName();
 		projectName.setExtension("zip");
 		CDirectory projectdir = tmpDir.findOrCreateDirectory(project
