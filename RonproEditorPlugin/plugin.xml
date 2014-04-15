@@ -2,8 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
 
-   <extension
-         point="org.eclipse.ui.commands">
+   <extension point="org.eclipse.ui.commands">
       <!--メニューカテゴリ-->
       <category
             name="Ronpro Plugins"
@@ -11,7 +10,7 @@
       </category>
       <!--メニューカテゴリのコマンド-->
       <command
-            name="Open BlockEditor" 
+            name="Open BlockEditor Hinoki" 
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.openBlockEditor">
       </command>
@@ -32,6 +31,7 @@
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.clearCash">
       </command>
+
    </extension>
    <extension
          point="org.eclipse.ui.handlers">
@@ -59,12 +59,12 @@
    <extension
          point="org.eclipse.ui.bindings">
          <!--ショートカットの登録 したければどうぞ-->
-      <key
+<!--      <key
             commandId="RonproPlugin.commands.openBlockEditor"
             contextId="org.eclipse.ui.contexts.window"
             sequence="M1+O"
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
-      </key>
+      </key>-->
    </extension>
    <extension
          point="org.eclipse.ui.menus">
@@ -105,13 +105,25 @@
                   icon="icons/sample.gif"
                   id="RonproPlugin.toolbars.openBlockEditorCommand">
             </command>
-            <command
+<!--            <command
                   commandId="RonproPlugin.commands.openCocoViewer"
                   icon="icons/sample.gif"
                   id="RonproPlugin.toolbars.openBlockEditorCommand">
-            </command>
+            </command>-->
          </toolbar>
       </menuContribution>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ant.core.antRunner"
+            name="Ronpro">
+         <property
+               name="appName"
+               value="Ronpro">
+         </property>
+      </product>
    </extension>
 
 <!--

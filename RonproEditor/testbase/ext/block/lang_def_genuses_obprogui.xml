@@ -1,0 +1,1216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BlockGenus name="private-var-object-bcanvas" kind="global-variable"
+	initlabel="canvas" header-label="BCanvas型のインスタンス変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255">
+	<description>
+		<text>
+			BCanvas型のプライベート変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-bcanvas" kind="local-variable"
+	initlabel="canvas" header-label="BCanvas型の変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	<description>
+		<text>
+			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="private-var-object-bwindow" kind="global-variable"
+	initlabel="window" header-label="BWindow型のインスタンス変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255">
+	<description>
+		<text>
+			BCanvas型のプライベート変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="BWindow"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-bwindow" kind="local-variable"
+	initlabel="window" header-label="BWindow型の変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	<description>
+		<text>
+			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="private-var-object-bsound" kind="global-variable"
+	initlabel="sound" header-label="BSound型のインスタンス変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255">
+	<description>
+		<text>
+			BCanvas型のプライベート変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="BWindow"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-bsound" kind="local-variable"
+	initlabel="sound" header-label="BSound型の変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	<description>
+		<text>
+			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="private-var-object-color" kind="global-variable"
+	initlabel="color" header-label="Color型のインスタンス変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255">
+	<description>
+		<text>
+			BCanvas型のプライベート変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setglobal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="private-final-var-object-color" kind="global-variable"
+	initlabel="color" header-label="Color型のインスタンス変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255">
+	<description>
+		<text>
+			BCanvas型のプライベート変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setglobal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-color" kind="local-variable"
+	initlabel="color" header-label="Color型の変数を作り、" footer-label="と名付ける"
+	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	<description>
+		<text>
+			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="callActionMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callGetterMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callBooleanMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callDoubleMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callStringMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="callObjectMethod">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
+
+<BlockGenus name="drawArc" kind="command" initlabel="円弧を描く" color="255 0 0">
+	<description>
+		<text>
+            円弧を書く
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="色" connector-kind="socket"
+			connector-type="object">
+		</BlockConnector>
+        <BlockConnector label="始点のX座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="始点のY座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="幅" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="高さ" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="開始角度" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="円弧の角度" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawArc"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="drawFillTriangle" kind="command" initlabel="塗りつぶした三角形を書く" color="255 0 0">
+	<description>
+		<text>
+            塗りつぶした三角形を描きます
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="色" connector-kind="socket"
+			connector-type="object">
+		</BlockConnector>
+        <BlockConnector label="頂点AのX座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="頂点AのY座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="頂点BのX座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="頂点BのY座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="頂点CのX座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="頂点CのY座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawFillTriangle"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="drawText[@object@string@number@number@object]" kind="command" initlabel="文字を描く" color="255 0 0">
+	<description>
+		<text>
+            フォントサイズを指定して文字を描きます
+		</text>
+	</description>
+    <JavaLabel>drawText</JavaLabel>
+	<BlockConnectors>
+		<BlockConnector label="色" connector-kind="socket"
+			connector-type="object">
+		</BlockConnector>
+        <BlockConnector label="文字" connector-kind="socket"
+			connector-type="string">
+		</BlockConnector>
+        <BlockConnector label="X座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="Y座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="フォント" connector-kind="socket"
+			connector-type="object">
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawText"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="drawText[@object@string@number@number]" kind="command" initlabel="文字を描く" color="255 0 0">
+	<description>
+		<text>
+            文字を描きます
+		</text>
+	</description>
+    <JavaLabel>drawText</JavaLabel>
+	<BlockConnectors>
+		<BlockConnector label="色" connector-kind="socket"
+			connector-type="object">
+		</BlockConnector>
+        <BlockConnector label="文字" connector-kind="socket"
+			connector-type="string">
+		</BlockConnector>
+        <BlockConnector label="X座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="Y座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawText"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="isClick" kind="data" initlabel="クリックを調べる" color="255 0 0">
+	<description>
+		<text>
+            マウスがクリックされたかどうか調べます。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean">
+		</BlockConnector>
+    </BlockConnectors>
+    <LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="isClick"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="isSingleClick" kind="data" initlabel="シングルクリックか調べる" color="255 0 0">
+	<description>
+		<text>
+            マウスがシングルクリックされたか調べます。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean">
+		</BlockConnector>
+    </BlockConnectors>
+    <LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="isSingleClick"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="isDoubleClick" kind="data" initlabel="ダブルクリックか調べる" color="255 0 0">
+	<description>
+		<text>
+            マウスがダブルクリックされたかどうか調べます。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean">
+		</BlockConnector>
+    </BlockConnectors>
+    <LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="isDoubleClick"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="isDragging" kind="data" initlabel="ドラッグ中か調べる" color="255 0 0">
+	<description>
+		<text>
+            マウスがドラッグ中かどうか調べます。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean">
+		</BlockConnector>
+    </BlockConnectors>
+    <LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="isDragging"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="isRightMouseDown" kind="data" initlabel="右クリックされたか調べる" color="255 0 0">
+	<description>
+		<text>
+            マウスが右クリックされたかどうか調べます。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean">
+		</BlockConnector>
+    </BlockConnectors>
+    <LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="isRightMouseDown"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="isLeftMouseDown" kind="data" initlabel="左クリックされたか調べる" color="255 0 0">
+	<description>
+		<text>
+            マウスが左クリックされたかどうか調べます。
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean">
+		</BlockConnector>
+    </BlockConnectors>
+    <LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="isLeftMouseDown"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="isMouseDown" kind="data" initlabel="マウスが押されているか調べる" color="255 0 0">
+	<description>
+		<text>
+            マウスが押されているかどうか調べます
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean">
+		</BlockConnector>
+    </BlockConnectors>
+    <LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="isMouseDown"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getMouseX" kind="data" color="255 0 0"
+	initlabel="マウスの現在地のX座標を取得する">
+	<BlockConnectors>
+		<BlockConnector connector-type="number" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="mouseX"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getMouseY" kind="data" color="255 0 0"
+	initlabel="マウスの現在地のY座標を取得する">
+	<BlockConnectors>
+		<BlockConnector connector-type="number" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="mouseY"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="isKeyPressing" kind="data" color="255 0 0"
+	initlabel="指定したキーが押されたか調べる">
+	<BlockConnectors>
+		<BlockConnector connector-type="boolean" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+        <BlockConnector label="キーコード" connector-type="number" connector-kind="plug"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="isKeyPressing"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="isKeyDown" kind="data" color="255 0 0"
+	initlabel="なんらかのキーが押されたかどうか調べる">
+	<BlockConnectors>
+		<BlockConnector connector-type="boolean" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="isKeyDown"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getKeyCode" kind="data" color="255 0 0"
+	initlabel="押されたキーのキーコードを調べる">
+	<BlockConnectors>
+		<BlockConnector connector-type="number" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getKeyCode"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="clear" kind="command" color="255 0 0"
+	initlabel="キャンバス全体を白く塗りつぶす">
+	<BlockConnectors>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="clear"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="update" kind="command" color="255 0 0"
+	initlabel="キャンバスを更新します">
+	<BlockConnectors>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="update"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getImageWidth" kind="data" color="255 0 0"
+	initlabel="画像の幅">
+	<BlockConnectors>
+        <BlockConnector connector-type="number" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getImageWidth"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getImageHeight" kind="data" color="255 0 0"
+	initlabel="画像の高さ">
+	<BlockConnectors>
+        <BlockConnector connector-type="number" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getImageHeight"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="drawLine" kind="command" initlabel="線を描く" color="255 0 0">
+	<description>
+		<text>
+            線を描きます
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="色" connector-kind="socket"
+			connector-type="object">
+		</BlockConnector>
+        <BlockConnector label="始点のX座標" connector-kind="socket"
+			connector-type="string">
+		</BlockConnector>
+        <BlockConnector label="始点のY座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="終点のX座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+        <BlockConnector label="終点のY座標" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+    </BlockConnectors>
+    <LangSpecProperties>
+        <LangSpecProperty key="vm-cmd-name" value="drawLine"></LangSpecProperty>
+        <LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+    </LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="sleep" kind="command" initlabel="待つ" color="255 0 0">
+	<description>
+		<text>
+            指定秒待ちます
+		</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector label="何秒？" connector-kind="socket"
+			connector-type="double-number">
+		</BlockConnector>
+    </BlockConnectors>
+    <LangSpecProperties>
+        <LangSpecProperty key="vm-cmd-name" value="sleep"></LangSpecProperty>
+        <LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+    </LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getCanvasWidth" kind="data" color="255 0 0"
+	initlabel="キャンバスの幅">
+	<BlockConnectors>
+        <BlockConnector connector-type="number" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getImageWidth"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getCanvasHeight" kind="data" color="255 0 0"
+	initlabel="キャンバスの高さ">
+	<BlockConnectors>
+        <BlockConnector connector-type="number" connector-kind="plug"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getImageHeight"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="drawImage" kind="command" color="255 0 0"
+	initlabel="画像を描きます">
+	<BlockConnectors>
+        <BlockConnector label="画像のパス" connector-type="string" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="X座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="Y座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="幅" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="高さ" connector-type="double-number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawImage"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
+<BlockGenus name="drawFillArc[@object@number@number]" kind="command" color="255 0 0"
+	initlabel="塗りつぶした円を描きます">
+    <JavaLabel>drawFillArc</JavaLabel>
+	<BlockConnectors>
+        <BlockConnector label="色" connector-type="object" connector-kind="socket" ></BlockConnector>
+        <BlockConnector label="X座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="Y座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawFillImage"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="drawFillArc[@object@number@number@number@number]" kind="command" color="255 0 0"
+	initlabel="塗りつぶした円を描きます">
+    <JavaLabel>drawFillArc</JavaLabel>
+	<BlockConnectors>
+        <BlockConnector label="色" connector-type="object" connector-kind="socket" ></BlockConnector>
+        <BlockConnector label="X座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="Y座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="幅" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="高さ" connector-type="double-number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawFillImage"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="drawFillArc[@object@number@number@number@number@number@number]" kind="command" color="255 0 0"
+	initlabel="塗りつぶした円を描きます">
+    <JavaLabel>drawFillArc</JavaLabel>
+	<BlockConnectors>
+        <BlockConnector label="色" connector-type="object" connector-kind="socket" ></BlockConnector>
+        <BlockConnector label="X座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="Y座標" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="幅" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="高さ" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="開始角度" connector-type="double-number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="終了角度" connector-type="double-number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="drawFillImage"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
+<BlockGenus name="setLocation" kind="command" color="255 0 0"
+	initlabel="位置を設定します">
+	<BlockConnectors>
+        <BlockConnector label="X座標" connector-type="number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="Y座標" connector-type="number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="setLocation"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="setSize" kind="command" color="255 0 0"
+	initlabel="サイズを指定する">
+	<BlockConnectors>
+        <BlockConnector label="幅" connector-type="number" connector-kind="socket"></BlockConnector>
+        <BlockConnector label="高さ" connector-type="number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="setSize"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getCanvas" kind="data" color="255 0 0"
+	initlabel="書き込み可能なcanvasインスタンスを取得する">
+	<BlockConnectors>
+        <BlockConnector connector-type="object" connector-kind="plug" position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getCanvas"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getVolume" kind="data" color="255 0 0"
+	initlabel="ボリュームを取得します">
+	<BlockConnectors>
+        <BlockConnector connector-type="number" connector-kind="plug" position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getVolume"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="setVolume" kind="command" color="255 0 0"
+	initlabel="ボリュームを設定します">
+	<BlockConnectors>
+        <BlockConnector label="音量" connector-type="number" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="setVolume"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="getDefaultVolume" kind="data" color="255 0 0"
+	initlabel="ボリュームを設定します">
+	<BlockConnectors>
+        <BlockConnector connector-type="number" connector-kind="plug" position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getDefaultVolume"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="play" kind="command" color="255 0 0"
+	initlabel="音楽を再生します">
+	<BlockConnectors>
+        <BlockConnector label="どこの曲?" connector-type="string" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="getDefaultVolume"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>

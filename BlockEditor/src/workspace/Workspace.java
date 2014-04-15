@@ -886,7 +886,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * @requires originalLangRoot != null
 	 */
 	public void loadWorkspaceFrom(Element newRoot, Element originalLangRoot) {
-		
+
 		if (newRoot != null) {
 			//load the block drawers specified in the file (may contain
 			//custom drawers) and/or the lang def file if the contents specify
@@ -905,6 +905,10 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 			loadWorkspaceSettings(originalLangRoot);
 		}
 
+	}
+
+	public void loadClassBlock(Element root) {
+		PageDrawerLoadingUtils.loadBlockDrawerSets(root, factory);
 	}
 
 	/**
@@ -1079,30 +1083,34 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	public void setLoadingBlockLanguage(boolean loadingBlockLanguage) {
 		this.loadingBlockLanguage = loadingBlockLanguage;
 	}
-	
+
 	//#added by hakamata
 	private ArrayList<RenderableBlock> bufrb = new ArrayList<RenderableBlock>();
-	public void executionPoint(int lineNumber){
-		for(RenderableBlock rb : bufrb){
-			if(rb != null){
-				try{
+
+	public void executionPoint(int lineNumber) {
+		for (RenderableBlock rb : bufrb) {
+			if (rb != null) {
+				try {
 					rb.resetHighlight();
-				} catch(java.lang.NullPointerException e) {
-					
+				} catch (java.lang.NullPointerException e) {
+
 				}
 			}
 		}
 		bufrb.clear();
-		for(RenderableBlock rb : getRenderableBlocks()){
-			if (rb.getBlock().getLineNumber() == lineNumber){
+		for (RenderableBlock rb : getRenderableBlocks()) {
+			if (rb.getBlock().getLineNumber() == lineNumber) {
 				rb.setBlockHighlightColor(Color.WHITE);
 				getBlockCanvas().scrollToShowBlock(rb);
 				bufrb.add(rb);
-				RenderableBlock parentBlock = RenderableBlock.getRenderableBlock(rb.getBlock().getParentBlockID());
-				while(!parentBlock.getGenus().equals("procedure")){
+				RenderableBlock parentBlock = RenderableBlock
+						.getRenderableBlock(rb.getBlock().getParentBlockID());
+				while (!parentBlock.getGenus().equals("procedure")) {
 					parentBlock.setBlockHighlightColor(Color.WHITE);
 					bufrb.add(parentBlock);
-					parentBlock = RenderableBlock.getRenderableBlock(parentBlock.getBlock().getParentBlockID());
+					parentBlock = RenderableBlock
+							.getRenderableBlock(parentBlock.getBlock()
+									.getParentBlockID());
 				}
 			}
 		}

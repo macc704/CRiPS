@@ -24,7 +24,6 @@ import ronproeditorplugin.Activator;
 public class LaunchTask implements IWorkspaceRunnable {
 	
 	private IWorkbenchWindow window;
-	@Override
 	public void run(IProgressMonitor monitor) throws CoreException {
 		// TODO Auto-generated method stub
 		monitor.beginTask("launché¿å±", 100);

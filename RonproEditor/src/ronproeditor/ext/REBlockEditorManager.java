@@ -36,7 +36,8 @@ import controller.WorkspaceController;
 public class REBlockEditorManager {
 
 	private static final String LANG_DEF_PATH = "ext/block/lang_def.xml";
-	private static final String LANG_DEF_TURTLE_PATH = "ext/block/lang_def_turtle.xml";
+	// private static final String LANG_DEF_TURTLE_PATH =
+	// "ext/block/lang_def_turtle.xml";
 	private static final String IMAGES_PATH = "ext/block/images/";
 	private REApplication app;
 	private WorkspaceController blockEditor;
@@ -247,11 +248,17 @@ public class REBlockEditorManager {
 
 					// BlockEditorに反映
 					// lang def ファイル
-					if (isTurtle()) {
-						blockEditor.setLangDefFilePath(LANG_DEF_TURTLE_PATH);
-					} else {
-						blockEditor.setLangDefFilePath(LANG_DEF_PATH);
-					}
+					/*
+					 * if (isTurtle()) { // lang_def.dtdの書き換え // 最後尾に要素を追加
+					 * 
+					 * // menuの書き換え
+					 * blockEditor.setLangDefFilePath(LANG_DEF_TURTLE_PATH); }
+					 * else { // lang_def.dtdの書き換え // menuの書き換え
+					 * blockEditor.setLangDefFilePath(LANG_DEF_PATH); }
+					 */
+
+					blockEditor.setLangDefFilePath(javaFile.getParentFile()
+							.getPath() + "/lang_def_project.xml");
 
 					// blockEditor.resetLanguage();
 					// blockEditor.setLangDefDirty(true);

@@ -157,6 +157,10 @@ public abstract class LabelWidget extends JComponent {
 		}
 	}
 
+	public void setMenuLocation(int x, int y) {
+		menu.setLocation(x, y);
+	}
+
 	/**
 	 * setEditingState sets the current editing state of the BlockLabel.
 	 * Repaints BlockLabel to reflect the change.

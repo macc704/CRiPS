@@ -108,29 +108,54 @@ public class BlockStub extends Block {
 		if (stubGenus.startsWith(GETTER_STUB)) {
 			// set plug to be the single socket of parent or plug if parent has
 			// no sockets
-			if (parent.getNumSockets() > 0)
-				this.setPlug(parent.getSocketAt(0).getKind(), this.getPlug()
-						.getPositionType(), this.getPlugLabel(), this.getPlug()
-						.isLabelEditable(), Block.NULL);
-			else
-				this.setPlug(parent.getPlugKind(), this.getPlug()
-						.getPositionType(), this.getPlugLabel(), this.getPlug()
-						.isLabelEditable(), Block.NULL);
+			if (stubGenus.contains("arrayelement")) {
+				String type = getArrayBlockType(stubGenus);
+				if (parent.getNumSockets() > 0)
+					this.setPlug(type, this.getPlug().getPositionType(), this
+							.getPlugLabel(), this.getPlug().isLabelEditable(),
+							Block.NULL);
+				else
+					this.setPlug(type, this.getPlug().getPositionType(), this
+							.getPlugLabel(), this.getPlug().isLabelEditable(),
+							Block.NULL);
+			} else {
+				if (parent.getNumSockets() > 0)
+					this.setPlug(parent.getSocketAt(0).getKind(), this
+							.getPlug().getPositionType(), this.getPlugLabel(),
+							this.getPlug().isLabelEditable(), Block.NULL);
+				else
+					this.setPlug(parent.getPlugKind(), this.getPlug()
+							.getPositionType(), this.getPlugLabel(), this
+							.getPlug().isLabelEditable(), Block.NULL);
+			}
 
 		} else if (stubGenus.startsWith(SETTER_STUB)) {
 			BlockConnector mySoc = this.getSocketAt(0);
 			// set socket type to be parent socket type or plug if parent has no
 			// sockets
-			if (parent.getNumSockets() > 0)
-				this.setSocketAt(0, parent.getSocketAt(0).getKind(),
-						mySoc.getPositionType(), mySoc.getLabel(),
-						mySoc.isLabelEditable(), mySoc.isExpandable(),
-						mySoc.getBlockID());
-			else
-				this.setSocketAt(0, parent.getPlugKind(),
-						mySoc.getPositionType(), mySoc.getLabel(),
-						mySoc.isLabelEditable(), mySoc.isExpandable(),
-						mySoc.getBlockID());
+			if (stubGenus.contains("arrayelement")) {
+				mySoc = this.getSocketAt(1);
+				String type = getArrayBlockType(stubGenus);
+				if (parent.getNumSockets() > 0)
+					this.setSocketAt(1, type, mySoc.getPositionType(),
+							mySoc.getLabel(), mySoc.isLabelEditable(),
+							mySoc.isExpandable(), mySoc.getBlockID());
+				else
+					this.setSocketAt(1, type, mySoc.getPositionType(),
+							mySoc.getLabel(), mySoc.isLabelEditable(),
+							mySoc.isExpandable(), mySoc.getBlockID());
+			} else {
+				if (parent.getNumSockets() > 0)
+					this.setSocketAt(0, parent.getSocketAt(0).getKind(),
+							mySoc.getPositionType(), mySoc.getLabel(),
+							mySoc.isLabelEditable(), mySoc.isExpandable(),
+							mySoc.getBlockID());
+				else
+					this.setSocketAt(0, parent.getPlugKind(),
+							mySoc.getPositionType(), mySoc.getLabel(),
+							mySoc.isLabelEditable(), mySoc.isExpandable(),
+							mySoc.getBlockID());
+			}
 		} else if (stubGenus.startsWith(CALLER_STUB)) {
 			// if parent has socket block connected to its first socket or has
 			// multiple sockets (parent may have blocks connected to its other
@@ -199,6 +224,18 @@ public class BlockStub extends Block {
 				this.getBlockID());
 
 		// System.out.println("blockStub:" + getBlockID());
+	}
+
+	private String getArrayBlockType(String arrayName) {
+		if (arrayName.contains("double")) {
+			return "double-number";
+		} else if (arrayName.contains("int") || arrayName.contains("number")) {
+			return "number";
+		} else if (arrayName.contains("string") || arrayName.contains("String")) {
+			return "string";
+		} else {
+			return "object";
+		}
 	}
 
 	/**
@@ -682,5 +719,30 @@ public class BlockStub extends Block {
 		buf.append(super.getSaveString(x, y, commentSaveString, collapsed));
 		buf.append("</BlockStub>");
 		return buf.toString();
+	}
+
+	public String getSaveString(int x, int y, String commentSaveString,
+			boolean collapsed, String comment) {
+		StringBuffer buf = new StringBuffer();
+		buf.append("<BlockStub>");
+		buf.append("<StubParentName>");
+		buf.append(parentName);
+		buf.append("</StubParentName>");
+		buf.append("<StubParentGenus>");
+		buf.append(parentGenus);
+		buf.append("</StubParentGenus>");
+		buf.append("<StubParentID>");
+		buf.append(parentNameToParentBlock.get(parentName + parentGenus));
+		buf.append("</StubParentID>");
+		buf.append(super.getSaveString(x, y, commentSaveString, collapsed,
+				comment));
+		buf.append("</BlockStub>");
+		return buf.toString();
+	}
+
+	public String getJavaType() {
+		return Block.getBlock(
+				parentNameToParentBlock.get(parentName + parentGenus))
+				.getJavaType();
 	}
 }

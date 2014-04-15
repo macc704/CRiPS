@@ -4,6 +4,30 @@
 	feature all together -->
 <!-- 動的ブロックについて、生成したいファクトリーをここで指定する。BlockGenusタグで「factorys="○○"」と指定する。複数のファクトリーに生成したい場合は、「,」で区切る。 -->
 
+<BlockGenus name="getterthis" kind="data" initlabel="自分" color="255 0 0">
+	<description>
+	</description>
+	<BlockConnectors>
+        <BlockConnector connector-kind="plug" connector-type="object"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="gettersuper" kind="data" initlabel="親クラス" color="255 0 0">
+	<description>
+	</description>
+	<BlockConnectors>
+        <BlockConnector connector-kind="plug" connector-type="object"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
 <BlockGenus name="getter" kind="data" initlabel="" color="0 0 0"
 	label-suffix="の値">
 	<BlockConnectors>
@@ -34,6 +58,13 @@
 <BlockGenus name="callActionMethod2" kind="command" initlabel="" color="20 20 20" label-suffix="">
 	<BlockConnectors>
 		<BlockConnector connector-kind="socket" connector-type="object" position-type="single" label="が"/>
+		<BlockConnector connector-kind="socket" connector-type="cmd" position-type="single" label=""/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="callThisActionMethod2" kind="command" initlabel="" color="20 20 20" label-suffix="">
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="object" position-type="single" label="の"/>
 		<BlockConnector connector-kind="socket" connector-type="cmd" position-type="single" label=""/>
 	</BlockConnectors>
 </BlockGenus>
@@ -109,6 +140,153 @@
 <!-- <BlockGenus name="caller" kind="command" initlabel="" color="0 0 0" label="関数" factorys="関数"> -->
 <BlockGenus name="caller" kind="command" initlabel="" color="0 0 0" label="関数">
 </BlockGenus>
+
+
+<!--
+<BlockGenus name="getter-local-numberarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="number"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setter-local-numberarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getter-local-stringarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setter-local-stringarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="string"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setter-local-doublearrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="double-number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getter-local-doublearrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getter-local-stringarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getter-private-numberarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="number"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setter-private-numberarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getter-private-stringarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setter-private-stringarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="string"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setter-private-doublearrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="double-number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getter-private-doublearrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getter-private-stringarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="string"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+
+<BlockGenus name="setter-local-objectarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="object"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="setter-private-objectarrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="object"/>
+	</BlockConnectors>
+</BlockGenus>
+
+
+<BlockGenus name="getter-local-objectarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="object"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="getter-private-objectarrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="object"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+-->
+
+<BlockGenus name="getter-arrayelement" kind="data" initlabel="" color="255 255 100" label-suffix="の要素">
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="poly"/>
+		<BlockConnector label="どこの？" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+
+
+<BlockGenus name="setter-arrayelement" kind="command" initlabel="" color="255 255 100" label-suffix="に書き込む">
+	<BlockConnectors>
+        <BlockConnector label="どこに？" connector-kind="socket" connector-type="number"/>
+        <BlockConnector label="なにを？" connector-kind="socket" connector-type="poly"/>
+	</BlockConnectors>
+</BlockGenus>
+
 
 <!--  以下，必要かどうか不明 -->
 

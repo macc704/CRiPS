@@ -52,7 +52,6 @@ import workspace.WorkspaceEvent;
 import workspace.WorkspaceListener;
 import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.SBlockEditorListener;
-import bc.BCSystem;
 import bc.apps.BlockToJavaMain;
 import bc.apps.JavaToBlockMain;
 import clib.common.filesystem.CFilename;
@@ -163,15 +162,11 @@ public class WorkspaceController {
 			String langDefLocation = /* workingDirectory + */LANG_DEF_FILEPATH;
 			doc = builder.parse(new File(langDefLocation));
 
-			BCSystem.out.println("langDefLocation:" + langDefLocation);
-
 			langDefRoot = doc.getDocumentElement();
 
 			// set the dirty flag for the language definition file
 			// to true now that a new file has been set
 			langDefDirty = true;
-
-			BCSystem.out.println("langdeffile:" + langDefLocation);
 
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -268,6 +263,7 @@ public class WorkspaceController {
 		// MUST load shapes before genuses in order to initialize connectors
 		// within
 		// each block correctly
+
 		BlockConnectorShape.loadBlockConnectorShapes(root);
 
 		// load genuses
@@ -374,11 +370,13 @@ public class WorkspaceController {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
 		Document doc;
+		Document selDefBlock;
+		Document selDefBlockGenus;
 		try {
 			synchronized (frame.getTreeLock()) {
 				builder = factory.newDocumentBuilder();
-
-				doc = builder.parse(new File(path));
+				File file = new File(path);
+				doc = builder.parse(file);
 
 				Element projectRoot = doc.getDocumentElement();
 
@@ -392,7 +390,8 @@ public class WorkspaceController {
 				// loaded
 				// from
 				// langDefRoot
-				workspace.loadWorkspaceFrom(projectRoot, langDefRoot);//左のブロック読み込み
+
+				workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
 
 				workspaceLoaded = true;
 
@@ -643,7 +642,7 @@ public class WorkspaceController {
 		JPanel topPane = new JPanel();
 
 		{// create save button
-			JButton saveButton = new JButton("Save as Java");
+			JButton saveButton = new JButton("Save as Java and Compile");
 			saveButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					wc.convertToJava(wc.getSaveString(), enc);
@@ -664,20 +663,20 @@ public class WorkspaceController {
 		//			topPane.add(runButton);
 		//		}
 
-		{// create compile button
-			JButton runButton = new JButton("Compile");
-			runButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (dirty) {
-						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					ronproEditor.blockCompile();
-				}
-			});
-			topPane.add(runButton);
-		}
+//		{// create compile button
+//			JButton runButton = new JButton("Compile");
+//			runButton.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					if (dirty) {
+//						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
+//								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
+//						return;
+//					}
+//					ronproEditor.blockCompile();
+//				}
+//			});
+//			topPane.add(runButton);
+//		}
 
 		{// create run button
 			JButton runButton = new JButton("Run");

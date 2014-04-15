@@ -8,14 +8,25 @@ import java.io.File;
 import javax.swing.SwingUtilities;
 
 import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.ITypeRoot;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
+import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IPartListener;
@@ -81,14 +92,13 @@ public class BlockEditorManager {
 	}
 
 	private IExecutionListener saveListener = new IExecutionListener() {
+		// eclipse上のsaveイベントリスナー
 
-		@Override
 		public void preExecute(String commandId, ExecutionEvent event) {
 			// TODO Auto-generated method stub
 
 		}
 
-		@Override
 		public void postExecuteSuccess(String commandId, Object returnValue) {
 			// TODO Auto-generated method stub
 			if (commandId.endsWith("org.eclipse.ui.file.save")) {
@@ -103,43 +113,35 @@ public class BlockEditorManager {
 			}
 		}
 
-		@Override
-		public void postExecuteFailure(String commandId,
-				ExecutionException exception) {
+		public void notHandled(String commandId, NotHandledException exception) {
 			// TODO Auto-generated method stub
 
 		}
 
-		@Override
-		public void notHandled(String commandId, NotHandledException exception) {
+		public void postExecuteFailure(String commandId,
+				org.eclipse.core.commands.ExecutionException exception) {
 			// TODO Auto-generated method stub
-
+			
 		}
 	};
 
 	private IPartListener partListener = new IPartListener() {
 
-		@Override
 		public void partOpened(IWorkbenchPart part) {
-			// TODO Auto-generated method stub
 		}
 
-		@Override
 		public void partDeactivated(IWorkbenchPart part) {
 			// TODO Auto-generated method stub
 		}
 
-		@Override
 		public void partClosed(IWorkbenchPart part) {
 			// TODO Auto-generated method stub
 		}
 
-		@Override
 		public void partBroughtToTop(IWorkbenchPart part) {
 			// TODO Auto-generated method stub
 		}
 
-		@Override
 		public void partActivated(IWorkbenchPart part) {
 			// TODO Auto-generated method stub
 			if (isWorkspaceOpened() && part instanceof PresExtendedJavaEditor) {
@@ -158,8 +160,9 @@ public class BlockEditorManager {
 
 			public void blockConverted(File file) {
 				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
-				Display.getDefault().asyncExec(new TextFormatter(window));
-				
+				Display.getDefault().asyncExec(new TextFormatAction(window));
+				Display.getDefault().asyncExec(new OrganizedImportAction(window));
+
 				// app.doRefreshCurrentEditor();
 				// app.doFormat();
 				// app.doBlockToJavaSave();
@@ -178,18 +181,51 @@ public class BlockEditorManager {
 
 			public void blockRun() {
 				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
-//				ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-//				ILaunchConfigurationType type = manager.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
-//				try {
-//					ILaunchConfigurationWorkingCopy config = type.newInstance(null, Activator.PLUGIN_ID);
-//					//config.launch(ILaunchManager.RUN_MODE, window.getWorkbench().getProgressService().);
-//				} catch (CoreException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-				
-				//window.getActivePage().getActiveEditor().
-				// app.doRun();
+
+				IEditorInput editorInput = window.getActivePage()
+						.getActiveEditor().getEditorInput();
+				ITypeRoot root = (ITypeRoot) JavaUI
+						.getEditorInputJavaElement(editorInput);
+				IJavaElement elt;
+				try {
+					elt = root.getElementAt(ITypeRoot.JAVA_PROJECT);
+					IJavaProject proj = elt.getJavaProject();
+
+					DebugPlugin plugin = DebugPlugin.getDefault();
+					ILaunchManager lm = plugin.getLaunchManager();
+					ILaunchConfigurationType t = lm
+							.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
+					ILaunchConfigurationWorkingCopy wc;
+					wc = t.newInstance(null, "hoge");
+					final IFileEditorInput fileEditorInput = (IFileEditorInput) window
+							.getActivePage().getActiveEditor().getEditorInput();
+					IFile file = fileEditorInput.getFile();
+
+					wc.setAttribute(
+							IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
+							proj.getElementName());
+
+					wc.setAttribute(
+							IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
+							file.getName().substring(0,
+									file.getName().indexOf(".")));
+					ILaunchConfiguration config;
+					try {
+						config = wc.doSave();
+						config.launch(ILaunchManager.RUN_MODE, null);
+					} catch (CoreException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+				} catch (JavaModelException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (CoreException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 			}
 
 			public void blockCompile() {
@@ -243,6 +279,7 @@ public class BlockEditorManager {
 		final File target = file.getLocation().toFile();
 
 		IResource resource = file;
+
 		int max = resource.findMaxProblemSeverity(IMarker.PROBLEM, true,
 				IResource.DEPTH_INFINITE);
 		if (max != 2) {
@@ -317,7 +354,8 @@ public class BlockEditorManager {
 					String xmlFilePath = new JavaToBlockMain().run(javaFile,
 							"SJIS", libs);
 
-					blockEditor.setLangDefFilePath(LANG_DEF_PATH);
+					blockEditor.setLangDefFilePath(javaFile.getParentFile()
+							.getPath() + "/lang_def_project.xml");
 
 					blockEditor.resetWorkspace();
 					blockEditor.loadProjectFromPath(new File(xmlFilePath)

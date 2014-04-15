@@ -11,7 +11,6 @@ import org.eclipse.ui.progress.WorkbenchJob;
 
 public class LaunchHandler extends AbstractHandler {
 
-	@Override
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		WorkbenchJob job = new WorkbenchJob("launch-job") {
 			@Override

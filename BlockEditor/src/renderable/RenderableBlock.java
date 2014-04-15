@@ -191,6 +191,12 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	//#ohata added 
 	private String loadComment;
 
+	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
+
+	public Map<String, List<Map<String, List<String>>>> getMethods() {
+		return methods;
+	}
+
 	/**
 	 * Constructs a new RenderableBlock instance with the specified parent
 	 * WorkspaceWidget and Long blockID of its associated Block
@@ -306,6 +312,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		highlighter = new RBHighlightHandler(this);
 
 		String blockDescription = getBlock().getBlockDescription();
+
+		//ohata added method info
+		this.methods = getBlock().getMethods();
+
 		if (blockDescription != null) {
 			setBlockToolTip(getBlock().getBlockDescription().trim());
 		}
@@ -636,6 +646,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		boolean pageLabelChanged = getBlock().getPageLabel() != null
 				&& !pageLabel.getText().equals(getBlock().getPageLabel());
 		boolean socketLabelsChanged = false;
+		boolean blockHeaderLabelChanged = getBlock().getHeaderLabel() != null
+				&& !headerLabel.getText().equals(getBlock().getHeaderLabel());
 
 		// If tag label isn't the same as socket label, synchronize.
 		// If the block doesn't have an editable socket label, synchronize.
@@ -667,8 +679,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				break;
 			}
 		}
+
 		if (blockLabelChanged) {
 			blockLabel.setText(getBlock().getBlockLabel());
+		}
+
+		if (blockHeaderLabelChanged) {
+			headerLabel.setText(getBlock().getHeaderLabel());
 		}
 		if (pageLabelChanged) {
 			pageLabel.setText(getBlock().getPageLabel());
@@ -2234,6 +2251,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				scopeCheck &= scpChecker.checkScope(
 						Block.getBlock(link.getSocketBlockID()),
 						Block.getBlock(socket.getBlockID()));
+				if (scopeCheck == false) {
+					System.out.println(Block.getBlock(socket.getBlockID())
+							.getBlockLabel());
+				}
 			}
 		}
 
@@ -2316,6 +2337,15 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		// block because of delay
 		// !popupIconVisible: only update if there is a change
 		// getBlock().hasSiblings(): only deal with blocks with siblings
+
+		if (!SwingUtilities.isLeftMouseButton(e) && !dragging
+				&& getBlock().hasSiblings() && getGenus().contains("-var-")) {
+			headerLabel.showMenuIcon(true);
+			headerLabel.setMenuIconLocation(0, 0);
+			headerLabel.setEditable(true);
+			return;
+		}
+
 		if (!SwingUtilities.isLeftMouseButton(e) && !dragging
 				&& getBlock().hasSiblings()) {
 			blockLabel.showMenuIcon(true);
@@ -2332,6 +2362,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (!SwingUtilities.isLeftMouseButton(e) && !dragging
 				&& !blockArea.contains(e.getPoint())) {
 			blockLabel.showMenuIcon(false);
+			headerLabel.showMenuIcon(false);
 		}
 	}
 

@@ -47,8 +47,12 @@ public class Block implements ISupportMemento {
 	private String headerLabel = null;
 	/** created by sakai lab 2011/11/22 */
 	private String footerLabel = null;
-	private String genusName;	
-	
+	private String genusName;
+
+	//新規追加属性
+	private String javaType;
+	private String javaLabel;
+
 	// block connection information
 	private List<BlockConnector> sockets;
 	private BlockConnector plug;
@@ -81,6 +85,19 @@ public class Block implements ISupportMemento {
 	// argument descriptions
 	private ArrayList<String> argumentDescriptions;
 
+	//ohata added
+	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
+
+	private ArrayList<String> parameterizedTypes;
+
+	public Map<String, List<Map<String, List<String>>>> getMethods() {
+		return methods;
+	}
+
+	public String getJavaType() {
+		return this.javaType;
+	}
+
 	/**
 	 * Constructs a new Block from the specified information. This class
 	 * constructor is protected as block loading from XML content or the
@@ -102,8 +119,7 @@ public class Block implements ISupportMemento {
 					+ label;
 		}
 		this.blockID = id;
-		
-		
+
 		// if this assigned id value equals the next id to automatically assign
 		// a new block, increment the next id value by 1
 		if (id.longValue() == NEXT_ID)
@@ -137,10 +153,15 @@ public class Block implements ISupportMemento {
 
 			this.label = label;
 
+			this.methods = genus.getMethods();//ohata added
+
 			setHeaderLabel(BlockGenus.getGenusWithName(genusName)
 					.getInitHeaderLabel());
 			setFooterLabel(BlockGenus.getGenusWithName(genusName)
 					.getInitFooterLabel());
+
+			javaLabel = (BlockGenus.getGenusWithName(genusName).getJavaLabel());
+			javaType = (BlockGenus.getGenusWithName(genusName).getJavaType());
 
 			Iterable<String> arguumentIter = genus
 					.getInitialArgumentDescriptions();
@@ -232,10 +253,9 @@ public class Block implements ISupportMemento {
 	 * 
 	 * @param genusName
 	 *            the name of its associated <code>BlockGenus</code>
-	 * @param 
-	 *            if true, this block can have stubs and be linked to them; if
-	 *            false, then this block even though the genus specifies it will
-	 *            not be linked to stubs
+	 * @param if true, this block can have stubs and be linked to them; if
+	 *        false, then this block even though the genus specifies it will not
+	 *        be linked to stubs
 	 */
 	public Block(String genusName, boolean linkToStubs) {
 		this(genusName, BlockGenus.getGenusWithName(genusName)
@@ -424,6 +444,11 @@ public class Block implements ISupportMemento {
 	public void changeGenusTo(String genusName) {
 		this.genusName = genusName;
 		label = BlockGenus.getGenusWithName(genusName).getInitialLabel();
+		if (headerLabel != null) {
+			headerLabel = BlockGenus.getGenusWithName(genusName)
+					.getInitHeaderLabel();
+		}
+
 	}
 
 	// //////////////////////////////
@@ -837,8 +862,6 @@ public class Block implements ISupportMemento {
 		return plug;
 	}
 
-	
-	
 	/**
 	 * Sets the plug of this.
 	 * 
@@ -1301,8 +1324,9 @@ public class Block implements ISupportMemento {
 	public boolean isProcedureParamBlock() {
 		return getGenus().isProcedureParamBlock();
 	}
+
 	// #ohata added
-	public boolean isPrivateVariableBlock(){
+	public boolean isPrivateVariableBlock() {
 		return getGenus().isPrivateVariableBlock();
 	}
 
@@ -1669,7 +1693,7 @@ public class Block implements ISupportMemento {
 			saveString.append(escape(pageLabel));
 			saveString.append("</CompilerErrorMsg>");
 		}
-		
+
 		saveString.append("<Location>");
 		saveString.append("<X>");
 		saveString.append(x);
@@ -1753,7 +1777,8 @@ public class Block implements ISupportMemento {
 
 		// TODO ラベルの初期設定の値もXMLに書き加えるようにした。
 		if (!this.label.equals(this.getInitialLabel())
-				|| getGenus().getIsLabelEditable()) {
+				|| getGenus().getIsLabelEditable() || getKind().equals("data")
+				|| getKind().equals("command")) {
 			saveString.append("<Label>");
 			saveString.append(escape(label));
 			saveString.append("</Label>");
@@ -1772,18 +1797,38 @@ public class Block implements ISupportMemento {
 			saveString.append("</HeaderLabel>");
 		}
 
+		if (javaType != null) {
+			saveString.append("<JavaType>");
+			saveString.append(escape(javaType));
+			saveString.append("</JavaType>");
+		}
+
+		if (javaLabel != null) {
+			saveString.append("<JavaLabel>");
+			saveString.append(escape(javaLabel));
+			saveString.append("</JavaLabel>");
+		}
+
 		if (this.isBad) {
 			saveString.append("<CompilerErrorMsg>");
 			saveString.append(escape(pageLabel));
 			saveString.append("</CompilerErrorMsg>");
 		}
-		if(comment != null){
+		if (comment != null) {
 			saveString.append("<LineComment>");
 			saveString.append(comment);
 			saveString.append("</LineComment>");
 		}
-		
-		
+
+		if (parameterizedTypes != null) {
+			saveString.append("<ParameterizedType>");
+			for (String type : parameterizedTypes) {
+				saveString.append("<Type>" + type + "</Type>");
+
+			}
+			saveString.append("</ParameterizedType>");
+		}
+
 		saveString.append("<Location>");
 		saveString.append("<X>");
 		saveString.append(x);
@@ -1853,8 +1898,6 @@ public class Block implements ISupportMemento {
 		return saveString.toString();
 	}
 
-	
-	
 	// may put this in a separate XML writing utility class
 	private void appendAttribute(String att, String value, StringBuffer buf) {
 		buf.append(att);
@@ -1876,15 +1919,19 @@ public class Block implements ISupportMemento {
 		Long id = null;
 		String genusName = null;
 		String label = null;
+		String headerLabel = null;
 		int lineNumber = -1;
 		Long parentID = NULL;
 		String pagelabel = null;
 		String badMsg = null;
 		Long beforeID = null;
 		Long afterID = null;
+		ArrayList<String> parameterizedTypes = new ArrayList<String>();
 		BlockConnector plug = null;
 		ArrayList<BlockConnector> sockets = new ArrayList<BlockConnector>();
 		HashMap<String, String> blockLangProperties = null;
+		String javaType = null;
+		String javaLabel = null;
 		// int numSockets;
 		boolean hasFocus = false;
 
@@ -1938,14 +1985,28 @@ public class Block implements ISupportMemento {
 				child = children.item(i);
 				if (child.getNodeName().equals("Label")) {
 					label = child.getTextContent();
-				} else if(child.getNodeName().equals("LineNumber")){
+				} else if (child.getNodeName().equals("HeaderLabel")) {
+					headerLabel = child.getTextContent();
+				} else if (child.getNodeName().equals("LineNumber")) {
 					lineNumber = Integer.parseInt(child.getTextContent());
-				} else if(child.getNodeName().equals("ParentBlock")){
+				} else if (child.getNodeName().equals("JavaType")) {
+					javaType = child.getTextContent();
+				} else if (child.getNodeName().equals("JavaLabel")) {
+					javaLabel = child.getTextContent();
+				} else if (child.getNodeName().equals("ParentBlock")) {
 					parentID = Long.parseLong(child.getTextContent());
 				} else if (child.getNodeName().equals("PageLabel")) {
 					pagelabel = child.getTextContent();
 				} else if (child.getNodeName().equals("CompilerErrorMsg")) {
 					badMsg = child.getTextContent();
+				} else if (child.getNodeName().equals("ParameterizedType")) {
+					NodeList types = child.getChildNodes();
+					for (int j = 0; j < types.getLength(); j++) {
+						Node type = types.item(j);
+						if (type.getNodeName().equals("Type")) {
+							parameterizedTypes.add(type.getTextContent());
+						}
+					}
 				} else if (child.getNodeName().equals("BeforeBlockId")) {
 					beforeID = translateLong(
 							Long.parseLong(child.getTextContent()), idMapping);
@@ -2054,6 +2115,10 @@ public class Block implements ISupportMemento {
 						stubParentGenus);
 			}
 
+			if (parameterizedTypes.size() > 0) {
+				block.parameterizedTypes = parameterizedTypes;
+			}
+
 			if (plug != null) {
 				// Some callers can change before/after/plug types. We have
 				// to synchronize so that we never have both.
@@ -2082,11 +2147,20 @@ public class Block implements ISupportMemento {
 				block.properties = blockLangProperties;
 			}
 
+			if (javaType != null) {
+				block.javaType = javaType;
+			}
+
+			if (javaLabel != null) {
+				//TODO javaLabel set
+				block.javaLabel = javaLabel;
+			}
+
 			// System.out.println("Loaded Block: "+block);
 
 			block.setLineNumber(lineNumber);
 			block.setParentBlockID(parentID);
-			
+
 			return block;
 		}
 
@@ -2246,27 +2320,26 @@ public class Block implements ISupportMemento {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * @param lineNumber
 	 */
 	public void setLineNumber(int lineNumber) {
 		this.lineNumber = lineNumber;
 	}
-	
+
 	/**
 	 * @return lineNumber
 	 */
 	public int getLineNumber() {
 		return this.lineNumber;
 	}
-	
-	public void setParentBlockID(Long parent){
+
+	public void setParentBlockID(Long parent) {
 		this.parentID = parent;
 	}
-	
-	public Long getParentBlockID(){
+
+	public Long getParentBlockID() {
 		return parentID;
 	}
 }

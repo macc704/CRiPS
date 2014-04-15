@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RonproEditorPlugin
-Bundle-SymbolicName: RonproEditorPlugin;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName:  jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin;singleton:=true
+Bundle-Version: 1.0.5
 Bundle-Activator: ronproeditorplugin.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -11,11 +11,17 @@ Require-Bundle: org.eclipse.ui,
  jp.ac.shizuoka.inf.ce.cs.commonlibrary,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide;bundle-version="3.5.2",
- jp.ac.shizuoka.inf.ce.cs.pres.core,
- jp.ac.shizuoka.inf.cs.ce.pres.eclipseui,
- org.eclipse.debug.core
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+ org.eclipse.jdt.ui;bundle-version="3.5.2",
+ org.eclipse.jdt.debug;bundle-version="3.5.0",
+ org.eclipse.debug.ui;bundle-version="3.5.2",
+ jp.ac.shizuoka.inf.ce.cs.pres.core;bundle-version="1.0.0",
+ jp.ac.shizuoka.inf.ce.cs.commonlibrary;bundle-version="1.0.0",
+ jp.ac.shizuoka.inf.cs.ce.pres.eclipseui;bundle-version="1.0.0",
+ org.eclipse.debug.core,
+ org.eclipse.jdt.ui
+Bundle-RequiredExecutionEnvironment:  JavaSE-1.7
 Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Sakai Laboratory
 Bundle-ClassPath: lib/jcommon-1.0.0-rc1.jar,
  lib/jfreechart-1.0.0-rc1.jar,
  lib/JimiProClasses.jar,
@@ -25,10 +31,10 @@ Bundle-ClassPath: lib/jcommon-1.0.0-rc1.jar,
  .,
  lib/super-csv-2.1.0.jar
 Import-Package: org.eclipse.debug.core,
- org.eclipse.jdt.internal.ui.javaeditor,
  org.eclipse.jdt.launching,
  org.eclipse.jface.text,
- org.eclipse.jface.text.source,
- pres.core.model,
- presplugin,
- presplugin.editors
+ org.eclipse.jface.text.source
+Export-Package: blockEditorplugin.actions,
+ cocoviewer.actions,
+ ronproeditorplugin
+ 

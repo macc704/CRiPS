@@ -767,7 +767,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 					} catch (Exception ex) {
 						throw new RuntimeException("error happened: "
 								+ blockNode.getNodeName() + " value: "
-								+ blockNode.getNodeValue());
+								+ blockNode.getNodeValue() + " type: "
+								+ blockNode.getNodeName() + "content: "
+								+ blockNode.getTextContent());
 					}
 				}
 
@@ -805,7 +807,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 	public void addLoadedBlocks(Collection<RenderableBlock> loadedBlocks,
 			boolean importingPage) {
-		
+
 		for (RenderableBlock rb : loadedBlocks) {
 			if (rb != null) {
 				//add graphically

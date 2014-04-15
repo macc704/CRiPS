@@ -8,12 +8,12 @@
 &lang_def_genuses_variable;
 &lang_def_genuses_calc;
 &lang_def_genuses_procedure;
-&lang_def_genuses_object;
 &lang_def_genuses_math;
 &lang_def_genuses_cui;
 &lang_def_genuses_turtle;
 &lang_def_genuses_class;
-
+&lang_def_genuses_object;
+&lang_def_genuses_obprogui;
 <!-- LOGIC -->
 
 <BlockGenus name="ifelse" kind="command" initlabel="分岐"
@@ -110,5 +110,19 @@
 
 <BlockGenus name="empty" kind="command" color="20 20 20"
 	initlabel="何もしない" editable-label="no" is-label-value="yes">
+</BlockGenus>
+
+<!-- 拡張for -->
+<BlockGenus name="enhancedfor" kind="command" initlabel="集合の全要素繰返" color="255 80 0">
+	<BlockConnectors>
+		<BlockConnector label="に対し" connector-kind="socket"
+			connector-type="boolean">
+		</BlockConnector>
+		<BlockConnector label="実行" connector-kind="socket"
+			connector-type="cmd"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="repeat"></LangSpecProperty>
+	</LangSpecProperties>
 </BlockGenus>
 

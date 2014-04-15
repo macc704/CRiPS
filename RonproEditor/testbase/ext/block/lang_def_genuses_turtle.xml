@@ -292,7 +292,7 @@
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
-
+<!--
 <BlockGenus name="size" kind="command" initlabel="大きさを変える"
 	color="255 0 0">
 	<description>
@@ -325,7 +325,7 @@
 		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
-
+-->
 <BlockGenus name="getWidth" kind="function" initlabel="幅を調べ、その値"
 	color="255 0 0">
 	<description>
@@ -789,7 +789,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-
+<!--
 <BlockGenus name="contains" kind="function" initlabel="オブジェクトが指定した座標を含む位置にいるか調べる"
 	color="255 0 0">
 	<BlockConnectors>
@@ -809,7 +809,7 @@
 		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
-
+-->
 <!-- SoundTurtle -->
 
 <BlockGenus name="file" kind="command" initlabel="ファイルを設定する"
@@ -909,7 +909,11 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="removeFirst" kind="command" initlabel="最初の要素を削除する" color="255 255 100">
+<BlockGenus name="removeFirst" kind="data" initlabel="最初の要素を削除して取り出す" color="255 255 100">
+    <BlockConnectors>
+		<BlockConnector label="" connector-kind="plug" connector-type="object" position-type="single"/>
+	</BlockConnectors>
+    <JavaType>Object</JavaType>
 </BlockGenus>
 
 <BlockGenus name="removeLast" kind="command" initlabel="最後の要素を削除する" color="255 255 100">
@@ -1023,3 +1027,12 @@
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
+<!--
+<BlockGenus name="setterIntArrayElement" kind="command" initlabel="整数を書き込む" color="255 255 100">
+	<BlockConnectors>
+        <BlockConnector label="値" connector-kind="socket" connector-type="number"/>
+	</BlockConnectors>
+</BlockGenus>
+-->
+
+

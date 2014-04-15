@@ -206,12 +206,12 @@ public class PageDrawerLoadingUtils {
 	}
 
 	public static void loadBlockDrawerSets(Element root, FactoryManager manager) {
-			
+
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
 		NodeList drawerSetNodes = root.getElementsByTagName("BlockDrawerSet");
 		Node drawerSetNode;
-		
+
 		for (int i = 0; i < drawerSetNodes.getLength(); i++) {
 			drawerSetNode = drawerSetNodes.item(i);
 			if (drawerSetNode.getNodeName().equals("BlockDrawerSet")) {

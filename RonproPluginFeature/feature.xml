@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="RonproPluginFeature"
-      label="RonproPluginFeature"
-      version="1.0.0.qualifier">
+      id="RonproPlugins"
+      label="RonproPlugins"
+      version="1.0.1"
+      provider-name="Salai laboratory">
 
    <description url="http://www.example.com/description">
-      [Enter Feature Description here.]
+      [論プロプラグインは,Computational thinkingを育成するためのプログラミング教育環境を構築するためのツールです.
+オブジェクト指向に対応したビジュアルーJava相互変換可能なプログラミング環境「BlockEditor Hinoki」,コンパイルエラー修正履歴一覧システム「CocoViewer」が利用できます.]
    </description>
 
    <copyright url="http://www.example.com/copyright">
@@ -16,32 +18,25 @@
       [Enter License Description here.]
    </license>
 
+   <url>
+      <update url="http://Ohata1016.github.com/RonproEditorPluginSite/"/>
+   </url>
+
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.jdt.core"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="jp.ac.shizuoka.inf.ce.cs.commonlibrary"/>
-      <import plugin="org.eclipse.ui.workbench"/>
-      <import plugin="org.eclipse.ui.editors"/>
-      <import plugin="org.eclipse.jface"/>
-      <import plugin="org.eclipse.ui.ide" version="3.9.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.commands"/>
-      <import plugin="jp.ac.shizuoka.inf.ce.cs.pres.core"/>
-      <import plugin="jp.ac.shizuoka.inf.cs.ce.pres.eclipseui"/>
-      <import plugin="org.eclipse.jdt.ui"/>
-      <import plugin="org.eclipse.debug.core"/>
-      <import plugin="org.eclipse.jdt.launching"/>
-      <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.junit"/>
-      <import plugin="org.eclipse.jdt" version="3.5.2" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jdt.core" version="3.5.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.jdt.ui" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.debug" version="3.5.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jdt.debug.ui" version="3.4.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.jdt.launching" version="3.5.1" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.debug.core" version="3.5.1" match="greaterOrEqual"/>
       <import plugin="org.eclipse.debug.ui" version="3.5.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.core" version="3.5.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="jp.ac.shizuoka.inf.ce.cs.commonlibrary"/>
+      <import plugin="org.eclipse.ui.ide" version="3.5.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.jdt.launching"/>
    </requires>
 
    <plugin
@@ -66,10 +61,10 @@
          unpack="false"/>
 
    <plugin
-         id="RonproEditorPlugin"
+         id="jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.0.1"
          unpack="false"/>
 
 </feature>
