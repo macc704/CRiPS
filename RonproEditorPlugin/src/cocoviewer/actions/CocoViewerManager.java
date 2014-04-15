@@ -17,7 +17,6 @@ public class CocoViewerManager {
 	private String PPV_ROOT_DIR = CFileSystem.getHomeDirectory()
 			.findOrCreateDirectory(".ppvdata").getAbsolutePath().toString();
 	private String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv";
-	// private String ERROR_DATA_FILE = "CompileError.csv";
 	private String ERROR_LOG_FILE = "/CompileErrorLog.csv";
 	private String METRICS_FILE = "/FileMetrics.csv";
 
@@ -42,6 +41,7 @@ public class CocoViewerManager {
 		manager.setPPProjectSet(projectset);
 
 		CCMainFrame2 frame = new CCMainFrame2(manager);
+		frame.toFront();
 		frame.setVisible(true);
 	}
 

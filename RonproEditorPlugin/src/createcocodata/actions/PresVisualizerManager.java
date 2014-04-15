@@ -25,7 +25,6 @@ import clib.common.io.CIOUtils;
 import clib.common.thread.ICTask;
 import clib.view.progress.CPanelProcessingMonitor;
 
-// TODO libのフォルダ設定
 // TODO ZIPのフォルダ構成
 // TODO バックグラウンド処理
 public class PresVisualizerManager {
@@ -143,18 +142,11 @@ public class PresVisualizerManager {
 	}
 
 	private void exportAllProjects(CDirectory tmpDir) {
-		// Project 持ってくる場所
+		// Projectのパスを持ってくる
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceRoot root = workspace.getRoot();
 		String projectRoot = root.getLocation().toFile().getAbsolutePath()
 				.toString();
-
-		// CDirectory project = new CDirectory(new CPath(projectRoot));
-		//
-		// CFilename projectName = project.getName();
-		// projectName.setExtension("zip");
-		// CFile zipfile = tmpDir.findOrCreateFile(projectName);
-		// CIOUtils.zip(project, zipfile);
 
 		List<CDirectory> projects = new CDirectory(new CPath(projectRoot))
 				.getDirectoryChildren(CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
@@ -175,7 +167,7 @@ public class PresVisualizerManager {
 	}
 
 	private void exportOneProject(CDirectory project, CDirectory tmpDir) {
-		// zip export eclipse の export → archive file が使えないか？
+		// TODO zip export eclipse の export → archive file が使えないか？
 		CFilename projectName = project.getName();
 		projectName.setExtension("zip");
 		CDirectory projectdir = tmpDir.findOrCreateDirectory(project
@@ -196,31 +188,5 @@ public class PresVisualizerManager {
 
 	private void importOneProject(CDirectory projectSetDir, CFile zipfile) {
 		ppDataManager.loadOneFile(zipfile, projectSetDir, PPV_ROADER);
-	}
-
-	public void clearCash() {
-		// 確認ダイアログ
-		int res = JOptionPane.showConfirmDialog(null,
-				"Cashの削除には時間がかかりますが，よろしいですか？", "cashの削除",
-				JOptionPane.OK_CANCEL_OPTION);
-		if (res != JOptionPane.OK_OPTION) {
-			return;
-		}
-
-		// cashを削除している進捗ダイヤログを利用したいので，PPDataManagerの関数を呼ぶ
-		CDirectory ppvRoot = CFileSystem.findDirectory(PPV_ROOT_DIR);
-
-		this.ppDataManager = new PPDataManager(ppvRoot);
-		try {
-			ppDataManager.clearCompileCash();
-		} catch (Exception ex) {
-			throw new RuntimeException("cashが削除できませんでした．");
-		}
-
-		// boolean deleted = ppvRoot.findOrCreateDirectory("ppv.data")
-		// .findOrCreateDirectory("cash").delete();
-		// if (!deleted) {
-		// throw new RuntimeException("cashを削除できませんでした．");
-		// }
 	}
 }
