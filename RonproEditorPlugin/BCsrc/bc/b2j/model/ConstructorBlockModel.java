@@ -48,12 +48,12 @@ public class ConstructorBlockModel extends CommandBlockModel {
 		// makeIndent(out, indent);
 
 		// BlockToJavaAnalyzer.getBlock(373).print(out, indent);
-		// main ‚Ìæ“ªƒ‰ƒCƒ“‚ğŠl“¾‚µ‚ÄA‚»‚ê‚æ‚è‘O‚É‘‚«‚Ş•K—v
+		// main ã®å…ˆé ­ãƒ©ã‚¤ãƒ³ã‚’ç²å¾—ã—ã¦ã€ãã‚Œã‚ˆã‚Šå‰ã«æ›¸ãè¾¼ã‚€å¿…è¦
 		out.print("public");
 		out.print(" ");
 		out.print(" " + uri + "(");
 
-		// ˆø”‚Ì’è‹`
+		// å¼•æ•°ã®å®šç¾©
 		ArrayList<Integer> connectorIDs = getConnectorIDs();
 		for (int i = 0; i + 1 < connectorIDs.size(); i++) {
 			int connectorID = connectorIDs.get(i);

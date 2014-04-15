@@ -32,7 +32,7 @@ public class SocketRule implements LinkRule {
 	public boolean canLink(Block block1, Block block2, BlockConnector socket1,
 			BlockConnector socket2) {
 
-		// uƒyƒ“‚ÌF‚ğ•Ï‚¦‚évƒuƒƒbƒN‚ÉFw’è‚ÌƒuƒƒbƒNˆÈŠO‚Í‚¢‚ç‚È‚¢‚æ‚¤‚É‚·‚éB
+		// ã€Œãƒšãƒ³ã®è‰²ã‚’å¤‰ãˆã‚‹ã€ãƒ–ãƒ­ãƒƒã‚¯ã«è‰²æŒ‡å®šã®ãƒ–ãƒ­ãƒƒã‚¯ä»¥å¤–ã¯ã„ã‚‰ãªã„ã‚ˆã†ã«ã™ã‚‹ã€‚
 		if ("color".equals(block1.getGenusName())) {
 			if (!resolveColorBlock(block2)) {
 				return false;
@@ -130,7 +130,7 @@ public class SocketRule implements LinkRule {
 		RenderableBlock socketRb = RenderableBlock.getRenderableBlock(socket
 				.getBlockID());
 		socketRb.setLocation(socketRb.getX() + rb.getBlockWidth(),
-				socketRb.getY());//‚±‚±‚ÅƒuƒƒbƒN‚ÌˆÚ“®‚ğ‚µ‚Ä‚¢‚é
+				socketRb.getY());//ã“ã“ã§ãƒ–ãƒ­ãƒƒã‚¯ã®ç§»å‹•ã‚’ã—ã¦ã„ã‚‹
 		//		if (!BlockAnimationThread.isRun()) {
 		//			BlockAnimationThread t1 = new BlockAnimationThread(socketRb,
 		//					"right");

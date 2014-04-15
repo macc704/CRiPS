@@ -10,7 +10,7 @@ public class IfBlockModel extends CommandBlockModel {
 	public void checkError() {
 
 		if (getConnectorIDs().get(0) == BlockModel.NULL) {
-			throw new RuntimeException("ƒuƒƒbƒN‚ªŠ®‘S‚É‘g‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñBF " + getGenusName());
+			throw new RuntimeException("ãƒ–ãƒ­ãƒƒã‚¯ãŒå®Œå…¨ã«çµ„ã¾ã‚Œã¦ã„ã¾ã›ã‚“Bï¼š " + getGenusName());
 		}
 
 		BlockToJavaAnalyzer.getBlock(getConnectorIDs().get(0)).checkError();
@@ -53,7 +53,7 @@ public class IfBlockModel extends CommandBlockModel {
 			out.print("else ");
 			if (elseBlock instanceof IfBlockModel
 					&& elseBlock.getAfterID() == BlockModel.NULL) {// else if
-																	// ‚Ì“ÁêŒ`
+																	// ã®ç‰¹æ®Šå½¢
 				elseBlock.print(out, 0);
 			} else {
 				out.println("{");

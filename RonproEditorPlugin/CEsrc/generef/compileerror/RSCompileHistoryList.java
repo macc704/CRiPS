@@ -20,8 +20,8 @@ public class RSCompileHistoryList {
 		CCompileResult result = message.getCompileResult();
 		this.sourceNames = message.getCompileFileNames();
 		if (result.isSuccess()) {
-			// ‚Ç‚Ìƒtƒ@ƒCƒ‹‚ªƒRƒ“ƒpƒCƒ‹‚³‚ê‚½‚Ì‚©‚ğƒGƒ‰[ƒƒbƒZ[ƒW‚©‚çæ“¾
-			// ƒRƒ“ƒpƒCƒ‹‚³‚ê‚½ƒtƒ@ƒCƒ‹‚É‘Î‚µ‚Äresult‚ğadd‚·‚é
+			// ã©ã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã•ã‚ŒãŸã®ã‹ã‚’ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‹ã‚‰å–å¾—
+			// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã«å¯¾ã—ã¦resultã‚’addã™ã‚‹
 			for (RSCompileHistory history : historys) {
 				if (message.getCompileFileNames().contains(
 						history.getSourceFileName())) {
@@ -42,7 +42,7 @@ public class RSCompileHistoryList {
 	}
 
 	/**
-	 * Šeƒ\[ƒXƒR[ƒh‚É‚Â‚¢‚Ä‚ÌƒRƒ“ƒpƒCƒ‹Œ‹‰Ê‚ğì¬‚·‚é
+	 * å„ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã«ã¤ã„ã¦ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«çµæœã‚’ä½œæˆã™ã‚‹
 	 * 
 	 * @param result
 	 * @param sourceName
@@ -62,7 +62,7 @@ public class RSCompileHistoryList {
 	public List<TCompileErrorHistory> getFixedCompileErrorHistory() {
 		List<TCompileErrorHistory> fixedHistorys = new ArrayList<TCompileErrorHistory>();
 		for (RSCompileHistory history : historys) {
-			// ‰‹}ˆ’u
+			// å¿œæ€¥å‡¦ç½®
 			if (history.isFixed()
 					&& sourceNames.contains(history.getSourceFileName())) {
 				fixedHistorys.addAll(history.getFixedErrorHistorys());
@@ -120,7 +120,7 @@ public class RSCompileHistoryList {
 	}
 
 	/**
-	 * w’è‚µ‚½ƒtƒ@ƒCƒ‹–¼‚ÌƒqƒXƒgƒŠ[‚ªì‚ç‚ê‚Ä‚¢‚é‚©Šm”F‚·‚é
+	 * æŒ‡å®šã—ãŸãƒ•ã‚¡ã‚¤ãƒ«åã®ãƒ’ã‚¹ãƒˆãƒªãƒ¼ãŒä½œã‚‰ã‚Œã¦ã„ã‚‹ã‹ç¢ºèªã™ã‚‹
 	 * 
 	 * @param sourceName
 	 * @return

@@ -195,7 +195,7 @@ public class BlockLinkChecker {
 				closestSocket2);
 	}
 
-	//ƒIƒŠƒWƒiƒ‹D@‚±‚ê‚¾‚Æ•Â‚¶‚½ƒuƒƒbƒN‚Ì‚É‚¤‚Ü‚­‚¢‚©‚È‚¢
+	//ã‚ªãƒªã‚¸ãƒŠãƒ«ï¼ã€€ã“ã‚Œã ã¨é–‰ã˜ãŸãƒ–ãƒ­ãƒƒã‚¯ã®æ™‚ã«ã†ã¾ãã„ã‹ãªã„
 	public static BlockLink getLinkOrignal(RenderableBlock rblock1,
 			Iterable<RenderableBlock> otherBlocks) {
 		Block block1 = Block.getBlock(rblock1.getBlockID());
@@ -261,7 +261,7 @@ public class BlockLinkChecker {
 				closestSocket2);
 	}
 
-	//•Ûˆäƒo[ƒWƒ‡ƒ“
+	//ä¿äº•ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 	static boolean A = true;
 
 	public static BlockLink getLinkYasuiVer(RenderableBlock rblock1,
@@ -277,7 +277,7 @@ public class BlockLinkChecker {
 		boolean rb1Visible = false;
 		boolean rb2Visible = false;
 		if (A) {
-			//TODO rblock1‚ª•s‰Â‹‚¾‚Á‚½‚çˆê“x‰Â‹ó‘Ô‚É‚·‚é
+			//TODO rblock1ãŒä¸å¯è¦–ã ã£ãŸã‚‰ä¸€åº¦å¯è¦–çŠ¶æ…‹ã«ã™ã‚‹
 			if (!rblock1.isVisible()) {
 				rb1Visible = true;
 				rblock1.setVisible(rb1Visible);
@@ -287,7 +287,7 @@ public class BlockLinkChecker {
 		for (RenderableBlock rblock2 : otherBlocks) {
 			BlockConnector currentPlug = getPlugEquivalent(block1);
 			Block block2 = Block.getBlock(rblock2.getBlockID());
-			if (!block1.isAbstractionBlock() && !block2.isAbstractionBlock()) {//‚±‚Ìs‚ª@•ÛˆäƒIƒŠƒWƒiƒ‹
+			if (!block1.isAbstractionBlock() && !block2.isAbstractionBlock()) {//ã“ã®è¡ŒãŒã€€ä¿äº•ã‚ªãƒªã‚¸ãƒŠãƒ«
 				if (block1.equals(block2) || !rblock1.isVisible()
 						|| !rblock2.isVisible() || rblock1.isCollapsed()
 						|| rblock2.isCollapsed()) {
@@ -296,7 +296,7 @@ public class BlockLinkChecker {
 			}
 
 			if (A) {
-				//TODO rblock2‚ª•s‰Â‹‚¾‚Á‚½‚çˆê“x‰Â‹ó‘Ô‚É‚·‚é
+				//TODO rblock2ãŒä¸å¯è¦–ã ã£ãŸã‚‰ä¸€åº¦å¯è¦–çŠ¶æ…‹ã«ã™ã‚‹
 				rb2Visible = false;
 				if (!rblock2.isVisible()) {
 					rb2Visible = true;
@@ -344,7 +344,7 @@ public class BlockLinkChecker {
 			}
 
 			if (A) {
-				//TODO rblock2‚ğˆê“x‰Â‹ó‘Ô‚É‚µ‚½‚Æ‚«A‚à‚¤ˆê“x•s‰Â‹ó‘Ô‚É‚·‚éB
+				//TODO rblock2ã‚’ä¸€åº¦å¯è¦–çŠ¶æ…‹ã«ã—ãŸã¨ãã€ã‚‚ã†ä¸€åº¦ä¸å¯è¦–çŠ¶æ…‹ã«ã™ã‚‹ã€‚
 				if (rb2Visible) {
 					rb2Visible = false;
 					rblock2.setVisible(rb2Visible);
@@ -357,7 +357,7 @@ public class BlockLinkChecker {
 		}
 
 		if (A) {
-			//TODO rblock1‚ğˆê“x‰Â‹ó‘Ô‚É‚µ‚½‚Æ‚«A‚à‚¤ˆê“x•s‰Â‹ó‘Ô‚É‚·‚éB
+			//TODO rblock1ã‚’ä¸€åº¦å¯è¦–çŠ¶æ…‹ã«ã—ãŸã¨ãã€ã‚‚ã†ä¸€åº¦ä¸å¯è¦–çŠ¶æ…‹ã«ã™ã‚‹ã€‚
 			if (rb1Visible) {
 				rb1Visible = false;
 				rblock1.setVisible(rb1Visible);

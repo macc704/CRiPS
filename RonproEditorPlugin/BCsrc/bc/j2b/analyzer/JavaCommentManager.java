@@ -24,7 +24,7 @@ public class JavaCommentManager {
 	}
 
 	/**
-	 * visitor‚ÉÀ‘•‚·‚é
+	 * visitorã«å®Ÿè£…ã™ã‚‹
 	 * 
 	 * @param position
 	 * @param abstractBlocks
@@ -34,7 +34,7 @@ public class JavaCommentManager {
 			return "";
 		}
 		try {
-			int start = position + 2; // ”äŠr‚·‚é•¶š‚Ìƒ|ƒWƒVƒ‡ƒ“
+			int start = position + 2; // æ¯”è¼ƒã™ã‚‹æ–‡å­—ã®ãƒã‚¸ã‚·ãƒ§ãƒ³
 			int end = start;
 			int last = source.length();
 			while (end < last) {
@@ -52,8 +52,8 @@ public class JavaCommentManager {
 	}
 
 	/**
-	 * ƒ‰ƒCƒ“ƒRƒƒ“ƒg‚ÌêŠ‚ğŠl“¾‚·‚é positionˆÈ~‚Ì•¶š—ñ‚©‚ç‰üs‚Ü‚Å‚ğ‰ğÍ ƒ‰ƒCƒ“ƒRƒƒ“ƒg‚ª‚ ‚ê‚ÎAƒ‰ƒCƒ“ƒRƒƒ“ƒg‚Ì‚Í‚¶‚ß‚Ì"/"‚ÌêŠ‚ğ•Ô‚·
-	 * ‚»‚êˆÈŠO‚Í-1
+	 * ãƒ©ã‚¤ãƒ³ã‚³ãƒ¡ãƒ³ãƒˆã®å ´æ‰€ã‚’ç²å¾—ã™ã‚‹ positionä»¥é™ã®æ–‡å­—åˆ—ã‹ã‚‰æ”¹è¡Œã¾ã§ã‚’è§£æ ãƒ©ã‚¤ãƒ³ã‚³ãƒ¡ãƒ³ãƒˆãŒã‚ã‚Œã°ã€ãƒ©ã‚¤ãƒ³ã‚³ãƒ¡ãƒ³ãƒˆã®ã¯ã˜ã‚ã®"/"ã®å ´æ‰€ã‚’è¿”ã™
+	 * ãã‚Œä»¥å¤–ã¯-1
 	 * 
 	 * @param position
 	 */

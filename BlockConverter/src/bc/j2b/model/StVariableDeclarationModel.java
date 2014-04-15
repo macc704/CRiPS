@@ -102,7 +102,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 			initializer.print(out, indent);
 			initializerId = initializer.getId();
 		}
-		// BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
+		// BeforeBlockã¨AfterBlockã‚’æ¤œç´¢ã™ã‚‹
 		resolveBeforeAfterBlock(getParent());
 
 		String connectorType = getBlockType();
@@ -132,7 +132,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 		}
 
 		{// 2013 09/26 hakamata tag for linenumber and parent block parent
-			// block‚Íb’è
+			// blockã¯æš«å®š
 			// lineNumber
 			makeIndent(out, indent + 1);
 			out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
@@ -140,7 +140,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 			makeIndent(out, indent + 1);
 			ElementModel p = getParent() instanceof StExpressionModel ? getParent()
 					.getParent() : getParent();
-			if (p != null) {// ohata private‚ÉParent‚Í‘¶İ‚µ‚È‚¢‚½‚ßA‚±‚±‚Å‚Ê‚é‚Û‚Å‚Ü‚·@
+			if (p != null) {// ohata privateã«Parentã¯å­˜åœ¨ã—ãªã„ãŸã‚ã€ã“ã“ã§ã¬ã‚‹ã½ã§ã¾ã™ã€€
 				out.println("<ParentBlock>" + p.getId() + "</ParentBlock>");
 			}
 		}
@@ -243,7 +243,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 		}
 
 		{// 2013 09/26 hakamata tag for linenumber and parent block parent
-			// block‚Íb’è
+			// blockã¯æš«å®š
 			// lineNumber
 			makeIndent(out, indent + 1);
 			out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");

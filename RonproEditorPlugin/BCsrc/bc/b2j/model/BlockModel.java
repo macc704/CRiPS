@@ -23,9 +23,9 @@ public abstract class BlockModel {
 	private int posY = 0;
 	private String comment = "";
 	private ArrayList<String> parameterizedType;
-	private String javaType;// java‚ÌŒ^
-	private String javaLabel;// java‚Ìƒ‰ƒxƒ‹@ƒƒ\ƒbƒh—p
-	private int parentID = -1;// •Ï”ƒuƒƒbƒN‚Ìe‚ÌID
+	private String javaType;// javaã®å‹
+	private String javaLabel;// javaã®ãƒ©ãƒ™ãƒ«ã€€ãƒ¡ã‚½ãƒƒãƒ‰ç”¨
+	private int parentID = -1;// å¤‰æ•°ãƒ–ãƒ­ãƒƒã‚¯ã®è¦ªã®ID
 
 	// Defines a NULL id for a Block
 	public static final int NULL = Integer.valueOf(-1);
@@ -108,8 +108,8 @@ public abstract class BlockModel {
 		if (typeString == null) {
 			return null;
 		}
-		typeString = typeString.replaceAll("ƒ", "<");
-		typeString = typeString.replaceAll("„", ">");
+		typeString = typeString.replaceAll("ï¼œ", "<");
+		typeString = typeString.replaceAll("ï¼", ">");
 		return typeString;
 	}
 

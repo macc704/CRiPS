@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import bc.b2j.analyzer.BlockToJavaAnalyzer;
 
 public class PrivateVariableBlockModel extends VariableBlockModel {
-	// #ohata@ƒvƒ‰ƒCƒx[ƒg•Ï”ƒuƒƒbƒNƒ‚ƒfƒ‹@
+	// #ohataã€€ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆå¤‰æ•°ãƒ–ãƒ­ãƒƒã‚¯ãƒ¢ãƒ‡ãƒ«ã€€
 
 	private String modifer = "";
 
@@ -37,7 +37,7 @@ public class PrivateVariableBlockModel extends VariableBlockModel {
 			ArrayList<Integer> connectorIDs = getConnectorIDs();
 			BlockModel newDecl = BlockToJavaAnalyzer.getBlock(connectorIDs
 					.get(0));
-			// newƒL[ƒ[ƒh•ÏŠ·
+			// newã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰å¤‰æ›
 			if (newDecl != null) {
 				ArrayList<Integer> newDeclConnectorIDs = newDecl
 						.getConnectorIDs();

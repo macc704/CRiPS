@@ -34,7 +34,7 @@ public class SpecialBlockModel extends CommandBlockModel {
 			out.println();
 		}
 
-		// ‚±‚ê‚ğ“ü‚ê‚È‚¢‚ÆŒã‚ª•\¦‚³‚ê‚È‚¢D@‚È‚ñ‚¿‚ã‚¤İŒv‚¶‚á #matsuzawa 2012.11.07
+		// ã“ã‚Œã‚’å…¥ã‚Œãªã„ã¨å¾ŒãŒè¡¨ç¤ºã•ã‚Œãªã„ï¼ã€€ãªã‚“ã¡ã‚…ã†è¨­è¨ˆã˜ã‚ƒ #matsuzawa 2012.11.07
 		if (getAfterID() != BlockModel.NULL) {
 			BlockToJavaAnalyzer.getBlock(getAfterID()).print(out, indent);
 		}

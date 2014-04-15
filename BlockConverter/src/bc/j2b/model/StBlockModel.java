@@ -18,7 +18,7 @@ public class StBlockModel extends StatementModel {
 	protected List<ElementModel> children = new ArrayList<ElementModel>();
 
 	public void addElement(ElementModel child) {
-		// TODO Block‚Ì’†‚ÉBlock‚ğ“ü‚ê‚é‚ÆId‚ª‚¸‚ê‚é‚Ì‚Å“ËŠÑH–
+		// TODO Blockã®ä¸­ã«Blockã‚’å…¥ã‚Œã‚‹ã¨IdãŒãšã‚Œã‚‹ã®ã§çªè²«å·¥äº‹
 		// if (child instanceof BlockStatementModel) {
 		// for (ElementModel each : ((BlockStatementModel) child).children) {
 		// addElement(each);

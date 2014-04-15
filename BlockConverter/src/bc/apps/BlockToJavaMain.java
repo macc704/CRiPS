@@ -21,7 +21,7 @@ public class BlockToJavaMain {
 				ExtensionChanger.changeToJavaExtension(openBlockXmlFile
 						.getPath()));
 
-		// Œ¾Œê’è‹`ƒtƒ@ƒCƒ‹‚Ìã‘‚«
+		// è¨€èªå®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸Šæ›¸ã
 		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(javaFile, enc,
 				classpaths);
 		rewriter.rewrite();
@@ -40,19 +40,19 @@ public class BlockToJavaMain {
 		OutputSourceModel sourceModel = new OutputSourceModel(javaFile, enc,
 				classpaths);
 		/*
-		 * // project‚Ìxmlƒtƒ@ƒCƒ‹‚ğì¬‚·‚é File classDefFile = new
+		 * // projectã®xmlãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹ File classDefFile = new
 		 * File(openBlockXmlFile.getParentFile().getPath() +
 		 * "/lang_def_guneses_" + openBlockXmlFile.getName()); //
-		 * menuî•ñ‚Ìxml‚ğì¬Aior’Ç‰Á) File projectMenuFile = new
+		 * menuæƒ…å ±ã®xmlã‚’ä½œæˆã€ï¼ˆorè¿½åŠ ) File projectMenuFile = new
 		 * File(openBlockXmlFile.getParentFile() .getPath() +
 		 * "/lang_def_menu_project.xml");
 		 * 
 		 * OutputSelDefClassPageModel selfDefModel = new
 		 * OutputSelDefClassPageModel( classDefFile, projectMenuFile); //
-		 * ƒ‚ƒfƒ‹‚É’Ç‰Á‚·‚éƒNƒ‰ƒX‚ğƒZƒbƒg‚·‚é
+		 * ãƒ¢ãƒ‡ãƒ«ã«è¿½åŠ ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		 * selfDefModel.setSelDefClassModel(visitor.getSelDefClassModels());
 		 * 
-		 * // ƒNƒ‰ƒX‚ÌƒuƒƒbƒNî•ñ‚ğo—Í‚·‚é selfDefModel.print();
+		 * // ã‚¯ãƒ©ã‚¹ã®ãƒ–ãƒ­ãƒƒã‚¯æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹ selfDefModel.print();
 		 */
 		ResolveSyntaxError resolveError = new ResolveSyntaxError();
 

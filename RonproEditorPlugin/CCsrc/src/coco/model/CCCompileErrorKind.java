@@ -21,8 +21,8 @@ public class CCCompileErrorKind {
 	}
 
 	public void addError(CCCompileError error) {
-		// CompileError.csv ‚ÌƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚Ì”­¶“úŽž‚Ì‡˜‚ª³‚µ‚­‚È‚¢‚±‚Æ‚ª‚ ‚é‚Ì‚Å
-		// ƒŠƒXƒgŠi”[Žž‚É³‚µ‚¢”­¶“úŽž‡‚É‚È‚é‚æ‚¤ˆ—
+		// CompileError.csv ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ã®ç™ºç”Ÿæ—¥æ™‚ã®é †åºãŒæ­£ã—ããªã„ã“ã¨ãŒã‚ã‚‹ã®ã§
+		// ãƒªã‚¹ãƒˆæ ¼ç´æ™‚ã«æ­£ã—ã„ç™ºç”Ÿæ—¥æ™‚é †ã«ãªã‚‹ã‚ˆã†å‡¦ç†
 		// errors.add(error);
 
 		if (errors.size() == 0) {

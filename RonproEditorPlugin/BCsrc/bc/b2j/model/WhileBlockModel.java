@@ -17,7 +17,7 @@ public class WhileBlockModel extends CommandBlockModel {
 	@Override
 	public void checkError() {
 		if (getConnectorIDs().get(0) == BlockModel.NULL) {
-			throw new RuntimeException("ƒuƒƒbƒN‚ªŠ®‘S‚É‘g‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñIF " + getGenusName());
+			throw new RuntimeException("ãƒ–ãƒ­ãƒƒã‚¯ãŒå®Œå…¨ã«çµ„ã¾ã‚Œã¦ã„ã¾ã›ã‚“Iï¼š " + getGenusName());
 		}
 		BlockToJavaAnalyzer.getBlock(getConnectorIDs().get(0)).checkError();
 		if (getConnectorIDs().get(1) != BlockModel.NULL) {

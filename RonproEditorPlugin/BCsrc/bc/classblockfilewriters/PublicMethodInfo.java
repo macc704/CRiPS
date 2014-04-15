@@ -8,10 +8,10 @@ public class PublicMethodInfo extends BasicModel {
 
 	private String methodName;
 	private String modifier;
-	private String returnType;// ���\�b�h�̕Ԃ�l�@�������A�����ł�returnType�̓R�l�N�^�[�̌`��5��ނɂȂ��Ă���
+	private String returnType;// メソッドの返り値　ただし、ここでのreturnTypeはコネクターの形の5種類になっている
 	private String fullName;
 	private List<String> parameters = new ArrayList<String>();
-	private String javaType;// ����������\�b�h�̑f�̕Ԃ�l�̌^�Ƃ���
+	private String javaType;// こちらをメソッドの素の返り値の型とする
 
 	public PublicMethodInfo(String name, String kind, String initialLabel,
 			String headerLabel, String footerLabel, String color) {

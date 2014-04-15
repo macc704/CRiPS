@@ -11,7 +11,7 @@ public class PostfixExpressionModel extends BlockModel {
 	public void checkError() {
 		resolveCreatedVariable(getBeforeID());
 		if (getConnectorIDs().get(0) == BlockModel.NULL) {
-			throw new RuntimeException("ƒuƒƒbƒN‚ªŠ®‘S‚É‘g‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñEF " + getGenusName());
+			throw new RuntimeException("ãƒ–ãƒ­ãƒƒã‚¯ãŒå®Œå…¨ã«çµ„ã¾ã‚Œã¦ã„ã¾ã›ã‚“Eï¼š " + getGenusName());
 		}
 		BlockToJavaAnalyzer.getBlock(getConnectorIDs().get(0)).checkError();
 		if (getAfterID() != BlockModel.NULL) {
@@ -21,14 +21,14 @@ public class PostfixExpressionModel extends BlockModel {
 
 	private void resolveCreatedVariable(int blockID) {
 		if (blockID == BlockModel.NULL) {
-			throw new RuntimeException("•Ï”éŒ¾‚ğ‚·‚é‘O‚É•Ï”‚Ö‚Ì‘ã“ü‚ğs‚Á‚Ä‚¢‚Ü‚·B");
+			throw new RuntimeException("å¤‰æ•°å®£è¨€ã‚’ã™ã‚‹å‰ã«å¤‰æ•°ã¸ã®ä»£å…¥ã‚’è¡Œã£ã¦ã„ã¾ã™ã€‚");
 		}
 		BlockModel block = BlockToJavaAnalyzer.getBlock(blockID);
 		if (block instanceof LocalVariableBlockModel) {
 			return;
 		}
 		if (getGenusName().indexOf("proc-param") != -1) {
-			return;// ‘f’Ê‚µ
+			return;// ç´ é€šã—
 		}
 		if (getName().startsWith("getterprivate") || getName().contains("this")
 				|| getName().contains("gettersuper")) {
@@ -37,7 +37,7 @@ public class PostfixExpressionModel extends BlockModel {
 		if (!getGenusName().startsWith("getter")) {
 			return;
 		}
-		if (getGenusName().contains("array")) {// ‚Æ‚è‚ ‚¦‚¸
+		if (getGenusName().contains("array")) {// ã¨ã‚Šã‚ãˆãš
 			return;
 		}
 		resolveCreatedVariable(block.getBeforeID());

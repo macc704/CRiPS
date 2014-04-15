@@ -60,23 +60,23 @@ public class CCMainFrame2 extends JFrame {
 	}
 
 	private void initialize() {
-		// rootPanel ‚ÌƒŒƒCƒAƒEƒg‚ğƒŠƒZƒbƒg‚·‚é
+		// rootPanel ã®ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 		// rootPanel.setLayout(null);
 		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
 		rootPanel.setSize(new Dimension(width, height));
 
-		// title‚È‚Ç‚Ìİ’è
+		// titleãªã©ã®è¨­å®š
 		frameSetting();
 
-		// windowã•”
+		// windowä¸Šéƒ¨
 		setHeader();
 
-		// window‰º•”Eƒ{ƒ^ƒ“”z’u
+		// windowä¸‹éƒ¨ãƒ»ãƒœã‚¿ãƒ³é…ç½®
 		setButtonsPanel();
 
-		// ƒŒƒCƒAƒEƒg‚µ‚½”z’u‚ÅƒRƒ“ƒeƒ“ƒc‚ğ’Ç‰Á
+		// ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆã—ãŸé…ç½®ã§ã‚³ãƒ³ãƒ†ãƒ³ãƒ„ã‚’è¿½åŠ 
 		getContentPane().add(rootPanel, BorderLayout.CENTER);
-		// TODO: WindowƒTƒCƒY•ÏX‚É‘Î‰‚Å‚«‚é‚æ‚¤‚É‚·‚é‚±‚Æ
+		// TODO: Windowã‚µã‚¤ã‚ºå¤‰æ›´ã«å¯¾å¿œã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹ã“ã¨
 		// this.addWindowListener(new WindowAdapter() {
 		// public void windowStateChanged(WindowEvent e) {
 		//
@@ -125,16 +125,16 @@ public class CCMainFrame2 extends JFrame {
 			avg = time / count;
 		}
 
-		String string = "<html>‚±‚ê‚Ü‚Å‚ÌƒRƒ“ƒpƒCƒ‹ƒGƒ‰[C³”: " + count
-				+ "@@‚±‚ê‚Ü‚Å‚ÌƒRƒ“ƒpƒCƒ‹ƒGƒ‰[C³ŠÔ—İŒv: " + timeStr + "<br>"
-				+ "‚P‚Â‚ ‚½‚èC³ŠÔ•½‹Ï: " + avg + "•b" + "  ‚±‚ê‚Ü‚Å‚Ì‘ì‹ÆŠÔ:  " + workingStr
-				+ "<br>" + "  ƒRƒ“ƒpƒCƒ‹ƒGƒ‰[C³ŠÔŠ„‡:  " + rate + "%" + "</html>";
+		String string = "<html>ã“ã‚Œã¾ã§ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ä¿®æ­£æ•°: " + count
+				+ "ã€€ã€€ã“ã‚Œã¾ã§ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ä¿®æ­£æ™‚é–“ç´¯è¨ˆ: " + timeStr + "<br>"
+				+ "ï¼‘ã¤ã‚ãŸã‚Šä¿®æ­£æ™‚é–“å¹³å‡: " + avg + "ç§’" + "  ã“ã‚Œã¾ã§ã®ç·ä½œæ¥­æ™‚é–“:  " + workingStr
+				+ "<br>" + "  ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ä¿®æ­£æ™‚é–“å‰²åˆ:  " + rate + "%" + "</html>";
 
 		label.setText(string);
 		label.setMaximumSize(new Dimension(width, height / 24));
 		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
 
-		// label ‚Ì”wŒi‚ğİ’è‚·‚éê‡‚Í”wŒi‚ğ•s“§–¾‚É‚·‚éˆ—‚ğ‰Á‚¦‚é‚±‚Æ
+		// label ã®èƒŒæ™¯ã‚’è¨­å®šã™ã‚‹å ´åˆã¯èƒŒæ™¯ã‚’ä¸é€æ˜ã«ã™ã‚‹å‡¦ç†ã‚’åŠ ãˆã‚‹ã“ã¨
 		// label.setBackground(Color.yellow);
 		// label.setOpaque(true);
 
@@ -148,12 +148,12 @@ public class CCMainFrame2 extends JFrame {
 		long hour = time / 60 / 60;
 		long minute = (time / 60) % 60;
 		long second = time % 60;
-		String timeStr = hour + "ŠÔ" + minute + "•ª" + second + "•b";
+		String timeStr = hour + "æ™‚é–“" + minute + "åˆ†" + second + "ç§’";
 		return timeStr;
 	}
 
 	private void setChangeGraphRangeButton(JPanel panel) {
-		String[] labels = { "120•bŒÅ’èƒ‚[ƒh", "ƒOƒ‰ƒtŠTŒ`ƒ‚[ƒh  " };
+		String[] labels = { "120ç§’å›ºå®šãƒ¢ãƒ¼ãƒ‰", "ã‚°ãƒ©ãƒ•æ¦‚å½¢ãƒ¢ãƒ¼ãƒ‰  " };
 		final JComboBox<String> comboBox = new JComboBox<String>(labels);
 
 		comboBox.addActionListener(new ActionListener() {
@@ -169,7 +169,7 @@ public class CCMainFrame2 extends JFrame {
 						button.changeAutoRange();
 					}
 				} else {
-					throw new RuntimeException("ƒOƒ‰ƒtƒ‚[ƒh‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
+					throw new RuntimeException("ã‚°ãƒ©ãƒ•ãƒ¢ãƒ¼ãƒ‰ãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“");
 				}
 			}
 		});
@@ -179,7 +179,7 @@ public class CCMainFrame2 extends JFrame {
 
 	private void setButtonsPanel() {
 
-		// ƒGƒ‰[ID‚²‚Æ‚Ì”’l‚ğ‘‚«‚İAƒ{ƒ^ƒ“‚ğÀ‘•‚·‚é
+		// ã‚¨ãƒ©ãƒ¼IDã”ã¨ã®æ•°å€¤ã‚’æ›¸ãè¾¼ã¿ã€ãƒœã‚¿ãƒ³ã‚’å®Ÿè£…ã™ã‚‹
 		for (CCCompileErrorKind list : manager.getAllKinds()) {
 			CCErrorElementButton2 button = new CCErrorElementButton2(list,
 					buttonWidth, buttonHeight, manager.getBaseDir(),
@@ -190,7 +190,7 @@ public class CCMainFrame2 extends JFrame {
 		JPanel buttonsEreaPanel = new JPanel();
 		buttonsEreaPanel.setLayout(new GridLayout((height * 15 / 16)
 				/ buttonHeight, width / buttonWidth));
-		// ƒ{ƒ^ƒ“‚ğ”z’u‚·‚é
+		// ãƒœã‚¿ãƒ³ã‚’é…ç½®ã™ã‚‹
 		int i = 1;
 		int errorkindsCount = manager.getAllKinds().size();
 		for (int x = 0; x < Math.sqrt(errorkindsCount); x++) {
@@ -213,7 +213,7 @@ public class CCMainFrame2 extends JFrame {
 		rootPanel.add(scrollPanel, BorderLayout.SOUTH);
 	}
 
-	// ƒNƒŠƒbƒN‚Å‚«‚È‚¢ƒ{ƒ^ƒ“‚ğì¬
+	// ã‚¯ãƒªãƒƒã‚¯ã§ããªã„ãƒœã‚¿ãƒ³ã‚’ä½œæˆ
 	private JButton setEmptyButton(CCCompileErrorKind list) {
 		String message = "";
 		if (list != null) {
@@ -221,12 +221,12 @@ public class CCMainFrame2 extends JFrame {
 		}
 		String rare = "";
 		if (list != null) {
-			rare = "(ƒŒƒA“x" + Integer.toString(list.getRare()) + ")";
+			rare = "(ãƒ¬ã‚¢åº¦" + Integer.toString(list.getRare()) + ")";
 		}
-		JButton emptyButton = new JButton("<html><center>–¢”­¶</center><br/>"
+		JButton emptyButton = new JButton("<html><center>æœªç™ºç”Ÿ</center><br/>"
 				+ message + rare + "</html>");
 		emptyButton.setEnabled(false);
-		emptyButton.setToolTipText("–¢”­¶‚Å‚·");
+		emptyButton.setToolTipText("æœªç™ºç”Ÿã§ã™");
 		emptyButton.setBackground(Color.GRAY);
 		emptyButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
 		return emptyButton;

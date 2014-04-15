@@ -25,12 +25,12 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 			arg.print(out, indent);
 		}
 
-		// ã‚æ‚èŒã‚É‚â‚é‚±‚Æ‚ªd—v
+		// ä¸Šã‚ˆã‚Šå¾Œã«ã‚„ã‚‹ã“ã¨ãŒé‡è¦
 		if (!(getParent() instanceof StIfElseModel)
 				&& !(getParent() instanceof StWhileModel)
-				&& !(getParent() instanceof StLocalVariableModel)// ‰‹}ˆ’u
+				&& !(getParent() instanceof StLocalVariableModel)// å¿œæ€¥å‡¦ç½®
 				&& !(getParent() instanceof ExCallUserMethodModel)
-				&& !(getParent() instanceof StReturnModel)) {// ‰‹}ˆ’u
+				&& !(getParent() instanceof StReturnModel)) {// å¿œæ€¥å‡¦ç½®
 			resolveBeforeAfterBlock(getParent().getParent());
 		}
 
@@ -89,15 +89,15 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 		String plugType = getConnectorType(getType());
 		if (VOID.equals(plugType)) {
 			// #matsuzawa 2012.10.29
-			// forÚ‘±‚·‚éeƒuƒƒbƒN(if“™‚Ìˆê”Ôã‚ÌƒuƒƒbƒN‚àŠÜ‚Ş‚Æ‚±‚ë‚ª‚â‚â‚±‚µ‚¢)
+			// foræ¥ç¶šã™ã‚‹è¦ªãƒ–ãƒ­ãƒƒã‚¯(ifç­‰ã®ä¸€ç•ªä¸Šã®ãƒ–ãƒ­ãƒƒã‚¯ã‚‚å«ã‚€ã¨ã“ã‚ãŒã‚„ã‚„ã“ã—ã„)
 			if (getConnectorId() != -1) {
 				makeIndent(out, indent + 1);
 				out.println("<BeforeBlockId>" + getConnectorId()
 						+ "</BeforeBlockId>");
 			}
-		} else {// –ß‚è’l‚Ìê‡
-			if (getParent().getId() != getId()) {// –ß‚è’l‚ ‚è‚Ìƒƒ\ƒbƒh‚ª–ß‚è’ló‚¯æ‚è‚È‚µ‚ÅŒÄ‚Î‚ê‚½ê‡‚ğœ‚­
-													// #matsuzawa TODO ‚¤‚Ü‚­“®‚¢‚Ä‚¢‚È‚¢
+		} else {// æˆ»ã‚Šå€¤ã®å ´åˆ
+			if (getParent().getId() != getId()) {// æˆ»ã‚Šå€¤ã‚ã‚Šã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒæˆ»ã‚Šå€¤å—ã‘å–ã‚Šãªã—ã§å‘¼ã°ã‚ŒãŸå ´åˆã‚’é™¤ã
+													// #matsuzawa TODO ã†ã¾ãå‹•ã„ã¦ã„ãªã„
 				makeIndent(out, indent + 1);
 				out.println("<Plug>");
 				// blockConnecter

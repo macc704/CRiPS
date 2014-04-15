@@ -35,7 +35,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 		List<Integer> connectorIDs = getConnectorIDs();
 		for (int connectorID : connectorIDs) {
 			if (connectorID == BlockModel.NULL) {
-				throw new RuntimeException("ƒuƒƒbƒN‚ªŠ®‘S‚É‘g‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñAF "
+				throw new RuntimeException("ãƒ–ãƒ­ãƒƒã‚¯ãŒå®Œå…¨ã«çµ„ã¾ã‚Œã¦ã„ã¾ã›ã‚“Aï¼š "
 						+ getMethodName());
 			}
 			BlockToJavaAnalyzer.getBlock(connectorID).checkError();
@@ -68,7 +68,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 		// makeIndent(out, indent);
 		// }
 
-		// “ÁêƒP[ƒX
+		// ç‰¹æ®Šã‚±ãƒ¼ã‚¹
 		if ("empty".equals(methodName)) {
 			if (isCommand(methodName)) {
 				out.print(";");
@@ -77,7 +77,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 			return;
 		}
 
-		// “ÁêƒP[ƒX2
+		// ç‰¹æ®Šã‚±ãƒ¼ã‚¹2
 		if ("hashCode".equals(methodName)) {
 			if (getConnectorIDs().size() == 1) {// must be true
 				int id = getConnectorIDs().get(0);
@@ -93,7 +93,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 			return;
 		}
 
-		// “Áê‚Èƒƒ\ƒbƒh–¼
+		// ç‰¹æ®Šãªãƒ¡ã‚½ãƒƒãƒ‰å
 		if ("cui-print".equals(methodName)) {
 			methodName = "System.out.print";
 		} else if ("cui-println".equals(methodName)) {
@@ -121,7 +121,7 @@ public class CallMethodBlockModel extends CommandBlockModel {
 		}
 		out.print(methodName);
 
-		// ˆø”i‚È‚ñ‚¾‚ë‚Ëj
+		// å¼•æ•°ï¼ˆãªã‚“ã ã‚ã­ï¼‰
 		out.print("(");
 		List<Integer> connectorIDs = getConnectorIDs();
 		for (int connectorID : connectorIDs) {

@@ -9,12 +9,12 @@ public class ConvertBlockModel extends BasicModel {
 			String headerLabel, String footerLabel, String color) {
 		super(name, kind, initialLabel, headerLabel, footerLabel, color);
 
-		// connector‚Ì“o˜^
+		// connectorã®ç™»éŒ²
 		HashSet<String> plugConnectorType = new HashSet<String>();
 		plugConnectorType.add("object");
 		addConnector("plug", plugConnectorType);
 
-		// socket‚Ì“o˜^
+		// socketã®ç™»éŒ²
 		HashSet<String> socketConnectorType = new HashSet<String>();
 		socketConnectorType.add("object");
 		addConnector("socket", socketConnectorType);
@@ -32,7 +32,7 @@ public class ConvertBlockModel extends BasicModel {
 		out.println("</BlockGenus>");
 
 		// <BlockGenus name="toStringFromDouble" kind="function"
-		// initlabel="•¶š—ñŒ^‚É•ÏŠ·‚·‚é" color="45 201 255">
+		// initlabel="æ–‡å­—åˆ—å‹ã«å¤‰æ›ã™ã‚‹" color="45 201 255">
 		// <BlockConnectors>
 		// <BlockConnector connector-kind="plug"
 		// connector-type="string"></BlockConnector>

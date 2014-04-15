@@ -257,7 +257,7 @@ public abstract class ElementModel {
 				ElementModel child = ((StBlockModel) parent).getChild(i);
 
 				if (child.getId() == getId()) {
-					// BeforeBlockId‚ğİ’è
+					// BeforeBlockIdã‚’è¨­å®š
 					if (i == 0) {
 						setPrevious(parent.getId());
 					} else {
@@ -265,7 +265,7 @@ public abstract class ElementModel {
 								.getId());
 					}
 
-					// AfterBlockId‚ğİ’è
+					// AfterBlockIdã‚’è¨­å®š
 					if (i + 1 < ((StBlockModel) parent).getChildrenSize()) {
 						setNext(((StBlockModel) parent).getChild(i + 1).getId());
 					}
@@ -279,7 +279,7 @@ public abstract class ElementModel {
 				ElementModel child = ((StAbstractionBlockModel) parent)
 						.getChild(i);
 				if (child.getId() == getId()) {
-					// BeforeBlockId‚ğİ’è
+					// BeforeBlockIdã‚’è¨­å®š
 					if (i == 0) {
 						setPrevious(parent.getId());
 					} else {
@@ -287,7 +287,7 @@ public abstract class ElementModel {
 								.getChild(i - 1).getId());
 					}
 
-					// AfterBlockId‚ğİ’è
+					// AfterBlockIdã‚’è¨­å®š
 					if (i + 1 < ((StAbstractionBlockModel) parent)
 							.getChildrenSize()) {
 						setNext(((StAbstractionBlockModel) parent).getChild(

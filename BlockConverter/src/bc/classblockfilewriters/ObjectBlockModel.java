@@ -99,7 +99,7 @@ public class ObjectBlockModel extends BasicModel {
 
 		out.println("</BlockGenus>");
 		out.println();
-		// ƒRƒ}ƒ“ƒhƒuƒƒbƒNî•ñ‚Ì‘‚«o‚µ
+		// ã‚³ãƒãƒ³ãƒ‰ãƒ–ãƒ­ãƒƒã‚¯æƒ…å ±ã®æ›¸ãå‡ºã—
 		PublicMethodCommandWriter commandWriter = new PublicMethodCommandWriter();
 		if (methods != null) {
 			for (String key : methods.keySet()) {
@@ -217,7 +217,7 @@ public class ObjectBlockModel extends BasicModel {
 		out.println("<BlockConnectors>");
 
 		makeIndent(out, ++lineNumber);
-		out.println("<BlockConnector label=\"‰Šú’l\" connector-kind=\""
+		out.println("<BlockConnector label=\"åˆæœŸå€¤\" connector-kind=\""
 				+ connectorKind + "\" connector-type=\"" + connectorType
 				+ "\">");
 

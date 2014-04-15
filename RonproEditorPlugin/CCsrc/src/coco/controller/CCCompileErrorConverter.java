@@ -39,26 +39,26 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 
 		buf.append("ErrorID");
 		buf.append(CAMMA);
-		buf.append("ƒtƒ@ƒCƒ‹ƒpƒX");
+		buf.append("ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹");
 		buf.append(CAMMA);
-		buf.append("”­¶");
+		buf.append("ç™ºç”Ÿæ™‚åˆ»");
 		buf.append(CAMMA);
-		buf.append("C³Š®—¹");
+		buf.append("ä¿®æ­£å®Œäº†æ™‚åˆ»");
 		buf.append(CAMMA);
-		buf.append("C³ŠÔ");
-		// buf.append("ErrorID,ƒtƒ@ƒCƒ‹–¼,”­¶,C³ŠÔ");
+		buf.append("ä¿®æ­£æ™‚é–“");
+		// buf.append("ErrorID,ãƒ•ã‚¡ã‚¤ãƒ«å,ç™ºç”Ÿæ™‚åˆ»,ä¿®æ­£æ™‚é–“");
 		pw.println(buf.toString());
 	}
 
 	protected void separeteData(List<String> lines) throws IOException {
 		StringBuffer buf = new StringBuffer();
 
-		// errorID‚ÍmessageList‚ğmanager‚Éì‚Á‚ÄindexOfƒƒ\ƒbƒh‚Å‰ğŒˆ
-		// æ‚ÉƒVƒ“ƒ{ƒ‹‚È‚Ç‚Ìƒ`ƒFƒbƒN‚ğ‚µ‚Ä‚©‚çgetMessageID‚ğ‚·‚éŒ`‚É‚µAiƒVƒ“ƒ{ƒ‹j‚È‚Ç‚É‘Î‰‚µ‚½
+		// errorIDã¯messageListã‚’managerã«ä½œã£ã¦indexOfãƒ¡ã‚½ãƒƒãƒ‰ã§è§£æ±º
+		// å…ˆã«ã‚·ãƒ³ãƒœãƒ«ãªã©ã®ãƒã‚§ãƒƒã‚¯ã‚’ã—ã¦ã‹ã‚‰getMessageIDã‚’ã™ã‚‹å½¢ã«ã—ã€ï¼ˆã‚·ãƒ³ãƒœãƒ«ï¼‰ãªã©ã«å¯¾å¿œã—ãŸ
 		int errorID = 0;
 		String element = "";
 		if (lines.get(5) != null) {
-			element = "i" + lines.get(5) + "j";
+			element = "ï¼ˆ" + lines.get(5) + "ï¼‰";
 		}
 
 		String message = lines.get(3) + element;
@@ -66,17 +66,17 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		try {
 			errorID = manager.getMessagesID(message);
 		} catch (Exception e) {
-			// ErrorKinds‚É‘¶İ‚µ‚È‚¢ê‡‚ÍCƒJƒEƒ“ƒg‚µ‚È‚¢
+			// ErrorKindsã«å­˜åœ¨ã—ãªã„å ´åˆã¯ï¼Œã‚«ã‚¦ãƒ³ãƒˆã—ãªã„
 			return;
 
-			// V‚µ‚­ƒGƒ‰[ƒƒbƒZ[ƒW‚ğ‹L˜^‚·‚éê‡‚Ìˆ—
+			// æ–°ã—ãã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¨˜éŒ²ã™ã‚‹å ´åˆã®å‡¦ç†
 			// errorID = addErrorID;
 			// manager.put(errorID, 6, message);
 			// addErrorID++;
 		}
 
-		// spilt‚Í’¼Ú\\‚Å‹æØ‚é‚±‚Æ‚ª‚Å‚«‚È‚¢‚Ì‚ÅC‚¢‚Á‚½‚ñ/‚É•ÏŠ·‚·‚é
-		// ——R‚É‚Â‚¢‚Ä‚ÍŒã“ú’²¸‚·‚é‚±‚Æ
+		// spiltã¯ç›´æ¥\\ã§åŒºåˆ‡ã‚‹ã“ã¨ãŒã§ããªã„ã®ã§ï¼Œã„ã£ãŸã‚“/ã«å¤‰æ›ã™ã‚‹
+		// ç†ç”±ã«ã¤ã„ã¦ã¯å¾Œæ—¥èª¿æŸ»ã™ã‚‹ã“ã¨
 		String filepath = lines.get(2).replace("\\", "/");
 
 		long beginTime = 0;
@@ -93,10 +93,10 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 			endTime = changeDateStringToLong(lines.get(13));
 		}
 
-		// correctionTime ‚Í CT’l
+		// correctionTime ã¯ CTå€¤
 		int correctTime = Integer.parseInt(lines.get(18));
 
-		// ƒf[ƒ^‚ğ‘‚«‚Ş
+		// ãƒ‡ãƒ¼ã‚¿ã‚’æ›¸ãè¾¼ã‚€
 		buf.append(String.valueOf(errorID));
 		buf.append(CAMMA);
 		buf.append(filepath);

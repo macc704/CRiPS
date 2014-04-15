@@ -32,7 +32,7 @@ public class ExNotModel extends ExpressionModel {
 		String genusName = "not";
 		String connectorType = getType();// "boolean";
 
-		// BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
+		// BeforeBlockã¨AfterBlockã‚’æ¤œç´¢ã™ã‚‹
 		// ResolveBeforeAfterBlock(getParent().getParent());//2012.09.27
 		// #matsuzawa
 		// resolveBeforeAfterBlock(getBlockParent());// 2012.09.27 #matsuzawa

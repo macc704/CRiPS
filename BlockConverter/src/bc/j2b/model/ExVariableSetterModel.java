@@ -66,7 +66,7 @@ public class ExVariableSetterModel extends ExpressionModel {
 		rightExpression.setConnectorId(getId());
 		rightExpression.print(out, indent);
 
-		// BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
+		// BeforeBlockã¨AfterBlockã‚’æ¤œç´¢ã™ã‚‹
 		resolveBeforeAfterBlock(getParent().getParent());
 
 		// print BlockEditor File

@@ -8,7 +8,7 @@ import ppv.app.datamanager.PPProjectSet;
 import clib.common.filesystem.CDirectory;
 
 public class CCCompileErrorManager {
-	// HashMap‚Å‚Í‡˜‚ª•ÛØ‚³‚ê‚È‚¢‚Ì‚ÅLinkedHashMap‚É•ÏX
+	// HashMapã§ã¯é †åºãŒä¿è¨¼ã•ã‚Œãªã„ã®ã§LinkedHashMapã«å¤‰æ›´
 	private LinkedHashMap<Integer, CCCompileErrorKind> kinds = new LinkedHashMap<Integer, CCCompileErrorKind>();
 	private LinkedHashMap<String, Integer> ids = new LinkedHashMap<String, Integer>();
 

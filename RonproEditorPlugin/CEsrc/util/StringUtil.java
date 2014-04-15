@@ -5,9 +5,9 @@ public class StringUtil {
 	private static final String TAB = "_TAB";
 	private static final String BREAK = "_BREAK";
 	private static final String SPACE = "_SPACE";
-	private static final String HSPACE = "_HSPACE"; // ”¼ŠpƒXƒy[ƒX
+	private static final String HSPACE = "_HSPACE"; // åŠè§’ã‚¹ãƒšãƒ¼ã‚¹
 
-	private static int DIFFERENCE = '‚`' - 'A';
+	private static int DIFFERENCE = 'ï¼¡' - 'A';
 
 	public static String convertToSign(String text) {
 		String str = new String(text);
@@ -15,7 +15,7 @@ public class StringUtil {
 		str = str.replaceAll("\r\n", BREAK);
 		str = str.replaceAll("\r", BREAK);
 		str = str.replaceAll("\n", BREAK);
-		str = str.replaceAll("@", SPACE);
+		str = str.replaceAll("ã€€", SPACE);
 		str = str.replaceAll(" ", HSPACE);
 		return str;
 	}
@@ -26,7 +26,7 @@ public class StringUtil {
 		str = str.replaceAll(BREAK, "\r\n");
 		str = str.replaceAll(BREAK, "\n");
 		str = str.replaceAll(BREAK, "\r");
-		str = str.replaceAll(SPACE, "@");
+		str = str.replaceAll(SPACE, "ã€€");
 		str = str.replaceAll(HSPACE, " ");
 		return str;
 	}
@@ -37,7 +37,7 @@ public class StringUtil {
 		str = str.replace("\r", "");
 		str = str.replace("\t", "");
 		str = str.replace(" ", "");
-		str = str.replace("@", "");
+		str = str.replace("ã€€", "");
 		return str;
 	}
 
@@ -62,7 +62,7 @@ public class StringUtil {
 	}
 
 	/**
-	 * •¶š—ñ‚ÉŠÜ‚Ü‚ê‚é‘SŠp•¶š‚ğ”¼Šp•¶š‚É‚µ‚Ü‚·
+	 * æ–‡å­—åˆ—ã«å«ã¾ã‚Œã‚‹å…¨è§’æ–‡å­—ã‚’åŠè§’æ–‡å­—ã«ã—ã¾ã™
 	 * 
 	 * @param text
 	 * @return
@@ -73,8 +73,8 @@ public class StringUtil {
 
 		for (char c : cArray) {
 			char newChar = c;
-			if (('‚`' <= c && c <= '‚y') || ('‚' <= c && c <= '‚š')
-					|| ('‚O' <= c && c <= '‚X')) {
+			if (('ï¼¡' <= c && c <= 'ï¼º') || ('ï½' <= c && c <= 'ï½š')
+					|| ('ï¼' <= c && c <= 'ï¼™')) {
 				newChar = (char) (c - DIFFERENCE);
 			}
 			sb.append(newChar);

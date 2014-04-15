@@ -36,7 +36,7 @@ import codeblockutil.CScrollPane.ScrollPolicy;
  * Blockcanvas must update itself appropriately to reflect this change.
  * 
  * As of the current implementation, the BlockCanvas must have at least one Page
- * when it becomes visible (that is, when it�ｽs viewable JComponent becomes
+ * when it becomes visible (that is, when it?ｽs viewable JComponent becomes
  * visible).
  */
 public class BlockCanvas implements PageChangeListener, ISupportMemento {

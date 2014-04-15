@@ -40,7 +40,7 @@ public class ClassModel extends ElementModel {
 	 * @param superClass
 	 */
 	public void setSuperClass(String superClass) {
-		// superclassに<が入った時は、エスケープシーケンスをつける
+		// superclass縺ｫ<縺悟�･縺｣縺滓凾縺ｯ縲√お繧ｹ繧ｱ繝ｼ繝励す繝ｼ繧ｱ繝ｳ繧ｹ繧偵▽縺代ｋ
 		this.superClass = ElementModel.addEscapeSequence(superClass);
 	}
 

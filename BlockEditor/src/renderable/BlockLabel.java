@@ -234,7 +234,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 	}
 
 	public void setText(String text) {
-		if (text != null && !text.equals(widget.getText())) {//2012.10.23 —]Œv‚ÈBLOCK_CHANGEDƒCƒxƒ“ƒg‚ª”ò‚ÔD #matsuzawa
+		if (text != null && !text.equals(widget.getText())) {//2012.10.23 ä½™è¨ˆãªBLOCK_CHANGEDã‚¤ãƒ™ãƒ³ãƒˆãŒé£›ã¶ï¼ #matsuzawa
 			widget.setText(text);
 		}
 	}
@@ -341,7 +341,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 	}
 
 	protected boolean textValid(String text) {
-		// TODO ‹ó•¶š—ñ‚à“ü—Í‰Â”\‚É‚µ‚½
+		// TODO ç©ºæ–‡å­—åˆ—ã‚‚å…¥åŠ›å¯èƒ½ã«ã—ãŸ
 		return /* !text.equals("") && */BlockUtilities.isLabelValid(blockID,
 				text);
 	}

@@ -43,14 +43,14 @@ public class SBlockCopier {
 		newRBlock.setParentWidget(srcRBlock.getParentWidget());
 		srcRBlock.getParentWidget().addBlock(newRBlock);
 
-		// ƒuƒƒbƒNì¬‚Éì‚ç‚ê‚Ä‚µ‚Ü‚Á‚½ƒfƒtƒHƒ‹ƒg’l‚ª‚ ‚ê‚Îíœ
+		// ãƒ–ãƒ­ãƒƒã‚¯ä½œæˆæ™‚ã«ä½œã‚‰ã‚Œã¦ã—ã¾ã£ãŸãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ãŒã‚ã‚Œã°å‰Šé™¤
 		for (BlockConnector con : newBlock.getSockets()) {
 			if (con.hasBlock()) {
 				deleteRecursively(Block.getBlock(con.getBlockID()));
 			}
 		}
 
-		// ’l‚ğì¬‚µ‚Ä˜AŒ‹
+		// å€¤ã‚’ä½œæˆã—ã¦é€£çµ
 		int numSockets = srcBlock.getNumSockets();
 		for (int i = 0; i < numSockets; i++) {
 			BlockConnector srcCon = srcBlock.getSocketAt(i);
@@ -58,12 +58,12 @@ public class SBlockCopier {
 			copyValueAndConnect(srcCon, newBlock, newCon);
 		}
 
-		// View‚ğæ‚¹‚é
+		// Viewã‚’ä¹—ã›ã‚‹
 		if (srcRBlock.isCollapsed()) {
 			newRBlock.updateCollapse();
 		}
 
-		// ‰º‚É˜AŒ‹‚µ‚Ä‚¢‚é’l‚ğ˜AŒ‹
+		// ä¸‹ã«é€£çµã—ã¦ã„ã‚‹å€¤ã‚’é€£çµ
 		if (srcBlock.hasAfterConnector()) {
 			BlockConnector srcCon = srcBlock.getAfterConnector();
 			BlockConnector newCon = newBlock.getAfterConnector();
@@ -78,11 +78,11 @@ public class SBlockCopier {
 			RenderableBlock newValueRBlock = copy(RenderableBlock
 					.getRenderableBlock(srcCon.getBlockID()));
 			Block newValueBlock = newValueRBlock.getBlock();
-			BlockConnector newValueCon = getLeftConnection(newValueBlock);// ÅŒã‚Ì‚Â‚È‚®‰ÓŠ@’ˆÓ
+			BlockConnector newValueCon = getLeftConnection(newValueBlock);// æœ€å¾Œã®ã¤ãªãç®‡æ‰€ã€€æ³¨æ„
 			BlockLink link = BlockLink.getBlockLink(newBlock, newValueBlock,
 					newCon, newValueCon);
 			link.connect();
-			//‚±‚ê‚ğ‚â‚ç‚È‚¢‚ÆŒ`‚ª•Ï‚í‚ç‚È‚¢
+			//ã“ã‚Œã‚’ã‚„ã‚‰ãªã„ã¨å½¢ãŒå¤‰ã‚ã‚‰ãªã„
 			Workspace.getInstance().notifyListeners(
 					new WorkspaceEvent(newValueRBlock.getParentWidget(), link,
 							WorkspaceEvent.BLOCKS_CONNECTED));
@@ -133,7 +133,7 @@ public class SBlockCopier {
 	}
 
 	// -------------------------------------------------------------------------
-	// è‚É‚æ‚é”z’u‚ÌƒGƒ~ƒ…ƒŒ[ƒg‚É‚æ‚è“à•”ƒuƒƒbƒN‚ğ•¡»‚µ‚Ü‚·iˆÈ‰ºCŒ»İg‚í‚ê‚Ä‚¢‚Ü‚¹‚ñj
+	// æ‰‹ã«ã‚ˆã‚‹é…ç½®ã®ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã«ã‚ˆã‚Šå†…éƒ¨ãƒ–ãƒ­ãƒƒã‚¯ã‚’è¤‡è£½ã—ã¾ã™ï¼ˆä»¥ä¸‹ï¼Œç¾åœ¨ä½¿ã‚ã‚Œã¦ã„ã¾ã›ã‚“ï¼‰
 	// -------------------------------------------------------------------------
 
 	public static void copyRecursivelyByEmuration(RenderableBlock rb,
@@ -142,7 +142,7 @@ public class SBlockCopier {
 			return;
 		}
 		RenderableBlock newRb = BlockUtilities.cloneBlock(rb.getBlock());
-		newRb.setLocation(rb.getX() + 200, rb.getY()); // V‚µ‚­¶¬‚·‚éƒuƒƒbƒN‚Ìƒ|ƒWƒVƒ‡ƒ“
+		newRb.setLocation(rb.getX() + 200, rb.getY()); // æ–°ã—ãç”Ÿæˆã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒã‚¸ã‚·ãƒ§ãƒ³
 		newRb.setParentWidget(rb.getParentWidget());
 		rb.getParent().add(newRb, 0);
 		MouseEvent me = new MouseEvent(newRb, e.getID(), e.getWhen(),
@@ -162,7 +162,7 @@ public class SBlockCopier {
 			newRb.updateCollapse();
 		}
 
-		// ‘ÎÛ‚Æ‚È‚éƒuƒƒbƒN‚ÉƒRƒlƒNƒg‚µ‚Ä‚¢‚éƒuƒƒbƒNiAfterBlockj‚Ì¶¬
+		// å¯¾è±¡ã¨ãªã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã«ã‚³ãƒã‚¯ãƒˆã—ã¦ã„ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ï¼ˆAfterBlockï¼‰ã®ç”Ÿæˆ
 		long next = rb.getBlock().getAfterBlockID();
 		if (next == Block.NULL) {
 			return;

@@ -98,7 +98,7 @@ public class CollapseLabel extends BlockControlLabel {
 	}
 
 	/**
-	 * ƒ}ƒEƒXƒNƒŠƒbƒNˆÈŠO‚ÅƒuƒƒbƒN‚ğ•Â‚¶‚é‚Æ‚«
+	 * ãƒã‚¦ã‚¹ã‚¯ãƒªãƒƒã‚¯ä»¥å¤–ã§ãƒ–ãƒ­ãƒƒã‚¯ã‚’é–‰ã˜ã‚‹ã¨ã
 	 */
 	public void blockCollapse() {
 		toggle();

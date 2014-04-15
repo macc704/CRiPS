@@ -388,12 +388,12 @@ public class BlockConnector implements ISupportMemento {
 			if (nameMatcher.find()) // will be true
 				kind = nameMatcher.group(1);
 
-			//#matsuzawa 2012.11.11 ‰½‚ğ‚µ‚Ä‚¢‚é‚Ì‚©•ª‚©‚ç‚È‚¢‚¯‚ÇC‚Æ‚è‚ ‚¦‚¸í‚Á‚Ä‚İ‚éD
+			//#matsuzawa 2012.11.11 ä½•ã‚’ã—ã¦ã„ã‚‹ã®ã‹åˆ†ã‹ã‚‰ãªã„ã‘ã©ï¼Œã¨ã‚Šã‚ãˆãšå‰Šã£ã¦ã¿ã‚‹ï¼
 			if (node.getAttributes().getNamedItem("label") != null) {
 				nameMatcher = attrExtractor.matcher(node.getAttributes()
 						.getNamedItem("label").toString());
 			}
-			//ˆÈ‰º‚ÍŠù‚Éí‚Á‚Ä‚ ‚Á‚½D
+			//ä»¥ä¸‹ã¯æ—¢ã«å‰Šã£ã¦ã‚ã£ãŸï¼
 			//if (nameMatcher.find()) { // will be true 
 			//	label = nameMatcher.group(1);
 			//}

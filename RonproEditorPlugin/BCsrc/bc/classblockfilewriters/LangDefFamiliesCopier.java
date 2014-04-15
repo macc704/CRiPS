@@ -35,13 +35,13 @@ public class LangDefFamiliesCopier implements Copier {
 
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 			PrintStream printStream = new PrintStream(byteArray);
-			// ‚·‚×‚Ä‚Ìs‚ğƒRƒs[‚·‚é
+			// ã™ã¹ã¦ã®è¡Œã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 			String line;
 			while ((line = br.readLine()) != null) {
-				// ˆês‘‚«‚İ >>lang_def.xml
+				// ä¸€è¡Œæ›¸ãè¾¼ã¿ >>lang_def.xml
 				printStream.println(line);
 			}
-			// ’Ç‰Á‚Ìƒtƒ@ƒ~ƒŠ[‚ğ‘‚«‚Ş
+			// è¿½åŠ ã®ãƒ•ã‚¡ãƒŸãƒªãƒ¼ã‚’æ›¸ãè¾¼ã‚€
 
 			for (String key : projectFamilies.keySet()) {
 				printStream.println("<BlockFamily>");
@@ -67,7 +67,7 @@ public class LangDefFamiliesCopier implements Copier {
 				printStream.println("</BlockFamily>");
 			}
 
-			// ps‚É‘‚«‚¾‚µ‚½‚à‚Ì‚ğ‚·‚×‚Ä•¶š—ñ‚É•ÏŠ·‚·‚é
+			// psã«æ›¸ãã ã—ãŸã‚‚ã®ã‚’ã™ã¹ã¦æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
 			String ldfString = byteArray.toString();
 
 			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile()

@@ -13,7 +13,7 @@ public class BlockConverter {
 	public static final String COLLAPSED_BLOCK_LABEL = "c//";
 
 	public static Map<String, String> projectMethods = new HashMap<String, String>();
-	// �F
+	// 色
 	public static final String[] COLOR_NAMES = { "blue", "cyan", "green",
 			"magenta", "orange", "pink", "red", "white", "yellow", "gray",
 			"black", "lightGray", "darkGray" };
@@ -29,7 +29,7 @@ public class BlockConverter {
 			"getterlocal-var-boolean", "new-object", /* ! */
 			"getterlocal-var-object", "null" };
 
-	// ���Z�q�̓R�R�ɓo�^
+	// 演算子はココに登録
 	public static final String[] INFIX_COMMAND_BLOCKS = { "lessthan",
 			"lessthanorequalto", "greaterthan", "greaterthanorequalto",
 			"equals-number", "not-equals-number", "and", "or", "sum",
@@ -41,7 +41,7 @@ public class BlockConverter {
 			"remainder-double", "equals-boolean", "not-equals-boolean",
 			"equals-string", "instanceof" };
 
-	// �߂�l�̂Ȃ����\�b�h�͂����ɓo�^
+	// 戻り値のないメソッドはここに登録
 	public static final String[] METHOD_CALL_BLOCKS = { "fd", "bk", "lt", "rt",
 			"input", "print", "color", "up", "down", "atan", "random", "round",
 			"min", "max", "pow", "abs", "sqrt", "sin", "cos", "tan", "asin",
@@ -87,7 +87,7 @@ public class BlockConverter {
 			"getDefaultVolume", "remove[@number]", "remove[@object]", "get",
 			"get[@number]", "isMouseDown", "hasNextInt", "hasNextDouble" };
 
-	// �߂�l�̂��郁�\�b�h�͂����ɓo�^ (��ɂ��o�^���Ȃ��ƃ_��)
+	// 戻り値のあるメソッドはここに登録 (上にも登録しないとダメ)
 	public final static String[] FUNCTION_METHODCALL_BLOCKS = { "input",
 			"atan", "random", "round", "min", "max", "pow", "abs", "sqrt",
 			"sin", "cos", "tan", "asin", "acos", "log", "ln", "getX", "getY",

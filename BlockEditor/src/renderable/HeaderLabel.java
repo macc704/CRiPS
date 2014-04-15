@@ -86,17 +86,17 @@ public class HeaderLabel extends BlockLabel {
 				}
 				RenderableBlock socketRBlock = RenderableBlock
 						.getRenderableBlock(socket.getBlockID());
-				//TODO Œ^‚É‰‚¶‚½•Ï”‚ÌØ‚è‘Ö‚¦‚ÍƒRƒR‚Å‚µ‚Ä‚¢‚éD
+				//TODO å‹ã«å¿œã˜ãŸå¤‰æ•°ã®åˆ‡ã‚Šæ›¿ãˆã¯ã‚³ã‚³ã§ã—ã¦ã„ã‚‹ï¼
 				if (socketRBlock.getGenus().equals(
 						"callObjectMethodlocal-var-object")) {
-					rb.getHeaderLabel().setText("ObjectŒ^‚Ì•Ï”‚ğì‚èA");
+					rb.getHeaderLabel().setText("Objectå‹ã®å¤‰æ•°ã‚’ä½œã‚Šã€");
 				} else {
 					if (!socketRBlock.getBlockLabel().getText().equals("null")) {
 						if (socketRBlock.getBlock().getGenusName()
 								.startsWith("new-")) {
 							rb.getHeaderLabel().setText(
 									socketRBlock.getBlockLabel().getText()
-											+ "Œ^‚Ì•Ï”‚ğì‚èA");
+											+ "å‹ã®å¤‰æ•°ã‚’ä½œã‚Šã€");
 						} else {
 							if (Block.getBlock(socketRBlock.getBlockID())
 									.getJavaType() != null) {
@@ -104,7 +104,7 @@ public class HeaderLabel extends BlockLabel {
 										Block.getBlock(
 												socketRBlock.getBlockID())
 												.getJavaType()
-												+ "Œ^‚Ì•Ï”‚ğì‚èA");
+												+ "å‹ã®å¤‰æ•°ã‚’ä½œã‚Šã€");
 
 							}
 

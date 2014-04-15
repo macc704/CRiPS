@@ -14,8 +14,8 @@ import codeblocks.BlockConnectorShape;
  *         block that will cause all blocks after this block to be hidden from
  *         view when the isCollapsed parameter is true.
  * 
- *         2012.10.06 update()�֐���Figure�ύX�̏���������ƁC�璷�Ńp�t�H�[�}���X�ɉe������̂�
- *         �i�I���W�i���ł͂����������Ă��邯�ǁj�DupdateCollapse()�̎���������������悤�ɂ���D
+ *         2012.10.06 update()関数にFigure変更の処理があると，冗長でパフォーマンスに影響するので
+ *         （オリジナルではそう処理しているけど）．updateCollapse()の時だけ書き換えるようにする．
  */
 class AbstractionBlockCollapseLabel extends CollapseLabel {
 
@@ -46,10 +46,10 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		}
 	}
 
-	// ���ۉ��u���b�N���J���ꂽ�Ƃ��֌W����u���b�N�����t�H�[������
-	// 2012.09.25 ���[�v���Ă����̂łЂƂ܂������i�Ȃ��Ă��Ȃ�Ƃ��Ȃ肻���j #matsuzawa
-	// 2012.10.05 ���ꂪ�Ȃ��ƒ��ۉ��u���b�N��߂��Ƃ��ɐe�̑傫�����ς��Ȃ��D
-	// 2013.09.27 ���ۉ��u���b�N��2���񂾍ۂɁA2�ڂ̒��ۉ��u���b�N��close��Ԃł���ꍇ��NullPointerException����
+	// 抽象化ブロックが開閉されたとき関係するブロックをリフォームする
+	// 2012.09.25 ループしていたのでひとまず消去（なくてもなんとかなりそう） #matsuzawa
+	// 2012.10.05 これがないと抽象化ブロックを閉めたときに親の大きさが変わらない．
+	// 2013.09.27 抽象化ブロックが2つ並んだ際に、2つ目の抽象化ブロックがclose状態である場合にNullPointerException発生
 
 	private void reformRelatedBlocks() {
 		try {
@@ -85,7 +85,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		return topBlock;
 	}
 
-	//	// ���ۉ��u���b�N���J���ꂽ�Ƃ��֌W����u���b�N�����t�H�[������ (�ۈ�o�[�W����)
+	//	// 抽象化ブロックが開閉されたとき関係するブロックをリフォームする (保井バージョン)
 	//	private void reformRelatedBlocks() {
 	//		RenderableBlock beforeRBlock = RenderableBlock
 	//				.getRenderableBlock(getBlockID());
@@ -101,7 +101,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 	//		}
 	//	}
 	//
-	//	// ���ۉ��u���b�N���J���ꂽ�Ƃ��֌W����u���b�N�����t�H�[������ (�ۈ�o�[�W����)
+	//	// 抽象化ブロックが開閉されたとき関係するブロックをリフォームする (保井バージョン)
 	//	private void reformBlock(Block block) {
 	//		if (block.isCommandBlock() || block.isAbstractionBlock()) {
 	//			RenderableBlock rb = RenderableBlock

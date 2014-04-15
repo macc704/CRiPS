@@ -31,7 +31,7 @@ public class CCAchivementFrame extends JFrame {
 		setLayout(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(width, height);
-		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " ÀÑ‰æ–Ê");
+		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " å®Ÿç¸¾ç”»é¢");
 	}
 
 	public void openFrame() {
@@ -40,7 +40,7 @@ public class CCAchivementFrame extends JFrame {
 	}
 
 	private void tableSetting() {
-		// TODO: Ì†‚ğ”»’è‚·‚éƒvƒƒOƒ‰ƒ€‚ğ‘‚­
+		// TODO: ç§°å·ã‚’åˆ¤å®šã™ã‚‹ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’æ›¸ã
 		ArrayList<CCAchivementData> data = new ArrayList<CCAchivementData>();
 		CCAchivementLoader loader = new CCAchivementLoader(data);
 
@@ -64,7 +64,7 @@ public class CCAchivementFrame extends JFrame {
 	}
 
 	private void compileErrorCountAchive(CCAchivementData data) {
-		// ƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‘”­¶‰ñ”‚É‚æ‚é•ñV
+		// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ç·ç™ºç”Ÿå›æ•°ã«ã‚ˆã‚‹å ±é…¬
 		int count = manager.getTotalErrorCount();
 		if (data.getThreshold() > count) {
 			System.out.println("ErrorCount : " + data.getHirotitle() + " : "
@@ -73,7 +73,7 @@ public class CCAchivementFrame extends JFrame {
 	}
 
 	private void compileErrorKindsAchive(CCAchivementData data) {
-		// ƒRƒ“ƒpƒCƒ‹ƒGƒ‰[í—Ş‚É‚æ‚é•ñV
+		// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ç¨®é¡ã«ã‚ˆã‚‹å ±é…¬
 		int kinds = manager.getAllKinds().size();
 		if (data.getThreshold() > kinds) {
 			System.out.println("ErrorKinds : " + data.getHirotitle() + " : "
@@ -82,7 +82,7 @@ public class CCAchivementFrame extends JFrame {
 	}
 
 	private void compileErrorCorrectTimeAchive(CCAchivementData data) {
-		// ƒRƒ“ƒpƒCƒ‹ƒGƒ‰[C³ŠÔ‚É‚æ‚é•ñV
+		// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ä¿®æ­£æ™‚é–“ã«ã‚ˆã‚‹å ±é…¬
 		int correctTime = manager.getErrorTotalCorrectionTime();
 		if (data.getThreshold() > correctTime) {
 			System.out.println("CorrectTime : " + data.getHirotitle() + " : "

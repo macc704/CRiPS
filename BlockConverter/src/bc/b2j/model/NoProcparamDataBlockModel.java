@@ -15,10 +15,10 @@ public class NoProcparamDataBlockModel extends BlockModel {
 
 	@Override
 	public void checkError() {
-		// #matsuzawa ‰‹}ˆ’u 2012.11.24
+		// #matsuzawa å¿œæ€¥å‡¦ç½® 2012.11.24
 
 		if (getGenusName().indexOf("proc-param") != -1) {
-			return;// ‘f’Ê‚µ
+			return;// ç´ é€šã—
 		}
 		if (getName().startsWith("getterprivate") || getName().contains("this")
 				|| getName().contains("gettersuper")) {
@@ -27,7 +27,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		if (!getGenusName().startsWith("getter")) {
 			return;
 		}
-		if (getGenusName().contains("array")) {// ‚Æ‚è‚ ‚¦‚¸
+		if (getGenusName().contains("array")) {// ã¨ã‚Šã‚ãˆãš
 			return;
 		}
 		checkPlugBlock(getPlugID());
@@ -45,7 +45,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 
 	private void checkWhetherCreatedVariable(int blockID) {
 		if (blockID == BlockModel.NULL) {
-			throw new RuntimeException("•Ï”éŒ¾‚·‚é‘O‚É•Ï”‚Ì’l‚ğg‚¨‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·B");
+			throw new RuntimeException("å¤‰æ•°å®£è¨€ã™ã‚‹å‰ã«å¤‰æ•°ã®å€¤ã‚’ä½¿ãŠã†ã¨ã—ã¦ã„ã¾ã™ã€‚");
 		}
 		BlockModel block = BlockToJavaAnalyzer.getBlock(blockID);
 		if (block instanceof LocalVariableBlockModel) {
@@ -66,7 +66,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		if (label.endsWith(" \\")) {
 			label = label.substring(0, label.length() - 1);
 		}
-		// TODO •¶š—ñ‚Éƒ_ƒuƒ‹ƒNƒH[ƒe[ƒVƒ‡ƒ“Aƒ}[ƒN‚ğ“ü‚Á‚½‚çƒGƒXƒP[ƒv‚·‚é
+		// TODO æ–‡å­—åˆ—ã«ãƒ€ãƒ–ãƒ«ã‚¯ã‚©ãƒ¼ãƒ†ãƒ¼ã‚·ãƒ§ãƒ³ã€ï¿¥ãƒãƒ¼ã‚¯ã‚’å…¥ã£ãŸã‚‰ã‚¨ã‚¹ã‚±ãƒ¼ãƒ—ã™ã‚‹
 		for (int i = 0; i < label.length(); i++) {
 			if (label.charAt(i) == '\\' || label.charAt(i) == '\"'
 					|| label.charAt(i) == '\'') {
@@ -168,10 +168,10 @@ public class NoProcparamDataBlockModel extends BlockModel {
 			}
 		} else if ("pi".equals(getGenusName()) || "e".equals(getGenusName())) {
 			out.print("Math." + getGenusName());
-		} else if (getGenusName().startsWith("new-object")) {// new-object-withtext‚ğì‚Á‚½
+		} else if (getGenusName().startsWith("new-object")) {// new-object-withtextã‚’ä½œã£ãŸ
 			// #matsuzawa 2012.11.06
 			out.print("new " + typeString(getLabel()));
-			// ˆø”i‚È‚ñ‚¾‚ë‚Ëj CallMethod‚©‚çƒRƒs[@#matsuzawa 2012.11.06
+			// å¼•æ•°ï¼ˆãªã‚“ã ã‚ã­ï¼‰ CallMethodã‹ã‚‰ã‚³ãƒ”ãƒ¼ã€€#matsuzawa 2012.11.06
 			out.print("(");
 			ArrayList<Integer> connectorIDs = getConnectorIDs();
 			boolean first = true;
@@ -216,7 +216,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 			out.print(">()");
 		} else if (getGenusName().startsWith("new-")) {
 			out.print("new " + typeString(getLabel()));
-			// ˆø”i‚È‚ñ‚¾‚ë‚Ëj CallMethod‚©‚çƒRƒs[@#matsuzawa 2012.11.06
+			// å¼•æ•°ï¼ˆãªã‚“ã ã‚ã­ï¼‰ CallMethodã‹ã‚‰ã‚³ãƒ”ãƒ¼ã€€#matsuzawa 2012.11.06
 			out.print("(");
 			ArrayList<Integer> connectorIDs = getConnectorIDs();
 			boolean first = true;

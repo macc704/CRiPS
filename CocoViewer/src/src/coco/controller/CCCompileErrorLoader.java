@@ -17,7 +17,7 @@ public class CCCompileErrorLoader extends CCFileLoader {
 
 	@Override
 	protected void separeteData(String line) {
-		// Œ©‚Ã‚ç‚¢‚½‚ßA’¼Úˆø”‚É“n‚·¨ˆêŸ•Ï”‚Éˆê’UŠi”[‚µ‚Ä‚©‚çˆø”‚ğ“n‚·A‚É•ÏX
+		// è¦‹ã¥ã‚‰ã„ãŸã‚ã€ç›´æ¥å¼•æ•°ã«æ¸¡ã™â†’ä¸€æ¬¡å¤‰æ•°ã«ä¸€æ—¦æ ¼ç´ã—ã¦ã‹ã‚‰å¼•æ•°ã‚’æ¸¡ã™ã€ã«å¤‰æ›´
 		String[] tokenizer = line.split(",");
 		int errorID = Integer.parseInt(tokenizer[0]);
 		String filePath = tokenizer[1];

@@ -36,6 +36,6 @@ public class RSFKWritingPoint {
 
 	@Override
 	public String toString() {
-		return getFKCount() + "ŒÂ‚ÌƒGƒ‰[@" + date.toString();
+		return getFKCount() + "å€‹ã®ã‚¨ãƒ©ãƒ¼@" + date.toString();
 	}
 }

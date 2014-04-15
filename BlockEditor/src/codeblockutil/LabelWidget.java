@@ -915,10 +915,10 @@ public abstract class LabelWidget extends JComponent {
 		private static final long serialVersionUID = 90123787382L;
 		// To get the shadow effect the text must be displayed multiple times at
 		// multiple locations. x represents the center, white label.
-		// o is color values (0,0,0,0.5f) and �ｽ is black.
+		// o is color values (0,0,0,0.5f) and ?ｽ is black.
 		// o o
-		// o x �ｽ o
-		// o �ｽ o
+		// o x ?ｽ o
+		// o ?ｽ o
 		// o
 		// offsetArrays representing the translation movement needed to get from
 		// the center location to a specific offset location given in

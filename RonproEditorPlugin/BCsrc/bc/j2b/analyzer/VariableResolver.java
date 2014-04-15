@@ -78,7 +78,7 @@ public class VariableResolver implements Cloneable {
 		localVariables.clear();
 	}
 
-	// TODO ƒfƒB[ƒvƒNƒ[ƒ“ì¬
+	// TODO ãƒ‡ã‚£ãƒ¼ãƒ—ã‚¯ãƒ­ãƒ¼ãƒ³ä½œæˆ
 	public Object clone() {
 		try {
 			VariableResolver checkVariableClone = (VariableResolver) super

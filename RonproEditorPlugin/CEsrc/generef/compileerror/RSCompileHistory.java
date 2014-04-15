@@ -65,11 +65,11 @@ public class RSCompileHistory {
 	}
 
 	/**
-	 * compilePoint‚Å”­¶‚µ‚½ƒGƒ‰[‚ª‘S‚ÄC³‚³‚ê‚Ä‚¢‚½‚çcompilePoints‚©‚çíœ‚µ‚Ü‚·
+	 * compilePointã§ç™ºç”Ÿã—ãŸã‚¨ãƒ©ãƒ¼ãŒå…¨ã¦ä¿®æ­£ã•ã‚Œã¦ã„ãŸã‚‰compilePointsã‹ã‚‰å‰Šé™¤ã—ã¾ã™
 	 */
 	// private void removeFixedCompilePoint() {
 	//
-	// // íœ‚·‚éƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg‚ğ’Šo
+	// // å‰Šé™¤ã™ã‚‹ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆã‚’æŠ½å‡º
 	// List<TCompilePoint> removeCompilePoints = new ArrayList<TCompilePoint>();
 	// for (TCompilePoint compilePoint : this.compilePoints) {
 	// if (checkFixedCompilePoint(compilePoint)) {
@@ -144,7 +144,7 @@ public class RSCompileHistory {
 	}
 
 	/**
-	 * ÅŒã‚Éì¬‚³‚ê‚½ƒ\[ƒXƒR[ƒhƒtƒ@ƒCƒ‹‚ğ•Ô‚µ‚Ü‚·
+	 * æœ€å¾Œã«ä½œæˆã•ã‚ŒãŸã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¿”ã—ã¾ã™
 	 * 
 	 * @param files
 	 * @return

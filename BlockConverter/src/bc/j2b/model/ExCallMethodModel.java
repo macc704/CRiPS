@@ -92,11 +92,11 @@ public class ExCallMethodModel extends ExpressionModel {
 			arg.print(out, indent);
 		}
 
-		// ã‚æ‚èŒã‚É‚â‚é‚±‚Æ‚ªd—v
+		// ä¸Šã‚ˆã‚Šå¾Œã«ã‚„ã‚‹ã“ã¨ãŒé‡è¦
 		if (!(getParent() instanceof StIfElseModel)
 				&& !(getParent() instanceof StWhileModel)
-				&& !(getParent() instanceof StLocalVariableModel)// ‰‹}ˆ’u
-				&& !(getParent() instanceof ExCallMethodModel)) {// ‰‹}ˆ’u
+				&& !(getParent() instanceof StLocalVariableModel)// å¿œæ€¥å‡¦ç½®
+				&& !(getParent() instanceof ExCallMethodModel)) {// å¿œæ€¥å‡¦ç½®
 			resolveBeforeAfterBlock(getParent().getParent());
 		}
 
@@ -150,15 +150,15 @@ public class ExCallMethodModel extends ExpressionModel {
 		String plugType = getConnectorType(getType());
 		if (VOID.equals(plugType)) {
 			// #matsuzawa 2012.10.29
-			// forÚ‘±‚·‚éeƒuƒƒbƒN(if“™‚Ìˆê”Ôã‚ÌƒuƒƒbƒN‚àŠÜ‚Ş‚Æ‚±‚ë‚ª‚â‚â‚±‚µ‚¢)
+			// foræ¥ç¶šã™ã‚‹è¦ªãƒ–ãƒ­ãƒƒã‚¯(ifç­‰ã®ä¸€ç•ªä¸Šã®ãƒ–ãƒ­ãƒƒã‚¯ã‚‚å«ã‚€ã¨ã“ã‚ãŒã‚„ã‚„ã“ã—ã„)
 			if (getConnectorId() != -1) {
 				makeIndent(out, indent + 1);
 				out.println("<BeforeBlockId>" + getConnectorId()
 						+ "</BeforeBlockId>");
 			}
-		} else {// –ß‚è’l‚Ìê‡
-			if (getParent().getId() != getId()) {// –ß‚è’l‚ ‚è‚Ìƒƒ\ƒbƒh‚ª–ß‚è’ló‚¯æ‚è‚È‚µ‚ÅŒÄ‚Î‚ê‚½ê‡‚ğœ‚­
-													// #matsuzawa TODO ‚¤‚Ü‚­“®‚¢‚Ä‚¢‚È‚¢
+		} else {// æˆ»ã‚Šå€¤ã®å ´åˆ
+			if (getParent().getId() != getId()) {// æˆ»ã‚Šå€¤ã‚ã‚Šã®ãƒ¡ã‚½ãƒƒãƒ‰ãŒæˆ»ã‚Šå€¤å—ã‘å–ã‚Šãªã—ã§å‘¼ã°ã‚ŒãŸå ´åˆã‚’é™¤ã
+													// #matsuzawa TODO ã†ã¾ãå‹•ã„ã¦ã„ãªã„
 				makeIndent(out, indent + 1);
 				out.println("<Plug>");
 				// blockConnecter
@@ -192,7 +192,7 @@ public class ExCallMethodModel extends ExpressionModel {
 	public static void printArguments(List<ExpressionModel> arguments,
 			PrintStream out, int indent, ExpressionModel model,
 			List<String> argumentLabels) {
-		// ˆø”(sockets)
+		// å¼•æ•°(sockets)
 		int argsize = arguments.size();
 		if (argsize > 0) {
 			model.makeIndent(out, indent + 1);
@@ -203,7 +203,7 @@ public class ExCallMethodModel extends ExpressionModel {
 				String connectorType = ElementModel.getConnectorType(arg
 						.getType());
 				if (connectorType.equals("void")) {
-					connectorType = "poly"; // poly‚Ì‚ªƒ}ƒV‚¾‚ëD#matsuzawa 2013.01.09
+					connectorType = "poly"; // polyã®ãŒãƒã‚·ã ã‚ï¼#matsuzawa 2013.01.09
 				}
 				String label = "";
 
@@ -243,14 +243,14 @@ public class ExCallMethodModel extends ExpressionModel {
 
 	// @Override
 	// public void print(PrintStream out, int indent) {
-	// // 2012.10.31 #matsuzawa ƒRƒlƒNƒ^‚ÌŒ`‚ª•Ï@‚È‚ñ‚¾‚±‚ÌÀ‘•‚ÍI
+	// // 2012.10.31 #matsuzawa ã‚³ãƒã‚¯ã‚¿ã®å½¢ãŒå¤‰ã€€ãªã‚“ã ã“ã®å®Ÿè£…ã¯ï¼
 	// // String connectorType = "number";
 	// // String initType = "number";
 	//
-	// // BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
+	// // BeforeBlockã¨AfterBlockã‚’æ¤œç´¢ã™ã‚‹
 	// resolveBeforeAfterBlock(getParent().getParent());
 	//
-	// // 2012.10.31 #matsuzawa ƒRƒlƒNƒ^‚ÌŒ`‚ª•Ï@‚È‚ñ‚¾‚±‚ÌÀ‘•‚ÍI
+	// // 2012.10.31 #matsuzawa ã‚³ãƒã‚¯ã‚¿ã®å½¢ãŒå¤‰ã€€ãªã‚“ã ã“ã®å®Ÿè£…ã¯ï¼
 	// // set connecoter type
 	// // if (name.equals("print")) {
 	// // initType = "string";
@@ -300,8 +300,8 @@ public class ExCallMethodModel extends ExpressionModel {
 	// for (ExpressionModel arg : arguments) {
 	// makeIndent(out, indent + 2);
 	//
-	// // 2012.10.31 #matsuzawa ƒRƒlƒNƒ^‚ÌŒ`‚ª•Ï
-	// // ‚±‚±‚ÅconnectorType‚ğÀ‘•IExVariableSetterModel‚©‚çƒRƒs[
+	// // 2012.10.31 #matsuzawa ã‚³ãƒã‚¯ã‚¿ã®å½¢ãŒå¤‰
+	// // ã“ã“ã§connectorTypeã‚’å®Ÿè£…ï¼ExVariableSetterModelã‹ã‚‰ã‚³ãƒ”ãƒ¼
 	// String connectorType = convertJavaTypeToBlockType(arg.getType());
 	//
 	// out.println("<BlockConnector connector-kind=\"sockets\" connector-type=\""

@@ -27,18 +27,18 @@ public class LangDefGenusesCopier implements Copier {
 
 			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(turtleByteArray);
-			// ‚·‚×‚Ä‚Ìs‚ğƒRƒs[‚·‚é
+			// ã™ã¹ã¦ã®è¡Œã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 			String line;
 			while ((line = br.readLine()) != null) {
-				// ˆês‘‚«‚İ >>lang_def.xml
+				// ä¸€è¡Œæ›¸ãè¾¼ã¿ >>lang_def.xml
 				ps.println(line);
-				// ƒvƒƒWƒFƒNƒg‚ÌƒuƒƒbƒN’è‹`ƒtƒ@ƒCƒ‹‚Ì’Ç‰Á
+				// ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ–ãƒ­ãƒƒã‚¯å®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®è¿½åŠ 
 				if (line.contains("&lang_def_genuses_turtle")) {
 					ps.println("&lang_def_genuses_project;");
 				}
 			}
-			// menuî•ñ‚ÌƒRƒs[
-			// ps‚É‘‚«‚¾‚µ‚½‚à‚Ì‚ğ‚·‚×‚Ä•¶š—ñ‚É•ÏŠ·‚·‚é
+			// menuæƒ…å ±ã®ã‚³ãƒ”ãƒ¼
+			// psã«æ›¸ãã ã—ãŸã‚‚ã®ã‚’ã™ã¹ã¦æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
 			String ldfString = turtleByteArray.toString();
 
 			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile()
@@ -58,7 +58,7 @@ public class LangDefGenusesCopier implements Copier {
 			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
 			e.printStackTrace();
-			throw new RuntimeException("Œ¾Œê’è‹`ƒtƒ@ƒCƒ‹o—Í‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½Flang_def_genuses");
+			throw new RuntimeException("è¨€èªå®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸï¼šlang_def_genuses");
 		}
 
 	}

@@ -51,7 +51,7 @@ public class StIfElseModel extends StatementModel {
 	}
 
 	public String getGenusName() {
-		// TODO ifelse‚µ‚©‚Â‚©‚í‚È‚¢?
+		// TODO ifelseã—ã‹ã¤ã‹ã‚ãªã„?
 		// if (elseClause == null) {
 		// return "if";
 		// } else {
@@ -111,7 +111,7 @@ public class StIfElseModel extends StatementModel {
 			elseId = elseClause.getId();
 			numSockets++;
 		}
-		// BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
+		// BeforeBlockã¨AfterBlockã‚’æ¤œç´¢ã™ã‚‹
 		resolveBeforeAfterBlock(getParent());
 
 		// print BlockEditor File

@@ -581,7 +581,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				if (SocketLabel.ignoreSocket(socket)) {
 					tag.setLabel(null); // ignored sockets have no labels
 				} else {
-					// TODO Ql‚É‚µ‚ëi‰½‚ÌHj
+					// TODO å‚è€ƒã«ã—ã‚ï¼ˆä½•ã®ï¼Ÿï¼‰
 					// BlockGenus blockGenus =
 					// BlockGenus.getGenusWithName(Block.getBlock(blockID).getGenusName());
 					// String socketName = blockGenus.getSocketsLabel(i);
@@ -714,7 +714,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	/**
-	 * TODO ‚±‚±‚Åƒ‰ƒxƒ‹‚ª’Ç‰Á‚³‚ê‚½‚Æ‚«ƒuƒƒbƒN‚Ì•‚ğ•Ï‚¦‚é Determine the width necessary to
+	 * TODO ã“ã“ã§ãƒ©ãƒ™ãƒ«ãŒè¿½åŠ ã•ã‚ŒãŸã¨ããƒ–ãƒ­ãƒƒã‚¯ã®å¹…ã‚’å¤‰ãˆã‚‹ Determine the width necessary to
 	 * accommodate for placed labels. Used to determine the minimum width of a
 	 * block.
 	 * 
@@ -1203,7 +1203,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			// curBlock.getBlockLabel());
 
 			RenderableBlock curRenderableBlock = RenderableBlock
-					.getRenderableBlock(curBlockID);//curRenderableblock‚ªnull‚É‚È‚é@ID 1004,
+					.getRenderableBlock(curBlockID);//curRenderableblockãŒnullã«ãªã‚‹ã€€ID 1004,
 			Dimension curRBSize = curRenderableBlock.getBlockSize();
 
 			// add height
@@ -1744,7 +1744,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				// djwendel - this is a patch, but the root of the problem
 				// needs to be found and fixed!!
 				if (rb == null) {
-					// TODO Á‚µ‚Ü‚µ‚½BƒfƒtƒHƒ‹ƒg‚Ìˆø”‚ğ“ñ‚Â•\¦‚µ‚½‚¢‚ª‚½‚ß‚ÉÁ‚µ‚Ü‚µ‚½B
+					// TODO æ¶ˆã—ã¾ã—ãŸã€‚ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®å¼•æ•°ã‚’äºŒã¤è¡¨ç¤ºã—ãŸã„ãŒãŸã‚ã«æ¶ˆã—ã¾ã—ãŸã€‚
 					// System.out.println("Block doesn't exist yet: "+socket.getBlockID());
 					continue;
 				}
@@ -1803,7 +1803,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (!renderable.dragging)
 			throw new RuntimeException("dropping without prior dragging?");
 
-		//reset hilight ‰‹}ˆ’u
+		//reset hilight å¿œæ€¥å‡¦ç½®
 		renderable.highlighter.resetHighlight();
 		// notify children
 		for (BlockConnector socket : BlockLinkChecker
@@ -1866,27 +1866,27 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 						false);
 			}
 		}
-		//#ohata added ‚Á‚Ä‚éƒuƒƒbƒN‚ÌƒQƒbƒ^[AƒZƒbƒ^[‚ğƒnƒCƒ‰ƒCƒg‚·‚é
+		//#ohata added æŒã£ã¦ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚²ãƒƒã‚¿ãƒ¼ã€ã‚»ãƒƒã‚¿ãƒ¼ã‚’ãƒã‚¤ãƒ©ã‚¤ãƒˆã™ã‚‹
 
 	}
 
-	//‚à‚Á‚Ä‚éƒuƒƒbƒN‚Ì‘‚«‚İƒuƒƒbƒNA’lƒuƒƒbƒNA‘‚â‚·ƒuƒƒbƒN‚ğŒõ‚ç‚¹‚é@‚Æ‚è‚ ‚¦‚¸
+	//ã‚‚ã£ã¦ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®æ›¸ãè¾¼ã¿ãƒ–ãƒ­ãƒƒã‚¯ã€å€¤ãƒ–ãƒ­ãƒƒã‚¯ã€å¢—ã‚„ã™ãƒ–ãƒ­ãƒƒã‚¯ã‚’å…‰ã‚‰ã›ã‚‹ã€€ã¨ã‚Šã‚ãˆãš
 	public static void catchedBlockResetHighlight(
 			RenderableBlock catchedRBlock, WorkspaceWidget widget) {
 		if (ScopeChecker.isCompareBlock(catchedRBlock.getBlock())
 				&& ScopeChecker.isAloneBlock(catchedRBlock.getBlock())) {
-			for (RenderableBlock rb : widget.getBlocks()) {//ƒQƒbƒ^[AƒZƒbƒ^[‚ÌQÆŒ³‚ğ’T‚·
+			for (RenderableBlock rb : widget.getBlocks()) {//ã‚²ãƒƒã‚¿ãƒ¼ã€ã‚»ãƒƒã‚¿ãƒ¼ã®å‚ç…§å…ƒã‚’æ¢ã™
 				Block catchedBlock = catchedRBlock.getBlock();
 				int index;
 
-				if ((index = catchedBlock.getBlockLabel().indexOf("‚É‘‚«‚Ş")) != -1) {
+				if ((index = catchedBlock.getBlockLabel().indexOf("ã«æ›¸ãè¾¼ã‚€")) != -1) {
 					if (rb.getBlock()
 							.getBlockLabel()
 							.equals(catchedBlock.getBlockLabel().substring(0,
 									index))) {
 						rb.highlighter.resetHighlight();
 					}
-				} else if ((index = catchedBlock.getBlockLabel().indexOf("‚Ì’l")) != -1) {
+				} else if ((index = catchedBlock.getBlockLabel().indexOf("ã®å€¤")) != -1) {
 					if (rb.getBlock()
 							.getBlockLabel()
 							.equals(catchedBlock.getBlockLabel().substring(0,
@@ -1894,7 +1894,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 						rb.highlighter.resetHighlight();
 					}
 				} else if ((index = catchedBlock.getBlockLabel()
-						.indexOf("‚ğ‘‚â‚·")) != -1) {
+						.indexOf("ã‚’å¢—ã‚„ã™")) != -1) {
 					if (rb.getBlock()
 							.getBlockLabel()
 							.equals(catchedBlock.getBlockLabel().substring(0,
@@ -1910,23 +1910,23 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 						&& rb.getBlock()
 								.getBlockLabel()
 								.equals(catchedRBlock.getBlock()
-										.getBlockLabel() + "‚Ì’l")) {
+										.getBlockLabel() + "ã®å€¤")) {
 					rb.highlighter.resetHighlight();
 				} else if (rb.getGenus().equals(
 						"setter" + catchedRBlock.getGenus())
 						&& rb.getBlock()
 								.getBlockLabel()
 								.equals(catchedRBlock.getBlock()
-										.getBlockLabel() + "‚É‘‚«‚Ş")) {
+										.getBlockLabel() + "ã«æ›¸ãè¾¼ã‚€")) {
 					rb.highlighter.resetHighlight();
 				} else if (rb.getGenus().equals(
 						"inc" + catchedRBlock.getGenus())
 						&& rb.getBlock()
 								.getBlockLabel()
 								.equals(catchedRBlock.getBlock()
-										.getBlockLabel() + "‚ğ‘‚â‚·")) {
+										.getBlockLabel() + "ã‚’å¢—ã‚„ã™")) {
 					rb.highlighter.resetHighlight();
-				} /*else if (rb.getGenus().equals("Procedure")) {//ohata ‚Æ‚è‚ ‚¦‚¸C³ ª–{“I‚ÈŒ´ˆöFƒ‰ƒxƒ‹‚ğ‚½‚È‚¢ƒuƒƒbƒN‚ª‘¶İ‚·‚é‚½‚ß
+				} /*else if (rb.getGenus().equals("Procedure")) {//ohata ã¨ã‚Šã‚ãˆãšä¿®æ­£ æ ¹æœ¬çš„ãªåŸå› ï¼šãƒ©ãƒ™ãƒ«ã‚’æŒãŸãªã„ãƒ–ãƒ­ãƒƒã‚¯ãŒå­˜åœ¨ã™ã‚‹ãŸã‚
 					if (rb.getBlock()
 							.getBlockLabel()
 							.equals("get"
@@ -1961,11 +1961,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		try {
 			if (ScopeChecker.isCompareBlock(catchedRBlock.getBlock())
 					&& ScopeChecker.isAloneBlock(catchedRBlock.getBlock())) {
-				for (RenderableBlock rb : widget.getBlocks()) {//ƒQƒbƒ^[AƒZƒbƒ^[‚ÌQÆŒ³‚ğ’T‚·
+				for (RenderableBlock rb : widget.getBlocks()) {//ã‚²ãƒƒã‚¿ãƒ¼ã€ã‚»ãƒƒã‚¿ãƒ¼ã®å‚ç…§å…ƒã‚’æ¢ã™
 					Block catchedBlock = catchedRBlock.getBlock();
 					int index;
 
-					if ((index = catchedBlock.getBlockLabel().indexOf("‚É‘‚«‚Ş")) != -1) {
+					if ((index = catchedBlock.getBlockLabel().indexOf("ã«æ›¸ãè¾¼ã‚€")) != -1) {
 						if (rb.getBlock()
 								.getBlockLabel()
 								.equals(catchedBlock.getBlockLabel().substring(
@@ -1973,7 +1973,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							rb.highlighter.setHighlightColor(Color.yellow);
 						}
 					} else if ((index = catchedBlock.getBlockLabel().indexOf(
-							"‚Ì’l")) != -1) {
+							"ã®å€¤")) != -1) {
 						if (rb.getBlock()
 								.getBlockLabel()
 								.equals(catchedBlock.getBlockLabel().substring(
@@ -1981,7 +1981,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							rb.highlighter.setHighlightColor(Color.yellow);
 						}
 					} else if ((index = catchedBlock.getBlockLabel().indexOf(
-							"‚ğ‘‚â‚·")) != -1) {
+							"ã‚’å¢—ã‚„ã™")) != -1) {
 						if (rb.getBlock()
 								.getBlockLabel()
 								.equals(catchedBlock.getBlockLabel().substring(
@@ -1991,27 +1991,27 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					}
 				}
 			} else {
-				for (RenderableBlock rb : widget.getBlocks()) {//ƒQƒbƒ^[AƒZƒbƒ^[ƒƒ\ƒbƒh‚Í‚·‚×‚ÄƒnƒCƒ‰ƒCƒg‚·‚é
+				for (RenderableBlock rb : widget.getBlocks()) {//ã‚²ãƒƒã‚¿ãƒ¼ã€ã‚»ãƒƒã‚¿ãƒ¼ãƒ¡ã‚½ãƒƒãƒ‰ã¯ã™ã¹ã¦ãƒã‚¤ãƒ©ã‚¤ãƒˆã™ã‚‹
 					if (rb.getGenus().equals(
 							"getter" + catchedRBlock.getGenus())
 							&& rb.getBlock()
 									.getBlockLabel()
 									.equals(catchedRBlock.getBlock()
-											.getBlockLabel() + "‚Ì’l")) {
+											.getBlockLabel() + "ã®å€¤")) {
 						rb.highlighter.setHighlightColor(Color.yellow);
 					} else if (rb.getGenus().equals(
 							"setter" + catchedRBlock.getGenus())
 							&& rb.getBlock()
 									.getBlockLabel()
 									.equals(catchedRBlock.getBlock()
-											.getBlockLabel() + "‚É‘‚«‚Ş")) {
+											.getBlockLabel() + "ã«æ›¸ãè¾¼ã‚€")) {
 						rb.highlighter.setHighlightColor(Color.yellow);
 					} else if (rb.getGenus().equals(
 							"inc" + catchedRBlock.getGenus())
 							&& rb.getBlock()
 									.getBlockLabel()
 									.equals(catchedRBlock.getBlock()
-											.getBlockLabel() + "‚ğ‘‚â‚·")) {
+											.getBlockLabel() + "ã‚’å¢—ã‚„ã™")) {
 						rb.highlighter.setHighlightColor(Color.yellow);
 					}
 				}
@@ -2042,7 +2042,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 			if (!pickedUp) {
 				if (SBlockEditor.DEBUG) {
-					//#matsuzawa ‚±‚¤‚¢‚¤–‚à‚ ‚è‚Ü‚·D
+					//#matsuzawa ã“ã†ã„ã†äº‹ã‚‚ã‚ã‚Šã¾ã™ï¼
 					//throw new RuntimeException("dropping without prior dragging?");
 					System.err.println("dropping without prior dragging?");
 				}
@@ -2085,7 +2085,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 					// drop the block and connect its link
 
-					//#ohata addedƒQƒbƒ^[‚ÆƒZƒbƒ^[‚ÌƒnƒCƒ‰ƒCƒg‚ğÁ‚·  
+					//#ohata addedã‚²ãƒƒã‚¿ãƒ¼ã¨ã‚»ãƒƒã‚¿ãƒ¼ã®ãƒã‚¤ãƒ©ã‚¤ãƒˆã‚’æ¶ˆã™  
 					catchedBlockResetHighlight(this, widget);
 
 					stopDragging(this, widget);
@@ -2097,7 +2097,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 												new WorkspaceEvent(widget, link,
 														WorkspaceEvent.BLOCKS_CONNECTED));
 										//} catch (Exception ex) {
-										//	System.err.println(ex.getMessage()); //‰‹}ˆ’u #matsuzawa
+										//	System.err.println(ex.getMessage()); //å¿œæ€¥å‡¦ç½® #matsuzawa
 										//}
 										// wc.saveString(wc.getSaveString());
 										 * 
@@ -2106,7 +2106,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							.moveConnectedBlocks();
 				}
 
-				//#ohata addedƒQƒbƒ^[‚ÆƒZƒbƒ^[‚ÌƒnƒCƒ‰ƒCƒg‚ğÁ‚·  
+				//#ohata addedã‚²ãƒƒã‚¿ãƒ¼ã¨ã‚»ãƒƒã‚¿ãƒ¼ã®ãƒã‚¤ãƒ©ã‚¤ãƒˆã‚’æ¶ˆã™  
 				catchedBlockResetHighlight(this, widget);
 
 				// set the locations for X and Y based on zoom at 1.0
@@ -2146,16 +2146,16 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
 		ScopeChecker scpChecker = new ScopeChecker();
 		boolean scopeCheck = true;
-		//Œ‹‡‚·‚éƒuƒƒbƒN‚Ì‚à‚Â‚·‚×‚Ä‚ÌƒuƒƒbƒN‚ÌƒXƒR[ƒv‚ğƒ`ƒFƒbƒN‚µ‚Ä‚¢‚­ 
+		//çµåˆã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚‚ã¤ã™ã¹ã¦ã®ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚¹ã‚³ãƒ¼ãƒ—ã‚’ãƒã‚§ãƒƒã‚¯ã—ã¦ã„ã 
 		for (Block checkBlock = getBlock(); checkBlock != null; checkBlock = Block
 				.getBlock(checkBlock.getAfterBlockID())) {
-			//’ŠÛ‰»ƒuƒƒbƒN‚Ìê‡‚ÍA’ŠÛ‰»ƒuƒƒbƒN“à‚ğ‘S‚Äƒ`ƒFƒbƒN‚µ‚È‚¯‚ê‚Î‚¢‚¯‚È‚¢
+			//æŠ½è±¡åŒ–ãƒ–ãƒ­ãƒƒã‚¯ã®å ´åˆã¯ã€æŠ½è±¡åŒ–ãƒ–ãƒ­ãƒƒã‚¯å†…ã‚’å…¨ã¦ãƒã‚§ãƒƒã‚¯ã—ãªã‘ã‚Œã°ã„ã‘ãªã„
 			if (checkBlock.getGenusName().equals("abstraction")) {
 				scopeCheck &= checkBlocks(scpChecker, link, checkBlock);
 			}
 
 			boolean check = true;
-			//ƒuƒƒbƒN‚ªƒ\ƒPƒbƒg‚ğ‚à‚Âê‡‚ÍAƒ\ƒPƒbƒg“à‚ÅQÆƒuƒƒbƒN‚ªg‚í‚ê‚Ä‚¢‚é‚©‚à‚µ‚ê‚È‚¢‚Ì‚Åƒ`ƒFƒbƒN
+			//ãƒ–ãƒ­ãƒƒã‚¯ãŒã‚½ã‚±ãƒƒãƒˆã‚’ã‚‚ã¤å ´åˆã¯ã€ã‚½ã‚±ãƒƒãƒˆå†…ã§å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ãŒä½¿ã‚ã‚Œã¦ã„ã‚‹ã‹ã‚‚ã—ã‚Œãªã„ã®ã§ãƒã‚§ãƒƒã‚¯
 			check &= checkVariableBlocks(scpChecker, link, checkBlock);
 			scopeCheck &= check;
 			if (check == false) {
@@ -2173,7 +2173,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 		}
 		if (scopeCheck) {
-			//ƒuƒƒbƒNŒ‹‡
+			//ãƒ–ãƒ­ãƒƒã‚¯çµåˆ
 			/*if (BlockLinkChecker.canLink(Block.getBlock(link.getPlugBlockID()),
 					Block.getBlock(link.getSocketBlockID()),
 					Block.getBlock(link.getPlugBlockID()).getPlug(), Block
@@ -2185,7 +2185,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					new WorkspaceEvent(widget, link,
 							WorkspaceEvent.BLOCKS_CONNECTED));
 			//} catch (Exception ex) {
-			//	System.err.println(ex.getMessage()); //‰‹}ˆ’u #matsuzawa
+			//	System.err.println(ex.getMessage()); //å¿œæ€¥å‡¦ç½® #matsuzawa
 			//}
 			// wc.saveString(wc.getSaveString());
 			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
@@ -2211,11 +2211,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	//		rb.setLocation(rb.getX(), rb.getY() + 50);
 	//	}
 
-	//abstractionƒuƒƒbƒN“à‚ÌƒuƒƒbƒN‚ÌƒXƒR[ƒv‚ğƒ`ƒFƒbƒN‚·‚é
+	//abstractionãƒ–ãƒ­ãƒƒã‚¯å†…ã®ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚¹ã‚³ãƒ¼ãƒ—ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 	private boolean checkBlocks(ScopeChecker scpChecker, BlockLink link,
 			Block abstBlock) {
 		boolean scopeCheck = true;
-		//’ŠÛ‰»ƒuƒƒbƒN“à‚Ì‚·‚×‚Ä‚ÌƒuƒƒbƒN‚ÌƒXƒR[ƒv‚ğƒ`ƒFƒbƒN‚µ‚Ä‚¢‚­
+		//æŠ½è±¡åŒ–ãƒ–ãƒ­ãƒƒã‚¯å†…ã®ã™ã¹ã¦ã®ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚¹ã‚³ãƒ¼ãƒ—ã‚’ãƒã‚§ãƒƒã‚¯ã—ã¦ã„ã
 		for (Block checkBlock = Block.getBlock(abstBlock.getSocketAt(0)
 				.getBlockID()); checkBlock != null; checkBlock = Block
 				.getBlock(checkBlock.getAfterBlockID())) {
@@ -2232,21 +2232,21 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return scopeCheck;
 	}
 
-	//’lƒuƒƒbƒN‚ÌƒXƒR[ƒv‚ğƒ`ƒFƒbƒN‚·‚é@’l‚ÌƒXƒR[ƒv‚ª³‚µ‚¢A‚Ü‚½‚Íƒ`ƒFƒbƒN‚·‚éƒuƒƒbƒN‚ª‚È‚¢ê‡‚ÍT ‚»‚êˆÈŠO‚ÍF
+	//å€¤ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚¹ã‚³ãƒ¼ãƒ—ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€€å€¤ã®ã‚¹ã‚³ãƒ¼ãƒ—ãŒæ­£ã—ã„ã€ã¾ãŸã¯ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ãŒãªã„å ´åˆã¯T ãã‚Œä»¥å¤–ã¯F
 	private boolean checkVariableBlocks(ScopeChecker scpChecker,
 			BlockLink link, Block checkBlock) {
 		boolean scopeCheck = true;
 
-		if (checkBlock.getGenusName().equals("procedure")) {//‚Æ‚è‚ ‚¦‚¸—áŠO‚É
+		if (checkBlock.getGenusName().equals("procedure")) {//ã¨ã‚Šã‚ãˆãšä¾‹å¤–ã«
 			return true;
 		}
-		//‚·‚×‚Ä‚Ìƒ\ƒPƒbƒg‚ğƒ`ƒFƒbƒN‚·‚é
+		//ã™ã¹ã¦ã®ã‚½ã‚±ãƒƒãƒˆã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(checkBlock)) {
-			//ƒ\ƒPƒbƒg‚ÌƒuƒƒbƒN‚Ì’†‚Å‚àAQÆƒuƒƒbƒNigetter)‚Ì‚İ‚ğƒ`ƒFƒbƒN‚·‚éB‚»‚êˆÈŠO‚Í‘f’Ê‚µ
+			//ã‚½ã‚±ãƒƒãƒˆã®ãƒ–ãƒ­ãƒƒã‚¯ã®ä¸­ã§ã‚‚ã€å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ï¼ˆgetter)ã®ã¿ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚ãã‚Œä»¥å¤–ã¯ç´ é€šã—
 			if (socket.hasBlock()) {
 				scopeCheck &= checkVariableBlocks(scpChecker, link,
-						Block.getBlock(socket.getBlockID()));//ƒ\ƒPƒbƒg‚ÌƒuƒƒbƒN‚ÌƒXƒR[ƒv‚ğƒ`ƒFƒbƒN‚·‚é
+						Block.getBlock(socket.getBlockID()));//ã‚½ã‚±ãƒƒãƒˆã®ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚¹ã‚³ãƒ¼ãƒ—ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹
 
 				scopeCheck &= scpChecker.checkScope(
 						Block.getBlock(link.getSocketBlockID()),
@@ -2272,7 +2272,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			if (!pickedUp) {
 				if (SBlockEditor.DEBUG) {
-					//#matsuzawa ƒvƒ‹ƒ_ƒEƒ“ƒƒjƒ…[‚ğo‚µ‚½‚Ü‚Üƒhƒ‰ƒbƒOC‚±‚¤‚¢‚¤–‚à‚ ‚è‚Ü‚·D
+					//#matsuzawa ãƒ—ãƒ«ãƒ€ã‚¦ãƒ³ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’å‡ºã—ãŸã¾ã¾ãƒ‰ãƒ©ãƒƒã‚°ï¼Œã“ã†ã„ã†äº‹ã‚‚ã‚ã‚Šã¾ã™ï¼
 					//throw new RuntimeException("dragging without prior pickup?");
 					System.err.println("dragging without prior pickup?");
 				}

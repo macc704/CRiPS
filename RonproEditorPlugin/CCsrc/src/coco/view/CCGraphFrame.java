@@ -107,7 +107,7 @@ public class CCGraphFrame extends JFrame {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(width, height);
 		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - "
-				+ list.getMessage() + " ‚ÌÚ×");
+				+ list.getMessage() + " ã®è©³ç´°");
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -118,33 +118,33 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	private void setGraph() {
-		// “ú–{Œê‚ª•¶š‰»‚¯‚µ‚È‚¢ƒe[ƒ}
+		// æ—¥æœ¬èªãŒæ–‡å­—åŒ–ã‘ã—ãªã„ãƒ†ãƒ¼ãƒ
 		// ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
 
-		// ƒOƒ‰ƒtƒf[ƒ^İ’è
+		// ã‚°ãƒ©ãƒ•ãƒ‡ãƒ¼ã‚¿è¨­å®š
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
 			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
-					"C³ŠÔ", Integer.toString(i + 1));
+					"ä¿®æ­£æ™‚é–“", Integer.toString(i + 1));
 		}
 
-		// ƒOƒ‰ƒt¶¬
+		// ã‚°ãƒ©ãƒ•ç”Ÿæˆ
 		chart = ChartFactory.createLineChart(list.getMessage()
-				+ "‚ÌC³ŠÔ   ƒŒƒA“x: " + list.getRare(), "C³‰ñ”", "C³ŠÔ", dataset,
+				+ "ã®ä¿®æ­£æ™‚é–“   ãƒ¬ã‚¢åº¦: " + list.getRare(), "ä¿®æ­£å›æ•°", "ä¿®æ­£æ™‚é–“", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
 
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 		chart.getLegend().setItemFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
-		// ”wŒiFƒZƒbƒg
+		// èƒŒæ™¯è‰²ã‚»ãƒƒãƒˆ
 		chart.setBackgroundPaint(new CCGraphBackgroundColor().graphColor(list
 				.getRare()));
 
-		// PlotƒNƒ‰ƒX‚ğ€”õi‡”Ôd—vj
-		// TODO: ƒvƒƒbƒgƒNƒŠƒbƒN‹@”\
+		// Plotã‚¯ãƒ©ã‚¹ã‚’æº–å‚™ï¼ˆé †ç•ªé‡è¦ï¼‰
+		// TODO: ãƒ—ãƒ­ãƒƒãƒˆã‚¯ãƒªãƒƒã‚¯æ©Ÿèƒ½
 		CategoryPlot plot = chart.getCategoryPlot();
 
-		// y² E ²‚Í®”’l‚Ì‚İ
+		// yè»¸ ãƒ» è»¸ã¯æ•´æ•°å€¤ã®ã¿
 		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
 		numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		numberAxis.setVerticalTickLabels(false);
@@ -152,22 +152,22 @@ public class CCGraphFrame extends JFrame {
 		numberAxis.setRange(0, 120);
 		numberAxis.setLabelFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
-		// x²
+		// xè»¸
 		CategoryAxis domainAxis = (CategoryAxis) plot.getDomainAxis();
 		domainAxis.setLabelFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
-		// ƒvƒƒbƒgİ’è
+		// ãƒ—ãƒ­ãƒƒãƒˆè¨­å®š
 		LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot
 				.getRenderer();
 		renderer.setSeriesPaint(0, ChartColor.RED);
 		renderer.setSeriesStroke(0, new BasicStroke(2));
 		renderer.setSeriesShapesVisible(0, true);
 
-		// ƒOƒ‰ƒt‚ğchartpanel‚ÉÚ‚¹‚é
+		// ã‚°ãƒ©ãƒ•ã‚’chartpanelã«è¼‰ã›ã‚‹
 		ChartPanel chartpanel = new ChartPanel(chart);
 		// chartpanel.setBounds(0, 0, width - 15, height - 40);
 
-		// TODO: TOOLTIP•\¦
+		// TODO: TOOLTIPè¡¨ç¤º
 		JToolTip tooltip = new JToolTip();
 		chartpanel.setToolTipText(list.getErrors().size() + " : "
 				+ list.getMessage());
@@ -179,7 +179,7 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	private void setChangeGraphRangeComboBox(JPanel panel) {
-		String[] labels = { "120•bŒÅ’èƒ‚[ƒh", "ƒOƒ‰ƒtŠTŒ`ƒ‚[ƒh" };
+		String[] labels = { "120ç§’å›ºå®šãƒ¢ãƒ¼ãƒ‰", "ã‚°ãƒ©ãƒ•æ¦‚å½¢ãƒ¢ãƒ¼ãƒ‰" };
 		final JComboBox<String> comboBox = new JComboBox<String>(labels);
 
 		comboBox.addActionListener(new ActionListener() {
@@ -194,7 +194,7 @@ public class CCGraphFrame extends JFrame {
 				} else if (comboBox.getSelectedIndex() == 1) {
 					numberAxis.setAutoRange(true);
 				} else {
-					throw new RuntimeException("ƒOƒ‰ƒtƒ‚[ƒh‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
+					throw new RuntimeException("ã‚°ãƒ©ãƒ•ãƒ¢ãƒ¼ãƒ‰ãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“");
 				}
 			}
 		});
@@ -204,7 +204,7 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	private void setSourceTable(JPanel panel) {
-		String[] columnNames = { "C³‰ñ”", "”­¶", "ƒvƒƒOƒ‰ƒ€–¼", "C³ŠÔ" };
+		String[] columnNames = { "ä¿®æ­£å›æ•°", "ç™ºç”Ÿæ™‚åˆ»", "ãƒ—ãƒ­ã‚°ãƒ©ãƒ å", "ä¿®æ­£æ™‚é–“" };
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		for (int i = 0; i < list.getErrors().size(); i++) {
 			String count = String.valueOf(i + 1);
@@ -213,27 +213,27 @@ public class CCGraphFrame extends JFrame {
 			String filename = list.getErrors().get(i).getFilenameNoPath();
 			String correctTime = String.valueOf(list.getErrors().get(i)
 					.getCorrectionTime())
-					+ "•b";
+					+ "ç§’";
 
 			String[] oneColumn = { count, time, filename, correctTime };
 			model.addRow(oneColumn);
 		}
 
 		final JTable table = new JTable(model);
-		table.setDefaultEditor(Object.class, null); // ƒe[ƒuƒ‹‚ğ•ÒW•s‰Â‚É‚·‚é
+		table.setDefaultEditor(Object.class, null); // ãƒ†ãƒ¼ãƒ–ãƒ«ã‚’ç·¨é›†ä¸å¯ã«ã™ã‚‹
 
-		// // java7‚©‚çDefaultListModel‚ÉŠi”[‚·‚éƒNƒ‰ƒX‚ğw’è‚µ‚È‚¯‚ê‚Î‚È‚ç‚È‚¢
+		// // java7ã‹ã‚‰DefaultListModelã«æ ¼ç´ã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’æŒ‡å®šã—ãªã‘ã‚Œã°ãªã‚‰ãªã„
 		// DefaultListModel<String> model = new DefaultListModel<String>();
 		// for (int i = 0; i < list.getErrors().size(); i++) {
-		// model.addElement((i + 1) + " ‰ñ–Ú‚ÌC³ŠÔ F "
-		// + list.getErrors().get(i).getCorrectTime() + "•b");
+		// model.addElement((i + 1) + " å›ç›®ã®ä¿®æ­£æ™‚é–“ ï¼š "
+		// + list.getErrors().get(i).getCorrectTime() + "ç§’");
 		// }
 		//
 		// final JList<String> jlist = new JList<String>(model);
 
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				// ¶ƒNƒŠƒbƒN“ñ‰ñ‚ÅƒI[ƒvƒ“‚·‚é
+				// å·¦ã‚¯ãƒªãƒƒã‚¯äºŒå›ã§ã‚ªãƒ¼ãƒ—ãƒ³ã™ã‚‹
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() >= 2) {
 					int index = table.getSelectedRow();
@@ -243,12 +243,12 @@ public class CCGraphFrame extends JFrame {
 					String filename = compileError.getFilename();
 
 					if (baseDir == null) {
-						throw new RuntimeException("PPV‚Ìbase‚Æ‚È‚éƒtƒHƒ‹ƒ_‚ªw’è‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
+						throw new RuntimeException("PPVã®baseã¨ãªã‚‹ãƒ•ã‚©ãƒ«ãƒ€ãŒæŒ‡å®šã•ã‚Œã¦ã„ã¾ã›ã‚“");
 					}
 
-					// PPV‚É‚©‚¯‚Ä‚©‚ç‹N“®‚µ‚Ä‚¢‚È‚¢‚È‚çCƒRƒ“ƒpƒCƒ‹iŠÔ‚ª‚©‚©‚é‚Ì‚Å”ñ„§j
+					// PPVã«ã‹ã‘ã¦ã‹ã‚‰èµ·å‹•ã—ã¦ã„ãªã„ãªã‚‰ï¼Œã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ï¼ˆæ™‚é–“ãŒã‹ã‹ã‚‹ã®ã§éæ¨å¥¨ï¼‰
 					if (ppProjectSet == null) {
-						throw new RuntimeException("PPV‚ÅƒRƒ“ƒpƒCƒ‹‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
+						throw new RuntimeException("PPVã§ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã•ã‚Œã¦ã„ã¾ã›ã‚“");
 						// PPDataManager datamanager = new
 						// PPDataManager(baseDir);
 						// datamanager.setLibDir(libDir);
@@ -263,24 +263,24 @@ public class CCGraphFrame extends JFrame {
 					IPLUnit model = null;
 					for (PLProject project : ppProjectSet.getProjects()) {
 						if (project.getName().equals(projectname)) {
-							// ’P‘Ì‚Ì‚İ
+							// å˜ä½“ã®ã¿
 							for (PLFile file : project.getFiles()) {
 								if (file.getName().equals(filename)) {
 									model = file;
 								}
 							}
 
-							// ‚»‚ÌƒvƒƒWƒFƒNƒg‘S‘Ì
+							// ãã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆå…¨ä½“
 							// model = project.getRootPackage();
 						}
 					}
 
 					if (model == null) {
 						throw new RuntimeException(
-								"ƒRƒ“ƒpƒCƒ‹ƒGƒ‰[”­¶‚Ìƒ\[ƒXƒR[ƒh‘{õ‚É¸”s‚µ‚Ü‚µ‚½");
+								"ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰æœç´¢ã«å¤±æ•—ã—ã¾ã—ãŸ");
 					}
 
-					// ProjectViewer ¨ ŠÈˆÕ‚Èƒ\[ƒX”äŠrƒEƒBƒ“ƒhƒE‚É•ÏX
+					// ProjectViewer â†’ ç°¡æ˜“ãªã‚½ãƒ¼ã‚¹æ¯”è¼ƒã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«å¤‰æ›´
 					final CCSourceCompareViewer sourceviewer = new CCSourceCompareViewer(
 							model);
 
@@ -296,7 +296,7 @@ public class CCGraphFrame extends JFrame {
 
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
-							// ÂC³‘OCÔC³Œã
+							// é’ä¿®æ­£å‰ï¼Œèµ¤ä¿®æ­£å¾Œ
 							sourceviewer.fitScale();
 						}
 					});

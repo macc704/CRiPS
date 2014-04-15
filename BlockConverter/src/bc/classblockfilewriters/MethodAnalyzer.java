@@ -59,7 +59,7 @@ public class MethodAnalyzer extends ASTVisitor {
 			} else {
 				model.setName(node.getName().toString());
 			}
-			// �I�[�o�[���[�h�Ή��ł̃��\�b�h�̖��O���Z�b�g
+			// オーバーロード対応版のメソッドの名前をセット
 			model.setModifier("public");
 			if (node.getReturnType2() != null) {
 				model.setReturnType(convertBlockConnectorType(node

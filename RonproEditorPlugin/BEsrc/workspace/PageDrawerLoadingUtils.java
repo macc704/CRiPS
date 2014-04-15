@@ -138,7 +138,7 @@ public class PageDrawerLoadingUtils {
 					String drawer = null;
 					if (Workspace.everyPageHasDrawer) {
 						//create drawer instance
-						//“®“IƒuƒƒbƒN‚ğ
+						//å‹•çš„ãƒ–ãƒ­ãƒƒã‚¯ã‚’
 						//    					manager.addStaticDrawer(pageName,pageColor);
 						ArrayList<RenderableBlock> drawerBlocks = new ArrayList<RenderableBlock>();
 
@@ -164,7 +164,7 @@ public class PageDrawerLoadingUtils {
 																.getBlockID()));
 									}
 								}
-								//“®“IƒuƒƒbƒN‚ğ
+								//å‹•çš„ãƒ–ãƒ­ãƒƒã‚¯ã‚’
 								//    							blocksForDrawers.put(drawer, drawerBlocks);
 								blocksForDrawers.put(drawer, drawerBlocks);
 								break; //there can only be one drawer for this page

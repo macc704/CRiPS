@@ -34,7 +34,7 @@ public class LangDefFileDtdCopier implements Copier {
 
 			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(turtleByteArray);
-			// ‚·‚×‚Ä‚Ìs‚ğƒRƒs[‚·‚é
+			// ã™ã¹ã¦ã®è¡Œã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 			String line;
 			while ((line = br.readLine()) != null) {
 				if (!line.contains("<!ENTITY lang_def_")) {
@@ -42,7 +42,7 @@ public class LangDefFileDtdCopier implements Copier {
 				}
 			}
 
-			// TODO ‘Š‘ÎƒpƒX‚ğŒvZ‚·‚é
+			// TODO ç›¸å¯¾ãƒ‘ã‚¹ã‚’è¨ˆç®—ã™ã‚‹
 			File tmp = new File(file.getPath());
 			String home = "";
 			
@@ -75,8 +75,8 @@ public class LangDefFileDtdCopier implements Copier {
 			ps.println("<!ENTITY lang_def_families SYSTEM \"lang_def_families.xml\">");
 			ps.println("<!ENTITY lang_def_etc SYSTEM \"" + home
 					+ "ext/block/lang_def_etc.xml\">");
-			// menuî•ñ‚ÌƒRƒs[
-			// ps‚É‘‚«‚¾‚µ‚½‚à‚Ì‚ğ‚·‚×‚Ä•¶š—ñ‚É•ÏŠ·‚·‚é
+			// menuæƒ…å ±ã®ã‚³ãƒ”ãƒ¼
+			// psã«æ›¸ãã ã—ãŸã‚‚ã®ã‚’ã™ã¹ã¦æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
 			String ldfString = turtleByteArray.toString();
 
 			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile()
@@ -98,7 +98,7 @@ public class LangDefFileDtdCopier implements Copier {
 			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
 			e.printStackTrace();
-			throw new RuntimeException("Œ¾Œê’è‹`ƒtƒ@ƒCƒ‹o—Í‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½Flang_def_genuses_dtd");
+			throw new RuntimeException("è¨€èªå®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸï¼šlang_def_genuses_dtd");
 		}
 	}
 

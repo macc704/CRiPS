@@ -10,7 +10,7 @@ public class NotExpressionModel extends BlockModel {
 	public void checkError() {
 		resolveCreatedVariable(getBeforeID());
 		if (getConnectorIDs().get(0) == BlockModel.NULL) {
-			throw new RuntimeException("ƒuƒƒbƒN‚ªŠ®‘S‚É‘g‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñNotF " + getGenusName());
+			throw new RuntimeException("ãƒ–ãƒ­ãƒƒã‚¯ãŒå®Œå…¨ã«çµ„ã¾ã‚Œã¦ã„ã¾ã›ã‚“Notï¼š " + getGenusName());
 		}
 		BlockToJavaAnalyzer.getBlock(getConnectorIDs().get(0)).checkError();
 		if (getAfterID() != BlockModel.NULL) {

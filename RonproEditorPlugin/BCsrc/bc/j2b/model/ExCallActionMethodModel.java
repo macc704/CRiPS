@@ -41,7 +41,7 @@ public class ExCallActionMethodModel extends ExpressionModel {
 			}
 		}
 
-		// BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
+		// BeforeBlockã¨AfterBlockã‚’æ¤œç´¢ã™ã‚‹
 		resolveBeforeAfterBlock(getParent().getParent());
 
 		String valGenusName = variable.getGenusName();

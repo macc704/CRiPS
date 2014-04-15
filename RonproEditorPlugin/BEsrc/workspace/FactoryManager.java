@@ -825,7 +825,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 				if (block.hasStubs()) {
 					for (BlockStub stub : block.getFreshStubs()) {
 						String blockDrawer = null;
-						// TODO lang_defで定義したfactoryのパレットにブロックが生成される
+						// TODO lang_def縺ｧ螳夂ｾｩ縺励◆factory縺ｮ繝代Ξ繝�繝医↓繝悶Ο繝�繧ｯ縺檎函謌舌＆繧後ｋ
 						BlockGenus blockGenus = BlockGenus.getGenusWithName(Block.getBlock(stub.getBlockID())
 								.getGenusName());
 						this.addDynamicBlock(new FactoryRenderableBlock(this, stub.getBlockID()), stub.getFactoryName());

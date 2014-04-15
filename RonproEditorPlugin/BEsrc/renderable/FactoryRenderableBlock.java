@@ -36,7 +36,7 @@ public class FactoryRenderableBlock extends RenderableBlock {
 	private JComponentDragHandler dragHandler;
 
 	/**
-	 * TODO •Ï”’è‹`ƒuƒƒbƒN‚É‚Â‚¢‚ÄA Factory‚Å‚ÍnameLabel‚ğ•\¦‚µ‚È‚¢
+	 * TODO å¤‰æ•°å®šç¾©ãƒ–ãƒ­ãƒƒã‚¯ã«ã¤ã„ã¦ã€ Factoryã§ã¯nameLabelã‚’è¡¨ç¤ºã—ãªã„
 	 * 
 	 * Constructs a new FactoryRenderableBlock instance.
 	 * 

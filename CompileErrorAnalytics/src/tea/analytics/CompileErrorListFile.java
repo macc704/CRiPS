@@ -62,33 +62,33 @@ public class CompileErrorListFile {
 		buf.append(CAMMA);
 		buf.append("ErrorMessage");
 		buf.append(CAMMA);
-		buf.append("ƒVƒ“ƒ{ƒ‹");
+		buf.append("ã‚·ãƒ³ãƒœãƒ«");
 		buf.append(CAMMA);
-		buf.append("ƒVƒ“ƒ{ƒ‹‚Ìí—Ş");
+		buf.append("ã‚·ãƒ³ãƒœãƒ«ã®ç¨®é¡");
 		buf.append(CAMMA);
-		buf.append("ƒ[ƒhA");
+		buf.append("ãƒ¯ãƒ¼ãƒ‰A");
 		buf.append(CAMMA);
-		buf.append("ƒ[ƒhA‚Ìí—Ş");
+		buf.append("ãƒ¯ãƒ¼ãƒ‰Aã®ç¨®é¡");
 		buf.append(CAMMA);
-		buf.append("ƒ[ƒhB");
+		buf.append("ãƒ¯ãƒ¼ãƒ‰B");
 		buf.append(CAMMA);
-		buf.append("ƒ[ƒhB‚Ìí—Ş");
+		buf.append("ãƒ¯ãƒ¼ãƒ‰Bã®ç¨®é¡");
 		buf.append(CAMMA);
-		buf.append("ƒ[ƒhC");
+		buf.append("ãƒ¯ãƒ¼ãƒ‰C");
 		buf.append(CAMMA);
-		buf.append("ƒ[ƒhC‚Ìí—Ş");
+		buf.append("ãƒ¯ãƒ¼ãƒ‰Cã®ç¨®é¡");
 		buf.append(CAMMA);
-		buf.append("”­¶");
+		buf.append("ç™ºç”Ÿæ™‚åˆ»");
 		buf.append(CAMMA);
-		buf.append("C³");
+		buf.append("ä¿®æ­£æ™‚åˆ»");
 		buf.append(CAMMA);
-		buf.append("C³ŠÔ");
+		buf.append("ä¿®æ­£æ™‚é–“");
 		buf.append(CAMMA);
 		buf.append("isWorking");
 		buf.append(CAMMA);
-		buf.append("•¡‡”");
+		buf.append("è¤‡åˆæ•°");
 		buf.append(CAMMA);
-		buf.append("“¯C³”");
+		buf.append("åŒæ™‚ä¿®æ­£æ•°");
 		buf.append(CAMMA);
 		buf.append("CT(sec)");
 		buf.append(CAMMA);
@@ -105,21 +105,21 @@ public class CompileErrorListFile {
 	private void writeErrorList(CompileErrorAnalyzerList analyze,
 			PrintWriter pw, boolean coco) {
 
-		// Ã‘å
+		// é™å¤§
 		String[] line = analyze.getProject().getName().split("-");
 
-		// Œc‰
+		// æ…¶å¿œ
 		// String[] line = analyze.getProject().getName().split("_");
 
 		for (TCompileErrorHistory history : analyze.getHistories()) {
 			StringBuffer buf = new StringBuffer();
 
-			/**** Ã‘å ****/
+			/**** é™å¤§ ****/
 			if (line.length >= 3) {
-				// ŠwĞ”Ô†
+				// å­¦ç±ç•ªå·
 				buf.append(line[0] + "-" + line[1]);
 				buf.append(CAMMA);
-				// ƒŒƒ|[ƒg‰ñ
+				// ãƒ¬ãƒãƒ¼ãƒˆå›
 				buf.append(line[2]);
 				buf.append(CAMMA);
 			} else {
@@ -129,26 +129,26 @@ public class CompileErrorListFile {
 				buf.append(CAMMA);
 			}
 
-			/**** Œc‰ ****/
-			// // ŠwĞ”Ô†
+			/**** æ…¶å¿œ ****/
+			// // å­¦ç±ç•ªå·
 			// buf.append(line[2]);
 			// buf.append(CAMMA);
-			// // ƒŒƒ|[ƒg‰ñ
+			// // ãƒ¬ãƒãƒ¼ãƒˆå›
 			// buf.append(line[0]);
 			// buf.append(CAMMA);
 
-			/*** ‚Ç‚¿‚ç‚Å‚à‚È‚¢ **/
-			// Ã‘å‚Ì‚à‚Ì‚Æ“ñd‚Éo—Í‚³‚ê‚Ä‚¢‚é‚Ì‚ÅƒRƒƒ“ƒgƒAƒEƒg by hirao
+			/*** ã©ã¡ã‚‰ã§ã‚‚ãªã„ **/
+			// é™å¤§ã®ã‚‚ã®ã¨äºŒé‡ã«å‡ºåŠ›ã•ã‚Œã¦ã„ã‚‹ã®ã§ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆ by hirao
 			// buf.append("NA");
 			// buf.append(CAMMA);
 			// buf.append("NA");
 			// buf.append(CAMMA);
 
-			// Å‰‚ÌƒZƒOƒƒ“ƒg‚ÌƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚ğæ“¾
+			// æœ€åˆã®ã‚»ã‚°ãƒ¡ãƒ³ãƒˆã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ã‚’å–å¾—
 			CDiagnostic compileError = history.getSegments().getFirst()
 					.getCompileError();
 
-			// ƒtƒ@ƒCƒ‹–¼
+			// ãƒ•ã‚¡ã‚¤ãƒ«å
 			if (coco) {
 				buf.append(compileError.getSourceName());
 			} else {
@@ -158,11 +158,11 @@ public class CompileErrorListFile {
 
 			CMessageParser parser = compileError.getMessageParser();
 
-			if (parser.getMessageKind() == "Œx") {
+			if (parser.getMessageKind() == "è­¦å‘Š") {
 				continue;
 			}
 
-			// ƒGƒ‰[ƒƒbƒZ[ƒWorƒ^ƒO
+			// ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸orã‚¿ã‚°
 			if (parser.getAbstractionMessage() != null) {
 				buf.append("\"");
 				buf.append(parser.getAbstractionMessage());
@@ -173,7 +173,7 @@ public class CompileErrorListFile {
 				buf.append("\",");
 			}
 
-			// ƒVƒ“ƒ{ƒ‹
+			// ã‚·ãƒ³ãƒœãƒ«
 			if (parser.getSymbol() != null) {
 				buf.append("\"");
 				buf.append(parser.getSymbol());
@@ -185,7 +185,7 @@ public class CompileErrorListFile {
 				buf.append(CAMMA);
 			}
 
-			// ƒ[ƒh
+			// ãƒ¯ãƒ¼ãƒ‰
 			if (parser.getAbstractionMessage() != null) {
 				List<String> word = parser.getWords();
 				List<String> kind = parser.getWordKinds();
@@ -250,10 +250,10 @@ public class CompileErrorListFile {
 
 			// for cocoviewer by hirao
 			if (coco) {
-				// ƒGƒ‰[”­¶
+				// ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚åˆ»
 				buf.append(history.getStart().getTime().getAsLong());
 				buf.append(CAMMA);
-				// ƒGƒ‰[C³
+				// ã‚¨ãƒ©ãƒ¼ä¿®æ­£æ™‚åˆ»
 				if (history.getEnd() == null) {
 					buf.append("-");
 					buf.append(CAMMA);
@@ -262,10 +262,10 @@ public class CompileErrorListFile {
 					buf.append(CAMMA);
 				}
 			} else {
-				// ƒGƒ‰[”­¶
+				// ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚åˆ»
 				buf.append(history.getStart().getTime());
 				buf.append(CAMMA);
-				// ƒGƒ‰[C³
+				// ã‚¨ãƒ©ãƒ¼ä¿®æ­£æ™‚åˆ»
 				if (history.getEnd() == null) {
 					buf.append("-");
 					buf.append(CAMMA);
@@ -294,12 +294,12 @@ public class CompileErrorListFile {
 			buf.append(isWorking(history, analyze));
 			buf.append(CAMMA);
 
-			// •¡‡”
+			// è¤‡åˆæ•°
 			buf.append(history.getStart().getCompileResult().getDiagnostics()
 					.size());
 			buf.append(CAMMA);
 
-			// “¯C³”
+			// åŒæ™‚ä¿®æ­£æ•°
 			if (history.getEnd() == null) {
 				buf.append("-");
 			} else {
@@ -333,7 +333,7 @@ public class CompileErrorListFile {
 				.getSourceName();
 		fileName = fileName.substring(fileName.lastIndexOf(File.separator) + 1);
 
-		// Œx‚Ìê‡
+		// è­¦å‘Šã®å ´åˆ
 		if (fileName.equals("no name")) {
 			return false;
 		}
@@ -364,27 +364,27 @@ public class CompileErrorListFile {
 
 		// header
 		StringBuffer buf = new StringBuffer();
-		buf.append("ŠwĞ”Ô†");
+		buf.append("å­¦ç±ç•ªå·");
 		buf.append(CAMMA);
-		buf.append("ƒŒƒ|[ƒg‰ñ");
+		buf.append("ãƒ¬ãƒãƒ¼ãƒˆå›");
 		buf.append(CAMMA);
-		buf.append("ƒRƒ“ƒpƒCƒ‹");
+		buf.append("ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚åˆ»");
 		buf.append(CAMMA);
-		// buf.append("ƒtƒ@ƒCƒ‹–¼");
+		// buf.append("ãƒ•ã‚¡ã‚¤ãƒ«å");
 		// buf.append(CAMMA);
-		buf.append("ƒpƒ^[ƒ“1");
+		buf.append("ãƒ‘ã‚¿ãƒ¼ãƒ³1");
 		buf.append(CAMMA);
-		buf.append("ƒpƒ^[ƒ“2-A");
+		buf.append("ãƒ‘ã‚¿ãƒ¼ãƒ³2-A");
 		buf.append(CAMMA);
-		buf.append("ƒpƒ^[ƒ“2-B");
+		buf.append("ãƒ‘ã‚¿ãƒ¼ãƒ³2-B");
 		buf.append(CAMMA);
-		buf.append("ƒpƒ^[ƒ“3-A");
+		buf.append("ãƒ‘ã‚¿ãƒ¼ãƒ³3-A");
 		buf.append(CAMMA);
-		buf.append("ƒpƒ^[ƒ“3-B");
+		buf.append("ãƒ‘ã‚¿ãƒ¼ãƒ³3-B");
 		buf.append(CAMMA);
-		buf.append("ƒpƒ^[ƒ“4");
+		buf.append("ãƒ‘ã‚¿ãƒ¼ãƒ³4");
 		buf.append(CAMMA);
-		buf.append("ƒpƒ^[ƒ“5");
+		buf.append("ãƒ‘ã‚¿ãƒ¼ãƒ³5");
 		pw.println(buf.toString());
 
 		for (CompileErrorAnalyzerList analyze : compileErrorAnalyzes) {
@@ -396,10 +396,10 @@ public class CompileErrorListFile {
 
 	private void writePatternList(CompileErrorAnalyzerList analyze,
 			PrintWriter pw) {
-		// Ã‘å
+		// é™å¤§
 		String[] line = analyze.getProject().getName().split("-");
 
-		// Œc‰
+		// æ…¶å¿œ
 		// String[] line = analyze.getProject().getName().split("_");
 
 		for (TCompilePoint point : analyze.getCompilePoints()) {
@@ -410,12 +410,12 @@ public class CompileErrorListFile {
 
 			StringBuffer buf = new StringBuffer();
 
-			/**** Ã‘å ****/
+			/**** é™å¤§ ****/
 			if (line.length >= 3) {
-				// ŠwĞ”Ô†
+				// å­¦ç±ç•ªå·
 				buf.append(line[0] + "-" + line[1]);
 				buf.append(CAMMA);
-				// ƒŒƒ|[ƒg‰ñ
+				// ãƒ¬ãƒãƒ¼ãƒˆå›
 				buf.append(line[2]);
 				buf.append(CAMMA);
 			} else {
@@ -425,54 +425,54 @@ public class CompileErrorListFile {
 				buf.append(CAMMA);
 			}
 
-			/**** Œc‰ ****/
-			// // ŠwĞ”Ô†
+			/**** æ…¶å¿œ ****/
+			// // å­¦ç±ç•ªå·
 			// buf.append(line[2]);
 			// buf.append(CAMMA);
-			// // ƒŒƒ|[ƒg‰ñ
+			// // ãƒ¬ãƒãƒ¼ãƒˆå›
 			// buf.append(line[0]);
 			// buf.append(CAMMA);
 
-			// ƒRƒ“ƒpƒCƒ‹
+			// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚åˆ»
 			buf.append(point.getTime());
 			buf.append(CAMMA);
 
-			// ƒpƒ^[ƒ“
+			// ãƒ‘ã‚¿ãƒ¼ãƒ³
 			if (point.getPattern().contains(1)) {
-				buf.append("›");
+				buf.append("â—‹");
 			}
 			buf.append(CAMMA);
 
 			if (point.getPattern().contains(2)) {
-				buf.append("›");
+				buf.append("â—‹");
 			}
 			buf.append(CAMMA);
 
 			if (point.getPattern().contains(3)) {
-				buf.append("›");
+				buf.append("â—‹");
 			}
 			buf.append(CAMMA);
 
 			if (point.getPattern().contains(4)) {
-				buf.append("›");
+				buf.append("â—‹");
 			}
 			buf.append(CAMMA);
 
 			if (point.getPattern().contains(5)) {
-				buf.append("›");
+				buf.append("â—‹");
 			}
 			buf.append(CAMMA);
 
 			if (point.getPattern().contains(6)) {
-				buf.append("›");
+				buf.append("â—‹");
 			}
 			buf.append(CAMMA);
 
 			if (point.getPattern().contains(7)) {
-				buf.append("›");
+				buf.append("â—‹");
 			}
 
-			// ƒpƒ^[ƒ“
+			// ãƒ‘ã‚¿ãƒ¼ãƒ³
 			// TCompilePoint point = history.getSegments().getLast().getEnd();
 			// for (int i = 0; i < point.getPattern().size(); i++) {
 			// buf.append(CAMMA);
@@ -517,9 +517,9 @@ public class CompileErrorListFile {
 	//
 	// // header
 	// StringBuffer buf = new StringBuffer();
-	// buf.append("ŠwĞ”Ô†");
+	// buf.append("å­¦ç±ç•ªå·");
 	// buf.append(CAMMA);
-	// buf.append("ƒŒƒ|[ƒg‰ñ");
+	// buf.append("ãƒ¬ãƒãƒ¼ãƒˆå›");
 	// buf.append(CAMMA);
 	// buf.append("WorkingTime");
 	// buf.append(CAMMA);
@@ -553,11 +553,11 @@ public class CompileErrorListFile {
 	//
 	// // header
 	// StringBuffer buf = new StringBuffer();
-	// buf.append("ŠwĞ”Ô†");
+	// buf.append("å­¦ç±ç•ªå·");
 	// buf.append(CAMMA);
-	// buf.append("ƒvƒƒWƒFƒNƒg");
+	// buf.append("ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ");
 	// buf.append(CAMMA);
-	// buf.append("ƒtƒ@ƒCƒ‹–¼");
+	// buf.append("ãƒ•ã‚¡ã‚¤ãƒ«å");
 	// pw.println(buf.toString());
 	//
 	// for (ProjectCompileError pErr : cErrs) {
@@ -578,13 +578,13 @@ public class CompileErrorListFile {
 	//
 	// // header
 	// StringBuffer buf = new StringBuffer();
-	// buf.append("ŠwĞ”Ô†");
+	// buf.append("å­¦ç±ç•ªå·");
 	// buf.append(CAMMA);
-	// buf.append("ƒvƒƒWƒFƒNƒg");
+	// buf.append("ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ");
 	// buf.append(CAMMA);
-	// buf.append("ƒtƒ@ƒCƒ‹–¼");
+	// buf.append("ãƒ•ã‚¡ã‚¤ãƒ«å");
 	// buf.append(CAMMA);
-	// buf.append("ƒGƒ‰[”");
+	// buf.append("ã‚¨ãƒ©ãƒ¼æ•°");
 	// pw.println(buf.toString());
 	//
 	// for (ProjectCompileError pErr : cErrs) {
@@ -604,17 +604,17 @@ public class CompileErrorListFile {
 	//
 	// // header
 	// StringBuffer buf = new StringBuffer();
-	// buf.append("ŠwĞ”Ô†");
+	// buf.append("å­¦ç±ç•ªå·");
 	// buf.append(CAMMA);
-	// buf.append("ƒvƒƒWƒFƒNƒg");
+	// buf.append("ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ");
 	// buf.append(CAMMA);
-	// buf.append("ƒtƒ@ƒCƒ‹–¼");
+	// buf.append("ãƒ•ã‚¡ã‚¤ãƒ«å");
 	// buf.append(CAMMA);
-	// buf.append("‘ƒRƒ“ƒpƒCƒ‹”");
+	// buf.append("ç·ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ•°");
 	// buf.append(CAMMA);
-	// buf.append("Å‰‚ÉƒGƒ‰[‚ª0‚É‚È‚é‚Ü‚Å‚Ì‰ñ”");
+	// buf.append("æœ€åˆã«ã‚¨ãƒ©ãƒ¼ãŒ0ã«ãªã‚‹ã¾ã§ã®å›æ•°");
 	// buf.append(CAMMA);
-	// buf.append("‚»‚êˆÈ~‚Ì‰ñ”");
+	// buf.append("ãã‚Œä»¥é™ã®å›æ•°");
 	// buf.append(CAMMA);
 	// buf.append("hasError");
 	// pw.println(buf.toString());
@@ -640,17 +640,17 @@ public class CompileErrorListFile {
 	//
 	// String projectName = project.getName().toString();
 	//
-	// // Ã‘å
+	// // é™å¤§
 	// String[] line = projectName.split("-");
 	//
-	// // Œc‰
+	// // æ…¶å¿œ
 	// // String[] line = projectName.split("_");
 	//
-	// // Ã‘å
+	// // é™å¤§
 	// pw.print(line[1] + "-" + line[2] + CAMMA);
 	// pw.print(line[3] + CAMMA);
 	//
-	// // Œc‰
+	// // æ…¶å¿œ
 	// // pw.print(line[2] + CAMMA);
 	// // pw.print(line[0] + CAMMA);
 	//
@@ -683,15 +683,15 @@ public class CompileErrorListFile {
 	// for (CompileErrorAnalyzer fileCErr : pErr.getFileCompileErrs()) {
 	// StringBuffer buf = new StringBuffer();
 	//
-	// // ŠwĞ”Ô†
+	// // å­¦ç±ç•ªå·
 	// buf.append(line[1] + "-" + line[2]);
 	// buf.append(CAMMA);
 	//
-	// // ƒŒƒ|[ƒg‰ñ
+	// // ãƒ¬ãƒãƒ¼ãƒˆå›
 	// buf.append(line[3]);
 	// buf.append(CAMMA);
 	//
-	// // ƒtƒ@ƒCƒ‹–¼
+	// // ãƒ•ã‚¡ã‚¤ãƒ«å
 	// buf.append(fileCErr.getFileName());
 	// buf.append(CAMMA);
 	//
@@ -708,19 +708,19 @@ public class CompileErrorListFile {
 	// for (CompileErrorAnalyzer fileCErr : pErr.getFileCompileErrs()) {
 	// StringBuffer buf = new StringBuffer();
 	//
-	// // ŠwĞ”Ô†
+	// // å­¦ç±ç•ªå·
 	// buf.append(line[1] + "-" + line[2]);
 	// buf.append(CAMMA);
 	//
-	// // ƒŒƒ|[ƒg‰ñ
+	// // ãƒ¬ãƒãƒ¼ãƒˆå›
 	// buf.append(line[3]);
 	// buf.append(CAMMA);
 	//
-	// // ƒtƒ@ƒCƒ‹–¼
+	// // ãƒ•ã‚¡ã‚¤ãƒ«å
 	// buf.append(fileCErr.getFileName());
 	// buf.append(CAMMA);
 	//
-	// // ƒGƒ‰[‘”
+	// // ã‚¨ãƒ©ãƒ¼ç·æ•°
 	// buf.append(fileCErr.getErrorCount());
 	//
 	// pw.println(buf.toString());
@@ -736,36 +736,36 @@ public class CompileErrorListFile {
 	// for (CompileErrorAnalyzer fileCErr : pErr.getFileCompileErrs()) {
 	// StringBuffer buf = new StringBuffer();
 	//
-	// // ŠwĞ”Ô†
+	// // å­¦ç±ç•ªå·
 	// buf.append(line[1] + "-" + line[2]);
 	// buf.append(CAMMA);
 	//
-	// // ƒŒƒ|[ƒg‰ñ
+	// // ãƒ¬ãƒãƒ¼ãƒˆå›
 	// buf.append(line[3]);
 	// buf.append(CAMMA);
 	//
-	// // ƒtƒ@ƒCƒ‹–¼
+	// // ãƒ•ã‚¡ã‚¤ãƒ«å
 	// buf.append(fileCErr.getFileName());
 	// buf.append(CAMMA);
 	//
 	// int numOfCompiles = fileCErr.getCompileCount();
 	// int first0Error = fileCErr.getFirstNoErrorCount();
 	//
-	// // ‘ƒRƒ“ƒpƒCƒ‹”
+	// // ç·ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ•°
 	// buf.append(numOfCompiles);
 	// buf.append(CAMMA);
 	//
-	// // Å‰‚ÉƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚ª0‚É‚È‚Á‚½‰ñ”
+	// // æœ€åˆã«ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ãŒ0ã«ãªã£ãŸå›æ•°
 	// buf.append(first0Error);
 	// buf.append(CAMMA);
 	//
-	// // ‚»‚êˆÈ~‚Ì‰ñ”
+	// // ãã‚Œä»¥é™ã®å›æ•°
 	// buf.append(numOfCompiles - first0Error);
 	// buf.append(CAMMA);
 	//
-	// // ’ño•¨‚ÉƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚ª‚ ‚é‚©
+	// // æå‡ºç‰©ã«ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ãŒã‚ã‚‹ã‹
 	// if (fileCErr.hasLastCompileError()) {
-	// buf.append("›");
+	// buf.append("â—‹");
 	// }
 	//
 	// pw.println(buf.toString());

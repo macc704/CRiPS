@@ -39,12 +39,12 @@ public class SStubCreator {
 				RenderableBlock newRB = new RenderableBlock(null,
 						createB.getBlockID());
 
-				newRB.setLocation(rb.getX() + 20, rb.getY() + 20); // V‚µ‚­¶¬‚·‚éƒuƒƒbƒN‚Ìƒ|ƒWƒVƒ‡ƒ“
+				newRB.setLocation(rb.getX() + 20, rb.getY() + 20); // æ–°ã—ãç”Ÿæˆã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒã‚¸ã‚·ãƒ§ãƒ³
 
 				newRB.setParentWidget(rb.getParentWidget());
-				//‘‚¢‚Ä‚ ‚éƒuƒƒbƒNƒRƒlƒNƒ^[‚ð“Ç‚Ýž‚ÞŽd‘g‚Ý
+				//æ›¸ã„ã¦ã‚ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã‚³ãƒã‚¯ã‚¿ãƒ¼ã‚’èª­ã¿è¾¼ã‚€ä»•çµ„ã¿
 				//newRB.getBlock().getSocketAt
-				/*if(stubGenus.startsWith("setter")){//#ohata ‚Æ‚è‚ ‚¦‚¸
+				/*if(stubGenus.startsWith("setter")){//#ohata ã¨ã‚Šã‚ãˆãš
 					if(stubGenus.endsWith("int-number")){
 						RenderableBlock initRB = SContextMenuProvider.createNewBlock(newRB.getParentWidget(), "number");
 						initRB.setLocation(rb.getX()  + newRB.getBlockWidth(),rb.getY() + 20);

@@ -51,14 +51,14 @@ public class ExCallActionMethodModel2 extends ExpressionModel {
 			genusName = "callGetterMethod2";
 		}
 
-		if (receiver.getLabel().equals("©•ª")
+		if (receiver.getLabel().equals("è‡ªåˆ†")
 				&& receiver.getType().equals("object")
-				|| receiver.getLabel().equals("eƒNƒ‰ƒX")
+				|| receiver.getLabel().equals("è¦ªã‚¯ãƒ©ã‚¹")
 				&& receiver.getType().equals("object")) {
 			genusName = "callThisActionMethod2";
 		}
 
-		// BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
+		// BeforeBlockã¨AfterBlockã‚’æ¤œç´¢ã™ã‚‹
 		if (cmd) {
 			resolveBeforeAfterBlock(getParent().getParent());
 		} else {

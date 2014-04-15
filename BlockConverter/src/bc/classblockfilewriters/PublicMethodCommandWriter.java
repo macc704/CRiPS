@@ -18,7 +18,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 			out.println("<BlockGenus name=\"" + method.getFullName()
 					+ "\" editable-label=\"yes\"" + " kind=\"" + kind
 					+ "\" initlabel=\"" + method.getInitialLabel()
-					+ "\" header-label=\"V‚µ‚­\"  footer-label=\"‚ğì‚é\""
+					+ "\" header-label=\"æ–°ã—ã\"  footer-label=\"ã‚’ä½œã‚‹\""
 					+ " color=\"16 240 27\">");
 			++lineNum;
 			if (method.getParameters() != null) {
@@ -29,8 +29,8 @@ public class PublicMethodCommandWriter extends BasicModel {
 						+ method.getReturnType() + "\"></BlockConnector>");
 
 				for (String parameter : method.getParameters()) {
-					// TODO connector-type‚ğˆø”‚ÌŒ`‚Å•Ï‚¦‚é@parameter‚Í int
-					// xx‚Ì‚æ‚¤‚ÈŒ^{•Ï”–¼‚ÌŒ`‚Å•Û‚³‚ê‚Ä‚¢‚é‚±‚Æ‚É’ˆÓ‚³‚ê‚½‚µ
+					// TODO connector-typeã‚’å¼•æ•°ã®å½¢ã§å¤‰ãˆã‚‹ã€€parameterã¯ int
+					// xxã®ã‚ˆã†ãªå‹ï¼‹å¤‰æ•°åã®å½¢ã§ä¿æŒã•ã‚Œã¦ã„ã‚‹ã“ã¨ã«æ³¨æ„ã•ã‚ŒãŸã—
 					String parameterType = convertParameterType(parameter
 							.substring(0, parameter.indexOf(" ")));
 					String parameterName = parameter.substring(parameter
@@ -44,7 +44,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 
 					makeIndent(out, lineNum);
 					out.println("</BlockConnector>");
-					// ˆø”‚Ìİ’è
+					// å¼•æ•°ã®è¨­å®š
 				}
 				makeIndent(out, --lineNum);
 				out.println("</BlockConnectors>");
@@ -66,11 +66,11 @@ public class PublicMethodCommandWriter extends BasicModel {
 			out.println();
 
 			// <BlockGenus name="new-object" kind="function" initlabel="Turtle"
-			// editable-label="yes" header-label="V‚µ‚­" footer-label="‚ğì‚é"
+			// editable-label="yes" header-label="æ–°ã—ã" footer-label="ã‚’ä½œã‚‹"
 			// color="16 240 27">
 			// <description>
 			// <text>
-			// V‚µ‚¢ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚µ‚Ü‚·B‚±‚ÌƒuƒƒbƒN‚ÍƒIƒuƒWƒFƒNƒgŒ^‚Ì•Ï”‚É‘ã“ü‚µ‚Ü‚·B
+			// æ–°ã—ã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã—ã¾ã™ã€‚ã“ã®ãƒ–ãƒ­ãƒƒã‚¯ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‹ã®å¤‰æ•°ã«ä»£å…¥ã—ã¾ã™ã€‚
 			// </text>
 			// </description>
 			// <BlockConnectors>
@@ -113,8 +113,8 @@ public class PublicMethodCommandWriter extends BasicModel {
 				}
 
 				for (String parameter : method.getParameters()) {
-					// TODO connector-type‚ğˆø”‚ÌŒ`‚Å•Ï‚¦‚é@parameter‚Í int
-					// xx‚Ì‚æ‚¤‚ÈŒ^{•Ï”–¼‚ÌŒ`‚Å•Û‚³‚ê‚Ä‚¢‚é‚±‚Æ‚É’ˆÓ‚³‚ê‚½‚µ
+					// TODO connector-typeã‚’å¼•æ•°ã®å½¢ã§å¤‰ãˆã‚‹ã€€parameterã¯ int
+					// xxã®ã‚ˆã†ãªå‹ï¼‹å¤‰æ•°åã®å½¢ã§ä¿æŒã•ã‚Œã¦ã„ã‚‹ã“ã¨ã«æ³¨æ„ã•ã‚ŒãŸã—
 					String parameterType = convertParameterType(parameter
 							.substring(0, parameter.indexOf(" ")));
 					String parameterName = parameter.substring(parameter
@@ -128,7 +128,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 
 					makeIndent(out, lineNum);
 					out.println("</BlockConnector>");
-					// ˆø”‚Ìİ’è
+					// å¼•æ•°ã®è¨­å®š
 				}
 				makeIndent(out, --lineNum);
 				out.println("</BlockConnectors>");

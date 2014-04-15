@@ -9,9 +9,9 @@ public class InfixCommandBlockModel extends CommandBlockModel {
 	@Override
 	public void setName(String name) {
 		super.setName(name);
-		if (name.startsWith("lessthanorequalto")) {// <=‡”Ôd—v
+		if (name.startsWith("lessthanorequalto")) {// <=é †ç•ªé‡è¦
 			setLabel("<=");
-		} else if (name.startsWith("lessthan")) {// <=‡”Ôd—v
+		} else if (name.startsWith("lessthan")) {// <=é †ç•ªé‡è¦
 			setLabel("<");
 		} else if (name.startsWith("greaterthanorequalto")) {
 			setLabel(">=");
@@ -48,17 +48,17 @@ public class InfixCommandBlockModel extends CommandBlockModel {
 	@Override
 	public void checkError() {
 
-		// ¶‘¤‚ÌƒIƒyƒ‰ƒ“ƒh
+		// å·¦å´ã®ã‚ªãƒšãƒ©ãƒ³ãƒ‰
 		if (getConnectorIDs().get(0) == BlockModel.NULL) {
-			throw new RuntimeException("ƒuƒƒbƒN‚ªŠ®‘S‚É‘g‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñCF " + getGenusName());
+			throw new RuntimeException("ãƒ–ãƒ­ãƒƒã‚¯ãŒå®Œå…¨ã«çµ„ã¾ã‚Œã¦ã„ã¾ã›ã‚“Cï¼š " + getGenusName());
 		}
 		BlockModel leftOperand = BlockToJavaAnalyzer.getBlock(getConnectorIDs()
 				.get(0));
 		leftOperand.checkError();
 
-		// ‰E‘¤‚ÌƒIƒyƒ‰ƒ“ƒh
+		// å³å´ã®ã‚ªãƒšãƒ©ãƒ³ãƒ‰
 		if (getConnectorIDs().get(1) == BlockModel.NULL) {
-			throw new RuntimeException("ƒuƒƒbƒN‚ªŠ®‘S‚É‘g‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñDF " + getGenusName());
+			throw new RuntimeException("ãƒ–ãƒ­ãƒƒã‚¯ãŒå®Œå…¨ã«çµ„ã¾ã‚Œã¦ã„ã¾ã›ã‚“Dï¼š " + getGenusName());
 		}
 		BlockModel rightOperand = BlockToJavaAnalyzer
 				.getBlock(getConnectorIDs().get(1));
@@ -90,7 +90,7 @@ public class InfixCommandBlockModel extends CommandBlockModel {
 			return;
 		}
 
-		// ¶‘¤‚ÌƒIƒyƒ‰ƒ“ƒh
+		// å·¦å´ã®ã‚ªãƒšãƒ©ãƒ³ãƒ‰
 		if (leftOperand instanceof InfixCommandBlockModel) {
 			out.print("(");
 		}
@@ -108,7 +108,7 @@ public class InfixCommandBlockModel extends CommandBlockModel {
 
 		out.print(" " + getLabel() + " ");
 
-		// ‰E‘¤‚ÌƒIƒyƒ‰ƒ“ƒh
+		// å³å´ã®ã‚ªãƒšãƒ©ãƒ³ãƒ‰
 		if (rightOperand instanceof InfixCommandBlockModel) {
 			out.print("(");
 		}

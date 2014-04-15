@@ -11,7 +11,7 @@ import codeblocks.LinkRule;
  * @author yasui
  * 
  *         <code>CallMethodRule</code>
- *         ‚ÍƒIƒuƒWƒFƒNƒg•Ï”‚Ìƒƒ\ƒbƒhQÆƒuƒƒbƒN‚Ìƒ\ƒPƒbƒg‚É‚ ‚éƒuƒƒbƒN‚ªˆê‚Â‚¾‚¯‚Å‚ ‚é‚©‚ğƒ`ƒFƒbƒN‚·‚éB
+ *         ã¯ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå¤‰æ•°ã®ãƒ¡ã‚½ãƒƒãƒ‰å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚½ã‚±ãƒƒãƒˆã«ã‚ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ãŒä¸€ã¤ã ã‘ã§ã‚ã‚‹ã‹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
  * 
  */
 public class SCallMethodRule implements LinkRule {
@@ -70,7 +70,7 @@ public class SCallMethodRule implements LinkRule {
 		return true;
 	}
 
-	// Œã‚ÅBlockGenusƒNƒ‰ƒX‚ÉˆÚ‚µ•Ï‚¦‚é
+	// å¾Œã§BlockGenusã‚¯ãƒ©ã‚¹ã«ç§»ã—å¤‰ãˆã‚‹
 	private boolean isDataBlocksWithNotCallMethod(Block block) {
 		return block.getGenusName().equals("number")
 				|| block.getGenusName().equals("random");

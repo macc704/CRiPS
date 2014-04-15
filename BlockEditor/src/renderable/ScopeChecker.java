@@ -9,46 +9,46 @@ import codeblocks.BlockConnector;
 public class ScopeChecker {
 
 	public boolean checkScope(Block beforeBlock, Block cmpBlock) {
-		//cmpblock:ƒ`ƒFƒbƒN‚·‚é•Ï”‚ÌƒuƒƒbƒN
-		//before@Œ‹‡æ‚ÌƒuƒƒbƒN
+		//cmpblock:ãƒã‚§ãƒƒã‚¯ã™ã‚‹å¤‰æ•°ã®ãƒ–ãƒ­ãƒƒã‚¯
+		//beforeã€€çµåˆå…ˆã®ãƒ–ãƒ­ãƒƒã‚¯
 
-		//callAction‚Ìê‡‚ÍAQÆŒ³‚ğƒ\ƒPƒbƒg‚ª‚Á‚Ä‚é‚Ì‚ÅA‚»‚Ì‚½‚ß‚Ìˆ—‚ª•K—v
-		Block originBlock = beforeBlock;//Œ‹‡‚·‚éêŠ‚Ì’¼‘O‚ÌƒuƒƒbƒN
+		//callActionã®å ´åˆã¯ã€å‚ç…§å…ƒã‚’ã‚½ã‚±ãƒƒãƒˆãŒæŒã£ã¦ã‚‹ã®ã§ã€ãã®ãŸã‚ã®å‡¦ç†ãŒå¿…è¦
+		Block originBlock = beforeBlock;//çµåˆã™ã‚‹å ´æ‰€ã®ç›´å‰ã®ãƒ–ãƒ­ãƒƒã‚¯
 
 		String compareBlockName;
 		Block compareBlock = cmpBlock;
-		//QÆƒuƒƒbƒNAprivate•Ï”ƒuƒƒbƒN‚Å‚È‚¢ê‡‚ÍƒXƒR[ƒv‚ğŠm”F
+		//å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ã€privateå¤‰æ•°ãƒ–ãƒ­ãƒƒã‚¯ã§ãªã„å ´åˆã¯ã‚¹ã‚³ãƒ¼ãƒ—ã‚’ç¢ºèª
 		if (isCompareBlock(cmpBlock)
 				&& !cmpBlock.getGenusName().contains("private")) {
-			//’¼‘O‚ÌƒuƒƒbƒN‚ªƒvƒ‰ƒO‚ğ‚Á‚Ä‚¢‚éê‡A‚»‚¿‚ç‚ª’¼‘O‚ÌƒuƒƒbƒN‚É‚È‚é
+			//ç›´å‰ã®ãƒ–ãƒ­ãƒƒã‚¯ãŒãƒ—ãƒ©ã‚°ã‚’æŒã£ã¦ã„ã‚‹å ´åˆã€ãã¡ã‚‰ãŒç›´å‰ã®ãƒ–ãƒ­ãƒƒã‚¯ã«ãªã‚‹
 			if (Block.getBlock(beforeBlock.getPlugBlockID()) != null) {
 				beforeBlock = purcePlugBlock(beforeBlock);
 				originBlock = beforeBlock;
 			}
-			//—£‚ê¬“‡‚ÌƒuƒƒbƒN‚Ìê‡‚Ítrue‚ğ•Ô‚·
+			//é›¢ã‚Œå°å³¶ã®ãƒ–ãƒ­ãƒƒã‚¯ã®å ´åˆã¯trueã‚’è¿”ã™
 			if (isIndependentBlock(beforeBlock)) {
 				return true;
 			}
 
-			//callActionƒuƒƒbƒN‚Ìê‡‚ÍAQÆƒuƒƒbƒN‚Íƒ\ƒPƒbƒg‚É‚­‚Á‚Â‚¢‚Ä‚¢‚é‚Ì‚ÅA‚»‚¿‚ç‚ğQÆƒuƒƒbƒN‚Éİ’è‚·‚é
+			//callActionãƒ–ãƒ­ãƒƒã‚¯ã®å ´åˆã¯ã€å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ã¯ã‚½ã‚±ãƒƒãƒˆã«ãã£ã¤ã„ã¦ã„ã‚‹ã®ã§ã€ãã¡ã‚‰ã‚’å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ã«è¨­å®šã™ã‚‹
 			if (compareBlock.getGenusName().equals("callActionMethod2")
 					|| compareBlock.getGenusName().equals("callGetterMethod2")) {
 				compareBlock = Block.getBlock(compareBlock.getSocketAt(0)
 						.getBlockID());
-				//QÆƒuƒƒbƒN‚ª‚È‚©‚Á‚½ê‡Aƒ`ƒFƒbƒN‚·‚éQÆƒuƒƒbƒN‚ª‚È‚¢‚½‚ßtrue private‚àtrue
+				//å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ãŒãªã‹ã£ãŸå ´åˆã€ãƒã‚§ãƒƒã‚¯ã™ã‚‹å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ãŒãªã„ãŸã‚true privateã‚‚true
 				if (compareBlock == null
 						|| compareBlock.getGenusName().contains("private")) {
-					return true;//‚Æ‚è‚ ‚¦‚¸‚­‚Á‚Â‚¯‚é
+					return true;//ã¨ã‚Šã‚ãˆãšãã£ã¤ã‘ã‚‹
 				}
 			}
 
-			//QÆƒuƒƒbƒN‚Ì–¼‘O‚ğæ“¾
+			//å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ã®åå‰ã‚’å–å¾—
 			compareBlockName = compareBlock.getBlockLabel().substring(
 					0,
 					compareBlock.getBlockLabel().indexOf(
 							compareBlock.getLabelSuffix()));
 
-			//Š‘®‚Å‚«‚éêŠ‚©‚Ç‚¤‚©Šm”F‚·‚é
+			//æ‰€å±ã§ãã‚‹å ´æ‰€ã‹ã©ã†ã‹ç¢ºèªã™ã‚‹
 			if (confirmCompareBlockIsBelongable(cmpBlock, beforeBlock,
 					compareBlockName)) {
 				return true;
@@ -60,7 +60,7 @@ public class ScopeChecker {
 					.setBlockHighlightColor(Color.RED);
 
 			return false;
-		} else {//QÆƒuƒƒbƒN‚Å‚È‚©‚Á‚½ê‡Aprivate•Ï”‚ÌQÆƒuƒƒbƒN‚Å‰ï‚Á‚½ê‡‚ÍŒ‹‡‹–‰Â
+		} else {//å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ã§ãªã‹ã£ãŸå ´åˆã€privateå¤‰æ•°ã®å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ã§ä¼šã£ãŸå ´åˆã¯çµåˆè¨±å¯
 			return true;
 		}
 	}
@@ -76,7 +76,7 @@ public class ScopeChecker {
 	//	private long searchCompareBlockOrigin(Block originBlock,
 	//			String compareBlockName) {
 	//		while (!originBlock.getGenusName().equals("procedure")) {
-	//			if (originBlock.getBlockLabel().equals(compareBlockName)) {//ƒ‰ƒxƒ‹‚ğŠm”F‚µ‚ÄAˆê’v‚·‚é‚©@
+	//			if (originBlock.getBlockLabel().equals(compareBlockName)) {//ãƒ©ãƒ™ãƒ«ã‚’ç¢ºèªã—ã¦ã€ä¸€è‡´ã™ã‚‹ã‹ã€€
 	//				return originBlock.getBlockID();
 	//			}
 	//
@@ -89,13 +89,13 @@ public class ScopeChecker {
 	//				}
 	//			}
 	//
-	//			originBlock = Block.getBlock(originBlock.getBeforeBlockID());//ƒuƒƒbƒNXV
+	//			originBlock = Block.getBlock(originBlock.getBeforeBlockID());//ãƒ–ãƒ­ãƒƒã‚¯æ›´æ–°
 	//
-	//			if (originBlock == null) {//I—¹ğŒ
+	//			if (originBlock == null) {//çµ‚äº†æ¡ä»¶
 	//				return -1;
 	//			}
 	//		}
-	//		//procedure‚Ü‚Å’H‚è’…‚¢‚½‚çAˆø”ƒuƒƒbƒN‚ğƒ`ƒFƒbƒN@
+	//		//procedureã¾ã§è¾¿ã‚Šç€ã„ãŸã‚‰ã€å¼•æ•°ãƒ–ãƒ­ãƒƒã‚¯ã‚’ãƒã‚§ãƒƒã‚¯ã€€
 	//		for (BlockConnector socket : BlockLinkChecker
 	//				.getSocketEquivalents(originBlock)) {
 	//			if (Block.getBlock(socket.getBlockID()) == null) {
@@ -103,11 +103,11 @@ public class ScopeChecker {
 	//			}
 	//
 	//			if (Block.getBlock(socket.getBlockID()).getBlockLabel()
-	//					.equals(compareBlockName)) {//ƒ‰ƒxƒ‹‚ğŠm”F‚µ‚ÄAˆê’v‚·‚é‚©@ˆê’v‚µ‚½‚çbreak;
-	//				return originBlock.getBlockID();//•Ö‹XãproceureƒuƒƒbƒN‚ğ•Ô‚·
+	//					.equals(compareBlockName)) {//ãƒ©ãƒ™ãƒ«ã‚’ç¢ºèªã—ã¦ã€ä¸€è‡´ã™ã‚‹ã‹ã€€ä¸€è‡´ã—ãŸã‚‰break;
+	//				return originBlock.getBlockID();//ä¾¿å®œä¸Šproceureãƒ–ãƒ­ãƒƒã‚¯ã‚’è¿”ã™
 	//			}
 	//		}
-	//		return -1;//procedure‚Ü‚Å’H‚è’…‚¢‚½‚çAQÆŒ³‚Ì’Tõ‚É¸”s
+	//		return -1;//procedureã¾ã§è¾¿ã‚Šç€ã„ãŸã‚‰ã€å‚ç…§å…ƒã®æ¢ç´¢ã«å¤±æ•—
 	//	}
 
 	//	private long searchCompareOriginBlockInAbstructionBlock(Block start,
@@ -124,8 +124,8 @@ public class ScopeChecker {
 	//		return start.getBlockID();
 	//	}
 
-	//QÆƒuƒƒbƒN‚ªŠ‘®‚Å‚«‚é‚©‚Ç‚¤‚©Šm”F‚·‚é. QÆƒuƒƒbƒN‚©‚çã‚É‡”Ô‚É‚½‚Ç‚Á‚Ä‚¢‚Á‚ÄAƒXƒR[ƒv‚ª‚ ‚Á‚Ä‚¢‚é‚©Šm”F‚·‚é
-	//ˆø”@ƒXƒR[ƒv‚ğŠm”F‚·‚éƒuƒƒbƒN:cmpblock Œ‹‡æ‚Ìˆê”Ô‘O‚ÌƒuƒƒbƒN:beforelock
+	//å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ãŒæ‰€å±ã§ãã‚‹ã‹ã©ã†ã‹ç¢ºèªã™ã‚‹. å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ã‹ã‚‰ä¸Šã«é †ç•ªã«ãŸã©ã£ã¦ã„ã£ã¦ã€ã‚¹ã‚³ãƒ¼ãƒ—ãŒã‚ã£ã¦ã„ã‚‹ã‹ç¢ºèªã™ã‚‹
+	//å¼•æ•°ã€€ã‚¹ã‚³ãƒ¼ãƒ—ã‚’ç¢ºèªã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯:cmpblock çµåˆå…ˆã®ä¸€ç•ªå‰ã®ãƒ–ãƒ­ãƒƒã‚¯:beforelock
 	private boolean confirmCompareBlockIsBelongable(Block cmpBlock,
 			Block beforeBlock, String originBlockName) {
 		if (cmpBlock.getPlugBlockID() != -1) {
@@ -137,7 +137,7 @@ public class ScopeChecker {
 			if (cmpBlock.getBlockLabel().equals(originBlockName)) {
 				return true;
 			}
-			//procedure‚¾‚Á‚½ê‡
+			//procedureã ã£ãŸå ´åˆ
 			if (RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
 					.getGenus().equals("procedure")) {
 				for (BlockConnector socket : cmpBlock.getSockets()) {
@@ -157,7 +157,7 @@ public class ScopeChecker {
 			if (cmpBlock.getBlockLabel().equals(originBlockName)) {
 				return true;
 			}
-			//procedure‚¾‚Á‚½ê‡ƒ\ƒPƒbƒg‚ğ‚·‚×‚ÄŠm”F‚µ‚Ä
+			//procedureã ã£ãŸå ´åˆã‚½ã‚±ãƒƒãƒˆã‚’ã™ã¹ã¦ç¢ºèªã—ã¦
 			if (RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
 					.getGenus().equals("procedure")) {
 				for (BlockConnector socket : cmpBlock.getSockets()) {
@@ -177,12 +177,12 @@ public class ScopeChecker {
 	//	private boolean searchOriginBlock(Block start, Block origin) {
 	//		Block checkBlock = Block.getBlock(start.getBlockID());
 	//		while (checkBlock != null) {
-	//			//QÆŒ³‚Ìid‚Æˆê‚©H
+	//			//å‚ç…§å…ƒã®idã¨ä¸€ç·’ã‹ï¼Ÿ
 	//			if (checkBlock.getBlockID() == origin.getBlockID()) {
 	//				return true;
 	//			}
 	//
-	//			//			if (checkBlock.getSockets() != null) {//ƒ\ƒPƒbƒg‚ÉƒuƒƒbƒN‚ğ‚Á‚Ä‚¢‚é
+	//			//			if (checkBlock.getSockets() != null) {//ã‚½ã‚±ãƒƒãƒˆã«ãƒ–ãƒ­ãƒƒã‚¯ã‚’æŒã£ã¦ã„ã‚‹
 	//			//				for (BlockConnector socket : checkBlock.getSockets()) {
 	//			//					if (confirmCompareBlockIsBelongable(
 	//			//							Block.getBlock(socket.getBlockID()),
@@ -206,7 +206,7 @@ public class ScopeChecker {
 	//		return false;
 	//	}
 
-	//ƒuƒƒbƒN‚ªŠ‘®‚Å‚«‚é‚©‚Ç‚¤‚©Aƒ\ƒPƒbƒg“à‚ğ’Tõ‚·‚éB
+	//ãƒ–ãƒ­ãƒƒã‚¯ãŒæ‰€å±ã§ãã‚‹ã‹ã©ã†ã‹ã€ã‚½ã‚±ãƒƒãƒˆå†…ã‚’æ¢ç´¢ã™ã‚‹ã€‚
 	/*	private boolean confirmCompareBlockIsBelongableAtSockets(Block originBlock,
 				Block compareBlockParent) {
 			for (BlockConnector socket : BlockLinkChecker
@@ -216,20 +216,20 @@ public class ScopeChecker {
 					if (compareBlockParent.getBlockID() == block.getBlockID()) {//
 						return true;
 					}
-					if (block.getSockets() != null) {//ƒ\ƒPƒbƒg‚ÉƒuƒƒbƒN‚ğ‚Á‚Ä‚¢‚é
+					if (block.getSockets() != null) {//ã‚½ã‚±ãƒƒãƒˆã«ãƒ–ãƒ­ãƒƒã‚¯ã‚’æŒã£ã¦ã„ã‚‹
 						if (confirmCompareBlockIsBelongableAtSockets(block,
 								compareBlockParent)) {
 							return true;
 						}
 					}
-				}//abstructionƒuƒƒbƒN“à‚Ì‚·‚×‚Ä‚ÌƒuƒƒbƒN‚ğ’Tõ‚µI‚¦‚½			
+				}//abstructionãƒ–ãƒ­ãƒƒã‚¯å†…ã®ã™ã¹ã¦ã®ãƒ–ãƒ­ãƒƒã‚¯ã‚’æ¢ç´¢ã—çµ‚ãˆãŸ			
 			}
 			return false;
 		}
 	*/
-	//e‚ÌƒuƒƒbƒN‚ğ’Tõ‚·‚é
+	//è¦ªã®ãƒ–ãƒ­ãƒƒã‚¯ã‚’æ¢ç´¢ã™ã‚‹
 	//	private long searchParentBlockID(RenderableBlock prevRBlock) {
-	//		//ÅŠñ‚è‚Ìprocedure,abstructionƒuƒƒbƒN‚ğ’Tõ
+	//		//æœ€å¯„ã‚Šã®procedure,abstructionãƒ–ãƒ­ãƒƒã‚¯ã‚’æ¢ç´¢
 	//		if (prevRBlock == null
 	//				|| prevRBlock.getBlock().getAfterBlockID() == null) {
 	//			return -1;
@@ -237,7 +237,7 @@ public class ScopeChecker {
 	//
 	//		RenderableBlock checkRBlock = RenderableBlock
 	//				.getRenderableBlock(prevRBlock.getBlock().getBeforeBlockID());
-	//		Block prevBlock = Block.getBlock(prevRBlock.getBlockID());//’¼‘O‚ÌƒuƒƒbƒN‚ğ‚Æ‚Á‚Æ‚­
+	//		Block prevBlock = Block.getBlock(prevRBlock.getBlockID());//ç›´å‰ã®ãƒ–ãƒ­ãƒƒã‚¯ã‚’ã¨ã£ã¨ã
 	//
 	//		if (checkRBlock == null) {
 	//			//if (prevBlock.getGenusName().equals("procedure")) {
@@ -246,17 +246,17 @@ public class ScopeChecker {
 	//			//return -1;
 	//		}
 	//
-	//		while (Block.getBlock(checkRBlock.getBlock().getBeforeBlockID()) != null) {//’¼‘OƒuƒƒbƒN‚ªnull‚É‚È‚é‚Ü‚Å
-	//			//abstruction‚Ìê‡Ae‚©‚à‚µ‚ê‚È‚¢‚Ì‚Åƒ`ƒFƒbƒN
+	//		while (Block.getBlock(checkRBlock.getBlock().getBeforeBlockID()) != null) {//ç›´å‰ãƒ–ãƒ­ãƒƒã‚¯ãŒnullã«ãªã‚‹ã¾ã§
+	//			//abstructionã®å ´åˆã€è¦ªã‹ã‚‚ã—ã‚Œãªã„ã®ã§ãƒã‚§ãƒƒã‚¯
 	//			if (checkRBlock.getGenus().equals("abstraction")) {
 	//				if (Block.getBlock(checkRBlock.getBlockID()).getSocketAt(0)
-	//						.getBlockID().equals(prevBlock.getBlockID())) {//ƒ\ƒPƒbƒg‚ª’¼‘O‚ÌƒuƒƒbƒN‚Æˆê’v‚µ‚½ê‡A
+	//						.getBlockID().equals(prevBlock.getBlockID())) {//ã‚½ã‚±ãƒƒãƒˆãŒç›´å‰ã®ãƒ–ãƒ­ãƒƒã‚¯ã¨ä¸€è‡´ã—ãŸå ´åˆã€
 	//					return prevRBlock.getBlockID();
 	//				}
 	//			}
-	//			//prevBlock‚ÌXV
+	//			//prevBlockã®æ›´æ–°
 	//			prevBlock = checkRBlock.getBlock();
-	//			//checkRBlock‚ÌXV
+	//			//checkRBlockã®æ›´æ–°
 	//			checkRBlock = RenderableBlock.getRenderableBlock(Block.getBlock(
 	//					checkRBlock.getBlockID()).getBeforeBlockID());
 	//		}
@@ -278,7 +278,7 @@ public class ScopeChecker {
 
 	public static boolean isIndependentBlock(Block block) {
 		while (!block.getGenusName().equals("procedure")) {
-			//Ÿ‚ÌƒuƒƒbƒN‚ª‘¶İƒV‚È‚¢ê‡‚ÍA—£‚ê¬“‡‚ÌƒuƒƒbƒN‚Ì‚½‚ßtrue
+			//æ¬¡ã®ãƒ–ãƒ­ãƒƒã‚¯ãŒå­˜åœ¨ã‚·ãªã„å ´åˆã¯ã€é›¢ã‚Œå°å³¶ã®ãƒ–ãƒ­ãƒƒã‚¯ã®ãŸã‚true
 			if (Block.getBlock(block.getBeforeBlockID()) == null) {
 				return true;
 			}

@@ -47,7 +47,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createBlockCopyMenu() {
 		if (blockCopyItem == null) {
-			blockCopyItem = new JMenuItem("•¡»");
+			blockCopyItem = new JMenuItem("è¤‡è£½");
 			blockCopyItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SBlockCopier(rb).doWork(e);
@@ -59,7 +59,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCreateValueMenu() {
 		if (createValueItem == null) {
-			createValueItem = new JMenuItem("u’lƒuƒƒbƒNv‚Ìì¬");
+			createValueItem = new JMenuItem("ã€Œå€¤ãƒ–ãƒ­ãƒƒã‚¯ã€ã®ä½œæˆ");
 			createValueItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("getter", rb).doWork(e);
@@ -71,7 +71,7 @@ public class SContextMenuProvider {
 
 	// #ohata added
 	private JMenuItem createNewGetterMenu() {
-		JMenuItem item = new JMenuItem("ƒQƒbƒ^[ƒƒ\ƒbƒh‚Ìì¬");
+		JMenuItem item = new JMenuItem("ã‚²ãƒƒã‚¿ãƒ¼ãƒ¡ã‚½ãƒƒãƒ‰ã®ä½œæˆ");
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createNewGetterMethod("procedure");
@@ -82,7 +82,7 @@ public class SContextMenuProvider {
 
 	// #ohata added
 	private JMenuItem createNewSetterMenu() {
-		JMenuItem item = new JMenuItem("ƒZƒbƒ^[ƒƒ\ƒbƒh‚Ìì¬");
+		JMenuItem item = new JMenuItem("ã‚»ãƒƒã‚¿ãƒ¼ãƒ¡ã‚½ãƒƒãƒ‰ã®ä½œæˆ");
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createNewSetterMethod("procedure");
@@ -93,7 +93,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCreateWriterMenu() {
 		if (createWriterItem == null) {
-			createWriterItem = new JMenuItem("u‘ƒuƒƒbƒNv‚Ìì¬");
+			createWriterItem = new JMenuItem("ã€Œæ›¸è¾¼ãƒ–ãƒ­ãƒƒã‚¯ã€ã®ä½œæˆ");
 			createWriterItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("setter", rb).doWork(e);
@@ -105,7 +105,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCreateIncrementerMenu() {
 		if (createIncrementerItem == null) {
-			createIncrementerItem = new JMenuItem("u‘‚â‚·ƒuƒƒbƒNv‚Ìì¬");
+			createIncrementerItem = new JMenuItem("ã€Œå¢—ã‚„ã™ãƒ–ãƒ­ãƒƒã‚¯ã€ã®ä½œæˆ");
 			createIncrementerItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("inc", rb).doWork(e);
@@ -117,7 +117,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCallActionMethodBlockMenu() {
 		if (createCallActionMethodBlockItem == null) {
-			createCallActionMethodBlockItem = new JMenuItem("uƒƒ\ƒbƒhÀsƒuƒƒbƒNv‚Ìì¬");
+			createCallActionMethodBlockItem = new JMenuItem("ã€Œãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œãƒ–ãƒ­ãƒƒã‚¯ã€ã®ä½œæˆ");
 			createCallActionMethodBlockItem
 					.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
@@ -131,7 +131,7 @@ public class SContextMenuProvider {
 	private JMenuItem createCallGetterMethodBlockMenu() {
 		if (createCallGetterMethodBlockItem == null) {
 			createCallGetterMethodBlockItem = new JMenuItem(
-					"uƒƒ\ƒbƒhÀsƒuƒƒbƒN(®”Œ^)v‚Ìì¬");
+					"ã€Œãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œãƒ–ãƒ­ãƒƒã‚¯(æ•´æ•°å‹)ã€ã®ä½œæˆ");
 			createCallGetterMethodBlockItem
 					.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
@@ -145,7 +145,7 @@ public class SContextMenuProvider {
 	private JMenuItem createCallDoubleMethodBlockMenu() {
 		if (createCallDoubleMethodBlockItem == null) {
 			createCallDoubleMethodBlockItem = new JMenuItem(
-					"uƒƒ\ƒbƒhÀsƒuƒƒbƒN(doubleŒ^)v‚Ìì¬");
+					"ã€Œãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œãƒ–ãƒ­ãƒƒã‚¯(doubleå‹)ã€ã®ä½œæˆ");
 			createCallDoubleMethodBlockItem
 					.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
@@ -159,7 +159,7 @@ public class SContextMenuProvider {
 	private JMenuItem createCallBooleanMethodBlockMenu() {
 		if (createCallBooleanMethodBlockItem == null) {
 			createCallBooleanMethodBlockItem = new JMenuItem(
-					"uƒƒ\ƒbƒhÀsƒuƒƒbƒN(^‹UŒ^)v‚Ìì¬");
+					"ã€Œãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œãƒ–ãƒ­ãƒƒã‚¯(çœŸå½å‹)ã€ã®ä½œæˆ");
 			createCallBooleanMethodBlockItem
 					.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
@@ -173,7 +173,7 @@ public class SContextMenuProvider {
 	private JMenuItem createCallStringMethodBlockMenu() {
 		if (createCallStringMethodBlockItem == null) {
 			createCallStringMethodBlockItem = new JMenuItem(
-					"uƒƒ\ƒbƒhÀsƒuƒƒbƒN(•¶š—ñ)v‚Ìì¬");
+					"ã€Œãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œãƒ–ãƒ­ãƒƒã‚¯(æ–‡å­—åˆ—)ã€ã®ä½œæˆ");
 			createCallStringMethodBlockItem
 					.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
@@ -186,7 +186,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCallerMenu() {
 		if (createCallerItem == null) {
-			createCallerItem = new JMenuItem("uƒƒ\ƒbƒhÀsƒuƒƒbƒNv‚Ìì¬");
+			createCallerItem = new JMenuItem("ã€Œãƒ¡ã‚½ãƒƒãƒ‰å®Ÿè¡Œãƒ–ãƒ­ãƒƒã‚¯ã€ã®ä½œæˆ");
 			createCallerItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("caller", rb).doWork(e);
@@ -241,16 +241,16 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 		}
 
-		if (rb.getBlock().getGenusName().contains("arrayobject")) {//”z—ñ
+		if (rb.getBlock().getGenusName().contains("arrayobject")) {//é…åˆ—
 			final String scope = rb.getBlock().getGenusName()
 					.substring(0, rb.getBlock().getGenusName().indexOf("-"));
 
 			final String type = getBlockVariableType(rb.getBlock()
 					.getGenusName());
 
-			//Œ^‚É‰‚¶‚½ƒQƒbƒ^[AƒZƒbƒ^[‚Ì’Ç‰Á
-			JMenuItem elementGetter = new JMenuItem("u‘ƒuƒƒbƒNi—v‘fjv‚Ìì¬");
-			//getter‚Ìì¬
+			//å‹ã«å¿œã˜ãŸã‚²ãƒƒã‚¿ãƒ¼ã€ã‚»ãƒƒã‚¿ãƒ¼ã®è¿½åŠ 
+			JMenuItem elementGetter = new JMenuItem("ã€Œæ›¸è¾¼ãƒ–ãƒ­ãƒƒã‚¯ï¼ˆè¦ç´ ï¼‰ã€ã®ä½œæˆ");
+			//getterã®ä½œæˆ
 			elementGetter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("setter-arrayelement" + scope + "-var-"
@@ -260,7 +260,7 @@ public class SContextMenuProvider {
 			menu.add(elementGetter);
 
 			//setter
-			JMenuItem elementSetter = new JMenuItem("u’lƒuƒƒbƒNi—v‘fjv‚Ìì¬");
+			JMenuItem elementSetter = new JMenuItem("ã€Œå€¤ãƒ–ãƒ­ãƒƒã‚¯ï¼ˆè¦ç´ ï¼‰ã€ã®ä½œæˆ");
 			elementSetter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("getter-arrayelement" + scope + "-var-"
@@ -277,7 +277,7 @@ public class SContextMenuProvider {
 			menu.add(createActionBlockMenu());
 			menu.add(createGetterBlockMenu());
 
-			//TODO menu‚Éƒƒ\ƒbƒh‚ğ’Ç‰Á
+			//TODO menuã«ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ 
 			for (String key : rb.getMethods().keySet()) {
 				menu.add(createClassMethodsCategory(key,
 						rb.getMethods().get(key)));
@@ -286,138 +286,138 @@ public class SContextMenuProvider {
 			if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
 				{
 					JMenu category = new JMenu("Scanner");
-					category.add(createCallMethodMenu("next", "“ü—Í‚ğó‚¯æ‚é(•¶š—ñŒ^)"));
-					category.add(createCallMethodMenu("nextInt", "“ü—Í‚ğó‚¯æ‚é(®”Œ^)"));
-					category.add(createCallMethodMenu("hasNextInt", "“ü—Í‚ª®”Œ^‚©‚Ç‚¤‚©’²‚×‚é"));
-					category.add(createCallMethodMenu("hasNextDouble", "“ü—Í‚ªÀ”Œ^‚©‚Ç‚¤‚©’²‚×‚é"));
+					category.add(createCallMethodMenu("next", "å…¥åŠ›ã‚’å—ã‘å–ã‚‹(æ–‡å­—åˆ—å‹)"));
+					category.add(createCallMethodMenu("nextInt", "å…¥åŠ›ã‚’å—ã‘å–ã‚‹(æ•´æ•°å‹)"));
+					category.add(createCallMethodMenu("hasNextInt", "å…¥åŠ›ãŒæ•´æ•°å‹ã‹ã©ã†ã‹èª¿ã¹ã‚‹"));
+					category.add(createCallMethodMenu("hasNextDouble", "å…¥åŠ›ãŒå®Ÿæ•°å‹ã‹ã©ã†ã‹èª¿ã¹ã‚‹"));
 					category.add(createCallMethodMenu("nextDouble",
-							"“ü—Í‚ğó‚¯æ‚é(À”Œ^)"));
+							"å…¥åŠ›ã‚’å—ã‘å–ã‚‹(å®Ÿæ•°å‹)"));
 					menu.add(category);
 				}
 			}
 			if (rb.getBlock().getHeaderLabel().contains("Turtle")) {
 				{
-					JMenu category = new JMenu("TurtleŠî–{");
-					category.add(createCallMethodMenu("fd", "i‚Ş"));
-					category.add(createCallMethodMenu("bk", "–ß‚é"));
-					category.add(createCallMethodMenu("rt", "‰ñ‚éi‰Ej"));
-					category.add(createCallMethodMenu("lt", "‰ñ‚éi¶j"));
-					category.add(createCallMethodMenu("up", "ƒyƒ“‚ğã‚°‚é"));
-					category.add(createCallMethodMenu("down", "ƒyƒ“‚ğ‰º‚ë‚·"));
-					category.add(createCallMethodMenu("color", "ƒyƒ“F‚ğ•Ï‚¦‚é"));
+					JMenu category = new JMenu("TurtleåŸºæœ¬");
+					category.add(createCallMethodMenu("fd", "é€²ã‚€"));
+					category.add(createCallMethodMenu("bk", "æˆ»ã‚‹"));
+					category.add(createCallMethodMenu("rt", "å›ã‚‹ï¼ˆå³ï¼‰"));
+					category.add(createCallMethodMenu("lt", "å›ã‚‹ï¼ˆå·¦ï¼‰"));
+					category.add(createCallMethodMenu("up", "ãƒšãƒ³ã‚’ä¸Šã’ã‚‹"));
+					category.add(createCallMethodMenu("down", "ãƒšãƒ³ã‚’ä¸‹ã‚ã™"));
+					category.add(createCallMethodMenu("color", "ãƒšãƒ³è‰²ã‚’å¤‰ãˆã‚‹"));
 					menu.add(category);
 				}
 				{
-					JMenu category = new JMenu("Turtle‰—p");
-					category.add(createCallMethodMenu("warp", "ƒ[ƒv‚·‚é"));
-					category.add(createCallMethodMenu("size", "‘å‚«‚³‚ğ•Ï‚¦‚é"));
-					category.add(createCallMethodMenu("getX", "XÀ•W"));
-					category.add(createCallMethodMenu("getY", "YÀ•W"));
-					category.add(createCallMethodMenu("getWidth", "•"));
-					category.add(createCallMethodMenu("getHeight", "‚‚³"));
+					JMenu category = new JMenu("Turtleå¿œç”¨");
+					category.add(createCallMethodMenu("warp", "ãƒ¯ãƒ¼ãƒ—ã™ã‚‹"));
+					category.add(createCallMethodMenu("size", "å¤§ãã•ã‚’å¤‰ãˆã‚‹"));
+					category.add(createCallMethodMenu("getX", "Xåº§æ¨™"));
+					category.add(createCallMethodMenu("getY", "Yåº§æ¨™"));
+					category.add(createCallMethodMenu("getWidth", "å¹…"));
+					category.add(createCallMethodMenu("getHeight", "é«˜ã•"));
 					category.add(createCallMethodMenu("intersects",
-							"ƒIƒuƒWƒFƒNƒg‚ªd‚È‚Á‚Ä‚¢‚é‚©‚Ç‚¤‚©’²‚×‚é"));
+							"ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒé‡ãªã£ã¦ã„ã‚‹ã‹ã©ã†ã‹èª¿ã¹ã‚‹"));
 					category.add(createCallMethodMenu("contains",
-							"ƒIƒuƒWƒFƒNƒg‚ªw’è‚µ‚½À•W‚ğŠÜ‚ŞˆÊ’u‚É‚¢‚é‚©’²‚×‚é"));
-					category.add(createCallMethodMenu("looks", "Œ©‚½–Ú‚ğ•Ï‚¦‚é"));
-					category.add(createCallMethodMenu("show", "•\¦‚·‚é"));
-					category.add(createCallMethodMenu("hide", "”ñ•\¦‚É‚·‚é"));
-					category.add(createCallMethodMenu("setShow", "•\¦ó‘Ô‚ğİ’è‚·‚é"));
+							"ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒæŒ‡å®šã—ãŸåº§æ¨™ã‚’å«ã‚€ä½ç½®ã«ã„ã‚‹ã‹èª¿ã¹ã‚‹"));
+					category.add(createCallMethodMenu("looks", "è¦‹ãŸç›®ã‚’å¤‰ãˆã‚‹"));
+					category.add(createCallMethodMenu("show", "è¡¨ç¤ºã™ã‚‹"));
+					category.add(createCallMethodMenu("hide", "éè¡¨ç¤ºã«ã™ã‚‹"));
+					category.add(createCallMethodMenu("setShow", "è¡¨ç¤ºçŠ¶æ…‹ã‚’è¨­å®šã™ã‚‹"));
 					category.add(createCallMethodMenu("isShow",
-							"•\¦‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©’²‚×‚é"));
+							"è¡¨ç¤ºã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹èª¿ã¹ã‚‹"));
 					menu.add(category);
 				}
 			}
 			if (rb.getBlock().getHeaderLabel().contains("ImageTurtle")) {
 				JMenu category = new JMenu("ImageTurtle");
-				category.add(createCallMethodMenu("image", "‰æ‘œƒtƒ@ƒCƒ‹‚ğİ’è‚·‚é"));
+				category.add(createCallMethodMenu("image", "ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¨­å®šã™ã‚‹"));
 				menu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("TextTurtle")) {
 				JMenu category = new JMenu("TextTurtle");
-				category.add(createCallMethodMenu("text", "ƒeƒLƒXƒg‚ğİ’è‚·‚é"));
-				category.add(createCallMethodMenu("getText", "ƒeƒLƒXƒg‚ğæ“¾‚·‚é"));
+				category.add(createCallMethodMenu("text", "ãƒ†ã‚­ã‚¹ãƒˆã‚’è¨­å®šã™ã‚‹"));
+				category.add(createCallMethodMenu("getText", "ãƒ†ã‚­ã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹"));
 				category.add(category);
 				menu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("SoundTurtle")) {
 				JMenu category = new JMenu("TextTurtle");
-				category.add(createCallMethodMenu("file", "ƒtƒ@ƒCƒ‹‚ğİ’è‚·‚é"));
-				category.add(createCallMethodMenu("play", "Ä¶‚·‚é"));
-				category.add(createCallMethodMenu("loop", "ƒ‹[ƒvÄ¶‚·‚é"));
-				category.add(createCallMethodMenu("stop", "’â~‚·‚é"));
-				category.add(createCallMethodMenu("isPlaying", "Ä¶‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©"));
+				category.add(createCallMethodMenu("file", "ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¨­å®šã™ã‚‹"));
+				category.add(createCallMethodMenu("play", "å†ç”Ÿã™ã‚‹"));
+				category.add(createCallMethodMenu("loop", "ãƒ«ãƒ¼ãƒ—å†ç”Ÿã™ã‚‹"));
+				category.add(createCallMethodMenu("stop", "åœæ­¢ã™ã‚‹"));
+				category.add(createCallMethodMenu("isPlaying", "å†ç”Ÿã—ã¦ã„ã‚‹ã‹ã©ã†ã‹"));
 				menu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("ListTurtle")) {
 				JMenu category = new JMenu("ListTurtle");
-				category.add(createCallMethodMenu("get", "x”Ô’l‚Ì—v‘fæ“¾"));
-				category.add(createCallMethodMenu("getSize", "—v‘f”"));
-				category.add(createCallMethodMenu("add", "’Ç‰Á‚·‚é"));
-				category.add(createCallMethodMenu("addFirst", "Å‰‚É’Ç‰Á‚·‚é"));
-				category.add(createCallMethodMenu("addLast", "ÅŒã‚É’Ç‰Á‚·‚é"));
-				category.add(createCallMethodMenu("addAll", "‘S‚Ä’Ç‰Á‚·‚é"));
-				category.add(createCallMethodMenu("moveAllTo", "‘S‚ÄˆÚ“®‚·‚é"));
-				category.add(createCallMethodMenu("removeFirst", "æ“ª—v‘f‚ğíœ‚·‚é"));
-				category.add(createCallMethodMenu("removeLast", "––”ö—v‘f‚ğíœ‚·‚é"));
-				category.add(createCallMethodMenu("removeAll", "‘S‚Ä‚Ì—v‘f‚ğíœ‚·‚é"));
-				category.add(createCallMethodMenu("getCursor", "ƒJ[ƒ\ƒ‹ˆÊ’u"));
-				category.add(createCallMethodMenu("setCursor", "ƒJ[ƒ\ƒ‹ˆÊ’u‚ğİ’è‚·‚é"));
+				category.add(createCallMethodMenu("get", "xç•ªå€¤ã®è¦ç´ å–å¾—"));
+				category.add(createCallMethodMenu("getSize", "è¦ç´ æ•°"));
+				category.add(createCallMethodMenu("add", "è¿½åŠ ã™ã‚‹"));
+				category.add(createCallMethodMenu("addFirst", "æœ€åˆã«è¿½åŠ ã™ã‚‹"));
+				category.add(createCallMethodMenu("addLast", "æœ€å¾Œã«è¿½åŠ ã™ã‚‹"));
+				category.add(createCallMethodMenu("addAll", "å…¨ã¦è¿½åŠ ã™ã‚‹"));
+				category.add(createCallMethodMenu("moveAllTo", "å…¨ã¦ç§»å‹•ã™ã‚‹"));
+				category.add(createCallMethodMenu("removeFirst", "å…ˆé ­è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹"));
+				category.add(createCallMethodMenu("removeLast", "æœ«å°¾è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹"));
+				category.add(createCallMethodMenu("removeAll", "å…¨ã¦ã®è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹"));
+				category.add(createCallMethodMenu("getCursor", "ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®"));
+				category.add(createCallMethodMenu("setCursor", "ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã‚’è¨­å®šã™ã‚‹"));
 				category.add(createCallMethodMenu("moveCursorToNext",
-						"ƒJ[ƒ\ƒ‹‚ği‚ß‚é"));
+						"ã‚«ãƒ¼ã‚½ãƒ«ã‚’é€²ã‚ã‚‹"));
 				category.add(createCallMethodMenu("moveCursorToPrevious",
-						"ƒJ[ƒ\ƒ‹‚ğ–ß‚·"));
+						"ã‚«ãƒ¼ã‚½ãƒ«ã‚’æˆ»ã™"));
 				category.add(createCallMethodMenu("getObjectAtCursor",
-						"ƒJ[ƒ\ƒ‹ˆÊ’u‚Ì—v‘fæ“¾"));
+						"ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã®è¦ç´ å–å¾—"));
 				category.add(createCallMethodMenu("addToBeforeCursor",
-						"ƒJ[ƒ\ƒ‹‚Ì‘O‚É’Ç‰Á‚·‚é"));
+						"ã‚«ãƒ¼ã‚½ãƒ«ã®å‰ã«è¿½åŠ ã™ã‚‹"));
 				category.add(createCallMethodMenu("addToAfterCursor",
-						"ƒJ[ƒ\ƒ‹‚ÌŒã‚É’Ç‰Á‚·‚é"));
+						"ã‚«ãƒ¼ã‚½ãƒ«ã®å¾Œã«è¿½åŠ ã™ã‚‹"));
 				category.add(createCallMethodMenu("removeAtCursor",
-						"ƒJ[ƒ\ƒ‹ˆÊ’u‚Ì—v‘f‚ğíœ‚·‚é"));
-				category.add(createCallMethodMenu("shuffle", "‚©‚«¬‚º‚é"));
+						"ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã®è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹"));
+				category.add(createCallMethodMenu("shuffle", "ã‹ãæ··ãœã‚‹"));
 				category.add(createCallMethodMenu("warpByTopLeft",
-						"i¶ã‚ÌÀ•Ww’è‚Åjƒ[ƒv‚·‚é"));
+						"ï¼ˆå·¦ä¸Šã®åº§æ¨™æŒ‡å®šã§ï¼‰ãƒ¯ãƒ¼ãƒ—ã™ã‚‹"));
 				menu.add(category);
 			}
 
 			if (rb.getBlock().getGenusName().contains("listobject")) {
 				JMenu category = new JMenu("List");
 				category.add(createCallListMethodMenu("get[@number]",
-						"x”Ô’l‚Ì—v‘fæ“¾"));
-				category.add(createCallListMethodMenu("size", "—v‘f”"));
-				category.add(createCallListMethodMenu("add[@object]", "’Ç‰Á‚·‚é"));
-				category.add(createCallListMethodMenu("clear", "‘S‚Ä‚Ì—v‘f‚ğíœ‚·‚é"));
-				category.add(createCallListMethodMenu("contains", "‚ ‚é—v‘f‚ª‚ ‚é‚©’²‚×‚é"));
-				category.add(createCallListMethodMenu("isEmpty", "ƒŠƒXƒg‚ª‹ó‚©’²‚×‚é"));
+						"xç•ªå€¤ã®è¦ç´ å–å¾—"));
+				category.add(createCallListMethodMenu("size", "è¦ç´ æ•°"));
+				category.add(createCallListMethodMenu("add[@object]", "è¿½åŠ ã™ã‚‹"));
+				category.add(createCallListMethodMenu("clear", "å…¨ã¦ã®è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹"));
+				category.add(createCallListMethodMenu("contains", "ã‚ã‚‹è¦ç´ ãŒã‚ã‚‹ã‹èª¿ã¹ã‚‹"));
+				category.add(createCallListMethodMenu("isEmpty", "ãƒªã‚¹ãƒˆãŒç©ºã‹èª¿ã¹ã‚‹"));
 				category.add(createCallListMethodMenu("remove[@number]",
-						"w’è‚µ‚½”Ô†‚Ì—v‘f‚ğíœ‚·‚é"));
+						"æŒ‡å®šã—ãŸç•ªå·ã®è¦ç´ ã‚’å‰Šé™¤ã™ã‚‹"));
 				category.add(createCallListMethodMenu("remove[@object]",
-						"w’è‚µ‚½—v‘f‚ğíœ‚·‚é"));
+						"æŒ‡å®šã—ãŸè¦ç´ ã‚’å‰Šé™¤ã™ã‚‹"));
 				menu.add(category);
 			}
 
 			if (rb.getBlock().getHeaderLabel().contains("CardTurtle")) {
 				JMenu category = new JMenu("CardTurtle");
-				category.add(createCallMethodMenu("getNumber", "”Ô†æ“¾"));
-				category.add(createCallMethodMenu("getText", "•¶š—ñæ“¾"));
+				category.add(createCallMethodMenu("getNumber", "ç•ªå·å–å¾—"));
+				category.add(createCallMethodMenu("getText", "æ–‡å­—åˆ—å–å¾—"));
 				menu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("ButtonTurtle")) {
 				JMenu category = new JMenu("ButtonTurtle");
-				category.add(createCallMethodMenu("isClicked", "ƒNƒŠƒbƒN‚³‚ê‚½‚©‚Ç‚¤‚©"));
+				category.add(createCallMethodMenu("isClicked", "ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸã‹ã©ã†ã‹"));
 				menu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("InputTurtle")) {
 				JMenu category = new JMenu("InputTurtle");
-				category.add(createCallMethodMenu("getText", "•¶š—ñ‚ğæ“¾‚·‚é"));
-				category.add(createCallMethodMenu("text", "•¶š—ñ‚ğİ’è‚·‚é"));
-				category.add(createCallMethodMenu("clearText", "•¶š—ñ‚ğ‹ó‚É‚·‚é"));
-				category.add(createCallMethodMenu("setActive", "Šˆ“®ó‘Ô‚ğİ’è‚·‚é"));
-				category.add(createCallMethodMenu("isActive", "Šˆ“®ó‘Ô‚ğæ“¾‚·‚é"));
-				category.add(createCallMethodMenu("toJapaneseMode", "“ú–{Œêƒ‚[ƒh‚É‚·‚é"));
-				category.add(createCallMethodMenu("toEnglishMode", "‰pŒêƒ‚[ƒh‚É‚·‚é"));
-				category.add(createCallMethodMenu("fontsize", "ƒtƒHƒ“ƒgƒTƒCƒY‚ğİ’è‚·‚é"));
+				category.add(createCallMethodMenu("getText", "æ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹"));
+				category.add(createCallMethodMenu("text", "æ–‡å­—åˆ—ã‚’è¨­å®šã™ã‚‹"));
+				category.add(createCallMethodMenu("clearText", "æ–‡å­—åˆ—ã‚’ç©ºã«ã™ã‚‹"));
+				category.add(createCallMethodMenu("setActive", "æ´»å‹•çŠ¶æ…‹ã‚’è¨­å®šã™ã‚‹"));
+				category.add(createCallMethodMenu("isActive", "æ´»å‹•çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹"));
+				category.add(createCallMethodMenu("toJapaneseMode", "æ—¥æœ¬èªãƒ¢ãƒ¼ãƒ‰ã«ã™ã‚‹"));
+				category.add(createCallMethodMenu("toEnglishMode", "è‹±èªãƒ¢ãƒ¼ãƒ‰ã«ã™ã‚‹"));
+				category.add(createCallMethodMenu("fontsize", "ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã‚’è¨­å®šã™ã‚‹"));
 				menu.add(category);
 			}
 			menu.addSeparator();
@@ -433,7 +433,7 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 		}
 
-		//ŒÃ‚¢ƒIƒuƒWƒFƒNƒgÀsƒuƒƒbƒN‚ÌŒİŠ·«‚Ì‚½‚ß‚Éc‚µ‚Ä‚ ‚è‚Ü‚·D
+		//å¤ã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå®Ÿè¡Œãƒ–ãƒ­ãƒƒã‚¯ã®äº’æ›æ€§ã®ãŸã‚ã«æ®‹ã—ã¦ã‚ã‚Šã¾ã™ï¼
 		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
 			menu.add(createCallActionMethodBlockMenu());
 			menu.add(createCallGetterMethodBlockMenu());
@@ -446,7 +446,7 @@ public class SContextMenuProvider {
 	}
 
 	private JMenuItem createActionBlockMenu() {
-		JMenuItem item = new JMenuItem("uÀsvƒuƒƒbƒNì¬");
+		JMenuItem item = new JMenuItem("ã€Œå®Ÿè¡Œã€ãƒ–ãƒ­ãƒƒã‚¯ä½œæˆ");
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createActionGetterBlock(rb, "callActionMethod2");
@@ -456,7 +456,7 @@ public class SContextMenuProvider {
 	}
 
 	private JMenuItem createGetterBlockMenu() {
-		JMenuItem item = new JMenuItem("uÀs’lvƒuƒƒbƒNì¬");
+		JMenuItem item = new JMenuItem("ã€Œå®Ÿè¡Œå€¤ã€ãƒ–ãƒ­ãƒƒã‚¯ä½œæˆ");
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createActionGetterBlock(rb, "callGetterMethod2");
@@ -559,7 +559,7 @@ public class SContextMenuProvider {
 			if (returnObject) {
 				RenderableBlock newActionRBlock = createNewBlock(
 						rb.getParentWidget(), "callActionMethod2");
-				newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // V‚µ‚­¶¬‚·‚éƒuƒƒbƒN‚Ìƒ|ƒWƒVƒ‡ƒ“
+				newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // æ–°ã—ãç”Ÿæˆã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒã‚¸ã‚·ãƒ§ãƒ³
 				connectByPlug(newActionRBlock, 0, newGetterRBlock);
 			}
 		}
@@ -569,13 +569,13 @@ public class SContextMenuProvider {
 		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
 				name);
 
-		//List‚ÌŒ^‚ğŠm”F‚·‚é
+		//Listã®å‹ã‚’ç¢ºèªã™ã‚‹
 		Block newBlock = Block.getBlock(rb.getBlock().getSocketAt(0)
 				.getBlockID());
 		Block typeBlock = Block.getBlock(newBlock.getSocketAt(0).getBlockID());
-		//list‚ÌŒ^
+		//listã®å‹
 		String type = ElementModel.getConnectorType(typeBlock.getBlockLabel());
-		if (newCommandRBlock.getBlock().getGenusName().equals("add")) {//—v‘f‚ğ’Ç‰Á‚·‚éƒƒ\ƒbƒh‚Ìê‡‚ÍAƒvƒ‰ƒO‚ÌŒ`‚ğ•Ï‚¦‚é
+		if (newCommandRBlock.getBlock().getGenusName().equals("add")) {//è¦ç´ ã‚’è¿½åŠ ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã®å ´åˆã¯ã€ãƒ—ãƒ©ã‚°ã®å½¢ã‚’å¤‰ãˆã‚‹
 			newCommandRBlock.getBlock().getSocketAt(0).setKind(type);
 		}
 		boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
@@ -595,11 +595,11 @@ public class SContextMenuProvider {
 
 				newGetterRBlock.getBlock().setPlugKind(type);
 
-				//—v‘f‚ªobjectŒ^‚È‚çAcallActionMethod2ƒuƒƒbƒN‚ÆŒ‹‡‚·‚é
+				//è¦ç´ ãŒobjectå‹ãªã‚‰ã€callActionMethod2ãƒ–ãƒ­ãƒƒã‚¯ã¨çµåˆã™ã‚‹
 				if (type.equals("object")) {
 					RenderableBlock newActionRBlock = createNewBlock(
 							rb.getParentWidget(), "callActionMethod2");
-					newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // V‚µ‚­¶¬‚·‚éƒuƒƒbƒN‚Ìƒ|ƒWƒVƒ‡ƒ“
+					newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // æ–°ã—ãç”Ÿæˆã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒã‚¸ã‚·ãƒ§ãƒ³
 					connectByPlug(newActionRBlock, 0, newGetterRBlock);
 				}
 			}
@@ -612,7 +612,7 @@ public class SContextMenuProvider {
 
 		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
 				name);
-		//procedure‚ÌƒuƒƒbƒN–¼‚ğ•Ï‚¦‚é
+		//procedureã®ãƒ–ãƒ­ãƒƒã‚¯åã‚’å¤‰ãˆã‚‹
 		Block methodBlock = newCommandRBlock.getBlock();
 		methodBlock.setBlockLabel("get"
 				+ rb.getKeyword().toUpperCase().charAt(0)
@@ -622,14 +622,14 @@ public class SContextMenuProvider {
 				"return");
 		RenderableBlock getter = SStubCreator.createStub("getter", rb);
 
-		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // V‚µ‚­¶¬‚·‚éƒuƒƒbƒN‚Ìƒ|ƒWƒVƒ‡ƒ“
+		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // æ–°ã—ãç”Ÿæˆã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒã‚¸ã‚·ãƒ§ãƒ³
 
 		returnBlock.setLocation(rb.getX() + 20,
-				rb.getY() + newCommandRBlock.getHeight() + 20); //–³—‚â‚èÀ•Ww’è
+				rb.getY() + newCommandRBlock.getHeight() + 20); //ç„¡ç†ã‚„ã‚Šåº§æ¨™æŒ‡å®š
 
 		getter.setLocation(rb.getX() + returnBlock.getBlockWidth() + 10,
 				rb.getY() + newCommandRBlock.getHeight() + 20);
-		//return‚Æ’l‚ğŒ‹‡
+		//returnã¨å€¤ã‚’çµåˆ
 		connectByPlug(returnBlock, 0, getter);
 
 		BlockLink link = newCommandRBlock.getNearbyLink();
@@ -642,8 +642,8 @@ public class SContextMenuProvider {
 	private void createNewSetterMethod(String name) {//#ohata
 		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
 				name);
-		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // V‚µ‚­¶¬‚·‚éƒuƒƒbƒN‚Ìƒ|ƒWƒVƒ‡ƒ“
-		//ƒ‰ƒxƒ‹’£‘Ö‚¦
+		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // æ–°ã—ãç”Ÿæˆã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒã‚¸ã‚·ãƒ§ãƒ³
+		//ãƒ©ãƒ™ãƒ«å¼µæ›¿ãˆ
 		Block methodBlock = newCommandRBlock.getBlock();
 		methodBlock.setBlockLabel("set"
 				+ rb.getKeyword().toUpperCase().charAt(0)
@@ -694,7 +694,7 @@ public class SContextMenuProvider {
 		RenderableBlock newCallRBlock = createNewBlock(
 				parent.getParentWidget(), genusName);
 
-		newCallRBlock.setLocation(parent.getX() + 20, parent.getY() + 20); // V‚µ‚­¶¬‚·‚éƒuƒƒbƒN‚Ìƒ|ƒWƒVƒ‡ƒ“
+		newCallRBlock.setLocation(parent.getX() + 20, parent.getY() + 20); // æ–°ã—ãç”Ÿæˆã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒã‚¸ã‚·ãƒ§ãƒ³
 
 		String genusNameLabel = "getter";
 		if (parent.getGenus().contains("private")) {
@@ -730,7 +730,7 @@ public class SContextMenuProvider {
 				child.getBlock(), parent.getBlock().getSocketAt(socketIndex),
 				child.getBlock().getPlug());
 		link.connect();
-		//‚±‚ê‚ğ‚â‚ç‚È‚¢‚ÆŒ`‚ª•Ï‚í‚ç‚È‚¢
+		//ã“ã‚Œã‚’ã‚„ã‚‰ãªã„ã¨å½¢ãŒå¤‰ã‚ã‚‰ãªã„
 		Workspace.getInstance().notifyListeners(
 				new WorkspaceEvent(parent.getParentWidget(), link,
 						WorkspaceEvent.BLOCKS_CONNECTED));
@@ -742,7 +742,7 @@ public class SContextMenuProvider {
 				child.getBlock(), parent.getBlock().getSocketAt(socketIndex),
 				child.getBlock().getBeforeConnector());
 		link.connect();
-		//‚±‚ê‚ğ‚â‚ç‚È‚¢‚ÆŒ`‚ª•Ï‚í‚ç‚È‚¢
+		//ã“ã‚Œã‚’ã‚„ã‚‰ãªã„ã¨å½¢ãŒå¤‰ã‚ã‚‰ãªã„
 		Workspace.getInstance().notifyListeners(
 				new WorkspaceEvent(parent.getParentWidget(), link,
 						WorkspaceEvent.BLOCKS_CONNECTED));
@@ -754,7 +754,7 @@ public class SContextMenuProvider {
 				child.getBlock(), parent.getBlock().getSocketAt(socketIndex),
 				child.getBlock().getSocketAt(socketIndex));
 		link.connect();
-		//‚±‚ê‚ğ‚â‚ç‚È‚¢‚ÆŒ`‚ª•Ï‚í‚ç‚È‚¢
+		//ã“ã‚Œã‚’ã‚„ã‚‰ãªã„ã¨å½¢ãŒå¤‰ã‚ã‚‰ãªã„
 		Workspace.getInstance().notifyListeners(
 				new WorkspaceEvent(parent.getParentWidget(), link,
 						WorkspaceEvent.BLOCKS_CONNECTED));

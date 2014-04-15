@@ -3,7 +3,7 @@ package bc.j2b.model;
 import java.io.PrintStream;
 
 /**
- * PostFixModel‚Æ‚¢‚¤‚æ‚èCincrement‚Ìƒ‚ƒfƒ‹(¼àVC2012.11.23)
+ * PostFixModelã¨ã„ã†ã‚ˆã‚Šï¼Œincrementã®ãƒ¢ãƒ‡ãƒ«(æ¾æ¾¤ï¼Œ2012.11.23)
  * 
  */
 public class ExPostfixModel extends ExpressionModel {
@@ -57,7 +57,7 @@ public class ExPostfixModel extends ExpressionModel {
 
 		String connectorType = getConnectorType(variable.getType());
 
-		// BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
+		// BeforeBlockã¨AfterBlockã‚’æ¤œç´¢ã™ã‚‹
 		// ResolveBeforeAfterBlock(getParent().getParent());//2012.09.27
 		// #matsuzawa
 		resolveBeforeAfterBlock(getBlockParent());// 2012.09.27 #matsuzawa

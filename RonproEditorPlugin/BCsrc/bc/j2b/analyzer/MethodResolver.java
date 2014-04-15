@@ -12,7 +12,7 @@ import org.eclipse.jdt.core.dom.SuperMethodInvocation;
 import bc.j2b.model.ExpressionModel;
 
 /*
- *  –ß‚è’l‚ÌŒ^‚ğ•Ô‚·iŒ»İCAST‚É‚ÍŒÄo‚µæî•ñ‚ª‚È‚¢‚½‚ßCˆÈ‰º‚É“o˜^‚·‚é‰¼‚Ìˆ—j
+ *  æˆ»ã‚Šå€¤ã®å‹ã‚’è¿”ã™ï¼ˆç¾åœ¨ï¼ŒASTã«ã¯å‘¼å‡ºã—å…ˆæƒ…å ±ãŒãªã„ãŸã‚ï¼Œä»¥ä¸‹ã«ç™»éŒ²ã™ã‚‹ä»®ã®å‡¦ç†ï¼‰
  */
 public class MethodResolver {
 
@@ -221,7 +221,7 @@ public class MethodResolver {
 		StringBuffer buf = new StringBuffer();
 		buf.append(name);
 		buf.append("(");
-		int len = arguments.size();// ‚±‚Ìd—l‚Í‰¼
+		int len = arguments.size();// ã“ã®ä»•æ§˜ã¯ä»®
 		if (len > 0) {
 			buf.append(len);
 		}
@@ -231,7 +231,7 @@ public class MethodResolver {
 
 	private Map<String, String> userMethods = new HashMap<String, String>();
 	private Map<String, String> projectMethods = new HashMap<String, String>();
-	private Map<String, String> projectMethodsJavaTypes = new HashMap<String, String>();// •Ô‚è’l•t‚«ƒƒ\ƒbƒh‚Ì–{“–‚Ì•Ô‚è’l‚ğ‚±‚±‚É•Û‘¶‚·‚é...
+	private Map<String, String> projectMethodsJavaTypes = new HashMap<String, String>();// è¿”ã‚Šå€¤ä»˜ããƒ¡ã‚½ãƒƒãƒ‰ã®æœ¬å½“ã®è¿”ã‚Šå€¤ã‚’ã“ã“ã«ä¿å­˜ã™ã‚‹...
 	private List<String> userConstructor = new ArrayList<String>();
 
 	public boolean isRegisteredAsUserMethod(MethodInvocation method) {

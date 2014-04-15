@@ -49,14 +49,14 @@ public class OutputSourceModel {
 	}
 
 	public void save() throws Exception {
-		// #ohata ƒvƒ‰ƒCƒx[ƒg•Ï”‚Ìì¬‚Æ•ÏŠ·
+		// #ohata ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆå¤‰æ•°ã®ä½œæˆã¨å¤‰æ›
 		createPrivateValues();
 		replacePrivateValues();
-		// 2013.09.10 #ohata —\’è‚Å‚Í‚±‚±‚ÅƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ìì¬‚Æ•ÏŠ·‚ğs‚¤—\’è
+		// 2013.09.10 #ohata äºˆå®šã§ã¯ã“ã“ã§ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ä½œæˆã¨å¤‰æ›ã‚’è¡Œã†äºˆå®š
 		// createConstructors();
 		// replaceConstructors();
-		// 2013.09.10 #ohata Œ»ó‚Í‚±‚±‚ÅƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ìì¬A•ÏŠ·‚ğs‚Á‚Ä‚¢‚é
-		createNewMethods();// ‚Ü‚¸C‚È‚¢ƒƒ\ƒbƒh‚Íì‚é
+		// 2013.09.10 #ohata ç¾çŠ¶ã¯ã“ã“ã§ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ä½œæˆã€å¤‰æ›ã‚’è¡Œã£ã¦ã„ã‚‹
+		createNewMethods();// ã¾ãšï¼Œãªã„ãƒ¡ã‚½ãƒƒãƒ‰ã¯ä½œã‚‹
 		replace();
 	}
 
@@ -74,13 +74,13 @@ public class OutputSourceModel {
 			String name = getPrivateValueName(privateValue.fragments().get(0)
 					.toString());
 			if (privateRequests.containsKey(name)) {
-				// “ü‘Ö
+				// å…¥æ›¿
 				String blockString = privateRequests.get(name).substring(0,
 						privateRequests.get(name).length() - 1);
 				String oldString = getOldPrivateString(name, src);
 				src = src.replace(oldString, blockString);
 			} else {
-				// Á‹
+				// æ¶ˆå»
 				String blockString = "";
 				String oldString = getOldPrivateString(name, src);
 				src = src.replace(oldString, blockString);
@@ -95,7 +95,7 @@ public class OutputSourceModel {
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		String src = FileReader.readFile(file, enc);
 
-		// "¡‚ ‚é‡‚Ì"@Œã‚ë‚©‚ç’u‚«Š·‚¦ˆ— (‚µ‚È‚¢‚ÆCŒã‚Ìƒƒ\ƒbƒhˆÊ’u‚ª“s“xŒã•û‚Ö‚¸‚ê‚é‚½‚ß)
+		// "ä»Šã‚ã‚‹é †ã®"ã€€å¾Œã‚ã‹ã‚‰ç½®ãæ›ãˆå‡¦ç† (ã—ãªã„ã¨ï¼Œå¾Œã®ãƒ¡ã‚½ãƒƒãƒ‰ä½ç½®ãŒéƒ½åº¦å¾Œæ–¹ã¸ãšã‚Œã‚‹ãŸã‚)
 		List<MethodDeclaration> methods = getMethods();
 
 		Collections.reverse(methods);
@@ -105,20 +105,20 @@ public class OutputSourceModel {
 				continue;
 			}
 			if (requests.containsKey(name)) {
-				// “ü‘Ö
+				// å…¥æ›¿
 				String blockString = requests.get(name);
 				String oldString = getOldString(name, src);
 				src = src.replace(oldString, blockString);
 			} else {
-				// Á‹
+				// æ¶ˆå»
 				String blockString = "";
 				String oldString = getOldString(name, src);
 				src = src.replace(oldString, blockString);
 			}
 		}
 
-		// private•Ï”‚ÌƒŠƒXƒg‚ğæ‚Á‚Ä‚­‚é
-		// ‚·‚×‚Ä‚ÌƒŠƒXƒg—v‘f‚É‘Î‚µAƒƒ\ƒbƒh“¯—l‚É“ü‚ê‘Ö‚¦ˆ—‚ğs‚¤
+		// privateå¤‰æ•°ã®ãƒªã‚¹ãƒˆã‚’å–ã£ã¦ãã‚‹
+		// ã™ã¹ã¦ã®ãƒªã‚¹ãƒˆè¦ç´ ã«å¯¾ã—ã€ãƒ¡ã‚½ãƒƒãƒ‰åŒæ§˜ã«å…¥ã‚Œæ›¿ãˆå‡¦ç†ã‚’è¡Œã†
 		PrintStream ps = new PrintStream(file, enc);
 		BCSystem.out.println("print src:" + src + "at output source model");
 		ps.print(src);
@@ -238,7 +238,7 @@ public class OutputSourceModel {
 			List<String> parameters = getParameters(key);
 
 			String newStub = "\n\n" + "void " + newNames.get(key) + "(";
-			// ˆê“I‚Èˆø”‚ğ‚Â‚¯‚éˆ—
+			// ä¸€æ™‚çš„ãªå¼•æ•°ã‚’ã¤ã‘ã‚‹å‡¦ç†
 			for (int i = 0; i < parameters.size(); i++) {
 				String param = parameters.get(i) + " s" + String.valueOf(i);
 				newStub += param;
@@ -296,7 +296,7 @@ public class OutputSourceModel {
 		int start;
 		if (methods.size() <= 0) {
 			start = getLastPrivateVariableEndPosition();
-			if (start == -1) {// private•Ï”‚ª–³‚¢
+			if (start == -1) {// privateå¤‰æ•°ãŒç„¡ã„
 				Pattern p = Pattern
 						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?"
 								+ System.getProperty("line.separator"));
@@ -485,7 +485,7 @@ public class OutputSourceModel {
 		String oldPrivateString = "";
 
 		JavaCommentManager jcm = new JavaCommentManager(file, enc);
-		// ƒtƒB[ƒ‹ƒh•Ï”I—¹ƒ|ƒWƒVƒ‡ƒ“‚©‚ç‰üs‚Ü‚Å‚ÌŠÔ‚ÉƒRƒƒ“ƒg‚ª‚ ‚é‚©Šm”F‚µAƒRƒƒ“ƒg‚ª‚ ‚éê‡‚ÍƒRƒƒ“ƒg‚Ì•¶š—ñ‚ğæ“¾‚·‚é
+		// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å¤‰æ•°çµ‚äº†ãƒã‚¸ã‚·ãƒ§ãƒ³ã‹ã‚‰æ”¹è¡Œã¾ã§ã®é–“ã«ã‚³ãƒ¡ãƒ³ãƒˆãŒã‚ã‚‹ã‹ç¢ºèªã—ã€ã‚³ãƒ¡ãƒ³ãƒˆãŒã‚ã‚‹å ´åˆã¯ã‚³ãƒ¡ãƒ³ãƒˆè¾¼ã®æ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹
 		if (jcm.getLineCommentPosition(end) != -1) {
 			String comment = jcm
 					.getLineComment(jcm.getLineCommentPosition(end));
@@ -509,7 +509,7 @@ public class OutputSourceModel {
 		String oldString = "";
 
 		JavaCommentManager jcm = new JavaCommentManager(file, enc);
-		// ƒtƒB[ƒ‹ƒh•Ï”I—¹ƒ|ƒWƒVƒ‡ƒ“‚©‚ç‰üs‚Ü‚Å‚ÌŠÔ‚ÉƒRƒƒ“ƒg‚ª‚ ‚é‚©Šm”F‚µAƒRƒƒ“ƒg‚ª‚ ‚éê‡‚ÍƒRƒƒ“ƒg‚Ì•¶š—ñ‚ğæ“¾‚·‚é
+		// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å¤‰æ•°çµ‚äº†ãƒã‚¸ã‚·ãƒ§ãƒ³ã‹ã‚‰æ”¹è¡Œã¾ã§ã®é–“ã«ã‚³ãƒ¡ãƒ³ãƒˆãŒã‚ã‚‹ã‹ç¢ºèªã—ã€ã‚³ãƒ¡ãƒ³ãƒˆãŒã‚ã‚‹å ´åˆã¯ã‚³ãƒ¡ãƒ³ãƒˆè¾¼ã®æ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹
 		if (jcm.getLineCommentPosition(end) != -1) {
 			String comment = jcm
 					.getLineComment(jcm.getLineCommentPosition(end));
@@ -532,7 +532,7 @@ public class OutputSourceModel {
 		constructorRequests.put(name, blockString);
 	}
 
-	public void replacePrivateValue(String name, String blockString) {// private•Ï”–¼‚ğ•Û‘¶‚µ‚Æ‚­@
+	public void replacePrivateValue(String name, String blockString) {// privateå¤‰æ•°åã‚’ä¿å­˜ã—ã¨ãã€€
 		privateRequests.put(name, blockString);
 	}
 

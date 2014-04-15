@@ -10,7 +10,7 @@ public class ReferenceBlockModel extends BlockModel {
 	@Override
 	public void checkError() {
 		// if (getConnectorIDs().get(0) == BlockModel.NULL) {
-		// throw new RuntimeException("ƒuƒƒbƒN‚ªŠ®‘S‚É‘g‚Ü‚ê‚Ä‚¢‚Ü‚¹‚ñFF " + getGenusName());
+		// throw new RuntimeException("ãƒ–ãƒ­ãƒƒã‚¯ãŒå®Œå…¨ã«çµ„ã¾ã‚Œã¦ã„ã¾ã›ã‚“Fï¼š " + getGenusName());
 		// }
 		if (getConnectorIDs().get(0) == BlockModel.NULL) {
 			return;
@@ -95,14 +95,14 @@ public class ReferenceBlockModel extends BlockModel {
 	public void methodCallPrint(PrintStream out, BlockModel model, int indent) {
 		if (model instanceof CallMethodBlockModel) {
 			CallMethodBlockModel mcb = (CallMethodBlockModel) model;
-			// ‚±‚¤‚È‚Á‚½#matsuzawa 2012.11.14
+			// ã“ã†ãªã£ãŸ#matsuzawa 2012.11.14
 			mcb.printOne(out, indent);
-			// ‚±‚ê‚Å‚¢‚¢‚¶‚á‚ñ #matsuzawa 2012.11.13
+			// ã“ã‚Œã§ã„ã„ã˜ã‚ƒã‚“ #matsuzawa 2012.11.13
 			// mcb.print(out, indent);
-			// ‰½‚Å‚±‚¤‚È‚Á‚Ä‚ñ‚ÌH #matsuzawa 2012.11.13 ->
-			// 2012.11.14•ª‚©‚Á‚½Imcb.print‚¾‚Æ‚»‚ÌŸ‚ÌŸ‚ÌƒuƒƒbƒN‚àˆóš‚³‚ê‚Ä‚µ‚Ü‚¤‚©‚çI
-			// ->‚Æ‚¢‚¤‚±‚Æ‚ÅCCallMethodBlockModel‚É‰‹}ˆ’uD
-			// ‚±‚Ìprint‚Ìd•ûiIDƒ`ƒF[ƒ“‚ÅJava‚ğ‚Í‚­‚â‚è•ûj©‘Ì‚ª•…‚Á‚Ä‚éDD
+			// ä½•ã§ã“ã†ãªã£ã¦ã‚“ã®ï¼Ÿ #matsuzawa 2012.11.13 ->
+			// 2012.11.14åˆ†ã‹ã£ãŸï¼mcb.printã ã¨ãã®æ¬¡ã®æ¬¡ã®ãƒ–ãƒ­ãƒƒã‚¯ã‚‚å°å­—ã•ã‚Œã¦ã—ã¾ã†ã‹ã‚‰ï¼
+			// ->ã¨ã„ã†ã“ã¨ã§ï¼ŒCallMethodBlockModelã«å¿œæ€¥å‡¦ç½®ï¼
+			// ã“ã®printã®ä»•æ–¹ï¼ˆIDãƒã‚§ãƒ¼ãƒ³ã§Javaã‚’ã¯ãã‚„ã‚Šæ–¹ï¼‰è‡ªä½“ãŒè…ã£ã¦ã‚‹ï¼ï¼
 
 			// out.print(mcb.getGenusName() + "(");
 			// ArrayList<Integer> connectorIDs = mcb.getConnectorIDs();

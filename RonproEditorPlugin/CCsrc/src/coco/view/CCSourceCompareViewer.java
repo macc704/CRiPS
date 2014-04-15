@@ -26,7 +26,7 @@ public class CCSourceCompareViewer extends JFrame {
 	private PPTimeLinePane timelinePane = new PPTimeLinePane();
 
 	public CCSourceCompareViewer(IPLUnit unit) {
-		// ’P‘ÌsrcƒtƒHƒ‹ƒ_‚Ìê‡C©“®‚Å’†g‚ğ“WŠJ‚·‚éDi‰¼‚Ì‹@”\j
+		// å˜ä½“srcãƒ•ã‚©ãƒ«ãƒ€ã®å ´åˆï¼Œè‡ªå‹•ã§ä¸­èº«ã‚’å±•é–‹ã™ã‚‹ï¼ï¼ˆä»®ã®æ©Ÿèƒ½ï¼‰
 		if (unit instanceof PLPackage
 				&& ((PLPackage) unit).getChildren().size() == 1
 				&& ((PLPackage) unit).getChildren().get(0) instanceof PLPackage
@@ -65,7 +65,7 @@ public class CCSourceCompareViewer extends JFrame {
 		verticalSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 		mainPanel.add(verticalSplitPane);
 
-		// ‰º•” timelinepane
+		// ä¸‹éƒ¨ timelinepane
 		southPanel.setLayout(new BorderLayout());
 		verticalSplitPane.setRightComponent(southPanel);
 		CTimeTransformationModel transModel = new CTimeTransformationModel(
@@ -73,18 +73,18 @@ public class CCSourceCompareViewer extends JFrame {
 		timelinePane.getTimelinePane().setTimeTransModel(transModel);
 		southPanel.add(timelinePane);
 
-		// ã•”
+		// ä¸Šéƒ¨
 		topSplitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		verticalSplitPane.setLeftComponent(topSplitPane);
 
 		JSplitPane topRightSplitPane = sourceAndComsolePanel(unit, model1,
-				"C³Œã");
-		JSplitPane topLeftSplitPane = sourceAndComsolePanel(unit, model2, "C³‘O");
+				"ä¿®æ­£å¾Œ");
+		JSplitPane topLeftSplitPane = sourceAndComsolePanel(unit, model2, "ä¿®æ­£å‰");
 
 		topSplitPane.setRightComponent(topRightSplitPane);
 		topSplitPane.setLeftComponent(topLeftSplitPane);
 
-		// ‘å‚«‚³‚Ì’²®
+		// å¤§ãã•ã®èª¿æ•´
 		topSplitPane.setResizeWeight(0.5);
 		verticalSplitPane.setResizeWeight(0.8);
 	}
@@ -112,7 +112,7 @@ public class CCSourceCompareViewer extends JFrame {
 		if (unit instanceof PLFile) {
 			timelinePane.addModel(unit);
 		} else {
-			throw new RuntimeException("ƒtƒ@ƒCƒ‹‚Ìæ“¾‚É¸”s‚µ‚Ü‚µ‚½ : " + unit.getPath());
+			throw new RuntimeException("ãƒ•ã‚¡ã‚¤ãƒ«ã®å–å¾—ã«å¤±æ•—ã—ã¾ã—ãŸ : " + unit.getPath());
 		}
 
 		CTime end = unit.getEnd();

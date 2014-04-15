@@ -19,7 +19,7 @@ public class DomParserWrapper {
 		try {
 			DOMParser domParser = new DOMParser();
 
-			// “ú–{ŒêƒpƒX‚ÅƒGƒ‰[‚ªo‚é‚Ì‚Å‰ü—Çi¼j
+			// æ—¥æœ¬èªãƒ‘ã‚¹ã§ã‚¨ãƒ©ãƒ¼ãŒå‡ºã‚‹ã®ã§æ”¹è‰¯ï¼ˆæ¾ï¼‰
 			// domParser.parse(filePath);
 
 			InputSource xml = new InputSource();

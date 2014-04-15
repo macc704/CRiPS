@@ -33,59 +33,59 @@ public class LangDefFilesReWriterMain {
 	}
 
 	public void rewrite() throws Exception {
-		// ohata ƒuƒWƒFƒNƒgƒuƒƒbƒN‚Ì‘‚«o‚µ
-		// ƒIƒuƒWƒFƒNƒg•Ï”ƒuƒƒbƒN‚Ìxmlƒtƒ@ƒCƒ‹‚ğì¬‚·‚é
+		// ohata ãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ–ãƒ­ãƒƒã‚¯ã®æ›¸ãå‡ºã—
+		// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå¤‰æ•°ãƒ–ãƒ­ãƒƒã‚¯ã®xmlãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹
 		File classDefFile = new File(file.getParentFile().getPath()
 				+ "/lang_def_genuses_project.xml");
-		// menuî•ñ‚Ìxml‚ğì¬Aior’Ç‰Á)
+		// menuæƒ…å ±ã®xmlã‚’ä½œæˆã€ï¼ˆorè¿½åŠ )
 
 		File projectMenuFile = new File(file.getParentFile().getPath()
 				+ "/lang_def_menu_project.xml");
 
-		// “¯‚¶ƒfƒBƒŒƒNƒgƒŠ“à‚Ì‚·‚×‚Ä‚Ìjavaƒtƒ@ƒCƒ‹‚ğƒp[ƒX‚µAƒ‚ƒfƒ‹‚É’Ç‰Á‚·‚é
+		// åŒã˜ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå†…ã®ã™ã¹ã¦ã®javaãƒ•ã‚¡ã‚¤ãƒ«ã‚’ãƒ‘ãƒ¼ã‚¹ã—ã€ãƒ¢ãƒ‡ãƒ«ã«è¿½åŠ ã™ã‚‹
 		LangDefFilesRewriter selfDefModel = new LangDefFilesRewriter(
 				classDefFile, this.file.getName());
 		for (String name : file.getParentFile().list()) {
 			if (name.endsWith(".java")) {
-				// javaƒtƒ@ƒCƒ‹‰ğÍ
+				// javaãƒ•ã‚¡ã‚¤ãƒ«è§£æ
 				File javaFile = new File(file.getParentFile().getPath() + "/"
 						+ name);
 				name = name.substring(0, name.indexOf(".java"));
 
 				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(
 						name, javaFile, name);
-				// ƒ[ƒJƒ‹•Ï”ƒuƒƒbƒN‚Ìƒ‚ƒfƒ‹‚ğ’Ç‰Á
-				selfDefModel.setLocalVariableBlockModel(name, methods);// ƒƒ\ƒbƒhƒŠƒXƒg‚ğˆø”‚É’Ç‰Á
-				// ƒCƒ“ƒXƒ^ƒ“ƒX•Ï”ƒuƒƒbƒN‚Ìƒ‚ƒfƒ‹‚ğ’Ç‰Á
+				// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ¢ãƒ‡ãƒ«ã‚’è¿½åŠ 
+				selfDefModel.setLocalVariableBlockModel(name, methods);// ãƒ¡ã‚½ãƒƒãƒ‰ãƒªã‚¹ãƒˆã‚’å¼•æ•°ã«è¿½åŠ 
+				// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ¢ãƒ‡ãƒ«ã‚’è¿½åŠ 
 				selfDefModel.setInstanceVariableBlockMode(name, methods);
 				addedClasses.add(name);
 				for (String className : classes) {
 					if (!className.equals(name)) {
-						// ƒ[ƒJƒ‹•Ï”ƒuƒƒbƒN‚Ìƒ‚ƒfƒ‹‚ğ’Ç‰Á
+						// ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ¢ãƒ‡ãƒ«ã‚’è¿½åŠ 
 						selfDefModel.setLocalVariableBlockModel(className,
-								methods);// ƒƒ\ƒbƒhƒŠƒXƒg‚ğˆø”‚É’Ç‰Á
-						// ƒCƒ“ƒXƒ^ƒ“ƒX•Ï”ƒuƒƒbƒN‚Ìƒ‚ƒfƒ‹‚ğ’Ç‰Á
+								methods);// ãƒ¡ã‚½ãƒƒãƒ‰ãƒªã‚¹ãƒˆã‚’å¼•æ•°ã«è¿½åŠ 
+						// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ¢ãƒ‡ãƒ«ã‚’è¿½åŠ 
 						selfDefModel.setInstanceVariableBlockMode(className,
 								methods);
 						addedClasses.add(className);
 					}
 				}
-				// Œ^•ÏŠ·ƒuƒƒbƒNƒ‚ƒfƒ‹‚Ì’Ç‰Á
+				// å‹å¤‰æ›ãƒ–ãƒ­ãƒƒã‚¯ãƒ¢ãƒ‡ãƒ«ã®è¿½åŠ 
 				selfDefModel.setConvertBlockModel(name);
-				// ˆø”ƒuƒƒbƒNƒ‚ƒfƒ‹‚Ì’Ç‰Á
+				// å¼•æ•°ãƒ–ãƒ­ãƒƒã‚¯ãƒ¢ãƒ‡ãƒ«ã®è¿½åŠ 
 				selfDefModel.setParameterBlockModel(name, methods);
 			}
 		}
-		// Œp³ŠÖŒW‚É‚ ‚éƒuƒƒbƒN’B‚ğƒtƒ@ƒ~ƒŠ[‚Éo—Í
+		// ç¶™æ‰¿é–¢ä¿‚ã«ã‚ã‚‹ãƒ–ãƒ­ãƒƒã‚¯é”ã‚’ãƒ•ã‚¡ãƒŸãƒªãƒ¼ã«å‡ºåŠ›
 		printLangDefFamilies();
 
-		// langDefƒtƒ@ƒCƒ‹‚ğì¬‚·‚é
+		// langDefãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹
 		Copier langDefXml = new LangDefFileCopier();
 		Copier langDefDtd = new LangDefFileDtdCopier();
 		langDefXml.print(file);
 		langDefDtd.print(file);
 
-		// genuseƒtƒ@ƒCƒ‹‚ğì¬‚·‚é@‚»‚ÌÛ‚Éprojectƒtƒ@ƒCƒ‹‚ÌêŠ‚ğ’Ç‹L‚·‚é
+		// genuseãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹ã€€ãã®éš›ã«projectãƒ•ã‚¡ã‚¤ãƒ«ã®å ´æ‰€ã‚’è¿½è¨˜ã™ã‚‹
 		Copier genusCopier = new LangDefGenusesCopier();
 		genusCopier.print(file);
 
@@ -105,11 +105,11 @@ public class LangDefFilesReWriterMain {
 				return;
 			}
 		}
-		// ƒƒjƒ…[‚Ìo—Í
+		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®å‡ºåŠ›
 		File cuiMenu = new File(System.getProperty("user.dir"),"ext/block/lang_def_menu_cui.xml");
 		selfDefModel.printMenu(projectMenuFile, cuiMenu);
 
-		// ƒvƒƒWƒFƒNƒg‚ÌƒIƒuƒWƒFƒNƒgƒuƒƒbƒNî•ñ‚ğo—Í‚·‚é
+		// ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒ–ãƒ­ãƒƒã‚¯æƒ…å ±ã‚’å‡ºåŠ›ã™ã‚‹
 		selfDefModel.printGenus();
 		this.addedMethods = selfDefModel.getAddedMethods();
 		this.addedMethodsJavaType = selfDefModel.getAddedMethodsJavaType();
@@ -120,9 +120,9 @@ public class LangDefFilesReWriterMain {
 	}
 
 	private void printLangDefFamilies() {
-		// // “o˜^‚µ‚Ä‚¨‚¢‚½familyList‚ğ®—‚·‚é
+		// // ç™»éŒ²ã—ã¦ãŠã„ãŸfamilyListã‚’æ•´ç†ã™ã‚‹
 		// List<String> deleteList = new LinkedList<String>();
-		// // ‚·‚×‚Ä‚ÌƒNƒ‰ƒX‚Ìˆø”ƒuƒƒbƒN‚ğAobjectŒ^ˆø”ƒuƒƒbƒN‚Ìƒtƒ@ƒ~ƒŠ[‚Æ‚µ‚Äo—Í‚·‚é
+		// // ã™ã¹ã¦ã®ã‚¯ãƒ©ã‚¹ã®å¼•æ•°ãƒ–ãƒ­ãƒƒã‚¯ã‚’ã€objectå‹å¼•æ•°ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ•ã‚¡ãƒŸãƒªãƒ¼ã¨ã—ã¦å‡ºåŠ›ã™ã‚‹
 		//
 		// for (String key : familyList.keySet()) {
 		// if (existAsOtherFamilyMember(key)
@@ -138,7 +138,7 @@ public class LangDefFilesReWriterMain {
 		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
 		// langDefFamilies.setProjectFamilies(familyList);
 		langDefFamilies.print(file);
-		// // c‚Á‚½ƒtƒ@ƒ~ƒŠ[‚ğ’Ç‰Á‚µ‚½lang_def_families‚ğŒ»İ‚ÌƒfƒBƒŒƒNƒgƒŠ‚Éo—Í‚·‚é
+		// // æ®‹ã£ãŸãƒ•ã‚¡ãƒŸãƒªãƒ¼ã‚’è¿½åŠ ã—ãŸlang_def_familiesã‚’ç¾åœ¨ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«å‡ºåŠ›ã™ã‚‹
 		// }
 		//
 		// private boolean existAsOtherFamilyMember(String name) {
@@ -154,13 +154,13 @@ public class LangDefFilesReWriterMain {
 
 	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name,
 			File file, String childName) throws IOException {
-		// javaƒtƒ@ƒCƒ‹‰ğÍ
+		// javaãƒ•ã‚¡ã‚¤ãƒ«è§£æ
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
 		MethodAnalyzer visitor = new MethodAnalyzer();
 
 		// addFamily
 
-		// Œp³ƒ`ƒFƒbƒN
+		// ç¶™æ‰¿ãƒã‚§ãƒƒã‚¯
 		Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
 		unit.accept(visitor);
 

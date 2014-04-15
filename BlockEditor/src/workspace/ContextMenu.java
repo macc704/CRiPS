@@ -17,7 +17,7 @@ import a.slab.blockeditor.extent.SContextMenuProvider;
  * 
  * ria still haven't enabled the right click menu for blocks
  */
-// TODO ‰EƒNƒŠƒbƒN‚É‚æ‚éƒƒjƒ…[ƒo[
+// TODO å³ã‚¯ãƒªãƒƒã‚¯ã«ã‚ˆã‚‹ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼
 @SuppressWarnings("unused")
 public class ContextMenu extends PopupMenu implements ActionListener {
 	private static final long serialVersionUID = 328149080421L;
@@ -52,7 +52,7 @@ public class ContextMenu extends PopupMenu implements ActionListener {
 	 * Initializes the context menu for adding Comments.
 	 */
 	private static void initAddCommentMenu() {
-		addCommentItem = new MenuItem("ƒRƒƒ“ƒg‚ğ‚Â‚¯‚é");
+		addCommentItem = new MenuItem("ã‚³ãƒ¡ãƒ³ãƒˆã‚’ã¤ã‘ã‚‹");
 		addCommentItem.setActionCommand(ADD_COMMENT_BLOCK);
 		addCommentItem.addActionListener(rndBlockMenu);
 		addCommentMenu.add(addCommentItem);
@@ -63,7 +63,7 @@ public class ContextMenu extends PopupMenu implements ActionListener {
 	 * Initializes the context menu for deleting Comments.
 	 */
 	private static void initRemoveCommentMenu() {
-		removeCommentItem = new MenuItem("ƒRƒƒ“ƒg‚ğÁ‹‚·‚é");
+		removeCommentItem = new MenuItem("ã‚³ãƒ¡ãƒ³ãƒˆã‚’æ¶ˆå»ã™ã‚‹");
 		removeCommentItem.setActionCommand(REMOVE_COMMENT_BLOCK);
 		removeCommentItem.addActionListener(rndBlockMenu);
 		removeCommentMenu.add(removeCommentItem);
@@ -76,7 +76,7 @@ public class ContextMenu extends PopupMenu implements ActionListener {
 	 * 
 	 */
 	private static void initCanvasMenu() {
-		arrangeAllBlocks = new MenuItem("ƒuƒƒbƒN‚ğƒtƒH[ƒ}ƒbƒg‚·‚é"); // some workspaces
+		arrangeAllBlocks = new MenuItem("ãƒ–ãƒ­ãƒƒã‚¯ã‚’ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã™ã‚‹"); // some workspaces
 															// don't have pages
 		arrangeAllBlocks.setActionCommand(ARRANGE_ALL_BLOCKS);
 		arrangeAllBlocks.addActionListener(canvasMenu);

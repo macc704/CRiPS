@@ -50,7 +50,7 @@ public class JavaToBlockMain {
 
 	public void process(File file, String enc, PrintStream out,
 			String[] classpaths) throws Exception {
-		// Œ¾Œê’è‹`ƒtƒ@ƒCƒ‹‚Ìã‘‚«
+		// è¨€èªå®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸Šæ›¸ã
 		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(file,
 				enc, classpaths);
 		rewriter.rewrite();
@@ -88,7 +88,7 @@ public class JavaToBlockMain {
 	// obpro = new JarFile(dir.listFiles()[j]);
 	// return obpro;
 	// } catch (IOException e) {
-	// System.out.println("obpro“Ç‚İ‚İ‚É¸”s");
+	// System.out.println("obproèª­ã¿è¾¼ã¿ã«å¤±æ•—");
 	// }
 	// }
 	// }

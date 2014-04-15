@@ -8,7 +8,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 
 /**
- * Œšİ’†
+ * å»ºè¨­ä¸­
  */
 @Deprecated
 public class AProject extends Project {

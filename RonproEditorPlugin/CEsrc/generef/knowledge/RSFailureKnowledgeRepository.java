@@ -24,10 +24,10 @@ public class RSFailureKnowledgeRepository {
 	}
 
 	/**
-	 * message‚Åw’è‚³‚ê‚½ƒGƒ‰[ƒƒbƒZ[ƒW‚Ì¸”s’m¯‚ğƒŠƒXƒg‚©‚ç‘S‚Äæ‚èo‚µ‚Ü‚·
+	 * messageã§æŒ‡å®šã•ã‚ŒãŸã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®å¤±æ•—çŸ¥è­˜ã‚’ãƒªã‚¹ãƒˆã‹ã‚‰å…¨ã¦å–ã‚Šå‡ºã—ã¾ã™
 	 * 
 	 * @param message
-	 *            ƒGƒ‰[ƒƒbƒZ[ƒW
+	 *            ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 	 * @return
 	 */
 	public List<RSFailureKnowledge> getFailureKnowledges(String message) {
@@ -44,9 +44,9 @@ public class RSFailureKnowledgeRepository {
 	}
 
 	/**
-	 * ¸”s’m¯ƒŠƒXƒg‚©‚çƒGƒ‰[ƒƒbƒZ[ƒW‚Ìí—Ş‚ğæ‚èo‚µ‚Ü‚·
+	 * å¤±æ•—çŸ¥è­˜ãƒªã‚¹ãƒˆã‹ã‚‰ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ç¨®é¡ã‚’å–ã‚Šå‡ºã—ã¾ã™
 	 * 
-	 * @return StringŒ^‚ÌƒGƒ‰[ƒƒbƒZ[ƒWƒŠƒXƒg
+	 * @return Stringå‹ã®ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒªã‚¹ãƒˆ
 	 */
 	public List<String> getFailureKnowledgeKinds() {
 		ArrayList<String> list = new ArrayList<String>();

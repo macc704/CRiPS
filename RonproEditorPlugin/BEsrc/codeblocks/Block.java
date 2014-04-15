@@ -22,7 +22,7 @@ import codeblocks.BlockConnector.PositionType;
 /**
  * Block holds the mutable prop (data) of a particular block. These mutable prop
  * include socket, before, after and blocks, "bad"-ness. In addition, Block
- * maintains information to describe a particular block�ｽ�ｽs relationship with
+ * maintains information to describe a particular block?ｽ?ｽs relationship with
  * other blocks.
  * 
  */

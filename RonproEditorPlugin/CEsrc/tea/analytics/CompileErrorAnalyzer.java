@@ -83,7 +83,7 @@ public class CompileErrorAnalyzer {
 	}
 
 	/**
-	 * “Á’è‚Ìfile‚ÌƒRƒ“ƒpƒCƒ‹ƒƒO‚ğ•Ô‚µ‚Ü‚·
+	 * ç‰¹å®šã®fileã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒ­ã‚°ã‚’è¿”ã—ã¾ã™
 	 * 
 	 * @param file
 	 * @return
@@ -117,14 +117,14 @@ public class CompileErrorAnalyzer {
 					.getCompileResult().getDiagnostics()) {
 				TCompileErrorHistorySegment segment = new TCompileErrorHistorySegment(
 						diagnostic, point.getPrevious(), point);
-				segment.setFixed(isFixed(diagnostic, diagnostics));// œ--› or
-																	// œ--œ
+				segment.setFixed(isFixed(diagnostic, diagnostics));// â—--â—‹ or
+																	// â—--â—
 				point.getPrevious().addBeginningSegment(segment);
 				point.addFinishedSegment(segment);
 
 				segment.setWorking(workingTime);
 
-				if (file != null) { // GeneRef‚Å‚Ì•ªÍ‚Íˆ—‚µ‚È‚¢
+				if (file != null) { // GeneRefã§ã®åˆ†ææ™‚ã¯å‡¦ç†ã—ãªã„
 					RSFailureKnowledge knowledge = getContainsFailureKnowledge(segment);
 					if (knowledge != null) {
 						segment.setGeneRefTime(knowledge.getWindowOpenTime(),
@@ -156,7 +156,7 @@ public class CompileErrorAnalyzer {
 
 		for (RSFailureKnowledge knowledge : fkAnalyzer
 				.getWritingPointKnowledges()) {
-			if (checkGeneRefOpen(segment, knowledge)) { // ƒRƒ“ƒpƒCƒ‹‚©‚ç5•bˆÈ“à‚ÉGeneRef‚ª•\¦‚³‚ê‚½‚©‚Ç‚¤‚©
+			if (checkGeneRefOpen(segment, knowledge)) { // ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‹ã‚‰5ç§’ä»¥å†…ã«GeneRefãŒè¡¨ç¤ºã•ã‚ŒãŸã‹ã©ã†ã‹
 				return knowledge;
 			}
 		}
@@ -257,7 +257,7 @@ public class CompileErrorAnalyzer {
 					goBackCompilePoint(fixedSegments, fixedSegment);
 				}
 
-				// ƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg‚ğƒ`ƒFƒbƒNÏ‚İ‚É‚·‚é
+				// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆã‚’ãƒã‚§ãƒƒã‚¯æ¸ˆã¿ã«ã™ã‚‹
 				for (TCompileErrorHistorySegment fixedSegment : fixedSegments) {
 					for (TCompileErrorHistorySegment segment : fixedSegment
 							.getHistory().getSegments()) {
@@ -269,7 +269,7 @@ public class CompileErrorAnalyzer {
 	}
 
 	/**
-	 * ƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg‚ğ‘k‚Á‚Ä‚»‚ê‚¼‚ê‚ÌƒZƒOƒƒ“ƒg‚ÉŒW”‚ğİ’è‚·‚é
+	 * ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆã‚’é¡ã£ã¦ãã‚Œãã‚Œã®ã‚»ã‚°ãƒ¡ãƒ³ãƒˆã«ä¿‚æ•°ã‚’è¨­å®šã™ã‚‹
 	 * 
 	 * @param fixedSegments
 	 * @param fixedSegment
@@ -282,7 +282,7 @@ public class CompileErrorAnalyzer {
 			TCompilePoint start = segment.getStart();
 			if (!start.isCheck()) {
 				// if (segment.getCompileError().getErrorMessage()
-				// .equals("';' ‚ª‚ ‚è‚Ü‚¹‚ñB")) {
+				// .equals("';' ãŒã‚ã‚Šã¾ã›ã‚“ã€‚")) {
 				// segment.setA(1d / (fixedSegments.size() - getFixedErrorCount(
 				// fixedSegments, start)));
 				// } else {
@@ -308,7 +308,7 @@ public class CompileErrorAnalyzer {
 	//
 	// for (TCompileErrorHistorySegment segment : fixedSegments) {
 	// if (segment.getCompileError().getErrorMessage()
-	// .equals("';' ‚ª‚ ‚è‚Ü‚¹‚ñB")) {
+	// .equals("';' ãŒã‚ã‚Šã¾ã›ã‚“ã€‚")) {
 	// count++;
 	// }
 	// }
@@ -319,9 +319,9 @@ public class CompileErrorAnalyzer {
 	/**
 	 * 
 	 * <pre>
-	 * œ-œ-œ-›
-	 *   œ-œ-›
-	 *   œ-œ-›
+	 * â—-â—-â—-â—‹
+	 *   â—-â—-â—‹
+	 *   â—-â—-â—‹
 	 * 1 3 3
 	 * </pre>
 	 * 
@@ -341,7 +341,7 @@ public class CompileErrorAnalyzer {
 	}
 
 	/**
-	 * ƒqƒXƒgƒŠ[‚ÌƒXƒ^[ƒgƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg‚ÌƒŠƒXƒg‚ğ•Ô‚µ‚Ü‚·
+	 * ãƒ’ã‚¹ãƒˆãƒªãƒ¼ã®ã‚¹ã‚¿ãƒ¼ãƒˆã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆã®ãƒªã‚¹ãƒˆã‚’è¿”ã—ã¾ã™
 	 * 
 	 * @param fixedSegments
 	 * @return
@@ -419,7 +419,7 @@ public class CompileErrorAnalyzer {
 	}
 
 	/**
-	 * ŒW”0ˆÈŠO‚ÌƒZƒOƒƒ“ƒg”‚ª‘S‚Ä‚ÌƒqƒXƒgƒŠ[‚Åˆê’v‚µ‚Ä‚¢‚é‚©•Ô‚µ‚Ü‚·
+	 * ä¿‚æ•°0ä»¥å¤–ã®ã‚»ã‚°ãƒ¡ãƒ³ãƒˆæ•°ãŒå…¨ã¦ã®ãƒ’ã‚¹ãƒˆãƒªãƒ¼ã§ä¸€è‡´ã—ã¦ã„ã‚‹ã‹è¿”ã—ã¾ã™
 	 * 
 	 * @param point
 	 * @return
@@ -428,7 +428,7 @@ public class CompileErrorAnalyzer {
 		int size = point.getFixedSegments().size();
 		int[] num = new int[size];
 
-		// ‚»‚ê‚¼‚ê‚ÌƒqƒXƒgƒŠ[‚É‘Î‚µ‚ÄŒW”0‚ğœ‚­ƒZƒOƒƒ“ƒg”‚ğƒJƒEƒ“ƒg
+		// ãã‚Œãã‚Œã®ãƒ’ã‚¹ãƒˆãƒªãƒ¼ã«å¯¾ã—ã¦ä¿‚æ•°0ã‚’é™¤ãã‚»ã‚°ãƒ¡ãƒ³ãƒˆæ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆ
 		for (int i = 0; i < size; i++) {
 			TCompileErrorHistory history = point.getFixedSegments().get(i)
 					.getHistory();
@@ -441,7 +441,7 @@ public class CompileErrorAnalyzer {
 			num[i] = temp;
 		}
 
-		// ŒW”0ˆÈŠO‚ÌƒZƒOƒƒ“ƒg”‚Ì”äŠr
+		// ä¿‚æ•°0ä»¥å¤–ã®ã‚»ã‚°ãƒ¡ãƒ³ãƒˆæ•°ã®æ¯”è¼ƒ
 		for (int i = 1; i < size; i++) {
 			int temp = num[i - 1];
 			if (num[i] != temp) {
@@ -498,8 +498,8 @@ public class CompileErrorAnalyzer {
 		String nonFixedErrorKind = point.getBeginningSegments().get(0)
 				.getCompileError().getMessageParser().getMessageKind();
 
-		if (fixedErrorKind.equals("ˆÓ–¡‰ğÍƒGƒ‰[")
-				&& nonFixedErrorKind.equals("\•¶‰ğÍƒGƒ‰[")) {
+		if (fixedErrorKind.equals("æ„å‘³è§£æã‚¨ãƒ©ãƒ¼")
+				&& nonFixedErrorKind.equals("æ§‹æ–‡è§£æã‚¨ãƒ©ãƒ¼")) {
 			return true;
 		}
 
@@ -546,7 +546,7 @@ public class CompileErrorAnalyzer {
 	// ArrayList<TCompileErrorHistory>();
 	//
 	// for (int i = 0; i < compilePoints.size(); i++) {
-	// // ƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg‚Ìæ“¾
+	// // ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆã®å–å¾—
 	// TCompilePoint compilePoint = compilePoints.get(i);
 	// TCompilePoint nextCompilePoint;
 	// if (i == compilePoints.size() - 1) {
@@ -555,7 +555,7 @@ public class CompileErrorAnalyzer {
 	// nextCompilePoint = compilePoints.get(i + 1);
 	// }
 	//
-	// // prevCompilePoint‚É‚ ‚éƒGƒ‰[ƒŠƒXƒg
+	// // prevCompilePointã«ã‚ã‚‹ã‚¨ãƒ©ãƒ¼ãƒªã‚¹ãƒˆ
 	// List<CDiagnostic> prevErrors = null;
 	// if (prevCompilePoint != null) {
 	// prevErrors = new ArrayList<CDiagnostic>(prevCompilePoint
@@ -569,10 +569,10 @@ public class CompileErrorAnalyzer {
 	// CDiagnostic sameError = getContainsSameError(prevErrors,
 	// compileError);
 	//
-	// // “¯‚¶ƒGƒ‰[‚ª‘O‚ÌƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg‚Å”­¶‚µ‚Ä‚¢‚éê‡
+	// // åŒã˜ã‚¨ãƒ©ãƒ¼ãŒå‰ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆã§ç™ºç”Ÿã—ã¦ã„ã‚‹å ´åˆ
 	// if (sameError != null) {
 	//
-	// // “¯‚¶ƒGƒ‰[‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éhistory‚ğ’T‚µ‚Äsegment‚ğ’Ç‰Á
+	// // åŒã˜ã‚¨ãƒ©ãƒ¼ãŒå«ã¾ã‚Œã¦ã„ã‚‹historyã‚’æ¢ã—ã¦segmentã‚’è¿½åŠ 
 	// for (TCompileErrorHistory history : histories) {
 	// for (TCompileErrorHistorySegment segment : history
 	// .getSegments()) {
@@ -600,7 +600,7 @@ public class CompileErrorAnalyzer {
 	// }
 	// }
 	//
-	// // C³‚³‚ê‚½ƒGƒ‰[‚Ìİ’è
+	// // ä¿®æ­£ã•ã‚ŒãŸã‚¨ãƒ©ãƒ¼ã®è¨­å®š
 	// if (prevCompilePoint == null) {
 	// compilePoint.setCorrectionErrors(getCorrectionErrors(null,
 	// compilePoint.getResult().getDiagnostics()));
@@ -610,7 +610,7 @@ public class CompileErrorAnalyzer {
 	// compilePoint.getResult().getDiagnostics()));
 	// }
 	//
-	// // ‘O‚ÌƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg‚ğ•Û
+	// // å‰ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆã‚’ä¿æŒ
 	// prevCompilePoint = compilePoint;
 	//
 	// }
@@ -619,7 +619,7 @@ public class CompileErrorAnalyzer {
 	// }
 	//
 	// /**
-	// * V‚µ‚¢CompileErrorHistoryƒIƒuƒWƒFƒNƒg‚ğì‚è‚Ü‚·
+	// * æ–°ã—ã„CompileErrorHistoryã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œã‚Šã¾ã™
 	// *
 	// * @param histories
 	// * @param segment
@@ -634,7 +634,7 @@ public class CompileErrorAnalyzer {
 	// }
 	//
 	// /**
-	// * “Á’è‚Ìƒtƒ@ƒCƒ‹‚ÌƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg‚ğ•Ô‚µ‚Ü‚·
+	// * ç‰¹å®šã®ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆã‚’è¿”ã—ã¾ã™
 	// *
 	// * @return
 	// */
@@ -651,12 +651,12 @@ public class CompileErrorAnalyzer {
 	// }
 	//
 	// /**
-	// * ƒŠƒXƒg‚Ì’†‚É“¯‚¶ƒGƒ‰[‚ªŠÜ‚Ü‚ê‚Ä‚¢‚é‚©‚ğƒGƒ‰[ƒƒbƒZ[ƒW‚ÆƒVƒ“ƒ{ƒ‹‚Å”»’è‚·‚é
+	// * ãƒªã‚¹ãƒˆã®ä¸­ã«åŒã˜ã‚¨ãƒ©ãƒ¼ãŒå«ã¾ã‚Œã¦ã„ã‚‹ã‹ã‚’ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¨ã‚·ãƒ³ãƒœãƒ«ã§åˆ¤å®šã™ã‚‹
 	// *
 	// * @param compileErrors
-	// * ƒGƒ‰[ƒŠƒXƒg
+	// * ã‚¨ãƒ©ãƒ¼ãƒªã‚¹ãƒˆ
 	// * @param compileError
-	// * ŒŸõ‚·‚éƒGƒ‰[
+	// * æ¤œç´¢ã™ã‚‹ã‚¨ãƒ©ãƒ¼
 	// * @return
 	// */
 	// private CDiagnostic getContainsSameError(List<CDiagnostic> compileErrors,
@@ -672,7 +672,7 @@ public class CompileErrorAnalyzer {
 	// }
 	//
 	// /**
-	// * 2‚Â‚ÌƒGƒ‰[‚ª“¯‚¶ƒGƒ‰[‚©‚ğ”»’f‚µ‚Ü‚·
+	// * 2ã¤ã®ã‚¨ãƒ©ãƒ¼ãŒåŒã˜ã‚¨ãƒ©ãƒ¼ã‹ã‚’åˆ¤æ–­ã—ã¾ã™
 	// *
 	// * @param compileError1
 	// * @param compileError2
@@ -702,13 +702,13 @@ public class CompileErrorAnalyzer {
 	// }
 	//
 	// /**
-	// * 2‚Â‚ÌƒŠƒXƒg‚©‚çC³‚³‚ê‚Ä‚¢‚éƒGƒ‰[‚ÌƒŠƒXƒg‚ğì¬‚µ‚Ü‚·
+	// * 2ã¤ã®ãƒªã‚¹ãƒˆã‹ã‚‰ä¿®æ­£ã•ã‚Œã¦ã„ã‚‹ã‚¨ãƒ©ãƒ¼ã®ãƒªã‚¹ãƒˆã‚’ä½œæˆã—ã¾ã™
 	// *
 	// * @param prevErrors
-	// * ‘O‚ÌƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg‚ÌƒGƒ‰[
+	// * å‰ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆã®ã‚¨ãƒ©ãƒ¼
 	// * @param compileErrors
-	// * Œ»İ‚ÌƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg‚ÌƒGƒ‰[
-	// * @return C³‚³‚ê‚½ƒGƒ‰[‚ÌƒŠƒXƒg
+	// * ç¾åœ¨ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆã®ã‚¨ãƒ©ãƒ¼
+	// * @return ä¿®æ­£ã•ã‚ŒãŸã‚¨ãƒ©ãƒ¼ã®ãƒªã‚¹ãƒˆ
 	// */
 	// private List<CDiagnostic> getCorrectionErrors(List<CDiagnostic>
 	// prevErrors,
@@ -744,7 +744,7 @@ public class CompileErrorAnalyzer {
 	// }
 	//
 	// /**
-	// * ƒZƒOƒƒ“ƒg‚ÌŒW”‚ğİ’è‚µ‚Ü‚·
+	// * ã‚»ã‚°ãƒ¡ãƒ³ãƒˆã®ä¿‚æ•°ã‚’è¨­å®šã—ã¾ã™
 	// *
 	// * @param histories
 	// * @return
@@ -756,7 +756,7 @@ public class CompileErrorAnalyzer {
 	// TCompileErrorHistorySegment endSegment = history.getSegments().get(
 	// history.getSegments().size() - 1);
 	//
-	// // ƒGƒ‰[‚ªC³‚³‚ê‚¸¬‰Ê•¨‚Éc‚Á‚Ä‚¢‚éê‡
+	// // ã‚¨ãƒ©ãƒ¼ãŒä¿®æ­£ã•ã‚Œãšæˆæœç‰©ã«æ®‹ã£ã¦ã„ã‚‹å ´åˆ
 	// if (endSegment.getEnd() == null) {
 	// endSegment.setA(-1);
 	// continue;
@@ -765,9 +765,9 @@ public class CompileErrorAnalyzer {
 	// List<CDiagnostic> correctionErrors = endSegment.getEnd()
 	// .getCorrectionErrors();
 	//
-	// // ÅŒã‚ÌƒZƒOƒƒ“ƒg‚ÌŒW”‚ğİ’è
+	// // æœ€å¾Œã®ã‚»ã‚°ãƒ¡ãƒ³ãƒˆã®ä¿‚æ•°ã‚’è¨­å®š
 	// if (endSegment.getCompileError().getErrorMessage()
-	// .equals("';' ‚ª‚ ‚è‚Ü‚¹‚ñB")) {
+	// .equals("';' ãŒã‚ã‚Šã¾ã›ã‚“ã€‚")) {
 	// endSegment.setA(1 / (double) correctionErrors.size());
 	// } else {
 	// endSegment
@@ -779,7 +779,7 @@ public class CompileErrorAnalyzer {
 	// TCompileErrorHistorySegment segment = history.getSegments()
 	// .get(i);
 	//
-	// // ƒpƒ^[ƒ“3-B‚Ìˆ—
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³3-Bã®å‡¦ç†
 	// if (segment.getEnd().getCorrectionErrors().size() > 0) {
 	// while (i >= 0) {
 	// TCompileErrorHistorySegment seg = history.getSegments()
@@ -790,19 +790,19 @@ public class CompileErrorAnalyzer {
 	// break;
 	// } else {
 	//
-	// // ŒW”‚Ìİ’è
+	// // ä¿‚æ•°ã®è¨­å®š
 	// if (correctionErrors.size() == 0) {
 	// segment.setA(0);
 	// } else {
 	// if (segment.getCompileError().getErrorMessage()
-	// .equals("';' ‚ª‚ ‚è‚Ü‚¹‚ñB")) {
+	// .equals("';' ãŒã‚ã‚Šã¾ã›ã‚“ã€‚")) {
 	// segment.setA(1 / (double) correctionErrors.size());
 	// } else {
 	// segment.setA(1 / (double) getCorrectionErrorsCount(correctionErrors));
 	// }
 	// }
 	//
-	// // ƒZƒOƒƒ“ƒg‚É‚¨‚¯‚éC³‚³‚ê‚½ƒGƒ‰[‚ÌƒŠƒXƒg
+	// // ã‚»ã‚°ãƒ¡ãƒ³ãƒˆã«ãŠã‘ã‚‹ä¿®æ­£ã•ã‚ŒãŸã‚¨ãƒ©ãƒ¼ã®ãƒªã‚¹ãƒˆ
 	// List<CDiagnostic> tempList = new ArrayList<CDiagnostic>(
 	// correctionErrors);
 	// for (CDiagnostic correctionError : correctionErrors) {
@@ -825,7 +825,7 @@ public class CompileErrorAnalyzer {
 	// int num = correctionErrors.size();
 	//
 	// for (CDiagnostic compileError : correctionErrors) {
-	// if (compileError.getErrorMessage().equals("';' ‚ª‚ ‚è‚Ü‚¹‚ñB")) {
+	// if (compileError.getErrorMessage().equals("';' ãŒã‚ã‚Šã¾ã›ã‚“ã€‚")) {
 	// num--;
 	// }
 	// }
@@ -836,7 +836,7 @@ public class CompileErrorAnalyzer {
 	// private void setPattern() {
 	//
 	// TCompilePoint prevCompilePoint = null;
-	// int pattern = -1; // -1:ƒRƒ“ƒpƒCƒ‹1‰ñ‚ÅC³‚³‚ê‚é 0:‚»‚Ì‚Ü‚Ü 1:‘‚¦‚é
+	// int pattern = -1; // -1:ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«1å›ã§ä¿®æ­£ã•ã‚Œã‚‹ 0:ãã®ã¾ã¾ 1:å¢—ãˆã‚‹
 	//
 	// for (TCompilePoint compilePoint : compilePoints) {
 	// List<CDiagnostic> compileErrors = compilePoint.getResult()
@@ -849,10 +849,10 @@ public class CompileErrorAnalyzer {
 	// compilePoint.setPattern(0);
 	// } else {
 	//
-	// // ›‚ªŠÜ‚Ü‚ê‚éƒRƒ“ƒpƒCƒ‹ƒ|ƒCƒ“ƒg
+	// // â—‹ãŒå«ã¾ã‚Œã‚‹ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒã‚¤ãƒ³ãƒˆ
 	// if (correctionErrors.size() > 0) {
 	//
-	// // C³ƒGƒ‰[‚ª•¡”‚ ‚é
+	// // ä¿®æ­£ã‚¨ãƒ©ãƒ¼ãŒè¤‡æ•°ã‚ã‚‹
 	// if (correctionErrors.size() > 1) {
 	//
 	// if (compileErrors.size() > 0) {
@@ -861,7 +861,7 @@ public class CompileErrorAnalyzer {
 	// case -1:
 	// case 0:
 	// if (isPattern5(compilePoint, prevCompilePoint)) {
-	// compilePoint.setPattern(7); // ƒpƒ^[ƒ“5
+	// compilePoint.setPattern(7); // ãƒ‘ã‚¿ãƒ¼ãƒ³5
 	// } else {
 	//
 	// if (prevCompilePoint.getResult()
@@ -870,21 +870,21 @@ public class CompileErrorAnalyzer {
 	// + compilePoint
 	// .getCorrectionErrors()
 	// .size()) {
-	// // TODO ƒpƒ^[ƒ“2-A‚Æƒpƒ^[ƒ“3-A‚Ì•¡‡?
+	// // TODO ãƒ‘ã‚¿ãƒ¼ãƒ³2-Aã¨ãƒ‘ã‚¿ãƒ¼ãƒ³3-Aã®è¤‡åˆ?
 	// compilePoint.setPattern(8);
 	// } else {
-	// // ƒpƒ^[ƒ“3-A
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³3-A
 	// compilePoint.setPattern(4);
 	// }
 	// }
 	// break;
 	// case 1:
 	// if (isPattern5(compilePoint, prevCompilePoint)) {
-	// compilePoint.setPattern(7); // ƒpƒ^[ƒ“5
+	// compilePoint.setPattern(7); // ãƒ‘ã‚¿ãƒ¼ãƒ³5
 	// } else {
-	// compilePoint.setPattern(6); // ƒpƒ^[ƒ“4
+	// compilePoint.setPattern(6); // ãƒ‘ã‚¿ãƒ¼ãƒ³4
 	//
-	// // TODO ƒpƒ^[ƒ“2-A‚Æƒpƒ^[ƒ“4‚Ì•¡‡
+	// // TODO ãƒ‘ã‚¿ãƒ¼ãƒ³2-Aã¨ãƒ‘ã‚¿ãƒ¼ãƒ³4ã®è¤‡åˆ
 	// }
 	// break;
 	// }
@@ -893,10 +893,10 @@ public class CompileErrorAnalyzer {
 	// switch (pattern) {
 	// case -1:
 	// case 0:
-	// compilePoint.setPattern(4); // ƒpƒ^[ƒ“3-A
+	// compilePoint.setPattern(4); // ãƒ‘ã‚¿ãƒ¼ãƒ³3-A
 	// break;
 	// case 1:
-	// compilePoint.setPattern(6); // ƒpƒ^[ƒ“4
+	// compilePoint.setPattern(6); // ãƒ‘ã‚¿ãƒ¼ãƒ³4
 	// break;
 	// }
 	// }
@@ -910,16 +910,16 @@ public class CompileErrorAnalyzer {
 	// .getDiagnostics().size();
 	// if (prevErrorCount == 0) {
 	// if (compileErrors.size() == 0) {
-	// // ƒpƒ^[ƒ“1
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³1
 	// compilePoint.setPattern(1);
 	// } else {
 	//
 	// if (isPattern5(compilePoint,
 	// prevCompilePoint)) {
-	// // ƒpƒ^[ƒ“5
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³5
 	// compilePoint.setPattern(7);
 	// } else {
-	// // ƒpƒ^[ƒ“2-A
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³2-A
 	// compilePoint.setPattern(2);
 	// }
 	// }
@@ -930,21 +930,21 @@ public class CompileErrorAnalyzer {
 	//
 	// if (isPattern5(compilePoint,
 	// prevCompilePoint)) {
-	// // ƒpƒ^[ƒ“5
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³5
 	// compilePoint.setPattern(7);
 	// } else {
-	// // ƒpƒ^[ƒ“2-A
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³2-A
 	// compilePoint.setPattern(2);
 	// }
 	// } else if (hasCorrectionErrorsWithCompilePoints(
 	// histories, correctionErrors.get(0))) {
-	// // ƒpƒ^[ƒ“3-B
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³3-B
 	// compilePoint.setPattern(5);
 	//
-	// // TODO ƒpƒ^[ƒ“2-A‚Æƒpƒ^[ƒ“3-B‚Ì•¡‡
+	// // TODO ãƒ‘ã‚¿ãƒ¼ãƒ³2-Aã¨ãƒ‘ã‚¿ãƒ¼ãƒ³3-Bã®è¤‡åˆ
 	//
 	// } else {
-	// // ƒpƒ^[ƒ“1
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³1
 	// compilePoint.setPattern(1);
 	// }
 	//
@@ -952,22 +952,22 @@ public class CompileErrorAnalyzer {
 	// break;
 	// case 0:
 	// if (compileErrors.size() == 0) {
-	// // ƒpƒ^[ƒ“2-B
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³2-B
 	// compilePoint.setPattern(3);
 	//
 	// } else {
 	// if (hasCorrectionErrorsWithCompilePoints(
 	// histories, correctionErrors.get(0))) {
-	// // ƒpƒ^[ƒ“3-B
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³3-B
 	// compilePoint.setPattern(5);
 	//
-	// // TODO ƒpƒ^[ƒ“2-A‚Æƒpƒ^[ƒ“3-B‚Ì•¡‡
+	// // TODO ãƒ‘ã‚¿ãƒ¼ãƒ³2-Aã¨ãƒ‘ã‚¿ãƒ¼ãƒ³3-Bã®è¤‡åˆ
 	//
 	// } else {
 	//
 	// if (isPattern5(compilePoint,
 	// prevCompilePoint)) {
-	// // ƒpƒ^[ƒ“5
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³5
 	// compilePoint.setPattern(7);
 	// } else {
 	//
@@ -975,10 +975,10 @@ public class CompileErrorAnalyzer {
 	// .getDiagnostics().size() < compileErrors
 	// .size()
 	// + correctionErrors.size()) {
-	// // TODO ƒpƒ^[ƒ“2-A‚Æ2-B‚Ì•¡‡
+	// // TODO ãƒ‘ã‚¿ãƒ¼ãƒ³2-Aã¨2-Bã®è¤‡åˆ
 	// compilePoint.setPattern(2);
 	// } else {
-	// // ƒpƒ^[ƒ“2-B
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³2-B
 	// compilePoint.setPattern(3);
 	// }
 	//
@@ -990,16 +990,16 @@ public class CompileErrorAnalyzer {
 	// case 1:
 	// if (hasCorrectionErrorsWithCompilePoints(histories,
 	// correctionErrors.get(0))) {
-	// // ƒpƒ^[ƒ“2-B
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³2-B
 	// compilePoint.setPattern(3);
 	// } else {
 	// if (prevCompilePoint.getResult()
 	// .getDiagnostics().size() <= compileErrors
 	// .size()) {
-	// // ƒpƒ^[ƒ“2-A
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³2-A
 	// compilePoint.setPattern(2);
 	// } else {
-	// // ƒpƒ^[ƒ“1
+	// // ãƒ‘ã‚¿ãƒ¼ãƒ³1
 	// compilePoint.setPattern(1);
 	// }
 	// }
@@ -1051,7 +1051,7 @@ public class CompileErrorAnalyzer {
 	// String prevErrorKind = prevCompilePoint.getResult().getDiagnostics()
 	// .get(0).getMessageKind();
 	//
-	// if (prevErrorKind.equals("ˆÓ–¡‰ğÍƒGƒ‰[") && errorKind.equals("\•¶‰ğÍƒGƒ‰[")) {
+	// if (prevErrorKind.equals("æ„å‘³è§£æã‚¨ãƒ©ãƒ¼") && errorKind.equals("æ§‹æ–‡è§£æã‚¨ãƒ©ãƒ¼")) {
 	// return true;
 	// }
 	//
@@ -1063,7 +1063,7 @@ public class CompileErrorAnalyzer {
 	// ****************************************************/
 	//
 	// /**
-	// * “Á’è‚Ìfile‚ÌƒRƒ“ƒpƒCƒ‹ƒƒO‚ğ•Ô‚µ‚Ü‚·
+	// * ç‰¹å®šã®fileã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒ­ã‚°ã‚’è¿”ã—ã¾ã™
 	// *
 	// * @param file
 	// * @return

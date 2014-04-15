@@ -55,7 +55,7 @@ public class RSFailureKnowledge {
 	}
 
 	public long getWritingTime() {
-		// �L�^�s�ǂ̏ꍇ
+		// 記録不良の場合
 		if (closeWindowTimeMillis == 0 || openWindowTimeMillis == 0) {
 			return 0;
 		}

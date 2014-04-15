@@ -109,7 +109,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private CompilationUnit compilationUnit;
 	// private ClassModel currentClass;
 
-	// ’ŠÛ‰»ƒuƒƒbƒN‚ÌƒRƒƒ“ƒg
+	// æŠ½è±¡åŒ–ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚³ãƒ¡ãƒ³ãƒˆ
 	private HashMap<Integer, String> abstractionComments = new HashMap<Integer, String>();
 	private JavaCommentManager commentGetter;
 
@@ -205,10 +205,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * Class‚Ì‰ğÍ
+	 * Classã®è§£æ
 	 * 
 	 * @param node
-	 *            :TypeDeclarationƒm[ƒh
+	 *            :TypeDeclarationãƒãƒ¼ãƒ‰
 	 */
 	@Override
 	public boolean visit(TypeDeclaration node) {
@@ -223,7 +223,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		currentCompilationUnit.addClass(model);
 		// this.currentClass = model;
 
-		// 2ƒpƒX•K—v #matsuzawa 2012.11.24
+		// 2ãƒ‘ã‚¹å¿…è¦ #matsuzawa 2012.11.24
 
 		for (MethodDeclaration method : node.getMethods()) {
 			createStub(method);
@@ -241,7 +241,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		for (MethodDeclaration method : node.getMethods()) {
-			if (x > 1000) {// ‚Æ‚è‚ ‚¦‚¸®”‚Å...
+			if (x > 1000) {// ã¨ã‚Šã‚ãˆãšæ•´æ•°ã§...
 				x = 50;
 				y += 200;
 			}
@@ -283,7 +283,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			// set position
 			privateVariableModel.setPosX(getX(position, x));
 			privateVariableModel.setPosY(getY(position, y));
-			// ƒRƒƒ“ƒg‚Ì’Ç‰Á
+			// ã‚³ãƒ¡ãƒ³ãƒˆã®è¿½åŠ 
 			privateVariableModel.setComment(lineComment.substring(0,
 					getCommentEndIndex(lineComment)));
 			model.addPrivateVariable(privateVariableModel);
@@ -304,7 +304,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	private boolean getOpenCloseInfoFromLineComment(String lineComment) {
 		// #ohata added default:open
-		// V‚µ‚­ƒNƒ‰ƒX‚ğì‚Á‚ÄˆÚA—\’è
+		// æ–°ã—ãã‚¯ãƒ©ã‚¹ã‚’ä½œã£ã¦ç§»æ¤äºˆå®š
 		if (lineComment.indexOf("[close]") != -1) {
 			return true;
 		} else if (lineComment.indexOf("[open]") != -1) {
@@ -328,7 +328,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	private String getPositionFromLineComment(String lineComment) {
 		// #ohata added
-		// V‚µ‚­ƒNƒ‰ƒX‚ğì‚Á‚ÄˆÚA
+		// æ–°ã—ãã‚¯ãƒ©ã‚¹ã‚’ä½œã£ã¦ç§»æ¤
 		int state = 0;
 		int start = 0;
 
@@ -352,7 +352,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				}
 				break;
 			case 2:
-				if (lineComment.charAt(i) == ' ') {// ‹ó”’•¶š‚Í‘f’Ê‚è
+				if (lineComment.charAt(i) == ' ') {// ç©ºç™½æ–‡å­—ã¯ç´ é€šã‚Š
 				} else if (Character.isDigit(lineComment.charAt(i))) {
 					state = 3;
 				} else {
@@ -401,17 +401,17 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		StConstructorDeclarationModel constructorModel = analyzeConstructor(method);
 
 		int index = commentGetter.getLineCommentPosition(method
-				.getStartPosition() + method.getLength());// ‚±‚±‚Å-1‚ª‹A‚Á‚Ä‚­‚é‚ÆA
+				.getStartPosition() + method.getLength());// ã“ã“ã§-1ãŒå¸°ã£ã¦ãã‚‹ã¨ã€
 
 		if (constructorModel != null) {
 			String lineComment = commentGetter.getLineComment(index);
 			String position = getPositionFromLineComment(lineComment);
-			// À•W‚Ìw’è
+			// åº§æ¨™ã®æŒ‡å®š
 			constructorModel.setPosX(getX(position, x));
 			constructorModel.setPosY(getY(position, y));
 			// comment set
 			constructorModel.setComment(lineComment.substring(0,
-					getCommentEndIndex(lineComment)));// ‚±‚Á‚¿‚Å‚Ö‚ñ‚ÈêŠ‚ğ‚Æ‚Á‚¿‚á‚¤
+					getCommentEndIndex(lineComment)));// ã“ã£ã¡ã§ã¸ã‚“ãªå ´æ‰€ã‚’ã¨ã£ã¡ã‚ƒã†
 			// open/close set
 			constructorModel
 					.setCollapsed(getOpenCloseInfoFromLineComment(lineComment));
@@ -542,7 +542,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model = createPrivateVariable(variableType, variableName,
 					compilationUnit.getLineNumber(node.getStartPosition()),
 					fragment, isArray, isFinal);
-			// parameterizedtype‚Ì•t—^
+			// parameterizedtypeã®ä»˜ä¸
 			for (Object parameterizedType : type.typeArguments()) {
 				((StPrivateVariableDeclarationModel) (model))
 						.setParameterizedType(parameterizedType.toString());
@@ -591,10 +591,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	// /**
-	// * ƒƒ\ƒbƒh’è‹`‚Ì‰ğÍ
+	// * ãƒ¡ã‚½ãƒƒãƒ‰å®šç¾©ã®è§£æ
 	// *
 	// * @param node
-	// * :MethodDeclarationƒm[ƒh
+	// * :MethodDeclarationãƒãƒ¼ãƒ‰
 	// * @return
 	// */
 	// @Override
@@ -606,7 +606,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		variableResolver.resetLocalVariable();
 
-		// ƒƒ\ƒbƒhˆø”‚Ìˆ—
+		// ãƒ¡ã‚½ãƒƒãƒ‰å¼•æ•°ã®å‡¦ç†
 		for (Object o : node.parameters()) {
 			SingleVariableDeclaration arg = ((SingleVariableDeclaration) o);
 			boolean isArray = false;
@@ -625,7 +625,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		// currentClass.addMethod(model);
 
-		// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì’†g
+		// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ä¸­èº«
 		StBlockModel body = parseBlockStatement(node.getBody());
 		body.setParent(model);
 		model.setBody(body);
@@ -646,7 +646,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		variableResolver.resetLocalVariable();
 
 		StMethodDeclarationModel model = new StMethodDeclarationModel();
-		// ƒƒ\ƒbƒhˆø”‚Ìˆ—
+		// ãƒ¡ã‚½ãƒƒãƒ‰å¼•æ•°ã®å‡¦ç†
 		for (Object o : node.parameters()) {
 			SingleVariableDeclaration arg = ((SingleVariableDeclaration) o);
 			boolean isArray = false;
@@ -675,7 +675,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			}
 		}
 
-		// ƒƒ\ƒbƒh‚Ì’†g
+		// ãƒ¡ã‚½ãƒƒãƒ‰ã®ä¸­èº«
 		StBlockModel body = parseBlockStatement(node.getBody());
 		body.setParent(model);
 		model.setBody(body);
@@ -685,15 +685,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/************************************************************
-	 * ˆÈ‰ºCStatement‚Ì‰ğÍŒn
+	 * ä»¥ä¸‹ï¼ŒStatementã®è§£æç³»
 	 ************************************************************/
 
 	/**
-	 * ŠeStatement‚Ö‚ÌŒo—RŠÖ”
+	 * å„Statementã¸ã®çµŒç”±é–¢æ•°
 	 * 
 	 * @param stmt
-	 *            FStatementƒm[ƒh
-	 * @return ŠeStatement‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šStatementãƒãƒ¼ãƒ‰
+	 * @return å„Statementã®è§£æçµæœ
 	 */
 	public StatementModel parseStatement(Statement stmt) {
 		try {
@@ -735,10 +735,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 							+ stmt.getClass() + ", " + stmt.toString());
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
-			// Expression‚Ì•û‚Å‘Î‰ 2012.11.23 #matsuzawa 2.10.15
+			// Expressionã®æ–¹ã§å¯¾å¿œ 2012.11.23 #matsuzawa 2.10.15
 			// // StSpecialBlockModel special = new
 			// // StSpecialBlockModel(stmt.toString());
-			// // #matsuzawa SpExpression‚É“‡ 2012.11.12
+			// // #matsuzawa SpExpressionã«çµ±åˆ 2012.11.12
 			// ExSpecialExpressionModel special = new ExSpecialExpressionModel(
 			// stmt.toString());
 			// special.setId(idCounter.getNextId());
@@ -786,14 +786,14 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		endIndex.setInitializer(callActionMethodModel);
 		block.addChild(endIndex);
 
-		{// While –{‘Ì
-			// ğŒ®
+		{// While æœ¬ä½“
+			// æ¡ä»¶å¼
 			ExInfixModel condition = new ExInfixModel();
 			condition.setOperator("<");
 			condition.setId(idCounter.getNextId());
 			condition.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
-			// ğŒ®‚Ìrightexpression
+			// æ¡ä»¶å¼ã®rightexpression
 			ExVariableGetterModel sizeBlock = new ExVariableGetterModel();
 			sizeBlock.setVariable(variableResolver.resolve("endIndex"));
 			sizeBlock.setId(idCounter.getNextId());
@@ -959,17 +959,17 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ƒuƒƒbƒN‚Ì’†g‚Ì‰ğÍi"{" ‚Æ "}"‚ÅˆÍ‚Ü‚ê‚½Statementj
+	 * ãƒ–ãƒ­ãƒƒã‚¯ã®ä¸­èº«ã®è§£æï¼ˆ"{" ã¨ "}"ã§å›²ã¾ã‚ŒãŸStatementï¼‰
 	 * 
 	 * @param block
-	 *            FBlockƒm[ƒh
-	 * @return Block‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šBlockãƒãƒ¼ãƒ‰
+	 * @return Blockã®è§£æçµæœ
 	 */
 	private StBlockModel parseBlockStatement(Block block) {
 		StBlockModel model = new StBlockModel();
 
 		List<?> statements = block.statements();
-		// ‚·‚×‚Ä‚Ìƒƒ\ƒbƒh“à‚ÌƒXƒe[ƒgƒƒ“ƒg‚É‘Î‚µ‚Ä‰ğÍ‚µAƒXƒe[ƒgƒƒ“ƒgƒuƒƒbƒNƒ‚ƒfƒ‹‚Ö‰Á‚¦‚é
+		// ã™ã¹ã¦ã®ãƒ¡ã‚½ãƒƒãƒ‰å†…ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã«å¯¾ã—ã¦è§£æã—ã€ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆãƒ–ãƒ­ãƒƒã‚¯ãƒ¢ãƒ‡ãƒ«ã¸åŠ ãˆã‚‹
 		for (Object each : statements) {
 			Statement child = (Statement) each;
 			model.addElement(parseStatement(child));
@@ -978,7 +978,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ’ŠÛ‰»ƒuƒƒbƒN‚Ì‰ğÍ
+	 * æŠ½è±¡åŒ–ãƒ–ãƒ­ãƒƒã‚¯ã®è§£æ
 	 * 
 	 * @param block
 	 * @return
@@ -1013,11 +1013,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * If•¶‚Ì‰ğÍ
+	 * Ifæ–‡ã®è§£æ
 	 * 
 	 * @param node
-	 *            FIfStatementƒm[ƒh
-	 * @return IfStatement‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šIfStatementãƒãƒ¼ãƒ‰
+	 * @return IfStatementã®è§£æçµæœ
 	 */
 	public StIfElseModel parseIfStatement(IfStatement node) {
 		StIfElseModel model = new StIfElseModel();
@@ -1030,13 +1030,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 		Statement thenClause = node.getThenStatement();
 		if (thenClause != null) {
-			// #matsuzawa 2012.10.23 •¡•¶C’P•¶‚É‘Î‰
+			// #matsuzawa 2012.10.23 è¤‡æ–‡ï¼Œå˜æ–‡ã«å¯¾å¿œ
 			model.setThenClause(getStBlock(parseStatement(thenClause)));
 		}
 		Statement elseClause = node.getElseStatement();
 		if (elseClause != null) {
 			// model.setElseClause((StBlockModel) parseStatement(elseClause));
-			// 2012.09.25 #matsuzawa else if•¶‚É‘Î‰
+			// 2012.09.25 #matsuzawa else ifæ–‡ã«å¯¾å¿œ
 			model.setElseClause(getStBlock(parseStatement(elseClause)));
 		}
 
@@ -1099,7 +1099,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		return model;
 	}
 
-	// ’P•¶‚à•¡•¶‚à•¡•¶‚É•ÏŠ·‚·‚é
+	// å˜æ–‡ã‚‚è¤‡æ–‡ã‚‚è¤‡æ–‡ã«å¤‰æ›ã™ã‚‹
 	private StBlockModel getStBlock(StatementModel model) {
 		if (model instanceof StBlockModel) {
 			return (StBlockModel) model;
@@ -1111,11 +1111,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * For•¶‚Ì‰ğÍ
+	 * Foræ–‡ã®è§£æ
 	 * 
 	 * @param stmt
 	 *            :ForStatement
-	 * @return ForStatement‚Ì‰ğÍŒ‹‰Ê
+	 * @return ForStatementã®è§£æçµæœ
 	 */
 	// private StBlockModel parseForStatement(ForStatement node) {
 	private StatementModel parseForStatement(ForStatement node) {
@@ -1151,7 +1151,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		{
-			// While –{‘Ì
+			// While æœ¬ä½“
 			Expression testClause = node.getExpression();
 			Statement bodyClause = node.getBody();
 			StWhileModel whileModel = createWhileStatement(testClause,
@@ -1229,22 +1229,22 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ®i•¶‚Æ‚µ‚Äj‚Ì‰ğÍ
+	 * å¼ï¼ˆæ–‡ã¨ã—ã¦ï¼‰ã®è§£æ
 	 * 
 	 * @param stmt
-	 *            FExpressionƒm[ƒh
-	 * @return ExpressionStatement‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šExpressionãƒãƒ¼ãƒ‰
+	 * @return ExpressionStatementã®è§£æçµæœ
 	 */
 	private StExpressionModel parseExpressionStatement(ExpressionStatement stmt) {
 		return new StExpressionModel(parseExpression(stmt.getExpression()));
 	}
 
 	/**
-	 * •Ï”éŒ¾‚Ì‰ğÍ
+	 * å¤‰æ•°å®£è¨€ã®è§£æ
 	 * 
 	 * @param node
-	 *            FVariableDeclarationStatementƒm[ƒh
-	 * @return j2b.model:VariableDeclarationStatement‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šVariableDeclarationStatementãƒãƒ¼ãƒ‰
+	 * @return j2b.model:VariableDeclarationStatementã®è§£æçµæœ
 	 */
 	public StatementModel parseVariableDeclarationStatement(
 			VariableDeclarationStatement node) {
@@ -1252,7 +1252,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			throw new RuntimeException(
 					"Two or more do not make a variable declaration simultaneously. ");
 		}
-		// // int i,j,k; ‚Ì‚æ‚¤‚È‘‚«•û‚ğƒp[ƒX‚·‚é
+		// // int i,j,k; ã®ã‚ˆã†ãªæ›¸ãæ–¹ã‚’ãƒ‘ãƒ¼ã‚¹ã™ã‚‹
 		// BlockStatementModel block = new BlockStatementModel();
 		// List<?> fragments = node.fragments();
 		// for (int i = 0; i < fragments.size(); i++) {
@@ -1297,7 +1297,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					.getStartPosition()));
 			return model;
 		} else {
-			throw new IllegalArgumentException("‚Ü‚¾–¢‘Î‰‚Ì AST node type ‚ğ‰ğÍ‚µ‚Ü‚µ‚½.");
+			throw new IllegalArgumentException("ã¾ã æœªå¯¾å¿œã® AST node type ã‚’è§£æã—ã¾ã—ãŸ.");
 		}
 
 	}
@@ -1330,9 +1330,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private String typeString(Type type) {
 		String typeString = type.toString();
 		if (type instanceof ParameterizedType) {
-			typeString = typeString.replaceAll("<", "ƒ");
-			typeString = typeString.replaceAll(">", "„");
-			// ‚Ğ‚Æ‚Ü‚¸Cˆê’i‚Ì‚İ
+			typeString = typeString.replaceAll("<", "ï¼œ");
+			typeString = typeString.replaceAll(">", "ï¼");
+			// ã²ã¨ã¾ãšï¼Œä¸€æ®µã®ã¿
 			// ParameterizedType pType = ((ParameterizedType) type);
 			// Type baseType = pType.getType();
 			// typeString = baseType.toString();
@@ -1358,7 +1358,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setName(name);
 		model.setType(convertBlockType(type));
 		variableResolver.addLocalVariable(model);
-		// int x = 3;‚Ì‚æ‚¤‚ÉCinitializer‚ª‚Â‚¢‚Ä‚¢‚éê‡
+		// int x = 3;ã®ã‚ˆã†ã«ï¼ŒinitializerãŒã¤ã„ã¦ã„ã‚‹å ´åˆ
 		if (initializer != null) {
 			model.setInitializer(parseExpression(initializer));
 		}
@@ -1383,7 +1383,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// create local variable
 		StThisVariableModel model = new StThisVariableModel();
 		model.setType("object");
-		model.setName("©•ª");
+		model.setName("è‡ªåˆ†");
 		model.setJavaVariableType(commentGetter.getSourceName());
 
 		model.setId(idCounter.getNextId());
@@ -1393,21 +1393,21 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private void createSuperModel() {
 		StSuperVariableModel model = new StSuperVariableModel();
 		model.setType("object");
-		model.setName("eƒNƒ‰ƒX");
+		model.setName("è¦ªã‚¯ãƒ©ã‚¹");
 
 		model.setId(idCounter.getNextId());
 		variableResolver.setSuperValue(model);
 	}
 
 	/************************************************************
-	 * ˆÈ‰ºCExpression‚Ì‰ğÍŒn
+	 * ä»¥ä¸‹ï¼ŒExpressionã®è§£æç³»
 	 ************************************************************/
 	/**
-	 * ŠeExpression‚Ö‚ÌŒo—RŠÖ”
+	 * å„Expressionã¸ã®çµŒç”±é–¢æ•°
 	 * 
 	 * @param node
-	 *            FExpressionƒm[ƒh
-	 * @return ŠeExpression‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šExpressionãƒãƒ¼ãƒ‰
+	 * @return å„Expressionã®è§£æçµæœ
 	 */
 	public ExpressionModel parseExpression(Expression node) {
 		try {
@@ -1494,18 +1494,18 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ‘ã“ü®‚Ì‰ğÍ
+	 * ä»£å…¥å¼ã®è§£æ
 	 * 
 	 * @param node
-	 *            :Assignmentƒm[ƒh
-	 * @return Assignment‚Ì‰ğÍŒ‹‰Ê
+	 *            :Assignmentãƒãƒ¼ãƒ‰
+	 * @return Assignmentã®è§£æçµæœ
 	 */
 	private ExpressionModel parseAssignementExpression(Assignment node) {
 
 		ExVariableSetterModel model = new ExVariableSetterModel();
 		ExpressionModel rightExpression = parseExpression(node
 				.getRightHandSide());
-		// operatorƒ`ƒFƒbƒN
+		// operatorãƒã‚§ãƒƒã‚¯
 		if ("+=".equals(node.getOperator().toString())) {
 			rightExpression = setOperator("+", node, rightExpression);
 		} else if ("-=".equals(node.getOperator().toString())) {
@@ -1521,12 +1521,12 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			throw new RuntimeException("not supported two or more substitution");
 		}
 
-		// +=‚È‚çA¶•Ó‚Ì’lƒuƒƒbƒN‚ÆA+ƒuƒƒbƒN
+		// +=ãªã‚‰ã€å·¦è¾ºã®å€¤ãƒ–ãƒ­ãƒƒã‚¯ã¨ã€+ãƒ–ãƒ­ãƒƒã‚¯
 		// -=
 		// *=
 		// /=
 		Expression leftExpression = node.getLeftHandSide();
-		// ¶•Ó‚Ìexpression‚à‰ğÍ‚·‚é
+		// å·¦è¾ºã®expressionã‚‚è§£æã™ã‚‹
 		ExpressionModel setterModel = parseLeftExpression(leftExpression, model);
 		return setterModel;
 
@@ -1551,9 +1551,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// thisSetterModel.setCallMethod(model);
 		// return thisSetterModel;
 		// } else if (name.contains("[")) {
-		// // ”z—ñ‚Ìˆ—
+		// // é…åˆ—ã®å‡¦ç†
 		// ExCallMethodModel arraySetter = new ExCallMethodModel();
-		// // ‚Æ‚è‚ ‚¦‚¸–³—‚â‚è•Ï”‚ğæ‚é
+		// // ã¨ã‚Šã‚ãˆãšç„¡ç†ã‚„ã‚Šå¤‰æ•°ã‚’å–ã‚‹
 		// Expression left = node.getLeftHandSide();
 		// if (left instanceof ) {
 		// System.out.println("hoge");
@@ -1562,7 +1562,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// String index = name.substring(name.indexOf("[", name.indexOf("]")));
 		//
 		// arraySetter.addArgument(rightExpression);
-		// // ‘‚«‚İƒuƒƒbƒN‚ğì¬
+		// // æ›¸ãè¾¼ã¿ãƒ–ãƒ­ãƒƒã‚¯ã‚’ä½œæˆ
 		//
 		// }
 
@@ -1605,10 +1605,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				model.setIndexModel(variable);
 
 				// ArrayAccess arrayNode = (ArrayAccess) node;
-				// // ƒƒ\ƒbƒhŒÄ‚Ño‚µƒ‚ƒfƒ‹ì¬
+				// // ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ãƒ¢ãƒ‡ãƒ«ä½œæˆ
 				// ExCallMethodModel arraySetter = new ExCallMethodModel();
 				// arraySetter.setId(idCounter.getNextId());
-				// // ƒCƒ“ƒfƒbƒNƒX‚Ì‰ğÍ
+				// // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®è§£æ
 				// ExpressionModel variable =
 				// parseExpression(arrayNode.getIndex());
 				// variable.setId(idCounter.getNextId());
@@ -1683,11 +1683,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ƒCƒ“ƒNƒŠƒƒ“ƒgAƒfƒNƒŠƒƒ“ƒg‚ğ‰ğÍ
+	 * ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã€ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã‚’è§£æ
 	 * 
 	 * @param node
-	 *            :PostfixExpressionƒm[ƒh
-	 * @return PostfixExpression‚Ì‰ğÍŒ‹‰Ê
+	 *            :PostfixExpressionãƒãƒ¼ãƒ‰
+	 * @return PostfixExpressionã®è§£æçµæœ
 	 */
 	private ElementModel parsePostfixExpression(PostfixExpression node) {
 		ExPostfixModel model = new ExPostfixModel();
@@ -1713,7 +1713,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ƒ}ƒCƒiƒX‚Ì”’l‚Ì‰ğÍ
+	 * ãƒã‚¤ãƒŠã‚¹ã®æ•°å€¤ã®è§£æ
 	 * 
 	 * @param node
 	 * @return
@@ -1727,7 +1727,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setExpression(parseExpression(node.getOperand()));
 			return model;
 		}
-		if (node.getOperator().toString().equals("-")) {// -expression ‚È‚Ç
+		if (node.getOperator().toString().equals("-")) {// -expression ãªã©
 			ExpressionModel model = parseExpression((Expression) node
 					.getOperand());
 			model.setId(idCounter.getNextId());
@@ -1771,7 +1771,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		ExpressionModel identifer = parseMethodInvocationIdentifer(node);
 
 		// if (object != null) {
-		// // // excallƒuƒƒbƒNì¬
+		// // // excallãƒ–ãƒ­ãƒƒã‚¯ä½œæˆ
 		// ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
 		// model.setId(idCounter.getNextId());
 		// model.setLineNumber(compilationUnit.getLineNumber(node
@@ -1914,7 +1914,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return callMethod;
 			}
 		} else if (fullName.indexOf(".equals(") != -1
-				&& node.arguments().size() == 1) {// ‚Ğ‚Æ‚Ü‚¸CstringŒ^‚¾‚Æv‚¤‚±‚Æ‚É‚·‚éDƒIƒuƒWƒFƒNƒgŒ^‚ÍŒã‰ñ‚µiª–{“I‚È‰ğŒˆ‚ª•K—vjD#matsuzawa
+				&& node.arguments().size() == 1) {// ã²ã¨ã¾ãšï¼Œstringå‹ã ã¨æ€ã†ã“ã¨ã«ã™ã‚‹ï¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‹ã¯å¾Œå›ã—ï¼ˆæ ¹æœ¬çš„ãªè§£æ±ºãŒå¿…è¦ï¼‰ï¼#matsuzawa
 													// 2012.11.23
 			Expression receiver = node.getExpression();
 			Expression arg = (Expression) node.arguments().get(0);
@@ -1935,13 +1935,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseMethodCallExpression(node);
 			}
 
-			// ƒRƒR‚à‰‹}ˆ’u
+			// ã‚³ã‚³ã‚‚å¿œæ€¥å‡¦ç½®
 			if (receiver instanceof MethodInvocation) {
 				ExpressionModel receiverModel = parseMethodInvocationExpression((MethodInvocation) receiver);
 				return parseCallActionMethodExpression2(node, receiverModel);
 			}
 			if (receiver instanceof ThisExpression) {
-				// thisƒL[ƒ[ƒhƒuƒƒbƒNì¬
+				// thisã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ãƒ–ãƒ­ãƒƒã‚¯ä½œæˆ
 				ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
 				thisModel.setType("object");
 
@@ -1949,7 +1949,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseCallActionMethodExpression2(node, thisModel);
 				// methodResolver.getReturnType(node);
 			} else {
-				// List‚Ìget‚È‚Ç‚ÍAlist‚ÌŒ^‚É‡‚í‚¹‚Ä•ÏŒ`‚·‚é•K—v«
+				// Listã®getãªã©ã¯ã€listã®å‹ã«åˆã‚ã›ã¦å¤‰å½¢ã™ã‚‹å¿…è¦æ€§
 				ExpressionModel receiverModel = null;
 				receiverModel = parseExpression(receiver);
 
@@ -2016,7 +2016,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	private ExCallMethodModel transformBlock(ExCallMethodModel callerModel,
 			ExpressionModel receiverModel) {
-		// ƒƒ\ƒbƒh–¼Šm”F@transform‚Ì•K—v«‚Ì‚ ‚éƒƒ\ƒbƒh‚Í•ÏŒ`‚·‚é
+		// ãƒ¡ã‚½ãƒƒãƒ‰åç¢ºèªã€€transformã®å¿…è¦æ€§ã®ã‚ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã¯å¤‰å½¢ã™ã‚‹
 		if (receiverModel.getType().equals("List")
 				&& callerModel.getName().equals("get")) {
 			StVariableDeclarationModel parentVariableModel = variableResolver
@@ -2038,8 +2038,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	/**
 	 * 
 	 * @param node
-	 *            :MethodInvocationƒm[ƒh
-	 * @return MethodInvocation‚Ì‰ğÍŒ‹‰Ê
+	 *            :MethodInvocationãƒãƒ¼ãƒ‰
+	 * @return MethodInvocationã®è§£æçµæœ
 	 */
 	public ExCallMethodModel parseMethodCallExpression(MethodInvocation node) {
 		ExCallMethodModel model;
@@ -2070,7 +2070,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		} else if (methodResolver.isRegisteredAsProjectMethod(node)
 				|| node.getName().toString().equals("drawFillArc")
 				|| node.getName().toString().equals("drawText")
-				|| node.getName().toString().equals("remove")) {// ƒƒ\ƒbƒh–¼‚ğ‘S‚Ä•ÏX‚·‚é•K—v‚ ‚èI@¡‚Í‰‹}ˆ’u
+				|| node.getName().toString().equals("remove")) {// ãƒ¡ã‚½ãƒƒãƒ‰åã‚’å…¨ã¦å¤‰æ›´ã™ã‚‹å¿…è¦ã‚ã‚Šï¼ã€€ä»Šã¯å¿œæ€¥å‡¦ç½®
 			model = new ExCallMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
 			name = node.getName().toString() + "[";
@@ -2101,7 +2101,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 
-		// ˆø”
+		// å¼•æ•°
 		for (int i = 0; i < node.arguments().size(); i++) {
 			ExpressionModel arg = parseExpression((Expression) node.arguments()
 					.get(i));
@@ -2158,7 +2158,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		// ˆø”
+		// å¼•æ•°
 		for (int i = 0; i < node.arguments().size(); i++) {
 			ExpressionModel arg = parseExpression((Expression) node.arguments()
 					.get(i));
@@ -2192,7 +2192,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		// #matsuzawa 2012.11.13 ‚±‚±ª–{“I‚È¡—Ã‚ª•K—vI
+		// #matsuzawa 2012.11.13 ã“ã“æ ¹æœ¬çš„ãªæ²»ç™‚ãŒå¿…è¦ï¼
 		StBlockModel block = new StBlockModel();
 		block.setId(model.getId());
 		block.setLineNumber(compilationUnit.getLineNumber(node
@@ -2204,7 +2204,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		block.addElement(parseMethodCallExpression(node));
 		model.setCallMethod(block);
 
-		// // ˆÈ‰ºC¼àV‚ª‰ü•Ï
+		// // ä»¥ä¸‹ï¼Œæ¾æ¾¤ãŒæ”¹å¤‰
 		// if (node.getExpression() instanceof QualifiedName) {
 		// throw new RuntimeException("not supported two or more substitution");
 		// }
@@ -2212,7 +2212,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// CallMethodModel method = parseMethodCallExpression(node);
 		// method.setId(model.getId());
 		// model.setCallMethod(method);
-		// // ˆÈãC¼àV‚ª‰ü•Ï
+		// // ä»¥ä¸Šï¼Œæ¾æ¾¤ãŒæ”¹å¤‰
 		return model;
 	}
 
@@ -2227,7 +2227,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		model.setReceiver(receiverModel);
 		model.setCallMethod(callMethod);
-		// æ‚Écallmethod‚Ìplug‚ÌŒ^‚ğƒZƒbƒg‚µ‚Æ‚­
+		// å…ˆã«callmethodã®plugã®å‹ã‚’ã‚»ãƒƒãƒˆã—ã¨ã
 		if (callMethod instanceof ExpressionModel
 				&& !((ExpressionModel) callMethod).getType().equals("void")) {
 			model.setType(ElementModel
@@ -2258,15 +2258,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	// /**
 	// *
-	// * @param MethodInvocationƒm[ƒh
-	// * @return MethodInvocationƒm[ƒh‚Ì‰ğÍŒ‹‰Ê
+	// * @param MethodInvocationãƒãƒ¼ãƒ‰
+	// * @return MethodInvocationãƒãƒ¼ãƒ‰ã®è§£æçµæœ
 	// */
 	// public ExAssignmentCallMethodModel parseAssignmentCallExpression(
 	// MethodInvocation node) {
 	// ExAssignmentCallMethodModel model = new ExAssignmentCallMethodModel();
 	// model.setName(node.getName().toString());
 	// model.setId(idCounter.getNextId());
-	// // ˆø”
+	// // å¼•æ•°
 	// for (int i = 0; i < node.arguments().size(); i++) {
 	// ExpressionModel arg = parseExpression((Expression) node.arguments()
 	// .get(i));
@@ -2276,11 +2276,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	// }
 
 	/**
-	 * ’è”‚Ì‰ğÍ
+	 * å®šæ•°ã®è§£æ
 	 * 
 	 * @param node
-	 *            :Expressionƒm[ƒh
-	 * @return Expression‚Ì‰ğÍŒ‹‰Ê
+	 *            :Expressionãƒãƒ¼ãƒ‰
+	 * @return Expressionã®è§£æçµæœ
 	 */
 	public ExLeteralModel parseLeteralExpression(Expression node) {
 		ExLeteralModel model = new ExLeteralModel();
@@ -2301,11 +2301,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ’è”‚ÌŒ^‚Ì‰ğÍ
+	 * å®šæ•°ã®å‹ã®è§£æ
 	 * 
 	 * @param leteral
-	 *            :Experssionƒm[ƒh
-	 * @return ‰ğÍ‚µ‚½’è”‚ÌŒ^
+	 *            :Experssionãƒãƒ¼ãƒ‰
+	 * @return è§£æã—ãŸå®šæ•°ã®å‹
 	 */
 	private String getLeteralType(Expression leteral) {
 		if (leteral instanceof NumberLiteral) {
@@ -2325,11 +2325,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ŒvZ®‚Ì‰ğÍ
+	 * è¨ˆç®—å¼ã®è§£æ
 	 * 
 	 * @param node
-	 *            :InfixExpressionƒm[ƒh
-	 * @return InfixExpression‚Ì‰ğÍŒ‹‰Ê
+	 *            :InfixExpressionãƒãƒ¼ãƒ‰
+	 * @return InfixExpressionã®è§£æçµæœ
 	 */
 	public ExInfixModel parseInfixExpression(InfixExpression node) {
 		String oparator = node.getOperator().toString();
@@ -2345,7 +2345,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setLeftExpression(parseExpression(node.getLeftOperand()));
 		model.setRightExpression(parseExpression(node.getRightOperand()));
 
-		// ‘½€®@’Ç‰Á•ª
+		// å¤šé …å¼ã€€è¿½åŠ åˆ†
 		for (Object o : node.extendedOperands()) {
 			Expression exp = (Expression) o;
 			ExInfixModel newmodel = new ExInfixModel();
@@ -2360,7 +2360,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model = newmodel;
 		}
 
-		// string ‚Ì == ”äŠrƒ`ƒFƒbƒN
+		// string ã® == æ¯”è¼ƒãƒã‚§ãƒƒã‚¯
 		if (model.getSocketType().equals("string")
 				&& (model.getOperator().equals("==") || model.getOperator()
 						.equals("!="))) {
@@ -2398,7 +2398,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	// return false;
 	// }
 
-	// ˆÈ‰ºC‚±‚±‚Å‚â‚éd–‚¶‚á‚È‚¢‚Ì‚Åíœ #matsuzawa 2012.11.14
+	// ä»¥ä¸‹ï¼Œã“ã“ã§ã‚„ã‚‹ä»•äº‹ã˜ã‚ƒãªã„ã®ã§å‰Šé™¤ #matsuzawa 2012.11.14
 	// private ExpressionModel numberToStringConverter(String type,
 	// ExpressionModel initializer) {
 	// if (("String".equals(type) || "string".equals(type))
@@ -2447,13 +2447,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	// ExCastModel model = new ExCastModel();
 	// model.setType("toString");
 	// model.setId(idCounter.getNextId());
-	// // ˆø”
+	// // å¼•æ•°
 	// model.addArgument(argument);
 	// return model;
 	// }
 
 	/**
-	 * ŠÛŠ‡ŒÊ‚Ì‰ğÍ
+	 * ä¸¸æ‹¬å¼§ã®è§£æ
 	 * 
 	 * @param node
 	 * @return
@@ -2464,11 +2464,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * •Ï”ŒÄ‚Ño‚µ‚Ì‰ğÍ
+	 * å¤‰æ•°å‘¼ã³å‡ºã—ã®è§£æ
 	 * 
 	 * @param node
-	 *            :SimpleNameƒm[ƒh
-	 * @return SimpleNameƒm[ƒh‚Ì‰ğÍ
+	 *            :SimpleNameãƒãƒ¼ãƒ‰
+	 * @return SimpleNameãƒãƒ¼ãƒ‰ã®è§£æ
 	 */
 	public ExVariableGetterModel parseVariableGetterExpression(String name) {
 		ExVariableGetterModel model = new ExVariableGetterModel();
@@ -2536,7 +2536,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
 			for (Object argument : type.typeArguments()) {
-				// Œ^ƒuƒƒbƒN‚ğì¬‚·‚é
+				// å‹ãƒ–ãƒ­ãƒƒã‚¯ã‚’ä½œæˆã™ã‚‹
 				ExTypeModel typeModel = new ExTypeModel();
 				typeModel.setId(idCounter.getNextId());
 				typeModel.setLineNumber(compilationUnit.getLineNumber(node
@@ -2555,7 +2555,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		// ˆø”
+		// å¼•æ•°
 		for (int i = 0; i < node.arguments().size(); i++) {
 			ExpressionModel arg = parseExpression((Expression) node.arguments()
 					.get(i));
@@ -2571,7 +2571,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		// ˆø”
+		// å¼•æ•°
 		for (int i = 0; i < node.dimensions().size(); i++) {
 			ExpressionModel arg = parseExpression((Expression) node
 					.dimensions().get(i));
@@ -2596,13 +2596,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		// ˆø”
+		// å¼•æ•°
 		model.addArgument(parseExpression(node.getExpression()));
 		return model;
 	}
 
 	private ExpressionModel parseArrayAccess(ArrayAccess node) {
-		// callmethodƒ‚ƒfƒ‹‚ğì¬
+		// callmethodãƒ¢ãƒ‡ãƒ«ã‚’ä½œæˆ
 		ExVariableGetterModel model = createExVariableGetterModel(node
 				.getArray().toString());
 		ExpressionModel index = parseExpression(node.getIndex());
@@ -2614,18 +2614,18 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	private ExpressionModel parseFieldAccess(FieldAccess node) {
-		// ‰E•Ó‚ÌthisƒL[ƒ[ƒh‰ğÍ
-		// ExcallActionƒuƒƒbƒN‚ğì¬
+		// å³è¾ºã®thisã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰è§£æ
+		// ExcallActionãƒ–ãƒ­ãƒƒã‚¯ã‚’ä½œæˆ
 		ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 		// ExCallMethodModel callMethod = new ExCallMethodModel();
-		// thisƒL[ƒ[ƒhƒuƒƒbƒNì¬
+		// thisã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ãƒ–ãƒ­ãƒƒã‚¯ä½œæˆ
 		ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
 		thisModel.setType("object");
 
-		// •Ï”–¼‚ğ‰ğÍ‚µ‚½ƒ‚ƒfƒ‹‚Æthis‚ğExCallActionƒuƒƒbƒN‚ÉƒZƒbƒg
+		// å¤‰æ•°åã‚’è§£æã—ãŸãƒ¢ãƒ‡ãƒ«ã¨thisã‚’ExCallActionãƒ–ãƒ­ãƒƒã‚¯ã«ã‚»ãƒƒãƒˆ
 		model.setReceiver(thisModel);
 		if (variableResolver.resolve(node.getName().toString()) == null) {
 		} else {

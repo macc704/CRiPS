@@ -40,9 +40,9 @@ public class BlockToJavaAnalyzer {
 
 	private ProgramModel programModel = new ProgramModel();
 	private static Map<Integer, BlockModel> blockModels = new HashMap<Integer, BlockModel>();
-	private String fileURI;// #ohata constructorblock‚ÉURL‚ğ“n‚µ‚½‚¢‚Ì‚Å•Ï”‚ğ—pˆÓ
+	private String fileURI;// #ohata constructorblockã«URLã‚’æ¸¡ã—ãŸã„ã®ã§å¤‰æ•°ã‚’ç”¨æ„
 
-	// project,Œp³ƒƒ\ƒbƒhˆê——
+	// project,ç¶™æ‰¿ãƒ¡ã‚½ãƒƒãƒ‰ä¸€è¦§
 
 	public void setProjectMethods(Map<String, String> methods) {
 		BlockConverter.projectMethods = methods;
@@ -54,7 +54,7 @@ public class BlockToJavaAnalyzer {
 	}
 
 	public BlockToJavaAnalyzer(String uri) {// #ohata
-											// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Åƒtƒ@ƒCƒ‹–¼‚ğƒZƒbƒg‚·‚é@ƒtƒ@ƒCƒ‹–¼‚ÍƒRƒ“ƒXƒgƒ‰ƒNƒ^ƒuƒƒbƒN‚Ì•ªÍ‚ÌÛ—˜—ps
+											// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ã‚»ãƒƒãƒˆã™ã‚‹ã€€ãƒ•ã‚¡ã‚¤ãƒ«åã¯ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãƒ–ãƒ­ãƒƒã‚¯ã®åˆ†æã®éš›åˆ©ç”¨s
 		int index = uri.indexOf(".");
 		fileURI = new String(uri.substring(0, index));
 	}
@@ -72,7 +72,7 @@ public class BlockToJavaAnalyzer {
 	}
 
 	/*************************
-	 * treeWalkŠJn
+	 * treeWalké–‹å§‹
 	 ************************/
 
 	public void visit(Document document) {
@@ -84,7 +84,7 @@ public class BlockToJavaAnalyzer {
 	}
 
 	/**
-	 * Pageƒm[ƒh‚ğ‰ğÍ
+	 * Pageãƒãƒ¼ãƒ‰ã‚’è§£æ
 	 * 
 	 * @param node
 	 */
@@ -126,7 +126,7 @@ public class BlockToJavaAnalyzer {
 	}
 
 	/**
-	 * Blockƒm[ƒh‚ğ‰ğÍ
+	 * Blockãƒãƒ¼ãƒ‰ã‚’è§£æ
 	 * 
 	 * @param node
 	 * @param className
@@ -145,7 +145,7 @@ public class BlockToJavaAnalyzer {
 		while (blockNode != null) {
 			Node block = blockNode;
 
-			// NodeName‚ªBlock‚É‚È‚é‚Ü‚Å
+			// NodeNameãŒBlockã«ãªã‚‹ã¾ã§
 			if (block.getNodeName() == "BlockStub") {
 				block = block.getFirstChild();
 				while (block.getNodeName() != "Block") {
@@ -177,7 +177,7 @@ public class BlockToJavaAnalyzer {
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
 			} else if (genus_name.startsWith("caller")) {// isMethodCall
-															// isProjectMethod‚Ì‘O‚É‚â‚ç‚È‚¢‚ÆƒGƒ‰[‚ª”­¶‚·‚é‰Â”\«—L‚è
+															// isProjectMethodã®å‰ã«ã‚„ã‚‰ãªã„ã¨ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã™ã‚‹å¯èƒ½æ€§æœ‰ã‚Š
 				CallMethodBlockModel model = new CallMethodBlockModel(true);
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -185,7 +185,7 @@ public class BlockToJavaAnalyzer {
 				CallMethodBlockModel model = new CallMethodBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
-			} else if (isDataBlock(genus_name)) {// ‚±‚±‚ª•Ï”‚ÌQÆƒuƒƒbƒN‚ğ‰ğÍ‚·‚é‚Í‚¸
+			} else if (isDataBlock(genus_name)) {// ã“ã“ãŒå¤‰æ•°ã®å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ã‚’è§£æã™ã‚‹ã¯ãš
 				NoProcparamDataBlockModel model = new NoProcparamDataBlockModel();
 				parseBlock(block, model);
 				if (parentBlockID != null) {
@@ -231,12 +231,12 @@ public class BlockToJavaAnalyzer {
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
 			} else if (genus_name.startsWith("inc")
-					&& genus_name.endsWith("number")) {// #matsuzawa ‰½‚Å“Á•Êˆµ‚¢H
+					&& genus_name.endsWith("number")) {// #matsuzawa ä½•ã§ç‰¹åˆ¥æ‰±ã„ï¼Ÿ
 				PostfixExpressionModel model = new PostfixExpressionModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
 			} else if (genus_name.startsWith("not")) {// #matsuzawa
-														// ‚Æ‚è‚ ‚¦‚¸adhoc‚É’Ç‰Á
+														// ã¨ã‚Šã‚ãˆãšadhocã«è¿½åŠ 
 				NotExpressionModel model = new NotExpressionModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -252,7 +252,7 @@ public class BlockToJavaAnalyzer {
 				blockNode = blockNode.getNextSibling();
 			} else if (genus_name.startsWith("special")) {// special,
 															// special-expression
-				// ‚Æ‚è‚ ‚¦‚¸Ccall method‚Æ“¯‚¶‚ÅÀ‘• #matsuzawa 2012.11.07 //
+				// ã¨ã‚Šã‚ãˆãšï¼Œcall methodã¨åŒã˜ã§å®Ÿè£… #matsuzawa 2012.11.07 //
 				SpecialBlockModel model = new SpecialBlockModel();
 				parseBlock(block, model);
 				blockNode = blockNode.getNextSibling();
@@ -305,7 +305,7 @@ public class BlockToJavaAnalyzer {
 				|| blockName.equals("gettersuper")) {
 			return true;
 		}
-		// ‚Æ‚è‚ ‚¦‚¸
+		// ã¨ã‚Šã‚ãˆãš
 		if (blockName.endsWith("FromObject")) {
 			return true;
 		}

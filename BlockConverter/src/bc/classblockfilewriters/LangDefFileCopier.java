@@ -33,19 +33,19 @@ public class LangDefFileCopier implements Copier {
 
 			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
 			PrintStream turtlePs = new PrintStream(turtleByteArray);
-			// ‚·‚×‚Ä‚Ìs‚ğƒRƒs[‚·‚é
+			// ã™ã¹ã¦ã®è¡Œã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 			String line;
 			while ((line = br.readLine()) != null) {
-				// ˆês‘‚«‚İ >>lang_def.xml
+				// ä¸€è¡Œæ›¸ãè¾¼ã¿ >>lang_def.xml
 				if (line.contains("lang_def_menu")) {
-					// ƒƒjƒ…[‚Ì‘‚«Š·‚¦
+					// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®æ›¸ãæ›ãˆ
 					turtlePs.println("\t\t&lang_def_menu_project;");
 				} else {
 					turtlePs.println(line);
 				}
 			}
-			// menuî•ñ‚ÌƒRƒs[
-			// ps‚É‘‚«‚¾‚µ‚½‚à‚Ì‚ğ‚·‚×‚Ä•¶š—ñ‚É•ÏŠ·‚·‚é
+			// menuæƒ…å ±ã®ã‚³ãƒ”ãƒ¼
+			// psã«æ›¸ãã ã—ãŸã‚‚ã®ã‚’ã™ã¹ã¦æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
 			String ldfString = turtleByteArray.toString();
 
 			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile()
@@ -66,7 +66,7 @@ public class LangDefFileCopier implements Copier {
 			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
 			e.printStackTrace();
-			throw new RuntimeException("Œ¾Œê’è‹`ƒtƒ@ƒCƒ‹o—Í‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½Flang_def_file");
+			throw new RuntimeException("è¨€èªå®šç¾©ãƒ•ã‚¡ã‚¤ãƒ«å‡ºåŠ›æ™‚ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸï¼šlang_def_file");
 		}
 
 	}

@@ -7,14 +7,14 @@ import java.io.InputStreamReader;
 
 abstract class CCFileLoader {
 	/***************************
-	 * Œp³:CCAddCompileErrorKinds, CCompileErrorLoader
+	 * ç¶™æ‰¿:CCAddCompileErrorKinds, CCompileErrorLoader
 	 ***************************/
 
 	protected void loadData(String filename) {
 		try {
 			BufferedReader breader = new BufferedReader(new InputStreamReader(
 					new FileInputStream(filename), "SJIS"));
-			String line = breader.readLine(); // ˆês–Ú“Ç‚İ”ò‚Î‚µ
+			String line = breader.readLine(); // ä¸€è¡Œç›®èª­ã¿é£›ã°ã—
 			while ((line = breader.readLine()) != null) {
 				separeteData(line);
 			}

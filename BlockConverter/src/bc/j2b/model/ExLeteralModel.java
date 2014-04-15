@@ -35,7 +35,7 @@ public class ExLeteralModel extends ExpressionModel {
 	public String getType() {
 		String type = getOriginalType();
 		if (type.equals("color")) {
-			type = "number"; // color�̌`�͔ԍ�
+			type = "number"; // colorの形は番号
 		}
 		return type;
 	}

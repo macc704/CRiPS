@@ -42,7 +42,7 @@ public class StEnhancedForModel extends StatementModel {
 			bodyClause.print(out, indent);
 			doId = bodyClause.getChild(0).getId();
 		}
-		// BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
+		// BeforeBlockã¨AfterBlockã‚’æ¤œç´¢ã™ã‚‹
 		resolveBeforeAfterBlock(getParent());
 
 		printWhileBlockDec(out, indent, testId, doId);

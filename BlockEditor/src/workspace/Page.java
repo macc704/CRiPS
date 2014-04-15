@@ -52,8 +52,8 @@ import codeblockutil.CToolTip;
  * directly. But clients must remember to reform the pages in order to
  * synchronize the data between the b2j.model and view.
  * 
- * A page�ｽ�ｽs abstract color is rendered the same no matter what state the page
- * is in. A page�ｽ�ｽs abstract name is rendered thrice centered at every fourth
+ * A page?ｽ?ｽs abstract color is rendered the same no matter what state the page
+ * is in. A page?ｽ?ｽs abstract name is rendered thrice centered at every fourth
  * of the page. The name is rendered with a size depending on the zoom level of
  * that page (it tries to maintain a constant aspect ratio). The drawer name is
  * not rendered. The width and height of the page is rendered differently
@@ -998,10 +998,10 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		private static final long serialVersionUID = 328149080273L;
 		//To get the shadow effect the text must be displayed multiple times at
 		//multiple locations.  x represents the center, white label.
-		// o is color values (0,0,0,0.5f) and �ｽ�ｽ is black.
+		// o is color values (0,0,0,0.5f) and ?ｽ?ｽ is black.
 		//			  o o
-		//			o x �ｽ�ｽ o
-		//			o �ｽ�ｽ o
+		//			o x ?ｽ?ｽ o
+		//			o ?ｽ?ｽ o
 		//			  o
 		//offsetArrays representing the translation movement needed to get from
 		// the center location to a specific offset location given in {{x,y},{x,y}....}

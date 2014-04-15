@@ -24,7 +24,7 @@ public class CCViewerStart {
 		CCMetricsLoader metricsloader = new CCMetricsLoader(manager);
 		metricsloader.load("FileMetrics.csv");
 
-		// –‘O‚ÉEclipse‚©‚çPPV‚É‚©‚¯‚Ä‚¨‚¯‚ÎCƒ\[ƒXƒR[ƒh‚ğ‰{——‚Å‚«‚éi‚½‚¾‚µŠÔ‚ª‚©‚©‚éj
+		// äº‹å‰ã«Eclipseã‹ã‚‰PPVã«ã‹ã‘ã¦ãŠã‘ã°ï¼Œã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã‚’é–²è¦§ã§ãã‚‹ï¼ˆãŸã ã—æ™‚é–“ãŒã‹ã‹ã‚‹ï¼‰
 		// if (CFileSystem.getHomeDirectory().findDirectory(".ppvdata") != null)
 		// {
 		// CDirectory dir = CFileSystem.getHomeDirectory()

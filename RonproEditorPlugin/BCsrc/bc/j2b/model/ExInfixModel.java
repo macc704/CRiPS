@@ -35,7 +35,7 @@ public class ExInfixModel extends ExpressionModel {
 
 	public String getType() {
 
-		// ¶‰E‚ªpoly‚¾‚Á‚½‚çA
+		// å·¦å³ãŒpolyã ã£ãŸã‚‰ã€
 		if (left.getType().equals("poly") && right.getType().equals("poly")) {
 			return "poly";
 		}
@@ -62,7 +62,7 @@ public class ExInfixModel extends ExpressionModel {
 			return "number";
 		} else {
 
-			return "string";// TODO –{“–‚É‚±‚ê‚Å‚¢‚¢‚Ì‚© 2012.11.13 #matsuzawa
+			return "string";// TODO æœ¬å½“ã«ã“ã‚Œã§ã„ã„ã®ã‹ 2012.11.13 #matsuzawa
 		}
 
 		// else if ("-".equals(operator) || "*".equals(operator)
@@ -84,11 +84,11 @@ public class ExInfixModel extends ExpressionModel {
 	}
 
 	public String getSocketType() {
-		// ƒ‹[ƒv‚É‚È‚é‚©‚çƒ_ƒ
+		// ãƒ«ãƒ¼ãƒ—ã«ãªã‚‹ã‹ã‚‰ãƒ€ãƒ¡
 		// if (getType().equals("string")) {
 		// return "string";
 		// }
-		// ¶‰E‚ªpoly‚¾‚Á‚½‚çA
+		// å·¦å³ãŒpolyã ã£ãŸã‚‰ã€
 		if (left.getType().equals("poly") && right.getType().equals("poly")) {
 			return "poly";
 		}
@@ -110,7 +110,7 @@ public class ExInfixModel extends ExpressionModel {
 			return "number";
 		}
 
-		String type = left.getType();// TODO ‚Ğ‚Æ‚Ü‚¸¶‘¤‚ÌŒ^‚É‚ ‚í‚¹‚é
+		String type = left.getType();// TODO ã²ã¨ã¾ãšå·¦å´ã®å‹ã«ã‚ã‚ã›ã‚‹
 		if ("int".equals(type)) {
 			return "number";
 		} else if ("double".equals(type)) {

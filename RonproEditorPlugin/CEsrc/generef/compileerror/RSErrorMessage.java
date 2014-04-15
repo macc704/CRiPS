@@ -40,7 +40,7 @@ public class RSErrorMessage {
 		String[] line = message.split("\n");
 
 		for (int i = 0; i < line.length; i++) {
-			if (line[i].contains("\•¶‰ðÍŠJŽn")) {
+			if (line[i].contains("æ§‹æ–‡è§£æžé–‹å§‹")) {
 				int beginIndex = line[i].lastIndexOf("[") + 1;
 				int endIndex = line[i].indexOf("]");
 				String fileName = line[i].substring(beginIndex, endIndex);
@@ -63,8 +63,8 @@ public class RSErrorMessage {
 
 		for (int i = 0; i < line.length; i++) {
 
-			if (line[i].endsWith("\•¶‰ðÍŠ®—¹]")) {
-				if (line[i + 1].startsWith("[‡Œv")) {
+			if (line[i].endsWith("æ§‹æ–‡è§£æžå®Œäº†]")) {
+				if (line[i + 1].startsWith("[åˆè¨ˆ")) {
 					return false;
 				} else {
 					return true;
@@ -94,7 +94,7 @@ public class RSErrorMessage {
 			if (line[i].contains(".java:") || i == line.length - 1) {
 				buf.append(line[i - 1]);
 				compileErrors.add(new CDiagnostic(buf.toString()));
-				buf.delete(0, buf.length()); // buf‚Ì’†g‚ðƒŠƒZƒbƒg
+				buf.delete(0, buf.length()); // bufã®ä¸­èº«ã‚’ãƒªã‚»ãƒƒãƒˆ
 			} else {
 				buf.append(line[i - 1] + "\n");
 			}

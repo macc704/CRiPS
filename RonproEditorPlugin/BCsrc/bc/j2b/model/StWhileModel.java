@@ -54,7 +54,7 @@ public class StWhileModel extends StatementModel {
 			bodyClause.print(out, indent);
 			doId = bodyClause.getChild(0).getId();
 		}
-		// BeforeBlock‚ÆAfterBlock‚ğŒŸõ‚·‚é
+		// BeforeBlockã¨AfterBlockã‚’æ¤œç´¢ã™ã‚‹
 		resolveBeforeAfterBlock(getParent());
 
 		printWhileBlockDec(out, indent, testId, doId);
@@ -100,7 +100,7 @@ public class StWhileModel extends StatementModel {
 		// Socket
 		makeIndent(out, indent + 1);
 		out.println("<Sockets num-sockets=\"2\">");
-		if (!isDo) {// ‡”Ô‚ª‹t‚È‚¾‚¯D
+		if (!isDo) {// é †ç•ªãŒé€†ãªã ã‘ï¼
 			// test blockConnector
 			makeIndent(out, indent + 2);
 			out.println("<BlockConnector connector-kind=\"sockets\" connector-type=\"boolean\""

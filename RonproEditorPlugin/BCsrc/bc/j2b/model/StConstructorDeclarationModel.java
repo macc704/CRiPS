@@ -88,7 +88,7 @@ public class StConstructorDeclarationModel extends StatementModel{
 				+ "\">");
 		// label
 		makeIndent(out, indent + 1);
-		out.println("<Label>" + "コンストラクタ" + "</Label>");
+		out.println("<Label>" + "繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ" + "</Label>");
 		//comment
 		makeIndent(out, indent + 1);
 		out.println("<LineComment>" + getComment() + "</LineComment>");
@@ -107,7 +107,7 @@ public class StConstructorDeclarationModel extends StatementModel{
 			out.println("<AfterBlockId>" + body.getChild(0).getId()
 					+ "</AfterBlockId>");
 		}
-		// 引数
+		// 蠑墓焚
 		makeIndent(out, indent + 1);
 		out.println("<Sockets num-sockets=\"" + args.size() + 1 + "\">");
 		for (StLocalVariableModel arg : args) {
@@ -118,7 +118,7 @@ public class StConstructorDeclarationModel extends StatementModel{
 					+ " init-type=\"poly\" label=\"\" is-expandable=\"yes\" position-type=\"single\" con-block-id=\""
 					+ arg.getId() + "\"/>");
 		}
-		// 空きコネクタ
+		// 遨ｺ縺阪さ繝阪け繧ｿ
 		makeIndent(out, indent + 2);
 		out.println("<BlockConnector connector-kind=\"sockets\" connector-type=\"poly\" init-type=\"poly\" label=\"\" position-type=\"single\" is-expandable=\"yes\"/>");
 		makeIndent(out, indent + 1);

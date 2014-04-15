@@ -53,9 +53,9 @@ public class BlockUtilities {
 			return false;
 		}
 
-		// ���̋@�\�ɖ�肪���邽�߁C�ꎞ�I�ɍ폜 #matsuzawa 2012.11.07
-		// ���ۉ��u���b�N�̒��̕ϐ��́C�R�s�[���Ă����O���ς��Ȃ��@�\�Ȃ̂ł��邪�C
-		// ���ۉ��u���b�N�̒��̕ϐ����R�s�[���āC�ϐ�����ς���Ɠ��삪���������Ȃ�D
+		// この機能に問題があるため，一時的に削除 #matsuzawa 2012.11.07
+		// 抽象化ブロックの中の変数は，コピーしても名前が変わらない機能なのであるが，
+		// 抽象化ブロックの中の変数をコピーして，変数名を変えると動作がおかしくなる．
 		//		// arranged by sakai lab 2011/11/29
 		//		if (BeforeAbstractionBlockChecker(block)) {
 		//			return true;

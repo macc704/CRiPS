@@ -129,7 +129,7 @@ public class ExArrayInstanceCreationModel extends ExpressionModel {
 	public static void printArguments(List<ExpressionModel> arguments,
 			PrintStream out, int indent, ExpressionModel model,
 			List<String> argumentLabels) {
-		// à¯êî(sockets)
+		// ÂºïÊï∞(sockets)
 		int argsize = arguments.size();
 		if (argsize > 0) {
 			model.makeIndent(out, indent + 1);
@@ -140,7 +140,7 @@ public class ExArrayInstanceCreationModel extends ExpressionModel {
 				String connectorType = ElementModel.getConnectorType(arg
 						.getType());
 				if (connectorType.equals("void")) {
-					connectorType = "poly"; // polyÇÃÇ™É}ÉVÇæÇÎÅD#matsuzawa 2013.01.09
+					connectorType = "poly"; // poly„ÅÆ„Åå„Éû„Ç∑„Å†„ÇçÔºé#matsuzawa 2013.01.09
 				}
 				String label = "";
 				if (argumentLabels != null && i < argumentLabels.size()) {

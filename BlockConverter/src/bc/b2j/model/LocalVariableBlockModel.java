@@ -25,14 +25,14 @@ public class LocalVariableBlockModel extends VariableBlockModel {
 	@Override
 	public void print(PrintStream out, int indent) {
 
-		// Listの場合、コネクター先を先読みする必要がある
+		// List縺ｮ蝣ｴ蜷医√さ繝阪け繧ｿ繝ｼ蜈医ｒ蜈郁ｪｭ縺ｿ縺吶ｋ蠢�隕√′縺ゅｋ
 		if (getName().contains("listobject")) {
 			makeIndent(out, indent);
 			ArrayList<Integer> connectorIDs = getConnectorIDs();
 			BlockModel newDecl = BlockToJavaAnalyzer.getBlock(connectorIDs
 					.get(0));
 
-			// newキーワード変換
+			// new繧ｭ繝ｼ繝ｯ繝ｼ繝牙､画鋤
 			if (newDecl != null) {
 				ArrayList<Integer> newDeclConnectorIDs = newDecl
 						.getConnectorIDs();

@@ -15,12 +15,12 @@ public class TCompileErrorHistorySegment implements ICTimeOrderable {
 	private TCompileErrorHistory history;
 
 	private TCompilePoint start;
-	private TCompilePoint end; // ƒGƒ‰[‚ªC³‚³‚ê‚Ä‚¢‚È‚©‚Á‚½‚çnull
+	private TCompilePoint end; // ã‚¨ãƒ©ãƒ¼ãŒä¿®æ­£ã•ã‚Œã¦ã„ãªã‹ã£ãŸã‚‰null
 
 	private boolean fixed = false;
 	private boolean working = false;
 
-	private double a = 0d; // ŒW”
+	private double a = 0d; // ä¿‚æ•°
 
 	private long startGeneRefTime = 0; // open dialog
 	private long endGeneRefTime = 0; // close dialog
@@ -92,13 +92,13 @@ public class TCompileErrorHistorySegment implements ICTimeOrderable {
 
 	public void setWorking(PLWorkingTime workingTime) {
 
-		// ƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚ÌC³‚ª‚Å‚«‚Ä‚È‚¢ê‡‚Ífalse
+		// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ã®ä¿®æ­£ãŒã§ãã¦ãªã„å ´åˆã¯false
 		if (getEnd() == null || getStart() == null) {
 			this.working = false;
 			return;
 		}
 
-		// GeneRef‚Ì•ªÍ‚Íunit=null‚É‚È‚é
+		// GeneRefã®åˆ†ææ™‚ã¯unit=nullã«ãªã‚‹
 		if (workingTime == null) {
 			this.working = true;
 			return;
@@ -131,7 +131,7 @@ public class TCompileErrorHistorySegment implements ICTimeOrderable {
 			if (unit == null) {
 				throw new IllegalArgumentException();
 			}
-			// ƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚ÌC³‚ª‚Å‚«‚Ä‚È‚¢ê‡‚Ífalse
+			// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ã®ä¿®æ­£ãŒã§ãã¦ãªã„å ´åˆã¯false
 			if (getEnd() == null || getStart() == null) {
 				return false;
 			}

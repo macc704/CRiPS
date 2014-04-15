@@ -12,7 +12,7 @@ public abstract class VariableBlockModel extends BlockModel {
 	public void setLabel(String label) {
 		for (String reservedWord : reservedWords) {
 			if (label.equals(reservedWord)) {
-				throw new RuntimeException("•Ï”" + label + "‚ÍJava‚Å—\–ñŒê‚Æ‚È‚Á‚Ä‚¢‚Ü‚·‚Ì‚Åg—p‚Å‚«‚Ü‚¹‚ñB");
+				throw new RuntimeException("å¤‰æ•°" + label + "ã¯Javaã§äºˆç´„èªã¨ãªã£ã¦ã„ã¾ã™ã®ã§ä½¿ç”¨ã§ãã¾ã›ã‚“ã€‚");
 			}
 		}
 		super.setLabel(label);
@@ -20,10 +20,10 @@ public abstract class VariableBlockModel extends BlockModel {
 
 	@Override
 	public void setType(String type) {
-		super.setType(type.substring(0, type.indexOf("Œ^")));
+		super.setType(type.substring(0, type.indexOf("å‹")));
 	}
 
-	// ¡‚Íg‚Á‚Ä‚¢‚Ü‚¹‚ñB 2011/11/20
+	// ä»Šã¯ä½¿ã£ã¦ã„ã¾ã›ã‚“ã€‚ 2011/11/20
 	protected String resolveVariableType(String name) {
 		if (getType() != null) {
 			return getType();

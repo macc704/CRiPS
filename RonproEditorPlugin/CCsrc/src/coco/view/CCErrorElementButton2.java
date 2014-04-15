@@ -30,7 +30,7 @@ import clib.common.filesystem.CDirectory;
 public class CCErrorElementButton2 extends JButton {
 
 	/**
-	 * minigraph‚ğ•\¦‚·‚é chartPanel‚ªActionListener‚É‘Î‰‚µ‚Ä‚¢‚È‚¢‚Ì‚ÅAMouseListener‚ÅÀ‘•
+	 * minigraphã‚’è¡¨ç¤ºã™ã‚‹ chartPanelãŒActionListenerã«å¯¾å¿œã—ã¦ã„ãªã„ã®ã§ã€MouseListenerã§å®Ÿè£…
 	 */
 
 	private static final long serialVersionUID = 1L;
@@ -73,31 +73,31 @@ public class CCErrorElementButton2 extends JButton {
 	}
 
 	private void makeGraph() {
-		// ƒOƒ‰ƒtƒf[ƒ^İ’è
+		// ã‚°ãƒ©ãƒ•ãƒ‡ãƒ¼ã‚¿è¨­å®š
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
 			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
-					"C³ŠÔ", Integer.toString(i + 1));
+					"ä¿®æ­£æ™‚é–“", Integer.toString(i + 1));
 		}
 
-		// TODO: ƒ~ƒjƒOƒ‰ƒt‚Ìƒ^ƒCƒgƒ‹ƒƒbƒZ[ƒW•\¦ Œ»İ‚Í10•¶š‚Ì‚İ•\¦
+		// TODO: ãƒŸãƒ‹ã‚°ãƒ©ãƒ•ã®ã‚¿ã‚¤ãƒˆãƒ«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è¡¨ç¤º ç¾åœ¨ã¯10æ–‡å­—ã®ã¿è¡¨ç¤º
 		String message = list.getMessage();
 		if (list.getMessage().length() > 10) {
 			message = message.substring(0, 9) + "...";
 		}
 
-		chart = ChartFactory.createLineChart(message, "C³‰ñ”", "C³ŠÔ", dataset,
+		chart = ChartFactory.createLineChart(message, "ä¿®æ­£å›æ•°", "ä¿®æ­£æ™‚é–“", dataset,
 				PlotOrientation.VERTICAL, false, false, false);
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 
-		// ”wŒiFƒZƒbƒg
+		// èƒŒæ™¯è‰²ã‚»ãƒƒãƒˆ
 		chart.setBackgroundPaint(new CCGraphBackgroundColor().graphColor(list
 				.getRare()));
 
-		// PlotƒNƒ‰ƒX‚ğ€”õi‡”Ôd—vj
+		// Plotã‚¯ãƒ©ã‚¹ã‚’æº–å‚™ï¼ˆé †ç•ªé‡è¦ï¼‰
 		CategoryPlot plot = chart.getCategoryPlot();
 
-		// y² E ²‚Í®”’l‚Ì‚İ
+		// yè»¸ ãƒ» è»¸ã¯æ•´æ•°å€¤ã®ã¿
 		NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
 		numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 		numberAxis.setVerticalTickLabels(false);
@@ -105,22 +105,22 @@ public class CCErrorElementButton2 extends JButton {
 		numberAxis.setRangeWithMargins(0, 120);
 		numberAxis.setLabelFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
-		// x²
+		// xè»¸
 		CategoryAxis domainAxis = (CategoryAxis) plot.getDomainAxis();
 		domainAxis.setLabelFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
-		// ƒvƒƒbƒgİ’è
+		// ãƒ—ãƒ­ãƒƒãƒˆè¨­å®š
 		LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot
 				.getRenderer();
 		renderer.setSeriesPaint(0, ChartColor.RED);
 		renderer.setSeriesStroke(0, new BasicStroke(1));
 		renderer.setSeriesShapesVisible(0, true);
 
-		// ƒOƒ‰ƒt‚ğchartpanel‚ÉÚ‚¹‚é
+		// ã‚°ãƒ©ãƒ•ã‚’chartpanelã«è¼‰ã›ã‚‹
 		chartpanel = new ChartPanel(chart);
 		chartpanel.setBounds(0, 0, width, height);
 
-		// ƒNƒŠƒbƒN‚ÉC³Ú×‰æ–Ê‚ğ•\¦
+		// ã‚¯ãƒªãƒƒã‚¯æ™‚ã«ä¿®æ­£è©³ç´°ç”»é¢ã‚’è¡¨ç¤º
 		chartpanel.addChartMouseListener(new ChartMouseListener() {
 			@Override
 			public void chartMouseMoved(ChartMouseEvent arg0) {
@@ -135,7 +135,7 @@ public class CCErrorElementButton2 extends JButton {
 			}
 		});
 
-		// TODO: ToolTip•\¦
+		// TODO: ToolTipè¡¨ç¤º
 		chartpanel.setToolTipText(list.getErrors().size() + " : "
 				+ list.getMessage());
 		chartpanel.setDisplayToolTips(true);

@@ -42,18 +42,18 @@ public class LangDefFilesRewriter {
 			Map<String, List<PublicMethodInfo>> methods) {
 		ObjectBlockModel classObjectModel = new ObjectBlockModel(
 				"local-var-object-" + fileName, "local-variable", "initname",
-				fileName + "Œ^‚Ì•Ï”‚ğ‚Â‚­‚è", "‚Æ–¼•t‚¯‚é", "230 0 255");
-		// ’è‹`ƒNƒ‰ƒXƒuƒƒbƒN‚ÌƒvƒƒpƒeƒB‚ğƒZƒbƒg‚·‚é
+				fileName + "å‹ã®å¤‰æ•°ã‚’ã¤ãã‚Š", "ã¨åä»˜ã‘ã‚‹", "230 0 255");
+		// å®šç¾©ã‚¯ãƒ©ã‚¹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		classObjectModel.setMethods(methods);
 		classObjectModel.setClassName(fileName);
 		requestObjectBlock.add(classObjectModel);
 
-		// ”z—ñ‚Ì’Ç‰Á
+		// é…åˆ—ã®è¿½åŠ 
 		ObjectBlockModel classObjectArrayModel = new ObjectBlockModel(
 				"local-var-object-" + fileName + "-arraybject",
-				"local-variable", "initname", fileName + "[]" + "Œ^‚Ì•Ï”‚ğ‚Â‚­‚è",
-				"‚Æ–¼•t‚¯‚é", "230 0 255");
-		// ’è‹`ƒNƒ‰ƒXƒuƒƒbƒN‚ÌƒvƒƒpƒeƒB‚ğƒZƒbƒg‚·‚é
+				"local-variable", "initname", fileName + "[]" + "å‹ã®å¤‰æ•°ã‚’ã¤ãã‚Š",
+				"ã¨åä»˜ã‘ã‚‹", "230 0 255");
+		// å®šç¾©ã‚¯ãƒ©ã‚¹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		classObjectArrayModel.setMethods(methods);
 		classObjectArrayModel.setClassName(fileName);
 		requestObjectBlock.add(classObjectArrayModel);
@@ -62,7 +62,7 @@ public class LangDefFilesRewriter {
 
 	public void setConvertBlockModel(String className) {
 		ConvertBlockModel model = new ConvertBlockModel("to" + className
-				+ "FromObject", "function", className + "Œ^‚É•ÏŠ·‚·‚é", "", "",
+				+ "FromObject", "function", className + "å‹ã«å¤‰æ›ã™ã‚‹", "", "",
 				"45 201 255");
 		requestConvertBlockModel.add(model);
 	}
@@ -71,7 +71,7 @@ public class LangDefFilesRewriter {
 			Map<String, List<PublicMethodInfo>> methods) {
 		ParameterBlockModel model = new ParameterBlockModel(
 				"proc-param-object-" + className.toLowerCase(), "param",
-				className + "Œ^ˆø”", className + "Œ^‚Ì‰¼ˆø”‚ğì‚èA", "‚Æ–¼•t‚¯‚é",
+				className + "å‹å¼•æ•°", className + "å‹ã®ä»®å¼•æ•°ã‚’ä½œã‚Šã€", "ã¨åä»˜ã‘ã‚‹",
 				"200 200 200", className);
 		model.setMethods(methods);
 		requestParameterBlockModel.add(model);
@@ -82,18 +82,18 @@ public class LangDefFilesRewriter {
 			Map<String, List<PublicMethodInfo>> methods) {
 		ObjectBlockModel classModel = new ObjectBlockModel(
 				"private-var-object-" + fileName, "global-variable",
-				"initname", fileName + "Œ^‚ÌƒCƒ“ƒXƒ^ƒ“ƒX•Ï”‚ğ‚Â‚­‚è", "‚Æ–¼•t‚¯‚é", "230 0 255");
-		// ’è‹`ƒNƒ‰ƒXƒuƒƒbƒN‚ÌƒvƒƒpƒeƒB‚ğƒZƒbƒg‚·‚é
+				"initname", fileName + "å‹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã‚’ã¤ãã‚Š", "ã¨åä»˜ã‘ã‚‹", "230 0 255");
+		// å®šç¾©ã‚¯ãƒ©ã‚¹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		classModel.setMethods(methods);
 		classModel.setClassName(fileName);
 		requestObjectBlock.add(classModel);
 
-		// ”z—ñ‚Ì’Ç‰Á
+		// é…åˆ—ã®è¿½åŠ 
 		ObjectBlockModel classObjectArrayModel = new ObjectBlockModel(
 				"private-var-object-" + fileName + "-arrayobject",
 				"global-variable", "initname", fileName + "[]"
-						+ "Œ^‚ÌƒCƒ“ƒXƒ^ƒ“ƒX•Ï”‚ğ‚Â‚­‚è", "‚Æ–¼•t‚¯‚é", "230 0 255");
-		// ’è‹`ƒNƒ‰ƒXƒuƒƒbƒN‚ÌƒvƒƒpƒeƒB‚ğƒZƒbƒg‚·‚é
+						+ "å‹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°ã‚’ã¤ãã‚Š", "ã¨åä»˜ã‘ã‚‹", "230 0 255");
+		// å®šç¾©ã‚¯ãƒ©ã‚¹ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		classObjectArrayModel.setMethods(methods);
 		classObjectArrayModel.setClassName(fileName);
 		requestObjectBlock.add(classObjectArrayModel);
@@ -141,10 +141,10 @@ public class LangDefFilesRewriter {
 
 			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(turtleByteArray);
-			// </BlockDrawerSet>‚Ü‚ÅƒRƒs[
+			// </BlockDrawerSet>ã¾ã§ã‚³ãƒ”ãƒ¼
 			String line;
 			while (!(line = br.readLine()).equals("</BlockDrawerSet>")) {
-				// ˆês‘‚«‚İ >>lang_def.xml
+				// ä¸€è¡Œæ›¸ãè¾¼ã¿ >>lang_def.xml
 				ps.println(line);
 			}
 
@@ -219,7 +219,7 @@ public class LangDefFilesRewriter {
 			ps.println("</BlockDrawer>");
 
 			makeIndent(ps, lineNum++);
-			ps.println("<BlockDrawer name=\"Œp³ƒƒ\ƒbƒh\" type=\"factory\" button-color=\"255 155 64\">");
+			ps.println("<BlockDrawer name=\"ç¶™æ‰¿ãƒ¡ã‚½ãƒƒãƒ‰\" type=\"factory\" button-color=\"255 155 64\">");
 
 			addedMethods.clear();
 			for (ObjectBlockModel request : requestObjectBlock) {
@@ -253,7 +253,7 @@ public class LangDefFilesRewriter {
 			makeIndent(ps, --lineNum);
 			ps.println("</BlockDrawerSet>");
 
-			// ps‚É‘‚«‚¾‚µ‚½‚à‚Ì‚ğ‚·‚×‚Ä•¶š—ñ‚É•ÏŠ·‚·‚é
+			// psã«æ›¸ãã ã—ãŸã‚‚ã®ã‚’ã™ã¹ã¦æ–‡å­—åˆ—ã«å¤‰æ›ã™ã‚‹
 			String ldfString = turtleByteArray.toString();
 
 			FileOutputStream ldfOS = new FileOutputStream(menuFile);

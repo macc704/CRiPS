@@ -11,7 +11,7 @@ import org.supercsv.prefs.CsvPreference;
 
 abstract class CCCsvFileLoader {
 	/***************************
-	 * Œp³:CCCompileErrorConverter, CCCompileErrorKindLoader
+	 * ç¶™æ‰¿:CCCompileErrorConverter, CCCompileErrorKindLoader
 	 ***************************/
 
 	protected void loadData(String filename) {
@@ -19,7 +19,7 @@ abstract class CCCsvFileLoader {
 			ICsvListReader reader = new CsvListReader(new InputStreamReader(
 					new FileInputStream(filename), "SJIS"),
 					CsvPreference.EXCEL_PREFERENCE);
-			// header “Ç‚İ”ò‚Î‚µ
+			// header èª­ã¿é£›ã°ã—
 			reader.getHeader(true);
 			List<String> lines = null;
 

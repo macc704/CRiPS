@@ -17,7 +17,7 @@ public class ExCallGetterMethodModel extends ExpressionModel {
 
 	@Override
 	public String getType() {
-		// #matsuzawa 2012.11.07 C³
+		// #matsuzawa 2012.11.07 ä¿®æ­£
 		if (arguments.size() > 0) {
 			return arguments.get(0).getType();
 		} else {
@@ -59,7 +59,7 @@ public class ExCallGetterMethodModel extends ExpressionModel {
 				+ "</StubParentGenus>");
 		// genus-name
 		makeIndent(out, indent + 1);
-		String genusNamePrefix = "callGetterMethod";// number‚Ìê‡
+		String genusNamePrefix = "callGetterMethod";// numberã®å ´åˆ
 		if (connectorType.equals("boolean")) {
 			genusNamePrefix = "callBooleanMethod";
 		} else if (connectorType.equals("string")) {

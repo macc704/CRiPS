@@ -64,7 +64,7 @@ public class PageModel extends BlockModel {
 	}
 
 	// TODO
-	// BlockEditor‚©‚çƒuƒƒbƒN‚ÅƒvƒƒOƒ‰ƒ€‚ğ‘g‚İ—§‚ÄAJava‚Ìƒ\[ƒXƒR[ƒh‚É‚·‚é‚Æ‚«‚Íclass–¼‚ğBlockEditor‚Ì‰Šúİ’è‚Ìƒy[ƒW–¼‚É‚µ‚ÄAmainƒƒ\ƒbƒh‚ğ‹Lq‚µ‚Ä‚ ‚°‚é•K—v‚ª‚ ‚éB
+	// BlockEditorã‹ã‚‰ãƒ–ãƒ­ãƒƒã‚¯ã§ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’çµ„ã¿ç«‹ã¦ã€Javaã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã«ã™ã‚‹ã¨ãã¯classåã‚’BlockEditorã®åˆæœŸè¨­å®šã®ãƒšãƒ¼ã‚¸åã«ã—ã¦ã€mainãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¨˜è¿°ã—ã¦ã‚ã’ã‚‹å¿…è¦ãŒã‚ã‚‹ã€‚
 	@Override
 	public void print(PrintStream out, int indent) {
 		for (BlockModel topBlock : procedures) {
@@ -72,7 +72,7 @@ public class PageModel extends BlockModel {
 		}
 	}
 
-	// TODO Java‚©‚çBlockEditor‚ÌƒuƒƒbƒN‚É•ÏŠ·‚³‚ê‚½‚Æ‚«‚ÍƒIƒŠƒWƒiƒ‹‚ÌJavaƒ\[ƒXƒR[ƒh‚Æƒƒ\ƒbƒh‚Ì•”•ª‚¾‚¯’u‚«Š·‚¦‚é
+	// TODO Javaã‹ã‚‰BlockEditorã®ãƒ–ãƒ­ãƒƒã‚¯ã«å¤‰æ›ã•ã‚ŒãŸã¨ãã¯ã‚ªãƒªã‚¸ãƒŠãƒ«ã®Javaã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã¨ãƒ¡ã‚½ãƒƒãƒ‰ã®éƒ¨åˆ†ã ã‘ç½®ãæ›ãˆã‚‹
 	public void print2(OutputSourceModel out) {
 
 		BCSystem.out.println("call print2 method at PageModel");
@@ -85,10 +85,10 @@ public class PageModel extends BlockModel {
 			privateVariableBlock.print(ps, 0);
 			String blockString = byteArray.toString();
 			String name = privateVariableBlock.getLabel();
-			out.replacePrivateValue(name, blockString);// private•Ï”‚ÍŒÂ•Ê‚É“o˜^‚µ‚Ä‚¨‚­
+			out.replacePrivateValue(name, blockString);// privateå¤‰æ•°ã¯å€‹åˆ¥ã«ç™»éŒ²ã—ã¦ãŠã
 		}
 
-		for (ConstructorBlockModel constructor : constructors) {// ‚·‚×‚Ä‚Ìè‘±‚«ƒuƒƒbƒN‚ğƒvƒŠƒ“ƒg‚·‚é//#ohata
+		for (ConstructorBlockModel constructor : constructors) {// ã™ã¹ã¦ã®æ‰‹ç¶šããƒ–ãƒ­ãƒƒã‚¯ã‚’ãƒ—ãƒªãƒ³ãƒˆã™ã‚‹//#ohata
 																// added
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(byteArray);
@@ -100,7 +100,7 @@ public class PageModel extends BlockModel {
 			out.replace(name, blockString);
 		}
 
-		for (ProcedureBlockModel procedure : procedures) {// ‚·‚×‚Ä‚Ìè‘±‚«ƒuƒƒbƒN‚ğƒvƒŠƒ“ƒg‚·‚é
+		for (ProcedureBlockModel procedure : procedures) {// ã™ã¹ã¦ã®æ‰‹ç¶šããƒ–ãƒ­ãƒƒã‚¯ã‚’ãƒ—ãƒªãƒ³ãƒˆã™ã‚‹
 			BCSystem.out.println("procedure block model print");
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(byteArray);

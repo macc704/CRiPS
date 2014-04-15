@@ -96,7 +96,7 @@ public class StMethodDeclarationModel extends StatementModel {
 		}
 
 		{// 2013 09/26 hakamata tag for linenumber and parent block parent
-			// block‚Íb’è
+			// blockã¯æš«å®š
 			// lineNumber
 			makeIndent(out, indent + 1);
 			out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");
@@ -123,7 +123,7 @@ public class StMethodDeclarationModel extends StatementModel {
 					+ "</AfterBlockId>");
 		}
 
-		// ˆø”
+		// å¼•æ•°
 		makeIndent(out, indent + 1);
 		out.println("<Sockets num-sockets=\"" + args.size() + 1 + "\">");
 		for (StLocalVariableModel arg : args) {
@@ -134,7 +134,7 @@ public class StMethodDeclarationModel extends StatementModel {
 					+ " init-type=\"poly\" label=\"\" is-expandable=\"yes\" position-type=\"single\" con-block-id=\""
 					+ arg.getId() + "\"/>");
 		}
-		// ‹ó‚«ƒRƒlƒNƒ^
+		// ç©ºãã‚³ãƒã‚¯ã‚¿
 		makeIndent(out, indent + 2);
 		out.println("<BlockConnector connector-kind=\"sockets\" connector-type=\"poly\" init-type=\"poly\" label=\"\" position-type=\"single\" is-expandable=\"yes\"/>");
 		makeIndent(out, indent + 1);

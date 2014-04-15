@@ -10,7 +10,7 @@ public class PrivateProcedureBlockModel extends CommandBlockModel {
 	@Override
 	
 	
-	// #ohata ƒvƒ‰ƒCƒx[ƒg•Ï”‚ğéŒ¾‚·‚é‚½‚ß‚ÌƒuƒƒbƒN@¡‚Í—˜—p‚µ‚È‚¢ 
+	// #ohata ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆå¤‰æ•°ã‚’å®£è¨€ã™ã‚‹ãŸã‚ã®ãƒ–ãƒ­ãƒƒã‚¯ã€€ä»Šã¯åˆ©ç”¨ã—ãªã„ 
 	public void checkError() {
 
 		ArrayList<Integer> connectorIDs = getConnectorIDs();
