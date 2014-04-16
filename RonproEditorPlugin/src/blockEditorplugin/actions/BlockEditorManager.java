@@ -121,7 +121,7 @@ public class BlockEditorManager {
 		public void postExecuteFailure(String commandId,
 				org.eclipse.core.commands.ExecutionException exception) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	};
 
@@ -161,7 +161,8 @@ public class BlockEditorManager {
 			public void blockConverted(File file) {
 				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
 				Display.getDefault().asyncExec(new TextFormatAction(window));
-				Display.getDefault().asyncExec(new OrganizedImportAction(window));
+				Display.getDefault().asyncExec(
+						new OrganizedImportAction(window));
 
 				// app.doRefreshCurrentEditor();
 				// app.doFormat();
@@ -180,6 +181,7 @@ public class BlockEditorManager {
 			}
 
 			public void blockRun() {
+
 				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
 
 				IEditorInput editorInput = window.getActivePage()
@@ -188,19 +190,25 @@ public class BlockEditorManager {
 						.getEditorInputJavaElement(editorInput);
 				IJavaElement elt;
 				try {
+
+					ILaunchConfigurationWorkingCopy wc;
 					elt = root.getElementAt(ITypeRoot.JAVA_PROJECT);
 					IJavaProject proj = elt.getJavaProject();
 
 					DebugPlugin plugin = DebugPlugin.getDefault();
 					ILaunchManager lm = plugin.getLaunchManager();
-					ILaunchConfigurationType t = lm
+					ILaunchConfigurationType configType = lm
 							.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
-					ILaunchConfigurationWorkingCopy wc;
-					wc = t.newInstance(null, "hoge");
-					final IFileEditorInput fileEditorInput = (IFileEditorInput) window
+
+					// エディタで開いているファイルを獲得する
+					IFileEditorInput fileEditorInput = (IFileEditorInput) window
 							.getActivePage().getActiveEditor().getEditorInput();
 					IFile file = fileEditorInput.getFile();
-
+					
+					wc = configType.newInstance(null, file.getName().substring(0,
+							file.getName().indexOf(".")));
+				
+					// プログラム実行時の設定を記述する
 					wc.setAttribute(
 							IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
 							proj.getElementName());
@@ -209,6 +217,35 @@ public class BlockEditorManager {
 							IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
 							file.getName().substring(0,
 									file.getName().indexOf(".")));
+					
+					// IResource bin = null;
+					// //binフォルダを探す
+					// for(IResource resource : file.getProject().members()){
+					// if(resource.getName().equals("")){
+					// bin = resource;
+					//
+					// }
+					// }
+					//
+					// IContainer binFile = (IContainer)bin;
+					// for(IResource packageFolder : binFile.members()){
+					// if(packageFolder.getName().equals(packageName)){
+					// bin = packageFolder;
+					// binFile = (IContainer)bin;
+					// }
+					// }
+					//
+					// wc.setMappedResources(binFile.members());
+					// //binフォルダ一覧表示
+					// for(IResource resource : binFile.members()){
+					// System.out.println("file:" + resource.toString());
+					// }
+					
+					IResource[] resource = new IResource[10];
+					resource[0] = file;
+					
+					wc.setMappedResources(resource);
+
 					ILaunchConfiguration config;
 					try {
 						config = wc.doSave();
