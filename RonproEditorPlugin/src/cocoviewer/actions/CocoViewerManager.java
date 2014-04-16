@@ -3,6 +3,7 @@ package cocoviewer.actions;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import ppv.app.datamanager.PPProjectSet;
+import ronproeditorplugin.Activator;
 import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.controller.CCCompileErrorLoader;
 import src.coco.controller.CCMetricsLoader;
@@ -22,7 +23,6 @@ public class CocoViewerManager {
 
 	private CDirectory baseDir;
 	private CDirectory libDir;
-	private PPProjectSet projectset;
 
 	public CocoViewerManager(IWorkbenchWindow window) {
 		CCCompileErrorManager manager = new CCCompileErrorManager();
@@ -38,22 +38,13 @@ public class CocoViewerManager {
 
 		manager.setBaseDir(baseDir);
 		manager.setLibDir(libDir);
+
+		// アクティベーターに保持したコンパイル情報を呼び出し
+		PPProjectSet projectset = Activator.getDefault().getppProjectset();
 		manager.setPPProjectSet(projectset);
 
 		CCMainFrame2 frame = new CCMainFrame2(manager);
 		frame.toFront();
 		frame.setVisible(true);
-	}
-
-	public void setBaseDir(CDirectory baseDir) {
-		this.baseDir = baseDir;
-	}
-
-	public void setLibDir(CDirectory libDir) {
-		this.libDir = libDir;
-	}
-
-	public void setProjectset(PPProjectSet projectset) {
-		this.projectset = projectset;
 	}
 }

@@ -59,7 +59,7 @@ public class CCGraphFrame extends JFrame {
 
 	private CCCompileErrorKind list;
 
-	private CDirectory baseDir;
+	// private CDirectory baseDir;
 	// private CDirectory libDir;
 	private PPProjectSet ppProjectSet;
 
@@ -69,7 +69,7 @@ public class CCGraphFrame extends JFrame {
 	public CCGraphFrame(CCCompileErrorKind list, CDirectory baseDir,
 			CDirectory libDir, PPProjectSet ppProjectSet) {
 		this.list = list;
-		this.baseDir = baseDir;
+		// this.baseDir = baseDir;
 		// this.libDir = libDir;
 		this.ppProjectSet = ppProjectSet;
 
@@ -242,9 +242,9 @@ public class CCGraphFrame extends JFrame {
 					String projectname = compileError.getProjectName();
 					String filename = compileError.getFilename();
 
-					if (baseDir == null) {
-						throw new RuntimeException("PPVのbaseとなるフォルダが指定されていません");
-					}
+					// if (baseDir == null) {
+					// throw new RuntimeException("PPVのbaseとなるフォルダが指定されていません");
+					// }
 
 					// PPVにかけてから起動していないなら，コンパイル（時間がかかるので非推奨）
 					if (ppProjectSet == null) {

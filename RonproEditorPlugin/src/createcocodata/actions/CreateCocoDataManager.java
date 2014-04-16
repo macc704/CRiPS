@@ -7,6 +7,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
+import ronproeditorplugin.Activator;
 import src.coco.controller.CCCompileErrorConverter;
 import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.model.CCCompileErrorManager;
@@ -49,6 +50,9 @@ public class CreateCocoDataManager {
 
 		// 自動的にエクスポートしたファイルをCoco用データに変換する
 		convertCompileErrorData();
+
+		// アクティベーターでコンパイル情報を保持
+		Activator.getDefault().setppProjectset(ppProjectSet);
 	}
 
 	private void autoExportCompileErrorCSV() {
