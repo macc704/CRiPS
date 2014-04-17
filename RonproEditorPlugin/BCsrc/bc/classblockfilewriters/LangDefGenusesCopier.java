@@ -12,6 +12,7 @@ import java.io.PrintStream;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class LangDefGenusesCopier implements Copier {
 
@@ -51,14 +52,13 @@ public class LangDefGenusesCopier implements Copier {
 			ldfWriter.flush();
 			ldfWriter.close();
 		} catch (Exception e) {
-			JFrame frame = new JFrame();
-			JLabel label = new JLabel(e.getMessage());
-			frame.add(label);
-			frame.setSize(300, 300);
-			frame.setLocationRelativeTo(null);
-			frame.setVisible(true);
-			e.printStackTrace();
-			throw new RuntimeException("言語定義ファイル出力時にエラーが発生しました：lang_def_genuses");
+			int res = JOptionPane.showConfirmDialog(null,
+					"Blockへの変換中にエラーが発生しました：lang_def_genuses message:" + e.getStackTrace().toString(), "警告",
+					JOptionPane.DEFAULT_OPTION);
+			if(res == 1){
+				e.printStackTrace();
+				throw new RuntimeException("言語定義ファイル出力時にエラーが発生しました：lang_def_genuses");
+			}
 		}
 
 	}

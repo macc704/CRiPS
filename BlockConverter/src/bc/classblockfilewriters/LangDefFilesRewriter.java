@@ -14,6 +14,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 public class LangDefFilesRewriter {
 
 	private File file;
@@ -265,7 +267,13 @@ public class LangDefFilesRewriter {
 			ldfWriter.flush();
 			ldfWriter.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			int res = JOptionPane.showConfirmDialog(null,
+					"Blockへの変換中にエラーが発生しました：lang_def_files message:" + e.getStackTrace().toString(), "警告",
+					JOptionPane.DEFAULT_OPTION);
+			if(res == 1){
+				e.printStackTrace();
+				return;
+			}
 		}
 
 	}
