@@ -22,21 +22,24 @@
       <update url="http://Ohata1016.github.com/RonproEditorPluginSite/"/>
    </url>
 
+   <includes
+         id="info.matsuzawalab.PresPlugin"
+         version="3.7.2"/>
+
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.junit"/>
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.ide" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.ui" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.debug" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.debug.ui" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.jdt.core" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.core.resources"/>
-      <import plugin="jp.ac.shizuoka.inf.ce.cs.commonlibrary"/>
-      <import plugin="org.eclipse.ui.ide" version="3.5.2" match="greaterOrEqual"/>
       <import plugin="org.eclipse.debug.core"/>
       <import plugin="org.eclipse.jdt.launching"/>
+      <import plugin="org.junit"/>
    </requires>
 
    <plugin
@@ -64,7 +67,7 @@
          id="jp.ac.shizuoka.inf.ce.cs.commonlibrary"
          download-size="0"
          install-size="0"
-         version="3.7.5"
+         version="0.0.0"
          unpack="false"/>
 
 </feature>
