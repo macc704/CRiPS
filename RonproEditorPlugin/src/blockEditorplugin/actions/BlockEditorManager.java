@@ -5,6 +5,7 @@ import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowStateListener;
 import java.io.File;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.eclipse.core.commands.ExecutionEvent;
@@ -181,88 +182,99 @@ public class BlockEditorManager {
 			}
 
 			public void blockRun() {
-
-				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
-
-				IEditorInput editorInput = window.getActivePage()
-						.getActiveEditor().getEditorInput();
-				ITypeRoot root = (ITypeRoot) JavaUI
-						.getEditorInputJavaElement(editorInput);
-				IJavaElement elt;
-				try {
-
-					ILaunchConfigurationWorkingCopy wc;
-					elt = root.getElementAt(ITypeRoot.JAVA_PROJECT);
-					IJavaProject proj = elt.getJavaProject();
-
-					DebugPlugin plugin = DebugPlugin.getDefault();
-					ILaunchManager lm = plugin.getLaunchManager();
-					ILaunchConfigurationType configType = lm
-							.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
-
-					// エディタで開いているファイルを獲得する
-					IFileEditorInput fileEditorInput = (IFileEditorInput) window
-							.getActivePage().getActiveEditor().getEditorInput();
-					IFile file = fileEditorInput.getFile();
-					
-					wc = configType.newInstance(null, file.getName().substring(0,
-							file.getName().indexOf(".")));
 				
-					// プログラム実行時の設定を記述する
-					wc.setAttribute(
-							IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
-							proj.getElementName());
+				// エディタで開いているファイルを獲得する
+				IFileEditorInput fileEditorInput = (IFileEditorInput) window
+						.getActivePage().getActiveEditor().getEditorInput();
+				IFile file = fileEditorInput.getFile();
+						
+				if(file.getParent().getName().equals("src")){
+					
+					writeBlockEditingLog(BlockEditorLog.SubType.RUN);
 
-					wc.setAttribute(
-							IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
-							file.getName().substring(0,
-									file.getName().indexOf(".")));
+					IEditorInput editorInput = window.getActivePage()
+							.getActiveEditor().getEditorInput();
+					ITypeRoot root = (ITypeRoot) JavaUI
+							.getEditorInputJavaElement(editorInput);
 					
-					// IResource bin = null;
-					// //binフォルダを探す
-					// for(IResource resource : file.getProject().members()){
-					// if(resource.getName().equals("")){
-					// bin = resource;
-					//
-					// }
-					// }
-					//
-					// IContainer binFile = (IContainer)bin;
-					// for(IResource packageFolder : binFile.members()){
-					// if(packageFolder.getName().equals(packageName)){
-					// bin = packageFolder;
-					// binFile = (IContainer)bin;
-					// }
-					// }
-					//
-					// wc.setMappedResources(binFile.members());
-					// //binフォルダ一覧表示
-					// for(IResource resource : binFile.members()){
-					// System.out.println("file:" + resource.toString());
-					// }
-					
-					IResource[] resource = new IResource[10];
-					resource[0] = file;
-					
-					wc.setMappedResources(resource);
-
-					ILaunchConfiguration config;
+					IJavaElement elt;
 					try {
-						config = wc.doSave();
-						config.launch(ILaunchManager.RUN_MODE, null);
-					} catch (CoreException e) {
+
+						ILaunchConfigurationWorkingCopy wc;
+						elt = root.getElementAt(ITypeRoot.JAVA_PROJECT);
+						IJavaProject proj = elt.getJavaProject();
+
+						DebugPlugin plugin = DebugPlugin.getDefault();
+						ILaunchManager lm = plugin.getLaunchManager();
+						ILaunchConfigurationType configType = lm
+								.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
+
+						
+						wc = configType.newInstance(null, file.getName().substring(0,
+								file.getName().indexOf(".")));
+					
+						// プログラム実行時の設定を記述する
+						wc.setAttribute(
+								IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
+								proj.getElementName());
+
+						wc.setAttribute(
+								IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
+								file.getName().substring(0,
+										file.getName().indexOf(".")));
+						
+						// IResource bin = null;
+						// //binフォルダを探す
+						// for(IResource resource : file.getProject().members()){
+						// if(resource.getName().equals("")){
+						// bin = resource;
+						//
+						// }
+						// }
+						//
+						// IContainer binFile = (IContainer)bin;
+						// for(IResource packageFolder : binFile.members()){
+						// if(packageFolder.getName().equals(packageName)){
+						// bin = packageFolder;
+						// binFile = (IContainer)bin;
+						// }
+						// }
+						//
+						// wc.setMappedResources(binFile.members());
+						// //binフォルダ一覧表示
+						// for(IResource resource : binFile.members()){
+						// System.out.println("file:" + resource.toString());
+						// }
+						
+						IResource[] resource = new IResource[10];
+						resource[0] = file;
+						
+						wc.setMappedResources(resource);
+
+						ILaunchConfiguration config;
+						try {
+							config = wc.doSave();
+							config.launch(ILaunchManager.RUN_MODE, null);
+						} catch (CoreException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					} catch (JavaModelException e1) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						e1.printStackTrace();
+					} catch (CoreException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}				
+				}else{
+					int res = JOptionPane.showConfirmDialog(null,
+							"BlockEditorの都合上Runできません．ご迷惑をお掛けしますが、eclipseの方から実行してください．", "通知",
+							JOptionPane.DEFAULT_OPTION);
+					if(res == 1){
+						return;
 					}
-
-				} catch (JavaModelException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (CoreException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
-
 			}
 
 			public void blockCompile() {
