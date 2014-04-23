@@ -240,20 +240,6 @@ public class SContextMenuProvider {
 			menu.add(createCreateIncrementerMenu());
 			menu.addSeparator();
 		}
-//		if (rb.getBlock().getGenusName().contains("-bcanvas")) {
-//			JMenu category = new JMenu("BCanvas");
-//			menu.add(category);
-//		}
-//		
-//		if (rb.getBlock().getGenusName().contains("-bwindow")) {
-//			JMenu category = new JMenu("BWindow");
-//			menu.add(category);
-//		}
-//		
-//		if (rb.getBlock().getGenusName().contains("-bsound")) {
-//			JMenu category = new JMenu("BSound");
-//			menu.add(category);
-//		}
 
 		if (rb.getBlock().getGenusName().contains("arrayobject")) {//配列
 			final String scope = rb.getBlock().getGenusName()
@@ -284,6 +270,59 @@ public class SContextMenuProvider {
 
 			menu.add(elementSetter);
 
+		}
+
+		if (rb.getBlock().getGenusName().contains("-bcanvas")) {
+			JMenu category = new JMenu("BCanvas");
+			category.add(createCallMethodMenu("drawLine", "線を引きます"));
+			category.add(createCallMethodMenu("drawFillTriangle",
+					"塗りつぶした三角形を書きます"));
+			category.add(createCallMethodMenu("[@object@string@number@number]",
+					"文字を書きます"));
+			category.add(createCallMethodMenu(
+					"drawText[@object@string@number@number@object]",
+					"フォントサイズを指定して文字を書きます"));
+			category.add(createCallMethodMenu(
+					"drawFillArc[@objet@number@number]", "塗りつぶした円を書きます"));
+			category.add(createCallMethodMenu("drawImage", "画像を書きます"));
+			//			category.add(createCallMethodMenu("drawImage",
+			//					"指定したサイズにリサイズする画像を書きます"));
+			category.add(createCallMethodMenu("getImageWidth", "画像の幅を取得します"));
+			category.add(createCallMethodMenu("getImageWidth", "画像の高さを取得します"));
+			category.add(createCallMethodMenu("clear", "キャンバスを白く塗りつぶします"));
+			category.add(createCallMethodMenu("update", "画面を更新します"));
+			category.add(createCallMethodMenu("getKeyCode", "押されたキーのコードを取得します"));
+			category.add(createCallMethodMenu("isKeyDown", "キーが押されたかどうか調べます"));
+			category.add(createCallMethodMenu("isKeyPressing", "指定されたキーコードが押されているか調べます"));
+			category.add(createCallMethodMenu("isSingleClick", "シングルクリックかどうか調べます"));
+			category.add(createCallMethodMenu("isDoubleClick", "ダブルクリックかどうか調べます"));
+			category.add(createCallMethodMenu("isDragging", "ドラッグしているかどうか調べます"));
+			category.add(createCallMethodMenu("isRightMouseDown", "右クリックかどうか調べます"));
+			category.add(createCallMethodMenu("isLeftMouseDown", "左クリックかどうか調べます"));
+			category.add(createCallMethodMenu("getMouseX", "マウスのX座標を取得します"));
+			category.add(createCallMethodMenu("getMouseY", "マウスのY座標を取得します"));
+			category.add(createCallMethodMenu("getCanvasWidth", "キャンバスの幅を取得します"));
+			category.add(createCallMethodMenu("getCanvasHeight", "キャンバスの高さを取得します"));
+			
+			menu.add(category);
+		}
+
+		if (rb.getBlock().getGenusName().contains("-bwindow")) {
+			JMenu category = new JMenu("BWindow");
+			category.add(createCallMethodMenu("setLocation", "位置を設定する"));
+			category.add(createCallMethodMenu("show", "ウインドウを表示する"));
+			category.add(createCallMethodMenu("setSize", "大きさを指定する"));
+			category.add(createCallMethodMenu("getCanvas", "書き込みできるキャンバスを取得する"));
+			menu.add(category);
+		}
+
+		if (rb.getBlock().getGenusName().contains("-bsound")) {
+			JMenu category = new JMenu("BSound");
+			category.add(createCallMethodMenu("getVolume", "音量を取得する"));
+			category.add(createCallMethodMenu("setVolume", "音量を指定する"));
+			category.add(createCallMethodMenu("getDefaultVolume",
+					"音量のデフォルト値を取得する"));
+			menu.add(category);
 		}
 
 		if (rb.getBlock().isObjectTypeVariableDeclBlock()
