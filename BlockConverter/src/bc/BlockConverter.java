@@ -71,7 +71,9 @@ public class BlockConverter {
 			/* input *//*
 						 * ,"getText" , "text"
 						 */, "clearText", "setActive", "isActive",
-			"toJapaneseMode", "toEnglishMode", "fontsize", "drawArc",
+			"toJapaneseMode", "toEnglishMode", "fontsize", 
+			//BCanvas
+			"drawArc",
 			"drawFillTriangle",
 			"drawText[@object@string@number@number@object]",
 			"drawText[@object@string@number@number]", "isClick",
@@ -83,6 +85,7 @@ public class BlockConverter {
 			"drawFillArc[@objet@number@number]",
 			"drawFillArc[@object@number@number@number@number]",
 			"drawFillArc[@object@number@number@number@number@number@number]",
+			//
 			"setLocation", "setSize", "getCanvas", "getVolume", "setVolume",
 			"getDefaultVolume", "remove[@number]", "remove[@object]", "get",
 			"get[@number]", "isMouseDown", "hasNextInt", "hasNextDouble" };

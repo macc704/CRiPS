@@ -240,6 +240,20 @@ public class SContextMenuProvider {
 			menu.add(createCreateIncrementerMenu());
 			menu.addSeparator();
 		}
+//		if (rb.getBlock().getGenusName().contains("-bcanvas")) {
+//			JMenu category = new JMenu("BCanvas");
+//			menu.add(category);
+//		}
+//		
+//		if (rb.getBlock().getGenusName().contains("-bwindow")) {
+//			JMenu category = new JMenu("BWindow");
+//			menu.add(category);
+//		}
+//		
+//		if (rb.getBlock().getGenusName().contains("-bsound")) {
+//			JMenu category = new JMenu("BSound");
+//			menu.add(category);
+//		}
 
 		if (rb.getBlock().getGenusName().contains("arrayobject")) {//配列
 			final String scope = rb.getBlock().getGenusName()
@@ -288,8 +302,10 @@ public class SContextMenuProvider {
 					JMenu category = new JMenu("Scanner");
 					category.add(createCallMethodMenu("next", "入力を受け取る(文字列型)"));
 					category.add(createCallMethodMenu("nextInt", "入力を受け取る(整数型)"));
-					category.add(createCallMethodMenu("hasNextInt", "入力が整数型かどうか調べる"));
-					category.add(createCallMethodMenu("hasNextDouble", "入力が実数型かどうか調べる"));
+					category.add(createCallMethodMenu("hasNextInt",
+							"入力が整数型かどうか調べる"));
+					category.add(createCallMethodMenu("hasNextDouble",
+							"入力が実数型かどうか調べる"));
 					category.add(createCallMethodMenu("nextDouble",
 							"入力を受け取る(実数型)"));
 					menu.add(category);

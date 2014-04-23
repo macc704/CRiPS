@@ -64,6 +64,12 @@
 			</LangSpecProperties>
 		</Stub>
 	</Stubs>
+	<ClassMethods class="BCanvas">
+		<Methods>
+			<MethodProperty name="start" modifer="public" returnType="void">
+			</MethodProperty>
+		</Methods>
+	</ClassMethods>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 		<LangSpecProperty key="type" value="object"></LangSpecProperty>
