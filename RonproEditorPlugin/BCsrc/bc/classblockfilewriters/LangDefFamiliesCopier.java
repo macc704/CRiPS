@@ -12,8 +12,6 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import bc.classblockfilewriters.LangDefFilesReWriterMain.Family;

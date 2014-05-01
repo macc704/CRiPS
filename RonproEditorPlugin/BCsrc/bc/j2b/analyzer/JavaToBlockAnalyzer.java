@@ -1261,13 +1261,14 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (node.getType().isArrayType()) {// Type i[]
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
 					.fragments().get(0);
+
 			StatementModel model = createLocalVariableModel(typeString,
 					fragment.getName().toString(), fragment.getInitializer(),
 					false, true);
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
-			return model;
 
+			return model;
 		} else if (node.getType().isParameterizedType()) {// Type< Type{, TYpe}>
 			ParameterizedType type = ((ParameterizedType) node.getType());
 
@@ -1358,10 +1359,30 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setName(name);
 		model.setType(convertBlockType(type));
 		variableResolver.addLocalVariable(model);
+
 		// int x = 3;のように，initializerがついている場合
 		if (initializer != null) {
 			model.setInitializer(parseExpression(initializer));
 		}
+
+//		// 配列サイズ分のローカル変数をリゾルバに追加
+//		if(model.getInitializer() instanceof ExArrayInstanceCreationModel){
+//			//配列サイズ分リゾルバに登録
+//			int index = ((ExArrayInstanceCreationModel)model.getInitializer()).getSize();
+//			
+//			for(int i=0;i<index;i++){
+//				StLocalVariableModel element = new StLocalVariableModel(argument);
+//				element.setArray(false);
+//				String elementName = name + "[" + i + "]";
+//				element.setName(elementName);
+//				System.out.println(element.getName());
+//				model.setJavaVariableType(((ExArrayInstanceCreationModel)model.getInitializer()).getType());
+//				model.setType(((ExArrayInstanceCreationModel)model.getInitializer()).getElementType());
+//				variableResolver.addLocalVariable(element);
+//			}
+//		}
+
+		
 		return model;
 	}
 
@@ -2571,12 +2592,17 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
+
 		// 引数
 		for (int i = 0; i < node.dimensions().size(); i++) {
 			ExpressionModel arg = parseExpression((Expression) node
 					.dimensions().get(i));
 			model.addArgument(arg);
 		}
+
+		model.setSize(node.getLength());
+		model.setType(node.getType().getElementType().toString());
+
 		return model;
 
 	}
@@ -2606,10 +2632,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		ExVariableGetterModel model = createExVariableGetterModel(node
 				.getArray().toString());
 		ExpressionModel index = parseExpression(node.getIndex());
-
-		index.setParent(model);
+		index.setConnectorId(model.getId());
 		model.setIndexModel(index);
-
+		index.setParent(model);
+		
 		return model;
 	}
 

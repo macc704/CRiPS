@@ -202,9 +202,19 @@ public class ExCallMethodModel extends ExpressionModel {
 				model.makeIndent(out, indent + 2);
 				String connectorType = ElementModel.getConnectorType(arg
 						.getType());
+				
 				if (connectorType.equals("void")) {
 					connectorType = "poly"; // polyのがマシだろ．#matsuzawa 2013.01.09
 				}
+				
+				//配列のゲッターだったらコネクターの形を変える
+				if(arg instanceof ExVariableGetterModel){
+					ExVariableGetterModel getter = (ExVariableGetterModel)arg;
+					if(getter.getIndex()!=null){
+						connectorType = getter.getArrayElementGetterType(getter.getType());
+					}
+				}
+				
 				String label = "";
 
 				if (argumentLabels != null && i < argumentLabels.size()) {

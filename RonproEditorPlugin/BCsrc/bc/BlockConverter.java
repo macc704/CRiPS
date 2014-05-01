@@ -71,21 +71,27 @@ public class BlockConverter {
 			/* input *//*
 						 * ,"getText" , "text"
 						 */, "clearText", "setActive", "isActive",
-			"toJapaneseMode", "toEnglishMode", "fontsize", "drawArc",
+			"toJapaneseMode", "toEnglishMode", "fontsize", 
+			//BCanvas
+			"drawArc",
 			"drawFillTriangle",
-			"drawText[@object@string@number@number@object]",
-			"drawText[@object@string@number@number]", "isClick",
-			"isSingleClick", "isDoubleClick", "isDragging", "isRightMouseDown",
-			"isLeftMouseDown", "getMouseX", "getMouseY", "isKeyPressing",
-			"isKeyCode", "isKeyDown", "getKeyCode", "clear", "update",
-			"getImageWidth", "getImageHeight", "drawLine", "drawImage",
-			"drawLine", "getCanvasWidth", "getCanvasHeight", "drawImage",
+			"drawLine", 
 			"drawFillArc[@objet@number@number]",
 			"drawFillArc[@object@number@number@number@number]",
 			"drawFillArc[@object@number@number@number@number@number@number]",
-			"setLocation", "setSize", "getCanvas", "getVolume", "setVolume",
-			"getDefaultVolume", "remove[@number]", "remove[@object]", "get",
-			"get[@number]", "isMouseDown", "hasNextInt", "hasNextDouble" };
+			"drawText[@object@string@number@number@object]",
+			"drawText[@object@string@number@number]",
+			 "drawImage",
+			 "isClick",
+			 "getImageWidth", "getImageHeight", "clear", "update",
+			 "isKeyCode", "isKeyDown", "getKeyCode", "isKeyPressing",
+			"isSingleClick", "isDoubleClick", "isDragging", "isRightMouseDown",
+			"isLeftMouseDown", "getMouseX", "getMouseY",
+			"getCanvasWidth", "getCanvasHeight",
+			/*BWindow*/"setLocation", "setSize", "getCanvas",  
+			/*List*/"remove[@number]", "remove[@object]", "get","get[@number]", 
+			/*Scanner*/"isMouseDown", "hasNextInt", "hasNextDouble" ,/*Bsound*/"getVolume", "setVolume",
+			"getDefaultVolume"};
 
 	// 戻り値のあるメソッドはここに登録 (上にも登録しないとダメ)
 	public final static String[] FUNCTION_METHODCALL_BLOCKS = { "input",
