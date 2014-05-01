@@ -14,7 +14,7 @@ public class ExVariableGetterModel extends ExpressionModel {
 
 	private StVariableDeclarationModel variable;
 	private String genusName = "getter";
-	private ExpressionModel index;
+	private ExpressionModel index = null;
 
 	/*
 	 * (non-Javadoc)
@@ -24,6 +24,10 @@ public class ExVariableGetterModel extends ExpressionModel {
 	@Override
 	public String getType() {
 		return variable.getType();
+	}
+	
+	public ExpressionModel getIndex(){
+		return this.index;
 	}
 
 	/**
