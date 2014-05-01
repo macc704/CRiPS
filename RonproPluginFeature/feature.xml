@@ -2,7 +2,7 @@
 <feature
       id="RonproPlugins"
       label="RonproPlugins"
-      version="2.0.0"
+      version="2.0.1"
       provider-name="Salai laboratory">
 
    <description url="http://www.example.com/description">
@@ -57,17 +57,17 @@
          unpack="false"/>
 
    <plugin
-         id="jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin"
-         download-size="0"
-         install-size="0"
-         version="2.0.0"
-         unpack="false"/>
-
-   <plugin
          id="jp.ac.shizuoka.inf.ce.cs.commonlibrary"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin"
+         download-size="0"
+         install-size="0"
+         version="2.0.1"
          unpack="false"/>
 
 </feature>
