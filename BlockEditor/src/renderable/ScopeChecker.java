@@ -135,6 +135,8 @@ public class ScopeChecker {
 				cmpBlock = Block.getBlock(cmpBlock.getPlugBlockID());
 			}
 		}
+		
+		
 		Block lastBlock = null;
 		//持ってるブロックから前のブロックをすべてチェックする
 		while (cmpBlock != null) {

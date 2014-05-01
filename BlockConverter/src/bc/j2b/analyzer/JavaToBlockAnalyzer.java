@@ -2632,10 +2632,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		ExVariableGetterModel model = createExVariableGetterModel(node
 				.getArray().toString());
 		ExpressionModel index = parseExpression(node.getIndex());
-
-		index.setParent(model);
+		index.setConnectorId(model.getId());
 		model.setIndexModel(index);
-
+		index.setParent(model);
+		
 		return model;
 	}
 
