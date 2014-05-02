@@ -1620,8 +1620,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				model.setId(idCounter.getNextId());
 				model.setLineNumber(compilationUnit.getLineNumber(node
 						.getStartPosition()));
+				
+//				index.setConnectorId(model.getId());
+//				model.setIndexModel(index);
+//				index.setParent(model);
 
 				ExpressionModel variable = parseExpression(arrayNode.getIndex());
+				variable.setConnectorId(model.getId());
 				variable.setParent(model);
 				model.setIndexModel(variable);
 

@@ -285,6 +285,8 @@ import controller.WorkspaceController;
  *  	・OOP対応版
  *  2014.05.01 2.16.1　Ohata
  *  	・配列要素の参照ブロックの修正
+ *  2014.05.02 2.16.1 Ohata
+ *  	・配列要素への書き込みブロックの修正
  *  
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
@@ -305,7 +307,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "2.16.1";
+	public final static String VERSION = "2.16.2";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;
