@@ -31,6 +31,12 @@
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.clearCash">
       </command>
+      
+      <command
+            name="Start CheCoPro"
+            categoryId="RonproEditorPlugin.commands.category"
+            id="RonproPlugin.commands.startCheCoPro">
+      </command>
 
    </extension>
    <extension
@@ -93,6 +99,11 @@
                   commandId="RonproPlugin.commands.clearCash"
                   mnemonic="S"
                   id="RonproPlugins.menus.clearCash">
+            </command>
+            <command
+                  commandId="RonproPlugin.commands.startCheCoPro"
+                  mnemonic="S"
+                  id="RonproPlugins.menus.startCheCoPro">
             </command>
          </menu>
       </menuContribution>
