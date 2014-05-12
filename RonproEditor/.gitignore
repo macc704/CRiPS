@@ -4,4 +4,11 @@
 /package/lib
 /package/templates
 /packages
+<<<<<<< HEAD
 *.log
+=======
+*.log
+.pres2
+/testbase/MyProjects
+/testbase/*.log
+>>>>>>> kato

@@ -202,6 +202,8 @@ public class REFrame extends JFrame {
 	private Action actionCreateCocoData; // add hirao
 	private Action actionClearCash; // add hirao
 	private Action actionBytecode;
+	private Action actionStartCheCoPro; // CheCoPro(kato)
+	
 
 	// ÅuHelpÅv
 	private JMenu menuHelp;
@@ -663,6 +665,17 @@ public class REFrame extends JFrame {
 		actionBytecode.putValue(Action.ACCELERATOR_KEY,
 				KeyStroke.getKeyStroke(KeyEvent.VK_J, CTRL_MASK));
 		actionBytecode.setEnabled(false);
+		
+		// --CheCoPro
+		actionStartCheCoPro = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				application.doStartCheCoPro();
+				// actionStartCheCoPro.setEnabled(false);
+			}
+		};
+		actionStartCheCoPro.putValue(Action.NAME, "Start CheCoPro");
+		actionStartCheCoPro.setEnabled(true);
+		menu.add(actionStartCheCoPro); // CheCoPro(kato)
 	}
 
 	private void initializeHelpAction() {
