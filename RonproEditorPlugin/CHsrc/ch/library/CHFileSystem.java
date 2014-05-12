@@ -34,6 +34,11 @@ public class CHFileSystem {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
 				"MyProjects/.CH/" + user + "/final");
 	}
+	
+	// for plug-in
+	public static CDirectory getEclipseProjectDir() {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory("runtime-EclipseApplication/final");
+	}
 
 	// processFilelistRequest and Response server
 	public static CFileHashList getServerFileList(String user, int port) {
@@ -43,6 +48,11 @@ public class CHFileSystem {
 	// processFilelistRequest client
 	public static CFileHashList getFinalProjectFileList() {
 		return createFileList(getFinalProjectDir());
+	}
+	
+	// for plug-in
+	public static CFileHashList getEclipseProjectFileList() {
+		return createFileList(getEclipseProjectDir());
 	}
 
 	// processFileListResponse client
@@ -66,7 +76,7 @@ public class CHFileSystem {
 	}
 
 	public static CFileHashList createFileList(CDirectory dir) {
-		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(".*",
+		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(/*".*",*/
 				".class", ".xml"));
 	}
 

@@ -144,16 +144,18 @@ public class CHServer {
 
 	private String processLogin(CHLoginRequest request, CHConnection conn) {
 		String user = request.getUser();
-		String password = request.getPassword();
+		// String password = request.getPassword();
 		Color color = request.getColor();
 
-		CHLoginCheck loginCheck = new CHLoginCheck(user, password);
-		int result = loginCheck.checkPattern(port);
-		if (result == CHLoginCheck.NEW_ENTRY) {
-			connectionPool.sendToOne(new CHLoginResult(result), conn);
-			return "newEntry";
-		}
-
+		//　一時的にログインチェック機能切断
+		
+//		CHLoginCheck loginCheck = new CHLoginCheck(user, password);
+//		int result = loginCheck.checkPattern(port);
+//		if (result == CHLoginCheck.NEW_ENTRY) {
+//			connectionPool.sendToOne(new CHLoginResult(result), conn);
+//			return "newEntry";
+//		}
+//
 		// login process
 		if (login(new CHUserState(user, true, color), conn) == false) {
 			connectionPool.sendToOne(new CHLoginResult(CHLoginCheck.FAILURE),
@@ -161,7 +163,7 @@ public class CHServer {
 			return null;
 		}
 
-		connectionPool.sendToOne((new CHLoginResult(result)), user);
+		connectionPool.sendToOne((new CHLoginResult(CHLoginCheck.SUCCESS)), user);
 
 		List<CHUserState> userStates = connectionPool.getUserStates();
 

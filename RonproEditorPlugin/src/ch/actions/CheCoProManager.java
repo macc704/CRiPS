@@ -2,11 +2,21 @@ package ch.actions;
 
 import java.awt.Color;
 import java.net.Socket;
+import java.util.List;
 
 import org.eclipse.ui.IWorkbenchWindow;
 
+import clib.common.filesystem.sync.CFileHashList;
 import ch.conn.framework.CHConnection;
+import ch.conn.framework.CHFile;
+import ch.conn.framework.CHLoginCheck;
+import ch.conn.framework.packets.CHFileRequest;
+import ch.conn.framework.packets.CHFileResponse;
+import ch.conn.framework.packets.CHFilelistRequest;
+import ch.conn.framework.packets.CHFilelistResponse;
 import ch.conn.framework.packets.CHLoginRequest;
+import ch.conn.framework.packets.CHLoginResult;
+import ch.library.CHFileSystem;
 
 public class CheCoProManager {
 
@@ -76,7 +86,35 @@ public class CheCoProManager {
 	
 	private void readFromServer(){
 		Object obj = conn.read();
-
-		System.out.println("read: " + obj.getClass());
+		
+		if (obj instanceof CHLoginResult) {
+			processLoginResult((CHLoginResult) obj);
+		} else if (obj instanceof CHFilelistRequest){
+			processFilelistRequest();
+		} else if (obj instanceof CHFileRequest){
+			processFileRequest((CHFileRequest) obj);
+		}
 	}
+	
+	private void processLoginResult(CHLoginResult result) {
+		if (result.isResult() == CHLoginCheck.FAILURE) {
+			System.out.println("login failure");
+			conn.close();
+		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
+			System.out.println("login success");
+		}
+	}
+	
+	private void processFilelistRequest() {
+		CFileHashList fileList = CHFileSystem.getEclipseProjectFileList();
+		conn.write(new CHFilelistResponse(DEFAULT_NAME, fileList));
+	}
+	
+	private void processFileRequest(CHFileRequest request) {
+		List<CHFile> files = CHFileSystem.getCHFiles(
+				request.getRequestFilePaths(),
+				CHFileSystem.getEclipseProjectDir());
+		conn.write(new CHFileResponse(DEFAULT_NAME, files));
+	}
+
 }
