@@ -41,7 +41,8 @@ import pres.loader.model.PLFile;
 import pres.loader.model.PLProject;
 import src.coco.model.CCCompileError;
 import src.coco.model.CCCompileErrorKind;
-import clib.common.filesystem.CDirectory;
+import src.coco.model.CCCompileErrorManager;
+import src.coco.model.CCOperateLog;
 import clib.common.time.CTime;
 
 public class CCGraphFrame extends JFrame {
@@ -57,21 +58,20 @@ public class CCGraphFrame extends JFrame {
 	private JPanel rootPanel = new JPanel();
 	private JFreeChart chart;
 
+	private CCCompileErrorManager manager;
 	private CCCompileErrorKind list;
+	private int errorID;
 
-	// private CDirectory baseDir;
-	// private CDirectory libDir;
 	private PPProjectSet ppProjectSet;
 
 	private List<CCSourceCompareViewer> sourceviewers = new ArrayList<CCSourceCompareViewer>();
 
-	// default
-	public CCGraphFrame(CCCompileErrorKind list, CDirectory baseDir,
-			CDirectory libDir, PPProjectSet ppProjectSet) {
+	public CCGraphFrame(CCCompileErrorKind list, CCCompileErrorManager manager,
+			int errorID) {
 		this.list = list;
-		// this.baseDir = baseDir;
-		// this.libDir = libDir;
-		this.ppProjectSet = ppProjectSet;
+		this.manager = manager;
+		this.ppProjectSet = manager.getPPProjectSet();
+		this.errorID = errorID;
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		width = (int) (d.width * 0.6);
@@ -113,6 +113,7 @@ public class CCGraphFrame extends JFrame {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				closeSourceViewers();
+				manager.writePresLog(CCOperateLog.SubType.DETAIL_CLOSE, errorID);
 			}
 		});
 	}
@@ -248,6 +249,10 @@ public class CCGraphFrame extends JFrame {
 
 					// PPVにかけてから起動していないなら，コンパイル（時間がかかるので非推奨）
 					if (ppProjectSet == null) {
+						manager.writePresLog(
+								CCOperateLog.SubType.SOURCE_OPEN_ERROR,
+								list.getMessage());
+
 						throw new RuntimeException("PPVでコンパイルされていません");
 						// PPDataManager datamanager = new
 						// PPDataManager(baseDir);
@@ -276,13 +281,17 @@ public class CCGraphFrame extends JFrame {
 					}
 
 					if (model == null) {
+						manager.writePresLog(
+								CCOperateLog.SubType.SOURCE_OPEN_ERROR,
+								list.getMessage());
+
 						throw new RuntimeException(
 								"コンパイルエラー発生時のソースコード捜索に失敗しました");
 					}
 
 					// ProjectViewer → 簡易なソース比較ウィンドウに変更
 					final CCSourceCompareViewer sourceviewer = new CCSourceCompareViewer(
-							model);
+							model, errorID, index, manager);
 
 					long beginTime = compileError.getBeginTime();
 					sourceviewer.getTimelinePane().getTimeModel2()
@@ -301,6 +310,8 @@ public class CCGraphFrame extends JFrame {
 						}
 					});
 
+					manager.writePresLog(CCOperateLog.SubType.SOURCE_OPEN,
+							errorID, index);
 					sourceviewers.add(sourceviewer);
 				}
 			}

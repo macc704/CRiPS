@@ -21,7 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
-import pres.core.model.PRLog;
 import src.coco.model.CCCompileErrorKind;
 import src.coco.model.CCCompileErrorManager;
 import src.coco.model.CCOperateLog;
@@ -108,11 +107,7 @@ public class CCMainFrame2 extends JFrame {
 				for (CCErrorElementButton2 button : buttons) {
 					button.closeGraphFrame();
 				}
-
-				PRLog log = new CCOperateLog(
-						CCOperateLog.SubType.COCOVIEWER_CLOSE,
-						manager.getProjectPath());
-				manager.writePresLog(log);
+				manager.writePresLog(CCOperateLog.SubType.COCOVIEWER_CLOSE);
 			}
 		});
 	}
@@ -188,9 +183,8 @@ public class CCMainFrame2 extends JFrame {
 
 		// エラーIDごとの数値を書き込み、ボタンを実装する
 		for (CCCompileErrorKind list : manager.getAllKinds()) {
-			CCErrorElementButton2 button = new CCErrorElementButton2(list,
-					buttonWidth, buttonHeight, manager.getBaseDir(),
-					manager.getLibDir(), manager.getPPProjectSet());
+			CCErrorElementButton2 button = new CCErrorElementButton2(manager,
+					list, buttonWidth, buttonHeight);
 			buttons.add(button);
 		}
 

@@ -6,7 +6,7 @@ import clib.common.filesystem.CPath;
 public class CCOperateLog extends PRFileLog {
 
 	public static enum Type implements PRLogType {
-		COCOVIEWER_COMMAND_RECORD
+		COCOVIEWER_RECORD
 	};
 
 	public static enum SubType implements PRLogSubType {
@@ -17,6 +17,6 @@ public class CCOperateLog extends PRFileLog {
 	 * Constructor
 	 */
 	public CCOperateLog(SubType subType, CPath path, Object... args) {
-		super(Type.COCOVIEWER_COMMAND_RECORD, subType, path, args);
+		super(Type.COCOVIEWER_RECORD, subType, path, args);
 	}
 }
