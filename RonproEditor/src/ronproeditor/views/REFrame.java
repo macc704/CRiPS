@@ -305,6 +305,7 @@ public class REFrame extends JFrame {
 		menuTools.add(actionOpenCocoViewer);
 		menuTools.add(actionCreateCocoData);
 		menuTools.add(actionClearCash);
+		menuTools.add(actionStartCheCoPro);
 
 		if (CJavaSystem.getInstance().isWindows()) {
 			menuTools.addSeparator();
@@ -675,7 +676,6 @@ public class REFrame extends JFrame {
 		};
 		actionStartCheCoPro.putValue(Action.NAME, "Start CheCoPro");
 		actionStartCheCoPro.setEnabled(true);
-		menu.add(actionStartCheCoPro); // CheCoPro(kato)
 	}
 
 	private void initializeHelpAction() {
