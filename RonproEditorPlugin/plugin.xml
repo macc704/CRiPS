@@ -61,6 +61,11 @@
             commandId="RonproPlugin.commands.clearCash"
             class="clearcash.actions.ClearCashHandler">
       </handler>
+      
+      	  <handler
+            commandId="RonproPlugin.commands.startCheCoPro"
+            class="ch.actions.CheCoProHandler">
+      </handler>
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
