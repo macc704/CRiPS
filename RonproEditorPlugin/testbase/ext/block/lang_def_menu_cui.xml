@@ -25,6 +25,9 @@
 		<BlockGenusMember>proc-param-double-number</BlockGenusMember>
 		<BlockGenusMember>proc-param-boolean</BlockGenusMember>
 		<BlockGenusMember>proc-param-string</BlockGenusMember>
+		<BlockGenusMember>proc-param-int-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>proc-param-double-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>proc-param-string-arrayobject</BlockGenusMember>
 		<BlockGenusMember>return</BlockGenusMember>
 		<BlockGenusMember>constructor</BlockGenusMember>
 	</BlockDrawer>

@@ -19,9 +19,17 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 	public String getGenusName() {
 		if (argument) {
 			if(isProjectObject()){
-				return "proc-param-object-" + getJavaVariableType();
+				if(isArray()){
+					return "proc-param-object-" + getJavaVariableType() + "-arrayobject";
+				}else{
+					return "proc-param-object-" + getJavaVariableType();	
+				}
 			}else{
-				return "proc-param-" + getBlockType();	
+				if(isArray()){
+					return "proc-param-" + convertArrayVariableTypeToBlockVariableType(getJavaVariableType()) + "-arrayobject";
+				}else{
+					return "proc-param-" + getBlockType();		
+				}
 			}
 			
 		}
@@ -42,6 +50,34 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 		}
 
 		return "local-var-" + genusName;
+	}
+
+	private String convertArrayVariableTypeToBlockVariableType(String type) {
+
+		String convertedType = type;
+		// 配列引数の型を変換する
+		if (type.contains("[")) {
+			convertedType = convertedType.substring(0,
+					convertedType.indexOf("["));
+			convertedType = convertBasicJavaDataTypeToBlockType(convertedType);
+
+			return convertedType;
+		} else {
+			return type;
+		}
+	}
+
+	private String convertBasicJavaDataTypeToBlockType(String type) {
+		// 基本的なデータ型のみ所定の名前に変更する
+		if ("int".equals(type)) {
+			return "int-number";
+		} else if ("double".equals(type)) {
+			return "double-number";
+		} else if ("String".equals(type)) {
+			return "string";
+		} else {
+			return type;
+		}
 	}
 
 }

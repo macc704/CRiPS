@@ -227,7 +227,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 		// genus-name
 		makeIndent(out, indent);
 		out.println("<Block id=\"" + getId() + "\" genus-name=\""
-				+ getArgGenusName() + "\">");
+				+ getGenusName() + "\">");
 		// label
 		makeIndent(out, indent + 1);
 		out.println("<Label>" + name + "</Label>");
@@ -235,7 +235,12 @@ public class StVariableDeclarationModel extends StatementModel implements
 		makeIndent(out, indent + 1);
 		out.println("<JavaType>" + addEscapeSequence(javaVariableType)
 				+ "</JavaType>");
-
+		
+		//header label (if needed)
+		if(getJavaVariableType() != null){
+			makeIndent(out, indent + 1);
+			out.println("<HeaderLabel>" + getJavaVariableType() + "型の仮引数を作り" + "</HeaderLabel>");
+		}
 		{// 2013 09/26 ohata tag for line comment
 			// comment
 			makeIndent(out, indent + 1);

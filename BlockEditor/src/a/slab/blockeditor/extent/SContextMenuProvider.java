@@ -242,8 +242,8 @@ public class SContextMenuProvider {
 		}
 
 		if (rb.getBlock().getGenusName().contains("arrayobject")) {//配列
-			final String scope = rb.getBlock().getGenusName()
-					.substring(0, rb.getBlock().getGenusName().indexOf("-"));
+			final String scope = getBlockScope(rb.getBlock().getGenusName());
+					
 
 			final String type = getBlockVariableType(rb.getBlock()
 					.getGenusName());
@@ -253,7 +253,7 @@ public class SContextMenuProvider {
 			//getterの作成
 			elementGetter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new SStubCreator("setter-arrayelement" + scope + "-var-"
+					new SStubCreator("setter-arrayelement" + scope 
 							+ type + "-arrayobject", rb).doWork(e);
 				}
 			});
@@ -263,7 +263,7 @@ public class SContextMenuProvider {
 			JMenuItem elementSetter = new JMenuItem("「値ブロック（要素）」の作成");
 			elementSetter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new SStubCreator("getter-arrayelement" + scope + "-var-"
+					new SStubCreator("getter-arrayelement" +  scope 
 							+ type + "-arrayobject", rb).doWork(e);
 				}
 			});
@@ -813,6 +813,20 @@ public class SContextMenuProvider {
 		Workspace.getInstance().notifyListeners(
 				new WorkspaceEvent(parent.getParentWidget(), link,
 						WorkspaceEvent.BLOCKS_CONNECTED));
+	}
+	
+	private String getBlockScope(String name){
+
+		String scope = name.substring(0, rb.getBlock().getGenusName().indexOf("-"));
+		
+		if("proc".equals(scope)){
+			scope += "-param-";
+		}else{
+			scope += "-var-";
+		}
+		
+		return scope;
+		
 	}
 
 	private String getBlockVariableType(String name) {
