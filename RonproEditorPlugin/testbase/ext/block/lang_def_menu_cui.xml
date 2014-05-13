@@ -28,6 +28,10 @@
 		<BlockGenusMember>proc-param-int-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>proc-param-double-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>proc-param-string-arrayobject</BlockGenusMember>
+		<BlockGenusMember>proc-param-object-bwindow</BlockGenusMember>
+		<BlockGenusMember>proc-param-object-bcanvas</BlockGenusMember>		
+		<BlockGenusMember>proc-param-object-bsound</BlockGenusMember>
+		<BlockGenusMember>proc-param-object-color</BlockGenusMember>
 		<BlockGenusMember>return</BlockGenusMember>
 		<BlockGenusMember>constructor</BlockGenusMember>
 	</BlockDrawer>

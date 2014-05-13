@@ -32,24 +32,24 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 				}
 			}
 			
-		}
+		}else{
+			String genusName;
+			if (isProjectObject()) {
+				genusName = "object-" + getType();
+			} else {
+				genusName = convertJavaTypeToBlockGenusName(getType());
+			}
 
-		String genusName;
-		if (isProjectObject()) {
-			genusName = "object-" + getType();
-		} else {
-			genusName = convertJavaTypeToBlockGenusName(getType());
-		}
+			if (genusName.equals("number")) {
+				genusName = "int-number";
+			}
 
-		if (genusName.equals("number")) {
-			genusName = "int-number";
-		}
+			if (isArray()) {
+				genusName += "-arrayobject";
+			}
 
-		if (isArray()) {
-			genusName += "-arrayobject";
+			return "local-var-" + genusName;
 		}
-
-		return "local-var-" + genusName;
 	}
 
 	private String convertArrayVariableTypeToBlockVariableType(String type) {
@@ -66,7 +66,7 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 			return type;
 		}
 	}
-
+	
 	private String convertBasicJavaDataTypeToBlockType(String type) {
 		// 基本的なデータ型のみ所定の名前に変更する
 		if ("int".equals(type)) {

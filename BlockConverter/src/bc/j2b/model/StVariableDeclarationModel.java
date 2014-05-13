@@ -239,7 +239,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 		//header label (if needed)
 		if(getJavaVariableType() != null){
 			makeIndent(out, indent + 1);
-			out.println("<HeaderLabel>" + getJavaVariableType() + "型の仮引数を作り" + "</HeaderLabel>");
+			out.println("<HeaderLabel>" + getJavaVariableType() + "型の仮引数を作り、" + "</HeaderLabel>");
 		}
 		{// 2013 09/26 ohata tag for line comment
 			// comment
@@ -285,13 +285,6 @@ public class StVariableDeclarationModel extends StatementModel implements
 
 	public String getBlockType() {
 		return getConnectorType(type);
-	}
-
-	private String getArgGenusName() {
-		// if(blockType.equals("number")){
-		// return "proc-param-number";
-		// }
-		return "proc-param-" + getBlockType();
 	}
 
 }
