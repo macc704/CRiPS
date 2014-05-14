@@ -2574,20 +2574,20 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			}
 
 			return model;
+		}else{
+			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
+			model.setValue(typeString(node.getType()));
+			model.setId(idCounter.getNextId());
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			// 引数
+			for (int i = 0; i < node.arguments().size(); i++) {
+				ExpressionModel arg = parseExpression((Expression) node.arguments()
+						.get(i));
+				model.addArgument(arg);
+			}
+			return model;	
 		}
-
-		ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
-		model.setValue(typeString(node.getType()));
-		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node
-				.getStartPosition()));
-		// 引数
-		for (int i = 0; i < node.arguments().size(); i++) {
-			ExpressionModel arg = parseExpression((Expression) node.arguments()
-					.get(i));
-			model.addArgument(arg);
-		}
-		return model;
 	}
 
 	// ohata

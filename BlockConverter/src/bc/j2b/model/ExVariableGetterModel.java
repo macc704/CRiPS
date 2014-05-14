@@ -47,7 +47,6 @@ public class ExVariableGetterModel extends ExpressionModel {
 
 		// print BlockEditor File
 		// stubBlock
-
 		String connectorType = getConnectorType(variable.getType());
 		String positionType = "mirror";
 		if (variable.isArray()) {
