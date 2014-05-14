@@ -487,16 +487,16 @@ public class SContextMenuProvider {
 			menu.add(createBlockCopyMenu());
 			menu.addSeparator();
 		}
-
-		//古いオブジェクト実行ブロックの互換性のために残してあります．
-		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
-			menu.add(createCallActionMethodBlockMenu());
-			menu.add(createCallGetterMethodBlockMenu());
-			menu.add(createCallDoubleMethodBlockMenu());
-			menu.add(createCallBooleanMethodBlockMenu());
-			menu.add(createCallStringMethodBlockMenu());
-			menu.addSeparator();
-		}
+//
+//		//古いオブジェクト実行ブロックの互換性のために残してあります．
+//		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
+//			menu.add(createCallActionMethodBlockMenu());
+//			menu.add(createCallGetterMethodBlockMenu());
+//			menu.add(createCallDoubleMethodBlockMenu());
+//			menu.add(createCallBooleanMethodBlockMenu());
+//			menu.add(createCallStringMethodBlockMenu());
+//			menu.addSeparator();
+//		}
 		return menu;
 	}
 
