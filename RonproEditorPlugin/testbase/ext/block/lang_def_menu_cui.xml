@@ -13,6 +13,8 @@
 		<BlockGenusMember>nextDouble</BlockGenusMember>
 		<BlockGenusMember>hasNextInt</BlockGenusMember>
 		<BlockGenusMember>hasNextDouble</BlockGenusMember>
+<!--  		<BlockGenusMember>input-isInteger</BlockGenusMember>
+		<BlockGenusMember>input-isDouble</BlockGenusMember>-->
 		<BlockGenusMember>input-getInt</BlockGenusMember>
 		<BlockGenusMember>input-getDouble</BlockGenusMember>
 		<BlockGenusMember>input-getString</BlockGenusMember>
@@ -224,6 +226,7 @@
         <BlockGenusMember>remove[@number]</BlockGenusMember>
         <BlockGenusMember>remove[@object]</BlockGenusMember>
         <BlockGenusMember>get[@number]</BlockGenusMember>
+        <BlockGenusMember>length</BlockGenusMember>
 	</BlockDrawer>
 
 </BlockDrawerSet>

@@ -111,6 +111,19 @@ public class SContextMenuProvider {
 		return createIncrementerItem;
 	}
 
+	
+	private JMenuItem createLengthMenu() {
+		if (createIncrementerItem == null) {
+			createIncrementerItem = new JMenuItem("文字列の長さを取得する");
+			createIncrementerItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					createCallMethod("length");
+				}
+			});
+		}
+		return createIncrementerItem;
+	}
+	
 //	private JMenuItem createCallActionMethodBlockMenu() {
 //		if (createCallActionMethodBlockItem == null) {
 //			createCallActionMethodBlockItem = new JMenuItem("「メソッド実行ブロック」の作成");
@@ -234,6 +247,11 @@ public class SContextMenuProvider {
 
 		if (rb.getBlock().isNumberVariableDecBlock()) {
 			menu.add(createCreateIncrementerMenu());
+			menu.addSeparator();
+		}
+		
+		if(rb.getBlock().isStringVariableDecBlock()){
+			menu.add(createLengthMenu());
 			menu.addSeparator();
 		}
 

@@ -1241,6 +1241,15 @@ public class Block implements ISupportMemento {
 	public boolean isNumberVariableDecBlock() {
 		return getGenus().isNumberVariableDecBlock();
 	}
+	
+	/**
+	 * created by sakai lab 2011/11/29
+	 * 
+	 * @return
+	 */
+	public boolean isStringVariableDecBlock() {
+		return getGenus().isStringVariableDecBlock();
+	}
 
 	/**
 	 * Returns true iff this block is a function block, which takes in an input

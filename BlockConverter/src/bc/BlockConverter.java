@@ -53,7 +53,7 @@ public class BlockConverter {
 			"mouseX", "mouseY", "mouseClicked", "leftMouseClicked",
 			"rightMouseClicked", "doubleClick", "mouseDown", "leftMouseDown",
 			"rightMouseDown", "intersects", "contains", "image",
-			"text"/* !! */, "looks"
+			"text"/* !! */, "looks","length"//string
 			/* !sound! */, "file", "setFile", "play", "loop", "stop",
 			"isPlaying", "getVolume", "setVolume"
 			/* text */, "getText", "loadOnMemory"
@@ -114,7 +114,7 @@ public class BlockConverter {
 			"size", "get", "Math.random", "Math.sqrt", "Math.sin", "Math.cos",
 			"Math.tan", "Math.log", "Math.toRadians", "getCanvasWidth",
 			"getCanvasHeight", "removeFirst", "isMouseDown", "get[@number]",
-			"hasNextInt", "hasNextDouble" , "Input.getInt", "Input.getDouble", "Input.getString"};
+			"hasNextInt", "hasNextDouble" , "Input.getInt", "Input.getDouble", "Input.getString", "Input.isInteger", "Input.isDouble","length" };
 
 	public static final String[] ALL_DATA_BLOCKNAMES;
 
