@@ -8,13 +8,13 @@ import org.eclipse.ui.IWorkbenchWindow;
 import ppv.app.datamanager.PPProjectSet;
 import pres.core.IPRRecordingProject;
 import pres.core.model.PRLog;
+import pres.loader.logmodel.PRCocoViewerLog;
 import presplugin.PresPlugin;
 import ronproeditorplugin.Activator;
 import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.controller.CCCompileErrorLoader;
 import src.coco.controller.CCMetricsLoader;
 import src.coco.model.CCCompileErrorManager;
-import src.coco.model.CCOperateLog;
 import src.coco.view.CCMainFrame2;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
@@ -59,7 +59,7 @@ public class CocoViewerManager {
 		PPProjectSet projectset = Activator.getDefault().getppProjectset();
 		manager.setPPProjectSet(projectset);
 
-		writeCocoViewerLog(CCOperateLog.SubType.COCOVIEWER_OPEN);
+		writeCocoViewerLog(PRCocoViewerLog.SubType.COCOVIEWER_OPEN);
 		manager.setProjectPath(path);
 		manager.setRecordingProject(project);
 
@@ -68,7 +68,7 @@ public class CocoViewerManager {
 		frame.setVisible(true);
 	}
 
-	private void writeCocoViewerLog(CCOperateLog.SubType subType,
+	private void writeCocoViewerLog(PRCocoViewerLog.SubType subType,
 			Object... texts) {
 		try {
 			// if (!app.getSourceManager().hasCurrentFile()) {
@@ -87,7 +87,7 @@ public class CocoViewerManager {
 			CPath path = target.getRelativePath(project);
 			this.path = path;
 
-			PRLog log = new CCOperateLog(subType, path, texts);
+			PRLog log = new PRCocoViewerLog(subType, path, texts);
 			writePresLog(log, file);
 
 		} catch (Exception ex) {

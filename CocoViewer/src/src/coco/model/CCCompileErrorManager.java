@@ -7,7 +7,8 @@ import java.util.List;
 import ppv.app.datamanager.PPProjectSet;
 import pres.core.IPRRecordingProject;
 import pres.core.model.PRLog;
-import src.coco.model.CCOperateLog.SubType;
+import pres.loader.logmodel.PRCocoViewerLog;
+import pres.loader.logmodel.PRCocoViewerLog.SubType;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CPath;
 
@@ -136,8 +137,8 @@ public class CCCompileErrorManager {
 
 	public void writePresLog(SubType cocoviewerSubtype, Object... texts) {
 		if (recodingproject != null) {
-			PRLog log = new CCOperateLog(cocoviewerSubtype, getProjectPath(),
-					texts);
+			PRLog log = new PRCocoViewerLog(cocoviewerSubtype,
+					getProjectPath(), texts);
 			recodingproject.record(log);
 		}
 	}

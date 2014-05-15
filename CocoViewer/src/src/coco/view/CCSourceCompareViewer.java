@@ -13,11 +13,11 @@ import javax.swing.WindowConstants;
 import ppv.view.parts.PPCompileResultPane;
 import ppv.view.parts.PPSourcePane;
 import ppv.view.parts.PPTimeLinePane;
+import pres.loader.logmodel.PRCocoViewerLog;
 import pres.loader.model.IPLUnit;
 import pres.loader.model.PLFile;
 import pres.loader.model.PLPackage;
 import src.coco.model.CCCompileErrorManager;
-import src.coco.model.CCOperateLog;
 import clib.common.time.CTime;
 import clib.view.timeline.model.CTimeModel;
 import clib.view.timeline.model.CTimeTransformationModel;
@@ -46,7 +46,7 @@ public class CCSourceCompareViewer extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
-				manager.writePresLog(CCOperateLog.SubType.SOURCE_CLOSE,
+				manager.writePresLog(PRCocoViewerLog.SubType.SOURCE_CLOSE,
 						errorID, rowIndex);
 			}
 		});

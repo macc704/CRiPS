@@ -36,13 +36,13 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 import ppv.app.datamanager.PPProjectSet;
+import pres.loader.logmodel.PRCocoViewerLog;
 import pres.loader.model.IPLUnit;
 import pres.loader.model.PLFile;
 import pres.loader.model.PLProject;
 import src.coco.model.CCCompileError;
 import src.coco.model.CCCompileErrorKind;
 import src.coco.model.CCCompileErrorManager;
-import src.coco.model.CCOperateLog;
 import clib.common.time.CTime;
 
 public class CCGraphFrame extends JFrame {
@@ -113,7 +113,8 @@ public class CCGraphFrame extends JFrame {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				closeSourceViewers();
-				manager.writePresLog(CCOperateLog.SubType.DETAIL_CLOSE, errorID);
+				manager.writePresLog(PRCocoViewerLog.SubType.DETAIL_CLOSE,
+						errorID);
 			}
 		});
 	}
@@ -250,7 +251,7 @@ public class CCGraphFrame extends JFrame {
 					// PPVにかけてから起動していないなら，コンパイル（時間がかかるので非推奨）
 					if (ppProjectSet == null) {
 						manager.writePresLog(
-								CCOperateLog.SubType.SOURCE_OPEN_ERROR,
+								PRCocoViewerLog.SubType.SOURCE_OPEN_ERROR,
 								list.getMessage());
 
 						throw new RuntimeException("PPVでコンパイルされていません");
@@ -282,7 +283,7 @@ public class CCGraphFrame extends JFrame {
 
 					if (model == null) {
 						manager.writePresLog(
-								CCOperateLog.SubType.SOURCE_OPEN_ERROR,
+								PRCocoViewerLog.SubType.SOURCE_OPEN_ERROR,
 								list.getMessage());
 
 						throw new RuntimeException(
@@ -310,7 +311,7 @@ public class CCGraphFrame extends JFrame {
 						}
 					});
 
-					manager.writePresLog(CCOperateLog.SubType.SOURCE_OPEN,
+					manager.writePresLog(PRCocoViewerLog.SubType.SOURCE_OPEN,
 							errorID, index);
 					sourceviewers.add(sourceviewer);
 				}

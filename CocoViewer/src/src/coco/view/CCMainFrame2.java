@@ -21,9 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
+import pres.loader.logmodel.PRCocoViewerLog;
 import src.coco.model.CCCompileErrorKind;
 import src.coco.model.CCCompileErrorManager;
-import src.coco.model.CCOperateLog;
 
 public class CCMainFrame2 extends JFrame {
 
@@ -107,7 +107,7 @@ public class CCMainFrame2 extends JFrame {
 				for (CCErrorElementButton2 button : buttons) {
 					button.closeGraphFrame();
 				}
-				manager.writePresLog(CCOperateLog.SubType.COCOVIEWER_CLOSE);
+				manager.writePresLog(PRCocoViewerLog.SubType.COCOVIEWER_CLOSE);
 			}
 		});
 	}

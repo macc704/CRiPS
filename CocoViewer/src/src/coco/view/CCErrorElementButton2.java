@@ -23,9 +23,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
+import pres.loader.logmodel.PRCocoViewerLog;
 import src.coco.model.CCCompileErrorKind;
 import src.coco.model.CCCompileErrorManager;
-import src.coco.model.CCOperateLog;
 
 public class CCErrorElementButton2 extends JButton {
 
@@ -134,7 +134,8 @@ public class CCErrorElementButton2 extends JButton {
 				graphframe.setVisible(true);
 				graphframes.add(graphframe);
 
-				manager.writePresLog(CCOperateLog.SubType.DETAIL_OPEN, errorID);
+				manager.writePresLog(PRCocoViewerLog.SubType.DETAIL_OPEN,
+						errorID);
 			}
 		});
 

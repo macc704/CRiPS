@@ -1,9 +1,9 @@
-package src.coco.model;
+package pres.loader.logmodel;
 
 import pres.core.model.PRFileLog;
 import clib.common.filesystem.CPath;
 
-public class CCOperateLog extends PRFileLog {
+public class PRCocoViewerLog extends PRFileLog {
 
 	public static enum Type implements PRLogType {
 		COCOVIEWER_RECORD
@@ -16,7 +16,7 @@ public class CCOperateLog extends PRFileLog {
 	/**
 	 * Constructor
 	 */
-	public CCOperateLog(SubType subType, CPath path, Object... args) {
+	public PRCocoViewerLog(SubType subType, CPath path, Object... args) {
 		super(Type.COCOVIEWER_RECORD, subType, path, args);
 	}
 }
