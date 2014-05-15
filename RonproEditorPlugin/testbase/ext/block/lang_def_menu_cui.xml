@@ -13,8 +13,8 @@
 		<BlockGenusMember>nextDouble</BlockGenusMember>
 		<BlockGenusMember>hasNextInt</BlockGenusMember>
 		<BlockGenusMember>hasNextDouble</BlockGenusMember>
-<!--  		<BlockGenusMember>input-isInteger</BlockGenusMember>
-		<BlockGenusMember>input-isDouble</BlockGenusMember>-->
+ 		<BlockGenusMember>input-isInteger</BlockGenusMember>
+		<BlockGenusMember>input-isDouble</BlockGenusMember>
 		<BlockGenusMember>input-getInt</BlockGenusMember>
 		<BlockGenusMember>input-getDouble</BlockGenusMember>
 		<BlockGenusMember>input-getString</BlockGenusMember>

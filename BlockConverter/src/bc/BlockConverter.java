@@ -58,7 +58,7 @@ public class BlockConverter {
 			"isPlaying", "getVolume", "setVolume"
 			/* text */, "getText", "loadOnMemory"
 			/* cui */, "cui-print", "cui-println", "cui-random", "next",
-			"nextInt", "nextDouble", "hashCode", "input-getInt", "input-getDouble", "input-getString"
+			"nextInt", "nextDouble", "hashCode", "input-getInt", "input-getDouble", "input-getString", "input-isInteger", "input-isDouble"
 			/* empty! */, "empty"
 			/* math */, "sqrt", "sin", "cos", "tan", "log", "toRadians",
 			/* list */"get", "getSize", "add", "addFirst", "addLast", "addAll",
