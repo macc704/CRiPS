@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Pres Core
 Bundle-SymbolicName: jp.ac.shizuoka.inf.ce.cs.pres.core;singleton:=true
-Bundle-Version: 3.7.2
+Bundle-Version: 3.7.3
 Bundle-Activator: pres.PresCorePlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
