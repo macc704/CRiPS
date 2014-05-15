@@ -46,7 +46,13 @@
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
-		</Stub>		
+		</Stub>	
+		<Stub stub-genus="inc">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>			
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="type" value="number"></LangSpecProperty>
