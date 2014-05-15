@@ -289,6 +289,8 @@ import controller.WorkspaceController;
  *  	・配列要素への書き込みブロックの修正
  *  2014.05.15 3.1.0 Ohata
  *  	・引数ブロックの配列，obproライブラリ対応
+ *  2014.05.15 3.1.1 Ohata
+ *  	・整数型引数のインクリメントがJava>>Block変換できなかった問題を修正
  *  
  *  
  * <TODO>
