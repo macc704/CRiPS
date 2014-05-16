@@ -36,9 +36,6 @@ public class StPrivateVariableDeclarationModel extends
 
 	@Override
 	public String getType() {
-		if (isArray()) {
-			return super.getType().substring(0, super.getType().indexOf("[]"));
-		}
 		return super.getType();
 	}
 
