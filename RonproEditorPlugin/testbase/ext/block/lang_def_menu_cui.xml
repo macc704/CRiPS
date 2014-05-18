@@ -8,11 +8,6 @@
 		<BlockGenusMember>cui-random</BlockGenusMember>
 		<BlockGenusMember>hashCode</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
-		<BlockGenusMember>next</BlockGenusMember>
-		<BlockGenusMember>nextInt</BlockGenusMember>
-		<BlockGenusMember>nextDouble</BlockGenusMember>
-		<BlockGenusMember>hasNextInt</BlockGenusMember>
-		<BlockGenusMember>hasNextDouble</BlockGenusMember>
  		<BlockGenusMember>input-isInteger</BlockGenusMember>
 		<BlockGenusMember>input-isDouble</BlockGenusMember>
 		<BlockGenusMember>input-getInt</BlockGenusMember>
@@ -227,6 +222,11 @@
         <BlockGenusMember>remove[@object]</BlockGenusMember>
         <BlockGenusMember>get[@number]</BlockGenusMember>
         <BlockGenusMember>length</BlockGenusMember>
+        <BlockGenusMember>next</BlockGenusMember>
+		<BlockGenusMember>nextInt</BlockGenusMember>
+		<BlockGenusMember>nextDouble</BlockGenusMember>
+		<BlockGenusMember>hasNextInt</BlockGenusMember>
+		<BlockGenusMember>hasNextDouble</BlockGenusMember>
 	</BlockDrawer>
 
 </BlockDrawerSet>
