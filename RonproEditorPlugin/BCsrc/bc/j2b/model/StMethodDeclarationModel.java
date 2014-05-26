@@ -10,6 +10,7 @@ public class StMethodDeclarationModel extends StatementModel {
 	private final int blockHeight = 55;
 
 	private String name;
+	private String returnType;///plugの形
 	// private String type;
 
 	private boolean isCollapsed = false;
@@ -18,8 +19,9 @@ public class StMethodDeclarationModel extends StatementModel {
 
 	private StBlockModel body;
 
-	public StMethodDeclarationModel() {
+	public StMethodDeclarationModel(String returnType) {
 		setBlockHeight(blockHeight);
+		this.returnType = returnType;
 	}
 
 	public void addArgument(StLocalVariableModel argModel) {
@@ -116,6 +118,7 @@ public class StMethodDeclarationModel extends StatementModel {
 		out.println("<Y>" + getPosY() + "</Y>");
 		makeIndent(out, indent + 1);
 		out.println("</Location>");
+		
 		// afterBlockId
 		if (body != null && body.getChildrenSize() != 0) {
 			makeIndent(out, indent + 1);
@@ -143,6 +146,12 @@ public class StMethodDeclarationModel extends StatementModel {
 		if (isCollapsed) {
 			makeIndent(out, indent + 1);
 			out.println("<Collapsed/>");
+		}
+		
+		//return type
+		if(!"void".equals(returnType)){
+			makeIndent(out, indent + 1);
+			out.println("<ReturnType>" + returnType + "</ReturnType>");		
 		}
 
 		makeIndent(out, indent);
