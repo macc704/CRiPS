@@ -2004,6 +2004,8 @@ public class Block implements ISupportMemento {
 					javaLabel = child.getTextContent();
 				} else if (child.getNodeName().equals("ParentBlock")) {
 					parentID = Long.parseLong(child.getTextContent());
+				} else if(child.getNodeName().equals("ReturnType")){ 
+					BlockStub.putParentToPlugType(label + genusName, child.getTextContent());
 				} else if (child.getNodeName().equals("PageLabel")) {
 					pagelabel = child.getTextContent();
 				} else if (child.getNodeName().equals("CompilerErrorMsg")) {

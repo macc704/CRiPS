@@ -645,7 +645,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		variableResolver.resetLocalVariable();
 
-		StMethodDeclarationModel model = new StMethodDeclarationModel();
+		StMethodDeclarationModel model = new StMethodDeclarationModel(ElementModel.getConnectorType(node.getReturnType2().toString()));
 		// メソッド引数の処理
 		for (Object o : node.parameters()) {
 			SingleVariableDeclaration arg = ((SingleVariableDeclaration) o);
