@@ -25,6 +25,16 @@ import pres.loader.logmodel.PRCocoViewerLog;
 import src.coco.model.CCCompileErrorKind;
 import src.coco.model.CCCompileErrorManager;
 
+/*
+ * 
+ * 2013/12/19 version 0.0.1  論プロに組み込んだバージョン
+ * 2014/05/30 version 0.1.0  諸機能の追加
+ * 								・ソースコードオープン機能
+ * 								・グラフ概形切り替えボタン
+ * 								・操作ログをpres2.logに書き出し
+ * 								・EclipsePlugin対応
+ */
+
 public class CCMainFrame2 extends JFrame {
 
 	/**
@@ -33,7 +43,7 @@ public class CCMainFrame2 extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public static final String APP_NAME = "CoCo Viewer";
-	public static final String VERSION = "0.0.1";
+	public static final String VERSION = "0.1.0";
 
 	// Button Size
 	private int buttonWidth = 100;
