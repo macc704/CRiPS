@@ -21,8 +21,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
+import pres.loader.logmodel.PRCocoViewerLog;
 import src.coco.model.CCCompileErrorKind;
 import src.coco.model.CCCompileErrorManager;
+
+/*
+ * 
+ * 2013/12/19 version 0.0.1  論プロに組み込んだバージョン
+ * 2014/05/30 version 0.1.0  諸機能の追加
+ * 								・ソースコードオープン機能
+ * 								・グラフ概形切り替えボタン
+ * 								・操作ログをpres2.logに書き出し
+ * 								・EclipsePlugin対応
+ */
 
 public class CCMainFrame2 extends JFrame {
 
@@ -32,7 +43,7 @@ public class CCMainFrame2 extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public static final String APP_NAME = "CoCo Viewer";
-	public static final String VERSION = "0.0.1";
+	public static final String VERSION = "0.1.0";
 
 	// Button Size
 	private int buttonWidth = 100;
@@ -106,6 +117,7 @@ public class CCMainFrame2 extends JFrame {
 				for (CCErrorElementButton2 button : buttons) {
 					button.closeGraphFrame();
 				}
+				manager.writePresLog(PRCocoViewerLog.SubType.COCOVIEWER_CLOSE);
 			}
 		});
 	}
@@ -181,9 +193,8 @@ public class CCMainFrame2 extends JFrame {
 
 		// エラーIDごとの数値を書き込み、ボタンを実装する
 		for (CCCompileErrorKind list : manager.getAllKinds()) {
-			CCErrorElementButton2 button = new CCErrorElementButton2(list,
-					buttonWidth, buttonHeight, manager.getBaseDir(),
-					manager.getLibDir(), manager.getPPProjectSet());
+			CCErrorElementButton2 button = new CCErrorElementButton2(manager,
+					list, buttonWidth, buttonHeight);
 			buttons.add(button);
 		}
 

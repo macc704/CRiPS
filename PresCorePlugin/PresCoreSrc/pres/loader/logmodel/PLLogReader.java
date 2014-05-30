@@ -219,9 +219,24 @@ public class PLLogReader {
 					new CPath(path));
 			blocklog.setMessage(message);
 			return blocklog;
-		}
 
-		else {
+		} else if (typeString.equals("COCOVIEWER_RECORD")) {
+			String path = tokenizer.nextToken();
+
+			// checkLineStatus(time, tokenizer, typeString);
+			PLFileLog log = new PLFileLog(time, typeString, subTypeString,
+					new CPath(path)) {
+
+				@Override
+				public String getExplanationPhrase() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+			};
+
+			return log;
+
+		} else {
 			throw new RuntimeException("Unknown Log Type: " + typeString);
 		}
 	}

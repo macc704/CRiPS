@@ -1,6 +1,8 @@
 package src.coco.view;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -11,9 +13,11 @@ import javax.swing.WindowConstants;
 import ppv.view.parts.PPCompileResultPane;
 import ppv.view.parts.PPSourcePane;
 import ppv.view.parts.PPTimeLinePane;
+import pres.loader.logmodel.PRCocoViewerLog;
 import pres.loader.model.IPLUnit;
 import pres.loader.model.PLFile;
 import pres.loader.model.PLPackage;
+import src.coco.model.CCCompileErrorManager;
 import clib.common.time.CTime;
 import clib.view.timeline.model.CTimeModel;
 import clib.view.timeline.model.CTimeTransformationModel;
@@ -25,7 +29,8 @@ public class CCSourceCompareViewer extends JFrame {
 
 	private PPTimeLinePane timelinePane = new PPTimeLinePane();
 
-	public CCSourceCompareViewer(IPLUnit unit) {
+	public CCSourceCompareViewer(IPLUnit unit, final int errorID,
+			final int rowIndex, final CCCompileErrorManager manager) {
 		// 単体srcフォルダの場合，自動で中身を展開する．（仮の機能）
 		if (unit instanceof PLPackage
 				&& ((PLPackage) unit).getChildren().size() == 1
@@ -37,6 +42,14 @@ public class CCSourceCompareViewer extends JFrame {
 		this.unit = unit;
 		initialize();
 		initializeData();
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				manager.writePresLog(PRCocoViewerLog.SubType.SOURCE_CLOSE,
+						errorID, rowIndex);
+			}
+		});
 	}
 
 	private void initialize() {

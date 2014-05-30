@@ -5,7 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import ppv.app.datamanager.PPProjectSet;
+import pres.core.IPRRecordingProject;
+import pres.core.model.PRLog;
+import pres.loader.logmodel.PRCocoViewerLog;
+import pres.loader.logmodel.PRCocoViewerLog.SubType;
 import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CPath;
 
 public class CCCompileErrorManager {
 	// HashMapでは順序が保証されないのでLinkedHashMapに変更
@@ -19,6 +24,8 @@ public class CCCompileErrorManager {
 	private CDirectory baseDir;
 	private CDirectory libDir;
 	private PPProjectSet ppProjectSet;
+	private CPath projectPath;
+	private IPRRecordingProject recodingproject;
 
 	public CCCompileErrorManager() {
 
@@ -110,5 +117,29 @@ public class CCCompileErrorManager {
 
 	public int getTotalErrorCorrectionTime() {
 		return totalErrorCorrectionTime;
+	}
+
+	public void setProjectPath(CPath projectPath) {
+		this.projectPath = projectPath;
+	}
+
+	public CPath getProjectPath() {
+		return projectPath;
+	}
+
+	public void setRecordingProject(IPRRecordingProject recodingproject) {
+		this.recodingproject = recodingproject;
+	}
+
+	public IPRRecordingProject getRecodingproject() {
+		return recodingproject;
+	}
+
+	public void writePresLog(SubType cocoviewerSubtype, Object... texts) {
+		if (recodingproject != null) {
+			PRLog log = new PRCocoViewerLog(cocoviewerSubtype,
+					getProjectPath(), texts);
+			recodingproject.record(log);
+		}
 	}
 }

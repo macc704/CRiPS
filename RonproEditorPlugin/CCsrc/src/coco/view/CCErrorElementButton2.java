@@ -23,9 +23,9 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import ppv.app.datamanager.PPProjectSet;
+import pres.loader.logmodel.PRCocoViewerLog;
 import src.coco.model.CCCompileErrorKind;
-import clib.common.filesystem.CDirectory;
+import src.coco.model.CCCompileErrorManager;
 
 public class CCErrorElementButton2 extends JButton {
 
@@ -38,26 +38,20 @@ public class CCErrorElementButton2 extends JButton {
 	private int width;
 	private int height;
 
+	private CCCompileErrorManager manager;
 	private CCCompileErrorKind list;
-
-	private CDirectory baseDir;
-	private CDirectory libDir;
-	private PPProjectSet ppProjectSet;
 
 	private ChartPanel chartpanel;
 	private JFreeChart chart;
 
 	private List<CCGraphFrame> graphframes = new ArrayList<CCGraphFrame>();
 
-	public CCErrorElementButton2(CCCompileErrorKind list, int width,
-			int height, CDirectory baseDir, CDirectory libDir,
-			PPProjectSet ppProjectSet) {
+	public CCErrorElementButton2(CCCompileErrorManager manager,
+			CCCompileErrorKind list, int width, int height) {
+		this.manager = manager;
 		this.list = list;
 		this.width = width;
 		this.height = height;
-		this.baseDir = baseDir;
-		this.libDir = libDir;
-		this.ppProjectSet = ppProjectSet;
 
 		super.setPreferredSize(new Dimension(width, height));
 		super.setLayout(null);
@@ -128,10 +122,20 @@ public class CCErrorElementButton2 extends JButton {
 
 			@Override
 			public void chartMouseClicked(ChartMouseEvent arg0) {
-				CCGraphFrame graphframe = new CCGraphFrame(list, baseDir,
-						libDir, ppProjectSet);
+				int errorID = -1;
+				try {
+					errorID = list.getErrors().get(0).getErrorID();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				CCGraphFrame graphframe = new CCGraphFrame(list, manager,
+						errorID);
 				graphframe.setVisible(true);
 				graphframes.add(graphframe);
+
+				manager.writePresLog(PRCocoViewerLog.SubType.DETAIL_OPEN,
+						errorID);
 			}
 		});
 
