@@ -141,6 +141,16 @@
          </property>
       </product>
    </extension>
+   
+   <!-- CheCoProPerspective -->
+   <extension
+    point="org.eclipse.ui.perspectives">
+    <perspective
+        class="ch.perspective.CHPerspective"
+        icon="icons/sample.gif"
+        id="ch.perspective"
+        name="CheCoPro"/>
+   </extension>
 
 <!--
    <extension
