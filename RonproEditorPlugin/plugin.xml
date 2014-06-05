@@ -151,13 +151,15 @@
         id="ch.perspective"
         name="CheCoPro"/>
    </extension>
+   
+   <!-- CheCoProPreferenceView -->
    <extension
          point="org.eclipse.ui.views">
       <view
             class="ch.perspective.views.CHPreferenceView"
             icon="icons/sample.gif"
             id="ch.preferenceView"
-            name="CHPreference"
+            name="Preference"
             restorable="true">
       </view>
    </extension>
