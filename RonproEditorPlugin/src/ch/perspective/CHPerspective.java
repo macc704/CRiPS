@@ -32,7 +32,8 @@ public class CHPerspective implements IPerspectiveFactory{
 		IFolderLayout memberProjects = layout.createFolder("memberProjects", IPageLayout.RIGHT, 0.75f, "membersEditor");
 		memberProjects.addView(IPageLayout.ID_TASK_LIST);
 
-		layout.addView(IPageLayout.ID_PROBLEM_VIEW, IPageLayout.RIGHT, 0.80f, "console");
+		// コンソールの右にPreferenceを表示
+		layout.addView("ch.preferenceView", IPageLayout.RIGHT, 0.80f, "console");
 	}
 
 }
