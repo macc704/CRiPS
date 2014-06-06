@@ -162,6 +162,13 @@
             name="Preference"
             restorable="true">
       </view>
+      <view
+      		class="ch.perspective.views.CHMemberDirectoryView"
+      		icon="icons/sample.gif"
+      		id="ch.memberDirectoryView"
+      		name="Members'Projects"
+      		restorable="true">
+      </view>
    </extension>
 
 <!--

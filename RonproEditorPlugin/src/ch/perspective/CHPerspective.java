@@ -30,7 +30,7 @@ public class CHPerspective implements IPerspectiveFactory{
 
 		// メンバエディタ領域の右側にフォルダを追加
 		IFolderLayout memberProjects = layout.createFolder("memberProjects", IPageLayout.RIGHT, 0.75f, "membersEditor");
-		memberProjects.addView(IPageLayout.ID_TASK_LIST);
+		memberProjects.addView("ch.memberDirectoryView");
 
 		// コンソールの右にPreferenceを表示
 		layout.addView("ch.preferenceView", IPageLayout.RIGHT, 0.80f, "console");
