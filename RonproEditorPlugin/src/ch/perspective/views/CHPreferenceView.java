@@ -33,6 +33,9 @@ public class CHPreferenceView extends ViewPart{
 	
 	public void setComponents(Composite parent){
 		
+		String[][] table = new String[1][3];
+		table = CCSVFileIO.load(CHFileSystem.getPrefFile());
+		
 		parent.setLayout(new GridLayout(2,true));
 		
 		// ユーザ名
@@ -40,6 +43,7 @@ public class CHPreferenceView extends ViewPart{
 		userLabel.setText("UserName");
 		userNameArea = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		userNameArea.setTextLimit(16);
+		userNameArea.setText(table[0][0]);
 		userNameArea.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		// パスワード
@@ -47,6 +51,7 @@ public class CHPreferenceView extends ViewPart{
 		passLabel.setText("Password");
 		passArea = new Text(parent, SWT.PASSWORD | SWT.BORDER);
 		passArea.setTextLimit(16);
+		passArea.setText(table[0][1]);
 		passArea.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		
 		// グループ番号
@@ -56,6 +61,7 @@ public class CHPreferenceView extends ViewPart{
 		for(int i=0; i<51; i++){
 			groupNumArea.add(Integer.toString(i));
 		}
+		groupNumArea.select(Integer.parseInt(table[0][2]));
 		
 		// 適用ボタン
 		Button applyBbutton = new Button(parent, SWT.PUSH);
