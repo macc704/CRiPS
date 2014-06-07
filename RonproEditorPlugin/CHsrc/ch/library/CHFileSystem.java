@@ -15,6 +15,9 @@ import clib.common.filesystem.sync.CFileListUtils;
 import clib.common.table.CCSVFileIO;
 
 public class CHFileSystem {
+	
+	public static String PROJECTPATH = "runtime-EclipseApplication/final";
+	public static String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
 
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
@@ -37,7 +40,11 @@ public class CHFileSystem {
 	
 	// for plug-in
 	public static CDirectory getEclipseProjectDir() {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory("runtime-EclipseApplication/final");
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(PROJECTPATH);
+	}
+	
+	public static CDirectory getEclipseMemberDir() {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(MEMBERDIRPATH);
 	}
 
 	// processFilelistRequest and Response server

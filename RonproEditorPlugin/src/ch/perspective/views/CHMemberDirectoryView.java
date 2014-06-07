@@ -13,6 +13,8 @@ import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
+import ch.library.CHFileSystem;
+
 public class CHMemberDirectoryView extends ViewPart{
 
 	@Override
@@ -20,7 +22,7 @@ public class CHMemberDirectoryView extends ViewPart{
 		TreeViewer viewer = new TreeViewer(parent);
 		viewer.setContentProvider(new ExplororContentProvider());
 		viewer.setLabelProvider(new ExplororLabelProvider());
-		viewer.setInput(File.listRoots());
+		viewer.setInput(CHFileSystem.getEclipseMemberDir().toJavaFile().listFiles());
 		viewer.setSorter(new ViewerSorter() {
 			public int category(Object element) {
 				if(((File)element).isDirectory()){
