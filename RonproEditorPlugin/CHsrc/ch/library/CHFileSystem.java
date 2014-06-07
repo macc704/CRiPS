@@ -18,6 +18,7 @@ public class CHFileSystem {
 	
 	public static String PROJECTPATH = "runtime-EclipseApplication/final";
 	public static String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
+	public static String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
 
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
@@ -43,8 +44,13 @@ public class CHFileSystem {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(PROJECTPATH);
 	}
 	
+	// for plug-in
 	public static CDirectory getEclipseMemberDir() {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(MEMBERDIRPATH);
+	}
+	
+	public static CFile getPrefFile() {
+		return CFileSystem.getExecuteDirectory().findOrCreateFile(PREFPATH);
 	}
 
 	// processFilelistRequest and Response server
