@@ -31,7 +31,7 @@ public class CHPreferenceView extends ViewPart{
 	public void setFocus() {
 	}
 	
-	public void setComponents(Composite parent){
+	public void setComponents(Composite parent) {
 		
 		String[][] table = new String[1][3];
 		table = CCSVFileIO.load(CHFileSystem.getPrefFile());

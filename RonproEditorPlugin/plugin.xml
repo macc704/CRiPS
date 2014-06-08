@@ -152,7 +152,7 @@
         name="CheCoPro"/>
    </extension>
    
-   <!-- CheCoProPreferenceView -->
+   <!-- CheCoProView -->
    <extension
          point="org.eclipse.ui.views">
       <view
@@ -167,6 +167,13 @@
       		icon="icons/sample.gif"
       		id="ch.memberDirectoryView"
       		name="Members'Projects"
+      		restorable="true">
+      </view>
+            <view
+      		class="ch.perspective.views.CHMemberStateView"
+      		icon="icons/sample.gif"
+      		id="ch.memberStateView"
+      		name="Member State"
       		restorable="true">
       </view>
    </extension>

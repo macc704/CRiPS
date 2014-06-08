@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import clib.common.filesystem.sync.CFileHashList;
+import clib.common.table.CCSVFileIO;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
 import ch.conn.framework.CHLoginCheck;
@@ -28,12 +29,22 @@ public class CheCoProManager {
 	public static final String IP = "localhost";
 	
 	private CHConnection conn;
+	private String user;
+	private String password;
+	private int port;
 	
 	public CheCoProManager(IWorkbenchWindow window) {
 		
-		// メニュー選択テスト用
-		System.out.println("CheCoPro start");
-		startCheCoPro();
+		String[][] table = new String[1][3];
+		table = CCSVFileIO.load(CHFileSystem.getPrefFile());
+		if(table.length == 0){
+			System.out.println("Preference未入力");
+		} else {
+			user = table[0][0];
+			password = table[0][1];
+			port = DEFAULT_PORT + Integer.parseInt(table[0][2]);
+			startCheCoPro();
+		}
 	}
 	
 	/********************
@@ -51,7 +62,7 @@ public class CheCoProManager {
 
 	private void connectServer() {
 
-		try (Socket sock = new Socket(IP, DEFAULT_PORT)) {
+		try (Socket sock = new Socket(IP, port)) {
 			conn = new CHConnection(sock);
 			newConnectionOpened(conn);
 		} catch (Exception ex) {
@@ -80,7 +91,8 @@ public class CheCoProManager {
 	}
 	
 	private boolean login() {
-		conn.write(new CHLoginRequest(DEFAULT_NAME, DEFAULT_PASSWAOD, DEFAULT_COLOR));
+		System.out.println("user:" + user + " password:" + password);
+		conn.write(new CHLoginRequest(user, password, DEFAULT_COLOR));
 		return conn.established();
 	}
 	
@@ -107,14 +119,14 @@ public class CheCoProManager {
 	
 	private void processFilelistRequest() {
 		CFileHashList fileList = CHFileSystem.getEclipseProjectFileList();
-		conn.write(new CHFilelistResponse(DEFAULT_NAME, fileList));
+		conn.write(new CHFilelistResponse(user, fileList));
 	}
 	
 	private void processFileRequest(CHFileRequest request) {
 		List<CHFile> files = CHFileSystem.getCHFiles(
 				request.getRequestFilePaths(),
 				CHFileSystem.getEclipseProjectDir());
-		conn.write(new CHFileResponse(DEFAULT_NAME, files));
+		conn.write(new CHFileResponse(user, files));
 	}
 
 }
