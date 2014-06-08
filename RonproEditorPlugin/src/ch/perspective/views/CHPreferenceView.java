@@ -35,6 +35,12 @@ public class CHPreferenceView extends ViewPart{
 		
 		String[][] table = new String[1][3];
 		table = CCSVFileIO.load(CHFileSystem.getPrefFile());
+		if(table.length == 0){
+			table = new String[1][3];
+			table[0][0] = "";
+			table[0][1] = "";
+			table[0][2] = "0";
+		}
 		
 		parent.setLayout(new GridLayout(2,true));
 		
