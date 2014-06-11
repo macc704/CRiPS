@@ -1,7 +1,9 @@
 package bc.apps;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,11 +15,15 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
+import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
@@ -40,15 +46,20 @@ public class OutputSourceModel {
 																							// added
 	private Map<String, String> privateRequests = new LinkedHashMap<String, String>();// ohata
 																						// added
-
+	private String superClassName;
+	
 	public OutputSourceModel(File file, String enc, String[] classpaths) {
 		this.file = file;
 		this.enc = enc;
 		this.classpaths = classpaths;
-
+	}
+	
+	public void setSuperClassName(String superClassName){
+		this.superClassName = superClassName;
 	}
 
 	public void save() throws Exception {
+		replaceSuperClass(superClassName);
 		// #ohata プライベート変数の作成と変換
 		createPrivateValues();
 		replacePrivateValues();
@@ -58,6 +69,16 @@ public class OutputSourceModel {
 		// 2013.09.10 #ohata 現状はここでコンストラクタの作成、変換を行っている
 		createNewMethods();// まず，ないメソッドは作る
 		replace();
+	}
+	
+	public void replaceSuperClass(String newSuperClassName) throws FileNotFoundException, UnsupportedEncodingException{
+		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
+		SuperClassParser parser = new SuperClassParser(newSuperClassName);
+		unit.accept(parser);
+		PrintStream ps = new PrintStream(file, enc);
+		ps.print(unit.toString());
+		ps.close();
+		
 	}
 
 	// #ohata added
@@ -419,17 +440,7 @@ public class OutputSourceModel {
 
 	private FieldDeclaration findPrivateValue(String name) {
 
-		String value = privateRequests.get(name);
 		for (FieldDeclaration privateValue : getPrivateValues()) {
-			String fragmentsValue = getFragmentsValue(privateValue.fragments()
-					.get(0).toString());
-			BCSystem.out.println("fragmentsValue:" + fragmentsValue + "value:"
-					+ value);
-			BCSystem.out
-					.println("getPrivateValueName(variable.fragments().get(0).toString()):"
-							+ getPrivateValueName(privateValue.fragments()
-									.get(0).toString()));
-			BCSystem.out.println("name:" + name);
 			if (getPrivateValueName(privateValue.fragments().get(0).toString())
 					.equals(name)) {
 				BCSystem.out.println("find same private value:" + name);
@@ -439,13 +450,13 @@ public class OutputSourceModel {
 		return null;
 	}
 
-	private String getFragmentsValue(String fragment) {
-		int index = fragment.indexOf("=");
-		if (index == -1) {
-			return null;
-		}
-		return fragment.substring(index + 1, fragment.length());
-	}
+//	private String getFragmentsValue(String fragment) {
+//		int index = fragment.indexOf("=");
+//		if (index == -1) {
+//			return null;
+//		}
+//		return fragment.substring(index + 1, fragment.length());
+//	}
 
 	private String getPrivateValueName(String fragment) {
 		int index = fragment.indexOf("=");
@@ -536,4 +547,31 @@ public class OutputSourceModel {
 		privateRequests.put(name, blockString);
 	}
 
+}
+
+class SuperClassParser extends ASTVisitor{
+
+	private String className;
+	
+	public SuperClassParser(String newClassName){
+		this.className = newClassName;
+	}
+	
+	public boolean visit(TypeDeclaration node){
+		setClassName(node, className);	
+		return super.visit(node);
+	}
+	
+	private void setClassName(TypeDeclaration node, String name){
+		if(name.equals("")){
+			node.getSuperclassType().delete();
+		}else{
+			AST ast = node.getAST();		
+			Name newName = ast.newName(name);
+			Type superClassType = ast.newSimpleType(newName);
+			node.setSuperclassType(superClassType);			
+		}
+
+	}
+	
 }

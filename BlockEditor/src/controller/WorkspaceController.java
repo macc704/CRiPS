@@ -1,7 +1,6 @@
 package controller;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -47,6 +46,7 @@ import slcodeblocks.ParamRule;
 import slcodeblocks.PolyRule;
 import util.ChangeExtension;
 import workspace.BlockCanvas;
+import workspace.Page;
 import workspace.SearchBar;
 import workspace.SearchableContainer;
 import workspace.TrashCan;
@@ -110,6 +110,8 @@ public class WorkspaceController {
 	public static final int PROJECT_SELECTED = 2;
 	public static final int COMPILE_ERROR = 3;
 	private int state = PROJECT_SELECTED;
+	
+	private String encoding;
 
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
@@ -629,6 +631,8 @@ public class WorkspaceController {
 			final SBlockEditorListener ronproEditor, final String enc) {
 		this.ronproEditor = ronproEditor;
 
+		this.encoding = enc;
+		
 		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
 			public void workspaceEventOccurred(WorkspaceEvent event) {
 				//System.out.println(event);
@@ -649,11 +653,6 @@ public class WorkspaceController {
 		{// create save button
 			final JComboBox inheritanceList = new JComboBox();
 			inheritanceList.setEditable(true);
-			inheritanceList.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					
-				}
-			});
 			topPane.add(inheritanceList);
 		}
 
@@ -768,11 +767,58 @@ public class WorkspaceController {
 	}
 	
 	public void changeInheritanceList(){
-		JComboBox inheritanceList = getInheritanceListBox();
+		final JComboBox inheritanceList = getInheritanceListBox();
+		String[] projectJavaFiles = getProjectJavaFiles();		
+		
+		//コンボボックスの初期化
 		inheritanceList.removeAllItems();
-		for(String item : getProjectJavaFiles()){
+		ActionListener[] listeners = inheritanceList.getActionListeners();
+		if(listeners.length != 0){
+			inheritanceList.removeActionListener(listeners[0]);			
+		}
+		
+		inheritanceList.addItem("");
+		inheritanceList.setSelectedIndex(0);
+		
+		for(String item : projectJavaFiles){
+			if(item == null){
+				break;
+			}
 			inheritanceList.addItem(item.substring(0,item.indexOf(".java")));	
 		}
+		
+		//obpro追加
+		inheritanceList.addItem("BCanvas");
+		inheritanceList.addItem("BWindow");
+		inheritanceList.addItem("BSound");
+		
+		File file = new File(selectedJavaFile);
+		Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
+		String superClassName = openedPage.getSuperClassName();
+		
+		//継承クラスの初期設定
+		for(int i = 0;i<inheritanceList.getItemCount();i++){
+			if(inheritanceList.getItemAt(i).equals(superClassName)){
+				inheritanceList.setSelectedIndex(i);
+			}
+		}
+		inheritanceList.removeItem(file.getName().substring(0, file.getName().indexOf(".xml")));
+		if(inheritanceList.getSelectedItem() == ""){
+			//該当する親クラスがなかったので、親クラスを登録して初期値に設定
+			inheritanceList.addItem(superClassName);
+			inheritanceList.setSelectedIndex(inheritanceList.getItemCount()-1);							
+		}		
+		//リスナ登録
+		inheritanceList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				File file = new File(selectedJavaFile);
+				Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
+				openedPage.setSuperClassName(inheritanceList.getSelectedItem().toString());
+				WorkspaceController wc = workspace.getWorkSpaceController();
+//				wc.convertToJava(wc.getSaveString(),encoding);
+			}
+		});
+
 	}
 
 	public void createAndShowGUIForTesting(final WorkspaceController wc,
