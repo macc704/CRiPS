@@ -1,6 +1,8 @@
 package controller;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +22,7 @@ import java.io.StringReader;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -396,6 +399,8 @@ public class WorkspaceController {
 				workspaceLoaded = true;
 
 				setFrameTitle(path);
+				
+				changeInheritanceList();
 
 				setDirty(false);
 			}
@@ -640,6 +645,17 @@ public class WorkspaceController {
 		frame.setBounds(100, 100, 800, 500);
 
 		JPanel topPane = new JPanel();
+		
+		{// create save button
+			final JComboBox inheritanceList = new JComboBox();
+			inheritanceList.setEditable(true);
+			inheritanceList.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+				}
+			});
+			topPane.add(inheritanceList);
+		}
 
 		{// create save button
 			JButton saveButton = new JButton("Save as Java and Compile");
@@ -743,6 +759,20 @@ public class WorkspaceController {
 		frame.add(wc.getWorkspacePanel(), BorderLayout.CENTER);
 		frame.addWindowListener(closeManagement);
 		frame.setVisible(true);
+	}
+	
+	public JComboBox getInheritanceListBox(){
+		Container cont = frame.getContentPane();
+		JPanel cmp = (JPanel)cont.getComponent(0);
+		return (JComboBox)cmp.getComponent(0);
+	}
+	
+	public void changeInheritanceList(){
+		JComboBox inheritanceList = getInheritanceListBox();
+		inheritanceList.removeAllItems();
+		for(String item : getProjectJavaFiles()){
+			inheritanceList.addItem(item.substring(0,item.indexOf(".java")));	
+		}
 	}
 
 	public void createAndShowGUIForTesting(final WorkspaceController wc,
@@ -1008,6 +1038,25 @@ public class WorkspaceController {
 			} else if (title.endsWith("*") && !dirty) {
 				frame.setTitle(title.substring(0, title.length() - 1));
 			}
+		}
+	}
+	
+	public String[] getProjectJavaFiles(){
+		if(selectedJavaFile != null){
+			String[] fileList = new File(selectedJavaFile).getParentFile().list();
+			String[] javaFileList = new String[fileList.length];
+			
+			int javaFileListIndex = 0;
+			//同一フォルダ内のjavaファイルリストを作成する
+			for(int i=0;i<javaFileList.length;i++){
+				if(fileList[i].endsWith(".java")){
+					javaFileList[javaFileListIndex++] = fileList[i];
+				}
+			}
+			
+			return javaFileList;			
+		}else{
+			return (new String[20]);
 		}
 	}
 
