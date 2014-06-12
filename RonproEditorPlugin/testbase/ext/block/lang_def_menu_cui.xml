@@ -199,8 +199,6 @@
 		<BlockGenusMember>getCanvasWidth</BlockGenusMember>
 		<BlockGenusMember>getCanvasHeight</BlockGenusMember>
 		<BlockGenusMember>drawImage</BlockGenusMember>
-		<BlockGenusMember>drawFillArc[@object@number@number]</BlockGenusMember>
-		<BlockGenusMember>drawFillArc[@object@number@number@number@number]</BlockGenusMember>
 		<BlockGenusMember>drawFillArc[@object@number@number@number@number@number@number]</BlockGenusMember>
 		<BlockGenusMember>setLocation</BlockGenusMember>
 		<BlockGenusMember>setSize</BlockGenusMember>
