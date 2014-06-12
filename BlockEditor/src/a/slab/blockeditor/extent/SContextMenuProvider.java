@@ -298,6 +298,8 @@ public class SContextMenuProvider {
 					"フォントサイズを指定して文字を書きます"));
 			category.add(createCallMethodMenu(
 					"drawFillArc[@object@number@number@number@number@number@number]", "塗りつぶした円を書きます"));
+			category.add(createCallMethodMenu(
+					"drawArc", "円を書きます"));			
 			category.add(createCallMethodMenu("drawImage", "画像を書きます"));
 			//			category.add(createCallMethodMenu("drawImage",
 			//					"指定したサイズにリサイズする画像を書きます"));
