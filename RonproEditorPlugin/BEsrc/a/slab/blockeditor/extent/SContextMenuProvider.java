@@ -291,18 +291,20 @@ public class SContextMenuProvider {
 			category.add(createCallMethodMenu("drawLine", "線を引きます"));
 			category.add(createCallMethodMenu("drawFillTriangle",
 					"塗りつぶした三角形を書きます"));
-			category.add(createCallMethodMenu("[@object@string@number@number]",
+			category.add(createCallMethodMenu("drawText[@object@string@number@number]",
 					"文字を書きます"));
 			category.add(createCallMethodMenu(
 					"drawText[@object@string@number@number@object]",
 					"フォントサイズを指定して文字を書きます"));
 			category.add(createCallMethodMenu(
-					"drawFillArc[@objet@number@number]", "塗りつぶした円を書きます"));
+					"drawFillArc[@object@number@number@number@number@number@number]", "塗りつぶした円を書きます"));
+			category.add(createCallMethodMenu(
+					"drawArc", "円を書きます"));			
 			category.add(createCallMethodMenu("drawImage", "画像を書きます"));
 			//			category.add(createCallMethodMenu("drawImage",
 			//					"指定したサイズにリサイズする画像を書きます"));
 			category.add(createCallMethodMenu("getImageWidth", "画像の幅を取得します"));
-			category.add(createCallMethodMenu("getImageWidth", "画像の高さを取得します"));
+			category.add(createCallMethodMenu("getImageHeight", "画像の高さを取得します"));
 			category.add(createCallMethodMenu("clear", "キャンバスを白く塗りつぶします"));
 			category.add(createCallMethodMenu("update", "画面を更新します"));
 			category.add(createCallMethodMenu("getKeyCode", "押されたキーのコードを取得します"));

@@ -76,8 +76,6 @@ public class BlockConverter {
 			"drawArc",
 			"drawFillTriangle",
 			"drawLine", 
-			"drawFillArc[@objet@number@number]",
-			"drawFillArc[@object@number@number@number@number]",
 			"drawFillArc[@object@number@number@number@number@number@number]",
 			"drawText[@object@string@number@number@object]",
 			"drawText[@object@string@number@number]",
