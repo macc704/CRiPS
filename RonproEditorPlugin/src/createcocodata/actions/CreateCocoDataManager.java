@@ -13,6 +13,8 @@ import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.model.CCCompileErrorManager;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileSystem;
+import clib.common.time.CTime;
+import clib.common.time.CTimeInterval;
 
 public class CreateCocoDataManager {
 
@@ -45,6 +47,8 @@ public class CreateCocoDataManager {
 			return;
 		}
 
+		CTime startTime = new CTime();
+
 		// CompileError.csvを自動的にエクスポートする
 		autoExportCompileErrorCSV();
 
@@ -53,6 +57,15 @@ public class CreateCocoDataManager {
 
 		// アクティベーターでコンパイル情報を保持
 		Activator.getDefault().setppProjectset(ppProjectSet);
+
+		CTime endTime = new CTime();
+		CTimeInterval interval = startTime.diffrence(endTime);
+		String minute = interval.getMinuteString();
+		String second = interval.getSecondString();
+
+		JOptionPane.showMessageDialog(null, "処理時間： " + minute + "分 " + second
+				+ "秒");
+		// System.out.println("処理時間： " + minute + "分 " + second + "秒");
 	}
 
 	private void autoExportCompileErrorCSV() {
