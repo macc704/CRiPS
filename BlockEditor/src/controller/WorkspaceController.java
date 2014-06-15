@@ -111,6 +111,8 @@ public class WorkspaceController {
 	public static final int COMPILE_ERROR = 3;
 	private int state = PROJECT_SELECTED;
 	
+	private String encoding;
+	
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
 	 * with the codeblocks.Workspace
@@ -628,6 +630,7 @@ public class WorkspaceController {
 	public void createAndShowGUI(final WorkspaceController wc,
 			final SBlockEditorListener ronproEditor, final String enc) {
 		this.ronproEditor = ronproEditor;
+		this.encoding = enc;
 
 		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
 			public void workspaceEventOccurred(WorkspaceEvent event) {
@@ -808,11 +811,51 @@ public class WorkspaceController {
 		//リスナ登録
 		inheritanceList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//親クラスを書き換える
 				File file = new File(selectedJavaFile);
 				Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
-				openedPage.setSuperClassName(inheritanceList.getSelectedItem().toString());
-				WorkspaceController wc = workspace.getWorkSpaceController();
-//				wc.convertToJava(wc.getSaveString(),encoding);
+				
+				String superClassName;
+				if(inheritanceList.getSelectedItem() == null){
+					superClassName = "";
+				}else{
+					superClassName = inheritanceList.getSelectedItem().toString();
+				}
+				openedPage.setSuperClassName(superClassName);
+				
+				
+				convertToJava(getSaveString(), encoding);
+				
+				//再読み込みする
+				Document doc;
+				Document langDefDoc;
+
+				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder builder;
+				
+				try {
+					builder = factory.newDocumentBuilder();
+					doc = builder.parse(file);
+					
+					File langdefFile = new File(LANG_DEF_FILEPATH);
+					langDefDoc = builder.parse(langdefFile);
+					
+					Element langDefRoot = langDefDoc.getDocumentElement();
+					Element projectRoot = doc.getDocumentElement();
+					
+					
+					workspace.getFactoryManager().reset();
+					workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
+				} catch (ParserConfigurationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SAXException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 
