@@ -111,8 +111,6 @@ public class WorkspaceController {
 	public static final int COMPILE_ERROR = 3;
 	private int state = PROJECT_SELECTED;
 	
-	private String encoding;
-
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
 	 * with the codeblocks.Workspace
@@ -631,8 +629,6 @@ public class WorkspaceController {
 			final SBlockEditorListener ronproEditor, final String enc) {
 		this.ronproEditor = ronproEditor;
 
-		this.encoding = enc;
-		
 		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
 			public void workspaceEventOccurred(WorkspaceEvent event) {
 				//System.out.println(event);
@@ -651,7 +647,7 @@ public class WorkspaceController {
 		JPanel topPane = new JPanel();
 		
 		{// create save button
-			final JComboBox inheritanceList = new JComboBox();
+			final JComboBox<String> inheritanceList = new JComboBox<String>();
 			inheritanceList.setEditable(true);
 			topPane.add(inheritanceList);
 		}
@@ -760,14 +756,15 @@ public class WorkspaceController {
 		frame.setVisible(true);
 	}
 	
-	public JComboBox getInheritanceListBox(){
+	@SuppressWarnings("unchecked")
+	public JComboBox<String> getInheritanceListBox(){
 		Container cont = frame.getContentPane();
 		JPanel cmp = (JPanel)cont.getComponent(0);
-		return (JComboBox)cmp.getComponent(0);
+		return (JComboBox<String>)cmp.getComponent(0);
 	}
 	
 	public void changeInheritanceList(){
-		final JComboBox inheritanceList = getInheritanceListBox();
+		final JComboBox<String> inheritanceList = getInheritanceListBox();
 		String[] projectJavaFiles = getProjectJavaFiles();		
 		
 		//コンボボックスの初期化
