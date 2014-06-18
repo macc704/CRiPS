@@ -1,0 +1,13 @@
+Obproライブラリ
+2.1.0 2012.04.05
+	start() を public関数にする 
+2.0.0 2012.04.05 
+	for 2012
+	Blibraryと統合 (turtleシステムを統合)．
+	BSoundは別パッケージのものを利用．　
+1.9.3 capturemodeのデフォルトサイズ size()関数に変更　松澤　
+1.9.2 capturemodeのデフォルトサイズ1000x700に変更　松澤　
+1.9.1 capturemodeのデフォルトサイズ500x500に変更　松澤　
+1.9 turtleにcapturemode追加　松澤　
+1.8 gamefwのCharacterをGameCharacterと名前の変更
+（java.lang.Characterとかぶって扱いにくいため）　2007/06/20 松澤

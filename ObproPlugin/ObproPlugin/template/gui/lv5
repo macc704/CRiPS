@@ -1,0 +1,55 @@
+ public static void main(String[] args) {
+  ${className} ${instanceName} = new ${className}();
+  ${instanceName}.main();
+ }
+
+ BWindow window;
+
+ void main() {
+  openWindow();
+  doAnimation();
+ }
+
+ //ウインドウを開く
+ void openWindow() {
+  window = new BWindow();
+  window.setLocation(100, 100);
+  window.setSize(640, 480);
+  window.show();
+ }
+
+ //アニメーションする
+ void doAnimation() {
+  //前処理
+  BCanvas canvas = window.getCanvas();//キャンバスを取得する  
+  initializeObjects();//オブジェクトの初期化をする
+
+  //アニメーションする
+  while (true) {
+   //図形を動かす
+   move();
+
+   //図形を描く
+   canvas.clear();
+   draw(canvas);
+   canvas.update();
+
+   //眠る
+   canvas.sleep(0.1);
+  }
+ }
+
+ //オブジェクトを初期化する
+ void initializeObjects() {
+
+ }
+
+ //オブジェクトを動かす
+ void move() {
+
+ }
+
+ //オブジェクトを描画する
+ void draw(BCanvas canvas) {
+
+ }

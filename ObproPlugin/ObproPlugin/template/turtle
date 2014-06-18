@@ -1,0 +1,9 @@
+	//起動処理
+	public static void main(String[] args) {
+		Turtle.startTurtle(new ${className}());
+	}
+
+	//タートルを動かす処理
+	public void start() {
+
+	}

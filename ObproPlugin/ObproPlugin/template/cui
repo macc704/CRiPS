@@ -1,0 +1,10 @@
+	//‹N“®ˆ—
+	public static void main(String[] args) {
+		${className} ${instanceName} = new ${className}();
+		${instanceName}.main();
+	}
+
+	//ƒƒCƒ“
+	void main() {
+
+	}

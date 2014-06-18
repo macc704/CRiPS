@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         id="turtleplugin_actionSets"
+         name="TurtlePlugin ActionSets"
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="obproplugin_actionSet"
+            label="ObproPlugin ActionSet"
+            visible="true">
+         <menu
+               id="obproplugin_menu"
+               label="Obpro">
+            <separator name="group"/>
+         </menu>
+         <action
+               class="obpro.project.NewObproProjectCreationActionDelegate"
+               icon="icons/icon_ObproProject_16.gif"
+               id="obproplugin_createProjectAction"
+               label="Create Obpro Project"
+               menubarPath="obproplugin_menu/group"
+               style="push"
+               toolbarPath="Normal/additions"/>
+         <action
+               class="obpro.plugin.turtle.NewTurtleClassCreationActionDelegate"
+               icon="icons/Icon_TurtleClass.gif"
+               id="obproplugin_createTurtleClass"
+               label="Create Turtle Class"
+               menubarPath="obproplugin_menu/group"
+               style="push"
+               toolbarPath="Normal/additions"/>
+         <action
+               class="obpro.plugin.cui.NewCUIClassCreationActionDelegate"
+               icon="icons/icon_CUIClass_16.gif"
+               id="obproplugin_createCUIClass"
+               label="Create CUI Class"
+               menubarPath="obproplugin_menu/group"
+               style="push"
+               toolbarPath="Normal/additions"/>
+         <action
+               class="obpro.plugin.gui.NewGUIClassCreationActionDelegate"
+               icon="icons/icon_GUIClass_16.gif"
+               id="obproplugin_createGUIClass"
+               label="Create GUI Class"
+               menubarPath="obproplugin_menu/group"
+               style="push"
+               toolbarPath="Normal/additions"/>
+      </actionSet>
+   </extension>
+   <extension
+         id="NewTurtleClassCreationWizardA"
+         name="turtleplugin.NewTurtleClassCreationWizard"
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="obpro_wizard_category"
+            name="Obpro"/>
+      <wizard
+            category="obpro_wizard_category"
+            class="obpro.project.NewObproProjectCreationWizard"
+            finalPerspective="org.eclipse.jdt.ui.JavaPerspective"
+            icon="icons/icon_ObproProject_16.gif"
+            id="obproplugin_wizard_newObproProject"
+            name="Obpro Project"
+            project="true"/>
+      <wizard
+            category="obpro_wizard_category"
+            class="obpro.plugin.turtle.NewTurtleClassCreationWizard"
+            icon="icons/Icon_TurtleClass.gif"
+            id="obproplugin_wizard_newTurtleClass"
+            name="Turtle Class"
+            project="false"/>
+      <wizard
+            category="obpro_wizard_category"
+            class="obpro.plugin.cui.NewCUIClassCreationWizard"
+            icon="icons/icon_CUIClass_16.gif"
+            id="obproplugin_wizard_newCUIClass"
+            name="CUI Class"
+            project="false"/>
+      <wizard
+            category="obpro_wizard_category"
+            class="obpro.plugin.gui.NewGUIClassCreationWizard"
+            icon="icons/icon_GUIClass_16.gif"
+            id="obproplugin_wizard_newCUIClass"
+            name="GUI Class"
+            project="false"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.startup">
+      <startup class="obpro.plugin.ObproPluginStartup"/>
+   </extension>
+
+</plugin>
