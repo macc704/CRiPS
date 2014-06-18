@@ -38,6 +38,13 @@ public class ObjectBlockModel extends BasicModel {
 	}
 
 	public void setMethods(Map<String, List<PublicMethodInfo>> methods) {
+		for(String key : methods.keySet()){
+			List<PublicMethodInfo> info = methods.get(key);
+			System.out.println(key + ":");
+			for(PublicMethodInfo pinfo : info){
+				System.out.println("info:" + pinfo.getFullName());
+			}
+		}
 		this.methods = methods;
 	}
 
