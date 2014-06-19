@@ -291,6 +291,8 @@ import controller.WorkspaceController;
  *  	・引数ブロックの配列，obproライブラリ対応
  *  2014.05.15 3.1.1 Ohata
  *  	・整数型引数のインクリメントがJava>>Block変換できなかった問題を修正
+ *  2014.06.19 3.1.3 ohata
+ *  	・Listのコンテキストメニューからaddを作成した際に変換できない問題を修正
  *  
  *  
  * <TODO>
@@ -312,7 +314,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "3.1.2";
+	public final static String VERSION = "3.1.3";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;

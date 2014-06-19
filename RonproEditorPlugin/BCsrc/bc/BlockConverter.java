@@ -87,7 +87,7 @@ public class BlockConverter {
 			"isLeftMouseDown", "getMouseX", "getMouseY",
 			"getCanvasWidth", "getCanvasHeight",
 			/*BWindow*/"setLocation", "setSize", "getCanvas",  
-			/*List*/"remove[@number]", "remove[@object]", "get","get[@number]", 
+			/*List*/"remove[@number]", "remove[@object]", "get","get[@number]",
 			/*Scanner*/"isMouseDown", "hasNextInt", "hasNextDouble" ,/*Bsound*/"getVolume", "setVolume",
 			"getDefaultVolume"};
 

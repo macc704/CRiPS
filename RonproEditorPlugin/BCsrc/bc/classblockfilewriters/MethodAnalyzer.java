@@ -45,6 +45,9 @@ public class MethodAnalyzer extends ASTVisitor {
 	}
 
 	public boolean visit(MethodDeclaration node) {
+		if(node.getName().toString().equals("processOneStep")){
+			System.out.println("hoge");
+		}
 
 		List<String> parameters = new ArrayList<String>();
 		if (!node.getName().toString().equals("main")
@@ -67,6 +70,7 @@ public class MethodAnalyzer extends ASTVisitor {
 				model.setJavaType(node.getReturnType2().toString());
 			}
 
+			//メソッド名の後ろに引数をつける
 			String fullName = model.getName() + "[";
 			for (int i = 0; i < node.parameters().size(); i++) {
 				parameters.add(node.parameters().get(i).toString());
@@ -77,7 +81,6 @@ public class MethodAnalyzer extends ASTVisitor {
 					paramType = "int";
 				}
 				fullName += "@" + convertBlockConnectorType(paramType);
-
 			}
 			fullName += "]";
 

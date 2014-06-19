@@ -188,6 +188,7 @@ public class LangDefFilesRewriter {
 			ps.println("<BlockDrawer name=\"Project-Methods\" type=\"factory\" button-color=\"255 155 64\">");
 
 			Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();
+			
 			for (ObjectBlockModel selDefClass : requestObjectBlock) {
 				if (selDefClass.getMethods() != null) {
 					for (String key : selDefClass.getMethods().keySet()) {
@@ -197,7 +198,7 @@ public class LangDefFilesRewriter {
 								PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
 								writer.setMethods(method);
 								writer.printMenuItem(ps, lineNum);
-								addedMethods.put(method.getName(), method);
+								addedMethods.put(method.getFullName(), method);
 								String paramSize = Integer.toString(method
 										.getParameters().size());
 								if (paramSize.equals("0")) {
@@ -225,21 +226,20 @@ public class LangDefFilesRewriter {
 
 			addedMethods.clear();
 			for (ObjectBlockModel request : requestObjectBlock) {
-				if (request.getClassName().equals(javaFileName)) {
-					if (request.getMethods() != null) {
-						for (String key : request.getMethods().keySet()) {
-							for (PublicMethodInfo method : request.getMethods()
-									.get(key)) {
-								if (addedMethods.get(Integer.toString((method
-										.hashCode()))) == null
-										&& !key.equals(javaFileName)) {
-									PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
-									writer.setMethods(method);
-									writer.printMenuItem(ps, lineNum);
-									addedMethods
-											.put(Integer.toString(method
-													.hashCode()), method);
-								}
+				if (request.getClassName().equals(javaFileName)
+						&& request.getMethods() != null) {
+					for (String key : request.getMethods().keySet()) {
+						for (PublicMethodInfo method : request.getMethods()
+								.get(key)) {
+							if (addedMethods.get(Integer.toString((method
+									.hashCode()))) == null
+									&& !key.equals(javaFileName)) {
+								PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
+								writer.setMethods(method);
+								writer.printMenuItem(ps, lineNum);
+								addedMethods.put(
+										Integer.toString(method.hashCode()),
+										method);
 							}
 						}
 					}
@@ -268,9 +268,10 @@ public class LangDefFilesRewriter {
 			ldfWriter.close();
 		} catch (Exception e) {
 			int res = JOptionPane.showConfirmDialog(null,
-					"Blockへの変換中にエラーが発生しました：lang_def_files message:" + e.getStackTrace().toString(), "警告",
+					"Blockへの変換中にエラーが発生しました：lang_def_files message:"
+							+ e.getStackTrace().toString(), "警告",
 					JOptionPane.DEFAULT_OPTION);
-			if(res == 1){
+			if (res == 1) {
 				e.printStackTrace();
 				return;
 			}

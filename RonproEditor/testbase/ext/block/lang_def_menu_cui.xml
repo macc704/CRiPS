@@ -213,7 +213,7 @@
 		<BlockGenusMember>getVolume</BlockGenusMember>
 		<BlockGenusMember>getDefaultVolume</BlockGenusMember>
         <BlockGenusMember>size</BlockGenusMember>
-        <BlockGenusMember>add[@object]</BlockGenusMember>
+        <BlockGenusMember>add</BlockGenusMember>
         <BlockGenusMember>contains</BlockGenusMember>
         <BlockGenusMember>isEmpty</BlockGenusMember>
         <BlockGenusMember>remove[@number]</BlockGenusMember>
