@@ -45,10 +45,6 @@ public class MethodAnalyzer extends ASTVisitor {
 	}
 
 	public boolean visit(MethodDeclaration node) {
-		if(node.getName().toString().equals("processOneStep")){
-			System.out.println("hoge");
-		}
-
 		List<String> parameters = new ArrayList<String>();
 		if (!node.getName().toString().equals("main")
 				&& !(node.getModifiers() == Modifier.PRIVATE)) {

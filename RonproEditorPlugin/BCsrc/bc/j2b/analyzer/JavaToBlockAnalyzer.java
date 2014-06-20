@@ -2582,7 +2582,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				typeModel.setParent(model);
 				model.addArgument(typeModel);
 			}
-
 			return model;
 		} else {
 			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
@@ -2590,12 +2589,24 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setId(idCounter.getNextId());
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
+			
+			String tmpName = "new-" + typeString(node.getType()).toLowerCase() + "[";
+			
 			// 引数
 			for (int i = 0; i < node.arguments().size(); i++) {
 				ExpressionModel arg = parseExpression((Expression) node
 						.arguments().get(i));
 				model.addArgument(arg);
+				
+				tmpName += "@" + ElementModel.convertJavaTypeToBlockGenusName(arg.getType());
 			}
+
+			tmpName += "]";
+			
+			if(methodResolver.getMethodJavaReturnType(tmpName) != null){
+				model.setGenusName(tmpName);
+			}
+			
 			return model;
 		}
 	}

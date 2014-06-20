@@ -4,8 +4,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import bc.BlockConverter;
-
 public class ExClassInstanceCreationModel extends ExpressionModel {
 
 	private String name;
@@ -81,8 +79,6 @@ public class ExClassInstanceCreationModel extends ExpressionModel {
 					+ "\" genus-name=\"new-linkedlistobject\">");
 		} else {
 			//同一プロジェクト内のクラスのインスタンス生成かどうか確認する
-
-			
 			if(genusName != null){
 				out.println("<Block id=\"" + getId()
 						+ "\" genus-name=\"" + genusName + "\">");
