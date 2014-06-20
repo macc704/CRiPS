@@ -286,6 +286,13 @@ public class MethodResolver {
 		userConstructor.add(signature);
 		putArgumentLabels(signature, arguments);
 	}
+	
+	public boolean registeredAsUserConstructor(String name){
+		if(userConstructor.contains(name)){
+			return true;
+		}
+		return false;
+	}
 
 	public void reset() {
 		userMethods.clear();
