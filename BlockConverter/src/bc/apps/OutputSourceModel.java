@@ -563,9 +563,14 @@ class SuperClassParser extends ASTVisitor{
 	}
 	
 	private void setClassName(TypeDeclaration node, String name){
-		if(name.equals("")){
-			node.getSuperclassType().delete();
+		
+		if(name == null || name.equals("")){
+			//親クラスなしに書換
+			if(node.getSuperclassType() != null){
+				node.getSuperclassType().delete();	
+			}
 		}else{
+			//指定クラスを親に書換
 			AST ast = node.getAST();		
 			Name newName = ast.newName(name);
 			Type superClassType = ast.newSimpleType(newName);

@@ -777,7 +777,7 @@ public class WorkspaceController {
 			inheritanceList.removeActionListener(listeners[0]);			
 		}
 		
-		inheritanceList.addItem("");
+		inheritanceList.addItem("★★★★親クラスを設定します★★★★");
 		inheritanceList.setSelectedIndex(0);
 		
 		for(String item : projectJavaFiles){
@@ -795,6 +795,10 @@ public class WorkspaceController {
 		File file = new File(selectedJavaFile);
 		Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
 		String superClassName = openedPage.getSuperClassName();
+	
+		if(superClassName == null){
+			superClassName ="";
+		}
 		
 		//継承クラスの初期設定
 		for(int i = 0;i<inheritanceList.getItemCount();i++){
@@ -802,7 +806,9 @@ public class WorkspaceController {
 				inheritanceList.setSelectedIndex(i);
 			}
 		}
+		
 		inheritanceList.removeItem(file.getName().substring(0, file.getName().indexOf(".xml")));
+		
 		if(inheritanceList.getSelectedItem() == ""){
 			//該当する親クラスがなかったので、親クラスを登録して初期値に設定
 			inheritanceList.addItem(superClassName);
@@ -816,13 +822,12 @@ public class WorkspaceController {
 				Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
 				
 				String superClassName;
-				if(inheritanceList.getSelectedItem() == null){
+				if(inheritanceList.getSelectedItem() == null || inheritanceList.getSelectedIndex() == 0){
 					superClassName = "";
 				}else{
 					superClassName = inheritanceList.getSelectedItem().toString();
 				}
 				openedPage.setSuperClassName(superClassName);
-				
 				
 				convertToJava(getSaveString(), encoding);
 				
@@ -842,7 +847,6 @@ public class WorkspaceController {
 					
 					Element langDefRoot = langDefDoc.getDocumentElement();
 					Element projectRoot = doc.getDocumentElement();
-					
 					
 					workspace.getFactoryManager().reset();
 					workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
