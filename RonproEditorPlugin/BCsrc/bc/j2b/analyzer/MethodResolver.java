@@ -146,8 +146,8 @@ public class MethodResolver {
 		methodToReturnType.put("getKeyCode()", "int");
 		methodToReturnType.put("clear()", "void");
 		methodToReturnType.put("update()", "void");
-		methodToReturnType.put("getImageWidth()", "int");
-		methodToReturnType.put("getImageHeight()", "int");
+		methodToReturnType.put("getImageWidth(1)", "int");
+		methodToReturnType.put("getImageHeight(1)", "int");
 		methodToReturnType.put("drawLine(5)", "void");
 		methodToReturnType.put("getCanvasWidth()", "int");
 		methodToReturnType.put("getCanvasHeight()", "int");
@@ -285,6 +285,13 @@ public class MethodResolver {
 		String signature = toSignature(name, arguments);
 		userConstructor.add(signature);
 		putArgumentLabels(signature, arguments);
+	}
+	
+	public boolean registeredAsUserConstructor(String name){
+		if(userConstructor.contains(name)){
+			return true;
+		}
+		return false;
 	}
 
 	public void reset() {

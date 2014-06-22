@@ -199,8 +199,6 @@
 		<BlockGenusMember>getCanvasWidth</BlockGenusMember>
 		<BlockGenusMember>getCanvasHeight</BlockGenusMember>
 		<BlockGenusMember>drawImage</BlockGenusMember>
-		<BlockGenusMember>drawFillArc[@object@number@number]</BlockGenusMember>
-		<BlockGenusMember>drawFillArc[@object@number@number@number@number]</BlockGenusMember>
 		<BlockGenusMember>drawFillArc[@object@number@number@number@number@number@number]</BlockGenusMember>
 		<BlockGenusMember>setLocation</BlockGenusMember>
 		<BlockGenusMember>setSize</BlockGenusMember>
@@ -215,7 +213,7 @@
 		<BlockGenusMember>getVolume</BlockGenusMember>
 		<BlockGenusMember>getDefaultVolume</BlockGenusMember>
         <BlockGenusMember>size</BlockGenusMember>
-        <BlockGenusMember>add[@object]</BlockGenusMember>
+        <BlockGenusMember>add</BlockGenusMember>
         <BlockGenusMember>contains</BlockGenusMember>
         <BlockGenusMember>isEmpty</BlockGenusMember>
         <BlockGenusMember>remove[@number]</BlockGenusMember>
