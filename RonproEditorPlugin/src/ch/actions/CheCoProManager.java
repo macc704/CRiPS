@@ -4,8 +4,14 @@ import java.awt.Color;
 import java.net.Socket;
 import java.util.List;
 
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.IExecutionListener;
+import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.commands.ICommandService;
 
+import ronproeditorplugin.Activator;
 import clib.common.filesystem.sync.CFileHashList;
 import clib.common.table.CCSVFileIO;
 import ch.conn.framework.CHConnection;
@@ -35,6 +41,8 @@ public class CheCoProManager {
 	
 	public CheCoProManager(IWorkbenchWindow window) {
 		
+		addCHListeners();
+		
 		String[][] table = new String[1][3];
 		table = CCSVFileIO.load(CHFileSystem.getPrefFile());
 		if(table.length == 0){
@@ -46,6 +54,36 @@ public class CheCoProManager {
 			startCheCoPro();
 		}
 	}
+	
+	private void addCHListeners(){
+		ICommandService service = (ICommandService) Activator.getDefault().getWorkbench().getService(ICommandService.class);
+		service.addExecutionListener(saveListener);
+	}
+	
+	private IExecutionListener saveListener = new IExecutionListener() {
+		
+		@Override
+		public void preExecute(String commandId, ExecutionEvent event) {
+			
+		}
+		
+		@Override
+		public void postExecuteSuccess(String commandId, Object returnValue) {
+			if (commandId.endsWith("org.eclipse.ui.file.save")) {
+				conn.write(new CHFilelistResponse(user, CHFileSystem.getEclipseFinalProjectFileList()));
+			}
+		}
+		
+		@Override
+		public void postExecuteFailure(String commandId, ExecutionException exception) {
+
+		}
+		
+		@Override
+		public void notHandled(String commandId, NotHandledException exception) {
+			
+		}
+	};
 	
 	/********************
 	 * クライアントメイン動作
