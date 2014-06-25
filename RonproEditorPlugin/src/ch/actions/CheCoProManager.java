@@ -2,13 +2,16 @@ package ch.actions;
 
 import java.awt.Color;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.commands.ICommandService;
 
 import ronproeditorplugin.Activator;
@@ -17,13 +20,16 @@ import clib.common.table.CCSVFileIO;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
 import ch.conn.framework.CHLoginCheck;
+import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHFilelistResponse;
+import ch.conn.framework.packets.CHLoginMemberChanged;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
 import ch.library.CHFileSystem;
+import ch.perspective.views.CHMemberStateView;
 
 public class CheCoProManager {
 
@@ -39,7 +45,11 @@ public class CheCoProManager {
 	private String password;
 	private int port;
 	
+	private IWorkbenchWindow window;
+	
 	public CheCoProManager(IWorkbenchWindow window) {
+		
+		this.window = window;
 		
 		addCHListeners();
 		
@@ -70,7 +80,7 @@ public class CheCoProManager {
 		@Override
 		public void postExecuteSuccess(String commandId, Object returnValue) {
 			if (commandId.endsWith("org.eclipse.ui.file.save")) {
-				conn.write(new CHFilelistResponse(user, CHFileSystem.getEclipseFinalProjectFileList()));
+				conn.write(new CHFilelistResponse(user, CHFileSystem.getEclipseProjectFileList()));
 			}
 		}
 		
@@ -139,6 +149,8 @@ public class CheCoProManager {
 		
 		if (obj instanceof CHLoginResult) {
 			processLoginResult((CHLoginResult) obj);
+		} else if (obj instanceof CHLoginMemberChanged) {
+			processLoginMemberChanged((CHLoginMemberChanged) obj);
 		} else if (obj instanceof CHFilelistRequest){
 			processFilelistRequest();
 		} else if (obj instanceof CHFileRequest){
@@ -155,6 +167,10 @@ public class CheCoProManager {
 		}
 	}
 	
+	private void processLoginMemberChanged(CHLoginMemberChanged result) {
+		new Thread(new MemberStateUpdater(result)).start();
+	}
+	
 	private void processFilelistRequest() {
 		CFileHashList fileList = CHFileSystem.getEclipseProjectFileList();
 		conn.write(new CHFilelistResponse(user, fileList));
@@ -167,4 +183,32 @@ public class CheCoProManager {
 		conn.write(new CHFileResponse(user, files));
 	}
 
+	class MemberStateUpdater implements Runnable{
+
+		private CHLoginMemberChanged result;
+		
+		public MemberStateUpdater(CHLoginMemberChanged result) {
+			this.result = result;
+		}
+		
+		@Override
+		public void run() {
+			window.getWorkbench().getDisplay().asyncExec(new Runnable() {
+				
+				@Override
+				public void run() {
+					List<CHUserState> userStates = new ArrayList<CHUserState>();
+					userStates = result.getUserStates();
+					IWorkbenchPage page = window.getActivePage();
+					CHMemberStateView memberStateView;
+					try {
+						memberStateView = (CHMemberStateView) page.showView("ch.memberStateView");
+						memberStateView.setUserStates(userStates);
+					} catch (PartInitException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+	}
 }

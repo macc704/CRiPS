@@ -52,10 +52,6 @@ public class CHFileSystem {
 	public static CFile getPrefFile() {
 		return CFileSystem.getExecuteDirectory().findOrCreateFile(PREFPATH);
 	}
-	
-	public static CFileHashList getEclipseFinalProjectFileList(){
-		return createFileList(getEclipseProjectDir());
-	}
 
 	// processFilelistRequest and Response server
 	public static CFileHashList getServerFileList(String user, int port) {
