@@ -850,6 +850,7 @@ public class WorkspaceController {
 					
 					workspace.getFactoryManager().reset();
 					workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
+					ronproEditor.chengeInheritance();
 				} catch (ParserConfigurationException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
