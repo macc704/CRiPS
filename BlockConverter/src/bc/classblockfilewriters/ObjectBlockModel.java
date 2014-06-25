@@ -11,6 +11,7 @@ public class ObjectBlockModel extends BasicModel {
 	private Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
 	private String className;
 	private Map<String, String> langSpecProperties = new LinkedHashMap<String, String>();
+	private String superClassName;
 
 	public ObjectBlockModel(String name, String kind, String initialLabel,
 			String headerLabel, String footerLabel, String color) {
@@ -23,6 +24,14 @@ public class ObjectBlockModel extends BasicModel {
 		langSpecProperties.put("type", "object");
 		langSpecProperties.put("is-owned-by-breed", "yes");
 		langSpecProperties.put("is-monitorable", "yes");
+	}
+	
+	public void setSuperClassName(String name){
+		this.superClassName = name;
+	}
+	
+	public String getSuperClassName(){
+		return this.superClassName;
 	}
 
 	public Map<String, List<PublicMethodInfo>> getMethods() {

@@ -45,6 +45,7 @@ public class LangDefFilesReWriterMain {
 		// 同じディレクトリ内のすべてのjavaファイルをパースし、モデルに追加する
 		LangDefFilesRewriter selfDefModel = new LangDefFilesRewriter(
 				classDefFile, this.file.getName());
+		
 		for (String name : file.getParentFile().list()) {
 			if (name.endsWith(".java")) {
 				// javaファイル解析
@@ -54,28 +55,35 @@ public class LangDefFilesReWriterMain {
 
 				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(
 						name, javaFile, name);
+				
+				String superClassName = getSuperClassName(javaFile);
 				// ローカル変数ブロックのモデルを追加
-				selfDefModel.setLocalVariableBlockModel(name, methods);// メソッドリストを引数に追加
+				selfDefModel.setLocalVariableBlockModel(name, methods, superClassName);// メソッドリストを引数に追加
 				// インスタンス変数ブロックのモデルを追加
-				selfDefModel.setInstanceVariableBlockMode(name, methods);
+				selfDefModel.setInstanceVariableBlockMode(name, methods, superClassName);
 				addedClasses.add(name);
-				for (String className : classes) {
-					if (!className.equals(name)) {
-						// ローカル変数ブロックのモデルを追加
-						selfDefModel.setLocalVariableBlockModel(className,
-								methods);// メソッドリストを引数に追加
-						// インスタンス変数ブロックのモデルを追加
-						selfDefModel.setInstanceVariableBlockMode(className,
-								methods);
-						addedClasses.add(className);
-					}
-				}
+				
+				
+				//1ファイルの多クラスのものを追加
+//				for (String className : classes) {
+//					if (!className.equals(name)) {
+//						// ローカル変数ブロックのモデルを追加
+//						selfDefModel.setLocalVariableBlockModel(className,
+//								methods, superClassName);// メソッドリストを引数に追加
+//						// インスタンス変数ブロックのモデルを追加
+//						selfDefModel.setInstanceVariableBlockMode(className,
+//								methods, superClassName);
+//						addedClasses.add(className);
+//					}
+//				}
+				
 				// 型変換ブロックモデルの追加
 				selfDefModel.setConvertBlockModel(name);
 				// 引数ブロックモデルの追加
 				selfDefModel.setParameterBlockModel(name, methods);
 			}
 		}
+		
 		// 継承関係にあるブロック達をファミリーに出力
 		printLangDefFamilies();
 
@@ -177,6 +185,21 @@ public class LangDefFilesReWriterMain {
 
 		methods.put(name, visitor.getMethods());
 		return methods;
+	}
+	
+	public String getSuperClassName(File file){
+		// javaファイル解析
+		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
+		MethodAnalyzer visitor = new MethodAnalyzer();
+
+		// addFamily
+
+		// 継承チェック
+		Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
+		unit.accept(visitor);
+
+		return visitor.getSuperClassName();
+
 	}
 
 	public Map<String, String> getAddedMethods() {

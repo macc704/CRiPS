@@ -912,10 +912,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	private StatementModel analyzeSuperConstructorInvocation(
-			SuperConstructorInvocation stmt) {
-		StSuperConstructorInvocationModel model = new StSuperConstructorInvocationModel(
-				"super");
-
+			SuperConstructorInvocation stmt) {		
+		StSuperConstructorInvocationModel model = new StSuperConstructorInvocationModel();
+		
+		String genusName = "super";
+		
+		if(stmt.arguments() != null){
+			genusName += "[";
+		}
+		
 		for (Object parameter : stmt.arguments()) {
 			ExpressionModel param = parseExpression((Expression) parameter);
 			param.setId(idCounter.getNextId());
@@ -923,8 +928,21 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					.getStartPosition()));
 			param.setParent(model);
 			model.addParameter(param);
+			
+			String paramType = param.getType();
+			if(paramType.equals("double-number")){
+				paramType = "number";
+			}
+			
+			genusName += "@" + ElementModel.convertJavaTypeToBlockGenusName(param.getType());
 		}
-
+		
+		if(!"super".equals(genusName)){
+			genusName+="]";
+		}
+		
+		model.setGenusName(genusName);
+		
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(stmt
 				.getStartPosition()));

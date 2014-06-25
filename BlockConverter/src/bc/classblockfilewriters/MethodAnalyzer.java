@@ -80,7 +80,7 @@ public class MethodAnalyzer extends ASTVisitor {
 			}
 			fullName += "]";
 
-			model.setFuLLName(fullName);
+			model.setFullName(fullName);
 
 			model.setParameters(parameters);
 			methods.add(model);
