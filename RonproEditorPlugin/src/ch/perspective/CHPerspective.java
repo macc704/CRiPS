@@ -20,23 +20,22 @@ public class CHPerspective implements IPerspectiveFactory{
 		IFolderLayout left = layout.createFolder("left", IPageLayout.LEFT, 0.15f, editorArea);
 		left.addView(JavaUI.ID_PACKAGES);
 
-
 		// エディタ領域の下側にコンソールを表示
 		IFolderLayout console = layout.createFolder("conlose", IPageLayout.BOTTOM, 0.80f, editorArea);
 		console.addView("org.eclipse.ui.console.ConsoleView");
 
-		IFolderLayout membersEditor = layout.createFolder("membersEditor", IPageLayout.RIGHT, 0.50f, editorArea);
+		IFolderLayout membersEditor = layout.createFolder("membersEditor", IPageLayout.RIGHT, 0.60f, editorArea);
 		membersEditor.addView(IPageLayout.ID_BOOKMARKS);
 
 		// メンバエディタ領域の右側にフォルダを追加
-		IFolderLayout memberProjects = layout.createFolder("memberProjects", IPageLayout.RIGHT, 0.75f, "membersEditor");
-		memberProjects.addView("ch.memberDirectoryView");
+		left.addView("ch.memberDirectoryView");
 
 		// コンソールの左にメンバの状態を表示
-		layout.addView("ch.memberStateView", IPageLayout.BOTTOM, 0.70f, "left");
+		IFolderLayout memberState = layout.createFolder("memberState", IPageLayout.BOTTOM, 0.70f, "left");
+		memberState.addView("ch.memberStateView");
 		
-		// コンソールの右にPreferenceを表示
-		layout.addView("ch.preferenceView", IPageLayout.RIGHT, 0.80f, "console");
+		// メンバ状態ビューにPreferenceをスタック
+		memberState.addView("ch.preferenceView");
 	}
 
 }
