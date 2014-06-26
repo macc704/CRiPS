@@ -345,8 +345,7 @@ public class OutputSourceModel {
 			end = getLastPrivateVariableEndPosition();
 			if (end == -1) {
 				Pattern p = Pattern
-						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?"
-								+ System.getProperty("line.separator"));
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?");
 				String src = FileReader.readFile(file, enc);
 				Matcher m = p.matcher(src);
 				if (m.find()) {
@@ -564,19 +563,20 @@ class SuperClassParser extends ASTVisitor{
 	
 	private void setClassName(TypeDeclaration node, String name){
 		
-		if(name == null || name.equals("")){
+		if(name == null || name.equals("") || "null".equals(name)){
 			//親クラスなしに書換
 			if(node.getSuperclassType() != null){
 				node.getSuperclassType().delete();	
 			}
 		}else{
 			//指定クラスを親に書換
-			AST ast = node.getAST();		
-			Name newName = ast.newName(name);
-			Type superClassType = ast.newSimpleType(newName);
-			node.setSuperclassType(superClassType);			
+			AST ast = node.getAST();
+			if(ast != null){
+				Name newName = ast.newName(name);
+				Type superClassType = ast.newSimpleType(newName);
+				node.setSuperclassType(superClassType);	
+			}		
 		}
-
 	}
 	
 }

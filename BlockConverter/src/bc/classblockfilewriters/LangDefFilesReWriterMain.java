@@ -24,8 +24,6 @@ public class LangDefFilesReWriterMain {
 	private Map<String, String> addedMethodsJavaType = new HashMap<String, String>();
 	private List<String> addedClasses = new LinkedList<String>();
 
-	private List<String> classes;
-
 	public LangDefFilesReWriterMain(File file, String enc, String[] classpaths) {
 		this.file = file;
 		this.enc = enc;
@@ -181,7 +179,6 @@ public class LangDefFilesReWriterMain {
 							+ superClassName + ".java"), childName);
 		}
 
-		classes = visitor.getClasses();
 
 		methods.put(name, visitor.getMethods());
 		return methods;
@@ -192,10 +189,7 @@ public class LangDefFilesReWriterMain {
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
 		MethodAnalyzer visitor = new MethodAnalyzer();
 
-		// addFamily
-
 		// 継承チェック
-		Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
 		unit.accept(visitor);
 
 		return visitor.getSuperClassName();

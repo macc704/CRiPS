@@ -2281,6 +2281,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		model.setReceiver(receiverModel);
 		model.setCallMethod(callMethod);
+		
 		// 先にcallmethodのplugの型をセットしとく
 		if (callMethod instanceof ExpressionModel
 				&& !((ExpressionModel) callMethod).getType().equals("void")) {

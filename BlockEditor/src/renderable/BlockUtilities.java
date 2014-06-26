@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import blockengine.BlockGenus;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceWidget;
@@ -188,8 +189,14 @@ public class BlockUtilities {
 		Block block;
 		if (myblock instanceof BlockStub) {
 			Block parent = ((BlockStub) myblock).getParent();
-			block = new BlockStub(parent.getBlockID(), parent.getGenusName(),
-					parent.getBlockLabel(), myblock.getGenusName());
+			//this,superは特殊ケースとして分ける（変数の値となる親が居ない）
+			if(myblock.getGenusName().equals("getterthis") || myblock.getGenusName().equals("gettersuper")){
+				block = new Block(myblock.getGenusName());
+			}
+			else{
+				block = new BlockStub(parent.getBlockID(), parent.getGenusName(),
+						parent.getBlockLabel(), myblock.getGenusName());	
+			}
 		} else {
 			block = new Block(myblock.getGenusName(), label);
 		}

@@ -289,8 +289,6 @@ public class LangDefFilesRewriter {
 							PublicMethodInfo superConstructorCaller = method;
 							superConstructorCaller.setColor("\"255 0 0\"");
 
-							String name = "super";
-
 							superConstructorCaller.setName("super");
 							superConstructorCaller.setFullName(calcFullName(
 									"super", method.getParameters()));
