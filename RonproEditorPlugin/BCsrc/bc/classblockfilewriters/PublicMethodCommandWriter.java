@@ -84,7 +84,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 			// value="breed"></LangSpecProperty>
 			// </LangSpecProperties>
 			// </BlockGenus>
-		} else {
+		}else {
 			String kind = "command";
 			if (method.getReturnType() != null
 					&& !method.getReturnType().equals("void")) {

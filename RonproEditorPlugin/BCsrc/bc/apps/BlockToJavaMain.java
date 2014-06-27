@@ -39,21 +39,7 @@ public class BlockToJavaMain {
 
 		OutputSourceModel sourceModel = new OutputSourceModel(javaFile, enc,
 				classpaths);
-		/*
-		 * // projectのxmlファイルを作成する File classDefFile = new
-		 * File(openBlockXmlFile.getParentFile().getPath() +
-		 * "/lang_def_guneses_" + openBlockXmlFile.getName()); //
-		 * menu情報のxmlを作成、（or追加) File projectMenuFile = new
-		 * File(openBlockXmlFile.getParentFile() .getPath() +
-		 * "/lang_def_menu_project.xml");
-		 * 
-		 * OutputSelDefClassPageModel selfDefModel = new
-		 * OutputSelDefClassPageModel( classDefFile, projectMenuFile); //
-		 * モデルに追加するクラスをセットする
-		 * selfDefModel.setSelDefClassModel(visitor.getSelDefClassModels());
-		 * 
-		 * // クラスのブロック情報を出力する selfDefModel.print();
-		 */
+
 		ResolveSyntaxError resolveError = new ResolveSyntaxError();
 
 		resolveError.resolveError(root);
@@ -61,5 +47,8 @@ public class BlockToJavaMain {
 		writer.print(root, sourceModel);
 
 		sourceModel.save();
+		//言語定義ファイルを再度書き換える
+		rewriter.rewrite();
+		
 	}
 }

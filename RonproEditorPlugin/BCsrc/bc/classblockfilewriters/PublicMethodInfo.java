@@ -46,7 +46,7 @@ public class PublicMethodInfo extends BasicModel {
 		this.modifier = modifier;
 	}
 
-	public void setFuLLName(String fullName) {
+	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
 

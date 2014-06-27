@@ -2,7 +2,7 @@
 <feature
       id="RonproPlugins"
       label="RonproPlugins"
-      version="2.1.4"
+      version="2.2.0"
       provider-name="Salai laboratory">
 
    <description url="http://www.example.com/description">
@@ -60,7 +60,7 @@
          id="jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin"
          download-size="0"
          install-size="0"
-         version="2.1.4"
+         version="2.2.0"
          unpack="false"/>
 
    <plugin

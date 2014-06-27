@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class LangDefFilesRewriter {
 	}
 
 	public void setLocalVariableBlockModel(String fileName,
-			Map<String, List<PublicMethodInfo>> methods) {
+			Map<String, List<PublicMethodInfo>> methods, String superClassName) {
 		ObjectBlockModel classObjectModel = new ObjectBlockModel(
 				"local-var-object-" + fileName, "local-variable", "initname",
 				fileName + "型の変数をつくり", "と名付ける", "230 0 255");
@@ -49,6 +50,7 @@ public class LangDefFilesRewriter {
 		classObjectModel.setMethods(methods);
 		classObjectModel.setClassName(fileName);
 		requestObjectBlock.add(classObjectModel);
+		classObjectModel.setSuperClassName(superClassName);
 
 		// 配列の追加
 		ObjectBlockModel classObjectArrayModel = new ObjectBlockModel(
@@ -59,6 +61,7 @@ public class LangDefFilesRewriter {
 		classObjectArrayModel.setMethods(methods);
 		classObjectArrayModel.setClassName(fileName);
 		requestObjectBlock.add(classObjectArrayModel);
+		classObjectArrayModel.setSuperClassName(superClassName);
 
 	}
 
@@ -81,7 +84,7 @@ public class LangDefFilesRewriter {
 	}
 
 	public void setInstanceVariableBlockMode(String fileName,
-			Map<String, List<PublicMethodInfo>> methods) {
+			Map<String, List<PublicMethodInfo>> methods, String superClassName) {
 		ObjectBlockModel classModel = new ObjectBlockModel(
 				"private-var-object-" + fileName, "global-variable",
 				"initname", fileName + "型のインスタンス変数をつくり", "と名付ける", "230 0 255");
@@ -89,12 +92,14 @@ public class LangDefFilesRewriter {
 		classModel.setMethods(methods);
 		classModel.setClassName(fileName);
 		requestObjectBlock.add(classModel);
+		classModel.setSuperClassName(superClassName);
 
 		// 配列の追加
 		ObjectBlockModel classObjectArrayModel = new ObjectBlockModel(
 				"private-var-object-" + fileName + "-arrayobject",
 				"global-variable", "initname", fileName + "[]"
 						+ "型のインスタンス変数をつくり", "と名付ける", "230 0 255");
+		classObjectArrayModel.setSuperClassName(superClassName);
 		// 定義クラスブロックのプロパティをセットする
 		classObjectArrayModel.setMethods(methods);
 		classObjectArrayModel.setClassName(fileName);
@@ -187,36 +192,7 @@ public class LangDefFilesRewriter {
 
 			ps.println("<BlockDrawer name=\"Project-Methods\" type=\"factory\" button-color=\"255 155 64\">");
 
-			Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();
-			
-			for (ObjectBlockModel selDefClass : requestObjectBlock) {
-				if (selDefClass.getMethods() != null) {
-					for (String key : selDefClass.getMethods().keySet()) {
-						for (PublicMethodInfo method : selDefClass.getMethods()
-								.get(key)) {
-							if (addedMethods.get(method.getName()) == null) {
-								PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
-								writer.setMethods(method);
-								writer.printMenuItem(ps, lineNum);
-								addedMethods.put(method.getFullName(), method);
-								String paramSize = Integer.toString(method
-										.getParameters().size());
-								if (paramSize.equals("0")) {
-									paramSize = "";
-								}
-								String addedMethodName = method.getName() + "("
-										+ paramSize + ")";
-								this.addedMethods.put(addedMethodName,
-										method.getReturnType());
-								this.addedMethodsJavaType.put(
-										method.getFullName(),
-										method.getJavaType());
-							}
-						}
-					}
-
-				}
-			}
+			addProjectMethodBlocksToMenu(ps, lineNum);
 
 			makeIndent(ps, --lineNum);
 			ps.println("</BlockDrawer>");
@@ -224,30 +200,7 @@ public class LangDefFilesRewriter {
 			makeIndent(ps, lineNum++);
 			ps.println("<BlockDrawer name=\"継承メソッド\" type=\"factory\" button-color=\"255 155 64\">");
 
-			addedMethods.clear();
-			for (ObjectBlockModel request : requestObjectBlock) {
-				if (request.getClassName().equals(javaFileName)
-						&& request.getMethods() != null) {
-					for (String key : request.getMethods().keySet()) {
-						for (PublicMethodInfo method : request.getMethods()
-								.get(key)) {
-							if (addedMethods.get(Integer.toString((method
-									.hashCode()))) == null
-									&& !key.equals(javaFileName)) {
-								PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
-								writer.setMethods(method);
-								writer.printMenuItem(ps, lineNum);
-								addedMethods.put(
-										Integer.toString(method.hashCode()),
-										method);
-							}
-						}
-					}
-				}
-			}
-
-			// requestObjectBlock.get(0).getClassName().equals()
-			// selDefClass.printMenuItem(ps, lineNum);
+			addInheritanceMethodBlocksToMenu(ps, lineNum);
 
 			makeIndent(ps, --lineNum);
 			ps.println("</BlockDrawer>");
@@ -277,6 +230,111 @@ public class LangDefFilesRewriter {
 			}
 		}
 
+	}
+
+	private void addProjectMethodBlocksToMenu(PrintStream ps, int lineNum) {
+		Map<String, PublicMethodInfo> addedMethodsCash = new HashMap<String, PublicMethodInfo>();
+		for (ObjectBlockModel selDefClass : requestObjectBlock) {
+			if (selDefClass.getMethods() != null) {
+				for (String key : selDefClass.getMethods().keySet()) {
+					for (PublicMethodInfo method : selDefClass.getMethods()
+							.get(key)) {
+						if (addedMethodsCash.get(method.getFullName()) == null) {
+							PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
+							writer.setMethods(method);
+							writer.printMenuItem(ps, lineNum);
+							addedMethodsCash.put(method.getFullName(), method);
+							String paramSize = Integer.toString(method
+									.getParameters().size());
+							if (paramSize.equals("0")) {
+								paramSize = "";
+							}
+							String addedMethodName = method.getName() + "("
+									+ paramSize + ")";
+							this.addedMethods.put(addedMethodName,
+									method.getReturnType());
+							this.addedMethodsJavaType.put(method.getFullName(),
+									method.getJavaType());
+						}
+					}
+				}
+
+			}
+		}
+	}
+
+	private void addInheritanceMethodBlocksToMenu(PrintStream ps, int lineNum) {
+		Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();
+		List<PublicMethodInfo> superConstructors = new ArrayList<PublicMethodInfo>();
+		String SuperClassName = null;
+
+		ObjectBlockModel request = getObjectBlockModel(javaFileName);
+		
+		SuperClassName = request.getSuperClassName();
+		
+		if(request != null && request.getMethods() != null){
+			for (String key : request.getMethods().keySet()) {
+				for (PublicMethodInfo method : request.getMethods().get(key)) {
+					if (addedMethods.get(method.getFullName()) == null
+							&& !key.equals(javaFileName)) {
+						PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
+						writer.setMethods(method);
+						writer.printMenuItem(ps, lineNum);
+						addedMethods.put(method.getFullName(),
+								method);
+
+						// superの追加
+						if (method.getName().startsWith("new-") && key.equals(request.getSuperClassName())) {
+							// モデルを追加
+							PublicMethodInfo superConstructorCaller = method;
+							superConstructorCaller.setColor("\"255 0 0\"");
+
+							superConstructorCaller.setName("super");
+							superConstructorCaller.setFullName(calcFullName(
+									"super", method.getParameters()));
+							superConstructorCaller.setReturnType("void");
+							
+							superConstructors.add(superConstructorCaller);
+							
+						}
+					}
+				}
+			}	
+		}
+		
+		//super呼び出しを追加する
+		for(PublicMethodInfo superConstructor : superConstructors){
+			PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
+			writer.setMethods(superConstructor);
+			writer.printMenuItem(ps, lineNum);
+			
+			request.getMethods().get(SuperClassName).add(superConstructor);
+		}
+		
+	}
+
+	public ObjectBlockModel getObjectBlockModel(String name) {
+		for (ObjectBlockModel request : requestObjectBlock) {
+			if (request.getClassName().equals(name)) {
+				return request;
+			}
+		}
+		return null;
+	}
+
+	public String calcFullName(String name, List<String> parameters) {
+
+		String fullName = name + "[";
+		for (String param : parameters) {
+			param = param.substring(0, param.indexOf(" "));
+			if (param.equals("double")) {
+				param = "int";
+			}
+			fullName += "@" + MethodAnalyzer.convertBlockConnectorType(param);
+		}
+		fullName += "]";
+
+		return fullName;
 	}
 
 	public Map<String, String> getAddedMethods() {
