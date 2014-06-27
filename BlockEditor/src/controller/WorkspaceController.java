@@ -769,13 +769,15 @@ public class WorkspaceController {
 	public void changeInheritanceList(){
 		final JComboBox<String> inheritanceList = getInheritanceListBox();
 		String[] projectJavaFiles = getProjectJavaFiles();		
+		//リスナーの削除
+		if(inheritanceList.getActionListeners() != null){
+			for(ActionListener listener : inheritanceList.getActionListeners()){
+				inheritanceList.removeActionListener(listener);
+			}
+		}
 		
 		//コンボボックスの初期化
 		inheritanceList.removeAllItems();
-		ActionListener[] listeners = inheritanceList.getActionListeners();
-		if(listeners.length != 0){
-			inheritanceList.removeActionListener(listeners[0]);			
-		}
 		
 		inheritanceList.addItem("★★★★親クラスを設定します★★★★");
 		inheritanceList.setSelectedIndex(0);

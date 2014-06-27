@@ -233,17 +233,17 @@ public class LangDefFilesRewriter {
 	}
 
 	private void addProjectMethodBlocksToMenu(PrintStream ps, int lineNum) {
-		Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();
+		Map<String, PublicMethodInfo> addedMethodsCash = new HashMap<String, PublicMethodInfo>();
 		for (ObjectBlockModel selDefClass : requestObjectBlock) {
 			if (selDefClass.getMethods() != null) {
 				for (String key : selDefClass.getMethods().keySet()) {
 					for (PublicMethodInfo method : selDefClass.getMethods()
 							.get(key)) {
-						if (addedMethods.get(method.getName()) == null) {
+						if (addedMethodsCash.get(method.getFullName()) == null) {
 							PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
 							writer.setMethods(method);
 							writer.printMenuItem(ps, lineNum);
-							addedMethods.put(method.getFullName(), method);
+							addedMethodsCash.put(method.getFullName(), method);
 							String paramSize = Integer.toString(method
 									.getParameters().size());
 							if (paramSize.equals("0")) {
@@ -275,12 +275,12 @@ public class LangDefFilesRewriter {
 		if(request != null && request.getMethods() != null){
 			for (String key : request.getMethods().keySet()) {
 				for (PublicMethodInfo method : request.getMethods().get(key)) {
-					if (addedMethods.get(Integer.toString((method.hashCode()))) == null
+					if (addedMethods.get(method.getFullName()) == null
 							&& !key.equals(javaFileName)) {
 						PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
 						writer.setMethods(method);
 						writer.printMenuItem(ps, lineNum);
-						addedMethods.put(Integer.toString(method.hashCode()),
+						addedMethods.put(method.getFullName(),
 								method);
 
 						// superの追加
