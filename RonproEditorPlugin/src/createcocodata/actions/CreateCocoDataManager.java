@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
 import ronproeditorplugin.Activator;
 import src.coco.controller.CCCompileErrorConverter;
@@ -35,8 +34,17 @@ public class CreateCocoDataManager {
 		// IWorkspaceRoot root = workspace.getRoot();
 		// System.out.println(root.getLocation().toFile().getAbsolutePath()
 		// .toString());
+
 		ppvManager = new PresVisualizerManager(window);
-		createCocoData();
+
+		// スレッド化
+		Thread thread = new Thread() {
+			public void run() {
+				createCocoData();
+			}
+		};
+
+		thread.start();
 	}
 
 	public void createCocoData() {
@@ -70,7 +78,8 @@ public class CreateCocoDataManager {
 
 	private void autoExportCompileErrorCSV() {
 		ppvManager.exportAndImportAll();
-		PPDataManager ppDataManager = ppvManager.getPPDataManager();
+
+		PPDataManager2 ppDataManager2 = ppvManager.getPPDataManager();
 
 		// TODO: ライブラリの場所
 		String eclipsePath = null;
@@ -87,10 +96,12 @@ public class CreateCocoDataManager {
 		CDirectory libDir = CFileSystem.findDirectory(eclipsePath)
 				.findOrCreateDirectory("plugins");
 		// System.out.println(libDir.toString());
-		ppDataManager.setLibDir(libDir);
+		ppDataManager2.setLibDir(libDir);
 
 		// TODO Hardcoding
-		ppProjectSet = ppDataManager.openProjectSet("hoge", true, true, true);
+		System.out.println("start load and compile");
+		ppProjectSet = ppDataManager2.openProjectSet("hoge", true, true, true);
+		System.out.println("end load and compile");
 	}
 
 	private void convertCompileErrorData() {

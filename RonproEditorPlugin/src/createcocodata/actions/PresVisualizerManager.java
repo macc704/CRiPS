@@ -11,7 +11,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IWorkbenchWindow;
 
 import ppv.app.datamanager.IPPVLoader;
-import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPEclipsePPVLoader;
 import clib.common.compiler.CJavaCompilerFactory;
 import clib.common.filesystem.CDirectory;
@@ -35,7 +34,7 @@ public class PresVisualizerManager {
 	private static String PPV_PROJECTSET_NAME = "hoge";// projectset名
 	private static IPPVLoader PPV_ROADER = new PPEclipsePPVLoader();
 
-	private PPDataManager ppDataManager;
+	private PPDataManager2 ppDataManager2;
 
 	private CPanelProcessingMonitor monitor = new CPanelProcessingMonitor();
 
@@ -74,13 +73,13 @@ public class PresVisualizerManager {
 
 		CDirectory libDir = new CDirectory(new CPath(eclipsePath))
 				.findOrCreateDirectory("plugins");
-		ppDataManager.setLibDir(libDir);
+		ppDataManager2.setLibDir(libDir);
 
-		ppDataManager.openProjectSet(PPV_PROJECTSET_NAME, true, true, false);
+		ppDataManager2.openProjectSet(PPV_PROJECTSET_NAME, true, true, false);
 	}
 
-	public PPDataManager getPPDataManager() {
-		return ppDataManager;
+	public PPDataManager2 getPPDataManager() {
+		return ppDataManager2;
 	}
 
 	public void exportAndImportAll() {
@@ -98,8 +97,8 @@ public class PresVisualizerManager {
 			}
 		});
 
-		this.ppDataManager = new PPDataManager(ppvRoot);
-		CDirectory ppvRootDir = ppDataManager.getBaseDir();
+		this.ppDataManager2 = new PPDataManager2(ppvRoot);
+		CDirectory ppvRootDir = ppDataManager2.getBaseDir();
 		final CDirectory tmpDir = ppvRootDir.findOrCreateDirectory(PPV_TMP_DIR);
 
 		monitor.setWorkTitle("Zip Exporting...");
@@ -178,7 +177,7 @@ public class PresVisualizerManager {
 	}
 
 	private void importAllProjects(String projectSetName, CDirectory tmpDir) {
-		CDirectory projectSetDir = ppDataManager.getDataDir()
+		CDirectory projectSetDir = ppDataManager2.getDataDir()
 				.findOrCreateDirectory(projectSetName);
 		List<CFile> zipfiles = tmpDir.getFileChildren();
 		for (CFile zipfile : zipfiles) {
@@ -187,6 +186,6 @@ public class PresVisualizerManager {
 	}
 
 	private void importOneProject(CDirectory projectSetDir, CFile zipfile) {
-		ppDataManager.loadOneFile(zipfile, projectSetDir, PPV_ROADER);
+		ppDataManager2.loadOneFile(zipfile, projectSetDir, PPV_ROADER);
 	}
 }

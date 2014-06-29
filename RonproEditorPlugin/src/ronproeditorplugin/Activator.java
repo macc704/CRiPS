@@ -19,7 +19,7 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 
-	private PPProjectSet ppProjectset;
+	private PPProjectSet ppProjectset = null;
 
 	/**
 	 * The constructor
@@ -89,4 +89,5 @@ public class Activator extends AbstractUIPlugin {
 	public void setppProjectset(PPProjectSet ppProjectset) {
 		this.ppProjectset = ppProjectset;
 	}
+
 }
