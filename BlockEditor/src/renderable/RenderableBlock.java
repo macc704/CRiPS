@@ -1960,7 +1960,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			WorkspaceWidget widget) {
 		try {
 			if (ScopeChecker.isCompareBlock(catchedRBlock.getBlock())
-					&& ScopeChecker.isAloneBlock(catchedRBlock.getBlock())) {
+					&& ScopeChecker.isAloneBlock(catchedRBlock.getBlock())
+					&& widget != null) {
 				for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターの参照元を探す
 					Block catchedBlock = catchedRBlock.getBlock();
 					int index;
@@ -1991,31 +1992,32 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					}
 				}
 			} else {
-				for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターメソッドはすべてハイライトする
-					if (rb.getGenus().equals(
-							"getter" + catchedRBlock.getGenus())
-							&& rb.getBlock()
-									.getBlockLabel()
-									.equals(catchedRBlock.getBlock()
-											.getBlockLabel() + "の値")) {
-						rb.highlighter.setHighlightColor(Color.yellow);
-					} else if (rb.getGenus().equals(
-							"setter" + catchedRBlock.getGenus())
-							&& rb.getBlock()
-									.getBlockLabel()
-									.equals(catchedRBlock.getBlock()
-											.getBlockLabel() + "に書き込む")) {
-						rb.highlighter.setHighlightColor(Color.yellow);
-					} else if (rb.getGenus().equals(
-							"inc" + catchedRBlock.getGenus())
-							&& rb.getBlock()
-									.getBlockLabel()
-									.equals(catchedRBlock.getBlock()
-											.getBlockLabel() + "を増やす")) {
-						rb.highlighter.setHighlightColor(Color.yellow);
-					}
+				if(widget != null){
+					for (RenderableBlock rb : widget.getBlocks()) {//ゲッター、セッターメソッドはすべてハイライトする
+						if (rb.getGenus().equals(
+								"getter" + catchedRBlock.getGenus())
+								&& rb.getBlock()
+										.getBlockLabel()
+										.equals(catchedRBlock.getBlock()
+												.getBlockLabel() + "の値")) {
+							rb.highlighter.setHighlightColor(Color.yellow);
+						} else if (rb.getGenus().equals(
+								"setter" + catchedRBlock.getGenus())
+								&& rb.getBlock()
+										.getBlockLabel()
+										.equals(catchedRBlock.getBlock()
+												.getBlockLabel() + "に書き込む")) {
+							rb.highlighter.setHighlightColor(Color.yellow);
+						} else if (rb.getGenus().equals(
+								"inc" + catchedRBlock.getGenus())
+								&& rb.getBlock()
+										.getBlockLabel()
+										.equals(catchedRBlock.getBlock()
+												.getBlockLabel() + "を増やす")) {
+							rb.highlighter.setHighlightColor(Color.yellow);
+						}
+					}	
 				}
-
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
