@@ -35,6 +35,13 @@ public class CreateCocoDataManager {
 		// System.out.println(root.getLocation().toFile().getAbsolutePath()
 		// .toString());
 
+		if (Activator.getDefault().getcompileErrorCashCreating()) {
+			JOptionPane.showMessageDialog(null, "CompileError Cash作成・削除中です");
+			return;
+		} else {
+			Activator.getDefault().setcompileErrorCashCreating(true);
+		}
+
 		ppvManager = new PresVisualizerManager(window);
 
 		// スレッド化
@@ -57,12 +64,17 @@ public class CreateCocoDataManager {
 
 		CTime startTime = new CTime();
 
-		// CompileError.csvを自動的にエクスポートする
-		autoExportCompileErrorCSV();
+		try {
+			// CompileError.csvを自動的にエクスポートする
+			autoExportCompileErrorCSV();
 
-		// 自動的にエクスポートしたファイルをCoco用データに変換する
-		convertCompileErrorData();
-
+			// 自動的にエクスポートしたファイルをCoco用データに変換する
+			convertCompileErrorData();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			Activator.getDefault().setcompileErrorCashCreating(false);
+		}
 		// アクティベーターでコンパイル情報を保持
 		Activator.getDefault().setppProjectset(ppProjectSet);
 

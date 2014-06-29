@@ -20,6 +20,7 @@ public class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 
 	private PPProjectSet ppProjectset = null;
+	private boolean compileErrorCashCreating = false;
 
 	/**
 	 * The constructor
@@ -90,4 +91,11 @@ public class Activator extends AbstractUIPlugin {
 		this.ppProjectset = ppProjectset;
 	}
 
+	public void setcompileErrorCashCreating(boolean compileErrorCashCreating) {
+		this.compileErrorCashCreating = compileErrorCashCreating;
+	}
+
+	public boolean getcompileErrorCashCreating() {
+		return compileErrorCashCreating;
+	}
 }
