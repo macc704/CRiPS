@@ -70,7 +70,7 @@ public class StReturnModel extends StatementModel {
 
 		{// Socket
 			if (returnValue != null && returnValue.getId() != -1) {
-				String connectorType = getConnectorType(returnValue.getType());
+				String connectorType = addEscapeSequence(getConnectorType(returnValue.getType()));
 				makeIndent(out, indent + 1);
 				out.println("<Sockets num-sockets=\"1\">");
 				// blockConnecters

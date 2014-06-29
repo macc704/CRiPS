@@ -20,9 +20,9 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 		if (argument) {
 			if(isProjectObject()){
 				if(isArray()){
-					return "proc-param-object-" + getJavaVariableType().toLowerCase() + "-arrayobject";
+					return "proc-param-object-" + ElementModel.addEscapeSequence(getJavaVariableType().toLowerCase()) + "-arrayobject";
 				}else{
-					return "proc-param-object-" + getJavaVariableType().toLowerCase();	
+					return "proc-param-object-" + ElementModel.addEscapeSequence(getJavaVariableType().toLowerCase());	
 				}
 			}else{
 				if(isArray()){
