@@ -11,7 +11,8 @@ public class BlockConverter {
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 
 	public static final String COLLAPSED_BLOCK_LABEL = "c//";
-
+	public static final String COLLAPSED_BLOCK_LABEL_PLUGIN = " c//";
+	
 	public static Map<String, String> projectMethods = new HashMap<String, String>();
 	// 色
 	public static final String[] COLOR_NAMES = { "blue", "cyan", "green",

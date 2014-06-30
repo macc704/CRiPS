@@ -1010,10 +1010,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			if (abstractionComments.get(block.getStartPosition() + i) != null) {
 				String aComments = abstractionComments.get(block
 						.getStartPosition() + i);
-				if (aComments.startsWith(BlockConverter.COLLAPSED_BLOCK_LABEL)) {
+				if (aComments.contains(BlockConverter.COLLAPSED_BLOCK_LABEL)) {
 					aComments = aComments
-							.substring(BlockConverter.COLLAPSED_BLOCK_LABEL
-									.length());
+							.substring(aComments.indexOf(BlockConverter.COLLAPSED_BLOCK_LABEL) + BlockConverter.COLLAPSED_BLOCK_LABEL.length());
 					model.setCollapsed(true);
 				}
 				model.setCommnent(aComments);
