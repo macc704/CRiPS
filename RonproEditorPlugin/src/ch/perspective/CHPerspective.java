@@ -24,8 +24,8 @@ public class CHPerspective implements IPerspectiveFactory{
 		IFolderLayout console = layout.createFolder("conlose", IPageLayout.BOTTOM, 0.80f, editorArea);
 		console.addView("org.eclipse.ui.console.ConsoleView");
 
-		IFolderLayout membersEditor = layout.createFolder("membersEditor", IPageLayout.RIGHT, 0.60f, editorArea);
-		membersEditor.addView(IPageLayout.ID_BOOKMARKS);
+		IFolderLayout membersEditor = layout.createFolder("membersSource", IPageLayout.RIGHT, 0.60f, editorArea);
+		membersEditor.addView("ch.memberSourceView");
 
 		// メンバエディタ領域の右側にフォルダを追加
 		left.addView("ch.memberDirectoryView");

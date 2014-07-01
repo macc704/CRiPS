@@ -169,11 +169,18 @@
       		name="Members'Projects"
       		restorable="true">
       </view>
-            <view
+      <view
       		class="ch.perspective.views.CHMemberStateView"
       		icon="icons/sample.gif"
       		id="ch.memberStateView"
       		name="Member State"
+      		restorable="true">
+      </view>
+      <view
+      		class="ch.perspective.views.CHMemberSourceView"
+      		icon="icons/sample.gif"
+      		id="ch.memberSourceView"
+      		name="Member Source"
       		restorable="true">
       </view>
    </extension>

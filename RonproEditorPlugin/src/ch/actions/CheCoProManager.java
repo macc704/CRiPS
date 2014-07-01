@@ -29,6 +29,7 @@ import ch.conn.framework.packets.CHLoginMemberChanged;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
 import ch.library.CHFileSystem;
+import ch.perspective.views.CHMemberDirectoryView;
 import ch.perspective.views.CHMemberStateView;
 
 public class CheCoProManager {
@@ -51,6 +52,7 @@ public class CheCoProManager {
 		
 		this.window = window;
 		
+		setWorkbenchWindowToViews();
 		addCHListeners();
 		
 		String[][] table = new String[1][3];
@@ -62,6 +64,18 @@ public class CheCoProManager {
 			password = table[0][1];
 			port = DEFAULT_PORT + Integer.parseInt(table[0][2]);
 			startCheCoPro();
+		}
+	}
+	
+	private void setWorkbenchWindowToViews(){
+		
+		IWorkbenchPage page = window.getActivePage();
+		CHMemberDirectoryView memberDirectoryView;
+		try {
+			memberDirectoryView = (CHMemberDirectoryView) page.showView("ch.memberDirectoryView");
+			memberDirectoryView.setWindow(window);
+		} catch (PartInitException e) {
+			e.printStackTrace();
 		}
 	}
 	
