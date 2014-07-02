@@ -120,7 +120,6 @@ public class StVariableDeclarationModel extends StatementModel implements
 
 		out.println("<HeaderLabel>" + ElementModel.addEscapeSequence(getType())
 				+ "</HeaderLabel>");
-		System.out.println(ElementModel.addEscapeSequence(getType()));
 
 		makeIndent(out, indent + 1);
 		out.println("<JavaType>" + ElementModel.addEscapeSequence(javaVariableType)

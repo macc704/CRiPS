@@ -2002,7 +2002,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseCallActionMethodExpression2(node, thisModel);
 				// methodResolver.getReturnType(node);
 			} else {
-				// Listのgetなどは、listの型に合わせて変形する必要性
+				// Listのgetなどは、listの型に合わせて変形する
 				ExpressionModel receiverModel = null;
 				receiverModel = parseExpression(receiver);
 
@@ -2101,9 +2101,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		String analyzingSourceName = this.commentGetter.getSourceName();
 
 		if (methodResolver.isRegisteredAsUserMethod(node)
-				&& (caller == null || caller.toString().equals("this") || variableResolver
-						.resolve(caller.toString()).getJavaVariableType()
-						.equals(analyzingSourceName))) {
+				&& (caller == null || caller.toString().equals("this") || isThisClassCaller(caller, analyzingSourceName))) {
 			model = new ExCallUserMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
 			name = node.getName().toString() + "[";
@@ -2120,10 +2118,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 			model.setJavaType(methodResolver.getMethodJavaReturnType(name));
 			name = node.getName().toString();
-		} else if (methodResolver.isRegisteredAsProjectMethod(node)
-				|| node.getName().toString().equals("drawFillArc")
-				|| node.getName().toString().equals("drawText")
-				|| node.getName().toString().equals("remove")) {// メソッド名を全て変更する必要あり！　今は応急処置
+		} else if (methodResolver.isRegisteredAsProjectMethod(node)) {// メソッド名を全て変更する必要あり！　今は応急処置
 			model = new ExCallMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
 			name = node.getName().toString() + "[";
@@ -2166,6 +2161,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.addArgument(arg);
 		}
 		return model;
+	}
+	
+	private boolean isThisClassCaller(Expression caller, String analyzingSourceName){
+		return variableResolver 
+				.resolve(caller.toString()) != null && variableResolver 
+				.resolve(caller.toString()).getJavaVariableType()
+				.equals(analyzingSourceName);
 	}
 
 	public ExCallMethodModel parseMethodCallExpression(
