@@ -1206,13 +1206,24 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="play" kind="command" color="255 0 0"
+<BlockGenus name="play[@string]" kind="command" color="255 0 0"
 	initlabel="音楽を再生します">
 	<BlockConnectors>
         <BlockConnector label="どこの曲?" connector-type="string" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
-		<LangSpecProperty key="vm-cmd-name" value="getDefaultVolume"></LangSpecProperty>
+		<LangSpecProperty key="vm-cmd-name" value="play"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="loadOnMemory[@string]" kind="command" color="255 0 0"
+	initlabel="音楽をメモリに読み込みます">
+	<BlockConnectors>
+        <BlockConnector label="どこの曲?" connector-type="string" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="load"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>

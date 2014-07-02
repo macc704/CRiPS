@@ -338,6 +338,11 @@ public class SContextMenuProvider {
 			category.add(createCallMethodMenu("setVolume", "音量を指定する"));
 			category.add(createCallMethodMenu("getDefaultVolume",
 					"音量のデフォルト値を取得する"));
+			category.add(createCallStaticMethodMenu("play[@string]", "再生する"));
+			category.add(createCallStaticMethodMenu("loadOnMemory[@string]", "メモリに読み込む"));
+			category.add(createCallMethodMenu("loop", "ループ再生する"));
+			category.add(createCallMethodMenu("stop", "停止する"));
+			category.add(createCallMethodMenu("isPlaying", "再生しているかどうか"));
 			menu.add(category);
 		}
 
@@ -592,6 +597,16 @@ public class SContextMenuProvider {
 		});
 		return item;
 	}
+	
+	private JMenuItem createCallStaticMethodMenu(final String name, String label) {
+		JMenuItem item = new JMenuItem(label);
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createCallStaticMethod(name);
+			}
+		});
+		return item;
+	}
 
 	private JMenuItem createCallListMethodMenu(final String name, String label) {
 		JMenuItem item = new JMenuItem(label);
@@ -634,6 +649,12 @@ public class SContextMenuProvider {
 				connectByPlug(newActionRBlock, 0, newGetterRBlock);
 			}
 		}
+	}
+	
+	private void createCallStaticMethod(String name){
+		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
+				name);
+		newCommandRBlock.setLocation(rb.getX() + 20,  rb.getY() + 20);
 	}
 
 	private void createListMethod(String name) {

@@ -205,9 +205,9 @@
 		<BlockGenusMember>getCanvas</BlockGenusMember>
 		<BlockGenusMember>show</BlockGenusMember>
 		<BlockGenusMember>loop</BlockGenusMember>
-		<BlockGenusMember>play</BlockGenusMember>
+		<BlockGenusMember>play[@string]</BlockGenusMember>
+		<BlockGenusMember>loadOnMemory[@string]</BlockGenusMember>
 		<BlockGenusMember>stop</BlockGenusMember>
-		<BlockGenusMember>isPlaying</BlockGenusMember>
 		<BlockGenusMember>loop</BlockGenusMember>
 		<BlockGenusMember>setVolume</BlockGenusMember>
 		<BlockGenusMember>getVolume</BlockGenusMember>

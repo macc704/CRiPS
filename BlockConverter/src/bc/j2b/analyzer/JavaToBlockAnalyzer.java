@@ -1966,7 +1966,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				callMethod.setName("hashCode");
 				return callMethod;
 			}
-		} else if (fullName.indexOf(".equals(") != -1
+		} else if (fullName.startsWith("BSound.play(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setName("play[@string]");
+			return callMethod;
+		} else if (fullName.startsWith("BSound.load(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setName("loadOnMemory[@string]");
+			return callMethod;
+		}  else if (fullName.indexOf(".equals(") != -1
 				&& node.arguments().size() == 1) {// ひとまず，string型だと思うことにする．オブジェクト型は後回し（根本的な解決が必要）．#matsuzawa
 													// 2012.11.23
 			Expression receiver = node.getExpression();

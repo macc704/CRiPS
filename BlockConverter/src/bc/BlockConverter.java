@@ -90,7 +90,7 @@ public class BlockConverter {
 			/*BWindow*/"setLocation", "setSize", "getCanvas",  
 			/*List*/"remove[@number]", "remove[@object]", "get","get[@number]",
 			/*Scanner*/"isMouseDown", "hasNextInt", "hasNextDouble" ,/*Bsound*/"getVolume", "setVolume",
-			"getDefaultVolume"};
+			"getDefaultVolume","play[@string]","loadOnMemory[@string]"};
 
 	// 戻り値のあるメソッドはここに登録 (上にも登録しないとダメ)
 	public final static String[] FUNCTION_METHODCALL_BLOCKS = { "input",
