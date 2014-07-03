@@ -351,7 +351,7 @@ public class SContextMenuProvider {
 			menu.add(createActionBlockMenu());
 			menu.add(createGetterBlockMenu());
 
-			//TODO menuにメソッドを追加
+			//TODO menuにクラスメソッドを追加
 			for (String key : rb.getMethods().keySet()) {
 				menu.add(createClassMethodsCategory(key,
 						rb.getMethods().get(key)));
