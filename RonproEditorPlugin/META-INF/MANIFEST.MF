@@ -35,6 +35,6 @@ Import-Package: org.eclipse.debug.core,
  org.eclipse.jface.text,
  org.eclipse.jface.text.source
 Export-Package: blockEditorplugin.actions,
+ ch.actions,
  cocoviewer.actions,
  ronproeditorplugin
- 

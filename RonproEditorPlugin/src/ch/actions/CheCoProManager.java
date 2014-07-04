@@ -1,9 +1,16 @@
 package ch.actions;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.swing.JButton;
 
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -14,6 +21,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.commands.ICommandService;
 
+import ronproeditor.REApplication;
 import ronproeditorplugin.Activator;
 import clib.common.filesystem.sync.CFileHashList;
 import clib.common.table.CCSVFileIO;
@@ -31,6 +39,7 @@ import ch.conn.framework.packets.CHLoginResult;
 import ch.library.CHFileSystem;
 import ch.perspective.views.CHMemberDirectoryView;
 import ch.perspective.views.CHMemberStateView;
+import ch.view.CHMemberSelectorFrame;
 
 public class CheCoProManager {
 
@@ -45,6 +54,8 @@ public class CheCoProManager {
 	private String user;
 	private String password;
 	private int port;
+	private CHMemberSelectorFrame msFrame;
+	private List<CHUserState> userStates = new ArrayList<CHUserState>();
 	
 	private IWorkbenchWindow window;
 	
@@ -108,6 +119,8 @@ public class CheCoProManager {
 			
 		}
 	};
+	
+	
 	
 	/********************
 	 * クライアントメイン動作
@@ -178,11 +191,14 @@ public class CheCoProManager {
 			conn.close();
 		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
 			System.out.println("login success");
+			msFrame = new CHMemberSelectorFrame(user);
+			msFrame.open();
 		}
 	}
 	
 	private void processLoginMemberChanged(CHLoginMemberChanged result) {
 		new Thread(new MemberStateUpdater(result)).start();
+		msFrame.setMembers(result.getUserStates());
 	}
 	
 	private void processFilelistRequest() {
@@ -211,7 +227,6 @@ public class CheCoProManager {
 				
 				@Override
 				public void run() {
-					List<CHUserState> userStates = new ArrayList<CHUserState>();
 					userStates = result.getUserStates();
 					IWorkbenchPage page = window.getActivePage();
 					CHMemberStateView memberStateView;

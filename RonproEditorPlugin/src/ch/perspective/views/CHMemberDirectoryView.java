@@ -1,6 +1,7 @@
 package ch.perspective.views;
 
 import java.io.File;
+
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -15,6 +16,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
+
 import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileElement;
 import clib.common.filesystem.CFileSystem;

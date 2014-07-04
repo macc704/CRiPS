@@ -1,14 +1,23 @@
 package ch.view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.eclipse.osgi.internal.resolver.UserState;
+
+import ronproeditor.REApplication;
 import ch.conn.framework.CHUserState;
+import ch.library.CHFileSystem;
 
 public class CHMemberSelectorFrame extends JFrame {
 
@@ -44,11 +53,29 @@ public class CHMemberSelectorFrame extends JFrame {
 				button.setForeground(Color.RED);
 			}
 
+			button.addActionListener(buttonAction);
+			
 			buttons.add(button);
 		}
 		this.getContentPane().validate();
 
 	}
+	
+	private ActionListener buttonAction = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			String pushed = e.getActionCommand();
+			
+			if(pushed.equals(user)){
+				// eclipse active 
+			} else {
+				REApplication application = new REApplication();
+				application.doOpenNewRE(CHFileSystem.getEclipseProjectDir().getNameByString());
+			}
+		}
+	};
 
 	public List<JButton> getButtons() {
 		return buttons;
