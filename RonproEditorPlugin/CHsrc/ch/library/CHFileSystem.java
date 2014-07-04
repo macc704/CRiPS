@@ -45,8 +45,8 @@ public class CHFileSystem {
 	}
 	
 	// for plug-in
-	public static CDirectory getEclipseMemberDir() {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(MEMBERDIRPATH);
+	public static CDirectory getEclipseMemberDir(String user) {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(MEMBERDIRPATH + "/" + user);
 	}
 	
 	public static CFile getPrefFile() {
@@ -89,8 +89,8 @@ public class CHFileSystem {
 	}
 
 	public static CFileHashList createFileList(CDirectory dir) {
-		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(/*".*",*/
-				".class", ".xml"));
+		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(".*",
+				".class", ".xml", "bin"));
 	}
 
 	public static CFileHashList createFileList(CDirectory dir,

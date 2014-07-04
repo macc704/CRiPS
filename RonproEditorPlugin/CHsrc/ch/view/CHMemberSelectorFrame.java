@@ -3,31 +3,35 @@ package ch.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.eclipse.osgi.internal.resolver.UserState;
-
 import ronproeditor.REApplication;
+import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHUserState;
-import ch.library.CHFileSystem;
+import ch.conn.framework.packets.CHFilelistRequest;
 
 public class CHMemberSelectorFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final String CH_DIR_PATH = "runtime-EclipseApplication/.ch";
 
 	private String user;
 	private List<JButton> buttons = new ArrayList<JButton>();
+	private CHConnection conn;
 
-	public CHMemberSelectorFrame(String myName) {
-		this.user = myName;
+	public CHMemberSelectorFrame(String user) {
+		this.user = user;
+	}
+	
+	public CHMemberSelectorFrame(String user, CHConnection conn) {
+		this.user = user;
+		this.conn = conn;
 	}
 
 	public void open() {
@@ -71,8 +75,10 @@ public class CHMemberSelectorFrame extends JFrame {
 			if(pushed.equals(user)){
 				// eclipse active 
 			} else {
+				conn.write(new CHFilelistRequest(pushed));
 				REApplication application = new REApplication();
-				application.doOpenNewRE(CHFileSystem.getEclipseProjectDir().getNameByString());
+				// メンバのディレクトリに変更
+				application.doOpenNewRE(CH_DIR_PATH + "/" + user);
 			}
 		}
 	};
