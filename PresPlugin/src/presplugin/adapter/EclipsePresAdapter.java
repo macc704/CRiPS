@@ -42,8 +42,8 @@ public class EclipsePresAdapter {
 
 	public EclipsePresAdapter() {
 	}
-	
-	public PresProjectManager getManager(){
+
+	public PresProjectManager getManager() {
 		return this.manager;
 	}
 
