@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.IWorkbenchWindow;
 
+import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
 import ronproeditorplugin.Activator;
 import src.coco.controller.CCCompileErrorConverter;
@@ -59,6 +60,7 @@ public class CreateCocoDataManager {
 				"データの作成には時間がかかりますが，よろしいですか？", "データの作成",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (res != JOptionPane.OK_OPTION) {
+			Activator.getDefault().setcompileErrorCashCreating(false);
 			return;
 		}
 
@@ -91,7 +93,7 @@ public class CreateCocoDataManager {
 	private void autoExportCompileErrorCSV() {
 		ppvManager.exportAndImportAll();
 
-		PPDataManager2 ppDataManager2 = ppvManager.getPPDataManager();
+		PPDataManager ppDataManager = ppvManager.getPPDataManager();
 
 		// TODO: ライブラリの場所
 		String eclipsePath = null;
@@ -108,11 +110,11 @@ public class CreateCocoDataManager {
 		CDirectory libDir = CFileSystem.findDirectory(eclipsePath)
 				.findOrCreateDirectory("plugins");
 		// System.out.println(libDir.toString());
-		ppDataManager2.setLibDir(libDir);
+		ppDataManager.setLibDir(libDir);
 
 		// TODO Hardcoding
 		System.out.println("start load and compile");
-		ppProjectSet = ppDataManager2.openProjectSet("hoge", true, true, true);
+		ppProjectSet = ppDataManager.openProjectSet("hoge", true, true, true);
 		System.out.println("end load and compile");
 	}
 
