@@ -45,7 +45,6 @@ public class MethodAnalyzer extends ASTVisitor {
 	}
 
 	public boolean visit(MethodDeclaration node) {
-
 		List<String> parameters = new ArrayList<String>();
 		if (!node.getName().toString().equals("main")
 				&& !(node.getModifiers() == Modifier.PRIVATE)) {
@@ -67,6 +66,7 @@ public class MethodAnalyzer extends ASTVisitor {
 				model.setJavaType(node.getReturnType2().toString());
 			}
 
+			//メソッド名の後ろに引数をつける
 			String fullName = model.getName() + "[";
 			for (int i = 0; i < node.parameters().size(); i++) {
 				parameters.add(node.parameters().get(i).toString());
@@ -77,11 +77,10 @@ public class MethodAnalyzer extends ASTVisitor {
 					paramType = "int";
 				}
 				fullName += "@" + convertBlockConnectorType(paramType);
-
 			}
 			fullName += "]";
 
-			model.setFuLLName(fullName);
+			model.setFullName(fullName);
 
 			model.setParameters(parameters);
 			methods.add(model);

@@ -912,10 +912,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	private StatementModel analyzeSuperConstructorInvocation(
-			SuperConstructorInvocation stmt) {
-		StSuperConstructorInvocationModel model = new StSuperConstructorInvocationModel(
-				"super");
-
+			SuperConstructorInvocation stmt) {		
+		StSuperConstructorInvocationModel model = new StSuperConstructorInvocationModel();
+		
+		String genusName = "super";
+		
+		if(stmt.arguments() != null){
+			genusName += "[";
+		}
+		
 		for (Object parameter : stmt.arguments()) {
 			ExpressionModel param = parseExpression((Expression) parameter);
 			param.setId(idCounter.getNextId());
@@ -923,8 +928,21 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					.getStartPosition()));
 			param.setParent(model);
 			model.addParameter(param);
+			
+			String paramType = param.getType();
+			if(paramType.equals("double-number")){
+				paramType = "number";
+			}
+			
+			genusName += "@" + ElementModel.convertJavaTypeToBlockGenusName(param.getType());
 		}
-
+		
+		if(!"super".equals(genusName)){
+			genusName+="]";
+		}
+		
+		model.setGenusName(genusName);
+		
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(stmt
 				.getStartPosition()));
@@ -992,10 +1010,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			if (abstractionComments.get(block.getStartPosition() + i) != null) {
 				String aComments = abstractionComments.get(block
 						.getStartPosition() + i);
-				if (aComments.startsWith(BlockConverter.COLLAPSED_BLOCK_LABEL)) {
+				if (aComments.contains(BlockConverter.COLLAPSED_BLOCK_LABEL)) {
 					aComments = aComments
-							.substring(BlockConverter.COLLAPSED_BLOCK_LABEL
-									.length());
+							.substring(aComments.indexOf(BlockConverter.COLLAPSED_BLOCK_LABEL) + BlockConverter.COLLAPSED_BLOCK_LABEL.length());
 					model.setCollapsed(true);
 				}
 				model.setCommnent(aComments);
@@ -2263,6 +2280,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		model.setReceiver(receiverModel);
 		model.setCallMethod(callMethod);
+		
 		// 先にcallmethodのplugの型をセットしとく
 		if (callMethod instanceof ExpressionModel
 				&& !((ExpressionModel) callMethod).getType().equals("void")) {
@@ -2582,7 +2600,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				typeModel.setParent(model);
 				model.addArgument(typeModel);
 			}
-
 			return model;
 		} else {
 			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
@@ -2590,12 +2607,24 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setId(idCounter.getNextId());
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
+			
+			String tmpName = "new-" + typeString(node.getType()).toLowerCase() + "[";
+			
 			// 引数
 			for (int i = 0; i < node.arguments().size(); i++) {
 				ExpressionModel arg = parseExpression((Expression) node
 						.arguments().get(i));
 				model.addArgument(arg);
+				
+				tmpName += "@" + ElementModel.convertJavaTypeToBlockGenusName(arg.getType());
 			}
+
+			tmpName += "]";
+			
+			if(methodResolver.getMethodJavaReturnType(tmpName) != null){
+				model.setGenusName(tmpName);
+			}
+			
 			return model;
 		}
 	}

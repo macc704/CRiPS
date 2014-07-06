@@ -86,10 +86,10 @@ public class ExVariableGetterModel extends ExpressionModel {
 				+ "\">");
 		// label
 		makeIndent(out, indent + 2);
-		out.println("<Label>" + variable.getName() + "</Label>");
+		out.println("<Label>" + ElementModel.addEscapeSequence(variable.getName()) + "</Label>");
 		if (variable.getGenusName().equals("this")) {
 			makeIndent(out, indent + 2);
-			out.println("<JavaType>" + variable.getJavaVariableType()
+			out.println("<JavaType>" + ElementModel.addEscapeSequence(variable.getJavaVariableType())
 					+ "</JavaType>");
 		}
 		// lineNumber

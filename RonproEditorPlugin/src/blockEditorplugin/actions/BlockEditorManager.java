@@ -180,6 +180,10 @@ public class BlockEditorManager {
 				writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
 				// app.doDebugRun();
 			}
+			
+			public void chengeInheritance(){
+				writeBlockEditingLog(BlockEditorLog.SubType.INHERITANCE_CHANGED);
+			}
 
 			public void blockRun() {
 
@@ -530,7 +534,7 @@ class BlockEditorLog extends PRFileLog {
 	};
 
 	public static enum SubType implements PRLogSubType {
-		ANY, BLOCK_TO_JAVA, BLOCK_TO_JAVA_ERROR, JAVA_TO_BLOCK, JAVA_TO_BLOCK_ERROR, COMPILE, RUN, DEBUGRUN, OPENED, CLOSEED, FOCUS_GAINED, FOCUS_LOST, LOADING_START, LOADING_END
+		ANY, BLOCK_TO_JAVA, BLOCK_TO_JAVA_ERROR, JAVA_TO_BLOCK, JAVA_TO_BLOCK_ERROR, COMPILE, RUN, DEBUGRUN, OPENED, CLOSEED, FOCUS_GAINED, FOCUS_LOST, LOADING_START, LOADING_END,INHERITANCE_CHANGED
 	};
 
 	/**

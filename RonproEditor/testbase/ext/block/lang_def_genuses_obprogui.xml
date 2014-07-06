@@ -64,12 +64,6 @@
 			</LangSpecProperties>
 		</Stub>
 	</Stubs>
-	<ClassMethods class="BCanvas">
-		<Methods>
-			<MethodProperty name="start" modifer="public" returnType="void">
-			</MethodProperty>
-		</Methods>
-	</ClassMethods>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 		<LangSpecProperty key="type" value="object"></LangSpecProperty>
@@ -294,18 +288,20 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+
+
 <BlockGenus name="private-var-object-bsound" kind="global-variable"
 	initlabel="sound" header-label="BSound型のインスタンス変数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
 		<text>
-			BCanvas型のプライベート変数を宣言します。変数名を設定してください。
+			BSound型のプライベート変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object" label="BWindow"></DefaultArg>
+			<DefaultArg genus-name="new-object-withtext" label="BSound"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -371,7 +367,7 @@
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
-			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
+			BSound型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
 	<BlockConnectors>
@@ -986,8 +982,8 @@
 <BlockGenus name="getImageWidth" kind="data" color="255 0 0"
 	initlabel="画像の幅">
 	<BlockConnectors>
-        <BlockConnector connector-type="number" connector-kind="plug"
-			position-type="mirror"></BlockConnector>
+        <BlockConnector connector-type="number" connector-kind="plug"></BlockConnector>
+		<BlockConnector label="パス" connector-type="string" connector-kind="socket"></BlockConnector>	
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="getImageWidth"></LangSpecProperty>
@@ -998,8 +994,8 @@
 <BlockGenus name="getImageHeight" kind="data" color="255 0 0"
 	initlabel="画像の高さ">
 	<BlockConnectors>
-        <BlockConnector connector-type="number" connector-kind="plug"
-			position-type="mirror"></BlockConnector>
+        <BlockConnector connector-type="number" connector-kind="plug"></BlockConnector>
+		<BlockConnector label="パス" connector-type="string" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="getImageHeight"></LangSpecProperty>
@@ -1018,7 +1014,7 @@
 			connector-type="object">
 		</BlockConnector>
         <BlockConnector label="始点のX座標" connector-kind="socket"
-			connector-type="string">
+			connector-type="double-number">
 		</BlockConnector>
         <BlockConnector label="始点のY座標" connector-kind="socket"
 			connector-type="double-number">

@@ -120,15 +120,16 @@ public class StVariableDeclarationModel extends StatementModel implements
 
 		out.println("<HeaderLabel>" + ElementModel.addEscapeSequence(getType())
 				+ "</HeaderLabel>");
+		System.out.println(ElementModel.addEscapeSequence(getType()));
 
 		makeIndent(out, indent + 1);
-		out.println("<JavaType>" + addEscapeSequence(javaVariableType)
+		out.println("<JavaType>" + ElementModel.addEscapeSequence(javaVariableType)
 				+ "</JavaType>");
 
 		{// 2013 09/26 ohata tag for line comment
 			// comment
 			makeIndent(out, indent + 1);
-			out.println("<LineComment>" + getComment() + "</LineComment>");
+			out.println("<LineComment>" + ElementModel.addEscapeSequence(getComment()) + "</LineComment>");
 		}
 
 		{// 2013 09/26 hakamata tag for linenumber and parent block parent
@@ -239,7 +240,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 		//header label (if needed)
 		if(getJavaVariableType() != null){
 			makeIndent(out, indent + 1);
-			out.println("<HeaderLabel>" + getJavaVariableType() + "型の仮引数を作り、" + "</HeaderLabel>");
+			out.println("<HeaderLabel>" + ElementModel.addEscapeSequence(getJavaVariableType()) + "型の仮引数を作り、" + "</HeaderLabel>");
 		}
 		{// 2013 09/26 ohata tag for line comment
 			// comment

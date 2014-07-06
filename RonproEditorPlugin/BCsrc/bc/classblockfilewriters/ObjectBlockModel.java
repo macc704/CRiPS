@@ -11,6 +11,7 @@ public class ObjectBlockModel extends BasicModel {
 	private Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
 	private String className;
 	private Map<String, String> langSpecProperties = new LinkedHashMap<String, String>();
+	private String superClassName;
 
 	public ObjectBlockModel(String name, String kind, String initialLabel,
 			String headerLabel, String footerLabel, String color) {
@@ -23,6 +24,14 @@ public class ObjectBlockModel extends BasicModel {
 		langSpecProperties.put("type", "object");
 		langSpecProperties.put("is-owned-by-breed", "yes");
 		langSpecProperties.put("is-monitorable", "yes");
+	}
+	
+	public void setSuperClassName(String name){
+		this.superClassName = name;
+	}
+	
+	public String getSuperClassName(){
+		return this.superClassName;
 	}
 
 	public Map<String, List<PublicMethodInfo>> getMethods() {
@@ -67,9 +76,17 @@ public class ObjectBlockModel extends BasicModel {
 		makeIndent(out, --lineNumber);
 		out.println("</description>");
 
-		printBlockConnectors(out, lineNumber + 1, "socket", "object",
-				"new-object", getClassName());
-
+		
+		//コンストラクタを求める
+		String constructor = getConstructorName();
+		if(constructor != null){
+			printBlockConnectors(out, lineNumber + 1, "socket", "object",
+					constructor, getClassName());
+		}else{
+			printBlockConnectors(out, lineNumber + 1, "socket", "object",
+					"new-object", getClassName());	
+		}
+		
 		printStubs(out, lineNumber);
 
 		makeIndent(out, lineNumber);
@@ -113,6 +130,19 @@ public class ObjectBlockModel extends BasicModel {
 		out.println();
 	}
 
+	private String getConstructorName(){
+		
+		List<PublicMethodInfo> methods = this.methods.get(className);
+		
+		for(PublicMethodInfo method : methods){
+			if(method.getFullName().startsWith("new-")){
+				return method.getFullName();
+			}
+		}
+
+		return null;
+	}
+	
 	private void printStubs(PrintStream out, int lineNumber) {
 		makeIndent(out, lineNumber);
 		out.println("<Stubs>");

@@ -111,6 +111,11 @@ public class REBlockEditorManager {
 				app.doCompile();
 			}
 
+			public void chengeInheritance() {
+				// TODO Auto-generated method stub
+				
+			}			
+
 		}, REApplication.SRC_ENCODING);
 		blockEditor.getFrame().addWindowFocusListener(
 				new WindowFocusListener() {

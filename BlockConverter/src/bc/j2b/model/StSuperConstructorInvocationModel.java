@@ -7,8 +7,8 @@ import java.util.List;
 public class StSuperConstructorInvocationModel extends StatementModel {
 	private String genusName;
 	private List<ExpressionModel> parameters = new ArrayList<ExpressionModel>();
-
-	public StSuperConstructorInvocationModel(String genusName) {
+	
+	public void setGenusName(String genusName){
 		this.genusName = genusName;
 	}
 

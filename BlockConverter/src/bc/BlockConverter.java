@@ -11,7 +11,8 @@ public class BlockConverter {
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 
 	public static final String COLLAPSED_BLOCK_LABEL = "c//";
-
+	public static final String COLLAPSED_BLOCK_LABEL_PLUGIN = " c//";
+	
 	public static Map<String, String> projectMethods = new HashMap<String, String>();
 	// 色
 	public static final String[] COLOR_NAMES = { "blue", "cyan", "green",
@@ -76,8 +77,6 @@ public class BlockConverter {
 			"drawArc",
 			"drawFillTriangle",
 			"drawLine", 
-			"drawFillArc[@objet@number@number]",
-			"drawFillArc[@object@number@number@number@number]",
 			"drawFillArc[@object@number@number@number@number@number@number]",
 			"drawText[@object@string@number@number@object]",
 			"drawText[@object@string@number@number]",
@@ -89,7 +88,7 @@ public class BlockConverter {
 			"isLeftMouseDown", "getMouseX", "getMouseY",
 			"getCanvasWidth", "getCanvasHeight",
 			/*BWindow*/"setLocation", "setSize", "getCanvas",  
-			/*List*/"remove[@number]", "remove[@object]", "get","get[@number]", 
+			/*List*/"remove[@number]", "remove[@object]", "get","get[@number]",
 			/*Scanner*/"isMouseDown", "hasNextInt", "hasNextDouble" ,/*Bsound*/"getVolume", "setVolume",
 			"getDefaultVolume"};
 

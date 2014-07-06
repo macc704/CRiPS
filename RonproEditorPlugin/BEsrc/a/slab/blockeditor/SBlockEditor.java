@@ -291,7 +291,15 @@ import controller.WorkspaceController;
  *  	・引数ブロックの配列，obproライブラリ対応
  *  2014.05.15 3.1.1 Ohata
  *  	・整数型引数のインクリメントがJava>>Block変換できなかった問題を修正
- *  
+ *  2014.06.19 3.1.3 ohata
+ *  	・Listのコンテキストメニューからaddを作成した際に変換できない問題を修正
+ *  2014.06.20 3.1.4 ohata
+ *  	・クラスインスタンス生成ブロックの変換処理を修正　同一プロジェクト内のクラスインスタンス生成モデルを利用した変換を行うように変更
+ *  2014.06.27 3.2.0 ohata
+ *  	・継承機能を追加
+ *  	・ブロックの多重登録を修正
+ *  	・thisキーワードの複製の問題を修正
+ *  	・superメソッドブロックの作成処理を追加
  *  
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
@@ -312,7 +320,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "3.1.1";
+	public final static String VERSION = "3.2.0";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;
