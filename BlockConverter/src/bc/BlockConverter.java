@@ -77,9 +77,8 @@ public class BlockConverter {
 			"drawArc",
 			"drawFillTriangle",
 			"drawLine", 
-			"drawFillArc[@object@number@number@number@number@number@number]",
-			"drawText[@object@string@number@number@object]",
-			"drawText[@object@string@number@number]",
+			"drawFillArc",
+			"drawText",
 			 "drawImage",
 			 "isClick",
 			 "getImageWidth", "getImageHeight", "clear", "update",
@@ -88,7 +87,7 @@ public class BlockConverter {
 			"isLeftMouseDown", "getMouseX", "getMouseY",
 			"getCanvasWidth", "getCanvasHeight",
 			/*BWindow*/"setLocation", "setSize", "getCanvas",  
-			/*List*/"remove[@number]", "remove[@object]", "get","get[@number]",
+			/*List*/"remove", "remove[@object]", "get","get[@number]",
 			/*Scanner*/"isMouseDown", "hasNextInt", "hasNextDouble" ,/*Bsound*/"getVolume", "setVolume",
 			"getDefaultVolume","play[@string]","loadOnMemory[@string]"};
 

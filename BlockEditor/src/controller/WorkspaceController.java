@@ -788,12 +788,7 @@ public class WorkspaceController {
 			}
 			inheritanceList.addItem(item.substring(0,item.indexOf(".java")));	
 		}
-		
-		//obpro追加
-		inheritanceList.addItem("BCanvas");
-		inheritanceList.addItem("BWindow");
-		inheritanceList.addItem("BSound");
-		
+				
 		File file = new File(selectedJavaFile);
 		Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
 		String superClassName = openedPage.getSuperClassName();

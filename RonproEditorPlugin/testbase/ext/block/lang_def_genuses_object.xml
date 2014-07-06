@@ -1217,6 +1217,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
+			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>	
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -1288,6 +1289,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
+			<DefaultArg genus-name="new-linkedlistobject" label="LinkedList"></DefaultArg>	
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -1622,7 +1624,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="remove[@number]" kind="command" initlabel="要素を削除する"
+<BlockGenus name="remove" kind="command" initlabel="要素を削除する"
 	color="255 255 100">
     <JavaLabel>remove</JavaLabel>
 	<BlockConnectors>
@@ -1642,6 +1644,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
+<!--  
 <BlockGenus name="remove[@object]" kind="command" initlabel="要素を削除する"
 	color="255 255 100">
     <JavaLabel>remove</JavaLabel>
@@ -1650,6 +1653,7 @@
         connector-type="object" />
 	</BlockConnectors>
 </BlockGenus>
+-->
 
 <BlockGenus name="length" kind="data" initlabel="文字数"
 	color="255 255 100">
