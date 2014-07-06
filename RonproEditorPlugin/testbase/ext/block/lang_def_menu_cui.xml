@@ -131,11 +131,11 @@
 		<BlockGenusMember>local-var-arraylistobject</BlockGenusMember>
 		<BlockGenusMember>local-var-linkedlistobject</BlockGenusMember>
 		<BlockGenusMember>private-var-listobject</BlockGenusMember>		
-		<BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
-		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>
-		<BlockGenusMember>private-var-object-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-arraylistobject</BlockGenusMember>
 		<BlockGenusMember>private-var-linkedlistobject</BlockGenusMember>
+		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>		
+		<BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
+		<BlockGenusMember>private-var-object-arrayobject</BlockGenusMember>
 		<BlockGenusMember>new-listobject</BlockGenusMember>
 		<BlockGenusMember>new-linkedlistobject</BlockGenusMember>
 		<BlockGenusMember>type-object</BlockGenusMember>			

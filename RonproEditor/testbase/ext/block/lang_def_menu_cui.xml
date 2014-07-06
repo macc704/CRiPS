@@ -131,11 +131,11 @@
 		<BlockGenusMember>local-var-arraylistobject</BlockGenusMember>
 		<BlockGenusMember>local-var-linkedlistobject</BlockGenusMember>
 		<BlockGenusMember>private-var-listobject</BlockGenusMember>		
-		<BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
-		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>
-		<BlockGenusMember>private-var-object-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-arraylistobject</BlockGenusMember>
 		<BlockGenusMember>private-var-linkedlistobject</BlockGenusMember>
+		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>		
+		<BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
+		<BlockGenusMember>private-var-object-arrayobject</BlockGenusMember>
 		<BlockGenusMember>new-listobject</BlockGenusMember>
 		<BlockGenusMember>new-linkedlistobject</BlockGenusMember>
 		<BlockGenusMember>type-object</BlockGenusMember>			
@@ -176,8 +176,7 @@
 		<BlockGenusMember>local-var-object-bsound</BlockGenusMember>
 		<BlockGenusMember>drawArc</BlockGenusMember>
 		<BlockGenusMember>drawFillTriangle</BlockGenusMember>
-		<BlockGenusMember>drawText[@object@string@number@number]</BlockGenusMember>
-		<BlockGenusMember>drawText[@object@string@number@number@object]</BlockGenusMember>
+		<BlockGenusMember>drawText</BlockGenusMember>
 		<BlockGenusMember>isClick</BlockGenusMember>
 		<BlockGenusMember>isSingleClick</BlockGenusMember>
 		<BlockGenusMember>isDoubleClick</BlockGenusMember>
@@ -199,15 +198,15 @@
 		<BlockGenusMember>getCanvasWidth</BlockGenusMember>
 		<BlockGenusMember>getCanvasHeight</BlockGenusMember>
 		<BlockGenusMember>drawImage</BlockGenusMember>
-		<BlockGenusMember>drawFillArc[@object@number@number@number@number@number@number]</BlockGenusMember>
+		<BlockGenusMember>drawFillArc</BlockGenusMember>
 		<BlockGenusMember>setLocation</BlockGenusMember>
 		<BlockGenusMember>setSize</BlockGenusMember>
 		<BlockGenusMember>getCanvas</BlockGenusMember>
 		<BlockGenusMember>show</BlockGenusMember>
 		<BlockGenusMember>loop</BlockGenusMember>
-		<BlockGenusMember>play</BlockGenusMember>
+		<BlockGenusMember>play[@string]</BlockGenusMember>
+		<BlockGenusMember>loadOnMemory[@string]</BlockGenusMember>
 		<BlockGenusMember>stop</BlockGenusMember>
-		<BlockGenusMember>isPlaying</BlockGenusMember>
 		<BlockGenusMember>loop</BlockGenusMember>
 		<BlockGenusMember>setVolume</BlockGenusMember>
 		<BlockGenusMember>getVolume</BlockGenusMember>
@@ -216,8 +215,7 @@
         <BlockGenusMember>add</BlockGenusMember>
         <BlockGenusMember>contains</BlockGenusMember>
         <BlockGenusMember>isEmpty</BlockGenusMember>
-        <BlockGenusMember>remove[@number]</BlockGenusMember>
-        <BlockGenusMember>remove[@object]</BlockGenusMember>
+        <BlockGenusMember>remove</BlockGenusMember>
         <BlockGenusMember>get[@number]</BlockGenusMember>
         <BlockGenusMember>length</BlockGenusMember>
         <BlockGenusMember>next</BlockGenusMember>
