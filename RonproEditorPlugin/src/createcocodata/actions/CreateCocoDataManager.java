@@ -11,8 +11,10 @@ import ronproeditorplugin.Activator;
 import src.coco.controller.CCCompileErrorConverter;
 import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.model.CCCompileErrorManager;
+import clib.common.compiler.CJavaCompilerFactory;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CPath;
 import clib.common.time.CTime;
 import clib.common.time.CTimeInterval;
 
@@ -23,6 +25,7 @@ public class CreateCocoDataManager {
 	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv"; // ext内のErrorKinds
 	private static String ORIGINAL_DATA_FILE = "/CompileError.csv"; // ppvから出力されるcsvファイル
 	private static String DATA_FILE = "/CompileErrorLog.csv"; // Coco用のコンパイルエラーデータ
+	private static String LIB_DIR = "ext/cocoviewer/lib";
 
 	private PPProjectSet ppProjectSet;
 
@@ -62,6 +65,16 @@ public class CreateCocoDataManager {
 		if (res != JOptionPane.OK_OPTION) {
 			Activator.getDefault().setcompileErrorCashCreating(false);
 			return;
+		}
+
+		if (!CJavaCompilerFactory.hasEmbededJavaCompiler()) {
+			res = JOptionPane.showConfirmDialog(null,
+					"JDKを利用していない場合，処理時間が長くなりますが，よろしいですか？", "コンパイラのチェック",
+					JOptionPane.OK_CANCEL_OPTION);
+			if (res != JOptionPane.OK_OPTION) {
+				Activator.getDefault().setcompileErrorCashCreating(false);
+				return;
+			}
 		}
 
 		CTime startTime = new CTime();
@@ -106,16 +119,17 @@ public class CreateCocoDataManager {
 			e.printStackTrace();
 		}
 
-		// System.out.println("eclipsePath: " + eclipsePath);
-		CDirectory libDir = CFileSystem.findDirectory(eclipsePath)
-				.findOrCreateDirectory("plugins");
-		// System.out.println(libDir.toString());
+		System.out.println("eclipsePath: " + eclipsePath);
+		CDirectory libDir = new CDirectory(new CPath(eclipsePath + LIB_DIR));
 		ppDataManager.setLibDir(libDir);
 
+		System.out.println(ppDataManager.getLibDir().getAbsolutePath()
+				.toString());
+
 		// TODO Hardcoding
-		System.out.println("start load and compile");
+		// System.out.println("start load and compile");
 		ppProjectSet = ppDataManager.openProjectSet("hoge", true, true, true);
-		System.out.println("end load and compile");
+		// System.out.println("end load and compile");
 	}
 
 	private void convertCompileErrorData() {
