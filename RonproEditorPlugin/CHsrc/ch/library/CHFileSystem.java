@@ -15,7 +15,7 @@ import clib.common.filesystem.sync.CFileListUtils;
 import clib.common.table.CCSVFileIO;
 
 public class CHFileSystem {
-	
+
 	public static String PROJECTPATH = "runtime-EclipseApplication/final";
 	public static String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
 	public static String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
@@ -38,17 +38,19 @@ public class CHFileSystem {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
 				"MyProjects/.CH/" + user + "/final");
 	}
-	
+
 	// for plug-in
 	public static CDirectory getEclipseProjectDir() {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(PROJECTPATH);
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
+				PROJECTPATH);
 	}
-	
+
 	// for plug-in
 	public static CDirectory getEclipseMemberDir(String user) {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(MEMBERDIRPATH + "/" + user);
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
+				MEMBERDIRPATH + "/" + user);
 	}
-	
+
 	public static CFile getPrefFile() {
 		return CFileSystem.getExecuteDirectory().findOrCreateFile(PREFPATH);
 	}
@@ -62,7 +64,7 @@ public class CHFileSystem {
 	public static CFileHashList getFinalProjectFileList() {
 		return createFileList(getFinalProjectDir());
 	}
-	
+
 	// for plug-in
 	public static CFileHashList getEclipseProjectFileList() {
 		return createFileList(getEclipseProjectDir());

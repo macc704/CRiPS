@@ -21,6 +21,9 @@ import ronproeditor.REApplication;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFilelistRequest;
+import ch.library.CHFileSystem;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFileFilter;
 
 public class CHMemberSelectorFrame extends JFrame {
 
@@ -32,6 +35,7 @@ public class CHMemberSelectorFrame extends JFrame {
 	private List<JButton> buttons = new ArrayList<JButton>();
 	private CHConnection conn;
 	private HashMap<String, REApplication> openedCHEditors = new HashMap<>();
+	private HashMap<REApplication, String> openedUsers = new HashMap<>();
 
 	public CHMemberSelectorFrame(String user) {
 		this.user = user;
@@ -89,6 +93,7 @@ public class CHMemberSelectorFrame extends JFrame {
 				REApplication chApplication = application
 						.doOpenNewRE(CH_DIR_PATH + "/" + pushed);
 				openedCHEditors.put(pushed, chApplication);
+				openedUsers.put(chApplication, pushed);
 				initCHEditor(chApplication);
 			}
 		}
@@ -103,7 +108,7 @@ public class CHMemberSelectorFrame extends JFrame {
 
 		JMenuBar menuBar = application.getFrame().getJMenuBar();
 		menuBar.add(initSyncButton(application));
-		menuBar.add(initPullButton());
+		menuBar.add(initPullButton(application));
 		application.getFrame().setJMenuBar(menuBar);
 	}
 
@@ -133,7 +138,7 @@ public class CHMemberSelectorFrame extends JFrame {
 		return syncButton;
 	}
 
-	private JButton initPullButton() {
+	private JButton initPullButton(final REApplication application) {
 
 		JButton pullButton = new JButton("取り込み↓");
 		pullButton.addActionListener(new ActionListener() {
@@ -141,10 +146,38 @@ public class CHMemberSelectorFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO openPullDialog
+				CHPullDialog pullDialog = new CHPullDialog(openedUsers
+						.get(application));
+				pullDialog.open();
+
+				boolean java = pullDialog.isJavaChecked();
+				boolean material = pullDialog.isMaterialCecked();
+				if (java || material) {
+					doPull(openedUsers.get(application),
+							makeCFileFilter(java, material));
+				}
 			}
 		});
 
 		return pullButton;
+	}
+
+	private CFileFilter makeCFileFilter(boolean java, boolean material) {
+		if (java && material) {
+			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", ".*xml");
+		} else if (java && !material) {
+			return CFileFilter.ACCEPT_BY_NAME_FILTER("*.java");
+		} else if (!java && material) {
+			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml",
+					"*.java");
+		}
+		return null;
+	}
+
+	private void doPull(String user, CFileFilter filter) {
+		CDirectory from = CHFileSystem.getEclipseMemberDir(user);
+		CDirectory to = CHFileSystem.getEclipseProjectDir();
+		CHFileSystem.pull(from, to, filter);
 	}
 
 	private void initCHWindow(final REApplication application) {
@@ -161,6 +194,7 @@ public class CHMemberSelectorFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				openedCHEditors.remove(application);
+				openedUsers.remove(openedUsers.get(application));
 			}
 		});
 	}

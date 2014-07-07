@@ -54,7 +54,7 @@ public class CHPullDialog extends JDialog implements ActionListener {
 		this.getContentPane().add(checkBoxPanel, BorderLayout.CENTER);
 		this.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-		open();
+		// open();
 	}
 
 	public void open() {
