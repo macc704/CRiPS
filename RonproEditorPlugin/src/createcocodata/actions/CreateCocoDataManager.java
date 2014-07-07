@@ -11,8 +11,12 @@ import ronproeditorplugin.Activator;
 import src.coco.controller.CCCompileErrorConverter;
 import src.coco.controller.CCCompileErrorKindLoader;
 import src.coco.model.CCCompileErrorManager;
+import clib.common.compiler.CJavaCompilerFactory;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CPath;
+import clib.common.time.CTime;
+import clib.common.time.CTimeInterval;
 
 public class CreateCocoDataManager {
 
@@ -21,6 +25,7 @@ public class CreateCocoDataManager {
 	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv"; // ext内のErrorKinds
 	private static String ORIGINAL_DATA_FILE = "/CompileError.csv"; // ppvから出力されるcsvファイル
 	private static String DATA_FILE = "/CompileErrorLog.csv"; // Coco用のコンパイルエラーデータ
+	private static String LIB_DIR = "ext/cocoviewer/lib";
 
 	private PPProjectSet ppProjectSet;
 
@@ -33,8 +38,24 @@ public class CreateCocoDataManager {
 		// IWorkspaceRoot root = workspace.getRoot();
 		// System.out.println(root.getLocation().toFile().getAbsolutePath()
 		// .toString());
+
+		if (Activator.getDefault().getcompileErrorCashCreating()) {
+			JOptionPane.showMessageDialog(null, "CompileError Cash作成・削除中です");
+			return;
+		} else {
+			Activator.getDefault().setcompileErrorCashCreating(true);
+		}
+
 		ppvManager = new PresVisualizerManager(window);
-		createCocoData();
+
+		// スレッド化
+		Thread thread = new Thread() {
+			public void run() {
+				createCocoData();
+			}
+		};
+
+		thread.start();
 	}
 
 	public void createCocoData() {
@@ -42,21 +63,49 @@ public class CreateCocoDataManager {
 				"データの作成には時間がかかりますが，よろしいですか？", "データの作成",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (res != JOptionPane.OK_OPTION) {
+			Activator.getDefault().setcompileErrorCashCreating(false);
 			return;
 		}
 
-		// CompileError.csvを自動的にエクスポートする
-		autoExportCompileErrorCSV();
+		if (!CJavaCompilerFactory.hasEmbededJavaCompiler()) {
+			res = JOptionPane.showConfirmDialog(null,
+					"JDKを利用していない場合，処理時間が長くなりますが，よろしいですか？", "コンパイラのチェック",
+					JOptionPane.OK_CANCEL_OPTION);
+			if (res != JOptionPane.OK_OPTION) {
+				Activator.getDefault().setcompileErrorCashCreating(false);
+				return;
+			}
+		}
 
-		// 自動的にエクスポートしたファイルをCoco用データに変換する
-		convertCompileErrorData();
+		CTime startTime = new CTime();
 
+		try {
+			// CompileError.csvを自動的にエクスポートする
+			autoExportCompileErrorCSV();
+
+			// 自動的にエクスポートしたファイルをCoco用データに変換する
+			convertCompileErrorData();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			Activator.getDefault().setcompileErrorCashCreating(false);
+		}
 		// アクティベーターでコンパイル情報を保持
 		Activator.getDefault().setppProjectset(ppProjectSet);
+
+		CTime endTime = new CTime();
+		CTimeInterval interval = startTime.diffrence(endTime);
+		String minute = interval.getMinuteString();
+		String second = interval.getSecondString();
+
+		JOptionPane.showMessageDialog(null, "処理時間： " + minute + "分 " + second
+				+ "秒");
+		// System.out.println("処理時間： " + minute + "分 " + second + "秒");
 	}
 
 	private void autoExportCompileErrorCSV() {
 		ppvManager.exportAndImportAll();
+
 		PPDataManager ppDataManager = ppvManager.getPPDataManager();
 
 		// TODO: ライブラリの場所
@@ -70,14 +119,17 @@ public class CreateCocoDataManager {
 			e.printStackTrace();
 		}
 
-		// System.out.println("eclipsePath: " + eclipsePath);
-		CDirectory libDir = CFileSystem.findDirectory(eclipsePath)
-				.findOrCreateDirectory("plugins");
-		// System.out.println(libDir.toString());
+		System.out.println("eclipsePath: " + eclipsePath);
+		CDirectory libDir = new CDirectory(new CPath(eclipsePath + LIB_DIR));
 		ppDataManager.setLibDir(libDir);
 
+		System.out.println(ppDataManager.getLibDir().getAbsolutePath()
+				.toString());
+
 		// TODO Hardcoding
+		// System.out.println("start load and compile");
 		ppProjectSet = ppDataManager.openProjectSet("hoge", true, true, true);
+		// System.out.println("end load and compile");
 	}
 
 	private void convertCompileErrorData() {
