@@ -291,13 +291,10 @@ public class SContextMenuProvider {
 			category.add(createCallMethodMenu("drawLine", "線を引きます"));
 			category.add(createCallMethodMenu("drawFillTriangle",
 					"塗りつぶした三角形を書きます"));
-			category.add(createCallMethodMenu("drawText[@object@string@number@number]",
+			category.add(createCallMethodMenu("drawText",
 					"文字を書きます"));
 			category.add(createCallMethodMenu(
-					"drawText[@object@string@number@number@object]",
-					"フォントサイズを指定して文字を書きます"));
-			category.add(createCallMethodMenu(
-					"drawFillArc[@object@number@number@number@number@number@number]", "塗りつぶした円を書きます"));
+					"drawFillArc", "塗りつぶした円を書きます"));
 			category.add(createCallMethodMenu(
 					"drawArc", "円を書きます"));			
 			category.add(createCallMethodMenu("drawImage", "画像を書きます"));
@@ -338,6 +335,11 @@ public class SContextMenuProvider {
 			category.add(createCallMethodMenu("setVolume", "音量を指定する"));
 			category.add(createCallMethodMenu("getDefaultVolume",
 					"音量のデフォルト値を取得する"));
+			category.add(createCallStaticMethodMenu("play[@string]", "再生する"));
+			category.add(createCallStaticMethodMenu("loadOnMemory[@string]", "メモリに読み込む"));
+			category.add(createCallMethodMenu("loop", "ループ再生する"));
+			category.add(createCallMethodMenu("stop", "停止する"));
+			category.add(createCallMethodMenu("isPlaying", "再生しているかどうか"));
 			menu.add(category);
 		}
 
@@ -346,7 +348,7 @@ public class SContextMenuProvider {
 			menu.add(createActionBlockMenu());
 			menu.add(createGetterBlockMenu());
 
-			//TODO menuにメソッドを追加
+			//TODO menuにクラスメソッドを追加
 			for (String key : rb.getMethods().keySet()) {
 				menu.add(createClassMethodsCategory(key,
 						rb.getMethods().get(key)));
@@ -461,8 +463,6 @@ public class SContextMenuProvider {
 				category.add(createCallListMethodMenu("clear", "全ての要素を削除する"));
 				category.add(createCallListMethodMenu("contains", "ある要素があるか調べる"));
 				category.add(createCallListMethodMenu("isEmpty", "リストが空か調べる"));
-				category.add(createCallListMethodMenu("remove[@number]",
-						"指定した番号の要素を削除する"));
 				category.add(createCallListMethodMenu("remove",
 						"指定した要素を削除する"));
 				menu.add(category);
@@ -592,6 +592,16 @@ public class SContextMenuProvider {
 		});
 		return item;
 	}
+	
+	private JMenuItem createCallStaticMethodMenu(final String name, String label) {
+		JMenuItem item = new JMenuItem(label);
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createCallStaticMethod(name);
+			}
+		});
+		return item;
+	}
 
 	private JMenuItem createCallListMethodMenu(final String name, String label) {
 		JMenuItem item = new JMenuItem(label);
@@ -634,6 +644,12 @@ public class SContextMenuProvider {
 				connectByPlug(newActionRBlock, 0, newGetterRBlock);
 			}
 		}
+	}
+	
+	private void createCallStaticMethod(String name){
+		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
+				name);
+		newCommandRBlock.setLocation(rb.getX() + 20,  rb.getY() + 20);
 	}
 
 	private void createListMethod(String name) {

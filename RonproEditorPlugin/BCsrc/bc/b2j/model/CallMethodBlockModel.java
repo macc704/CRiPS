@@ -122,6 +122,10 @@ public class CallMethodBlockModel extends CommandBlockModel {
 			methodName = "Input.isInteger";
 		} else if ("input-isDouble".equals(getGenusName())) {
 			methodName = "Input.isDouble";
+		} else if ("play[@string]".equals(getGenusName())) {
+			methodName = "BSound.play";
+		} else if ("loadOnMemory[@string]".equals(getGenusName())) {
+			methodName = "BSound.load";
 		}
 		out.print(methodName);
 

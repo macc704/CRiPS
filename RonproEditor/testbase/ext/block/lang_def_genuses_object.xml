@@ -1630,8 +1630,8 @@
 	color="255 255 100">
     <JavaLabel>remove</JavaLabel>
 	<BlockConnectors>
-		<BlockConnector label="どこの？" connector-kind="socket"
-			connector-type="number" />
+		<BlockConnector label="どれを？" connector-kind="socket"
+			connector-type="poly" />
 	</BlockConnectors>
 </BlockGenus>
 

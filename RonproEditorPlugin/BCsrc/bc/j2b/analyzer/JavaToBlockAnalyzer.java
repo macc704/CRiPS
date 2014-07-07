@@ -645,7 +645,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		variableResolver.resetLocalVariable();
 
-		StMethodDeclarationModel model = new StMethodDeclarationModel(ElementModel.getConnectorType(node.getReturnType2().toString()));
+		StMethodDeclarationModel model = new StMethodDeclarationModel(
+				ElementModel.getConnectorType(node.getReturnType2().toString()));
 		// メソッド引数の処理
 		for (Object o : node.parameters()) {
 			SingleVariableDeclaration arg = ((SingleVariableDeclaration) o);
@@ -912,15 +913,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	private StatementModel analyzeSuperConstructorInvocation(
-			SuperConstructorInvocation stmt) {		
+			SuperConstructorInvocation stmt) {
 		StSuperConstructorInvocationModel model = new StSuperConstructorInvocationModel();
-		
+
 		String genusName = "super";
-		
-		if(stmt.arguments() != null){
+
+		if (stmt.arguments() != null) {
 			genusName += "[";
 		}
-		
+
 		for (Object parameter : stmt.arguments()) {
 			ExpressionModel param = parseExpression((Expression) parameter);
 			param.setId(idCounter.getNextId());
@@ -928,21 +929,23 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					.getStartPosition()));
 			param.setParent(model);
 			model.addParameter(param);
-			
+
 			String paramType = param.getType();
-			if(paramType.equals("double-number")){
+			if (paramType.equals("double-number")) {
 				paramType = "number";
 			}
-			
-			genusName += "@" + ElementModel.convertJavaTypeToBlockGenusName(param.getType());
+
+			genusName += "@"
+					+ ElementModel.convertJavaTypeToBlockGenusName(param
+							.getType());
 		}
-		
-		if(!"super".equals(genusName)){
-			genusName+="]";
+
+		if (!"super".equals(genusName)) {
+			genusName += "]";
 		}
-		
+
 		model.setGenusName(genusName);
-		
+
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(stmt
 				.getStartPosition()));
@@ -1011,8 +1014,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				String aComments = abstractionComments.get(block
 						.getStartPosition() + i);
 				if (aComments.contains(BlockConverter.COLLAPSED_BLOCK_LABEL)) {
-					aComments = aComments
-							.substring(aComments.indexOf(BlockConverter.COLLAPSED_BLOCK_LABEL) + BlockConverter.COLLAPSED_BLOCK_LABEL.length());
+					aComments = aComments.substring(aComments
+							.indexOf(BlockConverter.COLLAPSED_BLOCK_LABEL)
+							+ BlockConverter.COLLAPSED_BLOCK_LABEL.length());
 					model.setCollapsed(true);
 				}
 				model.setCommnent(aComments);
@@ -1956,7 +1960,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			callMethod.setType("boolean");
 			callMethod.setName("input-isDouble");
 			return callMethod;
-		}else if (fullName.endsWith("hashCode()")) {
+		} else if (fullName.endsWith("hashCode()")) {
 			Expression receiver = node.getExpression();
 			if (receiver != null) {
 				ExpressionModel expModel = parseExpression(receiver);
@@ -1966,6 +1970,14 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				callMethod.setName("hashCode");
 				return callMethod;
 			}
+		} else if (fullName.startsWith("BSound.play(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setName("play[@string]");
+			return callMethod;
+		} else if (fullName.startsWith("BSound.load(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setName("loadOnMemory[@string]");
+			return callMethod;
 		} else if (fullName.indexOf(".equals(") != -1
 				&& node.arguments().size() == 1) {// ひとまず，string型だと思うことにする．オブジェクト型は後回し（根本的な解決が必要）．#matsuzawa
 													// 2012.11.23
@@ -2002,7 +2014,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseCallActionMethodExpression2(node, thisModel);
 				// methodResolver.getReturnType(node);
 			} else {
-				// Listのgetなどは、listの型に合わせて変形する必要性
+				// Listのgetなどは、listの型に合わせて変形する
 				ExpressionModel receiverModel = null;
 				receiverModel = parseExpression(receiver);
 
@@ -2101,9 +2113,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		String analyzingSourceName = this.commentGetter.getSourceName();
 
 		if (methodResolver.isRegisteredAsUserMethod(node)
-				&& (caller == null || caller.toString().equals("this") || variableResolver
-						.resolve(caller.toString()).getJavaVariableType()
-						.equals(analyzingSourceName))) {
+				&& (caller == null || caller.toString().equals("this") || isThisClassCaller(
+						caller, analyzingSourceName))) {
 			model = new ExCallUserMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
 			name = node.getName().toString() + "[";
@@ -2121,9 +2132,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setJavaType(methodResolver.getMethodJavaReturnType(name));
 			name = node.getName().toString();
 		} else if (methodResolver.isRegisteredAsProjectMethod(node)
-				|| node.getName().toString().equals("drawFillArc")
-				|| node.getName().toString().equals("drawText")
-				|| node.getName().toString().equals("remove")) {// メソッド名を全て変更する必要あり！　今は応急処置
+		// || node.getName().toString().equals("drawFillArc")
+		// || node.getName().toString().equals("drawText")
+		// || node.getName().toString().equals("remove")
+		) {// メソッド名を全て変更する必要あり！　今は応急処置
 			model = new ExCallMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
 			name = node.getName().toString() + "[";
@@ -2166,6 +2178,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.addArgument(arg);
 		}
 		return model;
+	}
+
+	private boolean isThisClassCaller(Expression caller,
+			String analyzingSourceName) {
+		return variableResolver.resolve(caller.toString()) != null
+				&& variableResolver.resolve(caller.toString())
+						.getJavaVariableType().equals(analyzingSourceName);
 	}
 
 	public ExCallMethodModel parseMethodCallExpression(
@@ -2280,7 +2299,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		model.setReceiver(receiverModel);
 		model.setCallMethod(callMethod);
-		
+
 		// 先にcallmethodのplugの型をセットしとく
 		if (callMethod instanceof ExpressionModel
 				&& !((ExpressionModel) callMethod).getType().equals("void")) {
@@ -2607,24 +2626,27 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setId(idCounter.getNextId());
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
-			
-			String tmpName = "new-" + typeString(node.getType()).toLowerCase() + "[";
-			
+
+			String tmpName = "new-" + typeString(node.getType()).toLowerCase()
+					+ "[";
+
 			// 引数
 			for (int i = 0; i < node.arguments().size(); i++) {
 				ExpressionModel arg = parseExpression((Expression) node
 						.arguments().get(i));
 				model.addArgument(arg);
-				
-				tmpName += "@" + ElementModel.convertJavaTypeToBlockGenusName(arg.getType());
+
+				tmpName += "@"
+						+ ElementModel.convertJavaTypeToBlockGenusName(arg
+								.getType());
 			}
 
 			tmpName += "]";
-			
-			if(methodResolver.getMethodJavaReturnType(tmpName) != null){
+
+			if (methodResolver.getMethodJavaReturnType(tmpName) != null) {
 				model.setGenusName(tmpName);
 			}
-			
+
 			return model;
 		}
 	}
