@@ -34,6 +34,7 @@ import ch.conn.framework.packets.CHFilelistResponse;
 import ch.conn.framework.packets.CHLoginMemberChanged;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
+import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.perspective.views.CHMemberDirectoryView;
 import ch.perspective.views.CHMemberStateView;
@@ -55,7 +56,7 @@ public class CheCoProManager {
 	private String user;
 	private String password;
 	private int port;
-	private CHMemberSelectorFrame msFrame;
+	private CHMemberSelectorFrame memberSelector;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
 	private IWorkbenchWindow window;
 
@@ -64,7 +65,7 @@ public class CheCoProManager {
 		this.window = window;
 
 		setWorkbenchWindowToViews();
-		addCHListeners();
+		addListners();
 		String[][] table = new String[1][3];
 		table = CCSVFileIO.load(CHFileSystem.getPrefFile());
 		if (table.length == 0) {
@@ -93,7 +94,7 @@ public class CheCoProManager {
 	/**
 	 * 各種リスナの登録
 	 */
-	private void addCHListeners() {
+	private void addListners() {
 		ICommandService service = (ICommandService) Activator.getDefault()
 				.getWorkbench().getService(ICommandService.class);
 		service.addExecutionListener(saveListener);
@@ -137,8 +138,7 @@ public class CheCoProManager {
 		@Override
 		public void documentChanged(DocumentEvent event) {
 
-			// ソースコード
-			System.out.println(event.getDocument().get());
+			sourceChanged(event.getDocument().get());
 		}
 
 		@Override
@@ -245,6 +245,8 @@ public class CheCoProManager {
 			processFileRequest((CHFileRequest) obj);
 		} else if (obj instanceof CHFileResponse) {
 			processFileResponse((CHFileResponse) obj);
+		} else if (obj instanceof CHSourceChanged) {
+			processSourceChanged((CHSourceChanged) obj);
 		}
 	}
 
@@ -254,14 +256,14 @@ public class CheCoProManager {
 			conn.close();
 		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
 			System.out.println("login success");
-			msFrame = new CHMemberSelectorFrame(user, conn);
-			msFrame.open();
+			memberSelector = new CHMemberSelectorFrame(user, conn);
+			memberSelector.open();
 		}
 	}
 
 	private void processLoginMemberChanged(CHLoginMemberChanged result) {
 		new Thread(new MemberStateUpdater(result)).start();
-		msFrame.setMembers(result.getUserStates());
+		memberSelector.setMembers(result.getUserStates());
 	}
 
 	private void processFilelistRequest() {
@@ -290,6 +292,13 @@ public class CheCoProManager {
 	private void processFileResponse(CHFileResponse response) {
 		CHFileSystem.saveFiles(response.getFiles(),
 				CHFileSystem.getEclipseMemberDir(response.getUser()));
+	}
+
+	private void processSourceChanged(CHSourceChanged responce) {
+		if (memberSelector.cheackCHEditor(responce.getUser(),
+				responce.getCurrentFileName())) {
+			memberSelector.showSource(responce.getUser(), responce.getSource());
+		}
 	}
 
 	class MemberStateUpdater implements Runnable {
@@ -321,12 +330,15 @@ public class CheCoProManager {
 		}
 	}
 
-	public void getEditor() {
+	public String getCurrentFileName() {
 
 		IFileEditorInput input = (IFileEditorInput) window.getActivePage()
 				.getActiveEditor().getEditorInput();
 		IFile file = input.getFile();
-		System.out.println(file.getName());
+		return file.getName();
 	}
 
+	private void sourceChanged(String source) {
+		conn.write(new CHSourceChanged(user, source, getCurrentFileName()));
+	}
 }

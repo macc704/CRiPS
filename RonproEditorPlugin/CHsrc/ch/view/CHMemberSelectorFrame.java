@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 
 import ronproeditor.REApplication;
 import ch.conn.framework.CHConnection;
@@ -30,6 +31,7 @@ public class CHMemberSelectorFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	private static final String CH_DIR_PATH = "runtime-EclipseApplication/.ch";
+	private static final int SYNC_BUTTON_INDEX = 5;
 
 	private String user;
 	private List<JButton> buttons = new ArrayList<JButton>();
@@ -196,6 +198,47 @@ public class CHMemberSelectorFrame extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				openedCHEditors.remove(application);
 				openedUsers.remove(openedUsers.get(application));
+			}
+		});
+	}
+
+	public boolean cheackCHEditor(String sender, String currentFileName) {
+
+		// senderのCHEditorが開かれていない
+		if (!openedCHEditors.containsKey(sender)) {
+			return false;
+		} else {
+			JToggleButton syncButton = (JToggleButton) openedCHEditors
+					.get(sender).getFrame().getJMenuBar()
+					.getComponent(SYNC_BUTTON_INDEX);
+			// 非同期中
+			if (!syncButton.isSelected()) {
+				return false;
+			}
+		}
+
+		// editorが開いていない
+		if (openedCHEditors.get(sender).getFrame().getEditor() == null) {
+			return false;
+		}
+
+		// 開いているファイル名が一致していない
+		if (!openedCHEditors.get(sender).getSourceManager().getCurrentFile()
+				.getName().equals(currentFileName)) {
+			return false;
+		}
+		return true;
+	}
+
+	public void showSource(final String sender, final String source) {
+
+		SwingUtilities.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+
+				openedCHEditors.get(sender).getFrame().getEditor()
+						.setText(source);
 			}
 		});
 	}
