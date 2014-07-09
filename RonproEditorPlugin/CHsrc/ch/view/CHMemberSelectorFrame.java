@@ -122,6 +122,8 @@ public class CHMemberSelectorFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (syncButton.isSelected()) {
+					conn.write(new CHFilelistRequest(user));
+					application.doRefresh();
 					syncButton.setText("同期中");
 				} else if (!syncButton.isSelected()) {
 					syncButton.setText("非同期中");
@@ -145,7 +147,6 @@ public class CHMemberSelectorFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO openPullDialog
 				CHPullDialog pullDialog = new CHPullDialog(openedUsers
 						.get(application));
 				pullDialog.open();

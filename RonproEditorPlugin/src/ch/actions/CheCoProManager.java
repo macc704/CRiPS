@@ -9,11 +9,19 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.DocumentEvent;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IDocumentListener;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.commands.ICommandService;
 
+import presplugin.editors.PresExtendedJavaEditor;
 import ronproeditorplugin.Activator;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
@@ -49,7 +57,6 @@ public class CheCoProManager {
 	private int port;
 	private CHMemberSelectorFrame msFrame;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
-
 	private IWorkbenchWindow window;
 
 	public CheCoProManager(IWorkbenchWindow window) {
@@ -83,12 +90,21 @@ public class CheCoProManager {
 		}
 	}
 
+	/**
+	 * 各種リスナの登録
+	 */
 	private void addCHListeners() {
 		ICommandService service = (ICommandService) Activator.getDefault()
 				.getWorkbench().getService(ICommandService.class);
 		service.addExecutionListener(saveListener);
+
+		window.getWorkbench().getActiveWorkbenchWindow().getPartService()
+				.addPartListener(partListner);
 	}
 
+	/***************
+	 * 各種リスナの設定
+	 ***************/
 	private IExecutionListener saveListener = new IExecutionListener() {
 
 		@Override
@@ -113,6 +129,55 @@ public class CheCoProManager {
 		@Override
 		public void notHandled(String commandId, NotHandledException exception) {
 
+		}
+	};
+
+	private IDocumentListener documentListner = new IDocumentListener() {
+
+		@Override
+		public void documentChanged(DocumentEvent event) {
+
+			// ソースコード
+			System.out.println(event.getDocument().get());
+		}
+
+		@Override
+		public void documentAboutToBeChanged(DocumentEvent event) {
+
+		}
+	};
+
+	private IPartListener partListner = new IPartListener() {
+
+		@Override
+		public void partOpened(IWorkbenchPart part) {
+
+		}
+
+		@Override
+		public void partDeactivated(IWorkbenchPart part) {
+
+		}
+
+		@Override
+		public void partClosed(IWorkbenchPart part) {
+
+		}
+
+		@Override
+		public void partBroughtToTop(IWorkbenchPart part) {
+
+		}
+
+		@Override
+		public void partActivated(IWorkbenchPart part) {
+
+			if (part instanceof PresExtendedJavaEditor) {
+				PresExtendedJavaEditor editor = (PresExtendedJavaEditor) window
+						.getActivePage().getActiveEditor();
+				IDocument doc = editor.getDoc();
+				doc.addDocumentListener(documentListner);
+			}
 		}
 	};
 
@@ -255,4 +320,13 @@ public class CheCoProManager {
 			});
 		}
 	}
+
+	public void getEditor() {
+
+		IFileEditorInput input = (IFileEditorInput) window.getActivePage()
+				.getActiveEditor().getEditorInput();
+		IFile file = input.getFile();
+		System.out.println(file.getName());
+	}
+
 }
