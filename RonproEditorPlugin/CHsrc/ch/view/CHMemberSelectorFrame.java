@@ -32,12 +32,14 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	private static final String CH_DIR_PATH = "runtime-EclipseApplication/.ch";
 	private static final int SYNC_BUTTON_INDEX = 5;
+	private static final int PULL_BUTTON_INDEX = 6;
 
 	private String user;
 	private List<JButton> buttons = new ArrayList<JButton>();
 	private CHConnection conn;
 	private HashMap<String, REApplication> openedCHEditors = new HashMap<>();
 	private HashMap<REApplication, String> openedUsers = new HashMap<>();
+	private REApplication application = new REApplication();
 
 	public CHMemberSelectorFrame(String user) {
 		this.user = user;
@@ -52,7 +54,27 @@ public class CHMemberSelectorFrame extends JFrame {
 		this.setTitle("CheCoProMemberSelector " + user);
 		this.setBounds(100, 100, 150, 500);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.addWindowListener(msWindowListner);
 		this.setVisible(true);
+	}
+
+	// TODO MSが閉じたときLogout処理
+	private WindowListener msWindowListner = new WindowAdapter() {
+
+		@Override
+		public void windowClosing(WindowEvent e) {
+
+		}
+
+		@Override
+		public void windowClosed(WindowEvent e) {
+
+		}
+	};
+
+	public void close() {
+		application.doClose();
+		this.dispose();
 	}
 
 	public void setMembers(List<CHUserState> userStates) {
@@ -86,12 +108,14 @@ public class CHMemberSelectorFrame extends JFrame {
 
 			String pushed = e.getActionCommand();
 
+			// TODO 一度閉じたら開けないバグ
 			if (pushed.equals(user)) {
 				// eclipse active
-			} else if (openedCHEditors.get(pushed) == null) {
+			} else if (openedCHEditors.containsKey(pushed)) {
+				openedCHEditors.get(pushed).getFrame().toFront();
+			} else {
 				conn.write(new CHFilelistRequest(pushed));
 
-				REApplication application = new REApplication();
 				REApplication chApplication = application
 						.doOpenNewRE(CH_DIR_PATH + "/" + pushed);
 				openedCHEditors.put(pushed, chApplication);
@@ -126,8 +150,12 @@ public class CHMemberSelectorFrame extends JFrame {
 				if (syncButton.isSelected()) {
 					conn.write(new CHFilelistRequest(user));
 					application.doRefresh();
+					((JButton) application.getFrame().getJMenuBar()
+							.getComponent(PULL_BUTTON_INDEX)).setEnabled(false);
 					syncButton.setText("同期中");
 				} else if (!syncButton.isSelected()) {
+					((JButton) application.getFrame().getJMenuBar()
+							.getComponent(PULL_BUTTON_INDEX)).setEnabled(true);
 					syncButton.setText("非同期中");
 				}
 
@@ -145,6 +173,7 @@ public class CHMemberSelectorFrame extends JFrame {
 	private JButton initPullButton(final REApplication application) {
 
 		JButton pullButton = new JButton("取り込み↓");
+		pullButton.setEnabled(false);
 		pullButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -185,13 +214,13 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	private void initCHWindow(final REApplication application) {
 
+		application.getFrame().setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
 		List<WindowListener> listeners = new ArrayList<WindowListener>();
 		listeners = Arrays.asList(application.getFrame().getWindowListeners());
 		for (WindowListener aListener : listeners) {
 			application.getFrame().removeWindowListener(aListener);
 		}
-
-		application.getFrame().setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		application.getFrame().addWindowListener(new WindowAdapter() {
 			@Override

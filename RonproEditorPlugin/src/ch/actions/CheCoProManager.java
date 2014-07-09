@@ -25,8 +25,9 @@ import presplugin.editors.PresExtendedJavaEditor;
 import ronproeditorplugin.Activator;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
-import ch.conn.framework.CHLoginCheck;
 import ch.conn.framework.CHUserState;
+import ch.conn.framework.packets.CHEntryRequest;
+import ch.conn.framework.packets.CHEntryResult;
 import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
@@ -34,10 +35,12 @@ import ch.conn.framework.packets.CHFilelistResponse;
 import ch.conn.framework.packets.CHLoginMemberChanged;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
+import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.perspective.views.CHMemberDirectoryView;
 import ch.perspective.views.CHMemberStateView;
+import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.sync.CFileHashList;
@@ -235,6 +238,8 @@ public class CheCoProManager {
 
 		if (obj instanceof CHLoginResult) {
 			processLoginResult((CHLoginResult) obj);
+		} else if (obj instanceof CHEntryResult) {
+			processEntryResult((CHEntryResult) obj);
 		} else if (obj instanceof CHLoginMemberChanged) {
 			processLoginMemberChanged((CHLoginMemberChanged) obj);
 		} else if (obj instanceof CHFilelistRequest) {
@@ -247,17 +252,41 @@ public class CheCoProManager {
 			processFileResponse((CHFileResponse) obj);
 		} else if (obj instanceof CHSourceChanged) {
 			processSourceChanged((CHSourceChanged) obj);
+		} else if (obj instanceof CHLogoutResult) {
+			processLogoutResult((CHLogoutResult) obj);
 		}
 	}
 
 	private void processLoginResult(CHLoginResult result) {
-		if (result.isResult() == CHLoginCheck.FAILURE) {
+		if (result.isResult() == -1) {
+			// TODO エラーダイアログを出す
 			System.out.println("login failure");
 			conn.close();
-		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
+		} else if (result.isResult() == 1) {
 			System.out.println("login success");
 			memberSelector = new CHMemberSelectorFrame(user, conn);
 			memberSelector.open();
+		} else if (result.isResult() == 0) {
+			CHEntryDialog entryDialog = new CHEntryDialog();
+			entryDialog.open();
+			user = entryDialog.getUser();
+			password = entryDialog.getPassword();
+			if (!user.equals("")) {
+				conn.write(new CHEntryRequest(user, password));
+			} else {
+				conn.close();
+			}
+		}
+	}
+
+	private void processEntryResult(CHEntryResult result) {
+		if (result.isResult()) {
+			// 登録成功
+			conn.write(new CHLoginRequest(user, password, DEFAULT_COLOR));
+		} else {
+			// 登録失敗
+			System.out.println("Entry failed");
+			conn.close();
 		}
 	}
 
@@ -301,6 +330,13 @@ public class CheCoProManager {
 		}
 	}
 
+	private void processLogoutResult(CHLogoutResult result) {
+		if (result.getUser().equals(user)) {
+			memberSelector.close();
+			conn.close();
+		}
+	}
+
 	class MemberStateUpdater implements Runnable {
 
 		private CHLoginMemberChanged result;
@@ -340,5 +376,13 @@ public class CheCoProManager {
 
 	private void sourceChanged(String source) {
 		conn.write(new CHSourceChanged(user, source, getCurrentFileName()));
+	}
+
+	public CHConnection getConn() {
+		return conn;
+	}
+
+	public String getUser() {
+		return user;
 	}
 }

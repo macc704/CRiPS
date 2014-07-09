@@ -14,6 +14,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import ch.actions.CheCoProManager;
+import ch.conn.framework.packets.CHLogoutRequest;
 import ch.library.CHFileSystem;
 import clib.common.table.CCSVFileIO;
 
@@ -22,6 +23,7 @@ public class CHPreferenceView extends ViewPart {
 	private Text userNameArea;
 	private Text passArea;
 	private Combo groupNumArea;
+	private CheCoProManager manager;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -98,17 +100,22 @@ public class CHPreferenceView extends ViewPart {
 
 	private void createConnectButton(Composite parent) {
 		connectButton = new Button(parent, SWT.PUSH);
-		connectButton.setText("Connect");
+		connectButton.setText("Login");
 		connectButton.addSelectionListener(new SelectionListener() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (connectButton.getText().equals("Connect")) {
-					new CheCoProManager(PlatformUI.getWorkbench()
+				if (connectButton.getText().equals("Login")) {
+					manager = new CheCoProManager(PlatformUI.getWorkbench()
 							.getActiveWorkbenchWindow());
-					connectButton.setText("Disconnect");
-				} else if (connectButton.getText().equals("Disconnect")) {
+					connectButton.setText("Logout");
+				} else if (connectButton.getText().equals("Logout")) {
 					// TODO 切断処理
+					if (manager != null) {
+						manager.getConn().write(
+								new CHLogoutRequest(manager.getUser()));
+					}
+					connectButton.setText("Login");
 				}
 			}
 

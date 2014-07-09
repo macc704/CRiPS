@@ -24,6 +24,7 @@ import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
+import ch.server.helper.CHGroupManager;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.sync.CFileHashList;
 
@@ -144,32 +145,57 @@ public class CHServer {
 
 	private String processLogin(CHLoginRequest request, CHConnection conn) {
 		String user = request.getUser();
-		// String password = request.getPassword();
+		String password = request.getPassword();
 		Color color = request.getColor();
 
-		//　一時的にログインチェック機能切断
-		
-//		CHLoginCheck loginCheck = new CHLoginCheck(user, password);
-//		int result = loginCheck.checkPattern(port);
-//		if (result == CHLoginCheck.NEW_ENTRY) {
-//			connectionPool.sendToOne(new CHLoginResult(result), conn);
-//			return "newEntry";
-//		}
-//
-		// login process
-		if (login(new CHUserState(user, true, color), conn) == false) {
-			connectionPool.sendToOne(new CHLoginResult(CHLoginCheck.FAILURE),
-					user);
+		// 　一時的にログインチェック機能切断
+
+		CHGroupManager manager = new CHGroupManager(user, password);
+		int loginType = manager.checkPattern(port);
+
+		if (loginType == CHGroupManager.NEW_ENTRY) {
+			connectionPool.sendToOne(new CHLoginResult(loginType), conn);
+			return "guest";
+		} else if (loginType == CHGroupManager.SUCCESS) {
+			if (login(new CHUserState(user, true, color), conn)) {
+				connectionPool.sendToOne(new CHLoginResult(loginType), user);
+				List<CHUserState> userStates = connectionPool.getUserStates();
+				connectionPool.broadCast(new CHLoginMemberChanged(userStates));
+				connectionPool.sendToOne(new CHFilelistRequest(null), user);
+				return user;
+			} else {
+				connectionPool.sendToOne(
+						new CHLoginResult(CHLoginCheck.FAILURE), user);
+				return null;
+			}
+		} else if (loginType == CHGroupManager.FAILURE) {
+			connectionPool.sendToOne(new CHLoginResult(loginType), user);
 			return null;
 		}
 
-		connectionPool.sendToOne((new CHLoginResult(CHLoginCheck.SUCCESS)), user);
-
-		List<CHUserState> userStates = connectionPool.getUserStates();
-
-		connectionPool.broadCast(new CHLoginMemberChanged(userStates));
-		connectionPool.sendToOne(new CHFilelistRequest(null), user);
-		return user;
+		return null;
+		// CHLoginCheck loginCheck = new CHLoginCheck(user, password);
+		// int result = loginCheck.checkPattern(port);
+		// if (result == CHLoginCheck.NEW_ENTRY) {
+		// connectionPool.sendToOne(new CHLoginResult(result), conn);
+		// return "newEntry";
+		// }
+		//
+		// login process
+		// if (login(new CHUserState(user, true, color), conn) == false) {
+		// connectionPool.sendToOne(new CHLoginResult(CHLoginCheck.FAILURE),
+		// user);
+		// return null;
+		// }
+		//
+		// connectionPool.sendToOne((new CHLoginResult(CHLoginCheck.SUCCESS)),
+		// user);
+		//
+		// List<CHUserState> userStates = connectionPool.getUserStates();
+		//
+		// connectionPool.broadCast(new CHLoginMemberChanged(userStates));
+		// connectionPool.sendToOne(new CHFilelistRequest(null), user);
+		// return user;
 	}
 
 	private boolean login(CHUserState userState, CHConnection conn) {
