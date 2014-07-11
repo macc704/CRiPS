@@ -80,7 +80,16 @@ public class LangDefFilesRewriter {
 				"200 200 200", className);
 		model.setMethods(methods);
 		requestParameterBlockModel.add(model);
-
+	}
+	
+	public void setArrayParameterBlockModel(String className,
+			Map<String, List<PublicMethodInfo>> methods) {
+		ParameterBlockModel model = new ParameterBlockModel(
+				"proc-param-object-" + className.toLowerCase() + "-arrayobject", "param",
+				className + "[]型引数", className + "[]型の仮引数を作り、", "と名付ける",
+				"200 200 200", className);
+		//model.setMethods(methods);
+		requestParameterBlockModel.add(model);
 	}
 
 	public void setInstanceVariableBlockMode(String fileName,

@@ -79,6 +79,9 @@ public class LangDefFilesReWriterMain {
 				selfDefModel.setConvertBlockModel(name);
 				// 引数ブロックモデルの追加
 				selfDefModel.setParameterBlockModel(name, methods);
+				//配列ブロックモデルの追加
+				selfDefModel.setArrayParameterBlockModel(name, methods);
+				
 			}
 		}
 		

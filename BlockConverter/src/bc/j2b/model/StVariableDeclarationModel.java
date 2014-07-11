@@ -283,6 +283,14 @@ public class StVariableDeclarationModel extends StatementModel implements
 		out.println("</Block>");
 	}
 
+	public String removeSuperBrackets(String text){
+		String name = ElementModel.addEscapeSequence(text);
+		if(name.contains("[]")){
+			name = name.substring(0, name.indexOf("[]"));
+		}
+		return name;
+	}
+	
 	public String getBlockType() {
 		return getConnectorType(type);
 	}

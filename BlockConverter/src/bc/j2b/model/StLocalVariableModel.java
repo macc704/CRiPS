@@ -20,7 +20,8 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 		if (argument) {
 			if(isProjectObject()){
 				if(isArray()){
-					return "proc-param-object-" + ElementModel.addEscapeSequence(getJavaVariableType().toLowerCase()) + "-arrayobject";
+					String name = removeSuperBrackets(ElementModel.addEscapeSequence(getJavaVariableType().toLowerCase()));
+					return "proc-param-object-" + name + "-arrayobject";
 				}else{
 					return "proc-param-object-" + ElementModel.addEscapeSequence(getJavaVariableType().toLowerCase());	
 				}

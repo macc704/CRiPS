@@ -765,7 +765,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 						// save the loaded blocks to add later
 						loadedBlocks.add(rb);
 					} catch (Exception ex) {
-						throw new RuntimeException("error happened: "
+						throw new RuntimeException(ex.getMessage() + "error happened: "
 								+ blockNode.getNodeName() + " value: "
 								+ blockNode.getNodeValue() + " type: "
 								+ blockNode.getNodeName() + "content: "
