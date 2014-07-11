@@ -27,7 +27,7 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 				}
 			}else{
 				if(isArray()){
-					return "proc-param-" + convertArrayVariableTypeToBlockVariableType(getJavaVariableType()) + "-arrayobject";
+					return "proc-param-" + convertArrayVariableTypeToBlockVariableType(getJavaVariableType()).toLowerCase() + "-arrayobject";
 				}else{
 					return "proc-param-" + convertJavaTypeToBlockGenusName(getType());		
 				}

@@ -94,6 +94,23 @@ public class ParameterBlockModel extends BasicModel {
 				"<LangSpecProperty key=\"scope\" value=\"" + scope
 						+ "\"></LangSpecProperty>", out, lineNumber);
 
+		if (getName().contains("arrayobject")) {
+			printStub("<Stub stub-genus=\"setter-arrayelement\">",
+					"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
+							+ langSpecProperties.get("scope")
+							+ "\"></LangSpecProperty>",
+					"<LangSpecProperty key=\"scope\" value=\""
+							+ langSpecProperties.get("scope")
+							+ "\"></LangSpecProperty>", out, lineNumber);
+			printStub("<Stub stub-genus=\"getter-arrayelement\">",
+					"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
+							+ langSpecProperties.get("scope")
+							+ "\"></LangSpecProperty>",
+					"<LangSpecProperty key=\"scope\" value=\""
+							+ langSpecProperties.get("scope")
+							+ "\"></LangSpecProperty>", out, lineNumber);
+		}
+		
 		makeIndent(out, lineNumber);
 		out.println("</Stubs>");
 	}

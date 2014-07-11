@@ -95,7 +95,9 @@ public class Block implements ISupportMemento {
 	}
 
 	public String getJavaType() {
+
 		return this.javaType;
+
 	}
 
 	/**
