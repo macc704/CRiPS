@@ -1,5 +1,7 @@
 package cocoviewer.actions;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
@@ -39,6 +41,14 @@ public class CocoViewerManager {
 	private IPRRecordingProject project;
 
 	public CocoViewerManager(IWorkbenchWindow window) {
+		if (Activator.getDefault().getppProjectset() == null) {
+			int res = JOptionPane.showConfirmDialog(null,
+					"CocoViewer用のデータが作成されていない可能性がありますが，よろしいですか？",
+					"CocoViewer起動確認", JOptionPane.OK_CANCEL_OPTION);
+			if (res != JOptionPane.OK_OPTION) {
+				return;
+			}
+		}
 		this.window = window;
 
 		CCCompileErrorManager manager = new CCCompileErrorManager();

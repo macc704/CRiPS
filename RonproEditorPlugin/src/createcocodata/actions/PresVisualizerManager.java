@@ -1,5 +1,6 @@
 package createcocodata.actions;
 
+import java.io.File;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -154,7 +155,11 @@ public class PresVisualizerManager {
 		monitor.setMax(projects.size());
 		for (CDirectory project : projects) {
 			CDirectory pres = project.findOrCreateDirectory(".pres2");
-			if (pres.findFile("pres2.log") != null) {
+			CFile presfile = pres.findOrCreateFile("pres2.log");
+			long filelength = new File(presfile.getURI()).length();
+			// 0kbのpres2.logファイルはエクスポートしない．
+			if (filelength > 0) {
+				System.out.println(filelength);
 				exportOneProject(project, tmpDir);
 			} else {
 				System.out.println(project.getNameByString()
@@ -168,6 +173,7 @@ public class PresVisualizerManager {
 
 	private void exportOneProject(CDirectory project, CDirectory tmpDir) {
 		// TODO zip export eclipse の export → archive file が使えないか？
+		// 現在の仕組みはプロジェクトごとコピー → exportと同じ形式になるようにzip化
 		CFilename projectName = project.getName();
 		projectName.setExtension("zip");
 		CDirectory projectdir = tmpDir.findOrCreateDirectory(project
