@@ -89,25 +89,38 @@ public class HeaderLabel extends BlockLabel {
 				//TODO 型に応じた変数の切り替えはココでしている．
 				if (socketRBlock.getGenus().equals(
 						"callObjectMethodlocal-var-object")) {
-					rb.getHeaderLabel().setText("Object型の変数を作り、");
+					rb.getHeaderLabel().setText("Object型の変数つくり、");
 				} else {
 					if (!socketRBlock.getBlockLabel().getText().equals("null")) {
 						if (socketRBlock.getBlock().getGenusName()
 								.startsWith("new-")) {
 							rb.getHeaderLabel().setText(
 									socketRBlock.getBlockLabel().getText()
-											+ "型の変数を作り、");
+											+ "型の変数をつくり、");
 						} else {
-							if (Block.getBlock(socketRBlock.getBlockID())
-									.getJavaType() != null) {
-								rb.getHeaderLabel().setText(
-										Block.getBlock(
-												socketRBlock.getBlockID())
-												.getJavaType()
-												+ "型の変数を作り、");
+							if (socketRBlock.getBlock().getGenusName().startsWith(
+									"getter-arrayelement")) {
+								if (Block.getBlock(socketRBlock.getBlockID())
+										.getJavaType() != null) {
+									String type = Block.getBlock(
+											socketRBlock.getBlockID())
+											.getJavaType();
+									type = type.substring(0, type.indexOf("[]"));
+									
+									rb.getHeaderLabel().setText(type + "型の変数をつくり、");
 
+								}
+							} else {
+								if (Block.getBlock(socketRBlock.getBlockID())
+										.getJavaType() != null) {
+									rb.getHeaderLabel().setText(
+											Block.getBlock(
+													socketRBlock.getBlockID())
+													.getJavaType()
+													+ "型の変数をつくり、");
+
+								}
 							}
-
 						}
 					}
 
