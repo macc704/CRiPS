@@ -54,7 +54,7 @@ public class LangDefFilesRewriter {
 
 		// 配列の追加
 		ObjectBlockModel classObjectArrayModel = new ObjectBlockModel(
-				"local-var-object-" + fileName + "-arraybject",
+				"local-var-object-" + fileName + "-arrayobject",
 				"local-variable", "initname", fileName + "[]" + "型の変数をつくり",
 				"と名付ける", "230 0 255");
 		// 定義クラスブロックのプロパティをセットする

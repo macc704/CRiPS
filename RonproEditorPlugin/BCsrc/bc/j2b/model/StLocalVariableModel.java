@@ -35,7 +35,11 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 		}else{
 			String genusName;
 			if (isProjectObject()) {
-				genusName = "object-" + getType();
+				String type = getType();
+				if(type.contains("[]")){
+					type = type.substring(0, type.indexOf("[]"));
+				}
+				genusName = "object-" +type;
 			} else {
 				genusName = convertJavaTypeToBlockGenusName(getType());
 			}
@@ -45,6 +49,8 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 			}
 
 			if (isArray()) {
+				//
+				
 				genusName += "-arrayobject";
 			}
 

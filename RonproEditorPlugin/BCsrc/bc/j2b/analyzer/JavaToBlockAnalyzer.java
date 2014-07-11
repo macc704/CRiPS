@@ -274,8 +274,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				.getStartPosition() + fieldValue.getLength());
 
 		if (privateVariableModel != null) {
-			if (projectClasses.contains(privateVariableModel.getType()
-					.toString())) {
+			if (checkIsProjectClasses(privateVariableModel)) {
 				privateVariableModel.setProjectObject(true);
 			}
 			String lineComment = commentGetter.getLineComment(index);
@@ -300,6 +299,22 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		} else {
 			return lineComment.indexOf(position);
 		}
+	}
+
+	private boolean checkIsProjectClasses(
+			StVariableDeclarationModel model) {
+		String className = model.getType().toString();
+		
+		if(className.indexOf("[]") != -1){
+			className = className.substring(0, className.indexOf("[]"));
+		}
+
+		if (projectClasses.contains(className)) {
+			return true;
+		}else{
+			return false;	
+		}
+
 	}
 
 	private boolean getOpenCloseInfoFromLineComment(String lineComment) {
@@ -1370,16 +1385,18 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setArray(array);
 
 		model.setJavaVariableType(type);
-
-		if (projectClasses.contains(type)) {
-			model.setProjectObject(true);
-		}
-
+		
 		model.setId(idCounter.getNextId());
 		// String name = fragment.getName().toString();
 		model.setName(name);
 		model.setType(convertBlockType(type));
+
+		if (checkIsProjectClasses(model)) {
+			model.setProjectObject(true);
+		}
+		
 		variableResolver.addLocalVariable(model);
+		
 
 		// int x = 3;のように，initializerがついている場合
 		if (initializer != null) {
