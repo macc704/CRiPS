@@ -38,7 +38,6 @@ import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
-import ch.perspective.views.CHMemberDirectoryView;
 import ch.perspective.views.CHMemberStateView;
 import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
@@ -82,16 +81,16 @@ public class CheCoProManager {
 	}
 
 	private void setWorkbenchWindowToViews() {
-
-		IWorkbenchPage page = window.getActivePage();
-		CHMemberDirectoryView memberDirectoryView;
-		try {
-			memberDirectoryView = (CHMemberDirectoryView) page
-					.showView("ch.memberDirectoryView");
-			memberDirectoryView.setWindow(window);
-		} catch (PartInitException e) {
-			e.printStackTrace();
-		}
+		//
+		// IWorkbenchPage page = window.getActivePage();
+		// CHMemberDirectoryView memberDirectoryView;
+		// try {
+		// memberDirectoryView = (CHMemberDirectoryView) page
+		// .showView("ch.memberDirectoryView");
+		// memberDirectoryView.setWindow(window);
+		// } catch (PartInitException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	/**
@@ -293,6 +292,7 @@ public class CheCoProManager {
 	private void processLoginMemberChanged(CHLoginMemberChanged result) {
 		new Thread(new MemberStateUpdater(result)).start();
 		memberSelector.setMembers(result.getUserStates());
+		memberSelector.setUserStates(result.getUserStates());
 	}
 
 	private void processFilelistRequest() {
@@ -331,6 +331,7 @@ public class CheCoProManager {
 	}
 
 	private void processLogoutResult(CHLogoutResult result) {
+		// TODO PreferenceViewのLoginボタンの状態変更
 		if (result.getUser().equals(user)) {
 			memberSelector.close();
 			conn.close();

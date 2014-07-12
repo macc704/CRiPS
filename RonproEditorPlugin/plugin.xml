@@ -61,11 +61,12 @@
             commandId="RonproPlugin.commands.clearCash"
             class="clearcash.actions.ClearCashHandler">
       </handler>
-      
+      <!--一時避難
       	  <handler
             commandId="RonproPlugin.commands.startCheCoPro"
             class="ch.actions.CheCoProHandler">
       </handler>
+      -->
    </extension>
    <extension
          point="org.eclipse.ui.bindings">
@@ -143,6 +144,7 @@
    </extension>
    
    <!-- CheCoProPerspective -->
+   <!-- 一時避難
    <extension
     point="org.eclipse.ui.perspectives">
     <perspective
@@ -151,6 +153,7 @@
         id="ch.perspective"
         name="CheCoPro"/>
    </extension>
+   -->
    
    <!-- CheCoProView -->
    <extension
@@ -162,6 +165,7 @@
             name="Preference"
             restorable="true">
       </view>
+      <!-- 一時避難
       <view
       		class="ch.perspective.views.CHMemberDirectoryView"
       		icon="icons/sample.gif"
@@ -183,6 +187,7 @@
       		name="Member Source"
       		restorable="true">
       </view>
+      -->
    </extension>
 
 <!--

@@ -125,24 +125,6 @@ public class CHPreferenceView extends ViewPart {
 		});
 	}
 
-	// 一時的に同期ボタンこちらに
-	private void createSyncButton(Composite parent) {
-		Button syncButton = new Button(parent, SWT.PUSH);
-		syncButton.setText("FileRequest(temp)");
-		syncButton.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-
-			}
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent e) {
-
-			}
-		});
-	}
-
 	public void setComponents(Composite parent) {
 
 		String[][] table = loadPrefFile();
@@ -163,8 +145,6 @@ public class CHPreferenceView extends ViewPart {
 
 		// 接続ボタン
 		createConnectButton(parent);
-
-		createSyncButton(parent);
 	}
 
 }

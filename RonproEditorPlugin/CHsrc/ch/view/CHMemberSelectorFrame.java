@@ -22,6 +22,7 @@ import ronproeditor.REApplication;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFilelistRequest;
+import ch.conn.framework.packets.CHLogoutRequest;
 import ch.library.CHFileSystem;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
@@ -40,6 +41,7 @@ public class CHMemberSelectorFrame extends JFrame {
 	private HashMap<String, REApplication> openedCHEditors = new HashMap<>();
 	private HashMap<REApplication, String> openedUsers = new HashMap<>();
 	private REApplication application = new REApplication();
+	private List<CHUserState> userStates = new ArrayList<>();
 
 	public CHMemberSelectorFrame(String user) {
 		this.user = user;
@@ -63,7 +65,8 @@ public class CHMemberSelectorFrame extends JFrame {
 
 		@Override
 		public void windowClosing(WindowEvent e) {
-
+			conn.write(new CHLogoutRequest(user));
+			close();
 		}
 
 		@Override
@@ -108,9 +111,8 @@ public class CHMemberSelectorFrame extends JFrame {
 
 			String pushed = e.getActionCommand();
 
-			// TODO 一度閉じたら開けないバグ
 			if (pushed.equals(user)) {
-				// eclipse active
+				// TODO eclipse active
 			} else if (openedCHEditors.containsKey(pushed)) {
 				openedCHEditors.get(pushed).getFrame().toFront();
 			} else {
@@ -225,8 +227,10 @@ public class CHMemberSelectorFrame extends JFrame {
 		application.getFrame().addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				openedCHEditors.remove(application);
-				openedUsers.remove(openedUsers.get(application));
+				String user = openedUsers.get(application);
+				openedUsers.remove(application);
+				openedCHEditors.remove(user);
+				setMembers(userStates);
 			}
 		});
 	}
@@ -282,6 +286,10 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public void setUserStates(List<CHUserState> userStates) {
+		this.userStates = userStates;
 	}
 
 	public static void main(String[] args) {
