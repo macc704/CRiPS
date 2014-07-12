@@ -18,6 +18,12 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
+import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
+import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+
 import ronproeditor.REApplication;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHUserState;
@@ -27,6 +33,7 @@ import ch.library.CHFileSystem;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
 
+@SuppressWarnings("restriction")
 public class CHMemberSelectorFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -42,6 +49,8 @@ public class CHMemberSelectorFrame extends JFrame {
 	private HashMap<REApplication, String> openedUsers = new HashMap<>();
 	private REApplication application = new REApplication();
 	private List<CHUserState> userStates = new ArrayList<>();
+	private IWorkbenchWindow window;
+	private IWorkbenchPage page;
 
 	public CHMemberSelectorFrame(String user) {
 		this.user = user;
@@ -55,18 +64,16 @@ public class CHMemberSelectorFrame extends JFrame {
 	public void open() {
 		this.setTitle("CheCoProMemberSelector " + user);
 		this.setBounds(100, 100, 150, 500);
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(msWindowListner);
 		this.setVisible(true);
 	}
 
-	// TODO MSが閉じたときLogout処理
 	private WindowListener msWindowListner = new WindowAdapter() {
 
 		@Override
 		public void windowClosing(WindowEvent e) {
 			conn.write(new CHLogoutRequest(user));
-			close();
 		}
 
 		@Override
@@ -76,7 +83,13 @@ public class CHMemberSelectorFrame extends JFrame {
 	};
 
 	public void close() {
-		application.doClose();
+		for (CHUserState userState : userStates) {
+			if (openedCHEditors.containsKey(userState.getUser())) {
+				openedUsers.remove(openedCHEditors.get(userState.getUser()));
+				openedCHEditors.get(userState.getUser()).getFrame().dispose();
+				openedCHEditors.remove(userState.getUser());
+			}
+		}
 		this.dispose();
 	}
 
@@ -212,6 +225,7 @@ public class CHMemberSelectorFrame extends JFrame {
 		CDirectory from = CHFileSystem.getEclipseMemberDir(user);
 		CDirectory to = CHFileSystem.getEclipseProjectDir();
 		CHFileSystem.pull(from, to, filter);
+		refreshPackageExplorer();
 	}
 
 	private void initCHWindow(final REApplication application) {
@@ -276,6 +290,33 @@ public class CHMemberSelectorFrame extends JFrame {
 		});
 	}
 
+	public void refreshPackageExplorer() {
+		new Thread(new PackageExplorerUpdater()).start();
+	}
+
+	class PackageExplorerUpdater implements Runnable {
+
+		@Override
+		public void run() {
+			window.getWorkbench().getDisplay().asyncExec(new Runnable() {
+
+				@Override
+				public void run() {
+					PackageExplorerPart packageExplorer;
+					try {
+						packageExplorer = ((PackageExplorerPart) page
+								.showView(JavaUI.ID_PACKAGES_VIEW));
+						packageExplorer.getTreeViewer().refresh(
+								CHFileSystem.getEclipseProjectDir());
+					} catch (PartInitException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+		}
+
+	}
+
 	public List<JButton> getButtons() {
 		return buttons;
 	}
@@ -290,6 +331,14 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	public void setUserStates(List<CHUserState> userStates) {
 		this.userStates = userStates;
+	}
+
+	public void setWindow(IWorkbenchWindow window) {
+		this.window = window;
+	}
+
+	public void setPage(IWorkbenchPage page) {
+		this.page = page;
 	}
 
 	public static void main(String[] args) {

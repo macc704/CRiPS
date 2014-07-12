@@ -25,6 +25,8 @@ public class CHPreferenceView extends ViewPart {
 	private Combo groupNumArea;
 	private CheCoProManager manager;
 
+	private Button connectButton;
+
 	@Override
 	public void createPartControl(Composite parent) {
 
@@ -96,8 +98,6 @@ public class CHPreferenceView extends ViewPart {
 		});
 	}
 
-	private Button connectButton;
-
 	private void createConnectButton(Composite parent) {
 		connectButton = new Button(parent, SWT.PUSH);
 		connectButton.setText("Login");
@@ -145,6 +145,14 @@ public class CHPreferenceView extends ViewPart {
 
 		// 接続ボタン
 		createConnectButton(parent);
+	}
+
+	public void isLogined(boolean login) {
+		if (login) {
+			connectButton.setText("Logout");
+		} else {
+			connectButton.setText("Login");
+		}
 	}
 
 }

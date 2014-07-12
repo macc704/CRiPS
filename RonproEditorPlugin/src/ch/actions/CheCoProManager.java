@@ -2,7 +2,6 @@ package ch.actions;
 
 import java.awt.Color;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.commands.ExecutionEvent;
@@ -25,7 +24,6 @@ import presplugin.editors.PresExtendedJavaEditor;
 import ronproeditorplugin.Activator;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
-import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHEntryRequest;
 import ch.conn.framework.packets.CHEntryResult;
 import ch.conn.framework.packets.CHFileRequest;
@@ -38,7 +36,7 @@ import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
-import ch.perspective.views.CHMemberStateView;
+import ch.perspective.views.CHPreferenceView;
 import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
 import clib.common.filesystem.CDirectory;
@@ -59,7 +57,7 @@ public class CheCoProManager {
 	private String password;
 	private int port;
 	private CHMemberSelectorFrame memberSelector;
-	private List<CHUserState> userStates = new ArrayList<CHUserState>();
+	// private List<CHUserState> userStates = new ArrayList<CHUserState>();
 	private IWorkbenchWindow window;
 
 	public CheCoProManager(IWorkbenchWindow window) {
@@ -264,6 +262,8 @@ public class CheCoProManager {
 		} else if (result.isResult() == 1) {
 			System.out.println("login success");
 			memberSelector = new CHMemberSelectorFrame(user, conn);
+			memberSelector.setWindow(window);
+			memberSelector.setPage(window.getActivePage());
 			memberSelector.open();
 		} else if (result.isResult() == 0) {
 			CHEntryDialog entryDialog = new CHEntryDialog();
@@ -290,7 +290,7 @@ public class CheCoProManager {
 	}
 
 	private void processLoginMemberChanged(CHLoginMemberChanged result) {
-		new Thread(new MemberStateUpdater(result)).start();
+		// new Thread(new MemberStateUpdater(result)).start();
 		memberSelector.setMembers(result.getUserStates());
 		memberSelector.setUserStates(result.getUserStates());
 	}
@@ -331,19 +331,19 @@ public class CheCoProManager {
 	}
 
 	private void processLogoutResult(CHLogoutResult result) {
-		// TODO PreferenceViewのLoginボタンの状態変更
 		if (result.getUser().equals(user)) {
 			memberSelector.close();
 			conn.close();
+			new Thread(new LoginButtonUpdater(false)).start();
 		}
 	}
 
-	class MemberStateUpdater implements Runnable {
+	class LoginButtonUpdater implements Runnable {
 
-		private CHLoginMemberChanged result;
+		private boolean login;
 
-		public MemberStateUpdater(CHLoginMemberChanged result) {
-			this.result = result;
+		public LoginButtonUpdater(boolean login) {
+			this.login = login;
 		}
 
 		@Override
@@ -352,20 +352,49 @@ public class CheCoProManager {
 
 				@Override
 				public void run() {
-					userStates = result.getUserStates();
 					IWorkbenchPage page = window.getActivePage();
-					CHMemberStateView memberStateView;
+					CHPreferenceView prefView;
 					try {
-						memberStateView = (CHMemberStateView) page
-								.showView("ch.memberStateView");
-						memberStateView.setUserStates(userStates);
+						prefView = (CHPreferenceView) page
+								.showView("ch.preferenceView");
+						prefView.isLogined(login);
 					} catch (PartInitException e) {
 						e.printStackTrace();
 					}
 				}
 			});
 		}
+
 	}
+
+	// class MemberStateUpdater implements Runnable {
+	//
+	// private CHLoginMemberChanged result;
+	//
+	// public MemberStateUpdater(CHLoginMemberChanged result) {
+	// this.result = result;
+	// }
+	//
+	// @Override
+	// public void run() {
+	// window.getWorkbench().getDisplay().asyncExec(new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// userStates = result.getUserStates();
+	// IWorkbenchPage page = window.getActivePage();
+	// CHMemberStateView memberStateView;
+	// try {
+	// memberStateView = (CHMemberStateView) page
+	// .showView("ch.memberStateView");
+	// memberStateView.setUserStates(userStates);
+	// } catch (PartInitException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
+	// }
 
 	public String getCurrentFileName() {
 
