@@ -3,6 +3,9 @@ package coco.view;
 import java.awt.BorderLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -10,7 +13,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.WindowConstants;
 
-import coco.model.CCCompileErrorManager;
 import ppv.view.parts.PPCompileResultPane;
 import ppv.view.parts.PPSourcePane;
 import ppv.view.parts.PPTimeLinePane;
@@ -21,6 +23,7 @@ import pres.loader.model.PLPackage;
 import clib.common.time.CTime;
 import clib.view.timeline.model.CTimeModel;
 import clib.view.timeline.model.CTimeTransformationModel;
+import coco.model.CCCompileErrorManager;
 
 public class CCSourceCompareViewer extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -124,8 +127,27 @@ public class CCSourceCompareViewer extends JFrame {
 		// Adding Time Line Views
 		if (unit instanceof PLFile) {
 			timelinePane.addModel(unit);
+		} else if (unit instanceof PLPackage) {
+			List<IPLUnit> children = ((PLPackage) unit).getChildren();
+
+			// 時間順に並び替える
+			Collections.sort(children, new Comparator<IPLUnit>() {
+				@Override
+				public int compare(IPLUnit u1, IPLUnit u2) {
+					// bug#11 fix
+					try {
+						return (int) (u1.getStart().getAsLong() - u2.getStart()
+								.getAsLong());
+					} catch (Exception ex) {// bug#11 応急処置
+						return 0;
+					}
+				}
+			});
+			for (IPLUnit each : children) {
+				timelinePane.addModel(each);
+			}
 		} else {
-			throw new RuntimeException("ファイルの取得に失敗しました : " + unit.getPath());
+			throw new RuntimeException();
 		}
 
 		CTime end = unit.getEnd();

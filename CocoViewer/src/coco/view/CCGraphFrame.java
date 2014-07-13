@@ -17,6 +17,7 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -35,15 +36,16 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import coco.model.CCCompileError;
-import coco.model.CCCompileErrorKind;
-import coco.model.CCCompileErrorManager;
 import ppv.app.datamanager.PPProjectSet;
 import pres.loader.logmodel.PRCocoViewerLog;
 import pres.loader.model.IPLUnit;
 import pres.loader.model.PLFile;
 import pres.loader.model.PLProject;
 import clib.common.time.CTime;
+import clib.view.dialogs.CErrorDialog;
+import coco.model.CCCompileError;
+import coco.model.CCCompileErrorKind;
+import coco.model.CCCompileErrorManager;
 
 public class CCGraphFrame extends JFrame {
 
@@ -206,6 +208,7 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	private void setSourceTable(JPanel panel) {
+		// テーブルデータ作成
 		String[] columnNames = { "修正回数", "発生時刻", "プログラム名", "修正時間" };
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		for (int i = 0; i < list.getErrors().size(); i++) {
@@ -224,97 +227,113 @@ public class CCGraphFrame extends JFrame {
 		final JTable table = new JTable(model);
 		table.setDefaultEditor(Object.class, null); // テーブルを編集不可にする
 
-		// // java7からDefaultListModelに格納するクラスを指定しなければならない
-		// DefaultListModel<String> model = new DefaultListModel<String>();
-		// for (int i = 0; i < list.getErrors().size(); i++) {
-		// model.addElement((i + 1) + " 回目の修正時間 ： "
-		// + list.getErrors().get(i).getCorrectTime() + "秒");
-		// }
-		//
-		// final JList<String> jlist = new JList<String>(model);
-
 		table.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				// 左クリック二回でオープンする
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() >= 2) {
-					int index = table.getSelectedRow();
-					CCCompileError compileError = list.getErrors().get(index);
-
-					String projectname = compileError.getProjectName();
-					String filename = compileError.getFilename();
 
 					// if (baseDir == null) {
 					// throw new RuntimeException("PPVのbaseとなるフォルダが指定されていません");
 					// }
 
-					// PPVにかけてから起動していないなら，コンパイル（時間がかかるので非推奨）
+					// 事前にPPVにかけ，キャッシュ作成したかどうかのチェック
 					if (ppProjectSet == null) {
 						manager.writePresLog(
 								PRCocoViewerLog.SubType.SOURCE_OPEN_ERROR,
 								list.getMessage());
+						CErrorDialog.show(null, "PPVでコンパイルされていません",
+								new RuntimeException("PPVでコンパイルされていません"));
+						return;
 
-						throw new RuntimeException("PPVでコンパイルされていません");
+						// キャッシュをその場で作成する場合
 						// PPDataManager datamanager = new
 						// PPDataManager(baseDir);
 						// datamanager.setLibDir(libDir);
 						//
 						// CDirectory projectSetDir = datamanager
 						// .getDataDir()
-						// .findDirectory(compileError.getProjectSetName());
+						// .findDirectory(compileError.getProjectName());
 						// ppProjectSet = new PPProjectSet(projectSetDir);
 						// datamanager.loadProjectSet(ppProjectSet, true, true);
 					}
 
-					IPLUnit model = null;
-					for (PLProject project : ppProjectSet.getProjects()) {
-						if (project.getName().equals(projectname)) {
-							// 単体のみ
-							for (PLFile file : project.getFiles()) {
-								if (file.getName().equals(filename)) {
-									model = file;
-								}
-							}
+					int index = table.getSelectedRow();
+					CCCompileError compileError = list.getErrors().get(index);
 
-							// そのプロジェクト全体
-							// model = project.getRootPackage();
-						}
-					}
-
+					IPLUnit model = getTargetFileOrProject(compileError);
 					if (model == null) {
 						manager.writePresLog(
 								PRCocoViewerLog.SubType.SOURCE_OPEN_ERROR,
 								list.getMessage());
-
-						throw new RuntimeException(
-								"コンパイルエラー発生時のソースコード捜索に失敗しました");
+						CErrorDialog.show(null, "コンパイルエラー発生時のソースコード捜索に失敗しました",
+								new RuntimeException(
+										"コンパイルエラー発生時のソースコード捜索に失敗しました"));
+						return;
 					}
 
-					// ProjectViewer → 簡易なソース比較ウィンドウに変更
-					final CCSourceCompareViewer sourceviewer = new CCSourceCompareViewer(
-							model, errorID, index, manager);
-
-					long beginTime = compileError.getBeginTime();
-					sourceviewer.getTimelinePane().getTimeModel2()
-							.setTime(new CTime(beginTime));
-					long endTime = compileError.getEndTime();
-					sourceviewer.getTimelinePane().getTimeModel()
-							.setTime(new CTime(endTime));
-
-					sourceviewer.setBounds(50, 50, 1000, 700);
-					sourceviewer.setVisible(true);
-
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							// 青修正前，赤修正後
-							sourceviewer.fitScale();
-						}
-					});
-
-					manager.writePresLog(PRCocoViewerLog.SubType.SOURCE_OPEN,
-							errorID, index);
-					sourceviewers.add(sourceviewer);
+					openCompileFrame(index, compileError, model);
 				}
+			}
+
+			private IPLUnit getTargetFileOrProject(CCCompileError compileError) {
+				// ファイル単体 or プロジェクト選択
+				boolean projectflag = selectTarget();
+				IPLUnit model = null;
+				for (PLProject project : ppProjectSet.getProjects()) {
+					if (project.getName().equals(compileError.getProjectName())) {
+						if (projectflag) {
+							model = project.getRootPackage();
+						} else {
+							for (PLFile file : project.getFiles()) {
+								if (file.getName().equals(
+										compileError.getFilename())) {
+									model = file;
+								}
+							}
+						}
+					}
+				}
+
+				return model;
+			}
+
+			private boolean selectTarget() {
+				int res = JOptionPane.showConfirmDialog(null, "プロジェクトごと開きますか？",
+						"ソースコード比較画面 起動確認", JOptionPane.OK_CANCEL_OPTION);
+				if (res == JOptionPane.OK_OPTION) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			private void openCompileFrame(int index,
+					CCCompileError compileError, IPLUnit model) {
+				// ProjectViewer → 簡易なソース比較ウィンドウに変更
+				final CCSourceCompareViewer sourceviewer = new CCSourceCompareViewer(
+						model, errorID, index, manager);
+
+				long beginTime = compileError.getBeginTime();
+				sourceviewer.getTimelinePane().getTimeModel2()
+						.setTime(new CTime(beginTime));
+				long endTime = compileError.getEndTime();
+				sourceviewer.getTimelinePane().getTimeModel()
+						.setTime(new CTime(endTime));
+
+				sourceviewer.setBounds(50, 50, 1000, 700);
+				sourceviewer.setVisible(true);
+
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						// 青修正前，赤修正後
+						sourceviewer.fitScale();
+					}
+				});
+
+				manager.writePresLog(PRCocoViewerLog.SubType.SOURCE_OPEN,
+						errorID, index);
+				sourceviewers.add(sourceviewer);
 			}
 		});
 
