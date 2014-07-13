@@ -95,13 +95,23 @@ public class CheCoProManager {
 	 * 各種リスナの登録
 	 */
 	private void addListners() {
-		ICommandService service = (ICommandService) Activator.getDefault()
-				.getWorkbench().getService(ICommandService.class);
-		service.addExecutionListener(saveListener);
+		geCHService().addExecutionListener(saveListener);
 
 		window.getWorkbench().getActiveWorkbenchWindow().getPartService()
 				.addPartListener(partListner);
 	}
+
+	public ICommandService geCHService() {
+		return (ICommandService) Activator.getDefault().getWorkbench()
+				.getService(ICommandService.class);
+	}
+
+	// private void removeListners() {
+	// geCHService().removeExecutionListener(saveListener);
+	//
+	// window.getWorkbench().getActiveWorkbenchWindow().getPartService()
+	// .removePartListener(partListner);
+	// }
 
 	/***************
 	 * 各種リスナの設定
@@ -156,7 +166,10 @@ public class CheCoProManager {
 
 		@Override
 		public void partDeactivated(IWorkbenchPart part) {
-
+			if (part instanceof PresExtendedJavaEditor) {
+				IDocument doc = getActivePresEditor().getDoc();
+				doc.removeDocumentListener(documentListner);
+			}
 		}
 
 		@Override
@@ -173,13 +186,16 @@ public class CheCoProManager {
 		public void partActivated(IWorkbenchPart part) {
 
 			if (part instanceof PresExtendedJavaEditor) {
-				PresExtendedJavaEditor editor = (PresExtendedJavaEditor) window
-						.getActivePage().getActiveEditor();
-				IDocument doc = editor.getDoc();
+				IDocument doc = getActivePresEditor().getDoc();
 				doc.addDocumentListener(documentListner);
 			}
 		}
 	};
+
+	public PresExtendedJavaEditor getActivePresEditor() {
+		return (PresExtendedJavaEditor) window.getActivePage()
+				.getActiveEditor();
+	}
 
 	/********************
 	 * クライアントメイン動作
@@ -333,6 +349,7 @@ public class CheCoProManager {
 	private void processLogoutResult(CHLogoutResult result) {
 		if (result.getUser().equals(user)) {
 			memberSelector.close();
+			// removeListners();
 			conn.close();
 			new Thread(new LoginButtonUpdater(false)).start();
 		}

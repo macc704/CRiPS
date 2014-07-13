@@ -18,8 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
-import org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart;
+import org.eclipse.jdt.ui.IPackagesViewPart;
 import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
@@ -33,7 +34,6 @@ import ch.library.CHFileSystem;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
 
-@SuppressWarnings("restriction")
 public class CHMemberSelectorFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -148,6 +148,8 @@ public class CHMemberSelectorFrame extends JFrame {
 	private void initCHEMenubar(final REApplication application) {
 
 		JMenuBar menuBar = application.getFrame().getJMenuBar();
+		menuBar.getMenu(2).setEnabled(false);
+		menuBar.getMenu(3).setEnabled(false);
 		menuBar.add(initSyncButton(application));
 		menuBar.add(initPullButton(application));
 		application.getFrame().setJMenuBar(menuBar);
@@ -294,6 +296,7 @@ public class CHMemberSelectorFrame extends JFrame {
 		new Thread(new PackageExplorerUpdater()).start();
 	}
 
+	// TODO リフレッシュ途中
 	class PackageExplorerUpdater implements Runnable {
 
 		@Override
@@ -302,19 +305,26 @@ public class CHMemberSelectorFrame extends JFrame {
 
 				@Override
 				public void run() {
-					PackageExplorerPart packageExplorer;
+					IPackagesViewPart packagesView;
+					TreeItem[] treeItems;
 					try {
-						packageExplorer = ((PackageExplorerPart) page
-								.showView(JavaUI.ID_PACKAGES_VIEW));
-						packageExplorer.getTreeViewer().refresh(
-								CHFileSystem.getEclipseProjectDir());
+						packagesView = ((IPackagesViewPart) page
+								.showView(JavaUI.ID_PACKAGES));
+						treeItems = packagesView.getTreeViewer().getTree()
+								.getItems();
+						for (TreeItem treeItem : treeItems) {
+							if (treeItem.getText().equals("final")) {
+								packagesView.getTreeViewer().getTree()
+										.setSelection(treeItem);
+								break;
+							}
+						}
 					} catch (PartInitException e) {
 						e.printStackTrace();
 					}
 				}
 			});
 		}
-
 	}
 
 	public List<JButton> getButtons() {
