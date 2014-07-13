@@ -21,9 +21,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
+import pres.loader.logmodel.PRCocoViewerLog;
 import coco.model.CCCompileErrorKind;
 import coco.model.CCCompileErrorManager;
-import pres.loader.logmodel.PRCocoViewerLog;
 
 /*
  * 
@@ -33,6 +33,9 @@ import pres.loader.logmodel.PRCocoViewerLog;
  * 								・グラフ概形切り替えボタン
  * 								・操作ログをpres2.logに書き出し
  * 								・EclipsePlugin対応
+ * 2014/07/14 version 0.1.1 ソースコード比較画面の対象ファイルをそのファイルだけか，プロジェクトごとかを選択可能に
+ * 							CCGraphFrameのソースコードをリファクタリング
+ * 
  */
 
 public class CCMainFrame2 extends JFrame {
@@ -43,7 +46,7 @@ public class CCMainFrame2 extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	public static final String APP_NAME = "CoCo Viewer";
-	public static final String VERSION = "0.1.0";
+	public static final String VERSION = "0.1.1";
 
 	// Button Size
 	private int buttonWidth = 100;

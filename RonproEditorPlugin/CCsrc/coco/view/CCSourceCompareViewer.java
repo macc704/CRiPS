@@ -15,7 +15,6 @@ import javax.swing.WindowConstants;
 
 import ppv.view.parts.PPCompileResultPane;
 import ppv.view.parts.PPSourcePane;
-import ppv.view.parts.PPTimeLinePane;
 import pres.loader.logmodel.PRCocoViewerLog;
 import pres.loader.model.IPLUnit;
 import pres.loader.model.PLFile;
@@ -30,10 +29,9 @@ public class CCSourceCompareViewer extends JFrame {
 
 	private IPLUnit unit;
 
-	private PPTimeLinePane timelinePane = new PPTimeLinePane();
+	private CCTimeLinePane timelinePane = new CCTimeLinePane();
 
-	public CCSourceCompareViewer(IPLUnit unit, final int errorID,
-			final int rowIndex, final CCCompileErrorManager manager) {
+	public CCSourceCompareViewer(IPLUnit unit) {
 		// 単体srcフォルダの場合，自動で中身を展開する．（仮の機能）
 		if (unit instanceof PLPackage
 				&& ((PLPackage) unit).getChildren().size() == 1
@@ -45,6 +43,12 @@ public class CCSourceCompareViewer extends JFrame {
 		this.unit = unit;
 		initialize();
 		initializeData();
+	}
+
+	public CCSourceCompareViewer(IPLUnit unit, final int errorID,
+			final int rowIndex, final CCCompileErrorManager manager) {
+		// 単体srcフォルダの場合，自動で中身を展開する．（仮の機能）
+		this(unit);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -161,7 +165,7 @@ public class CCSourceCompareViewer extends JFrame {
 		timelinePane.getTimelinePane().fitScale();
 	}
 
-	public PPTimeLinePane getTimelinePane() {
+	public CCTimeLinePane getTimelinePane() {
 		return timelinePane;
 	}
 }
