@@ -8,15 +8,15 @@ import org.eclipse.ui.IWorkbenchWindow;
 import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
 import ronproeditorplugin.Activator;
-import src.coco.controller.CCCompileErrorConverter;
-import src.coco.controller.CCCompileErrorKindLoader;
-import src.coco.model.CCCompileErrorManager;
 import clib.common.compiler.CJavaCompilerFactory;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
 import clib.common.time.CTime;
 import clib.common.time.CTimeInterval;
+import coco.controller.CCCompileErrorConverter;
+import coco.controller.CCCompileErrorKindLoader;
+import coco.model.CCCompileErrorManager;
 
 public class CreateCocoDataManager {
 

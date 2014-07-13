@@ -13,15 +13,15 @@ import pres.core.model.PRLog;
 import pres.loader.logmodel.PRCocoViewerLog;
 import presplugin.PresPlugin;
 import ronproeditorplugin.Activator;
-import src.coco.controller.CCCompileErrorKindLoader;
-import src.coco.controller.CCCompileErrorLoader;
-import src.coco.controller.CCMetricsLoader;
-import src.coco.model.CCCompileErrorManager;
-import src.coco.view.CCMainFrame2;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
+import coco.controller.CCCompileErrorKindLoader;
+import coco.controller.CCCompileErrorLoader;
+import coco.controller.CCMetricsLoader;
+import coco.model.CCCompileErrorManager;
+import coco.view.CCMainFrame2;
 
 public class CocoViewerManager {
 
