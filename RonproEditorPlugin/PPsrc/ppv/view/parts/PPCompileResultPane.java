@@ -104,10 +104,11 @@ public class PPCompileResultPane extends JPanel {
 				// x += diag.getNoPathSourceName();
 				// x += "(Line:" + diag.getLineNumber() + ") ";
 				// x += getMessage(diag);
-				
+
 				// matsuzawa
 				x += getMessage(diag);
 				x += " (Line:" + diag.getLineNumber() + ") ";
+				x += " - " + diag.getNoPathSourceName(); // add by hirao
 				results.add(x);
 			}
 			list.setList(results);
