@@ -17,7 +17,6 @@ import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -39,7 +38,6 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import ppv.app.datamanager.PPProjectSet;
 import pres.loader.logmodel.PRCocoViewerLog;
 import pres.loader.model.IPLUnit;
-import pres.loader.model.PLFile;
 import pres.loader.model.PLProject;
 import clib.common.time.CTime;
 import clib.view.dialogs.CErrorDialog;
@@ -278,35 +276,34 @@ public class CCGraphFrame extends JFrame {
 
 			private IPLUnit getTargetFileOrProject(CCCompileError compileError) {
 				// ファイル単体 or プロジェクト選択
-				boolean projectflag = selectTarget();
 				IPLUnit model = null;
 				for (PLProject project : ppProjectSet.getProjects()) {
 					if (project.getName().equals(compileError.getProjectName())) {
-						if (projectflag) {
-							model = project.getRootPackage();
-						} else {
-							for (PLFile file : project.getFiles()) {
-								if (file.getName().equals(
-										compileError.getFilename())) {
-									model = file;
-								}
-							}
-						}
+						// プロジェクト全体
+						model = project.getRootPackage();
+
+						// ファイル単体
+						// for (PLFile file : project.getFiles()) {
+						// if (file.getName().equals(
+						// compileError.getFilename())) {
+						// model = file;
+						// }
+						// }
 					}
 				}
 
 				return model;
 			}
 
-			private boolean selectTarget() {
-				int res = JOptionPane.showConfirmDialog(null, "プロジェクトごと開きますか？",
-						"ソースコード比較画面 起動確認", JOptionPane.OK_CANCEL_OPTION);
-				if (res == JOptionPane.OK_OPTION) {
-					return true;
-				} else {
-					return false;
-				}
-			}
+			// private boolean selectTarget() {
+			// int res = JOptionPane.showConfirmDialog(null, "プロジェクトごと開きますか？",
+			// "ソースコード比較画面 起動確認", JOptionPane.OK_CANCEL_OPTION);
+			// if (res == JOptionPane.OK_OPTION) {
+			// return true;
+			// } else {
+			// return false;
+			// }
+			// }
 
 			private void openCompileFrame(int index,
 					CCCompileError compileError, IPLUnit model) {
