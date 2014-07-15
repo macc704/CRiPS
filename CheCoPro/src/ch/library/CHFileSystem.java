@@ -6,6 +6,7 @@ import java.util.List;
 import ch.conn.framework.CHFile;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileElement;
 import clib.common.filesystem.CFileFilter;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
@@ -15,6 +16,10 @@ import clib.common.filesystem.sync.CFileListUtils;
 import clib.common.table.CCSVFileIO;
 
 public class CHFileSystem {
+
+	public static String PROJECTPATH = "runtime-EclipseApplication/final";
+	public static String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
+	public static String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
 
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
@@ -35,6 +40,22 @@ public class CHFileSystem {
 				"MyProjects/.CH/" + user + "/final");
 	}
 
+	// for plug-in
+	public static CDirectory getEclipseProjectDir() {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
+				PROJECTPATH);
+	}
+
+	// for plug-in
+	public static CDirectory getEclipseMemberDir(String user) {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
+				MEMBERDIRPATH + "/" + user);
+	}
+
+	public static CFile getPrefFile() {
+		return CFileSystem.getExecuteDirectory().findOrCreateFile(PREFPATH);
+	}
+
 	// processFilelistRequest and Response server
 	public static CFileHashList getServerFileList(String user, int port) {
 		return createFileList(getUserDirForServer(user, port));
@@ -43,6 +64,11 @@ public class CHFileSystem {
 	// processFilelistRequest client
 	public static CFileHashList getFinalProjectFileList() {
 		return createFileList(getFinalProjectDir());
+	}
+
+	// for plug-in
+	public static CFileHashList getEclipseProjectFileList() {
+		return createFileList(getEclipseProjectDir());
 	}
 
 	// processFileListResponse client
@@ -67,7 +93,7 @@ public class CHFileSystem {
 
 	public static CFileHashList createFileList(CDirectory dir) {
 		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(".*",
-				".class", ".xml"));
+				".class", ".xml", "bin"));
 	}
 
 	public static CFileHashList createFileList(CDirectory dir,
@@ -94,7 +120,9 @@ public class CHFileSystem {
 				requestFilePaths.add(aDifference.getPath());
 				break;
 			case REMOVED:
-				to.findChild(new CPath(aDifference.getPath())).delete();
+				CFileElement file = to.findChild(new CPath(aDifference
+						.getPath()));
+				file.delete();
 				break;
 			default:
 				throw new RuntimeException();

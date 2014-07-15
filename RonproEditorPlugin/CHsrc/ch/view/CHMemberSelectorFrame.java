@@ -155,6 +155,7 @@ public class CHMemberSelectorFrame extends JFrame {
 		application.getFrame().setJMenuBar(menuBar);
 	}
 
+	// TODO ログインしていない場合非同期中に設定
 	private JToggleButton initSyncButton(final REApplication application) {
 
 		final JToggleButton syncButton = new JToggleButton("同期中", true);
