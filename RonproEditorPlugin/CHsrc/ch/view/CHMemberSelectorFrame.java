@@ -51,6 +51,8 @@ public class CHMemberSelectorFrame extends JFrame {
 	private List<CHUserState> userStates = new ArrayList<>();
 	private IWorkbenchWindow window;
 	private IWorkbenchPage page;
+	private JToggleButton syncButton;
+	private JButton pullButton;
 
 	public CHMemberSelectorFrame(String user) {
 		this.user = user;
@@ -158,7 +160,15 @@ public class CHMemberSelectorFrame extends JFrame {
 	// TODO ログインしていない場合非同期中に設定
 	private JToggleButton initSyncButton(final REApplication application) {
 
-		final JToggleButton syncButton = new JToggleButton("同期中", true);
+		syncButton = new JToggleButton("同期中", true);
+		for (CHUserState userState : userStates) {
+			if (userState.getUser().equals(openedUsers.get(application))
+					&& !userState.isLogin()) {
+				syncButton.doClick();
+				syncButton.setEnabled(false);
+				syncButton.setText("非同期中");
+			}
+		}
 
 		syncButton.addActionListener(new ActionListener() {
 
@@ -182,16 +192,38 @@ public class CHMemberSelectorFrame extends JFrame {
 							.getTextPane()
 							.setEditable(!syncButton.isSelected());
 				}
+
+				if (application.getFrame().getJMenuBar()
+						.getMenu(PULL_BUTTON_INDEX) != null) {
+					pullButton.setEnabled(!syncButton.isSelected());
+				}
 			}
 		});
 
 		return syncButton;
 	}
 
+	public void userStateChanged() {
+		for (CHUserState userState : userStates) {
+			if (openedCHEditors.containsKey(userState.getUser())) {
+				JToggleButton syncButton = (JToggleButton) openedCHEditors
+						.get(userState.getUser()).getFrame().getJMenuBar()
+						.getComponent(SYNC_BUTTON_INDEX);
+				if (syncButton.isSelected() && !userState.isLogin()) {
+					syncButton.doClick();
+					syncButton.setEnabled(false);
+				} else if (!syncButton.isSelected() && userState.isLogin()) {
+					syncButton.setEnabled(true);
+					syncButton.doClick();
+				}
+			}
+		}
+	}
+
 	private JButton initPullButton(final REApplication application) {
 
-		JButton pullButton = new JButton("取り込み↓");
-		pullButton.setEnabled(false);
+		pullButton = new JButton("取り込み↓");
+		pullButton.setEnabled(!syncButton.isSelected());
 		pullButton.addActionListener(new ActionListener() {
 
 			@Override

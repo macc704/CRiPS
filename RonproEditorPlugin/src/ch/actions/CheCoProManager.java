@@ -309,6 +309,7 @@ public class CheCoProManager {
 		// new Thread(new MemberStateUpdater(result)).start();
 		memberSelector.setMembers(result.getUserStates());
 		memberSelector.setUserStates(result.getUserStates());
+		memberSelector.userStateChanged();
 	}
 
 	private void processFilelistRequest() {
