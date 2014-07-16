@@ -3,9 +3,15 @@ package ch.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,7 +32,9 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 
 import ronproeditor.REApplication;
+import ch.actions.CheCoProManager;
 import ch.conn.framework.CHConnection;
+import ch.conn.framework.CHUserLogWriter;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHLogoutRequest;
@@ -41,6 +49,7 @@ public class CHMemberSelectorFrame extends JFrame {
 	private static final String CH_DIR_PATH = "runtime-EclipseApplication/.ch";
 	private static final int SYNC_BUTTON_INDEX = 5;
 	private static final int PULL_BUTTON_INDEX = 6;
+	private static int CTRL_MASK = InputEvent.CTRL_MASK;
 
 	private String user;
 	private List<JButton> buttons = new ArrayList<JButton>();
@@ -145,6 +154,8 @@ public class CHMemberSelectorFrame extends JFrame {
 	public void initCHEditor(REApplication application) {
 		initCHEMenubar(application);
 		initCHWindow(application);
+		addCHPropertyChangeListners(application);
+		addCHKeyListner(application);
 	}
 
 	private void initCHEMenubar(final REApplication application) {
@@ -157,7 +168,6 @@ public class CHMemberSelectorFrame extends JFrame {
 		application.getFrame().setJMenuBar(menuBar);
 	}
 
-	// TODO ログインしていない場合非同期中に設定
 	private JToggleButton initSyncButton(final REApplication application) {
 
 		syncButton = new JToggleButton("同期中", true);
@@ -237,11 +247,22 @@ public class CHMemberSelectorFrame extends JFrame {
 				if (java || material) {
 					doPull(openedUsers.get(application),
 							makeCFileFilter(java, material));
+					writePullLog(java, material, openedUsers.get(application));
 				}
 			}
 		});
 
 		return pullButton;
+	}
+
+	private void writePullLog(boolean java, boolean material, String user) {
+		if (java && material) {
+			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_ALL);
+		} else if (java && !material) {
+			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_JAVA);
+		} else if (!java && material) {
+			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_MATERIAL);
+		}
 	}
 
 	private CFileFilter makeCFileFilter(boolean java, boolean material) {
@@ -282,6 +303,50 @@ public class CHMemberSelectorFrame extends JFrame {
 				setMembers(userStates);
 			}
 		});
+	}
+
+	private PropertyChangeListener propertyChangeListner;
+
+	private void addCHPropertyChangeListners(final REApplication application) {
+
+		propertyChangeListner = new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (application.getFrame().getEditor() != null) {
+
+				}
+			}
+		};
+
+		application.getSourceManager().addPropertyChangeListener(
+				propertyChangeListner);
+	}
+
+	private KeyListener keyListner;
+
+	private void addCHKeyListner(final REApplication application) {
+
+		keyListner = new KeyAdapter() {
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int mod = e.getModifiers();
+				if (e.getKeyCode() == KeyEvent.VK_C
+						|| e.getKeyCode() == KeyEvent.VK_X) {
+					if ((mod & CTRL_MASK) != 0) {
+						CheCoProManager.getLog().copy(
+								application.getSourceManager()
+										.getCCurrentFile(),
+								application.getFrame().getEditor().getViewer()
+										.getTextPane().getSelectedText());
+					}
+				}
+			}
+		};
+
+		application.getFrame().getEditor().getViewer().getTextPane()
+				.addKeyListener(keyListner);
 	}
 
 	public boolean cheackCHEditor(String sender, String currentFileName) {

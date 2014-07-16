@@ -7,6 +7,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import ppv.app.datamanager.PPProjectSet;
+import ch.actions.CheCoProManager;
+import ch.conn.framework.CHUserLogWriter;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -47,6 +49,9 @@ public class Activator extends AbstractUIPlugin {
 		// System.setProperty("user.dir",
 		// file.getParentFile().getParentFile().getAbsolutePath());
 		plugin = this;
+
+		CheCoProManager.setLog(new CHUserLogWriter());
+		CheCoProManager.getLog().eclipseOpen();
 	}
 
 	/*
@@ -57,6 +62,7 @@ public class Activator extends AbstractUIPlugin {
 	 * )
 	 */
 	public void stop(BundleContext context) throws Exception {
+		CheCoProManager.getLog().eclipseClose();
 		plugin = null;
 		super.stop(context);
 	}

@@ -224,14 +224,14 @@ public class RECheCoProManager {
 	private void writeCopyLog(REApplication application) {
 		String code = application.getFrame().getEditor().getViewer()
 				.getTextPane().getSelectedText();
-		logWriter.writeCommand(CHUserLogWriter.COPY_CODE);
+		logWriter.writeCommand(CHUserLogWriter.COPY);
 		logWriter.writeFrom(application.getSourceManager().getCCurrentFile());
 		logWriter.writeCode(code);
 		logWriter.addRowToTable();
 	}
 
 	private void writePasteLog(CFile file) {
-		logWriter.writeCommand(CHUserLogWriter.PASTE_CODE);
+		logWriter.writeCommand(CHUserLogWriter.PASTE);
 		logWriter.writeTo(file);
 		logWriter.addRowToTable();
 	}
@@ -407,7 +407,7 @@ public class RECheCoProManager {
 	}
 
 	private void doPull(final String user, CFileFilter filter) {
-		logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
+		logWriter.writeCommand(CHUserLogWriter.PULL_ALL);
 		logWriter.writeFrom(user);
 		logWriter.addRowToTable();
 		CDirectory from = CHFileSystem.getUserDirForClient(user);

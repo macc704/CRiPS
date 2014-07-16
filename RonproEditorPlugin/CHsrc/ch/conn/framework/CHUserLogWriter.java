@@ -13,18 +13,22 @@ import clib.common.table.CCSVFileIO;
 
 public class CHUserLogWriter {
 
-	public static final String CHDIR_PATH = "MyProjects/final/.ch";
-	public static final String LOGFILE = "_CHLog.csv";
+	public static final String CHDIR_PATH = "runtime-EclipseApplication/.ch";
+	public static final String LOGFILE = "CHLog.csv";
 
-	public static final String LOGIN = "login";
-	public static final String LOGOUT = "logout";
+	public static final String ECLIPSE_OPEN = "ECLIPSE_OPEN";
+	public static final String ECLIPSE_CLOSE = "ECLIPSE_CLOSE";
+	public static final String LOGIN = "LOGIN";
+	public static final String LOGOUT = "LOGOUT";
 	public static final String SYNC_START = "start sync";
 	public static final String SYNC_STOP = "stop sync";
 	public static final String SEND_FILE = "send file";
 	public static final String RECIVE_FILE = "recive file";
-	public static final String COPY_FILE = "copy file";
-	public static final String COPY_CODE = "copy code";
-	public static final String PASTE_CODE = "paste code";
+	public static final String PULL_ALL = "PULL_ALL";
+	public static final String PULL_JAVA = "PULL_JAVA";
+	public static final String PULL_MATERIAL = "PULL_MATERIAL";
+	public static final String COPY = "COPY";
+	public static final String PASTE = "PASTE";
 	public static final String OPEN_CHEDITOR = "open cheditor";
 	public static final String CLOSE_CHEDITOR = "close cheditor";
 	public static final String FILE_REQUEST = "file request";
@@ -32,10 +36,14 @@ public class CHUserLogWriter {
 	private List<List<String>> table = new ArrayList<List<String>>();
 	private List<String> row = new ArrayList<String>();
 	private DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	private String user;
+	private String user = "";
 
 	public CHUserLogWriter(String user) {
 		this.user = user;
+		initialize();
+	}
+
+	public CHUserLogWriter() {
 		initialize();
 	}
 
@@ -138,34 +146,56 @@ public class CHUserLogWriter {
 		}
 	}
 
+	public void eclipseOpen() {
+		writeCommand(ECLIPSE_OPEN);
+		addRowToTable();
+	}
+
+	public void eclipseClose() {
+		writeCommand(ECLIPSE_CLOSE);
+		addRowToTable();
+		saveTableToFile();
+	}
+
+	public void login() {
+		writeCommand(LOGIN);
+		addRowToTable();
+	}
+
+	public void logout() {
+		writeCommand(LOGOUT);
+		addRowToTable();
+	}
+
+	public void pull(String user, String type) {
+		writeCommand(type);
+		writeFrom(user);
+		addRowToTable();
+	}
+
+	public void copy(CFile file, String code) {
+		writeCommand(COPY);
+		writeFrom(file);
+		writeCode(code);
+		addRowToTable();
+	}
+
+	public void paste(CFile file, String code) {
+		writeCommand(PASTE);
+		writeCode(code);
+		writeTo(file);
+		addRowToTable();
+	}
+
 	public static void main(String[] args) {
-		CHUserLogWriter log = new CHUserLogWriter("test");
-		log.writeCommand(LOGIN);
-		log.addRowToTable();
-		log.writeCommand(SEND_FILE);
-		log.writeFrom("final/Final/java");
-		log.addRowToTable();
-		log.writeCommand(RECIVE_FILE);
-		log.writeFrom("user2");
-		log.writeTo("user1");
-		log.addRowToTable();
-		log.writeCommand(SYNC_START);
-		log.addRowToTable();
-		log.writeCommand(SYNC_STOP);
-		log.addRowToTable();
-		log.writeCommand(COPY_FILE);
-		log.writeFrom(".CH/user2/Final.java");
-		log.addRowToTable();
-		log.writeCommand(COPY_CODE);
-		log.writeFrom(".CH/user2/Final.java");
-		log.writeCode("int i");
-		log.addRowToTable();
-		log.writeCommand(PASTE_CODE);
-		log.writeTo("final/Final.java");
-		log.writeCode("int i");
-		log.addRowToTable();
-		log.writeCommand(LOGOUT);
-		log.addRowToTable();
-		log.saveTableToFile();
+
+		CHUserLogWriter log = new CHUserLogWriter("hoge");
+		log.eclipseOpen();
+		log.login();
+		log.pull("fuge", PULL_JAVA);
+		log.pull("abc", PULL_ALL);
+		log.pull("fda", PULL_MATERIAL);
+		log.logout();
+		log.eclipseClose();
 	}
 }

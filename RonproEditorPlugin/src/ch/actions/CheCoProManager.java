@@ -24,6 +24,7 @@ import presplugin.editors.PresExtendedJavaEditor;
 import ronproeditorplugin.Activator;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
+import ch.conn.framework.CHUserLogWriter;
 import ch.conn.framework.packets.CHEntryRequest;
 import ch.conn.framework.packets.CHEntryResult;
 import ch.conn.framework.packets.CHFileRequest;
@@ -52,6 +53,8 @@ public class CheCoProManager {
 	public static final int DEFAULT_PORT = 10000;
 	public static final String IP = "localhost";
 
+	private static CHUserLogWriter log;
+
 	private CHConnection conn;
 	private String user;
 	private String password;
@@ -59,6 +62,14 @@ public class CheCoProManager {
 	private CHMemberSelectorFrame memberSelector;
 	// private List<CHUserState> userStates = new ArrayList<CHUserState>();
 	private IWorkbenchWindow window;
+
+	public static CHUserLogWriter getLog() {
+		return log;
+	}
+
+	public static void setLog(CHUserLogWriter log) {
+		CheCoProManager.log = log;
+	}
 
 	public CheCoProManager(IWorkbenchWindow window) {
 
@@ -236,6 +247,7 @@ public class CheCoProManager {
 			ex.printStackTrace();
 		}
 		conn.close();
+		log.logout();
 		System.out.println("client closed");
 
 	}
@@ -276,6 +288,7 @@ public class CheCoProManager {
 			System.out.println("login failure");
 			conn.close();
 		} else if (result.isResult() == 1) {
+			log.login();
 			System.out.println("login success");
 			memberSelector = new CHMemberSelectorFrame(user, conn);
 			memberSelector.setWindow(window);
@@ -352,6 +365,7 @@ public class CheCoProManager {
 			memberSelector.close();
 			// removeListners();
 			conn.close();
+			log.logout();
 			new Thread(new LoginButtonUpdater(false)).start();
 		}
 	}
