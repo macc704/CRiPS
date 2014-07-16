@@ -49,7 +49,7 @@ public class Block implements ISupportMemento {
 	private String footerLabel = null;
 	private String genusName;
 
-	//新規追加属性
+	// 新規追加属性
 	private String javaType;
 	private String javaLabel;
 
@@ -85,7 +85,7 @@ public class Block implements ISupportMemento {
 	// argument descriptions
 	private ArrayList<String> argumentDescriptions;
 
-	//ohata added
+	// ohata added
 	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
 
 	private ArrayList<String> parameterizedTypes;
@@ -95,7 +95,9 @@ public class Block implements ISupportMemento {
 	}
 
 	public String getJavaType() {
+
 		return this.javaType;
+
 	}
 
 	/**
@@ -111,9 +113,11 @@ public class Block implements ISupportMemento {
 	 *            the String label of this Block
 	 */
 	protected Block(Long id, String genusName, String label, boolean linkToStubs) {
-		if (ALL_BLOCKS.containsKey(id)) {//hashMap にidがあるか？
-			Block dup = ALL_BLOCKS.get(id);//既存のものを取り出す
-			//System.out.println("pre-existing block is: " + dup + " with genus "+ dup.getGenusName() + " and label " + dup.getBlockLabel());
+		if (ALL_BLOCKS.containsKey(id)) {// hashMap にidがあるか？
+			Block dup = ALL_BLOCKS.get(id);// 既存のものを取り出す
+			// System.out.println("pre-existing block is: " + dup +
+			// " with genus "+ dup.getGenusName() + " and label " +
+			// dup.getBlockLabel());
 			assert !ALL_BLOCKS.containsKey(id) : "Block id: " + id
 					+ " already exists!  BlockGenus " + genusName + " label: "
 					+ label;
@@ -125,12 +129,13 @@ public class Block implements ISupportMemento {
 		if (id.longValue() == NEXT_ID)
 			NEXT_ID++;
 
-		sockets = new ArrayList<BlockConnector>();//初期容量10  BlockConnectorを格納するリスト
-		argumentDescriptions = new ArrayList<String>();//初期容量10 String型を格納するリスト
+		sockets = new ArrayList<BlockConnector>();// 初期容量10
+													// BlockConnectorを格納するリスト
+		argumentDescriptions = new ArrayList<String>();// 初期容量10 String型を格納するリスト
 		// copy connectors from BlockGenus
 		try {
-			BlockGenus genus = BlockGenus.getGenusWithName(genusName);//genusNameからgenusのインスタンス生成
-			if (genus == null)//genusNameのblockgenusが存在しない genus:種類
+			BlockGenus genus = BlockGenus.getGenusWithName(genusName);// genusNameからgenusのインスタンス生成
+			if (genus == null)// genusNameのblockgenusが存在しない genus:種類
 				throw new Exception("genusName: " + genusName
 						+ " does not exist.");
 
@@ -153,7 +158,7 @@ public class Block implements ISupportMemento {
 
 			this.label = label;
 
-			this.methods = genus.getMethods();//ohata added
+			this.methods = genus.getMethods();// ohata added
 
 			setHeaderLabel(BlockGenus.getGenusWithName(genusName)
 					.getInitHeaderLabel());
@@ -173,7 +178,8 @@ public class Block implements ISupportMemento {
 					genus.getExpandGroups());
 
 			// add to ALL_BLOCKS
-			// warning: publishing this block before constructor finishes has the
+			// warning: publishing this block before constructor finishes has
+			// the
 			// potential to cause some problems such as data races
 			// other threads could access this block from getBlock()
 			ALL_BLOCKS.put(this.blockID, this);
@@ -654,7 +660,8 @@ public class Block implements ISupportMemento {
 			}
 		}
 
-		// NOTE: must update the sockets of this before updating its stubs as stubs use this as a reference to update
+		// NOTE: must update the sockets of this before updating its stubs as
+		// stubs use this as a reference to update
 		// its own sockets
 		// if block has stubs, update its stubs as well
 		if (hasStubs())
@@ -676,7 +683,8 @@ public class Block implements ISupportMemento {
 				removeSocket(disconnectedSocket);
 		}
 
-		// NOTE: must update the sockets of this before updating its stubs as stubs use this as a reference to update
+		// NOTE: must update the sockets of this before updating its stubs as
+		// stubs use this as a reference to update
 		// its own sockets
 		// if block has stubs, update its stubs as well
 		if (hasStubs())
@@ -1243,6 +1251,15 @@ public class Block implements ISupportMemento {
 	}
 
 	/**
+	 * created by sakai lab 2011/11/29
+	 * 
+	 * @return
+	 */
+	public boolean isStringVariableDecBlock() {
+		return getGenus().isStringVariableDecBlock();
+	}
+
+	/**
 	 * Returns true iff this block is a function block, which takes in an input
 	 * and produces an output. (i.e. math blocks, arctan, add to list); false
 	 * otherwise. FORWARDED FROM BLOCK GENUS
@@ -1704,7 +1721,8 @@ public class Block implements ISupportMemento {
 		saveString.append("</Location>");
 
 		if (isCollapsed) {
-			//saveString.append("<Collapsed/>");//2012.10.10 #matsuzawa 何でコメントアウトしていたの？
+			// saveString.append("<Collapsed/>");//2012.10.10 #matsuzawa
+			// 何でコメントアウトしていたの？
 			saveString.append("<Collapsed/>");
 		}
 
@@ -1740,8 +1758,10 @@ public class Block implements ISupportMemento {
 			for (BlockConnector con : getSockets()) {
 				saveString.append(con.getSaveString("socket"));
 			}
-			saveString.append("</Sockets>"); // sockets tricky... because what if
-			// one of the sockets is expanded? should the socket keep a reference
+			saveString.append("</Sockets>"); // sockets tricky... because what
+												// if
+			// one of the sockets is expanded? should the socket keep a
+			// reference
 			// to their genus socket? and so should the expanded one?
 		}
 
@@ -1763,7 +1783,7 @@ public class Block implements ISupportMemento {
 		return saveString.toString();
 	}
 
-	//#ohata added
+	// #ohata added
 	public String getSaveString(int x, int y, String commentSaveString,
 			boolean isCollapsed, String comment) {
 		StringBuffer saveString = new StringBuffer();
@@ -1839,7 +1859,8 @@ public class Block implements ISupportMemento {
 		saveString.append("</Location>");
 
 		if (isCollapsed) {
-			//saveString.append("<Collapsed/>");//2012.10.10 #matsuzawa 何でコメントアウトしていたの？
+			// saveString.append("<Collapsed/>");//2012.10.10 #matsuzawa
+			// 何でコメントアウトしていたの？
 			saveString.append("<Collapsed/>");
 		}
 
@@ -1875,8 +1896,10 @@ public class Block implements ISupportMemento {
 			for (BlockConnector con : getSockets()) {
 				saveString.append(con.getSaveString("socket"));
 			}
-			saveString.append("</Sockets>"); // sockets tricky... because what if
-			// one of the sockets is expanded? should the socket keep a reference
+			saveString.append("</Sockets>"); // sockets tricky... because what
+												// if
+			// one of the sockets is expanded? should the socket keep a
+			// reference
 			// to their genus socket? and so should the expanded one?
 		}
 
@@ -1995,6 +2018,9 @@ public class Block implements ISupportMemento {
 					javaLabel = child.getTextContent();
 				} else if (child.getNodeName().equals("ParentBlock")) {
 					parentID = Long.parseLong(child.getTextContent());
+				} else if (child.getNodeName().equals("ReturnType")) {
+					BlockStub.putParentToPlugType(label + genusName,
+							child.getTextContent());
 				} else if (child.getNodeName().equals("PageLabel")) {
 					pagelabel = child.getTextContent();
 				} else if (child.getNodeName().equals("CompilerErrorMsg")) {
@@ -2014,13 +2040,15 @@ public class Block implements ISupportMemento {
 					afterID = translateLong(
 							Long.parseLong(child.getTextContent()), idMapping);
 				} else if (child.getNodeName().equals("Plug")) {
-					NodeList plugs = child.getChildNodes(); // there should only one child
+					NodeList plugs = child.getChildNodes(); // there should only
+															// one child
 					Node plugNode;
 					for (int j = 0; j < plugs.getLength(); j++) {
 						plugNode = plugs.item(j);
 						if (plugNode.getNodeName().equals("BlockConnector")) {
 							String socketLabel = "";
-							// nameMatcher = attrExtractor.matcher(node.getAttributes()
+							// nameMatcher =
+							// attrExtractor.matcher(node.getAttributes()
 							// .getNamedItem("label").toString());
 							// if (nameMatcher.find()){ // will be true
 							// socketLabel = nameMatcher.group(1);
@@ -2038,7 +2066,8 @@ public class Block implements ISupportMemento {
 						if (socketNode.getNodeName().equals("BlockConnector")) {
 							BlockGenus blockGenus = BlockGenus
 									.getGenusWithName(genusName);
-							// #matsuzawa socketLabelがないとnullpointer良く出るので場所が特定できるよう処置
+							// #matsuzawa
+							// socketLabelがないとnullpointer良く出るので場所が特定できるよう処置
 							if (blockGenus == null) {
 								throw new RuntimeException(
 										"no blockGenus for "
@@ -2082,8 +2111,14 @@ public class Block implements ISupportMemento {
 							}
 							if (key != null && value != null) {
 								blockLangProperties.put(key, value);/*
-																	if(key.equals("xml"))
-																	System.err.println("VALUE OF XML: "+value);*/
+																	 * if(key.equals
+																	 * ("xml"))
+																	 * System
+																	 * .err
+																	 * .println(
+																	 * "VALUE OF XML: "
+																	 * +value);
+																	 */
 								key = null;
 								value = null;
 							}
@@ -2152,7 +2187,7 @@ public class Block implements ISupportMemento {
 			}
 
 			if (javaLabel != null) {
-				//TODO javaLabel set
+				// TODO javaLabel set
 				block.javaLabel = javaLabel;
 			}
 
@@ -2235,7 +2270,8 @@ public class Block implements ISupportMemento {
 		// Get Genus and Connection Stuff
 		state.genusName = this.getGenusName();
 
-		// this needs evaluation since I'm not sure if there are knock on effects
+		// this needs evaluation since I'm not sure if there are knock on
+		// effects
 		// of setting this memory directly
 		if (this.plug != null) {
 			state.plug = this.plug.getState();

@@ -19,29 +19,72 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 	public String getGenusName() {
 		if (argument) {
 			if(isProjectObject()){
-				return "proc-param-object-" + getJavaVariableType();
+				if(isArray()){
+					String name = removeSuperBrackets(ElementModel.addEscapeSequence(getJavaVariableType().toLowerCase()));
+					return "proc-param-object-" + name + "-arrayobject";
+				}else{
+					return "proc-param-object-" + ElementModel.addEscapeSequence(getJavaVariableType().toLowerCase());	
+				}
 			}else{
-				return "proc-param-" + getBlockType();	
+				if(isArray()){
+					return "proc-param-" + convertArrayVariableTypeToBlockVariableType(getJavaVariableType()).toLowerCase() + "-arrayobject";
+				}else{
+					return "proc-param-" + convertJavaTypeToBlockGenusName(getType());		
+				}
 			}
 			
-		}
+		}else{
+			String genusName;
+			if (isProjectObject()) {
+				String type = getType();
+				if(type.contains("[]")){
+					type = type.substring(0, type.indexOf("[]"));
+				}
+				genusName = "object-" +type;
+			} else {
+				genusName = convertJavaTypeToBlockGenusName(getType());
+			}
 
-		String genusName;
-		if (isProjectObject()) {
-			genusName = "object-" + getType();
+			if (genusName.equals("number")) {
+				genusName = "int-number";
+			}
+
+			if (isArray()) {
+				//
+				
+				genusName += "-arrayobject";
+			}
+
+			return "local-var-" + genusName;
+		}
+	}
+
+	private String convertArrayVariableTypeToBlockVariableType(String type) {
+
+		String convertedType = type;
+		// 配列引数の型を変換する
+		if (type.contains("[")) {
+			convertedType = convertedType.substring(0,
+					convertedType.indexOf("["));
+			convertedType = convertBasicJavaDataTypeToBlockType(convertedType);
+
+			return convertedType;
 		} else {
-			genusName = convertJavaTypeToBlockGenusName(getType());
+			return type;
 		}
-
-		if (genusName.equals("number")) {
-			genusName = "int-number";
+	}
+	
+	private String convertBasicJavaDataTypeToBlockType(String type) {
+		// 基本的なデータ型のみ所定の名前に変更する
+		if ("int".equals(type)) {
+			return "int-number";
+		} else if ("double".equals(type)) {
+			return "double-number";
+		} else if ("String".equals(type)) {
+			return "string";
+		} else {
+			return type;
 		}
-
-		if (isArray()) {
-			genusName += "-arrayobject";
-		}
-
-		return "local-var-" + genusName;
 	}
 
 }

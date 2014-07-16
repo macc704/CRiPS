@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: PresEclipsePlugin
 Bundle-SymbolicName: jp.ac.shizuoka.inf.cs.ce.pres.eclipseui;singleton:=true
-Bundle-Version: 3.7.2
+Bundle-Version: 3.7.3
 Bundle-Activator: presplugin.PresPlugin
 Bundle-Vendor: Yoshiaki Matsuzawa
 Require-Bundle: org.eclipse.ui,

@@ -74,10 +74,7 @@ public class PageModel extends BlockModel {
 
 	// TODO JavaからBlockEditorのブロックに変換されたときはオリジナルのJavaソースコードとメソッドの部分だけ置き換える
 	public void print2(OutputSourceModel out) {
-
-		BCSystem.out.println("call print2 method at PageModel");
-		BCSystem.out.println("procedure size:" + procedures.size());
-
+		out.setSuperClassName(superClass);
 		for (PrivateVariableBlockModel privateVariableBlock : privateVariableBlocks) {// #ohata
 																						// added
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();

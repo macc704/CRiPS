@@ -11,4 +11,6 @@ public interface SBlockEditorListener {
 	public void blockRun();
 
 	public void blockDebugRun();
+	
+	public void chengeInheritance();
 }

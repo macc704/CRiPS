@@ -122,13 +122,13 @@ public class StVariableDeclarationModel extends StatementModel implements
 				+ "</HeaderLabel>");
 
 		makeIndent(out, indent + 1);
-		out.println("<JavaType>" + addEscapeSequence(javaVariableType)
+		out.println("<JavaType>" + ElementModel.addEscapeSequence(javaVariableType)
 				+ "</JavaType>");
 
 		{// 2013 09/26 ohata tag for line comment
 			// comment
 			makeIndent(out, indent + 1);
-			out.println("<LineComment>" + getComment() + "</LineComment>");
+			out.println("<LineComment>" + ElementModel.addEscapeSequence(getComment()) + "</LineComment>");
 		}
 
 		{// 2013 09/26 hakamata tag for linenumber and parent block parent
@@ -227,7 +227,7 @@ public class StVariableDeclarationModel extends StatementModel implements
 		// genus-name
 		makeIndent(out, indent);
 		out.println("<Block id=\"" + getId() + "\" genus-name=\""
-				+ getArgGenusName() + "\">");
+				+ getGenusName() + "\">");
 		// label
 		makeIndent(out, indent + 1);
 		out.println("<Label>" + name + "</Label>");
@@ -235,7 +235,12 @@ public class StVariableDeclarationModel extends StatementModel implements
 		makeIndent(out, indent + 1);
 		out.println("<JavaType>" + addEscapeSequence(javaVariableType)
 				+ "</JavaType>");
-
+		
+		//header label (if needed)
+		if(getJavaVariableType() != null){
+			makeIndent(out, indent + 1);
+			out.println("<HeaderLabel>" + ElementModel.addEscapeSequence(getJavaVariableType()) + "型の仮引数を作り、" + "</HeaderLabel>");
+		}
 		{// 2013 09/26 ohata tag for line comment
 			// comment
 			makeIndent(out, indent + 1);
@@ -278,15 +283,16 @@ public class StVariableDeclarationModel extends StatementModel implements
 		out.println("</Block>");
 	}
 
+	public String removeSuperBrackets(String text){
+		String name = ElementModel.addEscapeSequence(text);
+		if(name.contains("[]")){
+			name = name.substring(0, name.indexOf("[]"));
+		}
+		return name;
+	}
+	
 	public String getBlockType() {
 		return getConnectorType(type);
-	}
-
-	private String getArgGenusName() {
-		// if(blockType.equals("number")){
-		// return "proc-param-number";
-		// }
-		return "proc-param-" + getBlockType();
 	}
 
 }

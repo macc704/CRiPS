@@ -72,9 +72,6 @@ public class ReturnBlockModel extends CommandBlockModel {
 						getSockets().get(1).getId()).getType();
 			}
 
-			if (returnType.contains("[")) {
-				returnType = returnType.substring(0, returnType.indexOf("["));
-			}
 			return returnType;
 		}
 		return "void";

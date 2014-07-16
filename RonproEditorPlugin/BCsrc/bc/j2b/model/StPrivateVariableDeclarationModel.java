@@ -19,10 +19,15 @@ public class StPrivateVariableDeclarationModel extends
 		String genusName;
 
 		if (isProjectObject()) {
-			genusName = "object-" + getType();
+			String type = getType();
+			if(type.contains("[]")){
+				type = type.substring(0, type.indexOf("[]"));
+			}
+			genusName = "object-" +type;
 		} else {
 			genusName = convertJavaTypeToBlockGenusName(super.getType());
 		}
+
 		if (genusName.equals("number")) {
 			genusName = "int-number";
 		}
@@ -36,9 +41,6 @@ public class StPrivateVariableDeclarationModel extends
 
 	@Override
 	public String getType() {
-		if (isArray()) {
-			return super.getType().substring(0, super.getType().indexOf("[]"));
-		}
 		return super.getType();
 	}
 

@@ -7,11 +7,30 @@ import java.util.List;
 public class ExArrayInstanceCreationModel extends ExpressionModel {
 	private String name;
 	private final int blockHeight = 10;
+	private int size;
+	private String elemntType;
+	
 
 	private List<ExpressionModel> arguments = new ArrayList<ExpressionModel>();
 
 	public ExArrayInstanceCreationModel() {
 		setBlockHeight(blockHeight);
+	}
+	
+	public String getElementType(){
+		return this.elemntType;
+	}
+	
+	public void setElementType(String type){
+		this.elemntType = type;
+	}
+	
+	public void setSize(int size){
+		this.size = size;
+	}
+	
+	public int getSize(){
+		return this.size;
 	}
 
 	public void addArgument(ExpressionModel arg) {

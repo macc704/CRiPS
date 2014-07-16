@@ -244,8 +244,15 @@ public class NoProcparamDataBlockModel extends BlockModel {
 			return "null";
 		} else {
 			if (!stubParentID.equals("null")) {
-				return BlockToJavaAnalyzer.getBlock(
-						Integer.valueOf(stubParentID)).getJavaType();
+				if(getName().startsWith("getter-arrayelement")){
+					String type = BlockToJavaAnalyzer.getBlock(
+							Integer.valueOf(stubParentID)).getJavaType();
+					type = type.substring(0, type.indexOf("[]"));
+					return type;
+				}else{
+					return BlockToJavaAnalyzer.getBlock(
+							Integer.valueOf(stubParentID)).getJavaType();	
+				}
 			} else if (getName().contains("this")) {// thisValue
 				return getJavaType();
 			} else {

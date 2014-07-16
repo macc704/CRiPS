@@ -745,4 +745,9 @@ public class BlockStub extends Block {
 				parentNameToParentBlock.get(parentName + parentGenus))
 				.getJavaType();
 	}
+
+	public static void putParentToPlugType(String methodName, String returnType){
+		parentToPlugType.put(methodName, returnType);
+	}
+	
 }

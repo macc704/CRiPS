@@ -2,7 +2,7 @@
 <feature
       id="info.matsuzawalab.PresPlugin"
       label="PresPlugin"
-      version="3.7.2"
+      version="3.7.3"
       provider-name="Yoshiaki Matsuzawa at Shizuoka University">
 
    <description url="http://www.example.com/description">
@@ -21,14 +21,14 @@
          id="jp.ac.shizuoka.inf.ce.cs.pres.core"
          download-size="0"
          install-size="0"
-         version="3.7.2"
+         version="3.7.3"
          unpack="false"/>
 
    <plugin
          id="jp.ac.shizuoka.inf.cs.ce.pres.eclipseui"
          download-size="0"
          install-size="0"
-         version="3.7.2"
+         version="3.7.3"
          unpack="false"/>
 
    <plugin

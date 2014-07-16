@@ -21,7 +21,8 @@ public class Activator extends AbstractUIPlugin {
 	// The shared instance
 	private static Activator plugin;
 
-	private PPProjectSet ppProjectset;
+	private PPProjectSet ppProjectset = null;
+	private boolean compileErrorCashCreating = false;
 
 	/**
 	 * The constructor
@@ -94,5 +95,13 @@ public class Activator extends AbstractUIPlugin {
 
 	public void setppProjectset(PPProjectSet ppProjectset) {
 		this.ppProjectset = ppProjectset;
+	}
+
+	public void setcompileErrorCashCreating(boolean compileErrorCashCreating) {
+		this.compileErrorCashCreating = compileErrorCashCreating;
+	}
+
+	public boolean getcompileErrorCashCreating() {
+		return compileErrorCashCreating;
 	}
 }

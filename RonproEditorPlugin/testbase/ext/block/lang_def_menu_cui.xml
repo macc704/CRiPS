@@ -8,11 +8,8 @@
 		<BlockGenusMember>cui-random</BlockGenusMember>
 		<BlockGenusMember>hashCode</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
-		<BlockGenusMember>next</BlockGenusMember>
-		<BlockGenusMember>nextInt</BlockGenusMember>
-		<BlockGenusMember>nextDouble</BlockGenusMember>
-		<BlockGenusMember>hasNextInt</BlockGenusMember>
-		<BlockGenusMember>hasNextDouble</BlockGenusMember>
+ 		<BlockGenusMember>input-isInteger</BlockGenusMember>
+		<BlockGenusMember>input-isDouble</BlockGenusMember>
 		<BlockGenusMember>input-getInt</BlockGenusMember>
 		<BlockGenusMember>input-getDouble</BlockGenusMember>
 		<BlockGenusMember>input-getString</BlockGenusMember>
@@ -25,6 +22,14 @@
 		<BlockGenusMember>proc-param-double-number</BlockGenusMember>
 		<BlockGenusMember>proc-param-boolean</BlockGenusMember>
 		<BlockGenusMember>proc-param-string</BlockGenusMember>
+		<BlockGenusMember>proc-param-int-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>proc-param-double-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>proc-param-object-arrayobject</BlockGenusMember>
+		<BlockGenusMember>proc-param-string-arrayobject</BlockGenusMember>
+		<BlockGenusMember>proc-param-object-bwindow</BlockGenusMember>
+		<BlockGenusMember>proc-param-object-bcanvas</BlockGenusMember>		
+		<BlockGenusMember>proc-param-object-bsound</BlockGenusMember>
+		<BlockGenusMember>proc-param-object-color</BlockGenusMember>
 		<BlockGenusMember>return</BlockGenusMember>
 		<BlockGenusMember>constructor</BlockGenusMember>
 	</BlockDrawer>
@@ -124,12 +129,16 @@
 		<BlockGenusMember>local-var-int-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>local-var-double-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>local-var-object-arrayobject</BlockGenusMember>	
-		<BlockGenusMember>private-var-listobject</BlockGenusMember>
+		<BlockGenusMember>local-var-arraylistobject</BlockGenusMember>
+		<BlockGenusMember>local-var-linkedlistobject</BlockGenusMember>
+		<BlockGenusMember>private-var-listobject</BlockGenusMember>		
+		<BlockGenusMember>private-var-arraylistobject</BlockGenusMember>
+		<BlockGenusMember>private-var-linkedlistobject</BlockGenusMember>
+		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>		
 		<BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
-		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-object-arrayobject</BlockGenusMember>
 		<BlockGenusMember>new-listobject</BlockGenusMember>
-		<BlockGenusMember>new-linkedlistobject</BlockGenusMember>	
+		<BlockGenusMember>new-linkedlistobject</BlockGenusMember>
 		<BlockGenusMember>type-object</BlockGenusMember>			
 	</BlockDrawer>
 	
@@ -153,19 +162,10 @@
 	</BlockDrawer>
 
 	<BlockDrawer name="色" type="factory" button-color="255 155 64">
-		<BlockGenusMember>blue</BlockGenusMember>
-		<BlockGenusMember>cyan</BlockGenusMember>
-		<BlockGenusMember>green</BlockGenusMember>
-		<BlockGenusMember>magenta</BlockGenusMember>
-		<BlockGenusMember>orange</BlockGenusMember>
-		<BlockGenusMember>pink</BlockGenusMember>
-		<BlockGenusMember>red</BlockGenusMember>
-		<BlockGenusMember>white</BlockGenusMember>
-		<BlockGenusMember>yellow</BlockGenusMember>
-		<BlockGenusMember>gray</BlockGenusMember>
-		<BlockGenusMember>lightGray</BlockGenusMember>
-		<BlockGenusMember>darkGray</BlockGenusMember>
-		<BlockGenusMember>black</BlockGenusMember>
+		<BlockGenusMember>local-var-object-color</BlockGenusMember>
+		<BlockGenusMember>private-var-object-color</BlockGenusMember>
+		<BlockGenusMember>private-final-var-object-color</BlockGenusMember>		
+		<BlockGenusMember>new-object-Color</BlockGenusMember>
 	</BlockDrawer>
   
 	<BlockDrawer name="obpro" type="factory" button-color="255 155 64">
@@ -177,8 +177,7 @@
 		<BlockGenusMember>local-var-object-bsound</BlockGenusMember>
 		<BlockGenusMember>drawArc</BlockGenusMember>
 		<BlockGenusMember>drawFillTriangle</BlockGenusMember>
-		<BlockGenusMember>drawText[@object@string@number@number]</BlockGenusMember>
-		<BlockGenusMember>drawText[@object@string@number@number@object]</BlockGenusMember>
+		<BlockGenusMember>drawText</BlockGenusMember>
 		<BlockGenusMember>isClick</BlockGenusMember>
 		<BlockGenusMember>isSingleClick</BlockGenusMember>
 		<BlockGenusMember>isDoubleClick</BlockGenusMember>
@@ -200,28 +199,31 @@
 		<BlockGenusMember>getCanvasWidth</BlockGenusMember>
 		<BlockGenusMember>getCanvasHeight</BlockGenusMember>
 		<BlockGenusMember>drawImage</BlockGenusMember>
-		<BlockGenusMember>drawFillArc[@object@number@number]</BlockGenusMember>
-		<BlockGenusMember>drawFillArc[@object@number@number@number@number]</BlockGenusMember>
-		<BlockGenusMember>drawFillArc[@object@number@number@number@number@number@number]</BlockGenusMember>
+		<BlockGenusMember>drawFillArc</BlockGenusMember>
 		<BlockGenusMember>setLocation</BlockGenusMember>
 		<BlockGenusMember>setSize</BlockGenusMember>
 		<BlockGenusMember>getCanvas</BlockGenusMember>
 		<BlockGenusMember>show</BlockGenusMember>
 		<BlockGenusMember>loop</BlockGenusMember>
-		<BlockGenusMember>play</BlockGenusMember>
+		<BlockGenusMember>play[@string]</BlockGenusMember>
+		<BlockGenusMember>loadOnMemory[@string]</BlockGenusMember>
 		<BlockGenusMember>stop</BlockGenusMember>
-		<BlockGenusMember>isPlaying</BlockGenusMember>
 		<BlockGenusMember>loop</BlockGenusMember>
 		<BlockGenusMember>setVolume</BlockGenusMember>
 		<BlockGenusMember>getVolume</BlockGenusMember>
 		<BlockGenusMember>getDefaultVolume</BlockGenusMember>
         <BlockGenusMember>size</BlockGenusMember>
-        <BlockGenusMember>add[@object]</BlockGenusMember>
+        <BlockGenusMember>add</BlockGenusMember>
         <BlockGenusMember>contains</BlockGenusMember>
         <BlockGenusMember>isEmpty</BlockGenusMember>
-        <BlockGenusMember>remove[@number]</BlockGenusMember>
-        <BlockGenusMember>remove[@object]</BlockGenusMember>
+        <BlockGenusMember>remove</BlockGenusMember>
         <BlockGenusMember>get[@number]</BlockGenusMember>
+        <BlockGenusMember>length</BlockGenusMember>
+        <BlockGenusMember>next</BlockGenusMember>
+		<BlockGenusMember>nextInt</BlockGenusMember>
+		<BlockGenusMember>nextDouble</BlockGenusMember>
+		<BlockGenusMember>hasNextInt</BlockGenusMember>
+		<BlockGenusMember>hasNextDouble</BlockGenusMember>
 	</BlockDrawer>
 
 </BlockDrawerSet>

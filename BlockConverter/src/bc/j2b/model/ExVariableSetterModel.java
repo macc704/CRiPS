@@ -85,7 +85,7 @@ public class ExVariableSetterModel extends ExpressionModel {
 				+ "\">");
 		// label
 		makeIndent(out, indent + 2);
-		out.println("<Label>" + variable.getName() + "</Label>");
+		out.println("<Label>" + ElementModel.addEscapeSequence(variable.getName()) + "</Label>");
 		// lineNumber
 		makeIndent(out, indent + 2);
 		out.println("<LineNumber>" + getLineNumber() + "</LineNumber>");

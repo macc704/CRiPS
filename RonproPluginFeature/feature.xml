@@ -2,7 +2,7 @@
 <feature
       id="RonproPlugins"
       label="RonproPlugins"
-      version="2.0.0"
+      version="2.2.5"
       provider-name="Salai laboratory">
 
    <description url="http://www.example.com/description">
@@ -24,7 +24,7 @@
 
    <includes
          id="info.matsuzawalab.PresPlugin"
-         version="3.7.2"/>
+         version="3.7.3"/>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
@@ -46,21 +46,21 @@
          id="jp.ac.shizuoka.inf.ce.cs.pres.core"
          download-size="0"
          install-size="0"
-         version="3.7.2"
+         version="3.7.3"
          unpack="false"/>
 
    <plugin
          id="jp.ac.shizuoka.inf.cs.ce.pres.eclipseui"
          download-size="0"
          install-size="0"
-         version="3.7.2"
+         version="3.7.3"
          unpack="false"/>
 
    <plugin
          id="jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin"
          download-size="0"
          install-size="0"
-         version="2.0.0"
+         version="2.2.5"
          unpack="false"/>
 
    <plugin

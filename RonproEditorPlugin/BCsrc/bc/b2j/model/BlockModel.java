@@ -106,7 +106,11 @@ public abstract class BlockModel {
 
 	protected final String typeString(String typeString) {
 		if (typeString == null) {
-			return null;
+			if(javaType != null){
+				return javaType;
+			}else{
+				return null;	
+			}
 		}
 		typeString = typeString.replaceAll("＜", "<");
 		typeString = typeString.replaceAll("＞", ">");
@@ -273,9 +277,14 @@ public abstract class BlockModel {
 	}
 
 	public String getJavaType() {
-		if (this.label.equals("null")) {
+		if (this.label == null) {
 			return "null";
 		}
+		
+		if(this.javaType == null){
+			return this.type;
+		}
+		
 		return this.javaType;
 	}
 

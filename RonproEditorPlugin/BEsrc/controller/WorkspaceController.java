@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +21,7 @@ import java.io.StringReader;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -44,6 +46,7 @@ import slcodeblocks.ParamRule;
 import slcodeblocks.PolyRule;
 import util.ChangeExtension;
 import workspace.BlockCanvas;
+import workspace.Page;
 import workspace.SearchBar;
 import workspace.SearchableContainer;
 import workspace.TrashCan;
@@ -107,7 +110,9 @@ public class WorkspaceController {
 	public static final int PROJECT_SELECTED = 2;
 	public static final int COMPILE_ERROR = 3;
 	private int state = PROJECT_SELECTED;
-
+	
+	private String encoding;
+	
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
 	 * with the codeblocks.Workspace
@@ -396,6 +401,8 @@ public class WorkspaceController {
 				workspaceLoaded = true;
 
 				setFrameTitle(path);
+				
+				changeInheritanceList();
 
 				setDirty(false);
 			}
@@ -623,6 +630,7 @@ public class WorkspaceController {
 	public void createAndShowGUI(final WorkspaceController wc,
 			final SBlockEditorListener ronproEditor, final String enc) {
 		this.ronproEditor = ronproEditor;
+		this.encoding = enc;
 
 		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
 			public void workspaceEventOccurred(WorkspaceEvent event) {
@@ -640,6 +648,12 @@ public class WorkspaceController {
 		frame.setBounds(100, 100, 800, 500);
 
 		JPanel topPane = new JPanel();
+		
+		{// create save button
+			final JComboBox<String> inheritanceList = new JComboBox<String>();
+			inheritanceList.setEditable(true);
+			topPane.add(inheritanceList);
+		}
 
 		{// create save button
 			JButton saveButton = new JButton("Save as Java and Compile");
@@ -743,6 +757,110 @@ public class WorkspaceController {
 		frame.add(wc.getWorkspacePanel(), BorderLayout.CENTER);
 		frame.addWindowListener(closeManagement);
 		frame.setVisible(true);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public JComboBox<String> getInheritanceListBox(){
+		Container cont = frame.getContentPane();
+		JPanel cmp = (JPanel)cont.getComponent(0);
+		return (JComboBox<String>)cmp.getComponent(0);
+	}
+	
+	public void changeInheritanceList(){
+		final JComboBox<String> inheritanceList = getInheritanceListBox();
+		String[] projectJavaFiles = getProjectJavaFiles();		
+		//リスナーの削除
+		if(inheritanceList.getActionListeners() != null){
+			for(ActionListener listener : inheritanceList.getActionListeners()){
+				inheritanceList.removeActionListener(listener);
+			}
+		}
+		
+		//コンボボックスの初期化
+		inheritanceList.removeAllItems();
+		
+		inheritanceList.addItem("★★★★親クラスを設定します★★★★");
+		inheritanceList.setSelectedIndex(0);
+		
+		for(String item : projectJavaFiles){
+			if(item == null){
+				break;
+			}
+			inheritanceList.addItem(item.substring(0,item.indexOf(".java")));	
+		}
+				
+		File file = new File(selectedJavaFile);
+		Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
+		String superClassName = openedPage.getSuperClassName();
+	
+		if(superClassName == null){
+			superClassName ="";
+		}
+		
+		//継承クラスの初期設定
+		for(int i = 0;i<inheritanceList.getItemCount();i++){
+			if(inheritanceList.getItemAt(i).equals(superClassName)){
+				inheritanceList.setSelectedIndex(i);
+			}
+		}
+		
+		inheritanceList.removeItem(file.getName().substring(0, file.getName().indexOf(".xml")));
+		
+		if(inheritanceList.getSelectedItem() == ""){
+			//該当する親クラスがなかったので、親クラスを登録して初期値に設定
+			inheritanceList.addItem(superClassName);
+			inheritanceList.setSelectedIndex(inheritanceList.getItemCount()-1);							
+		}		
+		//リスナ登録
+		inheritanceList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//親クラスを書き換える
+				File file = new File(selectedJavaFile);
+				Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
+				
+				String superClassName;
+				if(inheritanceList.getSelectedItem() == null || inheritanceList.getSelectedIndex() == 0){
+					superClassName = "";
+				}else{
+					superClassName = inheritanceList.getSelectedItem().toString();
+				}
+				openedPage.setSuperClassName(superClassName);
+				
+				convertToJava(getSaveString(), encoding);
+				
+				//再読み込みする
+				Document doc;
+				Document langDefDoc;
+
+				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder builder;
+				
+				try {
+					builder = factory.newDocumentBuilder();
+					doc = builder.parse(file);
+					
+					File langdefFile = new File(LANG_DEF_FILEPATH);
+					langDefDoc = builder.parse(langdefFile);
+					
+					Element langDefRoot = langDefDoc.getDocumentElement();
+					Element projectRoot = doc.getDocumentElement();
+					
+					workspace.getFactoryManager().reset();
+					workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
+					ronproEditor.chengeInheritance();
+				} catch (ParserConfigurationException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SAXException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+
 	}
 
 	public void createAndShowGUIForTesting(final WorkspaceController wc,
@@ -1008,6 +1126,25 @@ public class WorkspaceController {
 			} else if (title.endsWith("*") && !dirty) {
 				frame.setTitle(title.substring(0, title.length() - 1));
 			}
+		}
+	}
+	
+	public String[] getProjectJavaFiles(){
+		if(selectedJavaFile != null){
+			String[] fileList = new File(selectedJavaFile).getParentFile().list();
+			String[] javaFileList = new String[fileList.length];
+			
+			int javaFileListIndex = 0;
+			//同一フォルダ内のjavaファイルリストを作成する
+			for(int i=0;i<javaFileList.length;i++){
+				if(fileList[i].endsWith(".java")){
+					javaFileList[javaFileListIndex++] = fileList[i];
+				}
+			}
+			
+			return javaFileList;			
+		}else{
+			return (new String[20]);
 		}
 	}
 

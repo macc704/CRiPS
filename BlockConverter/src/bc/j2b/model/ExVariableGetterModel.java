@@ -14,7 +14,7 @@ public class ExVariableGetterModel extends ExpressionModel {
 
 	private StVariableDeclarationModel variable;
 	private String genusName = "getter";
-	private ExpressionModel index;
+	private ExpressionModel index = null;
 
 	/*
 	 * (non-Javadoc)
@@ -24,6 +24,10 @@ public class ExVariableGetterModel extends ExpressionModel {
 	@Override
 	public String getType() {
 		return variable.getType();
+	}
+	
+	public ExpressionModel getIndex(){
+		return this.index;
 	}
 
 	/**
@@ -37,12 +41,12 @@ public class ExVariableGetterModel extends ExpressionModel {
 	public void setIndexModel(ExpressionModel indexModel) {
 		this.index = indexModel;
 	}
+	
 
 	public void print(PrintStream out, int indent) {
 
 		// print BlockEditor File
 		// stubBlock
-
 		String connectorType = getConnectorType(variable.getType());
 		String positionType = "mirror";
 		if (variable.isArray()) {
@@ -58,6 +62,8 @@ public class ExVariableGetterModel extends ExpressionModel {
 
 		if (index != null) {
 			index.print(out, indent);
+			connectorType = getArrayElementGetterType(variable.getType());
+			//配列要素アクセスなので、プラグの型を変える
 		}
 
 		// if (variable.getGenusName().startsWith("local")) {
@@ -80,10 +86,10 @@ public class ExVariableGetterModel extends ExpressionModel {
 				+ "\">");
 		// label
 		makeIndent(out, indent + 2);
-		out.println("<Label>" + variable.getName() + "</Label>");
+		out.println("<Label>" + ElementModel.addEscapeSequence(variable.getName()) + "</Label>");
 		if (variable.getGenusName().equals("this")) {
 			makeIndent(out, indent + 2);
-			out.println("<JavaType>" + variable.getJavaVariableType()
+			out.println("<JavaType>" + ElementModel.addEscapeSequence(variable.getJavaVariableType())
 					+ "</JavaType>");
 		}
 		// lineNumber
@@ -142,8 +148,24 @@ public class ExVariableGetterModel extends ExpressionModel {
 		makeIndent(out, indent);
 		out.println("</BlockStub>");
 	}
+	
+	public  String getArrayElementGetterType(String type){	
+		if("int[]".equals(type)){
+			return "number";
+		}else if("String[]".equals(type)){
+			return "string";
+		}else if("double[]".equals(type)){
+			return "double-number";
+		}else if("boolean".equals(type)){
+			return "boolean";
+		}else{
+			return "object";
+		}
+	}
+
 
 	public String getLabel() {
 		return variable.getName();
 	}
+
 }

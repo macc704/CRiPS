@@ -121,7 +121,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	/** Toggles to show/hide minimize page button. */
 	private boolean hideMinimize = false;
 	/** super class of Java */
-	private String superClass = null;
+	private String superClass = "";
 
 	//////////////////////////////
 	//Constructor/ Destructor	//
@@ -765,7 +765,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 						// save the loaded blocks to add later
 						loadedBlocks.add(rb);
 					} catch (Exception ex) {
-						throw new RuntimeException("error happened: "
+						throw new RuntimeException(ex.getMessage() + "error happened: "
 								+ blockNode.getNodeName() + " value: "
 								+ blockNode.getNodeValue() + " type: "
 								+ blockNode.getNodeName() + "content: "
@@ -858,7 +858,15 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		return s.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
 				.replaceAll(">", "&gt;");
 	}
+	
+	public String getSuperClassName(){
+		return this.superClass;
+	}
 
+	public void setSuperClassName(String name){
+		this.superClass = name;
+	}
+	
 	public String getSaveString() {
 		StringBuffer buf = new StringBuffer();
 

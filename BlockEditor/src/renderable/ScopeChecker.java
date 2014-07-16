@@ -116,7 +116,7 @@ public class ScopeChecker {
 	//			return -1;
 	//		}
 	//		while (!start.getBlockLabel().equals(compareBlockName)) {
-	//			start = Block.getBlock(start.getAfterBlockID());
+	//			start = Block.getBlock(start.getAfterBlockID())
 	//			if (start == null) {
 	//				return -1;
 	//			}
@@ -128,11 +128,17 @@ public class ScopeChecker {
 	//引数　スコープを確認するブロック:cmpblock 結合先の一番前のブロック:beforelock
 	private boolean confirmCompareBlockIsBelongable(Block cmpBlock,
 			Block beforeBlock, String originBlockName) {
+		Block checkBlock = cmpBlock;
+
 		if (cmpBlock.getPlugBlockID() != -1) {
 			while (cmpBlock.getPlugBlockID() != -1) {
 				cmpBlock = Block.getBlock(cmpBlock.getPlugBlockID());
 			}
 		}
+		
+		
+		Block lastBlock = null;
+		//持ってるブロックから前のブロックをすべてチェックする
 		while (cmpBlock != null) {
 			if (cmpBlock.getBlockLabel().equals(originBlockName)) {
 				return true;
@@ -149,10 +155,12 @@ public class ScopeChecker {
 					}
 				}
 			}
+			lastBlock = cmpBlock;
 			cmpBlock = Block.getBlock(cmpBlock.getBeforeBlockID());
 		}
+		
+		//結合先のブロック郡をチェック
 		cmpBlock = beforeBlock;
-
 		while (cmpBlock != null) {
 			if (cmpBlock.getBlockLabel().equals(originBlockName)) {
 				return true;
@@ -169,8 +177,12 @@ public class ScopeChecker {
 					}
 				}
 			}
+			
+			lastBlock = cmpBlock;
 			cmpBlock = Block.getBlock(cmpBlock.getBeforeBlockID());
 		}
+		
+		
 		return false;
 	}
 

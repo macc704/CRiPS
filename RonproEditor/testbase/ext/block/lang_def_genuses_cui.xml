@@ -152,3 +152,21 @@
 		<BlockConnector connector-kind="plug" connector-type="double-number"/>
 	</BlockConnectors>
 </BlockGenus>
+
+<BlockGenus name="input-isInteger" kind="data" initlabel="整数かどうか調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"/>
+		<BlockConnector connector-kind="socket" connector-type="string" label="どの文字？"/>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="input-isDouble" kind="data" initlabel="実数かどうか調べる"
+	color="255 0 0">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"/>
+		<BlockConnector connector-kind="socket" connector-type="string" label="どの文字？"/>
+	</BlockConnectors>
+</BlockGenus>
+
+

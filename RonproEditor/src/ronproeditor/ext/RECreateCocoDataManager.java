@@ -2,12 +2,12 @@ package ronproeditor.ext;
 
 import javax.swing.JOptionPane;
 
+import coco.controller.CCCompileErrorConverter;
+import coco.controller.CCCompileErrorKindLoader;
+import coco.model.CCCompileErrorManager;
 import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
 import ronproeditor.REApplication;
-import src.coco.controller.CCCompileErrorConverter;
-import src.coco.controller.CCCompileErrorKindLoader;
-import src.coco.model.CCCompileErrorManager;
 
 public class RECreateCocoDataManager {
 	private REApplication application;

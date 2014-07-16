@@ -112,12 +112,20 @@ public class CallMethodBlockModel extends CommandBlockModel {
 			methodName = "Math.log";
 		} else if ("toRadians".equals(methodName)) {
 			methodName = "Math.toRadians";
-		}  else if ("input-getInt".equals(getGenusName())){
+		} else if ("input-getInt".equals(getGenusName())) {
 			methodName = "Input.getInt";
-		} else if ("input-getString".equals(getGenusName())){
-			methodName = "Input.getString";		
-		} else if ("input-getDouble".equals(getGenusName())){
+		} else if ("input-getString".equals(getGenusName())) {
+			methodName = "Input.getString";
+		} else if ("input-getDouble".equals(getGenusName())) {
 			methodName = "Input.getDouble";
+		} else if ("input-isInteger".equals(getGenusName())) {
+			methodName = "Input.isInteger";
+		} else if ("input-isDouble".equals(getGenusName())) {
+			methodName = "Input.isDouble";
+		} else if ("play[@string]".equals(getGenusName())) {
+			methodName = "BSound.play";
+		} else if ("loadOnMemory[@string]".equals(getGenusName())) {
+			methodName = "BSound.load";
 		}
 		out.print(methodName);
 

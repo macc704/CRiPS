@@ -414,6 +414,16 @@ public class BlockGenus {
 				&& (this.genusName.endsWith("var-int-number") || this.genusName
 						.endsWith("var-double-number"));
 	}
+	
+	/**
+	 * created by sakai lab 2014/05/15
+	 * 
+	 * @return
+	 */
+	public boolean isStringVariableDecBlock() {
+		return this.isVariableDeclBlock()
+				&& (this.genusName.endsWith("var-string"));
+	}
 
 	/**
 	 * Returns true if this block is a list or a list operator (determined by
