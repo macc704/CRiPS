@@ -155,7 +155,6 @@ public class CHMemberSelectorFrame extends JFrame {
 		initCHEMenubar(application);
 		initCHWindow(application);
 		addCHPropertyChangeListners(application);
-		addCHKeyListner(application);
 	}
 
 	private void initCHEMenubar(final REApplication application) {
@@ -186,7 +185,8 @@ public class CHMemberSelectorFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 
 				if (syncButton.isSelected()) {
-					conn.write(new CHFilelistRequest(user));
+					conn.write(new CHFilelistRequest(openedUsers
+							.get(application)));
 					application.doRefresh();
 					((JButton) application.getFrame().getJMenuBar()
 							.getComponent(PULL_BUTTON_INDEX)).setEnabled(false);
@@ -314,7 +314,7 @@ public class CHMemberSelectorFrame extends JFrame {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (application.getFrame().getEditor() != null) {
-
+					addCHKeyListner(application);
 				}
 			}
 		};
