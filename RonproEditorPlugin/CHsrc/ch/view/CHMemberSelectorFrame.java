@@ -46,7 +46,7 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String CH_DIR_PATH = "runtime-EclipseApplication/.ch";
+	private static final String CH_DIR_PATH = "workspace/.ch";
 	private static final int SYNC_BUTTON_INDEX = 5;
 	private static final int PULL_BUTTON_INDEX = 6;
 	private static int CTRL_MASK = InputEvent.CTRL_MASK;
