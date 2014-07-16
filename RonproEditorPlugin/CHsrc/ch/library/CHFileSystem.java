@@ -16,9 +16,9 @@ import clib.common.table.CCSVFileIO;
 
 public class CHFileSystem {
 
-	public static String PROJECTPATH = "runtime-EclipseApplication/final";
-	public static String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
-	public static String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
+	public static String PROJECTPATH = "workspace/final";
+	public static String MEMBERDIRPATH = "workspace/.ch";
+	public static String PREFPATH = "workspace/.ch/.pref";
 
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(

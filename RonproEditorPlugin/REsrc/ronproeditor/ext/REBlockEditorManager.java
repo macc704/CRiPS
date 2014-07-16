@@ -20,7 +20,6 @@ import ronproeditor.helpers.CFrameUtils;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceListener;
-import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
 import clib.common.filesystem.CPath;
@@ -84,34 +83,35 @@ public class REBlockEditorManager {
 		blockEditor = new WorkspaceController(IMAGES_PATH);
 		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 		blockEditor.loadFreshWorkspace();
-		blockEditor.createAndShowGUI(blockEditor, new SBlockEditorListener() {
-
-			public void blockConverted(File file) {
-				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
-				app.doRefreshCurrentEditor();
-				app.doFormat();
-				app.doBlockToJavaSave();
-				// app.doCompileBlocking(true);
-				// successMessageDialog();// TODO
-				// dirty = false;
-			}
-
-			public void blockDebugRun() {
-//				writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
-//				app.doDebugRun();
-			}
-
-			public void blockRun() {
-				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
-				app.doRun();
-			}
-
-			public void blockCompile() {
-				writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
-				app.doCompile();
-			}
-
-		}, REApplication.SRC_ENCODING);
+		// blockEditor.createAndShowGUI(blockEditor, new SBlockEditorListener()
+		// {
+		//
+		// public void blockConverted(File file) {
+		// writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
+		// app.doRefreshCurrentEditor();
+		// app.doFormat();
+		// app.doBlockToJavaSave();
+		// // app.doCompileBlocking(true);
+		// // successMessageDialog();// TODO
+		// // dirty = false;
+		// }
+		//
+		// public void blockDebugRun() {
+		// // writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
+		// // app.doDebugRun();
+		// }
+		//
+		// public void blockRun() {
+		// writeBlockEditingLog(BlockEditorLog.SubType.RUN);
+		// app.doRun();
+		// }
+		//
+		// public void blockCompile() {
+		// writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
+		// app.doCompile();
+		// }
+		//
+		// }, REApplication.SRC_ENCODING);
 		blockEditor.getFrame().addWindowFocusListener(
 				new WindowFocusListener() {
 					public void windowLostFocus(WindowEvent e) {

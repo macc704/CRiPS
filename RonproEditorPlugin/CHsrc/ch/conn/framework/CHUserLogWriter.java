@@ -13,7 +13,7 @@ import clib.common.table.CCSVFileIO;
 
 public class CHUserLogWriter {
 
-	public static final String CHDIR_PATH = "runtime-EclipseApplication/.ch";
+	public static final String CHDIR_PATH = "workspace/final/.ch";
 	public static final String LOGFILE = "CHLog.csv";
 
 	public static final String ECLIPSE_OPEN = "ECLIPSE_OPEN";
@@ -180,10 +180,10 @@ public class CHUserLogWriter {
 		addRowToTable();
 	}
 
-	public void paste(CFile file, String code) {
+	public void paste(String fileName, String code) {
 		writeCommand(PASTE);
+		writeTo(fileName);
 		writeCode(code);
-		writeTo(file);
 		addRowToTable();
 	}
 

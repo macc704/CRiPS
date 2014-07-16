@@ -1,6 +1,12 @@
 package ch.actions;
 
 import java.awt.Color;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
 
@@ -9,6 +15,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IExecutionListener;
 import org.eclipse.core.commands.NotHandledException;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.text.DocumentEvent;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentListener;
@@ -50,8 +57,8 @@ public class CheCoProManager {
 	public static final String DEFAULT_NAME = "guest";
 	public static final String DEFAULT_PASSWAOD = "pass";
 	public static final Color DEFAULT_COLOR = Color.WHITE;
-	public static final int DEFAULT_PORT = 10000;
-	public static final String IP = "localhost";
+	public static final int DEFAULT_PORT = 20000;
+	public static final String IP = "163.43.140.82";
 
 	private static CHUserLogWriter log;
 
@@ -73,6 +80,8 @@ public class CheCoProManager {
 
 	public CheCoProManager(IWorkbenchWindow window) {
 
+		System.out.println(ResourcesPlugin.getWorkspace().getRoot()
+				.getProject("final").toString());
 		this.window = window;
 
 		setWorkbenchWindowToViews();
@@ -106,7 +115,7 @@ public class CheCoProManager {
 	 * 各種リスナの登録
 	 */
 	private void addListners() {
-		geCHService().addExecutionListener(saveListener);
+		geCHService().addExecutionListener(executionListner);
 
 		window.getWorkbench().getActiveWorkbenchWindow().getPartService()
 				.addPartListener(partListner);
@@ -127,7 +136,7 @@ public class CheCoProManager {
 	/***************
 	 * 各種リスナの設定
 	 ***************/
-	private IExecutionListener saveListener = new IExecutionListener() {
+	private IExecutionListener executionListner = new IExecutionListener() {
 
 		@Override
 		public void preExecute(String commandId, ExecutionEvent event) {
@@ -139,6 +148,20 @@ public class CheCoProManager {
 			if (commandId.endsWith("org.eclipse.ui.file.save")) {
 				conn.write(new CHFilelistResponse(user, CHFileSystem
 						.getEclipseProjectFileList()));
+			} else if (commandId.endsWith("org.eclipse.ui.edit.paste")) {
+				Clipboard clipboard = Toolkit.getDefaultToolkit()
+						.getSystemClipboard();
+				Transferable object = clipboard.getContents(null);
+				String str = "";
+				try {
+					str = (String) object
+							.getTransferData(DataFlavor.stringFlavor);
+					log.paste(getCurrentFile().toString(), str);
+				} catch (UnsupportedFlavorException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -430,10 +453,13 @@ public class CheCoProManager {
 
 	public String getCurrentFileName() {
 
+		return getCurrentFile().getName();
+	}
+
+	public IFile getCurrentFile() {
 		IFileEditorInput input = (IFileEditorInput) window.getActivePage()
 				.getActiveEditor().getEditorInput();
-		IFile file = input.getFile();
-		return file.getName();
+		return input.getFile();
 	}
 
 	private void sourceChanged(String source) {
