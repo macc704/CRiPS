@@ -24,13 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 
-import org.eclipse.jdt.ui.IPackagesViewPart;
-import org.eclipse.jdt.ui.JavaUI;
-import org.eclipse.swt.widgets.TreeItem;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-
 import ronproeditor.REApplication;
 import ch.actions.CheCoProManager;
 import ch.conn.framework.CHConnection;
@@ -58,8 +51,8 @@ public class CHMemberSelectorFrame extends JFrame {
 	private HashMap<REApplication, String> openedUsers = new HashMap<>();
 	private REApplication application = new REApplication();
 	private List<CHUserState> userStates = new ArrayList<>();
-	private IWorkbenchWindow window;
-	private IWorkbenchPage page;
+	// private IWorkbenchWindow window;
+	// private IWorkbenchPage page;
 	private JToggleButton syncButton;
 	private JButton pullButton;
 
@@ -267,9 +260,10 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	private CFileFilter makeCFileFilter(boolean java, boolean material) {
 		if (java && material) {
-			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", ".*xml");
+			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml");
 		} else if (java && !material) {
-			return CFileFilter.ACCEPT_BY_NAME_FILTER("*.java");
+			// TODO 取り込めない
+			return CFileFilter.ACCEPT_BY_EXTENSION_FILTER("java");
 		} else if (!java && material) {
 			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml",
 					"*.java");
@@ -281,7 +275,7 @@ public class CHMemberSelectorFrame extends JFrame {
 		CDirectory from = CHFileSystem.getEclipseMemberDir(user);
 		CDirectory to = CHFileSystem.getEclipseProjectDir();
 		CHFileSystem.pull(from, to, filter);
-		refreshPackageExplorer();
+		// refreshPackageExplorer();
 	}
 
 	private void initCHWindow(final REApplication application) {
@@ -297,6 +291,12 @@ public class CHMemberSelectorFrame extends JFrame {
 		application.getFrame().addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
+				if (application.getFrame().getEditor() != null) {
+					application.getFrame().getEditor().getViewer()
+							.getTextPane().removeKeyListener(keyListner);
+				}
+				application.getSourceManager().removePropertyChangeListener(
+						propertyChangeListner);
 				String user = openedUsers.get(application);
 				openedUsers.remove(application);
 				openedCHEditors.remove(user);
@@ -313,7 +313,11 @@ public class CHMemberSelectorFrame extends JFrame {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (application.getFrame().getEditor() != null) {
+				if (evt.getPropertyName().equals("prepareDocumentClose")) {
+					application.getFrame().getEditor().getViewer()
+							.getTextPane().removeKeyListener(keyListner);
+				}
+				if (evt.getPropertyName().equals("documentOpened")) {
 					addCHKeyListner(application);
 				}
 			}
@@ -377,7 +381,8 @@ public class CHMemberSelectorFrame extends JFrame {
 		return true;
 	}
 
-	public void showSource(final String sender, final String source) {
+	public void showSource(final String sender, final String source,
+			final int topPixel) {
 
 		SwingUtilities.invokeLater(new Runnable() {
 
@@ -386,44 +391,61 @@ public class CHMemberSelectorFrame extends JFrame {
 
 				openedCHEditors.get(sender).getFrame().getEditor()
 						.setText(source);
+
+				SwingUtilities.invokeLater(new Runnable() {
+
+					@Override
+					public void run() {
+
+						System.out.println(topPixel);
+						openedCHEditors.get(sender).getFrame().getEditor()
+								.getViewer().getScroll().getVerticalScrollBar()
+								.setValue(topPixel);
+						System.out.println(openedCHEditors.get(sender)
+								.getFrame().getEditor().getViewer().getScroll()
+								.getVerticalScrollBar().getValue());
+					}
+				});
 			}
+
 		});
+
 	}
 
-	public void refreshPackageExplorer() {
-		new Thread(new PackageExplorerUpdater()).start();
-	}
+	// public void refreshPackageExplorer() {
+	// new Thread(new PackageExplorerUpdater()).start();
+	// }
 
 	// TODO リフレッシュ途中
-	class PackageExplorerUpdater implements Runnable {
-
-		@Override
-		public void run() {
-			window.getWorkbench().getDisplay().asyncExec(new Runnable() {
-
-				@Override
-				public void run() {
-					IPackagesViewPart packagesView;
-					TreeItem[] treeItems;
-					try {
-						packagesView = ((IPackagesViewPart) page
-								.showView(JavaUI.ID_PACKAGES));
-						treeItems = packagesView.getTreeViewer().getTree()
-								.getItems();
-						for (TreeItem treeItem : treeItems) {
-							if (treeItem.getText().equals("final")) {
-								packagesView.getTreeViewer().getTree()
-										.setSelection(treeItem);
-								break;
-							}
-						}
-					} catch (PartInitException e) {
-						e.printStackTrace();
-					}
-				}
-			});
-		}
-	}
+	// class PackageExplorerUpdater implements Runnable {
+	//
+	// @Override
+	// public void run() {
+	// window.getWorkbench().getDisplay().asyncExec(new Runnable() {
+	//
+	// @Override
+	// public void run() {
+	// IPackagesViewPart packagesView;
+	// TreeItem[] treeItems;
+	// try {
+	// packagesView = ((IPackagesViewPart) page
+	// .showView(JavaUI.ID_PACKAGES));
+	// treeItems = packagesView.getTreeViewer().getTree()
+	// .getItems();
+	// for (TreeItem treeItem : treeItems) {
+	// if (treeItem.getText().equals("final")) {
+	// packagesView.getTreeViewer().getTree()
+	// .setSelection(treeItem);
+	// break;
+	// }
+	// }
+	// } catch (PartInitException e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
+	// }
 
 	public List<JButton> getButtons() {
 		return buttons;
@@ -441,13 +463,13 @@ public class CHMemberSelectorFrame extends JFrame {
 		this.userStates = userStates;
 	}
 
-	public void setWindow(IWorkbenchWindow window) {
-		this.window = window;
-	}
+	// public void setWindow(IWorkbenchWindow window) {
+	// this.window = window;
+	// }
 
-	public void setPage(IWorkbenchPage page) {
-		this.page = page;
-	}
+	// public void setPage(IWorkbenchPage page) {
+	// this.page = page;
+	// }
 
 	public static void main(String[] args) {
 		CHMemberSelectorFrame frame = new CHMemberSelectorFrame("name");

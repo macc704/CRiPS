@@ -33,6 +33,12 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 		initialize();
 	}
 
+	public CHEntryDialog(String user, String password) {
+		this.user = user;
+		this.password = password;
+		initialize();
+	}
+
 	private void initialize() {
 		this.setTitle("CheCoPro entry");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -48,10 +54,13 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 		JPanel confirmPanel = new JPanel(layout);
 
 		userPanel.add(new JLabel("Name : "));
+		userField.setText(user);
 		userPanel.add(userField);
 		passwordPanel.add(new JLabel("Password : "));
+		passwordField.setText(password);
 		passwordPanel.add(passwordField);
 		confirmPanel.add(new JLabel("Confirm Password ; "));
+		confirmField.setText(password);
 		confirmPanel.add(confirmField);
 
 		gridPanel.add(userPanel);

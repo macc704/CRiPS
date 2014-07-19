@@ -57,8 +57,8 @@ public class CheCoProManager {
 	public static final String DEFAULT_NAME = "guest";
 	public static final String DEFAULT_PASSWAOD = "pass";
 	public static final Color DEFAULT_COLOR = Color.WHITE;
-	public static final int DEFAULT_PORT = 20000;
-	public static final String IP = "163.43.140.82";
+	public static final int DEFAULT_PORT = 10000;
+	public static final String IP = "localhost";
 
 	private static CHUserLogWriter log;
 
@@ -115,15 +115,22 @@ public class CheCoProManager {
 	 * 各種リスナの登録
 	 */
 	private void addListners() {
-		geCHService().addExecutionListener(executionListner);
+		getCHService().addExecutionListener(executionListner);
 
 		window.getWorkbench().getActiveWorkbenchWindow().getPartService()
 				.addPartListener(partListner);
 	}
 
-	public ICommandService geCHService() {
+	public ICommandService getCHService() {
 		return (ICommandService) Activator.getDefault().getWorkbench()
 				.getService(ICommandService.class);
+	}
+
+	private void removeListners() {
+		getCHService().removeExecutionListener(executionListner);
+		// TODO 要ぬるぽ解消
+		window.getWorkbench().getActiveWorkbenchWindow().getPartService()
+				.removePartListener(partListner);
 	}
 
 	// private void removeListners() {
@@ -145,7 +152,9 @@ public class CheCoProManager {
 
 		@Override
 		public void postExecuteSuccess(String commandId, Object returnValue) {
-			if (commandId.endsWith("org.eclipse.ui.file.save")) {
+			System.out.println(commandId);
+			if (commandId.endsWith("org.eclipse.ui.file.save")
+					|| commandId.endsWith("org.eclipse.ui.file.refresh")) {
 				conn.write(new CHFilelistResponse(user, CHFileSystem
 						.getEclipseProjectFileList()));
 			} else if (commandId.endsWith("org.eclipse.ui.edit.paste")) {
@@ -181,8 +190,11 @@ public class CheCoProManager {
 
 		@Override
 		public void documentChanged(DocumentEvent event) {
-
-			sourceChanged(event.getDocument().get());
+			System.out.println(getActivePresEditor().getViewer().getTopIndex());
+			System.out.println(getActivePresEditor().getViewer()
+					.getTextWidget().getTopPixel());
+			sourceChanged(event.getDocument().get(), getActivePresEditor()
+					.getViewer().getTextWidget().getTopPixel());
 		}
 
 		@Override
@@ -270,6 +282,12 @@ public class CheCoProManager {
 			ex.printStackTrace();
 		}
 		conn.close();
+		// TODO Loginボタン操作
+		if (memberSelector.isVisible()) {
+			memberSelector.close();
+		}
+		removeListners();
+		new Thread(new LoginButtonUpdater(false)).start();
 		log.logout();
 		System.out.println("client closed");
 
@@ -314,12 +332,15 @@ public class CheCoProManager {
 			log.login();
 			System.out.println("login success");
 			memberSelector = new CHMemberSelectorFrame(user, conn);
-			memberSelector.setWindow(window);
-			memberSelector.setPage(window.getActivePage());
+			// memberSelector.setWindow(window);
+			// memberSelector.setPage(window.getActivePage());
 			memberSelector.open();
 		} else if (result.isResult() == 0) {
+			// TODO 最前面へ
+			// TODO 入力間違えないように工夫
 			CHEntryDialog entryDialog = new CHEntryDialog();
 			entryDialog.open();
+			entryDialog.setAlwaysOnTop(true);
 			user = entryDialog.getUser();
 			password = entryDialog.getPassword();
 			if (!user.equals("")) {
@@ -355,6 +376,7 @@ public class CheCoProManager {
 
 	private void processFileListResponse(CHFilelistResponse response) {
 
+		// TODO リネーム反映されない
 		String user = response.getUser();
 		CDirectory copyDir = CHFileSystem.getEclipseMemberDir(user);
 
@@ -379,14 +401,15 @@ public class CheCoProManager {
 	private void processSourceChanged(CHSourceChanged responce) {
 		if (memberSelector.cheackCHEditor(responce.getUser(),
 				responce.getCurrentFileName())) {
-			memberSelector.showSource(responce.getUser(), responce.getSource());
+			memberSelector.showSource(responce.getUser(), responce.getSource(),
+					responce.getTopPixel());
 		}
 	}
 
 	private void processLogoutResult(CHLogoutResult result) {
 		if (result.getUser().equals(user)) {
 			memberSelector.close();
-			// removeListners();
+			removeListners();
 			conn.close();
 			log.logout();
 			new Thread(new LoginButtonUpdater(false)).start();
@@ -462,8 +485,9 @@ public class CheCoProManager {
 		return input.getFile();
 	}
 
-	private void sourceChanged(String source) {
-		conn.write(new CHSourceChanged(user, source, getCurrentFileName()));
+	private void sourceChanged(String source, int topPixel) {
+		conn.write(new CHSourceChanged(user, source, getCurrentFileName(),
+				topPixel));
 	}
 
 	public CHConnection getConn() {

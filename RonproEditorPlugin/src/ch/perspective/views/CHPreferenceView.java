@@ -26,6 +26,11 @@ public class CHPreferenceView extends ViewPart {
 	private CheCoProManager manager;
 
 	private Button connectButton;
+	private Button applyBbutton;
+
+	private String user;
+
+	private String password;
 
 	@Override
 	public void createPartControl(Composite parent) {
@@ -78,7 +83,7 @@ public class CHPreferenceView extends ViewPart {
 	}
 
 	private void createApplyButton(Composite parent) {
-		Button applyBbutton = new Button(parent, SWT.PUSH);
+		applyBbutton = new Button(parent, SWT.PUSH);
 		applyBbutton.setText("Apply");
 		applyBbutton.addSelectionListener(new SelectionListener() {
 
@@ -89,7 +94,13 @@ public class CHPreferenceView extends ViewPart {
 				table[0][1] = passArea.getText();
 				table[0][2] = groupNumArea.getText();
 				CCSVFileIO.save(table, CHFileSystem.getPrefFile());
-				System.out.println("Apply");
+				if (!table[0][0].equals("") && !table[0][1].equals("")) {
+					connectButton.setEnabled(true);
+				} else {
+					connectButton.setEnabled(false);
+				}
+				user = table[0][0];
+				password = table[0][1];
 			}
 
 			@Override
@@ -110,7 +121,6 @@ public class CHPreferenceView extends ViewPart {
 							.getActiveWorkbenchWindow());
 					connectButton.setText("Logout");
 				} else if (connectButton.getText().equals("Logout")) {
-					// TODO 切断処理
 					if (manager != null) {
 						manager.getConn().write(
 								new CHLogoutRequest(manager.getUser()));
@@ -133,9 +143,11 @@ public class CHPreferenceView extends ViewPart {
 
 		// ユーザ名
 		createUserNameArea(parent, table[0][0]);
+		user = table[0][0];
 
 		// パスワード
 		createPassArea(parent, table[0][1]);
+		password = table[0][1];
 
 		// グループ番号
 		createGroupNumArea(parent, Integer.parseInt(table[0][2]));
@@ -145,6 +157,11 @@ public class CHPreferenceView extends ViewPart {
 
 		// 接続ボタン
 		createConnectButton(parent);
+		if (!table[0][0].equals("") && !table[0][1].equals("")) {
+			connectButton.setEnabled(true);
+		} else {
+			connectButton.setEnabled(false);
+		}
 	}
 
 	public void isLogined(boolean login) {
@@ -153,6 +170,14 @@ public class CHPreferenceView extends ViewPart {
 		} else {
 			connectButton.setText("Login");
 		}
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 
 }

@@ -9,12 +9,14 @@ public class CHSourceChanged extends CHPacket {
 	private String user;
 	private String source;
 	private String currentFileName;
+	private int topPixel;
 
-	public CHSourceChanged(String user, String source,
-			String currentFileName) {
+	public CHSourceChanged(String user, String source, String currentFileName,
+			int topPixel) {
 		this.user = user;
 		this.source = source;
 		this.currentFileName = currentFileName;
+		this.topPixel = topPixel;
 	}
 
 	public String getUser() {
@@ -27,5 +29,9 @@ public class CHSourceChanged extends CHPacket {
 
 	public String getCurrentFileName() {
 		return currentFileName;
+	}
+
+	public int getTopPixel() {
+		return topPixel;
 	}
 }
