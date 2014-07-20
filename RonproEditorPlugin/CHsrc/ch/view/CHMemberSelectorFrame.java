@@ -135,6 +135,7 @@ public class CHMemberSelectorFrame extends JFrame {
 			} else {
 				conn.write(new CHFilelistRequest(pushed));
 
+				// TODO デフォルトフォントおかしい
 				REApplication chApplication = application
 						.doOpenNewRE(CH_DIR_PATH + "/" + pushed);
 				openedCHEditors.put(pushed, chApplication);
@@ -341,6 +342,9 @@ public class CHMemberSelectorFrame extends JFrame {
 				}
 				if (evt.getPropertyName().equals("documentOpened")) {
 					addCHKeyListner(application);
+					application.getFrame().getEditor().getViewer()
+							.getTextPane()
+							.setEditable(!syncButton.isSelected());
 				}
 			}
 		};
