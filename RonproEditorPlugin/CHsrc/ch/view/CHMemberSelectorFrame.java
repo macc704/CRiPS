@@ -180,6 +180,11 @@ public class CHMemberSelectorFrame extends JFrame {
 				if (syncButton.isSelected()) {
 					conn.write(new CHFilelistRequest(openedUsers
 							.get(application)));
+					if (application.getFrame().getEditor() != null) {
+						if (application.getFrame().getEditor().isDirty()) {
+							application.doSave();
+						}
+					}
 					application.doRefresh();
 					((JButton) application.getFrame().getJMenuBar()
 							.getComponent(PULL_BUTTON_INDEX)).setEnabled(false);
@@ -237,10 +242,13 @@ public class CHMemberSelectorFrame extends JFrame {
 
 				boolean java = pullDialog.isJavaChecked();
 				boolean material = pullDialog.isMaterialCecked();
-				if (java || material) {
+				if (material) {
 					doPull(openedUsers.get(application),
 							makeCFileFilter(java, material));
 					writePullLog(java, material, openedUsers.get(application));
+				} else if (java && !material) {
+					doPullForJava(openedUsers.get(application), CHFileSystem
+							.getEclipseMemberDir(openedUsers.get(application)));
 				}
 			}
 		});
@@ -262,13 +270,27 @@ public class CHMemberSelectorFrame extends JFrame {
 		if (java && material) {
 			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml");
 		} else if (java && !material) {
-			// TODO 取り込めない
+			// TODO 再帰的に呼んでないから取り込めない
+			// TODO 選択しているファイルを取り込むことで代用するか
 			return CFileFilter.ACCEPT_BY_EXTENSION_FILTER("java");
 		} else if (!java && material) {
 			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml",
 					"*.java");
 		}
 		return null;
+	}
+
+	// TODO ひとまずプロジェクト直下に保存
+	private void doPullForJava(String user, CDirectory dir) {
+		List<CDirectory> children = dir.getDirectoryChildren(CFileFilter
+				.IGNORE_BY_NAME_FILTER(".*"));
+		if (!children.isEmpty()) {
+			for (CDirectory childe : children) {
+				doPullForJava(user, childe);
+			}
+		}
+		CHFileSystem.pull(dir, CHFileSystem.getEclipseProjectDir(),
+				CFileFilter.ACCEPT_BY_EXTENSION_FILTER("java"));
 	}
 
 	private void doPull(String user, CFileFilter filter) {

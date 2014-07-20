@@ -154,7 +154,8 @@ public class CheCoProManager {
 		public void postExecuteSuccess(String commandId, Object returnValue) {
 			System.out.println(commandId);
 			if (commandId.endsWith("org.eclipse.ui.file.save")
-					|| commandId.endsWith("org.eclipse.ui.file.refresh")) {
+					|| commandId.endsWith("org.eclipse.ui.file.refresh")
+					|| commandId.endsWith("org.eclipse.ui.edit.delete")) {
 				conn.write(new CHFilelistResponse(user, CHFileSystem
 						.getEclipseProjectFileList()));
 			} else if (commandId.endsWith("org.eclipse.ui.edit.paste")) {
@@ -188,11 +189,9 @@ public class CheCoProManager {
 
 	private IDocumentListener documentListner = new IDocumentListener() {
 
+		@SuppressWarnings("restriction")
 		@Override
 		public void documentChanged(DocumentEvent event) {
-			System.out.println(getActivePresEditor().getViewer().getTopIndex());
-			System.out.println(getActivePresEditor().getViewer()
-					.getTextWidget().getTopPixel());
 			sourceChanged(event.getDocument().get(), getActivePresEditor()
 					.getViewer().getTextWidget().getTopPixel());
 		}
@@ -286,8 +285,8 @@ public class CheCoProManager {
 		if (memberSelector.isVisible()) {
 			memberSelector.close();
 		}
-		removeListners();
 		new Thread(new LoginButtonUpdater(false)).start();
+		removeListners();
 		log.logout();
 		System.out.println("client closed");
 
@@ -336,9 +335,20 @@ public class CheCoProManager {
 			// memberSelector.setPage(window.getActivePage());
 			memberSelector.open();
 		} else if (result.isResult() == 0) {
-			// TODO 最前面へ
-			// TODO 入力間違えないように工夫
-			CHEntryDialog entryDialog = new CHEntryDialog();
+			newEntry();
+		}
+	}
+
+	private void newEntry() {
+		// TODO 最前面へ
+		// TODO 入力間違えないように工夫
+		String[][] table = CCSVFileIO.load(CHFileSystem.getPrefFile());
+
+		if (table.length != 0) {
+			user = table[0][0];
+			password = table[0][1];
+			CHEntryDialog entryDialog = new CHEntryDialog(table[0][0],
+					table[0][1]);
 			entryDialog.open();
 			entryDialog.setAlwaysOnTop(true);
 			user = entryDialog.getUser();
@@ -348,7 +358,10 @@ public class CheCoProManager {
 			} else {
 				conn.close();
 			}
+		} else {
+			conn.close();
 		}
+
 	}
 
 	private void processEntryResult(CHEntryResult result) {
