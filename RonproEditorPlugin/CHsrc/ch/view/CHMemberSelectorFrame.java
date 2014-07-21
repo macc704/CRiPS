@@ -34,6 +34,7 @@ import ch.conn.framework.packets.CHLogoutRequest;
 import ch.library.CHFileSystem;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
+import clib.common.filesystem.CFileSystem;
 
 public class CHMemberSelectorFrame extends JFrame {
 
@@ -281,7 +282,6 @@ public class CHMemberSelectorFrame extends JFrame {
 		return null;
 	}
 
-	// TODO ひとまずプロジェクト直下に保存
 	private void doPullForJava(String user, CDirectory dir) {
 		List<CDirectory> children = dir.getDirectoryChildren(CFileFilter
 				.IGNORE_BY_NAME_FILTER(".*"));
@@ -290,7 +290,11 @@ public class CHMemberSelectorFrame extends JFrame {
 				doPullForJava(user, childe);
 			}
 		}
-		CHFileSystem.pull(dir, CHFileSystem.getEclipseProjectDir(),
+		String toPath = CHFileSystem.PROJECTPATH + "/"
+				+ dir.getRelativePath(CHFileSystem.getEclipseMemberDir(user));
+		CDirectory toDir = CFileSystem.getExecuteDirectory()
+				.findOrCreateDirectory(toPath);
+		CHFileSystem.pull(dir, toDir,
 				CFileFilter.ACCEPT_BY_EXTENSION_FILTER("java"));
 	}
 
