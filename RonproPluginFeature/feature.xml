@@ -24,7 +24,7 @@
 
    <includes
          id="info.matsuzawalab.PresPlugin"
-         version="3.7.3"/>
+         version="3.7.4"/>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
@@ -53,7 +53,7 @@
          id="jp.ac.shizuoka.inf.cs.ce.pres.eclipseui"
          download-size="0"
          install-size="0"
-         version="3.7.3"
+         version="3.7.4"
          unpack="false"/>
 
    <plugin
