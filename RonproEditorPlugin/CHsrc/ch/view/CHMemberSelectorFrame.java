@@ -187,7 +187,7 @@ public class CHMemberSelectorFrame extends JFrame {
 							application.doSave();
 						}
 					}
-					application.doRefresh();
+					// application.doRefresh();
 					((JButton) application.getFrame().getJMenuBar()
 							.getComponent(PULL_BUTTON_INDEX)).setEnabled(false);
 					syncButton.setText("同期中");
@@ -272,8 +272,7 @@ public class CHMemberSelectorFrame extends JFrame {
 		if (java && material) {
 			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml");
 		} else if (java && !material) {
-			// TODO 再帰的に呼んでないから取り込めない
-			// TODO 選択しているファイルを取り込むことで代用するか
+			// 再帰的に読み込んでいないから別途処理
 			return CFileFilter.ACCEPT_BY_EXTENSION_FILTER("java");
 		} else if (!java && material) {
 			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml",
@@ -491,6 +490,10 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	public void setUserStates(List<CHUserState> userStates) {
 		this.userStates = userStates;
+	}
+
+	public HashMap<String, REApplication> getOpenedCHEditors() {
+		return openedCHEditors;
 	}
 
 	// public void setWindow(IWorkbenchWindow window) {

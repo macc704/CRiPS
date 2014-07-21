@@ -57,8 +57,8 @@ public class CheCoProManager {
 	public static final String DEFAULT_NAME = "guest";
 	public static final String DEFAULT_PASSWAOD = "pass";
 	public static final Color DEFAULT_COLOR = Color.WHITE;
-	public static final int DEFAULT_PORT = 10000;
-	public static final String IP = "localhost";
+	public static final int DEFAULT_PORT = 20000;
+	public static final String IP = "163.43.140.82";
 
 	private static CHUserLogWriter log;
 
@@ -129,8 +129,8 @@ public class CheCoProManager {
 	private void removeListners() {
 		getCHService().removeExecutionListener(executionListner);
 		// TODO 要ぬるぽ解消
-		window.getWorkbench().getActiveWorkbenchWindow().getPartService()
-				.removePartListener(partListner);
+		// window.getWorkbench().getActiveWorkbenchWindow().getPartService()
+		// .removePartListener(partListner);
 	}
 
 	// private void removeListners() {
@@ -409,6 +409,10 @@ public class CheCoProManager {
 	private void processFileResponse(CHFileResponse response) {
 		CHFileSystem.saveFiles(response.getFiles(),
 				CHFileSystem.getEclipseMemberDir(response.getUser()));
+		if (memberSelector.getOpenedCHEditors().get(response.getUser()) != null) {
+			memberSelector.getOpenedCHEditors().get(response.getUser())
+					.doRefresh();
+		}
 	}
 
 	private void processSourceChanged(CHSourceChanged responce) {
@@ -424,7 +428,6 @@ public class CheCoProManager {
 			memberSelector.close();
 			removeListners();
 			conn.close();
-			log.logout();
 			new Thread(new LoginButtonUpdater(false)).start();
 		}
 	}

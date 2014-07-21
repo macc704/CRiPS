@@ -149,6 +149,7 @@ public class CHUserLogWriter {
 	public void eclipseOpen() {
 		writeCommand(ECLIPSE_OPEN);
 		addRowToTable();
+		saveTableToFile();
 	}
 
 	public void eclipseClose() {
@@ -160,17 +161,20 @@ public class CHUserLogWriter {
 	public void login() {
 		writeCommand(LOGIN);
 		addRowToTable();
+		saveTableToFile();
 	}
 
 	public void logout() {
 		writeCommand(LOGOUT);
 		addRowToTable();
+		saveTableToFile();
 	}
 
 	public void pull(String user, String type) {
 		writeCommand(type);
 		writeFrom(user);
 		addRowToTable();
+		saveTableToFile();
 	}
 
 	public void copy(CFile file, String code) {
@@ -178,6 +182,7 @@ public class CHUserLogWriter {
 		writeFrom(file);
 		writeCode(code);
 		addRowToTable();
+		saveTableToFile();
 	}
 
 	public void paste(String fileName, String code) {
@@ -185,6 +190,7 @@ public class CHUserLogWriter {
 		writeTo(fileName);
 		writeCode(code);
 		addRowToTable();
+		saveTableToFile();
 	}
 
 	public static void main(String[] args) {
