@@ -2,7 +2,7 @@
 <feature
       id="info.matsuzawalab.PresPlugin"
       label="PresPlugin"
-      version="3.7.3"
+      version="3.7.4"
       provider-name="Yoshiaki Matsuzawa at Shizuoka University">
 
    <description url="http://www.example.com/description">
