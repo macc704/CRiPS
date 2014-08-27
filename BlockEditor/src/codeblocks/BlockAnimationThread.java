@@ -43,16 +43,16 @@ public class BlockAnimationThread extends Thread {
 		BCSystem.out.println("distance:" + distance);
 		double realWaitTime = 1.0;
 
-		for (BlockConnector socket : BlockLinkChecker
-				.getSocketEquivalents(block.getBlock())) {
-			if (socket.hasBlock()) {
-				RenderableBlock rb = RenderableBlock.getRenderableBlock(socket
-						.getBlockID());
-				BlockAnimationThread t1 = new BlockAnimationThread(rb,
-						animationDirection);
-				//t1.start();
-			}
-		}
+//		for (BlockConnector socket : BlockLinkChecker
+//				.getSocketEquivalents(block.getBlock())) {
+//			if (socket.hasBlock()) {
+//				RenderableBlock rb = RenderableBlock.getRenderableBlock(socket
+//						.getBlockID());
+//				BlockAnimationThread t1 = new BlockAnimationThread(rb,
+//						animationDirection);
+//				//t1.start();
+//			}
+//		}
 
 		long waitTime = 1;
 

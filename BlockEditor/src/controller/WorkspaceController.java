@@ -375,8 +375,6 @@ public class WorkspaceController {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
 		Document doc;
-		Document selDefBlock;
-		Document selDefBlockGenus;
 		try {
 			synchronized (frame.getTreeLock()) {
 				builder = factory.newDocumentBuilder();

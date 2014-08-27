@@ -128,6 +128,7 @@ public class ScopeChecker {
 	//引数　スコープを確認するブロック:cmpblock 結合先の一番前のブロック:beforelock
 	private boolean confirmCompareBlockIsBelongable(Block cmpBlock,
 			Block beforeBlock, String originBlockName) {
+
 		Block checkBlock = cmpBlock;
 
 		if (cmpBlock.getPlugBlockID() != -1) {

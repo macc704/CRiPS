@@ -19,7 +19,6 @@ import javax.swing.JPanel;
 import renderable.FactoryRenderableBlock;
 import renderable.RenderableBlock;
 import codeblocks.Block;
-import codeblocks.BlockGenus;
 import codeblocks.BlockStub;
 import codeblockutil.CBorderlessButton;
 import codeblockutil.CLabel;
@@ -824,10 +823,6 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 				// block may not be null if this is a block added event
 				if (block.hasStubs()) {
 					for (BlockStub stub : block.getFreshStubs()) {
-						String blockDrawer = null;
-						// TODO lang_defで定義したfactoryのパレットにブロックが生成される
-						BlockGenus blockGenus = BlockGenus.getGenusWithName(Block.getBlock(stub.getBlockID())
-								.getGenusName());
 						this.addDynamicBlock(new FactoryRenderableBlock(this, stub.getBlockID()), stub.getFactoryName());
 					}
 				}

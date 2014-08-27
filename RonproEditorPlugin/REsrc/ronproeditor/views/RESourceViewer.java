@@ -239,7 +239,6 @@ public class RESourceViewer extends JPanel {
 			}
 
 			int buttonSize = 10;
-			@SuppressWarnings("unused")
 			int topMargin = topInset + fontAscent - buttonSize;
 			g.setColor(Color.black);
 			g.drawLine(DEBUG_BUTTON_MARGIN, 0, DEBUG_BUTTON_MARGIN,

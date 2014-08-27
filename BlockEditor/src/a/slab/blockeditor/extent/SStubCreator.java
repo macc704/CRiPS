@@ -28,7 +28,7 @@ public class SStubCreator {
 	}
 
 	private void create(ActionEvent e) {
-		RenderableBlock newRB = createStub(stubName, rb);
+		createStub(stubName, rb);
 	}
 
 	public static RenderableBlock createStub(String stubName, RenderableBlock rb) {
