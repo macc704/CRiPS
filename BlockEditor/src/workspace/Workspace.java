@@ -1087,11 +1087,12 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	//#added by hakamata
 	private ArrayList<RenderableBlock> bufrb = new ArrayList<RenderableBlock>();
 
-	public void executionPoint(int lineNumber) {
+	public void executionPoint(int lineNumber) {	
 		for (RenderableBlock rb : bufrb) {
 			if (rb != null) {
 				try {
 					rb.resetHighlight();
+					RenderableBlock.redrawArrows();
 				} catch (java.lang.NullPointerException e) {
 
 				}

@@ -1,7 +1,7 @@
 package controller;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +21,6 @@ import java.io.StringReader;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -30,6 +29,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
@@ -46,7 +46,6 @@ import slcodeblocks.ParamRule;
 import slcodeblocks.PolyRule;
 import util.ChangeExtension;
 import workspace.BlockCanvas;
-import workspace.Page;
 import workspace.SearchBar;
 import workspace.SearchableContainer;
 import workspace.TrashCan;
@@ -60,12 +59,16 @@ import bc.apps.JavaToBlockMain;
 import clib.common.filesystem.CFilename;
 import clib.view.dialogs.CErrorDialog;
 import clib.view.screenshot.CScreenShotTaker;
+import codeblocks.Block;
 import codeblocks.BlockConnectorShape;
 import codeblocks.BlockGenus;
 import codeblocks.BlockLinkChecker;
+import codeblocks.BlockStub;
 import codeblocks.CommandRule;
 import codeblocks.InfixRule;
 import codeblocks.SocketRule;
+import drawingobjects.ArrowObject;
+import drawingobjects.DrawingArrowManager;
 
 /**
  * 
@@ -110,8 +113,8 @@ public class WorkspaceController {
 	public static final int PROJECT_SELECTED = 2;
 	public static final int COMPILE_ERROR = 3;
 	private int state = PROJECT_SELECTED;
-	
-	private String encoding;
+
+	private DrawingArrowManager drawingArrowManager = new DrawingArrowManager();
 	
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
@@ -183,7 +186,7 @@ public class WorkspaceController {
 
 	}
 
-	//added macchan
+	// added macchan
 	public void setLangDefDirty(boolean langDefDirty) {
 		this.langDefDirty = langDefDirty;
 	}
@@ -260,7 +263,7 @@ public class WorkspaceController {
 	 *            Loads the language specified in the Element root
 	 */
 	public void loadBlockLanguage(Element root) {
-		//#matsuzawa 二回WorkspaceListenerが登録されないようにする．
+		// #matsuzawa 二回WorkspaceListenerが登録されないようにする．
 		workspace.clearWorkspaceListenersForBlockLanguage();
 		workspace.setLoadingBlockLanguage(true);
 
@@ -278,7 +281,7 @@ public class WorkspaceController {
 		BlockLinkChecker.addRule(new CommandRule());
 		BlockLinkChecker.addRule(new SocketRule());
 		BlockLinkChecker.addRule(new PolyRule());
-		// BlockLinkChecker.addRule(new StackRule()); 
+		// BlockLinkChecker.addRule(new StackRule());
 		BlockLinkChecker.addRule(new ParamRule());
 		BlockLinkChecker.addRule(new InfixRule());
 		// arranged by sakai lab 2011/11/21
@@ -317,7 +320,7 @@ public class WorkspaceController {
 	public String getSaveString() {
 		StringBuffer saveString = new StringBuffer();
 		// append the save data
-		//saveString.append("<?xml version=\"1.0\" encoding=\"Shift_JIS\"?>");
+		// saveString.append("<?xml version=\"1.0\" encoding=\"Shift_JIS\"?>");
 		saveString.append("<?xml version=\"1.0\" encoding=\""
 				+ SBlockEditor.ENCODING_BLOCK_XML + "\"?>");
 		saveString.append("\r\n");
@@ -375,6 +378,8 @@ public class WorkspaceController {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
 		Document doc;
+		Document selDefBlock;
+		Document selDefBlockGenus;
 		try {
 			synchronized (frame.getTreeLock()) {
 				builder = factory.newDocumentBuilder();
@@ -399,8 +404,6 @@ public class WorkspaceController {
 				workspaceLoaded = true;
 
 				setFrameTitle(path);
-				
-				changeInheritanceList();
 
 				setDirty(false);
 			}
@@ -628,11 +631,10 @@ public class WorkspaceController {
 	public void createAndShowGUI(final WorkspaceController wc,
 			final SBlockEditorListener ronproEditor, final String enc) {
 		this.ronproEditor = ronproEditor;
-		this.encoding = enc;
 
 		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
 			public void workspaceEventOccurred(WorkspaceEvent event) {
-				//System.out.println(event);
+				// System.out.println(event);
 				setDirty(true);
 			}
 		});
@@ -646,15 +648,9 @@ public class WorkspaceController {
 		frame.setBounds(100, 100, 800, 500);
 
 		JPanel topPane = new JPanel();
-		
-		{// create save button
-			final JComboBox<String> inheritanceList = new JComboBox<String>();
-			inheritanceList.setEditable(true);
-			topPane.add(inheritanceList);
-		}
 
 		{// create save button
-			JButton saveButton = new JButton("Save as Java and Compile");
+			JButton saveButton = new JButton("Save as Java");
 			saveButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					wc.convertToJava(wc.getSaveString(), enc);
@@ -663,32 +659,32 @@ public class WorkspaceController {
 			topPane.add(saveButton);
 		}
 
-		//		{// create run button
-		//			JButton runButton = new JButton("Java出力して実行");
-		//			runButton.addActionListener(new ActionListener() {
-		//				@Override
-		//				public void actionPerformed(ActionEvent e) {
-		//					wc.convertToJavaAndRun(
-		//							wc.getSaveString(), enc);
-		//				}
-		//			});
-		//			topPane.add(runButton);
-		//		}
+		// {// create run button
+		// JButton runButton = new JButton("Java出力して実行");
+		// runButton.addActionListener(new ActionListener() {
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// wc.convertToJavaAndRun(
+		// wc.getSaveString(), enc);
+		// }
+		// });
+		// topPane.add(runButton);
+		// }
 
-//		{// create compile button
-//			JButton runButton = new JButton("Compile");
-//			runButton.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					if (dirty) {
-//						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-//								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
-//						return;
-//					}
-//					ronproEditor.blockCompile();
-//				}
-//			});
-//			topPane.add(runButton);
-//		}
+		{// create compile button
+			JButton runButton = new JButton("Compile");
+			runButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (dirty) {
+						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
+								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					ronproEditor.blockCompile();
+				}
+			});
+			topPane.add(runButton);
+		}
 
 		{// create run button
 			JButton runButton = new JButton("Run");
@@ -717,7 +713,26 @@ public class WorkspaceController {
 					ronproEditor.blockDebugRun();
 				}
 			});
-			//topPane.add(runButton);
+			// topPane.add(runButton);
+		}
+
+		{// create showing method trace line bottun
+			final JToggleButton showTraceLineButton = new JToggleButton(
+					"show trace line");
+			showTraceLineButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (showTraceLineButton.isSelected()) {
+						// ラインを表示する処理
+						showTraceLine();
+					} else {
+						// ラインを消す処理
+						drawingArrowManager.clearPossessers();
+						getWorkspace().repaint();
+					}
+					// wc.convertToJava(wc.getSaveString(), enc);
+				}
+			});
+			topPane.add(showTraceLineButton);
 		}
 
 		JMenuBar menuBar = new JMenuBar();
@@ -728,7 +743,7 @@ public class WorkspaceController {
 			menuBar.add(menu);
 
 			{
-				//JButton b = new JButton("SS");
+				// JButton b = new JButton("SS");
 				JMenuItem item = new JMenuItem("SS");
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -739,7 +754,7 @@ public class WorkspaceController {
 						taker.takeToFile();
 					}
 				});
-				//topPane.add(b);
+				// topPane.add(b);
 				menu.add(item);
 			}
 		}
@@ -756,109 +771,71 @@ public class WorkspaceController {
 		frame.addWindowListener(closeManagement);
 		frame.setVisible(true);
 	}
-	
-	@SuppressWarnings("unchecked")
-	public JComboBox<String> getInheritanceListBox(){
-		Container cont = frame.getContentPane();
-		JPanel cmp = (JPanel)cont.getComponent(0);
-		return (JComboBox<String>)cmp.getComponent(0);
+
+	/*
+	 * メソッド呼び出し関係を表示するラインを描画します
+	 */
+	public void showTraceLine() {
+		for (Block block : workspace.getBlocks()) {
+			// 呼び出しブロックにラインを表示する
+
+			RenderableBlock rb = RenderableBlock.getRenderableBlock(block
+					.getBlockID());
+			if (rb.getGenus().startsWith("caller")) {
+				//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
+				BlockStub stub = (BlockStub) (rb.getBlock());
+				RenderableBlock parentBlock = searchMethodDefinidionBlock(stub.getBlockLabel());
+				//呼び出しブロックの座標
+				Point p1 = new Point(rb.getLocation());
+				p1.x = (int) (rb.getLocation().getX() + rb.getWidth());
+				
+				//呼び出し関数の定義ファイル
+				Point p2 = parentBlock.getLocation();
+				ArrowObject arrow = new ArrowObject(p1, p2);
+				BlockCanvas canvas = workspace.getBlockCanvas();
+				JComponent component = canvas.getJComponent();
+				component.add(arrow);
+				arrow.paintComponent(component.getGraphics());
+
+				//呼び出しブロックと，メソッド定義ブロックの最後のブロックを直線で結ぶ
+				RenderableBlock lastBlock = getLastBlock(parentBlock.getBlock());
+				Point p3 = new Point(lastBlock.getLocation());
+				p3.y += lastBlock.getHeight()-7;
+				Point p4 = p1;
+				p4.y +=rb.getHeight() -7;
+				ArrowObject arrow2 = new ArrowObject(p3,p4);
+				component.add(arrow2);
+				arrow2.paintComponent(component.getGraphics());
+								
+				parentBlock.addStartArrow(arrow);
+				parentBlock.addEndArrow(arrow2);
+				
+				//managerにブロック登録
+				drawingArrowManager.addPossesser(rb);
+				drawingArrowManager.addPossesser(parentBlock);
+
+				
+			}
+		}
+	}
+
+	public RenderableBlock searchMethodDefinidionBlock(String name) {
+		for (Block block : workspace.getBlocks()) {
+			RenderableBlock rb = RenderableBlock.getRenderableBlock(block
+					.getBlockID());
+			if(rb.getGenus().equals("procedure") && rb.getBlock().getBlockLabel().equals(name)){
+				return RenderableBlock.getRenderableBlock(block.getBlockID());
+			}
+		}
+		return null;
 	}
 	
-	public void changeInheritanceList(){
-		final JComboBox<String> inheritanceList = getInheritanceListBox();
-		String[] projectJavaFiles = getProjectJavaFiles();		
-		//リスナーの削除
-		if(inheritanceList.getActionListeners() != null){
-			for(ActionListener listener : inheritanceList.getActionListeners()){
-				inheritanceList.removeActionListener(listener);
-			}
+	public RenderableBlock getLastBlock(Block block){
+		Block tmpBlock = block;
+		while(tmpBlock.getAfterBlockID() != -1){
+			tmpBlock = Block.getBlock(tmpBlock.getAfterBlockID());
 		}
-		
-		//コンボボックスの初期化
-		inheritanceList.removeAllItems();
-		
-		inheritanceList.addItem("★★★★親クラスを設定します★★★★");
-		inheritanceList.setSelectedIndex(0);
-		
-		for(String item : projectJavaFiles){
-			if(item == null){
-				break;
-			}
-			inheritanceList.addItem(item.substring(0,item.indexOf(".java")));	
-		}
-				
-		File file = new File(selectedJavaFile);
-		Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
-		String superClassName = openedPage.getSuperClassName();
-	
-		if(superClassName == null){
-			superClassName ="";
-		}
-		
-		//継承クラスの初期設定
-		for(int i = 0;i<inheritanceList.getItemCount();i++){
-			if(inheritanceList.getItemAt(i).equals(superClassName)){
-				inheritanceList.setSelectedIndex(i);
-			}
-		}
-		
-		inheritanceList.removeItem(file.getName().substring(0, file.getName().indexOf(".xml")));
-		
-		if(inheritanceList.getSelectedItem() == ""){
-			//該当する親クラスがなかったので、親クラスを登録して初期値に設定
-			inheritanceList.addItem(superClassName);
-			inheritanceList.setSelectedIndex(inheritanceList.getItemCount()-1);							
-		}		
-		//リスナ登録
-		inheritanceList.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//親クラスを書き換える
-				File file = new File(selectedJavaFile);
-				Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
-				
-				String superClassName;
-				if(inheritanceList.getSelectedItem() == null || inheritanceList.getSelectedIndex() == 0){
-					superClassName = "";
-				}else{
-					superClassName = inheritanceList.getSelectedItem().toString();
-				}
-				openedPage.setSuperClassName(superClassName);
-				
-				convertToJava(getSaveString(), encoding);
-				
-				//再読み込みする
-				Document doc;
-				Document langDefDoc;
-
-				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-				DocumentBuilder builder;
-				
-				try {
-					builder = factory.newDocumentBuilder();
-					doc = builder.parse(file);
-					
-					File langdefFile = new File(LANG_DEF_FILEPATH);
-					langDefDoc = builder.parse(langdefFile);
-					
-					Element langDefRoot = langDefDoc.getDocumentElement();
-					Element projectRoot = doc.getDocumentElement();
-					
-					workspace.getFactoryManager().reset();
-					workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
-					ronproEditor.chengeInheritance();
-				} catch (ParserConfigurationException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (SAXException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-
+		return RenderableBlock.getRenderableBlock(tmpBlock.getBlockID());
 	}
 
 	public void createAndShowGUIForTesting(final WorkspaceController wc,
@@ -1017,8 +994,8 @@ public class WorkspaceController {
 			}
 			i++;
 		}
-		r.grow(10, 10);//margin
-		r = r.intersection(comp.getBounds());//マイナスにはみ出さない
+		r.grow(10, 10);// margin
+		r = r.intersection(comp.getBounds());// マイナスにはみ出さない
 
 		CScreenShotTaker taker = new CScreenShotTaker(comp);
 		taker.setClipbounds(r);
@@ -1030,9 +1007,9 @@ public class WorkspaceController {
 			convertToJava0(saveString, enc);
 			setDirty(false);
 		} catch (Exception ex) {
-			//ex.printStackTrace();
-			//JOptionPane.showMessageDialog(null, ex.getMessage(), "エラーメッセージ",
-			//		JOptionPane.ERROR_MESSAGE);
+			// ex.printStackTrace();
+			// JOptionPane.showMessageDialog(null, ex.getMessage(), "エラーメッセージ",
+			// JOptionPane.ERROR_MESSAGE);
 			CErrorDialog.show(null, "エラーが発生しました．", ex);
 		}
 	}
@@ -1105,7 +1082,7 @@ public class WorkspaceController {
 				wc.setLangDefFilePath(langDefFilePath);
 
 				wc.loadFreshWorkspace();
-				//wc.createAndShowGUIForTesting(wc);
+				// wc.createAndShowGUIForTesting(wc);
 			}
 		});
 	}
@@ -1124,25 +1101,6 @@ public class WorkspaceController {
 			} else if (title.endsWith("*") && !dirty) {
 				frame.setTitle(title.substring(0, title.length() - 1));
 			}
-		}
-	}
-	
-	public String[] getProjectJavaFiles(){
-		if(selectedJavaFile != null){
-			String[] fileList = new File(selectedJavaFile).getParentFile().list();
-			String[] javaFileList = new String[fileList.length];
-			
-			int javaFileListIndex = 0;
-			//同一フォルダ内のjavaファイルリストを作成する
-			for(int i=0;i<javaFileList.length;i++){
-				if(fileList[i].endsWith(".java")){
-					javaFileList[javaFileListIndex++] = fileList[i];
-				}
-			}
-			
-			return javaFileList;			
-		}else{
-			return (new String[20]);
 		}
 	}
 

@@ -821,6 +821,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 				if (importingPage) {
 					Block.getBlock(rb.getBlockID()).setFocus(false);
 					rb.resetHighlight();
+					RenderableBlock.redrawArrows();
 					rb.clearBufferedImage();
 				}
 

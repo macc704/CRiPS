@@ -103,7 +103,7 @@ public class CommentArrow {
 	 * @author joshua
 	 *
 	 */
-	private class Arrow extends JComponent {
+	public class Arrow extends JComponent {
 		public int[] xpoints;
 		public int[] ypoints;
 		int minx, miny;
