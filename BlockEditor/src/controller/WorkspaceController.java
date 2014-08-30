@@ -1,6 +1,7 @@
 package controller;
 
 import java.awt.BorderLayout;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -46,6 +49,7 @@ import slcodeblocks.ParamRule;
 import slcodeblocks.PolyRule;
 import util.ChangeExtension;
 import workspace.BlockCanvas;
+import workspace.Page;
 import workspace.SearchBar;
 import workspace.SearchableContainer;
 import workspace.TrashCan;
@@ -60,6 +64,7 @@ import clib.common.filesystem.CFilename;
 import clib.view.dialogs.CErrorDialog;
 import clib.view.screenshot.CScreenShotTaker;
 import codeblocks.Block;
+import codeblocks.BlockConnector;
 import codeblocks.BlockConnectorShape;
 import codeblocks.BlockGenus;
 import codeblocks.BlockLinkChecker;
@@ -68,7 +73,6 @@ import codeblocks.CommandRule;
 import codeblocks.InfixRule;
 import codeblocks.SocketRule;
 import drawingobjects.ArrowObject;
-import drawingobjects.DrawingArrowManager;
 
 /**
  * 
@@ -113,14 +117,13 @@ public class WorkspaceController {
 	public static final int PROJECT_SELECTED = 2;
 	public static final int COMPILE_ERROR = 3;
 	private int state = PROJECT_SELECTED;
-
-	private DrawingArrowManager drawingArrowManager = new DrawingArrowManager();
 	
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
 	 * with the codeblocks.Workspace
 	 * 
 	 */
+	
 	public WorkspaceController(String imagePath) {
 		workspace = Workspace.getInstance();
 		this.imagePath = imagePath;// added by macchan
@@ -722,14 +725,14 @@ public class WorkspaceController {
 			showTraceLineButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
-						// ラインを表示する処理
+						// 関数呼び出しをトレースするラインを表示する
 						showTraceLine();
 					} else {
-						// ラインを消す処理
-						drawingArrowManager.clearPossessers();
-						getWorkspace().repaint();
+						// 関数呼び出しをトレースするラインを非表示にする
+						workspace.getBlockCanvas().getPageNamed(calcClassName()).getDrawingArrowManager().clearPossessers();
+						workspace.getPageNamed(calcClassName()).clearArrowLayer();
+						workspace.getPageNamed(calcClassName()).getJComponent().repaint();
 					}
-					// wc.convertToJava(wc.getSaveString(), enc);
 				}
 			});
 			topPane.add(showTraceLineButton);
@@ -782,52 +785,117 @@ public class WorkspaceController {
 			RenderableBlock rb = RenderableBlock.getRenderableBlock(block
 					.getBlockID());
 			if (rb.getGenus().startsWith("caller")) {
+				BlockCanvas canvas = workspace.getBlockCanvas();
+				JComponent component = rb.getParentWidget().getJComponent();
 				//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
-				BlockStub stub = (BlockStub) (rb.getBlock());
-				RenderableBlock parentBlock = searchMethodDefinidionBlock(stub.getBlockLabel());
+				BlockStub stub = (BlockStub) (rb.getBlock());				
+				RenderableBlock parentBlock = searchMethodDefinidionBlock(stub);
 				//呼び出しブロックの座標
 				Point p1 = new Point(rb.getLocation());
-				p1.x = (int) (rb.getLocation().getX() + rb.getWidth());
+				p1.x += rb.getWidth();
 				
 				//呼び出し関数の定義ファイル
 				Point p2 = parentBlock.getLocation();
-				ArrowObject arrow = new ArrowObject(p1, p2);
-				BlockCanvas canvas = workspace.getBlockCanvas();
-				JComponent component = canvas.getJComponent();
-				component.add(arrow);
-				arrow.paintComponent(component.getGraphics());
-
+				ArrowObject arrow = new ArrowObject(p1, p2, calcClassName());
+				arrow.drawArrow((Graphics2D)component.getGraphics());
+				Page parentPage = (Page)rb.getParentWidget();
+				parentPage.addArrow(arrow);
+								
 				//呼び出しブロックと，メソッド定義ブロックの最後のブロックを直線で結ぶ
 				RenderableBlock lastBlock = getLastBlock(parentBlock.getBlock());
 				Point p3 = new Point(lastBlock.getLocation());
 				p3.y += lastBlock.getHeight()-7;
-				Point p4 = p1;
+				Point p4 = new Point(p1);
 				p4.y +=rb.getHeight() -7;
-				ArrowObject arrow2 = new ArrowObject(p3,p4);
-				component.add(arrow2);
-				arrow2.paintComponent(component.getGraphics());
-								
+				ArrowObject arrow2 = new ArrowObject(p3,p4, calcClassName());
+				arrow2.drawArrow((Graphics2D)component.getGraphics());
+				parentPage.addArrow(arrow2);
+	
 				parentBlock.addStartArrow(arrow);
 				parentBlock.addEndArrow(arrow2);
 				
 				//managerにブロック登録
-				drawingArrowManager.addPossesser(rb);
-				drawingArrowManager.addPossesser(parentBlock);
-
-				
+				String pageName = calcClassName();
+				canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(rb);
+				canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(parentBlock);
+	
 			}
 		}
 	}
+	
+	
+	public String calcClassName(){
+		String className = this.selectedJavaFile.substring(0,selectedJavaFile.indexOf(".xml"));
+		while(className.indexOf("\\") != -1){
+			className = className.substring(className.indexOf("\\") + 1, className.length());
+		}
+		return className;
+	}
 
-	public RenderableBlock searchMethodDefinidionBlock(String name) {
+
+	public RenderableBlock searchMethodDefinidionBlock(BlockStub stub) {
+		String name = stub.getBlockLabel();
+		List<String> params = calcParamTypes(stub);
+		
 		for (Block block : workspace.getBlocks()) {
 			RenderableBlock rb = RenderableBlock.getRenderableBlock(block
 					.getBlockID());
-			if(rb.getGenus().equals("procedure") && rb.getBlock().getBlockLabel().equals(name)){
+			if(rb.getGenus().equals("procedure") && rb.getBlock().getBlockLabel().equals(name) && checkParameterType(block, params)){
 				return RenderableBlock.getRenderableBlock(block.getBlockID());
 			}
 		}
 		return null;
+	}
+	
+	public boolean checkParameterType(Block block, List<String> params){
+		int connectorSize = -1;//ソケットは必ず一つカウントされる
+		int counterSize = 0;
+		
+		for(BlockConnector connector : block.getSockets()){
+			connectorSize++;
+		}
+		
+		//引数の数をチェック
+		if(connectorSize != params.size()){
+			return false;
+		}
+		
+		//引数無し同士
+		if(params.size() == 0 && connectorSize == 0){
+			return true;
+		}
+		
+		for(int i = 0; i < counterSize; i++){
+			if(checkIllegalParameter(block, params, connectorSize, i)){
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	public boolean checkIllegalParameter(Block block, List<String> params, int connectorSize ,int i){
+		//引数の数が合わない
+		if(connectorSize < i || params.size() < i){
+			return true;
+		}
+		//ソケットがどちらかnull
+		if(block.getSocketAt(i) == null || params.get(i) == null){
+			return true;
+		}
+		//型が不一致
+		if(!block.getSocketAt(i).getKind().equals(params.get(i))){
+			return true;
+		}
+		return false;
+	}
+	
+	public List<String> calcParamTypes(BlockStub stub){
+		List<String> params = new ArrayList<String>();
+		for(BlockConnector connector : stub.getSockets()){
+			params.add(connector.getKind());
+		}
+		return params;
 	}
 	
 	public RenderableBlock getLastBlock(Block block){

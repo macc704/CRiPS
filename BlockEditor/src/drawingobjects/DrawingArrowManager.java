@@ -20,5 +20,11 @@ public class DrawingArrowManager {
 		
 		arrowPossesser.clear();
 	}
+	
+	public void repaintArrows(){
+		for(RenderableBlock rb: arrowPossesser){
+			rb.redrawArrows();
+		}
+	}
 
 }

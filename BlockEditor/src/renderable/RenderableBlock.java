@@ -194,8 +194,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
 
-	private static ArrayList<ArrowObject> startArrows = new ArrayList<ArrowObject>();
-	private static ArrayList<ArrowObject> endArrows = new ArrayList<ArrowObject>();
+	private ArrayList<ArrowObject> startArrows = new ArrayList<ArrowObject>();
+	private ArrayList<ArrowObject> endArrows = new ArrayList<ArrowObject>();
 	
 	
 	public void addStartArrow(ArrowObject arrow) {
@@ -601,11 +601,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				if (SocketLabel.ignoreSocket(socket)) {
 					tag.setLabel(null); // ignored sockets have no labels
 				} else {
-					// TODO 参考にしろ（何の？）
-					// BlockGenus blockGenus =
-					// BlockGenus.getGenusWithName(Block.getBlock(blockID).getGenusName());
-					// String socketName = blockGenus.getSocketsLabel(i);
-					// System.out.println(BlockGenus.getGenusWithName(Block.getBlock(blockID).getGenusName()).getSocketsLabel(i));
 					SocketLabel label = new SocketLabel(socket,
 							socket.getLabel(), BlockLabel.Type.PORT_LABEL,
 							socket.isLabelEditable(), blockID);
@@ -734,7 +729,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	/**
-	 * TODO ここでラベルが追加されたときブロックの幅を変える Determine the width necessary to
 	 * accommodate for placed labels. Used to determine the minimum width of a
 	 * block.
 	 * 
@@ -1306,6 +1300,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		reformBlockShape();
 		// next time, redraw with new positions and moving children blocks
 		clearBufferedImage();
+		
 	}
 
 	/**
@@ -1418,7 +1413,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				g2.drawImage(buffImg, 0, 0, null);
 			}
 		}
-		redrawArrows();
 	}
 
 	/**
@@ -1766,7 +1760,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				// djwendel - this is a patch, but the root of the problem
 				// needs to be found and fixed!!
 				if (rb == null) {
-					// TODO 消しました。デフォルトの引数を二つ表示したいがために消しました。
 					// System.out.println("Block doesn't exist yet: "+socket.getBlockID());
 					continue;
 				}
@@ -1810,7 +1803,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				startDragging(getRenderableBlock(socket.getBlockID()), widget);
 			}
 		}
-		redrawArrows();
 	}
 
 	/**
@@ -1852,9 +1844,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.setLocation(renderable.comment.getLocation());
 			renderable.comment.getArrow().updateArrow();
 		}
-		//矢印再描画
-		redrawArrows();
-	
+		
 	}
 
 	private static void drag(RenderableBlock renderable, int dx, int dy,
@@ -1892,18 +1882,23 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 						false);
 			}
 		}
-		//矢印再描画
-		redrawArrows();
+
 	}
 
-	public static void redrawArrows(){
-		
+	public void redrawArrows(){
 		// 矢印の再描画
 		for (ArrowObject arrow : startArrows) {
-			arrow.repaint();
+			arrow.update(parent.getJComponent().getGraphics());
 		}
 		for (ArrowObject arrow : endArrows) {
-			arrow.repaint();
+			arrow.update(parent.getJComponent().getGraphics());
+		}
+	}
+	
+	public void redrawAllArrows(){
+		if(parent instanceof Page){
+			Page p = (Page)parent;
+			p.getDrawingArrowManager().repaintArrows();
 		}
 	}
 	
@@ -2169,6 +2164,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			popup.show(this, e.getX(), e.getY());
 		}
 		Workspace.getInstance().getMiniMap().repaint();
+	
 	}
 
 	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
@@ -2229,18 +2225,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 		}
 	}
-
-	// private void moveSocketBlocks(RenderableBlock rb) {
-	// for (BlockConnector socket : BlockLinkChecker.getSocketEquivalents(rb
-	// .getBlock())) {
-	// if (socket.hasBlock()) {
-	// RenderableBlock socketBlock = RenderableBlock
-	// .getRenderableBlock(socket.getBlockID());
-	// moveSocketBlocks(socketBlock);
-	// }
-	// }
-	// rb.setLocation(rb.getX(), rb.getY() + 50);
-	// }
 
 	// abstractionブロック内のブロックのスコープをチェックする
 	private boolean checkBlocks(ScopeChecker scpChecker, BlockLink link,
@@ -2360,11 +2344,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			Workspace.getInstance().getMiniMap().repaint();
 		}
 		
-		//座標の再設定
-		resetPoints();
 		Workspace.getInstance().repaint(0,0,getLocation().x + getWidth(),getLocation().y + getHeight());
-		//再描画
-		redrawArrows();
+		resetPoints();
 		
 	}
 
@@ -2413,7 +2394,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			blockLabel.showMenuIcon(false);
 			headerLabel.showMenuIcon(false);
 		}
-
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -2436,7 +2416,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mousePressed(e);
 			pickedUp = true; // mark this block as currently being picked up
-			redrawArrows();
 		}
 	}
 

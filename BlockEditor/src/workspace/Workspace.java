@@ -134,6 +134,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	public final static Integer WIDGET_LAYER = new Integer(3);
 	public final static Integer DRAGGED_BLOCK_HIGHLIGHT_LAYER = new Integer(4);
 	public final static Integer DRAGGED_BLOCK_LAYER = new Integer(5);
+	public final static Integer ARROW_LAYER = new Integer(6);
 
 	private Workspace() {
 		super();
@@ -1092,7 +1093,6 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 			if (rb != null) {
 				try {
 					rb.resetHighlight();
-					RenderableBlock.redrawArrows();
 				} catch (java.lang.NullPointerException e) {
 
 				}
