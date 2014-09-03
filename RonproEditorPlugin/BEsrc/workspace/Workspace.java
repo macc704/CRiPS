@@ -134,6 +134,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	public final static Integer WIDGET_LAYER = new Integer(3);
 	public final static Integer DRAGGED_BLOCK_HIGHLIGHT_LAYER = new Integer(4);
 	public final static Integer DRAGGED_BLOCK_LAYER = new Integer(5);
+	public final static Integer ARROW_LAYER = new Integer(6);
 
 	private Workspace() {
 		super();
@@ -1087,7 +1088,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	//#added by hakamata
 	private ArrayList<RenderableBlock> bufrb = new ArrayList<RenderableBlock>();
 
-	public void executionPoint(int lineNumber) {
+	public void executionPoint(int lineNumber) {	
 		for (RenderableBlock rb : bufrb) {
 			if (rb != null) {
 				try {

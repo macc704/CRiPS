@@ -230,8 +230,8 @@ public class BlockShape {
 
 			// if the socket has been assigned a dimension...
 			if (socketDimension != null) {
-				RenderableBlock socketRBlock = RenderableBlock.getRenderableBlock(socket.getBlockID());
-				Block socketBlock = Block.getBlock(socket.getBlockID());
+//				RenderableBlock socketRBlock = RenderableBlock.getRenderableBlock(socket.getBlockID());
+//				Block socketBlock = Block.getBlock(socket.getBlockID());
 				// if(!socketBlock.isAbstractionBlock() || !socketRBlock.isCollapsed()){
 				heightSum += socketDimension.height;
 				// }

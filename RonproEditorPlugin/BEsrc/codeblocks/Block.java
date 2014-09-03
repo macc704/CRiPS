@@ -114,7 +114,7 @@ public class Block implements ISupportMemento {
 	 */
 	protected Block(Long id, String genusName, String label, boolean linkToStubs) {
 		if (ALL_BLOCKS.containsKey(id)) {// hashMap にidがあるか？
-			Block dup = ALL_BLOCKS.get(id);// 既存のものを取り出す
+//			Block dup = ALL_BLOCKS.get(id);// 既存のものを取り出す
 			// System.out.println("pre-existing block is: " + dup +
 			// " with genus "+ dup.getGenusName() + " and label " +
 			// dup.getBlockLabel());
@@ -1942,7 +1942,7 @@ public class Block implements ISupportMemento {
 		Long id = null;
 		String genusName = null;
 		String label = null;
-		String headerLabel = null;
+//		String headerLabel = null;
 		int lineNumber = -1;
 		Long parentID = NULL;
 		String pagelabel = null;
@@ -2009,7 +2009,7 @@ public class Block implements ISupportMemento {
 				if (child.getNodeName().equals("Label")) {
 					label = child.getTextContent();
 				} else if (child.getNodeName().equals("HeaderLabel")) {
-					headerLabel = child.getTextContent();
+//					headerLabel = child.getTextContent();
 				} else if (child.getNodeName().equals("LineNumber")) {
 					lineNumber = Integer.parseInt(child.getTextContent());
 				} else if (child.getNodeName().equals("JavaType")) {

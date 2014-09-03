@@ -501,7 +501,6 @@ public class TypeBlockManager {
 		if (node == null)
 			return;
 		WorkspaceWidget widget = null;
-		Iterable<WorkspaceWidget> widgets = null;
 		Point spot = null;
 		if (invalidBlockID(focusManager.getFocusBlockID())) {
 			// canvas has focus

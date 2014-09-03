@@ -52,6 +52,8 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
 	 */
 	private CScrollPane scrollPane;
 
+	
+	
 	//////////////////////////////
 	//Constructor/Destructor	//
 	//////////////////////////////

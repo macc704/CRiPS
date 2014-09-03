@@ -32,6 +32,8 @@ import org.w3c.dom.NodeList;
 import renderable.RenderableBlock;
 import codeblocks.Block;
 import codeblockutil.CToolTip;
+import drawingobjects.ArrowObject;
+import drawingobjects.DrawingArrowManager;
 
 /**
  * A Page serves as both an abstract container of blocks and also a graphical
@@ -122,6 +124,15 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	private boolean hideMinimize = false;
 	/** super class of Java */
 	private String superClass = "";
+	
+	private DrawingArrowManager drawingArrowManager = new DrawingArrowManager();
+	
+	
+	public DrawingArrowManager getDrawingArrowManager(){
+		return this.drawingArrowManager;
+	}
+
+	
 
 	//////////////////////////////
 	//Constructor/ Destructor	//
@@ -242,6 +253,10 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		for (RenderableBlock block : this.getBlocks()) {
 			this.pageJComponent.remove(block);
 		}
+	}
+	
+	public void clearArrowLayer(){
+		this.pageJComponent.clearArrowLayer();
 	}
 
 	/**
@@ -627,6 +642,11 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		this.pageJComponent.repaint();
 	}
 
+	public void addArrow(Component p){
+		this.pageJComponent.addToArrowLayer(p);
+		this.pageJComponent.revalidate();
+	}
+	
 	/** @ovverride WorkspaceWidget.addBlock() */
 	public void addBlock(RenderableBlock block) {
 		//update parent widget if dropped block
@@ -1206,6 +1226,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
  */
 class PageJComponent extends JLayeredPane implements RBParent {
 	private static final long serialVersionUID = 83982193213L;
+	private static final Integer ARROW_LAYER = new Integer(2);
 	private static final Integer BLOCK_LAYER = new Integer(1);
 	private static final Integer HIGHLIGHT_LAYER = new Integer(0);
 	private static final int IMAGE_WIDTH = 60;
@@ -1224,6 +1245,25 @@ class PageJComponent extends JLayeredPane implements RBParent {
 		return image;
 	}
 
+	public void clearArrowLayer(){
+		Component[] allComponents = getComponents();
+		Object[] arrows = getAllArrow(); 		
+		for(Object arrow : arrows){
+			remove((Component)arrow);
+		}
+	}
+	
+	public Object[] getAllArrow(){
+		Component[] allComponents = getComponents();
+		List<Component> arrows = new ArrayList<Component>();
+		for(Component cmp : allComponents){
+			if(cmp instanceof ArrowObject){
+				arrows.add(cmp);
+			}
+		}
+		return arrows.toArray();
+	}
+	
 	/**
 	 * renders this JComponent
 	 */
@@ -1271,7 +1311,11 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	/** @override RBParent.addToBlockLayer() */
 	public void addToBlockLayer(Component c) {
 		this.add(c, BLOCK_LAYER);
-
+	}
+	
+	public void addToArrowLayer(Component c){
+		this.add(c);
+		this.setLayer(c, ARROW_LAYER);
 	}
 
 	/** @override RBParent.addToHighlightLayer() */
