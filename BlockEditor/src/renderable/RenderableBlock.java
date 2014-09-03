@@ -1817,9 +1817,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			WorkspaceWidget widget) {
 		if (!renderable.dragging)
 			throw new RuntimeException("dropping without prior dragging?");
-
 		// reset hilight 応急処置
 		renderable.highlighter.resetHighlight();
+		
 		// notify children
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(renderable.getBlock())) {
@@ -1847,12 +1847,24 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		
 	}
 
+	
+	private void resetPoints(int dx, int dy){
+		for(ArrowObject arrow : startArrows){
+			arrow.addEndPoint(dx,dy);
+		}
+		
+		for(ArrowObject arrow : endArrows){
+			arrow.addStartPoint(dx,dy);
+		}
+	}
+
 	private static void drag(RenderableBlock renderable, int dx, int dy,
 			WorkspaceWidget widget, boolean isTopLevelBlock) {
 		if (!renderable.pickedUp)
 			throw new RuntimeException("dragging without prior pickup");
 		// mark this as being dragged
 		renderable.dragging = true;
+		renderable.resetPoints(dx, dy);
 		// move the block by drag amount
 		if (!isTopLevelBlock) {
 			renderable.setLocation(renderable.getX() + dx, renderable.getY()
@@ -2164,7 +2176,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			popup.show(this, e.getX(), e.getY());
 		}
 		Workspace.getInstance().getMiniMap().repaint();
-	
 	}
 
 	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
@@ -2344,20 +2355,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			Workspace.getInstance().getMiniMap().repaint();
 		}
 		
-		Workspace.getInstance().repaint(0,0,getLocation().x + getWidth(),getLocation().y + getHeight());
-		resetPoints();
-		
+		Workspace.getInstance().repaint(0,0,Workspace.getInstance().getBlockCanvas().getWidth(),Workspace.getInstance().getBlockCanvas().getHeight());	
+
 	}
 
-	public void resetPoints(){
-		for(ArrowObject arrow : startArrows){
-			arrow.addEndPoint(dragHandler.dragDX,dragHandler.dragDY);
-		}
-		
-		for(ArrowObject arrow : endArrows){
-			arrow.addStartPoint(dragHandler.dragDX,dragHandler.dragDY);
-		}
-	}
+
 	
 	// show the pulldown icon if hasComboPopup = true
 	public void mouseEntered(MouseEvent e) {

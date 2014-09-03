@@ -32,6 +32,7 @@ import org.w3c.dom.NodeList;
 import renderable.RenderableBlock;
 import codeblocks.Block;
 import codeblockutil.CToolTip;
+import drawingobjects.ArrowObject;
 import drawingobjects.DrawingArrowManager;
 
 /**
@@ -1245,10 +1246,22 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	}
 
 	public void clearArrowLayer(){
-		Component[] arrows = getComponentsInLayer(ARROW_LAYER);
-		for(Component arrow : arrows){
-			remove(arrow);
+		Component[] allComponents = getComponents();
+		Object[] arrows = getAllArrow(); 		
+		for(Object arrow : arrows){
+			remove((Component)arrow);
 		}
+	}
+	
+	public Object[] getAllArrow(){
+		Component[] allComponents = getComponents();
+		List<Component> arrows = new ArrayList<Component>();
+		for(Component cmp : allComponents){
+			if(cmp instanceof ArrowObject){
+				arrows.add(cmp);
+			}
+		}
+		return arrows.toArray();
 	}
 	
 	/**

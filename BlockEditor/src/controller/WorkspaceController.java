@@ -781,44 +781,51 @@ public class WorkspaceController {
 	public void showTraceLine() {
 		for (Block block : workspace.getBlocks()) {
 			// 呼び出しブロックにラインを表示する
-
 			RenderableBlock rb = RenderableBlock.getRenderableBlock(block
 					.getBlockID());
+			
 			if (rb.getGenus().startsWith("caller")) {
 				BlockCanvas canvas = workspace.getBlockCanvas();
 				JComponent component = rb.getParentWidget().getJComponent();
 				//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
 				BlockStub stub = (BlockStub) (rb.getBlock());				
 				RenderableBlock parentBlock = searchMethodDefinidionBlock(stub);
-				//呼び出しブロックの座標
-				Point p1 = new Point(rb.getLocation());
-				p1.x += rb.getWidth();
-				
-				//呼び出し関数の定義ファイル
-				Point p2 = parentBlock.getLocation();
-				ArrowObject arrow = new ArrowObject(p1, p2, calcClassName());
-				arrow.drawArrow((Graphics2D)component.getGraphics());
-				Page parentPage = (Page)rb.getParentWidget();
-				parentPage.addArrow(arrow);
-								
-				//呼び出しブロックと，メソッド定義ブロックの最後のブロックを直線で結ぶ
-				RenderableBlock lastBlock = getLastBlock(parentBlock.getBlock());
-				Point p3 = new Point(lastBlock.getLocation());
-				p3.y += lastBlock.getHeight()-7;
-				Point p4 = new Point(p1);
-				p4.y +=rb.getHeight() -7;
-				ArrowObject arrow2 = new ArrowObject(p3,p4, calcClassName());
-				arrow2.drawArrow((Graphics2D)component.getGraphics());
-				parentPage.addArrow(arrow2);
-	
-				parentBlock.addStartArrow(arrow);
-				parentBlock.addEndArrow(arrow2);
-				
-				//managerにブロック登録
-				String pageName = calcClassName();
-				canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(rb);
-				canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(parentBlock);
-	
+				if(parentBlock != null){
+					//呼び出しブロックの座標
+					Point p1 = new Point(rb.getLocation());
+					p1.x += rb.getWidth();
+					
+					//呼び出し関数の定義ファイル
+					Point p2 = parentBlock.getLocation();
+					ArrowObject arrow = new ArrowObject(p1, p2, calcClassName());
+					arrow.drawArrow((Graphics2D)component.getGraphics());
+					Page parentPage = (Page)rb.getParentWidget();
+					parentPage.addArrow(arrow);
+									
+					//呼び出しブロックと，メソッド定義ブロックの最後のブロックを直線で結ぶ
+					RenderableBlock lastBlock = getLastBlock(parentBlock.getBlock());
+					Point p3 = new Point(lastBlock.getLocation());
+					p3.y += lastBlock.getHeight()-7;
+					Point p4 = new Point(p1);
+					p4.y +=rb.getHeight() -7;
+					ArrowObject arrow2 = new ArrowObject(p3,p4, calcClassName());
+					arrow2.drawArrow((Graphics2D)component.getGraphics());
+					parentPage.addArrow(arrow2);
+					//定義ブロックへの矢印の追加
+					parentBlock.addStartArrow(arrow);
+					parentBlock.addEndArrow(arrow2);
+					
+					//callerブロックへの矢印の追加
+					rb.addEndArrow(arrow);
+					rb.addStartArrow(arrow2);
+					
+					//managerにブロック登録
+					String pageName = calcClassName();
+					canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(rb);
+					canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(parentBlock);					
+				}else{
+					return ;
+				}
 			}
 		}
 	}

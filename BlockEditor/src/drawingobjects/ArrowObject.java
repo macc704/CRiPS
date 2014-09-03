@@ -45,6 +45,7 @@ public class ArrowObject extends JComponent {
 	public void paint(Graphics g){
 		super.paint(g);
 		//boundsの再設定
+		setBounds(0, 0, Workspace.getInstance().getBlockCanvas().getWidth(), Workspace.getInstance().getBlockCanvas().getHeight());
 		drawArrow((Graphics2D)g);
 	}
 	
@@ -54,7 +55,6 @@ public class ArrowObject extends JComponent {
     }
 
 	public void drawArrow(Graphics2D graphic) {
-		
 		ArrowPointCalcUtil util=new ArrowPointCalcUtil(startPoint,endPoint);
 		BasicStroke stroke = new BasicStroke(3.0f);
 		graphic.setStroke(stroke);

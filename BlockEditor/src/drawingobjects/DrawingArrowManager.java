@@ -17,7 +17,6 @@ public class DrawingArrowManager {
 		for(RenderableBlock block : arrowPossesser){
 			block.clearArrows();
 		}
-		
 		arrowPossesser.clear();
 	}
 	
@@ -27,4 +26,5 @@ public class DrawingArrowManager {
 		}
 	}
 
+	
 }
