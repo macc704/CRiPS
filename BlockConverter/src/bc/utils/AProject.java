@@ -10,7 +10,6 @@ import org.eclipse.core.runtime.Path;
 /**
  * 建設中
  */
-@SuppressWarnings("restriction")
 @Deprecated
 public class AProject extends Project {
 

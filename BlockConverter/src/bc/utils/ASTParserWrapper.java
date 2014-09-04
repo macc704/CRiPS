@@ -33,7 +33,6 @@ public class ASTParserWrapper {
 
 			String source = FileReader.readFile(file, enc);
 
-			@SuppressWarnings("deprecation")
 			ASTParser astParser = ASTParser.newParser(AST.JLS3);
 			astParser.setKind(ASTParser.K_COMPILATION_UNIT);
 			astParser.setEnvironment(classpaths, new String[] {},

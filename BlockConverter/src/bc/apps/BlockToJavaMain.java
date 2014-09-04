@@ -47,8 +47,7 @@ public class BlockToJavaMain {
 		writer.print(root, sourceModel);
 
 		sourceModel.save();
-		//言語定義ファイルを再度書き換える
-		rewriter.rewrite();
-		
+		//新たに追加されたメソッドなどを反映させるために，再度言語定義ファイルを書き換える
+		rewriter.rewrite();		
 	}
 }

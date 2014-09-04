@@ -4,9 +4,11 @@ import java.io.PrintStream;
 import java.util.HashSet;
 
 public class ConvertBlockModel extends BasicModel {
+	
+	private String javaType;
 
 	public ConvertBlockModel(String name, String kind, String initialLabel,
-			String headerLabel, String footerLabel, String color) {
+			String headerLabel, String footerLabel, String color, String javaType) {
 		super(name, kind, initialLabel, headerLabel, footerLabel, color);
 
 		// connectorの登録
@@ -29,17 +31,11 @@ public class ConvertBlockModel extends BasicModel {
 
 		printBlockConnectors(out, lineNumber);
 
+		makeIndent(out, lineNumber);
+		out.println("<JavaType>" + javaType + "</JavaType>");
+		
 		out.println("</BlockGenus>");
 
-		// <BlockGenus name="toStringFromDouble" kind="function"
-		// initlabel="文字列型に変換する" color="45 201 255">
-		// <BlockConnectors>
-		// <BlockConnector connector-kind="plug"
-		// connector-type="string"></BlockConnector>
-		// <BlockConnector connector-kind="socket"
-		// connector-type="double-number"></BlockConnector>
-		// </BlockConnectors>
-		// </BlockGenus>
 	}
 
 }

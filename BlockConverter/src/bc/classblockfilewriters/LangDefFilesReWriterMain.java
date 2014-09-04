@@ -22,7 +22,7 @@ public class LangDefFilesReWriterMain {
 	private BufferedReader br;
 	private Map<String, String> addedMethods = new HashMap<String, String>();
 	private Map<String, String> addedMethodsJavaType = new HashMap<String, String>();
-	private List<String> addedClasses = new LinkedList<String>();
+	private List<String> addedClasses = new LinkedList<String>();//追加済みクラス
 
 	public LangDefFilesReWriterMain(File file, String enc, String[] classpaths) {
 		this.file = file;
@@ -31,62 +31,21 @@ public class LangDefFilesReWriterMain {
 	}
 
 	public void rewrite() throws Exception {
-		// ohata ブジェクトブロックの書き出し
-		// オブジェクト変数ブロックのxmlファイルを作成する
+		// オブジェクト変数ブロックの定義されたxmlファイルを作成する
 		File classDefFile = new File(file.getParentFile().getPath()
 				+ "/lang_def_genuses_project.xml");
-		// menu情報のxmlを作成、（or追加)
-
+		// メニューの定義されたxmlを作成、（or追加)
 		File projectMenuFile = new File(file.getParentFile().getPath()
 				+ "/lang_def_menu_project.xml");
-
-		// 同じディレクトリ内のすべてのjavaファイルをパースし、モデルに追加する
+		//言語定義ファイルを書き換えるインスタンスを作成
 		LangDefFilesRewriter selfDefModel = new LangDefFilesRewriter(
 				classDefFile, this.file.getName());
 		
-		for (String name : file.getParentFile().list()) {
-			if (name.endsWith(".java")) {
-				// javaファイル解析
-				File javaFile = new File(file.getParentFile().getPath() + "/"
-						+ name);
-				name = name.substring(0, name.indexOf(".java"));
+		// 同じディレクトリ内のすべてのjavaファイルをパースし、モデルに追加する	
+		parseDirectry(selfDefModel);
 
-				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(
-						name, javaFile, name);
-				
-				String superClassName = getSuperClassName(javaFile);
-				// ローカル変数ブロックのモデルを追加
-				selfDefModel.setLocalVariableBlockModel(name, methods, superClassName);// メソッドリストを引数に追加
-				// インスタンス変数ブロックのモデルを追加
-				selfDefModel.setInstanceVariableBlockMode(name, methods, superClassName);
-				addedClasses.add(name);
-				
-				
-				//1ファイルの多クラスのものを追加
-//				for (String className : classes) {
-//					if (!className.equals(name)) {
-//						// ローカル変数ブロックのモデルを追加
-//						selfDefModel.setLocalVariableBlockModel(className,
-//								methods, superClassName);// メソッドリストを引数に追加
-//						// インスタンス変数ブロックのモデルを追加
-//						selfDefModel.setInstanceVariableBlockMode(className,
-//								methods, superClassName);
-//						addedClasses.add(className);
-//					}
-//				}
-				
-				// 型変換ブロックモデルの追加
-				selfDefModel.setConvertBlockModel(name);
-				// 引数ブロックモデルの追加
-				selfDefModel.setParameterBlockModel(name, methods);
-				//配列ブロックモデルの追加
-				selfDefModel.setArrayParameterBlockModel(name, methods);
-				
-			}
-		}
-		
-		// 継承関係にあるブロック達をファミリーに出力
-		printLangDefFamilies();
+//		// 継承関係にあるブロック達をファミリーに出力
+//		printLangDefFamilies();
 
 		// langDefファイルを作成する
 		Copier langDefXml = new LangDefFileCopier();
@@ -115,75 +74,80 @@ public class LangDefFilesReWriterMain {
 			}
 		}
 		// メニューの出力
-		File cuiMenu = new File(System.getProperty("user.dir"),"ext/block/lang_def_menu_cui.xml");
-		selfDefModel.printMenu(projectMenuFile, cuiMenu);
+		printMenu(selfDefModel, projectMenuFile);
 
 		// プロジェクトのオブジェクトブロック情報を出力する
 		selfDefModel.printGenus();
+		//追加済みのメソッド，返り値の型を追加する
 		this.addedMethods = selfDefModel.getAddedMethods();
 		this.addedMethodsJavaType = selfDefModel.getAddedMethodsJavaType();
+	}
+	
+	private void parseDirectry(LangDefFilesRewriter selfDefModel) throws IOException{
+		for (String name : file.getParentFile().list()) {
+			if (name.endsWith(".java")) {
+				// javaファイル生成
+				File javaFile = new File(file.getParentFile().getPath() + "/"
+						+ name);
+				name = name.substring(0, name.indexOf(".java"));
+				//javaファイルを解析
+				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(
+						name, javaFile, name);
+				//親クラス名を取得し，各モデルに追加する
+				String superClassName = getSuperClassName(javaFile);
+				// ローカル変数ブロックのモデルを追加
+				selfDefModel.setLocalVariableBlockModel(name, methods, superClassName);// メソッドリストを引数に追加
+				// インスタンス変数ブロックのモデルを追加
+				selfDefModel.setInstanceVariableBlockMode(name, methods, superClassName);
+				
+				// 型変換ブロックモデルの追加
+				selfDefModel.setConvertBlockModel(name);
+				// 引数ブロックモデルの追加
+				selfDefModel.setParameterBlockModel(name, methods);
+				//配列ブロックモデルの追加
+				selfDefModel.setArrayParameterBlockModel(name, methods);
+				
+				//キャッシュに登録済みクラスを追加する
+				addedClasses.add(name);
+			}
+		}
+	}
+	
+	private void printMenu(LangDefFilesRewriter selfDefModel, File projectMenuFile){
+		File cuiMenu = new File(System.getProperty("user.dir"),"ext/block/lang_def_menu_cui.xml");
+		selfDefModel.printMenu(projectMenuFile, cuiMenu);
 	}
 
 	public List<String> getAddedClasses() {
 		return this.addedClasses;
 	}
 
-	private void printLangDefFamilies() {
-		// // 登録しておいたfamilyListを整理する
-		// List<String> deleteList = new LinkedList<String>();
-		// // すべてのクラスの引数ブロックを、object型引数ブロックのファミリーとして出力する
-		//
-		// for (String key : familyList.keySet()) {
-		// if (existAsOtherFamilyMember(key)
-		// || familyList.get(key).getFamilyMember().size() == 1) {
-		// deleteList.add(key);
-		// }
-		// }
-		//
-		// for (String key : deleteList) {
-		// familyList.remove(key);
-		// }
-		//
-		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
-		// langDefFamilies.setProjectFamilies(familyList);
-		langDefFamilies.print(file);
-		// // 残ったファミリーを追加したlang_def_familiesを現在のディレクトリに出力する
-		// }
-		//
-		// private boolean existAsOtherFamilyMember(String name) {
-		// for (String key : familyList.keySet()) {
-		// if (!key.equals(name)
-		// && familyList.get(key).getFamilyMember().contains(name)) {
-		// return true;
-		// }
-		// }
-		//
-		// return false;
-	}
+//	private void printLangDefFamilies() {
+//		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
+//
+//		langDefFamilies.print(file);
+//	}
 
 	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name,
 			File file, String childName) throws IOException {
-		// javaファイル解析
+		// javaファイル解析して、クラス名とメソッドのセットを取得する
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
 		MethodAnalyzer visitor = new MethodAnalyzer();
-
-		// addFamily
-
-		// 継承チェック
-		Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
 		unit.accept(visitor);
-
+		
+		Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
 		String superClassName = visitor.getSuperClassName();
-
+		
+		//親クラスのクラス名と，メソッド情報を取得し，先に登録する
 		if (superClassName != null
 				&& existCurrentDirectry(superClassName + ".java")) {
 			methods = analyzeJavaFile(superClassName,
 					new File(file.getParentFile().getPath() + "/"
 							+ superClassName + ".java"), childName);
 		}
-
-
+		//最後に，自クラス名とメソッド情報を登録して返す
 		methods.put(name, visitor.getMethods());
+		
 		return methods;
 	}
 	

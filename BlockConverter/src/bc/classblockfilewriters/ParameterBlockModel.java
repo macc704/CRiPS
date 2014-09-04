@@ -70,6 +70,9 @@ public class ParameterBlockModel extends BasicModel {
 			}
 		}
 
+		makeIndent(out, lineNumber);
+		out.println("<JavaType>" + javaType + "</JavaType>");
+		
 		out.println("</BlockGenus>");
 	}
 

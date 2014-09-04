@@ -65,11 +65,6 @@ public class JavaToBlockMain {
 		CompilationUnitModel root = visitor.getCompilationUnit();
 		root.print(out, 0);
 
-		// JarFile obpro = getObpro(file);
-		//
-		// if (obpro != null) {
-		// System.out.println(obpro.get);
-		// }
 		out.close();
 	}
 

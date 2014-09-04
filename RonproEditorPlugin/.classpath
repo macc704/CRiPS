@@ -7,7 +7,11 @@
 	<classpathentry kind="src" path="PPsrc"/>
 	<classpathentry kind="src" path="CCsrc"/>
 	<classpathentry kind="src" path="BEsrc"/>
-	<classpathentry kind="src" path="BCsrc"/>
+	<classpathentry kind="src" path="BCsrc">
+		<attributes>
+			<attribute name="ignore_optional_problems" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="CHsrc"/>
 	<classpathentry kind="src" path="REsrc"/>
 	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.0-rc1.jar"/>

@@ -30,8 +30,6 @@ public class LangDefFamiliesCopier implements Copier {
 			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "SJIS");
 			br = new BufferedReader(ldfISR);
 
-			// File ldf = new File("/ext/block/lang_def.dtd");
-
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 			PrintStream printStream = new PrintStream(byteArray);
 			// すべての行をコピーする
