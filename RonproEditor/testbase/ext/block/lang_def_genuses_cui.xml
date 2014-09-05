@@ -106,7 +106,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="hasNextDouble" kind="data" initlabel="入力がdouble型か調べる"
+<BlockGenus name="hasNextDouble" kind="function" initlabel="入力がdouble型か調べる"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean">
@@ -115,7 +115,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="hasNextInt" kind="data" initlabel="入力がint型か調べる"
+<BlockGenus name="hasNextInt" kind="function" initlabel="入力がint型か調べる"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean">
@@ -132,28 +132,28 @@
 </BlockGenus>
 
 
-<BlockGenus name="input-getInt" kind="data" initlabel="キーボードから整数を入力し、その値"
+<BlockGenus name="input-getInt" kind="function" initlabel="キーボードから整数を入力し、その値"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"/>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="input-getString" kind="data" initlabel="キーボードから文字列を入力し、その値"
+<BlockGenus name="input-getString" kind="function" initlabel="キーボードから文字列を入力し、その値"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"/>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="input-getDouble" kind="data" initlabel="キーボードから実数を入力し、その値"
+<BlockGenus name="input-getDouble" kind="function" initlabel="キーボードから実数を入力し、その値"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number"/>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="input-isInteger" kind="data" initlabel="整数かどうか調べる"
+<BlockGenus name="input-isInteger" kind="function" initlabel="整数かどうか調べる"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"/>
@@ -161,7 +161,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="input-isDouble" kind="data" initlabel="実数かどうか調べる"
+<BlockGenus name="input-isDouble" kind="function" initlabel="実数かどうか調べる"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"/>

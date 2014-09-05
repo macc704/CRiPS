@@ -229,7 +229,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			createStub(method);
 		}
 
-		// #ohata replaced
+		addFieldsAndMethods(model, node);
+
+		return true;
+	}
+
+	private void addFieldsAndMethods(ClassModel model, TypeDeclaration node) {
+		// #ohata added
 		int x = 50;
 		int y = 50;
 		for (FieldDeclaration fieldValue : node.getFields()) {
@@ -247,27 +253,23 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			}
 
 			if (method.isConstructor()) {
-				if (addConstructorModel(model, method, x, y)) {
-					if (model.getConstructors()
-							.get(model.getConstructors().size() - 1).getPosX() == x) {
-						x += 200;
-					}
+				if (addConstructorModel(model, method, x, y)
+						&& model.getConstructors()
+								.get(model.getMethods().size() - 1).getPosX() == x) {
+					x += 200;
 				}
 			} else {
-				if (addMethodModel(model, method, x, y)) {
-					if (model.getMethods().get(model.getMethods().size() - 1)
-							.getPosX() == x) {
-						x += 200;
-					}
+				if (addMethodModel(model, method, x, y)
+						&& model.getMethods()
+								.get(model.getMethods().size() - 1).getPosX() == x) {
+					x += 200;
 				}
 			}
 		}
-		return true;
 	}
 
 	private boolean addPrivateVariableDeclarationModel(ClassModel model,
 			FieldDeclaration fieldValue, int x, int y) {
-
 		StPrivateVariableDeclarationModel privateVariableModel = analyzePrivateValue(fieldValue);
 
 		int index = commentGetter.getLineCommentPosition(fieldValue
@@ -301,18 +303,17 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 	}
 
-	private boolean checkIsProjectClasses(
-			StVariableDeclarationModel model) {
+	private boolean checkIsProjectClasses(StVariableDeclarationModel model) {
 		String className = model.getType().toString();
-		
-		if(className.indexOf("[]") != -1){
+
+		if (className.indexOf("[]") != -1) {
 			className = className.substring(0, className.indexOf("[]"));
 		}
 
 		if (projectClasses.contains(className)) {
 			return true;
-		}else{
-			return false;	
+		} else {
+			return false;
 		}
 
 	}
@@ -458,7 +459,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					.setCollapsed(getOpenCloseInfoFromLineComment(lineComment));
 			model.addMethod(methodModel);
 			return true;
-			// open/close
 		}
 		return false;
 	}
@@ -1385,7 +1385,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setArray(array);
 
 		model.setJavaVariableType(type);
-		
+
 		model.setId(idCounter.getNextId());
 		// String name = fragment.getName().toString();
 		model.setName(name);
@@ -1394,9 +1394,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		if (checkIsProjectClasses(model)) {
 			model.setProjectObject(true);
 		}
-		
+
 		variableResolver.addLocalVariable(model);
-		
 
 		// int x = 3;のように，initializerがついている場合
 		if (initializer != null) {
@@ -2009,7 +2008,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setRightExpression(parseExpression(arg));
 			return model;
 		}
-
+		
+		//methodResolverに登録されているメソッドは，対応するブロックが存在するため解析する
 		if (methodResolver.isRegistered(node)) {
 			// System.out.println("methodinvoke: " + node.toString());
 			Expression receiver = node.getExpression();
@@ -2041,16 +2041,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 					return model;
 				}
-
 				return parseMethodCallExpression(node);
-
 			}
-
-			// if (methodResolver.getReturnType(node) == ExpressionModel.VOID) {
-			// return parseCallActionMethodExpression(node);
-			// } else {
-			// return parseCallGetterMethodExpression(node);
-			// }
 		}
 
 		// This method is not registered.
@@ -2111,12 +2103,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		return callerModel;
 	}
 
-	// private String getType(Expression exp) {
-	// System.out.println("resolveTypeBinding(): " + exp.resolveTypeBinding());
-	// // System.out.println(exp.resolveTypeBinding().getElementType());
-	// return exp.resolveTypeBinding().getElementType().getName();
-	// }
-
 	/**
 	 * 
 	 * @param node
@@ -2134,39 +2120,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 						caller, analyzingSourceName))) {
 			model = new ExCallUserMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
-			name = node.getName().toString() + "[";
-			for (Object param : node.arguments()) {
-				String paramType = ElementModel
-						.getConnectorType(parseExpression(((Expression) param))
-								.getType());
-				if (paramType.equals("double-number")) {
-					paramType = "number";
-				}
-				name += ("@" + paramType);
-			}
-			name += "]";
-
+			name = calcMethodName(node);
 			model.setJavaType(methodResolver.getMethodJavaReturnType(name));
 			name = node.getName().toString();
-		} else if (methodResolver.isRegisteredAsProjectMethod(node)
-		// || node.getName().toString().equals("drawFillArc")
-		// || node.getName().toString().equals("drawText")
-		// || node.getName().toString().equals("remove")
-		) {// メソッド名を全て変更する必要あり！　今は応急処置
+		} else if (methodResolver.isRegisteredAsProjectMethod(node)) {
 			model = new ExCallMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
-			name = node.getName().toString() + "[";
-			for (Object param : node.arguments()) {
-				String paramType = ElementModel
-						.getConnectorType(parseExpression(((Expression) param))
-								.getType());
-				if (paramType.equals("double-number")) {
-					paramType = "number";
-				}
-				name += ("@" + paramType);
-			}
-			name += "]";
-
+			name = calcMethodName(node);
 			model.setLabel(node.getName().toString());
 			model.setJavaLabel(node.getName().toString());
 			model.setJavaType(methodResolver.getMethodJavaReturnType(name));
@@ -2197,6 +2157,22 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		return model;
 	}
 
+	private String calcMethodName(MethodInvocation node){
+		String name = node.getName().toString() + "[";
+		for (Object param : node.arguments()) {
+			String paramType = ElementModel
+					.getConnectorType(parseExpression(((Expression) param))
+							.getType());
+			if (paramType.equals("double-number")) {
+				paramType = "number";
+			}
+			name += ("@" + paramType);
+		}
+		name += "]";
+
+		return name;
+	}
+	
 	private boolean isThisClassCaller(Expression caller,
 			String analyzingSourceName) {
 		return variableResolver.resolve(caller.toString()) != null

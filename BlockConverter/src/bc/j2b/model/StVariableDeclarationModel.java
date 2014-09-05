@@ -14,7 +14,9 @@ public class StVariableDeclarationModel extends StatementModel implements
 	private boolean isProjectObject = false;
 	private List<String> parameterizedType = new ArrayList<String>();
 	private String javaVariableType;
+	protected List<String> modifiers = new ArrayList<String>();
 
+	
 	private boolean isArray = false;
 
 	private ExpressionModel initializer;

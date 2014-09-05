@@ -1244,8 +1244,10 @@ public class BlockGenus {
 		NodeList genusNodes = root.getElementsByTagName("BlockGenus"); // look for genus
 		Node genusNode;
 		StringTokenizer col;
+
 		for (int i = 0; i < genusNodes.getLength(); i++) { // find them
 			genusNode = genusNodes.item(i);
+		
 			if (genusNode.getNodeName().equals("BlockGenus")) { // a genus entry
 				// /////////////////////////////////
 				// / LOAD BLOCK GENUS PROPERTIES ///
@@ -1394,8 +1396,8 @@ public class BlockGenus {
 						// //////////////////////////////////
 						loadGenusDescription(genusChild.getChildNodes(),
 								newGenus);
-					} else if (genusChild.getNodeName().equals(
-							"BlockConnectors")) {
+						} else if (genusChild.getNodeName().equals(
+								"BlockConnectors")) {
 						// //////////////////////////////////////
 						// / LOAD BLOCK CONNECTOR INFORMATION ///
 						// //////////////////////////////////////

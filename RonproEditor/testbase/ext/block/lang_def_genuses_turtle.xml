@@ -167,7 +167,7 @@
 		<text>コンソールから文字を入力します。</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector connector-kind="number" connector-type="number"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="input"></LangSpecProperty>
@@ -292,7 +292,8 @@
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
-<!--
+
+
 <BlockGenus name="size" kind="command" initlabel="大きさを変える"
 	color="255 0 0">
 	<description>
@@ -325,7 +326,9 @@
 		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
--->
+
+
+
 <BlockGenus name="getWidth" kind="function" initlabel="幅を調べ、その値"
 	color="255 0 0">
 	<description>
@@ -631,7 +634,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getText" kind="data" color="255 0 0"
+<BlockGenus name="getText" kind="function" color="255 0 0"
 	initlabel="テキストを取得する">
 	<description>
 		<text>コンソールから文字を入力します。</text>
@@ -644,7 +647,7 @@
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
-<BlockGenus name="key" kind="data" color="255 0 0" initlabel="押されているキーのキーコードを調べる">
+<BlockGenus name="key" kind="function" color="255 0 0" initlabel="押されているキーのキーコードを調べる">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
 			position-type="mirror"></BlockConnector>
@@ -668,7 +671,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="mouseX" kind="data" color="255 0 0"
+<BlockGenus name="mouseX" kind="function" color="255 0 0"
 	initlabel="マウスの現在地のX座標を取得する">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
@@ -680,7 +683,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="mouseY" kind="data" color="255 0 0"
+<BlockGenus name="mouseY" kind="function" color="255 0 0"
 	initlabel="マウスの現在地のY座標を取得する">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
@@ -789,7 +792,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<!--
+
 <BlockGenus name="contains" kind="function" initlabel="オブジェクトが指定した座標を含む位置にいるか調べる"
 	color="255 0 0">
 	<BlockConnectors>
@@ -809,7 +812,6 @@
 		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
--->
 <!-- SoundTurtle -->
 
 <BlockGenus name="file" kind="command" initlabel="ファイルを設定する"
@@ -833,7 +835,7 @@
 	color="30 30 200">
 </BlockGenus>
 
-<BlockGenus name="isPlaying" kind="data" initlabel="再生しているかどうか"
+<BlockGenus name="isPlaying" kind="function" initlabel="再生しているかどうか"
 	color="30 30 200">
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean"
@@ -842,7 +844,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="getVolume" kind="data" initlabel="音量の値"
+<BlockGenus name="getVolume" kind="function" initlabel="音量の値"
 	color="30 30 200">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug">
@@ -863,7 +865,7 @@
 	color="30 30 200">
 </BlockGenus>
 
-<BlockGenus name="get" kind="data" initlabel="要素" color="255 255 100">
+<BlockGenus name="get" kind="function" initlabel="要素" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug" connector-type="object"/>
 		<!-- <BlockConnector label="の" connector-kind="socket" connector-type="object" position-type="single"/>  -->
@@ -873,7 +875,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="getSize" kind="data" initlabel="要素数" color="255 255 100">
+<BlockGenus name="getSize" kind="function" initlabel="要素数" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug" connector-type="number"/>
 	</BlockConnectors>
@@ -909,7 +911,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="removeFirst" kind="data" initlabel="最初の要素を削除して取り出す" color="255 255 100">
+<BlockGenus name="removeFirst" kind="function" initlabel="最初の要素を削除して取り出す" color="255 255 100">
     <BlockConnectors>
 		<BlockConnector label="" connector-kind="plug" connector-type="object" position-type="single"/>
 	</BlockConnectors>
@@ -922,7 +924,7 @@
 <BlockGenus name="removeAll" kind="command" initlabel="全ての要素を削除する" color="255 255 100">
 </BlockGenus>
 
-<BlockGenus name="getCursor" kind="data" initlabel="カーソル位置" color="255 255 100">
+<BlockGenus name="getCursor" kind="function" initlabel="カーソル位置" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug" connector-type="number"/>
 	</BlockConnectors>
@@ -942,7 +944,7 @@
 <BlockGenus name="moveCursorToPrevious" kind="command" initlabel="カーソルを戻す" color="255 255 100">
 </BlockGenus>
 
-<BlockGenus name="getObjectAtCursor" kind="data" initlabel="カーソル位置の要素" color="255 255 100">
+<BlockGenus name="getObjectAtCursor" kind="function" initlabel="カーソル位置の要素" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug" connector-type="object"/>
 	</BlockConnectors>
@@ -974,7 +976,7 @@
 
 <!-- card turtle -->
 
-<BlockGenus name="getNumber" kind="data" initlabel="番号" color="255 255 100">
+<BlockGenus name="getNumber" kind="function" initlabel="番号" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug" connector-type="number"/>
 	</BlockConnectors>
@@ -989,7 +991,7 @@
  -->
  
  <!-- button turtle -->
-<BlockGenus name="isClicked" kind="data" initlabel="クリックされた" color="255 255 100">
+<BlockGenus name="isClicked" kind="function" initlabel="クリックされた" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug" connector-type="boolean"/>
 	</BlockConnectors>
@@ -1011,7 +1013,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isActive" kind="data" initlabel="活動中か" color="255 255 100">
+<BlockGenus name="isActive" kind="function" initlabel="活動中か" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug" connector-type="boolean"/>
 	</BlockConnectors>

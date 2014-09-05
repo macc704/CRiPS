@@ -19,155 +19,9 @@ public class MethodResolver {
 	private static Map<String, String> methodToReturnType = new HashMap<String, String>();
 
 	static {
-		methodToReturnType.put("input()", "int");
-		methodToReturnType.put("random(1)", "int");
-		methodToReturnType.put("getX()", "int");
-		methodToReturnType.put("getY()", "int");
-		methodToReturnType.put("getWidth()", "int");
-		methodToReturnType.put("getHeight()", "int");
-		methodToReturnType.put("x()", "double");
-		methodToReturnType.put("y()", "double");
-		methodToReturnType.put("width()", "double");
-		methodToReturnType.put("height()", "double");
-		methodToReturnType.put("isShow()", "boolean");
-		methodToReturnType.put("key()", "int");
-		methodToReturnType.put("keyDown(1)", "boolean");
-		methodToReturnType.put("mouseX()", "int");
-		methodToReturnType.put("mouseY()", "int");
-		methodToReturnType.put("mouseClicked()", "boolean");
-		methodToReturnType.put("leftMouseClicked()", "boolean");
-		methodToReturnType.put("rightMouseClicked()", "boolean");
-		methodToReturnType.put("doubleClick()", "boolean");
-		methodToReturnType.put("mouseDown()", "boolean");
-		methodToReturnType.put("leftMouseDown()", "boolean");
-		methodToReturnType.put("rightMouseDown()", "boolean");
-		methodToReturnType.put("intersects(1)", "boolean");
-		methodToReturnType.put("contains(2)", "boolean");
-		methodToReturnType.put("image()", "ImageTurtle");
-		methodToReturnType.put("getText()", "String");
-		methodToReturnType.put("isPlaying()", "boolean");
-		methodToReturnType.put("getVolume()", "int");
-
-		methodToReturnType.put("next()", "String");
-		methodToReturnType.put("nextInt()", "int");
-		methodToReturnType.put("nextDouble()", "double");
-		methodToReturnType.put("hasNextInt()", "boolean");
-		methodToReturnType.put("hasNextDouble()", "boolean");
-
-		methodToReturnType.put("fd(1)", "void");
-		methodToReturnType.put("bk(1)", "void");
-		methodToReturnType.put("rt(1)", "void");
-		methodToReturnType.put("lt(1)", "void");
-		methodToReturnType.put("up()", "void");
-		methodToReturnType.put("down()", "void");
-		methodToReturnType.put("color(1)", "void");
-		methodToReturnType.put("warp(2)", "void");
-		methodToReturnType.put("warpByTopLeft(2)", "void");
-		methodToReturnType.put("scale(1)", "void");
-		methodToReturnType.put("size(2)", "void");
-		methodToReturnType.put("large(1)", "void");
-		methodToReturnType.put("small(1)", "void");
-		methodToReturnType.put("narrow(1)", "void");
-		methodToReturnType.put("tall(1)", "void");
-		methodToReturnType.put("little(1)", "void");
-
-		methodToReturnType.put("show()", "void");
-		methodToReturnType.put("hide()", "void");
-		methodToReturnType.put("looks(1)", "void");
-
-		methodToReturnType.put("update()", "void");
-		methodToReturnType.put("sleep(1)", "void");
-		methodToReturnType.put("print(1)", "void");
-		methodToReturnType.put("text(1)", "void");
-		methodToReturnType.put("image(1)", "void");
-
-		methodToReturnType.put("file(1)", "void");
-		methodToReturnType.put("play()", "void");
-		methodToReturnType.put("play(1)", "void");
-		methodToReturnType.put("loop()", "void");
-		methodToReturnType.put("stop()", "void");
-		methodToReturnType.put("setVolume(1)", "void");
-		methodToReturnType.put("loadOnMemory()", "void");
-
-		// list
-		methodToReturnType.put("get(1)", "Object");
-		methodToReturnType.put("getSize()", "int");
-		methodToReturnType.put("add(1)", "void");
-		methodToReturnType.put("addFirst(1)", "void");
-		methodToReturnType.put("addLast(1)", "void");
-		methodToReturnType.put("addAll(1)", "void");
-		methodToReturnType.put("moveAllTo(1)", "void");
-		methodToReturnType.put("removeFirst()", "Object");
-		methodToReturnType.put("removeLast()", "void");
-		methodToReturnType.put("removeAll()", "void");
-		methodToReturnType.put("getCursor()", "int");
-		methodToReturnType.put("setCursor(1)", "void");
-		methodToReturnType.put("moveCursorToNext()", "void");
-		methodToReturnType.put("moveCursorToPrevious()", "void");
-		methodToReturnType.put("getObjectAtCursor()", "Object");
-		methodToReturnType.put("addToBeforeCursor(1)", "void");
-		methodToReturnType.put("addToAfterCursor(1)", "void");
-		methodToReturnType.put("removeAtCursor()", "void");
-		methodToReturnType.put("shuffle()", "void");
-		methodToReturnType.put("setBgColor(1)", "void");
-
-		// card
-		methodToReturnType.put("getNumber()", "int");
-
-		// button
-		methodToReturnType.put("isClicked()", "boolean");
-
-		// input
-		// methodToReturnType.put("getText()", "String");
-		// methodToReturnType.put("text(1)", "void");
-		methodToReturnType.put("setActive(1)", "void");
-		methodToReturnType.put("isActive()", "boolean");
-		methodToReturnType.put("clearText()", "void");
-		methodToReturnType.put("toJapaneseMode()", "void");
-		methodToReturnType.put("toEnglishMode()", "void");
-		methodToReturnType.put("fontsize(1)", "void");
-
-		// BCanvas
-		methodToReturnType.put("drawArc(7)", "void");
-		methodToReturnType.put("drawFillTriangle(7)", "void");
-		methodToReturnType.put("drawText(5)", "void");
-		methodToReturnType.put("drawText(4)", "void");
-		methodToReturnType.put("isClick()", "boolean");
-		methodToReturnType.put("isSingleClick()", "boolean");
-		methodToReturnType.put("isDoubleClick()", "boolean");
-		methodToReturnType.put("isDragging()", "boolean");
-		methodToReturnType.put("isRightMouseDown()", "boolean");
-		methodToReturnType.put("isLeftMouseDown()", "boolean");
-		methodToReturnType.put("getMouseX()", "int");
-		methodToReturnType.put("getMouseY()", "int");
-		methodToReturnType.put("isKeyPressing(1)", "boolean");
-		methodToReturnType.put("isKeyCode()", "boolean");
-		methodToReturnType.put("isKeyDown()", "boolean");
-		methodToReturnType.put("getKeyCode()", "int");
-		methodToReturnType.put("clear()", "void");
-		methodToReturnType.put("update()", "void");
-		methodToReturnType.put("getImageWidth(1)", "int");
-		methodToReturnType.put("getImageHeight(1)", "int");
-		methodToReturnType.put("drawLine(5)", "void");
-		methodToReturnType.put("getCanvasWidth()", "int");
-		methodToReturnType.put("getCanvasHeight()", "int");
-		methodToReturnType.put("drawImage(5)", "void");
-		methodToReturnType.put("drawImage(3)", "void");
-		methodToReturnType.put("drawFillArc(7)", "void");
-		methodToReturnType.put("setLocation(2)", "void");
-		methodToReturnType.put("setSize(2)", "void");
-		methodToReturnType.put("getCanvas()", "Object");
-		methodToReturnType.put("getVolume()", "int");
-		methodToReturnType.put("setVolume(1)", "void");
-		methodToReturnType.put("getDefaultVolume()", "int");
-		methodToReturnType.put("isMouseDown()", "boolean");
-
-		// List
-		methodToReturnType.put("size()", "int");
-		methodToReturnType.put("remove(1)", "void");
-			
-		//string
-		methodToReturnType.put("length()", "int");
+		MethodsCollector collector = new MethodsCollector();
+		collector.main();
+		methodToReturnType = collector.getCalcReturnType();
 	}
 
 	public boolean isRegistered(MethodInvocation method) {
@@ -234,7 +88,7 @@ public class MethodResolver {
 
 	private Map<String, String> userMethods = new HashMap<String, String>();
 	private Map<String, String> projectMethods = new HashMap<String, String>();
-	private Map<String, String> projectMethodsJavaTypes = new HashMap<String, String>();// 返り値付きメソッドの本当の返り値をここに保存する...
+	private Map<String, String> projectMethodsJavaTypes = new HashMap<String, String>();// 返り値付きメソッドの本当の返り値をここに保存する
 	private List<String> userConstructor = new ArrayList<String>();
 
 	public boolean isRegisteredAsUserMethod(MethodInvocation method) {

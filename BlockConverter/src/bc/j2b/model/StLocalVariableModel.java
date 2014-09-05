@@ -50,8 +50,6 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 			}
 
 			if (isArray()) {
-				//
-				
 				genusName += "-arrayobject";
 			}
 

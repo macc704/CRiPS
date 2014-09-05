@@ -421,11 +421,12 @@ public class BlockStub extends Block {
 			return;//macchan 2012/09/25
 		}
 
+		
+		
 		for (Long stub : stubs) {
 			BlockStub blockStub = ((BlockStub) Block.getBlock(stub));
 			if (blockStub.stubGenus.startsWith(CALLER_STUB)) {
 				blockStub.updateConnectors();
-				// System.out.println("updated connectors of: "+blockStub);
 				blockStub.notifyRenderable();
 			}
 		}

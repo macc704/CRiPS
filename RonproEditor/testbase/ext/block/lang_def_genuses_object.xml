@@ -836,7 +836,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="super" kind="command" initlabel="super"
+<BlockGenus name="super" kind="function" initlabel="super"
 	color="255 0 0">
 	<description>
 		<text>
@@ -1589,82 +1589,6 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-
-<BlockGenus name="clear" kind="command" initlabel="中身をすべて削除する"
-	color="255 255 100">
-</BlockGenus>
-
-<BlockGenus name="size" kind="data" initlabel="リストの大きさ" color="255 255 100">
-    <BlockConnectors>
-        <BlockConnector label="" connector-kind="plug" connector-type="number" />
-    </BlockConnectors>
-</BlockGenus>
-
-
-<BlockGenus name="add[@object]" kind="command" initlabel="追加する" color="255 255 100">
-    <BlockConnectors>
-        <BlockConnector label="何を？" connector-kind="socket" connector-type="object" />
-    </BlockConnectors>
-</BlockGenus>
-
-
-<BlockGenus name="isEmpty" kind="data" initlabel="空か調べる"
-	color="255 255 100">
-	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="boolean" />
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="contains" kind="data" initlabel="要素があるか調べる"
-	color="255 255 100">
-	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="boolean" />
-		<BlockConnector label="どの？" connector-kind="socket"
-			connector-type="object" />
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="remove" kind="command" initlabel="要素を削除する"
-	color="255 255 100">
-    <JavaLabel>remove</JavaLabel>
-	<BlockConnectors>
-		<BlockConnector label="どれを？" connector-kind="socket"
-			connector-type="poly" />
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="get[@number]" kind="data" initlabel="要素を取り出す"
-	color="255 255 100">
-    <JavaLabel>get</JavaLabel>
-	<BlockConnectors>
-        <BlockConnector label="" connector-kind="plug"
-        connector-type="object" />
-        <BlockConnector label="どこの？" connector-kind="socket"
-        connector-type="number" />
-	</BlockConnectors>
-</BlockGenus>
-
-<!--  
-<BlockGenus name="remove[@object]" kind="command" initlabel="要素を削除する"
-	color="255 255 100">
-    <JavaLabel>remove</JavaLabel>
-	<BlockConnectors>
-		<BlockConnector label="どれを？" connector-kind="socket"
-        connector-type="object" />
-	</BlockConnectors>
-</BlockGenus>
--->
-
-<BlockGenus name="length" kind="data" initlabel="文字数"
-	color="255 255 100">
-    <JavaLabel>length</JavaLabel>
-	<BlockConnectors>
-	    <BlockConnector label="" connector-kind="plug"
-        connector-type="number" />
-	</BlockConnectors>
-</BlockGenus>
 
 <BlockGenus name="local-var-extentobject" kind="local-variable"
 	initlabel="t" header-label="ListからObject型の要素を取り出し、" footer-label="と名付ける"
