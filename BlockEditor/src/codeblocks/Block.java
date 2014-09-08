@@ -2378,4 +2378,11 @@ public class Block implements ISupportMemento {
 	public Long getParentBlockID() {
 		return parentID;
 	}
+	
+	public Long getMethodDefinidionBlockID() {
+		if(this.getGenusName().equals("procedure")){
+			return this.blockID;
+		}
+		return parentID;
+	}
 }

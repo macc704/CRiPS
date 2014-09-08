@@ -58,8 +58,11 @@ public class CollapseLabel extends BlockControlLabel {
 	 */
 	protected void collapseBlock(long blockID) {
 		RenderableBlock rBlock;
+		
 		rBlock = RenderableBlock.getRenderableBlock(blockID);
 		rBlock.setVisible(!isActive());
+
+		
 		if (rBlock.hasComment()
 				&& rBlock.getComment().getCommentLabel().isActive()) {
 			rBlock.getComment().setVisible(!isActive());
@@ -70,6 +73,11 @@ public class CollapseLabel extends BlockControlLabel {
 			return;
 		}
 		collapseSockets(blockID);
+	}
+	
+	protected void updatePoint(long blockID){
+		RenderableBlock rBlock = RenderableBlock.getRenderableBlock(blockID);
+		rBlock.updateEndArrowPoints(blockID, isActive());
 	}
 
 	/**

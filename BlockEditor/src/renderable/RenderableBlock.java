@@ -196,17 +196,24 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	private ArrayList<ArrowObject> startArrows = new ArrayList<ArrowObject>();
 	private ArrayList<ArrowObject> endArrows = new ArrayList<ArrowObject>();
-	
-	
+
 	public void addStartArrow(ArrowObject arrow) {
 		startArrows.add(arrow);
 	}
-	
+
 	public void addEndArrow(ArrowObject arrow) {
 		endArrows.add(arrow);
 	}
-	
-	public void clearArrows(){
+
+	public ArrayList<ArrowObject> getStartArrows() {
+		return this.startArrows;
+	}
+
+	public ArrayList<ArrowObject> getEndArrows() {
+		return this.endArrows;
+	}
+
+	public void clearArrows() {
 		startArrows.clear();
 		endArrows.clear();
 	}
@@ -1300,7 +1307,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		reformBlockShape();
 		// next time, redraw with new positions and moving children blocks
 		clearBufferedImage();
-		
+
 	}
 
 	/**
@@ -1780,9 +1787,23 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 								+ socketLocation.getY()
 								- (float) otherScreenOffset.getY()
 								- plugLocation.getY()));
-
+				rb.getBlock().setParentBlockID(
+						getParentBlockID(rb.getBlockID()));
 				rb.moveConnectedBlocks();
 			}
+		}
+	}
+
+	public static long getParentBlockID(long blockID) {
+		Block block = Block.getBlock(blockID);
+		while (block.getBeforeBlockID() != -1) {
+			block = Block.getBlock(block.getBeforeBlockID());
+		}
+		//procedureなら
+		if (block.getGenusName().equals("procedure")) {
+			return block.getBlockID();
+		} else {
+			return -1;
 		}
 	}
 
@@ -1819,7 +1840,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			throw new RuntimeException("dropping without prior dragging?");
 		// reset hilight 応急処置
 		renderable.highlighter.resetHighlight();
-		
+
 		// notify children
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(renderable.getBlock())) {
@@ -1827,8 +1848,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				stopDragging(getRenderableBlock(socket.getBlockID()), widget);
 			}
 		}
+
+		//親ブロックの再設定
+		renderable.getBlock().setParentBlockID(
+				getParentBlockID(renderable.getBlockID()));
+
 		// drop this block on its widget (if w is null it'll throw an exception)
 		widget.blockDropped(renderable);
+
 		// stop rendering as transparent
 		renderable.dragging = false;
 		// move comment
@@ -1844,18 +1871,50 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.setLocation(renderable.comment.getLocation());
 			renderable.comment.getArrow().updateArrow();
 		}
-		
+
 	}
 
-	
-	private void resetPoints(int dx, int dy){
-		for(ArrowObject arrow : startArrows){
-			arrow.addEndPoint(dx,dy);
+	public void resetPoints(int dx, int dy) {
+		for (ArrowObject arrow : startArrows) {
+			arrow.addEndPoint(dx, dy);
 		}
-		
-		for(ArrowObject arrow : endArrows){
-			arrow.addStartPoint(dx,dy);
+
+		for (ArrowObject arrow : endArrows) {
+			arrow.addStartPoint(dx, dy);
 		}
+	}
+
+	public void updateEndArrowPoints(long parentBlockID, boolean isActive) {
+		RenderableBlock parent = RenderableBlock
+				.getRenderableBlock(parentBlockID);
+		if (parent != null) {
+			if (isActive) {
+				//親の座標
+				Point p = new Point(getLocation());
+				p.y += this.getBlockHeight() - 7;
+				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
+						parent.getBlockID()).getEndArrows()) {
+					arrow.setStartPoint(p);
+				}
+			} else {
+				RenderableBlock lastBlock = RenderableBlock.getLastBlock(Block
+						.getBlock(parentBlockID));
+				Point p = new Point(lastBlock.getLocation());
+				p.y += lastBlock.getHeight() - 7;
+				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
+						parent.getBlockID()).getEndArrows()) {
+					arrow.setStartPoint(p);
+				}
+			}
+		}
+	}
+
+	public static RenderableBlock getLastBlock(Block block) {
+		Block tmpBlock = block;
+		while (tmpBlock.getAfterBlockID() != -1) {
+			tmpBlock = Block.getBlock(tmpBlock.getAfterBlockID());
+		}
+		return RenderableBlock.getRenderableBlock(tmpBlock.getBlockID());
 	}
 
 	private static void drag(RenderableBlock renderable, int dx, int dy,
@@ -1897,7 +1956,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	}
 
-	public void redrawArrows(){
+	public void redrawArrows() {
 		// 矢印の再描画
 		for (ArrowObject arrow : startArrows) {
 			arrow.update(parent.getJComponent().getGraphics());
@@ -1906,14 +1965,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			arrow.update(parent.getJComponent().getGraphics());
 		}
 	}
-	
-	public void redrawAllArrows(){
-		if(parent instanceof Page){
-			Page p = (Page)parent;
+
+	public void redrawAllArrows() {
+		if (parent instanceof Page) {
+			Page p = (Page) parent;
 			p.getDrawingArrowManager().repaintArrows();
 		}
 	}
-	
+
 	// もってるブロックの書き込みブロック、値ブロック、増やすブロックを光らせる　とりあえず
 	public static void catchedBlockResetHighlight(
 			RenderableBlock catchedRBlock, WorkspaceWidget widget) {
@@ -1971,22 +2030,22 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 										.getBlockLabel() + "を増やす")) {
 					rb.highlighter.resetHighlight();
 				} /*
-				 * else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正
-				 * 根本的な原因：ラベルを持たないブロックが存在するため if (rb.getBlock() .getBlockLabel()
-				 * .equals("get" + renderable.getBlock().getBlockLabel()
-				 * .toUpperCase().charAt(0) +
-				 * renderable.getBlock().getBlockLabel() .substring(1))) {
-				 * rb.resetHighlight(); } else if (rb .getBlock()
-				 * .getBlockLabel() .equals("set" +
-				 * renderable.getBlock().getBlockLabel()
-				 * .toUpperCase().charAt(0) +
-				 * renderable.getBlock().getBlockLabel() .substring(1))) {
-				 * rb.resetHighlight(); } else if
-				 * (rb.getGenus().contains("callActionMethod") &&
-				 * rb.getBlock().getBlockLabel()
-				 * .equals(renderable.getBlock().getBlockLabel())) {
-				 * rb.resetHighlight(); } }
-				 */
+					* else if (rb.getGenus().equals("Procedure")) {//ohata とりあえず修正
+					* 根本的な原因：ラベルを持たないブロックが存在するため if (rb.getBlock() .getBlockLabel()
+					* .equals("get" + renderable.getBlock().getBlockLabel()
+					* .toUpperCase().charAt(0) +
+					* renderable.getBlock().getBlockLabel() .substring(1))) {
+					* rb.resetHighlight(); } else if (rb .getBlock()
+					* .getBlockLabel() .equals("set" +
+					* renderable.getBlock().getBlockLabel()
+					* .toUpperCase().charAt(0) +
+					* renderable.getBlock().getBlockLabel() .substring(1))) {
+					* rb.resetHighlight(); } else if
+					* (rb.getGenus().contains("callActionMethod") &&
+					* rb.getBlock().getBlockLabel()
+					* .equals(renderable.getBlock().getBlockLabel())) {
+					* rb.resetHighlight(); } }
+					*/
 			}
 
 		}
@@ -2075,7 +2134,12 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseReleased(MouseEvent e) {
-				
+		long oldParent = -1;
+		System.out.println(getBlock());
+		if(getBlock().getParentBlockID() != null){
+			oldParent = getBlock().getParentBlockID();
+		}
+		
 		if (SwingUtilities.isLeftMouseButton(e)) {
 
 			if (!pickedUp) {
@@ -2101,6 +2165,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 				if (link == null) {
 					widget = lastDragWidget;
+
 					stopDragging(this, widget);
 				}
 				// otherwise, if a link WAS found...
@@ -2133,7 +2198,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 				// #ohata addedゲッターとセッターのハイライトを消す
 				catchedBlockResetHighlight(this, widget);
-				
+
 				// set the locations for X and Y based on zoom at 1.0
 				this.unzoomedX = this.calculateUnzoomedX(this.getX());
 				this.unzoomedY = this.calculateUnzoomedY(this.getY());
@@ -2141,6 +2206,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				Workspace.getInstance().notifyListeners(
 						new WorkspaceEvent(widget, link,
 								WorkspaceEvent.BLOCK_MOVED, true));
+
+				//矢印再描画
+				updateEndArrowPoints(getBlock().getParentBlockID(), false);
+				
+				//親が書き換わった場合は，古い親も再描画
+				if(oldParent != -1){
+					updateEndArrowPoints(oldParent, false);
+				}
 
 				if (widget instanceof MiniMap) {
 					Workspace.getInstance().getMiniMap()
@@ -2164,14 +2237,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
 		if (checkScope(link)) {
 			link.connect();
-			// try {
+
 			Workspace.getInstance().notifyListeners(
 					new WorkspaceEvent(widget, link,
 							WorkspaceEvent.BLOCKS_CONNECTED));
-			// } catch (Exception ex) {
-			// System.err.println(ex.getMessage()); //応急処置 #matsuzawa
-			// }
-			// wc.saveString(wc.getSaveString());
 			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
 		} else {
 			// moveSocketBlocks(this);
@@ -2182,8 +2251,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 		}
 	}
-	
-	private boolean checkScope(BlockLink link){
+
+	private boolean checkScope(BlockLink link) {
 		ScopeChecker scpChecker = new ScopeChecker();
 		boolean scopeCheck = true;
 		// 結合するブロックのもつすべてのブロックのスコープをチェックしていく
@@ -2331,13 +2400,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 			Workspace.getInstance().getMiniMap().repaint();
 		}
-		
-		Workspace.getInstance().repaint(0,0,Workspace.getInstance().getBlockCanvas().getWidth(),Workspace.getInstance().getBlockCanvas().getHeight());	
+
+		Workspace.getInstance().repaint(0, 0,
+				Workspace.getInstance().getBlockCanvas().getWidth(),
+				Workspace.getInstance().getBlockCanvas().getHeight());
 
 	}
 
-
-	
 	// show the pulldown icon if hasComboPopup = true
 	public void mouseEntered(MouseEvent e) {
 		dragHandler.mouseEntered(e);
@@ -2379,6 +2448,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		System.out.println("parent:" + this.getBlock().getParentBlockID());
+		System.out.println("before:" + this.getBlock().getBeforeBlockID());
+		System.out.println("after:" + this.getBlock().getAfterBlockID());
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mouseClicked(e);
 			if (e.getClickCount() == 2 && !dragging) {

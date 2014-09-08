@@ -803,7 +803,7 @@ public class WorkspaceController {
 					parentPage.addArrow(arrow);
 									
 					//呼び出しブロックと，メソッド定義ブロックの最後のブロックを直線で結ぶ
-					RenderableBlock lastBlock = getLastBlock(parentBlock.getBlock());
+					RenderableBlock lastBlock = RenderableBlock.getLastBlock(parentBlock.getBlock());
 					Point p3 = new Point(lastBlock.getLocation());
 					p3.y += lastBlock.getHeight()-7;
 					Point p4 = new Point(p1);
@@ -905,13 +905,7 @@ public class WorkspaceController {
 		return params;
 	}
 	
-	public RenderableBlock getLastBlock(Block block){
-		Block tmpBlock = block;
-		while(tmpBlock.getAfterBlockID() != -1){
-			tmpBlock = Block.getBlock(tmpBlock.getAfterBlockID());
-		}
-		return RenderableBlock.getRenderableBlock(tmpBlock.getBlockID());
-	}
+
 
 	public void createAndShowGUIForTesting(final WorkspaceController wc,
 			final String enc) {

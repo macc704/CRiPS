@@ -173,7 +173,7 @@ public class BlockLink {
 		RenderableBlock socketRB = RenderableBlock
 				.getRenderableBlock(socketBlockID);
 		socketRB.blockConnected(socket, plugBlockID);
-
+		
 		if (clickSound != null) {
 			//System.out.println("playing click sound");
 			clickSound.play();
