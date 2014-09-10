@@ -319,12 +319,12 @@ public class OutputSourceModel {
 			start = getLastPrivateVariableEndPosition();
 			if (start == -1) {// private変数が無い
 				Pattern p = Pattern
-						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?"
-								+ System.getProperty("line.separator"));
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?");
 				String src = FileReader.readFile(file, enc);
+				
 				Matcher m = p.matcher(src);
 				if (m.find()) {
-					start = m.group().length();
+					start = m.group().length() + 1;
 				} else {
 					throw new RuntimeException("Class Declaration Not Found.");
 				}
