@@ -2135,7 +2135,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	public void mouseReleased(MouseEvent e) {
 		long oldParent = -1;
-		System.out.println(getBlock());
 		if(getBlock().getParentBlockID() != null){
 			oldParent = getBlock().getParentBlockID();
 		}
@@ -2448,9 +2447,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		System.out.println("parent:" + this.getBlock().getParentBlockID());
-		System.out.println("before:" + this.getBlock().getBeforeBlockID());
-		System.out.println("after:" + this.getBlock().getAfterBlockID());
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mouseClicked(e);
 			if (e.getClickCount() == 2 && !dragging) {
