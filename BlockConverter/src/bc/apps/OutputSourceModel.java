@@ -47,14 +47,14 @@ public class OutputSourceModel {
 	private Map<String, String> privateRequests = new LinkedHashMap<String, String>();// ohata
 																						// added
 	private String superClassName;
-	
+
 	public OutputSourceModel(File file, String enc, String[] classpaths) {
 		this.file = file;
 		this.enc = enc;
 		this.classpaths = classpaths;
 	}
-	
-	public void setSuperClassName(String superClassName){
+
+	public void setSuperClassName(String superClassName) {
 		this.superClassName = superClassName;
 	}
 
@@ -70,15 +70,16 @@ public class OutputSourceModel {
 		createNewMethods();// まず，ないメソッドは作る
 		replace();
 	}
-	
-	public void replaceSuperClass(String newSuperClassName) throws FileNotFoundException, UnsupportedEncodingException{
+
+	public void replaceSuperClass(String newSuperClassName)
+			throws FileNotFoundException, UnsupportedEncodingException {
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		SuperClassParser parser = new SuperClassParser(newSuperClassName);
 		unit.accept(parser);
 		PrintStream ps = new PrintStream(file, enc);
 		ps.print(unit.toString());
 		ps.close();
-		
+
 	}
 
 	// #ohata added
@@ -230,7 +231,7 @@ public class OutputSourceModel {
 			cursor = privateValues.get(privateValues.size() - 1)
 					.getStartPosition()
 					+ privateRequests.get(var.getName().toString()).length()
-					- 1;
+					- 2;
 		}
 		return cursor;
 	}
@@ -324,12 +325,11 @@ public class OutputSourceModel {
 				
 				Matcher m = p.matcher(src);
 				if (m.find()) {
-					start = m.group().length() + 1;
+					start = src.indexOf(m.group()) + m.group().length() + 1; 
 				} else {
 					throw new RuntimeException("Class Declaration Not Found.");
 				}
 			}
-
 		} else {
 			MethodDeclaration last = methods.get(0);
 
@@ -349,7 +349,7 @@ public class OutputSourceModel {
 				String src = FileReader.readFile(file, enc);
 				Matcher m = p.matcher(src);
 				if (m.find()) {
-					end = m.group().length();
+					end = m.group().length() + 1;
 				} else {
 					throw new RuntimeException("Class Declaration Not Found.");
 				}
@@ -449,13 +449,13 @@ public class OutputSourceModel {
 		return null;
 	}
 
-//	private String getFragmentsValue(String fragment) {
-//		int index = fragment.indexOf("=");
-//		if (index == -1) {
-//			return null;
-//		}
-//		return fragment.substring(index + 1, fragment.length());
-//	}
+	// private String getFragmentsValue(String fragment) {
+	// int index = fragment.indexOf("=");
+	// if (index == -1) {
+	// return null;
+	// }
+	// return fragment.substring(index + 1, fragment.length());
+	// }
 
 	private String getPrivateValueName(String fragment) {
 		int index = fragment.indexOf("=");
@@ -548,35 +548,35 @@ public class OutputSourceModel {
 
 }
 
-class SuperClassParser extends ASTVisitor{
+class SuperClassParser extends ASTVisitor {
 
 	private String className;
-	
-	public SuperClassParser(String newClassName){
+
+	public SuperClassParser(String newClassName) {
 		this.className = newClassName;
 	}
-	
-	public boolean visit(TypeDeclaration node){
-		setClassName(node, className);	
+
+	public boolean visit(TypeDeclaration node) {
+		setClassName(node, className);
 		return super.visit(node);
 	}
-	
-	private void setClassName(TypeDeclaration node, String name){
-		
-		if(name == null || name.equals("") || "null".equals(name)){
-			//親クラスなしに書換
-			if(node.getSuperclassType() != null){
-				node.getSuperclassType().delete();	
+
+	private void setClassName(TypeDeclaration node, String name) {
+
+		if (name == null || name.equals("") || "null".equals(name)) {
+			// 親クラスなしに書換
+			if (node.getSuperclassType() != null) {
+				node.getSuperclassType().delete();
 			}
-		}else{
-			//指定クラスを親に書換
+		} else {
+			// 指定クラスを親に書換
 			AST ast = node.getAST();
-			if(ast != null){
+			if (ast != null) {
 				Name newName = ast.newName(name);
 				Type superClassType = ast.newSimpleType(newName);
-				node.setSuperclassType(superClassType);	
-			}		
+				node.setSuperclassType(superClassType);
+			}
 		}
 	}
-	
+
 }
