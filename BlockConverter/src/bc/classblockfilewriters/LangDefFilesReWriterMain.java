@@ -45,7 +45,7 @@ public class LangDefFilesReWriterMain {
 		parseDirectry(selfDefModel);
 
 //		// 継承関係にあるブロック達をファミリーに出力
-//		printLangDefFamilies();
+		printLangDefFamilies();
 
 		// langDefファイルを作成する
 		Copier langDefXml = new LangDefFileCopier();
@@ -122,11 +122,11 @@ public class LangDefFilesReWriterMain {
 		return this.addedClasses;
 	}
 
-//	private void printLangDefFamilies() {
-//		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
-//
-//		langDefFamilies.print(file);
-//	}
+	private void printLangDefFamilies() {
+		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
+
+		langDefFamilies.print(file);
+	}
 
 	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name,
 			File file, String childName) throws IOException {
