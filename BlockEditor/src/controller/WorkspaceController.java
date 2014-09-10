@@ -719,24 +719,24 @@ public class WorkspaceController {
 			// topPane.add(runButton);
 		}
 
-		{// create showing method trace line bottun
-			final JToggleButton showTraceLineButton = new JToggleButton(
-					"show trace line");
-			showTraceLineButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (showTraceLineButton.isSelected()) {
-						// 関数呼び出しをトレースするラインを表示する
-						showTraceLine();
-					} else {
-						// 関数呼び出しをトレースするラインを非表示にする
-						workspace.getBlockCanvas().getPageNamed(calcClassName()).getDrawingArrowManager().clearPossessers();
-						workspace.getPageNamed(calcClassName()).clearArrowLayer();
-						workspace.getPageNamed(calcClassName()).getJComponent().repaint();
-					}
-				}
-			});
-			topPane.add(showTraceLineButton);
-		}
+//		{// create showing method trace line bottun
+//			final JToggleButton showTraceLineButton = new JToggleButton(
+//					"show trace line");
+//			showTraceLineButton.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					if (showTraceLineButton.isSelected()) {
+//						// 関数呼び出しをトレースするラインを表示する
+//						showTraceLine();
+//					} else {
+//						// 関数呼び出しをトレースするラインを非表示にする
+//						workspace.getBlockCanvas().getPageNamed(calcClassName()).getDrawingArrowManager().clearPossessers();
+//						workspace.getPageNamed(calcClassName()).clearArrowLayer();
+//						workspace.getPageNamed(calcClassName()).getJComponent().repaint();
+//					}
+//				}
+//			});
+//			topPane.add(showTraceLineButton);
+//		}
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
