@@ -3,7 +3,6 @@ package bc.j2b.analyzer;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,7 +54,7 @@ public class MethodsCollector {
 			Matcher nameMatcher;
 			NodeList genusNodes = root.getElementsByTagName("BlockGenus");
 			Node genusNode;
-			StringTokenizer col;
+//			StringTokenizer col;
 
 			for (int i = 0; i < genusNodes.getLength(); i++) { // find them
 				genusNode = genusNodes.item(i);
@@ -81,7 +80,7 @@ public class MethodsCollector {
 										.getAttributes().getNamedItem("name")
 										.toString());
 								if (nameMatcher.find()) {
-									String methodName = nameMatcher.group(1);
+//									String methodName = nameMatcher.group(1);
 									String returnType = getReturnType(genusNode);
 									int paramNum = getParameterNum(genusNode);
 									calcReturnType.put(convertMethodName(nameMatcher.group(1),paramNum), returnType);
@@ -173,7 +172,7 @@ public class MethodsCollector {
 	private int parseSocketInfo(NodeList connectors){
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
-		Node opt_item;
+//		Node opt_item;
 		Node connector;
 		int socketNum = 0;
 		for (int k = 0; k < connectors.getLength(); k++) {
@@ -198,7 +197,7 @@ public class MethodsCollector {
 	private String parsePlugInfo(NodeList connectors){
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
-		Node opt_item;
+//		Node opt_item;
 		Node connector;
 		for (int k = 0; k < connectors.getLength(); k++) {
 			connector = connectors.item(k);

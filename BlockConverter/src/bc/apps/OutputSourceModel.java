@@ -231,7 +231,7 @@ public class OutputSourceModel {
 			cursor = privateValues.get(privateValues.size() - 1)
 					.getStartPosition()
 					+ privateRequests.get(var.getName().toString()).length()
-					- 2;
+					- 1;
 		}
 		return cursor;
 	}
@@ -320,9 +320,9 @@ public class OutputSourceModel {
 			start = getLastPrivateVariableEndPosition();
 			if (start == -1) {// private変数が無い
 				Pattern p = Pattern
-						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?");
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?[" + System.getProperty("line.separator") + "]?");
 				String src = FileReader.readFile(file, enc);
-				
+
 				Matcher m = p.matcher(src);
 				if (m.find()) {
 					start = src.indexOf(m.group()) + m.group().length() + 1; 
@@ -345,11 +345,11 @@ public class OutputSourceModel {
 			end = getLastPrivateVariableEndPosition();
 			if (end == -1) {
 				Pattern p = Pattern
-						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?");
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?[" + System.getProperty("line.separator") + "]?");
 				String src = FileReader.readFile(file, enc);
 				Matcher m = p.matcher(src);
 				if (m.find()) {
-					end = m.group().length() + 1;
+					end = m.group().length()-1;
 				} else {
 					throw new RuntimeException("Class Declaration Not Found.");
 				}
@@ -366,7 +366,7 @@ public class OutputSourceModel {
 	}
 
 	private List<String> calcNewPrivateValueNames() {
-		BCSystem.out.println("calc newPrivateNames");
+		
 		List<String> newNames = new ArrayList<String>();
 
 		for (String privateRequest : privateRequests.keySet()) {
@@ -442,7 +442,6 @@ public class OutputSourceModel {
 		for (FieldDeclaration privateValue : getPrivateValues()) {
 			if (getPrivateValueName(privateValue.fragments().get(0).toString())
 					.equals(name)) {
-				BCSystem.out.println("find same private value:" + name);
 				return privateValue;
 			}
 		}
