@@ -13,18 +13,39 @@ import workspace.Workspace;
 
 public class ArrowObject extends JComponent {
 
-	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1745361279120477995L;
 	private Point startPoint;// 起点
 	private Point endPoint;// 終点
-
-	public ArrowObject(Point p1, Point p2, String pageName) {
+	private Color arrowCollor = Color.RED;
+	
+	public ArrowObject(Point p1, Point p2) {
 		setBounds(0, 0, Workspace.getInstance().getBlockCanvas().getWidth(),
 				Workspace.getInstance().getBlockCanvas().getHeight());
 		this.startPoint = p1;
 		this.endPoint = p2;
 		setDoubleBuffered(true);
 	}
-
+	
+	public Point getStartPoint(){
+		return this.startPoint;
+	}
+	
+	public void setColor(Color color){
+		this.arrowCollor = color;
+	}
+	
+	public Color getColor(){
+		return this.arrowCollor;
+	}
+	
+	public Point getEndPoint(){
+		return this.endPoint;
+	}
+	
 	public void addStartPoint(int dx, int dy) {
 		this.startPoint.x += dx;
 		this.startPoint.y += dy;
@@ -62,19 +83,19 @@ public class ArrowObject extends JComponent {
 	}
 
 	public void drawArrow(Graphics2D graphic) {
-		ArrowPointCalcUtil util = new ArrowPointCalcUtil(startPoint, endPoint);
+		ArrowPointCalcUtil util = new ArrowPointCalcUtil(getStartPoint(), getEndPoint());
 		BasicStroke stroke = new BasicStroke(3.0f);
 		graphic.setStroke(stroke);
 
 		Point2D p2 = util.getPoint2();
 		Point2D p3 = util.getPoint3();
 
-		graphic.setColor(Color.RED);
+		graphic.setColor(arrowCollor);
 		// arrowLengthの変更（ベクトルの向きに応じて変更）
-		graphic.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
-		graphic.drawLine(endPoint.x, endPoint.y, (int) p2.getX(),
+		graphic.drawLine(getStartPoint().x, getStartPoint().y, getEndPoint().x, getEndPoint().y);
+		graphic.drawLine(getEndPoint().x, getEndPoint().y, (int) p2.getX(),
 				(int) p2.getY());
-		graphic.drawLine(endPoint.x, endPoint.y, (int) p3.getX(),
+		graphic.drawLine(getEndPoint().x, getEndPoint().y, (int) p3.getX(),
 				(int) p3.getY());
 	}
 

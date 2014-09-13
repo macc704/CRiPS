@@ -665,18 +665,6 @@ public class WorkspaceController {
 			topPane.add(saveButton);
 		}
 
-		// {// create run button
-		// JButton runButton = new JButton("Java出力して実行");
-		// runButton.addActionListener(new ActionListener() {
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// wc.convertToJavaAndRun(
-		// wc.getSaveString(), enc);
-		// }
-		// });
-		// topPane.add(runButton);
-		// }
-
 		{// create compile button
 			JButton runButton = new JButton("Compile");
 			runButton.addActionListener(new ActionListener() {
@@ -803,7 +791,7 @@ public class WorkspaceController {
 					//呼び出し関数の定義ファイル
 					Point p2 = new Point(parentBlock.getLocation());
 					p2.y +=  parentBlock.getHeight()/2;
-					ArrowObject arrow = new ArrowObject(p1, p2, calcClassName());
+					ArrowObject arrow = new ArrowObject(p1, p2);
 					arrow.drawArrow((Graphics2D)component.getGraphics());
 					Page parentPage = (Page)callerblock.getParentWidget();
 					parentPage.addArrow(arrow);
@@ -819,7 +807,7 @@ public class WorkspaceController {
 //					parentPage.addArrow(arrow2);
 					
 					//定義ブロックへの矢印の追加
-					parentBlock.addStartArrow(arrow);
+//					parentBlock.addStartArrow(arrow);
 //					parentBlock.addEndArrow(arrow2);
 					
 					//callerブロックへの矢印の追加

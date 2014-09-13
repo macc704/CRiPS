@@ -40,7 +40,6 @@ import workspace.ContextMenu;
 import workspace.FactoryManager;
 import workspace.ISupportMemento;
 import workspace.MiniMap;
-import workspace.Page;
 import workspace.RBParent;
 import workspace.SearchableElement;
 import workspace.Workspace;
@@ -1887,25 +1886,50 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public void updateEndArrowPoints(long parentBlockID, boolean isActive) {
 		RenderableBlock parent = RenderableBlock
 				.getRenderableBlock(parentBlockID);
-		if (parent != null) {
-			if (isActive) {
-				//親の座標
-				Point p = new Point(getLocation());
-				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
-						parent.getBlockID()).getEndArrows()) {
-					arrow.setStartPoint(p);
+		if(parentBlockID == -1){
+			ArrayList <ArrowObject> arrows = new ArrayList<ArrowObject>();
+			Point p = new Point(getLocation());
+			p.x += getWidth();
+			p.y += getHeight()/2;
+			for(ArrowObject endArrow : endArrows){
+				endArrow.setStartPoint(p);
+				if(endArrow.getColor().getAlpha() != 30){
+					endArrow.setColor(new Color(255,0,0,30));	
 				}
-			} else {
-				RenderableBlock lastBlock = RenderableBlock.getLastBlock(Block
-						.getBlock(parentBlockID));
-				Point p = new Point(lastBlock.getLocation());
-				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
-						parent.getBlockID()).getEndArrows()) {
-					arrow.setStartPoint(p);
+			}
+		}else{
+			ArrayList <ArrowObject> arrows = new ArrayList<ArrowObject>();
+			Point p = new Point(getLocation());
+			p.x += getWidth();
+			p.y += getHeight()/2;
+			for(ArrowObject endArrow : endArrows){
+				endArrow.setStartPoint(p);
+				if(endArrow.getColor() != Color.RED){
+					endArrow.setColor(Color.RED);	
 				}
 			}
 		}
+//		if (parent != null) {
+//			if (isActive) {
+//				//親の座標
+//				Point p = new Point(getLocation());
+//				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
+//						parent.getBlockID()).getEndArrows()) {
+//					arrow.setStartPoint(p);
+//				}
+//			} else {
+//				RenderableBlock lastBlock = RenderableBlock.getLastBlock(Block
+//						.getBlock(parentBlockID));
+//				Point p = new Point(lastBlock.getLocation());
+//				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
+//						parent.getBlockID()).getEndArrows()) {
+//					arrow.setStartPoint(p);
+//				}
+//			}
+//		}
 	}
+	
+
 
 	public static RenderableBlock getLastBlock(Block block) {
 		Block tmpBlock = block;
@@ -1964,12 +1988,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
-	public void redrawAllArrows() {
-		if (parent instanceof Page) {
-			Page p = (Page) parent;
-			p.getDrawingArrowManager().repaintArrows();
-		}
-	}
 
 	// もってるブロックの書き込みブロック、値ブロック、増やすブロックを光らせる　とりあえず
 	public static void catchedBlockResetHighlight(
@@ -2203,19 +2221,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				Workspace.getInstance().notifyListeners(
 						new WorkspaceEvent(widget, link,
 								WorkspaceEvent.BLOCK_MOVED, true));
-
-				//矢印再描画
-				updateEndArrowPoints(getBlock().getParentBlockID(), false);
 				
-				//親が書き換わった場合は，古い親も再描画
-				if(oldParent != -1){
-					updateEndArrowPoints(oldParent, false);
-				}
-
 				if (widget instanceof MiniMap) {
 					Workspace.getInstance().getMiniMap()
 							.animateAutoCenter(this);
 				}
+				
+				//矢印再描画
+				updateEndArrowPoints(getBlock().getParentBlockID(), false);
 			}
 		}
 		pickedUp = false;
@@ -2229,6 +2242,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			popup.show(this, e.getX(), e.getY());
 		}
 		Workspace.getInstance().getMiniMap().repaint();
+
+
 	}
 
 	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
