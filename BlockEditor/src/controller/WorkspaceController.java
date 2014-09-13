@@ -32,6 +32,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.parsers.DocumentBuilder;
@@ -294,6 +295,7 @@ public class WorkspaceController {
 		langDefDirty = false;
 
 		workspace.setLoadingBlockLanguage(false);
+
 	}
 
 	/**
@@ -408,6 +410,7 @@ public class WorkspaceController {
 				setFrameTitle(path);
 
 				setDirty(false);
+				showTraceLine();
 			}
 
 		} catch (ParserConfigurationException e) {
@@ -541,6 +544,7 @@ public class WorkspaceController {
 
 				workspaceLoaded = true;
 				frame.setTitle(createWindowTitle());
+
 			}
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -718,24 +722,25 @@ public class WorkspaceController {
 			// topPane.add(runButton);
 		}
 
-//		{// create showing method trace line bottun
-//			final JToggleButton showTraceLineButton = new JToggleButton(
-//					"show trace line");
-//			showTraceLineButton.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					if (showTraceLineButton.isSelected()) {
-//						// 関数呼び出しをトレースするラインを表示する
-//						showTraceLine();
-//					} else {
-//						// 関数呼び出しをトレースするラインを非表示にする
-//						workspace.getBlockCanvas().getPageNamed(calcClassName()).getDrawingArrowManager().clearPossessers();
-//						workspace.getPageNamed(calcClassName()).clearArrowLayer();
-//						workspace.getPageNamed(calcClassName()).getJComponent().repaint();
-//					}
-//				}
-//			});
-//			topPane.add(showTraceLineButton);
-//		}
+		{// create showing method trace line bottun
+			final JToggleButton showTraceLineButton = new JToggleButton(
+					"show trace line");
+			showTraceLineButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (showTraceLineButton.isSelected()) {
+						// 関数呼び出しをトレースするラインを非表示にする
+						workspace.getBlockCanvas().getPageNamed(calcClassName()).getDrawingArrowManager().clearPossessers();
+						workspace.getPageNamed(calcClassName()).clearArrowLayer();
+						workspace.getPageNamed(calcClassName()).getJComponent().repaint();
+
+					} else {
+						// 関数呼び出しをトレースするラインを表示する
+						showTraceLine();
+					}
+				}
+			});
+			topPane.add(showTraceLineButton);
+		}
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -780,47 +785,50 @@ public class WorkspaceController {
 	public void showTraceLine() {
 		for (Block block : workspace.getBlocks()) {
 			// 呼び出しブロックにラインを表示する
-			RenderableBlock rb = RenderableBlock.getRenderableBlock(block
+			RenderableBlock callerblock = RenderableBlock.getRenderableBlock(block
 					.getBlockID());
 			
-			if (rb.getGenus().startsWith("caller")) {
+			if (callerblock.getGenus().startsWith("caller")) {
 				BlockCanvas canvas = workspace.getBlockCanvas();
-				JComponent component = rb.getParentWidget().getJComponent();
+				JComponent component = callerblock.getParentWidget().getJComponent();
 				//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
-				BlockStub stub = (BlockStub) (rb.getBlock());				
+				BlockStub stub = (BlockStub) (callerblock.getBlock());				
 				RenderableBlock parentBlock = searchMethodDefinidionBlock(stub);
 				if(parentBlock != null){
 					//呼び出しブロックの座標
-					Point p1 = new Point(rb.getLocation());
-					p1.x += rb.getWidth();
+					Point p1 = new Point(callerblock.getLocation());
+					p1.x += callerblock.getWidth();
+					p1.y += callerblock.getHeight()/2;
 					
 					//呼び出し関数の定義ファイル
-					Point p2 = parentBlock.getLocation();
+					Point p2 = new Point(parentBlock.getLocation());
+					p2.y +=  parentBlock.getHeight()/2;
 					ArrowObject arrow = new ArrowObject(p1, p2, calcClassName());
 					arrow.drawArrow((Graphics2D)component.getGraphics());
-					Page parentPage = (Page)rb.getParentWidget();
+					Page parentPage = (Page)callerblock.getParentWidget();
 					parentPage.addArrow(arrow);
 									
-					//呼び出しブロックと，メソッド定義ブロックの最後のブロックを直線で結ぶ
-					RenderableBlock lastBlock = RenderableBlock.getLastBlock(parentBlock.getBlock());
-					Point p3 = new Point(lastBlock.getLocation());
-					p3.y += lastBlock.getHeight()-7;
-					Point p4 = new Point(p1);
-					p4.y +=rb.getHeight() -7;
-					ArrowObject arrow2 = new ArrowObject(p3,p4, calcClassName());
-					arrow2.drawArrow((Graphics2D)component.getGraphics());
-					parentPage.addArrow(arrow2);
+//					//呼び出しブロックと，メソッド定義ブロックの最後のブロックを直線で結ぶ
+//					RenderableBlock lastBlock = RenderableBlock.getLastBlock(parentBlock.getBlock());
+//					Point p3 = new Point(lastBlock.getLocation());
+//					p3.y += lastBlock.getHeight()-7;
+//					Point p4 = new Point(p1);
+//					p4.y +=rb.getHeight() -7;
+//					ArrowObject arrow2 = new ArrowObject(p3,p4, calcClassName());
+//					arrow2.drawArrow((Graphics2D)component.getGraphics());
+//					parentPage.addArrow(arrow2);
+					
 					//定義ブロックへの矢印の追加
 					parentBlock.addStartArrow(arrow);
-					parentBlock.addEndArrow(arrow2);
+//					parentBlock.addEndArrow(arrow2);
 					
 					//callerブロックへの矢印の追加
-					rb.addEndArrow(arrow);
-					rb.addStartArrow(arrow2);
+					callerblock.addEndArrow(arrow);
+//					rb.addStartArrow(arrow2);
 					
 					//managerにブロック登録
 					String pageName = calcClassName();
-					canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(rb);
+					canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(callerblock);
 					canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(parentBlock);					
 				}else{
 					return ;

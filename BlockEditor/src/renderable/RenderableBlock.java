@@ -1891,7 +1891,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			if (isActive) {
 				//親の座標
 				Point p = new Point(getLocation());
-				p.y += this.getBlockHeight() - 7;
 				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
 						parent.getBlockID()).getEndArrows()) {
 					arrow.setStartPoint(p);
@@ -1900,7 +1899,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				RenderableBlock lastBlock = RenderableBlock.getLastBlock(Block
 						.getBlock(parentBlockID));
 				Point p = new Point(lastBlock.getLocation());
-				p.y += lastBlock.getHeight() - 7;
 				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
 						parent.getBlockID()).getEndArrows()) {
 					arrow.setStartPoint(p);
