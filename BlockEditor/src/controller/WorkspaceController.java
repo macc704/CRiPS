@@ -295,6 +295,7 @@ public class WorkspaceController {
 		langDefDirty = false;
 
 		workspace.setLoadingBlockLanguage(false);
+		workspace.setWorkSpaceController(this);
 
 	}
 
@@ -717,9 +718,7 @@ public class WorkspaceController {
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
 						// 関数呼び出しをトレースするラインを非表示にする
-						workspace.getBlockCanvas().getPageNamed(calcClassName()).getDrawingArrowManager().clearPossessers();
-						workspace.getPageNamed(calcClassName()).clearArrowLayer();
-						workspace.getPageNamed(calcClassName()).getJComponent().repaint();
+						disposeTraceLine();
 
 					} else {
 						// 関数呼び出しをトレースするラインを表示する
@@ -767,6 +766,12 @@ public class WorkspaceController {
 		frame.setVisible(true);
 	}
 
+	public void disposeTraceLine(){
+		workspace.getBlockCanvas().getPageNamed(calcClassName()).getDrawingArrowManager().clearPossessers();
+		workspace.getPageNamed(calcClassName()).clearArrowLayer();
+		workspace.getPageNamed(calcClassName()).getJComponent().repaint();
+	}
+	
 	/*
 	 * メソッド呼び出し関係を表示するラインを描画します
 	 */
@@ -816,8 +821,7 @@ public class WorkspaceController {
 					
 					//managerにブロック登録
 					String pageName = calcClassName();
-					canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(callerblock);
-					canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(parentBlock);					
+					canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(callerblock);			
 				}else{
 					return ;
 				}
@@ -900,8 +904,6 @@ public class WorkspaceController {
 		return params;
 	}
 	
-
-
 	public void createAndShowGUIForTesting(final WorkspaceController wc,
 			final String enc) {
 

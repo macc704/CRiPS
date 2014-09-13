@@ -255,6 +255,10 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		}
 	}
 	
+	public void clearArrow(Object o){
+		this.pageJComponent.clearArrow(o);
+	}
+	
 	public void clearArrowLayer(){
 		this.pageJComponent.clearArrowLayer();
 	}
@@ -1245,6 +1249,17 @@ class PageJComponent extends JLayeredPane implements RBParent {
 		return image;
 	}
 
+	public void clearArrow(Object arrow){
+		Component[] allComponents = getComponents();
+		Object[] arrows = getAllArrow(); 
+		for(Object o : arrows){
+			if(o.equals(arrow)){
+				remove((Component)o);
+				break;
+			}
+		}
+	}
+	
 	public void clearArrowLayer(){
 		Component[] allComponents = getComponents();
 		Object[] arrows = getAllArrow(); 		

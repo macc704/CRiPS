@@ -17,6 +17,8 @@ import javax.swing.JComponent;
 
 import renderable.BlockUtilities;
 import renderable.RenderableBlock;
+import controller.WorkspaceController;
+import drawingobjects.ArrowObject;
 
 public class TrashCan extends JComponent implements MouseListener,
 		WorkspaceWidget, ComponentListener {
@@ -76,11 +78,27 @@ public class TrashCan extends JComponent implements MouseListener,
 		RenderableBlock
 				.catchedBlockResetHighlight(block, block.getParentWidget());
 
+		removeArrow(block);
+
+		
 		BlockUtilities.deleteBlock(block);
 		currentColor = Color.BLACK;
 		currentImage = tcImage;
 		this.revalidate();
 		this.repaint();
+	}
+	
+	public void removeArrow(RenderableBlock block){
+		Workspace ws = Workspace.getInstance();
+		WorkspaceController wc = ws.getWorkSpaceController();
+		
+		for(ArrowObject arrow : block.getEndArrows()){
+			ws.getPageNamed(wc.calcClassName()).clearArrow((Object)arrow);	
+		}
+		ws.getBlockCanvas().getPageNamed(wc.calcClassName()).getDrawingArrowManager().clearPosesser(block);
+		
+		ws.getPageNamed(wc.calcClassName()).getJComponent().repaint();
+		
 	}
 
 	public void addBlock(RenderableBlock block) {
