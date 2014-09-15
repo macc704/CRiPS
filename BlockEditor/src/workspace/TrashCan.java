@@ -95,6 +95,10 @@ public class TrashCan extends JComponent implements MouseListener,
 		for(ArrowObject arrow : block.getEndArrows()){
 			ws.getPageNamed(wc.calcClassName()).clearArrow((Object)arrow);	
 		}
+		
+		for(ArrowObject arrow : block.getStartArrows()){
+			ws.getPageNamed(wc.calcClassName()).clearArrow((Object)arrow);	
+		}
 		ws.getBlockCanvas().getPageNamed(wc.calcClassName()).getDrawingArrowManager().clearPosesser(block);
 		
 		ws.getPageNamed(wc.calcClassName()).getJComponent().repaint();

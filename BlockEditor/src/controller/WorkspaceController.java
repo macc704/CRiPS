@@ -812,7 +812,7 @@ public class WorkspaceController {
 //					parentPage.addArrow(arrow2);
 					
 					//定義ブロックへの矢印の追加
-//					parentBlock.addStartArrow(arrow);
+					parentBlock.addStartArrow(arrow);
 //					parentBlock.addEndArrow(arrow2);
 					
 					//callerブロックへの矢印の追加

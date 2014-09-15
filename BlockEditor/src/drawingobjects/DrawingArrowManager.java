@@ -22,7 +22,6 @@ public class DrawingArrowManager {
 	
 	public void clearPosesser(RenderableBlock posesser){
 		posesser.clearArrows();
-		
 		arrowPossesser.remove(posesser);
 	}
 	
