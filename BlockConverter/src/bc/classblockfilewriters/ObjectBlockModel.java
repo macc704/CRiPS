@@ -105,18 +105,22 @@ public class ObjectBlockModel extends BasicModel {
 		makeIndent(out, lineNumber);
 		out.println("</LangSpecProperties>");
 		if (methods != null) {
+			makeIndent(out, lineNumber++);
+			out.println("<ClassMethods>");
 			for (String key : methods.keySet()) {
-				makeIndent(out, lineNumber);
-				out.println("<ClassMethods class=\"" + key + "\">");
-
-				lineNumber++;
+				makeIndent(out, lineNumber++);
+				out.println("<ClassName name=\"" + key + "\">");
+				
 				for (PublicMethodInfo method : methods.get(key)) {
 					method.print(out, lineNumber);
 				}
-
 				makeIndent(out, --lineNumber);
-				out.println("</ClassMethods>");
+				out.println("</ClassName>");
+				
+				
 			}
+			makeIndent(out, --lineNumber);
+			out.println("</ClassMethods>");
 		}
 		makeIndent(out, lineNumber);
 		out.println("<JavaType>" + className + "</JavaType>");

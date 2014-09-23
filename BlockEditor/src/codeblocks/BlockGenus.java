@@ -414,7 +414,7 @@ public class BlockGenus {
 				&& (this.genusName.endsWith("var-int-number") || this.genusName
 						.endsWith("var-double-number"));
 	}
-	
+
 	/**
 	 * created by sakai lab 2014/05/15
 	 * 
@@ -1145,89 +1145,105 @@ public class BlockGenus {
 		}
 	}
 
-	private static void loadClassMethods(Node parent, BlockGenus genus) {
+	private static void loadClassMethods(NodeList classMethods, BlockGenus genus) {
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
 		Node prop;
-//		String methodDecralation;
+		//		String methodDecralation;
 		List<Map<String, List<String>>> methodList = new ArrayList<Map<String, List<String>>>();
 
 		String className = "";
 
-		nameMatcher = attrExtractor.matcher(parent.getAttributes()
-				.getNamedItem("class").toString());
+		
+		for (int i = 0; i < classMethods.getLength(); i++) {
 
-		if (nameMatcher.find()) {// will be true
-			className = nameMatcher.group(1).toString();
-		}
+			Node parent = classMethods.item(i);
 
-		NodeList methods = parent.getChildNodes();
-		for (int l = 0; l < methods.getLength(); l++) {
-			Map<String, List<String>> method = new HashMap<String, List<String>>();
-			prop = methods.item(l);
-			if (prop.getNodeName().equals("Methods")) {
-				NodeList tmp = prop.getChildNodes();
-				for (int m = 0; m < tmp.getLength(); m++) {
-					prop = tmp.item(m);
-					if (prop.getNodeName().equals("MethodProperty")) {
-						if (prop.getAttributes().getLength() > 0) {
-							nameMatcher = attrExtractor.matcher(prop
-									.getAttributes().getNamedItem("name")
-									.toString());
-							if (nameMatcher.find()) {// will be true
-								List<String> temp = new ArrayList<String>();
-								temp.add(nameMatcher.group(1).toString());
-								method.put("name", temp);
-							}
+			System.out.println(parent.getNodeName());
 
-							Node opt_item = prop.getAttributes().getNamedItem(
-									"modifer");
-							Node return_type = prop.getAttributes()
-									.getNamedItem("returnType");
+			if (parent.getNodeName().equals("ClassName")) {
+				nameMatcher = attrExtractor.matcher(parent.getAttributes()
+						.getNamedItem("name").toString());
 
-							if (opt_item != null) {
-								nameMatcher = attrExtractor.matcher(opt_item
-										.toString());
-								if (nameMatcher.find()) {
-									List<String> temp = new ArrayList<String>();
-									temp.add(nameMatcher.group(1).toString());
-									method.put("modifer", temp);
+				if (nameMatcher.find()) {// will be true
+					className = nameMatcher.group(1).toString();
+				}
+
+				NodeList methods = parent.getChildNodes();
+				for (int l = 0; l < methods.getLength(); l++) {
+					Map<String, List<String>> method = new HashMap<String, List<String>>();
+					prop = methods.item(l);
+					if (prop.getNodeName().equals("Method")) {
+						NodeList tmp = prop.getChildNodes();
+						for (int m = 0; m < tmp.getLength(); m++) {
+							prop = tmp.item(m);
+							if (prop.getNodeName().equals("MethodProperty")) {
+								if (prop.getAttributes().getLength() > 0) {
+									nameMatcher = attrExtractor.matcher(prop
+											.getAttributes()
+											.getNamedItem("name").toString());
+									if (nameMatcher.find()) {// will be true
+										List<String> temp = new ArrayList<String>();
+										temp.add(nameMatcher.group(1)
+												.toString());
+										method.put("name", temp);
+									}
+
+									Node opt_item = prop.getAttributes()
+											.getNamedItem("modifer");
+									Node return_type = prop.getAttributes()
+											.getNamedItem("returnType");
+
+									if (opt_item != null) {
+										nameMatcher = attrExtractor
+												.matcher(opt_item.toString());
+										if (nameMatcher.find()) {
+											List<String> temp = new ArrayList<String>();
+											temp.add(nameMatcher.group(1)
+													.toString());
+											method.put("modifer", temp);
+										}
+									} else {
+										method.put("modifer", null);
+									}
+
+									if (return_type != null) {
+										nameMatcher = attrExtractor
+												.matcher(return_type.toString());
+										if (nameMatcher.find()) {
+											List<String> temp = new ArrayList<String>();
+											temp.add(nameMatcher.group(1)
+													.toString());
+											method.put("returnType", temp);
+
+										}
+									} else {
+										method.put("returnType", null);
+									}
+
+									NodeList parameter_item = prop
+											.getChildNodes();
+									Node parameter;
+									List<String> parameters = new ArrayList<String>();
+									for (int j = 0; j < parameter_item
+											.getLength(); j++) {
+										parameter = parameter_item.item(j);
+										if (parameter.getNodeName().equals(
+												"Parameter")) {
+											parameters.add(parameter
+													.getTextContent());
+										}
+									}
+									method.put("parameters", parameters);
+									methodList.add(method);
 								}
-							} else {
-								method.put("modifer", null);
 							}
-
-							if (return_type != null) {
-								nameMatcher = attrExtractor.matcher(return_type
-										.toString());
-								if (nameMatcher.find()) {
-									List<String> temp = new ArrayList<String>();
-									temp.add(nameMatcher.group(1).toString());
-									method.put("returnType", temp);
-
-								}
-							} else {
-								method.put("returnType", null);
-							}
-
-							NodeList parameter_item = prop.getChildNodes();
-							Node parameter;
-							List<String> parameters = new ArrayList<String>();
-							for (int j = 0; j < parameter_item.getLength(); j++) {
-								parameter = parameter_item.item(j);
-								if (parameter.getNodeName().equals("Parameter")) {
-									parameters.add(parameter.getTextContent());
-								}
-							}
-							method.put("parameters", parameters);
-							methodList.add(method);
 						}
 					}
 				}
-
+				genus.methods.put(className, methodList);
 			}
 		}
-		genus.methods.put(className, methodList);
 
 	}
 
@@ -1247,7 +1263,7 @@ public class BlockGenus {
 
 		for (int i = 0; i < genusNodes.getLength(); i++) { // find them
 			genusNode = genusNodes.item(i);
-		
+
 			if (genusNode.getNodeName().equals("BlockGenus")) { // a genus entry
 				// /////////////////////////////////
 				// / LOAD BLOCK GENUS PROPERTIES ///
@@ -1396,8 +1412,8 @@ public class BlockGenus {
 						// //////////////////////////////////
 						loadGenusDescription(genusChild.getChildNodes(),
 								newGenus);
-						} else if (genusChild.getNodeName().equals(
-								"BlockConnectors")) {
+					} else if (genusChild.getNodeName().equals(
+							"BlockConnectors")) {
 						// //////////////////////////////////////
 						// / LOAD BLOCK CONNECTOR INFORMATION ///
 						// //////////////////////////////////////
@@ -1431,7 +1447,10 @@ public class BlockGenus {
 						loadStubs(genusChild.getChildNodes(), newGenus);
 					} else if (genusChild.getNodeName().equals("ClassMethods")) {
 						//メソッドの読み込み
-						loadClassMethods(genusChild, newGenus);
+						
+						
+						loadClassMethods(genusChild.getChildNodes(), newGenus);
+
 					} else if (genusChild.getNodeName().equals("JavaLabel")) {
 						newGenus.javaLabel = genusChild.getTextContent();
 					} else if (genusChild.getNodeName().equals("JavaType")) {
