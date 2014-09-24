@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 
 import javax.swing.JComponent;
@@ -13,10 +14,6 @@ import workspace.Workspace;
 
 public class ArrowObject extends JComponent {
 
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1745361279120477995L;
 	private Point startPoint;// 起点
 	private Point endPoint;// 終点
@@ -83,6 +80,7 @@ public class ArrowObject extends JComponent {
 	}
 
 	public void drawArrow(Graphics2D graphic) {
+		graphic.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		ArrowPointCalcUtil util = new ArrowPointCalcUtil(getStartPoint(), getEndPoint());
 		BasicStroke stroke = new BasicStroke(3.0f);
 		graphic.setStroke(stroke);

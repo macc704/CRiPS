@@ -1886,7 +1886,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public void updateEndArrowPoints(long parentBlockID, boolean isActive) {
 		RenderableBlock parent = RenderableBlock
 				.getRenderableBlock(parentBlockID);
-		if(parentBlockID == -1){
+		if(parentBlockID == -1 ){
 			ArrayList <ArrowObject> arrows = new ArrayList<ArrowObject>();
 			Point p = new Point(getLocation());
 			p.x += getWidth();
@@ -1927,6 +1927,34 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 //				}
 //			}
 //		}
+	}
+	
+	public void updateEndArrowPoints(long parentBlockID, BlockLink link, boolean isActive) {
+		RenderableBlock parent = RenderableBlock
+				.getRenderableBlock(parentBlockID);
+		if(link == null ){
+			ArrayList <ArrowObject> arrows = new ArrayList<ArrowObject>();
+			Point p = new Point(getLocation());
+			p.x += getWidth();
+			p.y += getHeight()/2;
+			for(ArrowObject endArrow : endArrows){
+				endArrow.setStartPoint(p);
+				if(endArrow.getColor().getAlpha() != 30){
+					endArrow.setColor(new Color(255,0,0,30));	
+				}
+			}
+		}else{
+			ArrayList <ArrowObject> arrows = new ArrayList<ArrowObject>();
+			Point p = new Point(getLocation());
+			p.x += getWidth();
+			p.y += getHeight()/2;
+			for(ArrowObject endArrow : endArrows){
+				endArrow.setStartPoint(p);
+				if(endArrow.getColor() != Color.RED){
+					endArrow.setColor(Color.RED);	
+				}
+			}
+		}
 	}
 	
 
@@ -2228,7 +2256,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				}
 				
 				//矢印再描画
-				updateEndArrowPoints(getBlock().getParentBlockID(), false);
+				updateEndArrowPoints(getBlock().getParentBlockID(), link, false);
 			}
 		}
 		pickedUp = false;

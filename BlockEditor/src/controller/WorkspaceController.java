@@ -713,7 +713,7 @@ public class WorkspaceController {
 
 		{// create showing method trace line bottun
 			final JToggleButton showTraceLineButton = new JToggleButton(
-					"show trace line");
+					"hide trace line");
 			showTraceLineButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
@@ -767,9 +767,11 @@ public class WorkspaceController {
 	}
 
 	public void disposeTraceLine(){
-		workspace.getBlockCanvas().getPageNamed(calcClassName()).getDrawingArrowManager().clearPossessers();
-		workspace.getPageNamed(calcClassName()).clearArrowLayer();
-		workspace.getPageNamed(calcClassName()).getJComponent().repaint();
+		if(workspace.getBlockCanvas()!= null){
+			workspace.getBlockCanvas().getPageNamed(calcClassName()).getDrawingArrowManager().clearPossessers();
+			workspace.getPageNamed(calcClassName()).clearArrowLayer();
+			workspace.getPageNamed(calcClassName()).getJComponent().repaint();			
+		}
 	}
 	
 	/*
@@ -832,8 +834,8 @@ public class WorkspaceController {
 	
 	public String calcClassName(){
 		String className = this.selectedJavaFile.substring(0,selectedJavaFile.indexOf(".xml"));
-		while(className.indexOf("\\") != -1){
-			className = className.substring(className.indexOf("\\") + 1, className.length());
+		while(className.indexOf(System.getProperty("file.separator")) != -1){
+			className = className.substring(className.indexOf(System.getProperty("file.separator")) + 1, className.length());
 		}
 		return className;
 	}
