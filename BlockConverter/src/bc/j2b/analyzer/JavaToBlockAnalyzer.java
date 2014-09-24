@@ -255,7 +255,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			if (method.isConstructor()) {
 				if (addConstructorModel(model, method, x, y)
 						&& model.getConstructors()
-								.get(model.getMethods().size() - 1).getPosX() == x) {
+								.get(model.getConstructors().size() - 1).getPosX() == x) {
 					x += 200;
 				}
 			} else {

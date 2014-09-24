@@ -1159,8 +1159,6 @@ public class BlockGenus {
 
 			Node parent = classMethods.item(i);
 
-			System.out.println(parent.getNodeName());
-
 			if (parent.getNodeName().equals("ClassName")) {
 				nameMatcher = attrExtractor.matcher(parent.getAttributes()
 						.getNamedItem("name").toString());
