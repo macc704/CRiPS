@@ -9,7 +9,7 @@
 		<BlockGenusMember>lt</BlockGenusMember>
 		<BlockGenusMember>up</BlockGenusMember>
 		<BlockGenusMember>down</BlockGenusMember>
-		<!--  <BlockGenusMember>color</BlockGenusMember>-->
+		<BlockGenusMember>color</BlockGenusMember>
 		<BlockGenusMember>input</BlockGenusMember>
 		<BlockGenusMember>print</BlockGenusMember>
 		<BlockGenusMember>random</BlockGenusMember>
@@ -147,7 +147,7 @@
 		<BlockGenusMember>true</BlockGenusMember>
 		<BlockGenusMember>false</BlockGenusMember>
 	</BlockDrawer>
-<!-- 
+
 	<BlockDrawer name="色" type="factory" button-color="255 155 64">
 		<BlockGenusMember>blue</BlockGenusMember>
 		<BlockGenusMember>cyan</BlockGenusMember>
@@ -162,9 +162,8 @@
 		<BlockGenusMember>lightGray</BlockGenusMember>
 		<BlockGenusMember>darkGray</BlockGenusMember>
 		<BlockGenusMember>black</BlockGenusMember>
-		<BlockGenusMember>new-object-Color</BlockGenusMember>
+<!--  		<BlockGenusMember>new-object-Color</BlockGenusMember>-->
 	</BlockDrawer>
- -->
  
 	<BlockDrawer name="タートル(座標と大きさ)" type="factory" button-color="153 0 0">
 		<BlockGenusMember>getX</BlockGenusMember>
