@@ -67,6 +67,11 @@ public class CollapseLabel extends BlockControlLabel {
 				&& rBlock.getComment().getCommentLabel().isActive()) {
 			rBlock.getComment().setVisible(!isActive());
 		}
+		
+		if(rBlock.hasArrows()){
+			rBlock.visibleArrows(!isActive());
+		}
+		
 		rBlock.getHighlightHandler().updateImage();
 		rBlock.repaintBlock();
 		if (rBlock.isCollapsed()) {

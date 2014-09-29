@@ -9,7 +9,7 @@
 		<BlockGenusMember>lt</BlockGenusMember>
 		<BlockGenusMember>up</BlockGenusMember>
 		<BlockGenusMember>down</BlockGenusMember>
-		<BlockGenusMember>color</BlockGenusMember>
+		<!--  <BlockGenusMember>color</BlockGenusMember>-->
 		<BlockGenusMember>input</BlockGenusMember>
 		<BlockGenusMember>print</BlockGenusMember>
 		<BlockGenusMember>random</BlockGenusMember>
@@ -115,6 +115,7 @@
 		<BlockGenusMember>local-var-string</BlockGenusMember>
 		<BlockGenusMember>local-var-boolean</BlockGenusMember>
 		<BlockGenusMember>local-var-object</BlockGenusMember>
+		<BlockGenusMember>local-var-object-Turtle</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Text</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Image</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>

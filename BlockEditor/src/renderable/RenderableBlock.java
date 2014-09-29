@@ -211,6 +211,23 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public ArrayList<ArrowObject> getEndArrows() {
 		return this.endArrows;
 	}
+	
+	public boolean hasArrows(){
+		return startArrows.size()>0 ||  endArrows.size()>0;
+	}
+	
+	public void visibleArrows(boolean visible){
+		for(ArrowObject arrow : startArrows){
+			arrow.setVisible(visible);
+		}
+		
+		for(ArrowObject arrow : endArrows){
+			arrow.setVisible(visible);
+		}
+	}
+	
+	
+	
 
 	public void clearArrows() {
 		startArrows.clear();
@@ -1291,7 +1308,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							+ curBlockID);
 					continue;
 				}
-
+				
 				RenderableBlock.getRenderableBlock(curBlockID).redrawFromTop();
 
 				// add dimension to the mapping
