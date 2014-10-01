@@ -89,6 +89,11 @@ public class BlockGenus {
 	private String initFooterLabel;
 
 	private HashMap<String, List<MethodInformation>> methods = new HashMap<String, List<MethodInformation>>();
+	
+	private String type;//variable type
+	private String returnType;//variable type
+	private String name;//variable type
+
 
 	/**
 	 * Only BlockGenus can create BlockGenus objects, specifically only the
@@ -577,6 +582,18 @@ public class BlockGenus {
 	 */
 	public List<List<BlockConnector>> getExpandGroups() {
 		return Collections.unmodifiableList(expandGroups);
+	}
+	
+	public String getType(){
+		return this.type;
+	}
+	
+	public String getName(){
+		return this.name;
+	}
+	
+	public String getReturnType(){
+		return this.returnType;
 	}
 
 	/**
@@ -1123,6 +1140,7 @@ public class BlockGenus {
 								.equals("yes") ? true : false;
 					}
 				}
+				
 				// if genus is a data genus (kind=data) or a variable block (and
 				// soon a declaration block)
 				// it is both a starter and terminator
@@ -1166,6 +1184,12 @@ public class BlockGenus {
 						loadLangDefProperties(genusChild.getChildNodes(),
 								newGenus);
 
+					} else if(genusChild.getNodeName().equals("Type")){ 
+						newGenus.type = genusChild.getTextContent();
+					} else if(genusChild.getNodeName().equals("Name")){ 
+						newGenus.name = genusChild.getTextContent();
+					} else if(genusChild.getNodeName().equals("ReturnType")){ 
+						newGenus.returnType = genusChild.getTextContent();
 					} else if (genusChild.getNodeName().equals("Stubs")) {
 						// / LOAD STUBS INFO AND GENERATE GENUSES FOR EACH STUB
 						// ///
@@ -1235,6 +1259,7 @@ public class BlockGenus {
 			famList.clear();
 		}
 	}
+
 
 	/*
 	 * メソッド情報の読み込み

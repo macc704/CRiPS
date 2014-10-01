@@ -238,9 +238,10 @@ public class WorkspaceController {
             }
 
             document.appendChild(documentElement);
-            if (validate) {
-                validate(document);
-            }
+
+//            if (validate) {
+//                validate(document);
+//            }
 
             return document;
         }
@@ -259,6 +260,7 @@ public class WorkspaceController {
         	
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             URL schemaUrl = ClassLoader.getSystemResource("edu/mit/blocks/codeblocks/codeblocks.xsd");
+            File file = new File(schemaUrl.getPath());
             Schema schema = schemaFactory.newSchema(schemaUrl);
             Validator validator = schema.newValidator();
             validator.validate(new DOMSource(document));

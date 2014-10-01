@@ -84,6 +84,11 @@ public class Block implements ISupportMemento {
 	private String footerLabel = "";
 	
 	private HashMap<String, List<MethodInformation>> method;
+	
+	private String type;
+	private String name;
+	private String returnType;
+	
     /**
      * Constructs a new Block from the specified information.  This class constructor is
      * protected as block loading from XML content or the (careful!) creation of its subclasses
@@ -142,7 +147,18 @@ public class Block implements ISupportMemento {
         if (genus.getInitAfter() != null) {
             after = new BlockConnector(genus.getInitAfter());
         }
-
+        
+        if(genus.getType() != null){
+        	this.type = genus.getType();
+        }
+        
+        if(genus.getReturnType() != null){
+        	this.returnType = genus.getReturnType();
+        }
+        
+        if(genus.getName() != null){
+        	this.name = genus.getReturnType();
+        }
 
 
         for (final String arg : genus.getInitialArgumentDescriptions()) {
@@ -1428,6 +1444,24 @@ public class Block implements ISupportMemento {
         	msgElement.appendChild(document.createTextNode(badMsg));
         	blockElement.appendChild(msgElement);
         }
+        
+        if(this.type != null){
+        	Element typeElement = document.createElement("Type");
+        	typeElement.appendChild(document.createTextNode(type));
+        	blockElement.appendChild(typeElement);
+        }
+        
+        if(this.name != null){
+        	Element nameElement = document.createElement("Name");
+        	nameElement.appendChild(document.createTextNode(name));
+        	blockElement.appendChild(nameElement);
+        }
+        
+        if(this.returnType != null){
+        	Element returnTypeElement = document.createElement("ReturnType");
+        	returnTypeElement.appendChild(document.createTextNode(this.returnType));
+        	blockElement.appendChild(returnTypeElement);
+        }
 
         // Location
         Element locationElement = document.createElement("Location");
@@ -1448,6 +1482,7 @@ public class Block implements ISupportMemento {
         if (commentNode != null) {
         	blockElement.appendChild(commentNode);
         }
+        
 
         if (this.hasBeforeConnector() && !this.getBeforeBlockID().equals(Block.NULL)) {
         	Element blockIdElement = document.createElement("BeforeBlockId");

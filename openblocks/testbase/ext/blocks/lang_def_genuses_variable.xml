@@ -158,6 +158,7 @@
 			数値型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="number">

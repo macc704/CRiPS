@@ -535,6 +535,7 @@ public class BlockStub extends Block {
     	Element parentGenusElement = document.createElement("StubParentGenus");
     	parentGenusElement.appendChild(document.createTextNode(parentGenus));
     	stubElement.appendChild(parentGenusElement);
+
     	
     	Node blockNode = super.getSaveNode(document, x, y, commentNode, collapsed);
     	stubElement.appendChild(blockNode);

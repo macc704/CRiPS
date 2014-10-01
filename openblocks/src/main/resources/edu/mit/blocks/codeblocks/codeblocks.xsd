@@ -140,7 +140,7 @@
 														<xs:sequence>
 															<xs:element name="StubParentName" type="xs:string"/>
 															<xs:element name="StubParentGenus" type="xs:string"/>
-															<xs:element name="Block" type="BlockType"/>
+															<xs:element name="Block" type="BlockType" minOccurs="0"/>
 														</xs:sequence>
 													</xs:complexType>
 												</xs:element>

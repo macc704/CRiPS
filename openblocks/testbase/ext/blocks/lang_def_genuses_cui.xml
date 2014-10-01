@@ -106,6 +106,8 @@
 
 <BlockGenus name="next" kind="function" initlabel="入力を受け取る(文字列型)"
 	color="255 0 0">
+	<Name>next</Name>
+	<ReturnType>String</ReturnType>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string">
 		</BlockConnector>
