@@ -59,6 +59,8 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
     private final Workspace workspace;
 
     private boolean collapsible = false;
+    
+    private static int MAX_HEIGHT = 1600;
 
     //////////////////////////////
     //Constructor/Destructor	//
@@ -433,7 +435,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
                     5,
                     d.getLeftPage().getJComponent().getHeight());
         }
-        canvas.setPreferredSize(new Dimension(widthCounter, (int) (maxHeight * Page.getZoomLevel())));
+        canvas.setPreferredSize(new Dimension(widthCounter, (int) (MAX_HEIGHT * Page.getZoomLevel())));
         scrollPane.revalidate();
         scrollPane.repaint();
     }

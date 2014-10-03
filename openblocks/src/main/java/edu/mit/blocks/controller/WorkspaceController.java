@@ -537,7 +537,7 @@ public class WorkspaceController {
 
 	public void setSelectedFile(File selectedFile) {
 		this.selectedFile = selectedFile;
-		frame.setTitle("WorkspaceDemo - " + selectedFile.getPath());
+		frame.setTitle("BlockEditor - " + selectedFile.getPath());
 	}
 
 	/**
@@ -584,7 +584,7 @@ public class WorkspaceController {
 	 * invoked from the event-dispatching thread.
 	 */
 	private void createAndShowGUI() {
-		frame = new JFrame("WorkspaceDemo");
+		frame = new JFrame("BlockEditor");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 800, 600);
 		// // final SearchBar sb = new SearchBar("Search blocks",

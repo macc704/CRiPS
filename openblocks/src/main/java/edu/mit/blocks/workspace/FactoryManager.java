@@ -201,7 +201,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
      * @param m
      */
     private void printError(String m) {
-        System.err.println(m);
+//        System.err.println(m);
     }
 
     /////////////////////
