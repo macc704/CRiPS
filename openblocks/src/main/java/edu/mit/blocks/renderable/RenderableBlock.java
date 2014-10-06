@@ -1358,6 +1358,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * updateBuffImg.
 	 */
 	private void reformBlockShape() {
+		if(getGenus().startsWith("callAction")){
+			System.out.println("hoge");
+		}
 		abstractBlockArea = blockShape.reformArea();
 		// TODO for zooming, create an AffineTransform to scale the block shape
 		AffineTransform at = new AffineTransform();
@@ -1381,11 +1384,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (pageLabel != null && getBlock().hasPageLabel()) {
 			pageLabel.update();
 		}
-		if (headerLabel != null) {
+		if (headerLabel != null && !headerLabel.getText().isEmpty()) {
 			headerLabel.update();
 		}
 
-		if (footerLabel != null) {
+		if (footerLabel != null && !footerLabel.getText().isEmpty()) {
 			footerLabel.update();
 		}
 

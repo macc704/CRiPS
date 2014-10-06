@@ -80,8 +80,8 @@ public class Block implements ISupportMemento {
     private final WorkspaceEnvironment env;
 
     
-	private String headerLabel = ""; 
-	private String footerLabel = "";
+	private String headerLabel; 
+	private String footerLabel;
 	
 	private HashMap<String, List<MethodInformation>> method;
 	
