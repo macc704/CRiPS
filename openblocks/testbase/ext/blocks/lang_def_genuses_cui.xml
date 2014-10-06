@@ -29,36 +29,6 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
-		<Stub stub-genus="callActionMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callGetterMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callBooleanMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callDoubleMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callStringMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
@@ -71,6 +41,16 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
+		<MethodStubs>
+			<ClassName name="Scanner">
+				<Stub stub-genus="next">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+			</ClassName>
+		</MethodStubs>
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -104,6 +84,7 @@
 	</ClassMethods>
 </BlockGenus>
 
+<!-- 
 <BlockGenus name="next" kind="function" initlabel="入力を受け取る(文字列型)"
 	color="255 0 0">
 	<Name>next</Name>
@@ -113,6 +94,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
+ -->
 
 <BlockGenus name="nextInt" kind="function" initlabel="入力を受け取る(int型)"
 	color="255 0 0">

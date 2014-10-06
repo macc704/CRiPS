@@ -25,12 +25,12 @@ public class SStubCreator {
 		this.rb = rb;
 	}
 
-	public void doWork(ActionEvent e) {
-		create(e);
+	public RenderableBlock doWork(ActionEvent e) {
+		return create(e);
 	}
-
-	private void create(ActionEvent e) {
-		createStub(stubName, rb);
+	
+	private RenderableBlock create(ActionEvent e) {
+		return createStub(stubName, rb);
 	}
 
 	public static RenderableBlock createStub(String stubName, RenderableBlock rb) {
@@ -40,7 +40,6 @@ public class SStubCreator {
 				Block createB = b.createFreshStub(stubGenus);
 				RenderableBlock newRB = new RenderableBlock(createB.getWorkspace(), null,
 						createB.getBlockID());
-
 				newRB.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
 
 				newRB.setParentWidget(rb.getParentWidget());

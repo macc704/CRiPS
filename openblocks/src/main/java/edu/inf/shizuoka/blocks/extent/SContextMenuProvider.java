@@ -8,6 +8,7 @@ package edu.inf.shizuoka.blocks.extent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -110,17 +111,27 @@ public class SContextMenuProvider {
 		return createIncrementerItem;
 	}
 
-//	private JMenuItem createLengthMenu() {
-//		if (createIncrementerItem == null) {
-//			createIncrementerItem = new JMenuItem("文字列の長さを取得する");
-//			createIncrementerItem.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					createCallMethod("length");
-//				}
-//			});
-//		}
-//		return createIncrementerItem;
-//	}
+	private JMenuItem createWriterMenu(final String stubName) {
+		JMenuItem item = new JMenuItem(rb.getWorkspace().getEnv().getGenusWithName(stubName).getInitialLabel());
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				createCallMethod(stubName,new SStubCreator(stubName, rb).doWork(e));
+			}
+		});
+		return item;
+	}
+
+	// private JMenuItem createLengthMenu() {
+	// if (createIncrementerItem == null) {
+	// createIncrementerItem = new JMenuItem("文字列の長さを取得する");
+	// createIncrementerItem.addActionListener(new ActionListener() {
+	// public void actionPerformed(ActionEvent e) {
+	// createCallMethod("length");
+	// }
+	// });
+	// }
+	// return createIncrementerItem;
+	// }
 
 	// private JMenuItem createCallActionMethodBlockMenu() {
 	// if (createCallActionMethodBlockItem == null) {
@@ -203,14 +214,24 @@ public class SContextMenuProvider {
 		return createCallerItem;
 	}
 
-	public JMenu createClassMethodsCategory(String className,
-			List<MethodInformation> methods) {
+//	public JMenu createClassMethodsCategory(String className,
+//			List<MethodInformation> methods) {
+//		JMenu category = new JMenu(className);
+//		for (MethodInformation method : methods) {
+//			category.add(createCallClassMethodMenu(method));
+//		}
+//
+//		return category;
+//	}
+	
+	public JMenu createClassMethodsCategory(String className, List<String> methods){
 		JMenu category = new JMenu(className);
-		for (MethodInformation method : methods) {
-			category.add(createCallClassMethodMenu(method));
+		
+		for(String methodName : methods){
+			category.add(createWriterMenu(methodName));
 		}
-
-		return category;
+		
+		return category;		
 	}
 
 	/**
@@ -235,6 +256,15 @@ public class SContextMenuProvider {
 			menu.add(createCreateValueMenu());
 			menu.add(createCreateWriterMenu());
 			// menu.add(createCreateGetterMenu());
+			menu.addSeparator();
+		}
+		
+		Map<String, List<String>> methods;
+		
+		for (String className : rb.getWorkspace().getEnv().getBlock(rb.getBlockID())
+				.getMethodStubList().keySet()) {
+			methods = rb.getWorkspace().getEnv().getBlock(rb.getBlockID()).getMethodStubList();
+			menu.add(createClassMethodsCategory(className, methods.get(className)));
 			menu.addSeparator();
 		}
 
@@ -354,10 +384,10 @@ public class SContextMenuProvider {
 		// menu.add(createGetterBlockMenu());
 		//
 
-		for (String key : rb.getBlock().getMethods().keySet()) {
-			menu.add(createClassMethodsCategory(key, rb.getBlock().getMethods()
-					.get(key)));
-		}
+//		for (String key : rb.getBlock().getMethods().keySet()) {
+//			menu.add(createClassMethodsCategory(key, rb.getBlock().getMethods()
+//					.get(key)));
+//		}
 		//
 		// if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
 		// {
@@ -512,111 +542,69 @@ public class SContextMenuProvider {
 		return menu;
 	}
 
-//	private JMenuItem createActionBlockMenu() {
-//		JMenuItem item = new JMenuItem("「実行」ブロック作成");
-//		item.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				createActionGetterBlock(rb, "callActionMethod2");
-//			}
-//		});
-//		return item;
-//	}
-//
-//	private JMenuItem createGetterBlockMenu() {
-//		JMenuItem item = new JMenuItem("「実行値」ブロック作成");
-//		item.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				createActionGetterBlock(rb, "callGetterMethod2");
-//			}
-//		});
-//		return item;
-//	}
+	// private JMenuItem createActionBlockMenu() {
+	// JMenuItem item = new JMenuItem("「実行」ブロック作成");
+	// item.addActionListener(new ActionListener() {
+	// public void actionPerformed(ActionEvent e) {
+	// createActionGetterBlock(rb, "callActionMethod2");
+	// }
+	// });
+	// return item;
+	// }
+	//
+	// private JMenuItem createGetterBlockMenu() {
+	// JMenuItem item = new JMenuItem("「実行値」ブロック作成");
+	// item.addActionListener(new ActionListener() {
+	// public void actionPerformed(ActionEvent e) {
+	// createActionGetterBlock(rb, "callGetterMethod2");
+	// }
+	// });
+	// return item;
+	// }
 
-	private JMenuItem createCallClassMethodMenu(final MethodInformation method) {
-		JMenuItem item = new JMenuItem(method.getLabel());
-		item.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				createCallMethod(method.getGenusName());
-			}
-		});
-
-		return item;
-
-		// for (int i = 0; i < method.get("parameters").size(); i++) {
-		// blockParam += "@" + getBlockType(method.get("parameters").get(i));
-		// param += method.get("parameters").get(i);
-		// if (i + 1 != method.get("parameters").size()) {
-		// param += ", ";
-		// }
-		// }
-		// param += ")";
-		// blockParam += "]";
-		// final String paramName = blockParam;
-		// if (method.get("name").get(0).startsWith("new-")) {
-		// JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
-		// item.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent e) {
-		// createConstructor(method.get("name").get(0) + paramName);
-		// }
-		// });
-		// return item;
-		// } else {
-		// JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
-		// item.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent e) {
-		// createCallMethod(method.get("name").get(0) + paramName);
-		// }
-		// });
-		// return item;
-		// }
-	}
 
 	/**
 	 */
-//	private JMenuItem createCallMethodMenu(final String name, String label) {
-//		JMenuItem item = new JMenuItem(label);
-//		item.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				createCallMethod(name);
-//			}
-//		});
-//		return item;
-//	}
-//
-//	private JMenuItem createCallStaticMethodMenu(final String name, String label) {
-//		JMenuItem item = new JMenuItem(label);
-//		item.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				createCallStaticMethod(name);
-//			}
-//		});
-//		return item;
-//	}
-//
-//	private JMenuItem createCallListMethodMenu(final String name, String label) {
-//		JMenuItem item = new JMenuItem(label);
-//		item.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				createListMethod(name);
-//			}
-//		});
-//		return item;
-//	}
-//
-//	private void createConstructor(String name) {
-//		RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(),
-//				rb.getParentWidget(), name);
-//		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20);
-//	}
+	// private JMenuItem createCallMethodMenu(final String name, String label) {
+	// JMenuItem item = new JMenuItem(label);
+	// item.addActionListener(new ActionListener() {
+	// public void actionPerformed(ActionEvent e) {
+	// createCallMethod(name);
+	// }
+	// });
+	// return item;
+	// }
+	//
+	// private JMenuItem createCallStaticMethodMenu(final String name, String
+	// label) {
+	// JMenuItem item = new JMenuItem(label);
+	// item.addActionListener(new ActionListener() {
+	// public void actionPerformed(ActionEvent e) {
+	// createCallStaticMethod(name);
+	// }
+	// });
+	// return item;
+	// }
+	//
+	// private JMenuItem createCallListMethodMenu(final String name, String
+	// label) {
+	// JMenuItem item = new JMenuItem(label);
+	// item.addActionListener(new ActionListener() {
+	// public void actionPerformed(ActionEvent e) {
+	// createListMethod(name);
+	// }
+	// });
+	// return item;
+	// }
+	//
+	// private void createConstructor(String name) {
+	// RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(),
+	// rb.getParentWidget(), name);
+	// newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20);
+	// }
 
-	private void createCallMethod(String name) {
-		// RenderableBlock createRb =
-		// BlockUtilities.getBlock("get","hoge");//does not work !!
-
-		RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(),
-				rb.getParentWidget(), name);
+	private void createCallMethod(String name, RenderableBlock newCommandRBlock) {
 
 		boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
 		if (cmd) {
@@ -640,58 +628,58 @@ public class SContextMenuProvider {
 		}
 	}
 
-//	private void createCallStaticMethod(String name) {
-//		RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(),
-//				rb.getParentWidget(), name);
-//		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20);
-//	}
-//
-//	private void createListMethod(String name) {
-//		// RenderableBlock newCommandRBlock =
-//		// createNewBlock(rb.getParentWidget(),
-//		// name);
-//		//
-//		// //Listの型を確認する
-//		// Block newBlock = Block.getBlock(rb.getBlock().getSocketAt(0)
-//		// .getBlockID());
-//		// Block typeBlock =
-//		// Block.getBlock(newBlock.getSocketAt(0).getBlockID());
-//		// //listの型
-//		// String type =
-//		// ElementModel.getConnectorType(typeBlock.getBlockLabel());
-//		// if (newCommandRBlock.getBlock().getGenusName().equals("add"))
-//		// {//要素を追加するメソッドの場合は、プラグの形を変える
-//		// newCommandRBlock.getBlock().getSocketAt(0).setKind(type);
-//		// }
-//		// boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
-//		// if (cmd) {
-//		// RenderableBlock newActionRBlock = createActionGetterBlock(rb,
-//		// "callActionMethod2");
-//		// connectByBefore(newActionRBlock, 1, newCommandRBlock);
-//		//
-//		// } else {
-//		// RenderableBlock newGetterRBlock = createActionGetterBlock(rb,
-//		// "callGetterMethod2");
-//		// connectByPlug(newGetterRBlock, 1, newCommandRBlock);
-//		//
-//		// boolean returnObject = newCommandRBlock.getBlock().getPlug()
-//		// .getKind().equals("object");
-//		// if (returnObject) {
-//		//
-//		// newGetterRBlock.getBlock().setPlugKind(type);
-//		//
-//		// //要素がobject型なら、callActionMethod2ブロックと結合する
-//		// if (type.equals("object")) {
-//		// RenderableBlock newActionRBlock = createNewBlock(
-//		// rb.getParentWidget(), "callActionMethod2");
-//		// newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); //
-//		// 新しく生成するブロックのポジション
-//		// connectByPlug(newActionRBlock, 0, newGetterRBlock);
-//		// }
-//		// }
-//		// }
-//
-//	}
+	// private void createCallStaticMethod(String name) {
+	// RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(),
+	// rb.getParentWidget(), name);
+	// newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20);
+	// }
+	//
+	// private void createListMethod(String name) {
+	// // RenderableBlock newCommandRBlock =
+	// // createNewBlock(rb.getParentWidget(),
+	// // name);
+	// //
+	// // //Listの型を確認する
+	// // Block newBlock = Block.getBlock(rb.getBlock().getSocketAt(0)
+	// // .getBlockID());
+	// // Block typeBlock =
+	// // Block.getBlock(newBlock.getSocketAt(0).getBlockID());
+	// // //listの型
+	// // String type =
+	// // ElementModel.getConnectorType(typeBlock.getBlockLabel());
+	// // if (newCommandRBlock.getBlock().getGenusName().equals("add"))
+	// // {//要素を追加するメソッドの場合は、プラグの形を変える
+	// // newCommandRBlock.getBlock().getSocketAt(0).setKind(type);
+	// // }
+	// // boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
+	// // if (cmd) {
+	// // RenderableBlock newActionRBlock = createActionGetterBlock(rb,
+	// // "callActionMethod2");
+	// // connectByBefore(newActionRBlock, 1, newCommandRBlock);
+	// //
+	// // } else {
+	// // RenderableBlock newGetterRBlock = createActionGetterBlock(rb,
+	// // "callGetterMethod2");
+	// // connectByPlug(newGetterRBlock, 1, newCommandRBlock);
+	// //
+	// // boolean returnObject = newCommandRBlock.getBlock().getPlug()
+	// // .getKind().equals("object");
+	// // if (returnObject) {
+	// //
+	// // newGetterRBlock.getBlock().setPlugKind(type);
+	// //
+	// // //要素がobject型なら、callActionMethod2ブロックと結合する
+	// // if (type.equals("object")) {
+	// // RenderableBlock newActionRBlock = createNewBlock(
+	// // rb.getParentWidget(), "callActionMethod2");
+	// // newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); //
+	// // 新しく生成するブロックのポジション
+	// // connectByPlug(newActionRBlock, 0, newGetterRBlock);
+	// // }
+	// // }
+	// // }
+	//
+	// }
 
 	// #ohata
 	private void createNewGetterMethod(String name) {
@@ -816,8 +804,11 @@ public class SContextMenuProvider {
 				parent.getBlock().getSocketAt(socketIndex), child.getBlock()
 						.getPlug());
 		link.connect();
-		
-		parent.getWorkspace().notifyListeners(new WorkspaceEvent(parent.getWorkspace(), parent.getParentWidget(), link, WorkspaceEvent.BLOCKS_CONNECTED));
+
+		parent.getWorkspace().notifyListeners(
+				new WorkspaceEvent(parent.getWorkspace(), parent
+						.getParentWidget(), link,
+						WorkspaceEvent.BLOCKS_CONNECTED));
 
 	}
 
@@ -828,7 +819,10 @@ public class SContextMenuProvider {
 				parent.getBlock().getSocketAt(socketIndex), child.getBlock()
 						.getBeforeConnector());
 		link.connect();
-		parent.getWorkspace().notifyListeners(new WorkspaceEvent(parent.getWorkspace(), parent.getParentWidget(), link, WorkspaceEvent.BLOCKS_CONNECTED));
+		parent.getWorkspace().notifyListeners(
+				new WorkspaceEvent(parent.getWorkspace(), parent
+						.getParentWidget(), link,
+						WorkspaceEvent.BLOCKS_CONNECTED));
 
 	}
 
@@ -840,7 +834,10 @@ public class SContextMenuProvider {
 						.getSocketAt(socketIndex));
 		link.connect();
 
-		parent.getWorkspace().notifyListeners(new WorkspaceEvent(parent.getWorkspace(), parent.getParentWidget(), link, WorkspaceEvent.BLOCKS_CONNECTED));
+		parent.getWorkspace().notifyListeners(
+				new WorkspaceEvent(parent.getWorkspace(), parent
+						.getParentWidget(), link,
+						WorkspaceEvent.BLOCKS_CONNECTED));
 	}
 
 	private String getBlockScope(String name) {

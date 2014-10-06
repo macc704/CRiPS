@@ -139,6 +139,34 @@ public class BlockStub extends Block {
         } else if (stubGenus.startsWith(INC_STUB)) {
             //only included for number variables
             //do nothing for now
+        }else{
+            if (getSocketAt(0) != null  && getSocketAt(0).getBlockID() != Block.NULL) {
+                //retrieve sockets from parent and set sockets accordingly
+                Iterator<BlockConnector> sockets = parent.getSockets().iterator();
+                for (;sockets.hasNext();) {
+                    BlockConnector socket = sockets.next();
+                    //socket labels should correspond with the socket blocks of parent
+                    if (socket.getBlockID() != Block.NULL) {
+                        addSocket(socket.getKind(), BlockConnector.PositionType.SINGLE, workspace.getEnv().getBlock(socket.getBlockID()).getBlockLabel(), false, false, Block.NULL);
+                    }
+                }
+            }
+
+            // If our parent already has a plug type, we want to update 
+            // Note that we don't need to call renderables, since we are still
+            // in the constructor
+            String kind = parentToPlugType.get(parent.getBlockLabel() + parent.getGenusName());
+            if (kind != null) {
+                removeBeforeAndAfter();
+                //TODO ria commented code relates to creating mirror plugs for caller stubs that have no sockets
+                //if(this.getNumSockets() == 0){
+                //	setPlug(kind, PositionType.MIRROR, "", false, Block.NULL);
+                //} else {
+                setPlug(kind, PositionType.SINGLE, "", false, Block.NULL);
+                //}
+            }
+
+        	this.setBlockLabel(this.getInitialLabel());
         }
 
         //has  page label of parent if parent has page label
