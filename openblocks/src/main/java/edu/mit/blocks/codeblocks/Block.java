@@ -1602,7 +1602,7 @@ public class Block implements ISupportMemento {
 			boolean isCollapsed) {
 		Element blockElement = document.createElement("Block");
 
-		blockElement.setAttribute("id", Long.toString(getBlockID()));
+		blockElement.setAttribute("id", Long.toString(EXPORT_NEXT_ID++));
 		blockElement.setAttribute("genus-name", getGenusName());
 		if (hasFocus) {
 			blockElement.setAttribute("has-focus", "yes");
@@ -1745,6 +1745,7 @@ public class Block implements ISupportMemento {
 		ArrayList<BlockConnector> sockets = new ArrayList<BlockConnector>();
 		HashMap<String, String> blockLangProperties = null;
 		boolean hasFocus = false;
+		String name = null;
 
 		// stub information if this node contains a stub
 		boolean isStubBlock = false;
@@ -1832,6 +1833,8 @@ public class Block implements ISupportMemento {
 									workspace, socketNode, idMapping));
 						}
 					}
+				} else if(child.getNodeName().equals("Name")){
+					name = child.getTextContent();
 				} else if (child.getNodeName().equals("LangSpecProperties")) {
 					blockLangProperties = new HashMap<String, String>();
 					NodeList propertyNodes = child.getChildNodes();
@@ -1921,6 +1924,10 @@ public class Block implements ISupportMemento {
 				block.isBad = true;
 				block.badMsg = badMsg;
 			}
+			if(name != null){
+				block.name = name;
+			}
+			
 			block.hasFocus = hasFocus;
 
 			// load language dependent properties

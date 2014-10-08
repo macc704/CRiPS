@@ -629,7 +629,7 @@ public class WorkspaceController {
 	 */
 	private void createAndShowGUI() {
 		frame = new JFrame("BlockEditor");
-
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(100, 100, 800, 600);
 		// // final SearchBar sb = new SearchBar("Search blocks",
 		// // "Search for blocks in the drawers and workspace", workspace);
@@ -661,6 +661,7 @@ public class WorkspaceController {
 	private void createDebugGUI() {
 
 		frame = new JFrame("BlockEditor");
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 800, 600);
 
 		frame.setJMenuBar(getMenuBar());
