@@ -139,7 +139,7 @@ public class BlockStub extends Block {
         } else if (stubGenus.startsWith(INC_STUB)) {
             //only included for number variables
             //do nothing for now
-        }else{
+        }else{//others are method call stubs
             if (getSocketAt(0) != null  && getSocketAt(0).getBlockID() != Block.NULL) {
                 //retrieve sockets from parent and set sockets accordingly
                 Iterator<BlockConnector> sockets = parent.getSockets().iterator();

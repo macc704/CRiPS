@@ -49,6 +49,30 @@
 						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 					</LangSpecProperties>
 				</Stub>
+				<Stub stub-genus="nextInt">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="nextDouble">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="hasNextInt">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>				
+				<Stub stub-genus="hasNextDouble">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>																
 			</ClassName>
 		</MethodStubs>
 	</Stubs>
@@ -58,30 +82,6 @@
 		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
-	<ClassMethods>
-		<ClassName name="Scanner">
-			<Method>
-				<MethodProperty name="next" label="入力を受け取る（文字列型）">
-				</MethodProperty>
-			</Method>
-			<Method>
-				<MethodProperty name="nextInt" label="入力を受け取る（int型）">
-				</MethodProperty>
-			</Method>
-			<Method>
-				<MethodProperty name="nextDouble" label="入力を受け取る（double型）">
-				</MethodProperty>
-			</Method>
-			<Method>
-				<MethodProperty name="hasNextInt" label="入力が整数型かどうか調べる">
-				</MethodProperty>
-			</Method>
-			<Method>
-				<MethodProperty name="hasNextDouble" label="入力が実数型かどうか調べる">
-				</MethodProperty>
-			</Method>
-		</ClassName>
-	</ClassMethods>
 </BlockGenus>
 
 <!-- 
@@ -95,39 +95,6 @@
 	</BlockConnectors>
 </BlockGenus>
  -->
-
-<BlockGenus name="nextInt" kind="function" initlabel="入力を受け取る(int型)"
-	color="255 0 0">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="number">
-		</BlockConnector>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="nextDouble" kind="function" initlabel="入力を受け取る(double型)"
-	color="255 0 0">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="double-number">
-		</BlockConnector>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="hasNextDouble" kind="data" initlabel="入力がdouble型か調べる"
-	color="255 0 0">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="boolean">
-		</BlockConnector>
-	</BlockConnectors>
-</BlockGenus>
-
-
-<BlockGenus name="hasNextInt" kind="data" initlabel="入力がint型か調べる"
-	color="255 0 0">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="boolean">
-		</BlockConnector>
-	</BlockConnectors>
-</BlockGenus>
 
 <BlockGenus name="hashCode" kind="function" initlabel="ハッシュ値を求める"
 	color="255 0 0">

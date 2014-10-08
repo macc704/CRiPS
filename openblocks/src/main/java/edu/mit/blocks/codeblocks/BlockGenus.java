@@ -121,7 +121,7 @@ public class BlockGenus {
 				+ genusName;
 
 		BlockGenus genusToCopy = env.getGenusWithName(genusName);
-		System.out.println("copy" + genusName);
+
 		this.genusName = newGenusName;
 		this.areSocketsExpandable = genusToCopy.areSocketsExpandable;
 		this.color = new Color(genusToCopy.color.getRed(),
@@ -1006,7 +1006,11 @@ public class BlockGenus {
 			}
 		}
 	}
-
+	
+	
+	/*
+	 * クラス・メソッドのブロックの読み込みを行う
+	 */
 	private static void loadClassMethodsStubs(NodeList stubs,  BlockGenus genus){
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
@@ -1022,6 +1026,9 @@ public class BlockGenus {
 		}
 	}
 	
+	/*
+	 * 1つのクラス・メソッドの呼び出しブロックのstub情報を全て読み込む
+	 */
 	private static void loadMethodStubs(NodeList stubs,  BlockGenus genus, String className){
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
@@ -1263,9 +1270,6 @@ public class BlockGenus {
 						// / LOAD STUBS INFO AND GENERATE GENUSES FOR EACH STUB
 						// ///
 						loadStubs(genusChild.getChildNodes(), newGenus);
-					} else if (genusChild.getNodeName().equals("ClassMethods")) {
-						// 読み込み
-						loadClassMethods(genusChild.getChildNodes(), newGenus);
 					}
 				}
 
@@ -1283,8 +1287,6 @@ public class BlockGenus {
 							BlockConnector.PositionType.BOTTOM, "", false,
 							false, Block.NULL);
 				}
-
-				System.out.println("Added "+newGenus.toString());
 				env.addBlockGenus(newGenus);
 			}
 
@@ -1329,86 +1331,86 @@ public class BlockGenus {
 		}
 	}
 
-
-	/*
-	 * メソッド情報の読み込み
-	 */
-	private static void loadClassMethods(NodeList classMethods, BlockGenus genus) {
-		Pattern extractor = Pattern.compile("\"(.*)\"");
-		Matcher matcher;
-		Node prop;
-		// String methodDecralation;
-		List<MethodInformation> methodList = new ArrayList<MethodInformation>();
-
-		String className = "";
-
-		for (int i = 0; i < classMethods.getLength(); i++) {
-
-			Node parent = classMethods.item(i);
-
-			if (parent.getNodeName().equals("ClassName")) {
-
-				matcher = extractor.matcher(parent.getAttributes()
-						.getNamedItem("name").toString());
-
-				if (matcher.find()) {// will be true
-					className = matcher.group(1).toString();
-				}
-
-				NodeList methods = parent.getChildNodes();
-				for (int l = 0; l < methods.getLength(); l++) {
-					prop = methods.item(l);
-					if (prop.getNodeName().equals("Method")) {
-						String name = "";
-						String label = "";
-						List<String> parameters = new ArrayList<String>();
-						NodeList tmp = prop.getChildNodes();
-						for (int m = 0; m < tmp.getLength(); m++) {
-							prop = tmp.item(m);
-							if (prop.getNodeName().equals("MethodProperty")) {
-								if (prop.getAttributes().getLength() > 0) {
-									matcher = extractor.matcher(prop
-											.getAttributes()
-											.getNamedItem("name").toString());
-
-									if (matcher.find()) {// will be true
-										name = matcher.group(1).toString();
-										label = name;
-									}
-									
-									Node label_item = prop.getAttributes()
-											.getNamedItem("label");
-
-									if (label_item != null) {
-										matcher = extractor.matcher(label_item.toString());
-										if (matcher.find()) {
-											label = matcher.group(1).toString();
-										}
-									}
-
-									NodeList parameter_item = prop
-											.getChildNodes();
-									Node parameter;
-									for (int j = 0; j < parameter_item
-											.getLength(); j++) {
-										parameter = parameter_item.item(j);
-										if (parameter.getNodeName().equals(
-												"Parameter")) {
-											parameters.add(parameter
-													.getTextContent());
-										}
-									}
-								}
-							}
-						}
-						methodList.add(new MethodInformation(
-								name, label));
-					}
-				}
-				genus.methods.put(className, methodList);
-			}
-		}
-	}
+//
+//	/*
+//	 * メソッド情報の読み込み
+//	 */
+//	private static void loadClassMethods(NodeList classMethods, BlockGenus genus) {
+//		Pattern extractor = Pattern.compile("\"(.*)\"");
+//		Matcher matcher;
+//		Node prop;
+//		// String methodDecralation;
+//		List<MethodInformation> methodList = new ArrayList<MethodInformation>();
+//
+//		String className = "";
+//
+//		for (int i = 0; i < classMethods.getLength(); i++) {
+//
+//			Node parent = classMethods.item(i);
+//
+//			if (parent.getNodeName().equals("ClassName")) {
+//
+//				matcher = extractor.matcher(parent.getAttributes()
+//						.getNamedItem("name").toString());
+//
+//				if (matcher.find()) {// will be true
+//					className = matcher.group(1).toString();
+//				}
+//
+//				NodeList methods = parent.getChildNodes();
+//				for (int l = 0; l < methods.getLength(); l++) {
+//					prop = methods.item(l);
+//					if (prop.getNodeName().equals("Method")) {
+//						String name = "";
+//						String label = "";
+//						List<String> parameters = new ArrayList<String>();
+//						NodeList tmp = prop.getChildNodes();
+//						for (int m = 0; m < tmp.getLength(); m++) {
+//							prop = tmp.item(m);
+//							if (prop.getNodeName().equals("MethodProperty")) {
+//								if (prop.getAttributes().getLength() > 0) {
+//									matcher = extractor.matcher(prop
+//											.getAttributes()
+//											.getNamedItem("name").toString());
+//
+//									if (matcher.find()) {// will be true
+//										name = matcher.group(1).toString();
+//										label = name;
+//									}
+//									
+//									Node label_item = prop.getAttributes()
+//											.getNamedItem("label");
+//
+//									if (label_item != null) {
+//										matcher = extractor.matcher(label_item.toString());
+//										if (matcher.find()) {
+//											label = matcher.group(1).toString();
+//										}
+//									}
+//
+//									NodeList parameter_item = prop
+//											.getChildNodes();
+//									Node parameter;
+//									for (int j = 0; j < parameter_item
+//											.getLength(); j++) {
+//										parameter = parameter_item.item(j);
+//										if (parameter.getNodeName().equals(
+//												"Parameter")) {
+//											parameters.add(parameter
+//													.getTextContent());
+//										}
+//									}
+//								}
+//							}
+//						}
+//						methodList.add(new MethodInformation(
+//								name, label));
+//					}
+//				}
+//				genus.methods.put(className, methodList);
+//			}
+//		}
+//	}
 
 	/**
 	 * Returns String representation of this
