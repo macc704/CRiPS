@@ -33,6 +33,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
 	</BlockConnectors>
+	<Type>int</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -66,6 +67,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
 	</BlockConnectors>
+	<Type>double</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -93,6 +95,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"></BlockConnector>
 	</BlockConnectors>
+	<Type>boolean</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -120,6 +123,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 	</BlockConnectors>
+	<Type>String</Type>	
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -147,6 +151,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
+	<Type>Object</Type>	
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -187,7 +192,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<JavaType>int[]</JavaType>
+	<Type>int-array</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -228,7 +233,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<JavaType>Object[]</JavaType>
+	<Type>Object-array</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -269,7 +274,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<JavaType>double[]</JavaType>
+	<Type>double-array</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -310,7 +315,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<JavaType>String[]</JavaType>
+	<Type>String-array</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -351,7 +356,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<JavaType>BCanvas</JavaType>
+	<Type>obpro.BCanvas</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -376,7 +381,7 @@
 <BlockGenus name="proc-param-object-bwindow" kind="param" initlabel="BWindow型引数"
 	editable-label="yes" header-label="BWindow型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
 	color="200 200 200">
-	<JavaType>BWindow</JavaType>
+	<Type>obpro.BWindow</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
@@ -407,7 +412,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<JavaType>BSound</JavaType>
+	<Type>obpro.BSound</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -435,7 +440,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<JavaType>Color</JavaType>
+	<Type>util.Color</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>

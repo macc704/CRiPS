@@ -43,31 +43,31 @@
 		</Stub>
 		<MethodStubs>
 			<ClassName name="Scanner">
-				<Stub stub-genus="next">
+				<Stub stub-genus="next[]">
 					<LangSpecProperties>
 						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 					</LangSpecProperties>
 				</Stub>
-				<Stub stub-genus="nextInt">
+				<Stub stub-genus="nextInt[]">
 					<LangSpecProperties>
 						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 					</LangSpecProperties>
 				</Stub>
-				<Stub stub-genus="nextDouble">
+				<Stub stub-genus="nextDouble[]">
 					<LangSpecProperties>
 						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 					</LangSpecProperties>
 				</Stub>
-				<Stub stub-genus="hasNextInt">
+				<Stub stub-genus="hasNextInt[]">
 					<LangSpecProperties>
 						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 					</LangSpecProperties>
 				</Stub>				
-				<Stub stub-genus="hasNextDouble">
+				<Stub stub-genus="hasNextDouble[]">
 					<LangSpecProperties>
 						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 						<LangSpecProperty key="scope" value="local"></LangSpecProperty>

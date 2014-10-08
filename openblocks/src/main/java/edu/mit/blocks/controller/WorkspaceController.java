@@ -3,6 +3,7 @@ package edu.mit.blocks.controller;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -18,6 +19,9 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.xml.XMLConstants;
@@ -557,6 +561,15 @@ public class WorkspaceController {
 		return buttonPanel;
 	}
 
+	private JComponent getDebugButtonPanel() {
+		JPanel buttonPanel = new JPanel();
+
+		buttonPanel.add(new JButton("◀|"));
+
+		buttonPanel.add(new JButton("|▶"));
+		return buttonPanel;
+	}
+	
 	/**
 	 * Returns a SearchBar instance capable of searching for blocks within the
 	 * BlockCanvas and block drawers
@@ -578,6 +591,37 @@ public class WorkspaceController {
 	public Iterable<SearchableContainer> getAllSearchableContainers() {
 		return workspace.getAllSearchableContainers();
 	}
+	
+	private JMenuBar getMenuBar(){
+		JMenuBar menuBar = new JMenuBar();
+		
+		//open other blockeditor
+		JMenu menu = new JMenu("Tooles");
+		JMenuItem item = new JMenuItem("Open other BlockEditor");
+		item.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				runBlockEditor();
+			}
+		});
+		
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 
+				frame.dispose();
+			}
+		});
+		
+		menu.add(item);
+		menu.add(exit);
+		
+		menuBar.add(menu);
+		
+		return menuBar;
+	}
 
 	/**
 	 * Create the GUI and show it. For thread safety, this method should be
@@ -585,7 +629,7 @@ public class WorkspaceController {
 	 */
 	private void createAndShowGUI() {
 		frame = new JFrame("BlockEditor");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		frame.setBounds(100, 100, 800, 600);
 		// // final SearchBar sb = new SearchBar("Search blocks",
 		// // "Search for blocks in the drawers and workspace", workspace);
@@ -597,8 +641,36 @@ public class WorkspaceController {
 		// // sb.getComponent().setPreferredSize(new Dimension(130, 23));
 		// // topPane.add(sb.getComponent());
 		// frame.add(topPane, BorderLayout.PAGE_START);
+		frame.setJMenuBar(getMenuBar());
+		
 		frame.add(getWorkspacePanel(), BorderLayout.CENTER);
-		frame.add(getButtonPanel(), BorderLayout.NORTH);
+
+		frame.add(getButtonPanel(), BorderLayout.PAGE_START);
+		
+		frame.setVisible(true);
+	}
+	
+	
+	private void runBlockEditor(){
+		final WorkspaceController wc = new WorkspaceController();
+		wc.setLangDefFilePath(langDefRootPath);
+		wc.loadFreshWorkspace();
+//		wc.loadProjectFromPath(path);
+		wc.createDebugGUI();
+	}
+	private void createDebugGUI() {
+
+		frame = new JFrame("BlockEditor");
+		frame.setBounds(100, 100, 800, 600);
+
+		frame.setJMenuBar(getMenuBar());
+		
+		frame.add(getWorkspacePanel(), BorderLayout.CENTER);
+
+		frame.add(getDebugButtonPanel(), BorderLayout.PAGE_START);
+		
+		
+
 		frame.setVisible(true);
 	}
 
