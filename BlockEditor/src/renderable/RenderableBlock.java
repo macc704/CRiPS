@@ -2045,10 +2045,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				RenderableBlock.getRenderableBlock(parentBlock.getBlockID()).highlighter.setHighlightColor(Color.YELLOW);
 
 				//子ブロックのハイライト
-				hilightAllStubBlocks(parentBlock, catchedBlock);
+				hilightAllStubBlocks(parentBlock, catchedBlock, widget);
 
 			}else if(catchedBlock.isVariableDeclBlock()){
-				hilightAllStubBlocks(catchedBlock, catchedBlock);
+				hilightAllStubBlocks(catchedBlock, catchedBlock, widget);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -2056,17 +2056,28 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	}
 
-	public static void hilightAllStubBlocks(Block parentBlock, Block catchedBlock){
+	public static void hilightAllStubBlocks(Block parentBlock, Block catchedBlock, WorkspaceWidget widget){
 		//子ブロックのハイライト
-		for(Block block : Block.getAllBlocks()){
-			if(block instanceof BlockStub && catchedBlock.equals(((BlockStub) block).getParent())){
-				RenderableBlock.getRenderableBlock(block.getBlockID()).highlighter.setHighlightColor(Color.YELLOW);
+		for(RenderableBlock rb : widget.getBlocks()){
+			Block block = rb.getBlock();
+			if(block instanceof BlockStub  && parentBlock.equals(((BlockStub) block).getParent())){
+				if(isShouldHilightBlock(block.getGenusName())){
+					rb.highlighter.setHighlightColor(Color.yellow);	
+				}
 			}
 		}
 	}
 
+	public static boolean isShouldHilightBlock(String genusName){
+		if(genusName.startsWith("setter") || genusName.startsWith("getter") || genusName.startsWith("inc") || genusName.startsWith("caller")){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	public static void resetHilightAllStubBlocks(){
-		//子ブロックのハイライト
+		//子ブロックのハイライトを消す
 		for(Block block : Block.getAllBlocks()){
 			RenderableBlock.getRenderableBlock(block.getBlockID()).highlighter.resetHighlight();
 		}		
