@@ -94,6 +94,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/** Mapping from blockID to the corresponding RenderableBlock instance */
 	private static final Map<Long, RenderableBlock> ALL_RENDERABLE_BLOCKS = new HashMap<Long, RenderableBlock>();
 
+	private static final List<Long> hilightBlocks = new ArrayList<Long>();
+	
 	// /////////////////////
 	// COMPONENT FIELDS
 	/** BlockID of this. MAY BE Block.NULL */
@@ -369,6 +371,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 */
 	public Long getBlockID() {
 		return blockID;
+	}
+	
+	private static List<Long> getHilightBlocksList(){
+		return hilightBlocks;
 	}
 
 	/**
@@ -1056,7 +1062,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				id = ids.next();
 				socket = sockets.next();
 				if (id != Block.NULL) {
-					// for each block id, create a new RenderableBlock
+					// for each block id, create a new RenderableBlock]
+
 					RenderableBlock arg = new RenderableBlock(
 							this.getParentWidget(), id);
 					arg.setZoomLevel(this.zoom);
@@ -2044,6 +2051,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				Block parentBlock = ((BlockStub) catchedBlock).getParent();
 				RenderableBlock.getRenderableBlock(parentBlock.getBlockID()).highlighter.setHighlightColor(Color.YELLOW);
 
+				hilightBlocks.add(parentBlock.getBlockID());
+				
 				//子ブロックのハイライト
 				hilightAllStubBlocks(parentBlock, catchedBlock, widget);
 
@@ -2063,6 +2072,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			if(block instanceof BlockStub  && parentBlock.equals(((BlockStub) block).getParent())){
 				if(isShouldHilightBlock(block.getGenusName())){
 					rb.highlighter.setHighlightColor(Color.yellow);	
+					RenderableBlock.getHilightBlocksList().add(rb.blockID);
 				}
 			}
 		}
@@ -2078,9 +2088,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	
 	public static void resetHilightAllStubBlocks(){
 		//子ブロックのハイライトを消す
-		for(Block block : Block.getAllBlocks()){
-			RenderableBlock.getRenderableBlock(block.getBlockID()).highlighter.resetHighlight();
-		}		
+		List<Long> hilightBlocks = RenderableBlock.getHilightBlocksList(); 
+		for(Long blockID : hilightBlocks){
+			RenderableBlock.getRenderableBlock(blockID).highlighter.resetHighlight();
+		}
+		hilightBlocks.clear();
 	}
 	
 	// /////////////////

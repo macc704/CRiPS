@@ -163,7 +163,6 @@ public class BlockUtilities {
 
 		String labelWithIndex = label; // labelWithIndex will have the instance
 										// value
-
 		int value;
 		// initialize value that will be appended to the end of the label
 		if (instanceCounter.containsKey(mygenusname)) {
