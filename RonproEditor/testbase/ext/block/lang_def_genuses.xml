@@ -38,7 +38,7 @@
 	<BlockConnectors>
 		<BlockConnector label="かどうか調べて" connector-kind="socket"
 			connector-type="boolean">
-			<DefaultArg genus-name="lessthanorequalto" label="≤"></DefaultArg>
+			<DefaultArg genus-name="lessthanorequalto" label="≦"></DefaultArg>
 		</BlockConnector>
 		<BlockConnector label="真の間" connector-kind="socket"
 			connector-type="cmd"></BlockConnector>
@@ -54,7 +54,7 @@
 			connector-type="cmd"></BlockConnector>	
 		<BlockConnector label="かどうか調べて" connector-kind="socket"
 			connector-type="boolean">
-			<DefaultArg genus-name="lessthanorequalto" label="≤"></DefaultArg>
+			<DefaultArg genus-name="lessthanorequalto" label="≦"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
