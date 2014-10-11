@@ -190,7 +190,7 @@ public class BlockStub extends Block {
      * @param parentGenus the String BlockGenus name of its parent
      */
     protected BlockStub(Workspace workspace, Long blockID, String stubGenus, String label, String parentName, String parentGenus) {
-        super(workspace, NEXT_ID++, stubGenus, label, true);   //stubs may have stubs...
+        super(workspace, workspace.getEnv().getNextBlockID(), stubGenus, label, true);   //stubs may have stubs...
         //unlike the above constructor, the blockID specified should already
         //be referencing a fully loaded block with all necessary information
         //such as sockets, plugs, labels, etc.

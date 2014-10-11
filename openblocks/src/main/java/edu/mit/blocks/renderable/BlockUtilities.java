@@ -151,6 +151,7 @@ public class BlockUtilities {
         // TODO - djwendel - create a copy of the RB properties too, using an RB copy constructor.  Don't just use the genus.
         //RenderableBlock renderable = new RenderableBlock(this.getParentWidget(), block.getBlockID());
         RenderableBlock renderable = new RenderableBlock(workspace, null, block.getBlockID());
+
         renderable.setZoomLevel(BlockUtilities.zoom);
         renderable.redrawFromTop();
         renderable.repaint();

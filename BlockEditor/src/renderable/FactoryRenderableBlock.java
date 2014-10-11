@@ -53,7 +53,6 @@ public class FactoryRenderableBlock extends RenderableBlock {
 		if (Block.getBlock(getBlockID()).isVariableDeclBlock()) {
 			this.remove(getBlockLabel().getJComponent());
 		}
-		// System.out.println("Factory:" + getBlockID());
 	}
 
 	/**

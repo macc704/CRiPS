@@ -45,8 +45,7 @@ public class WorkspaceEnvironment {
     // Block
 
     private final Map<Long, Block> allBlocks = new HashMap<Long, Block>();
-    private static long STARTID = 1000;
-    private long nextBlockID = STARTID;
+    private static long NEXT_ID = 1;
 
     public Block getBlock(Long blockID) {
         return this.allBlocks.get(blockID);
@@ -56,8 +55,9 @@ public class WorkspaceEnvironment {
 
     	long id = block.getBlockID();
 
+    	
         if (this.allBlocks.containsKey(id)) {
-            Block dup = this.allBlocks.get(id);
+    		Block dup = this.allBlocks.get(id);
             System.out.println("pre-existing block is: " + dup + " with genus " + dup.getGenusName() + " and label " + dup.getBlockLabel());
             assert !this.allBlocks.containsKey(id) : "Block id: " + id + " already exists!  BlockGenus " + block.getGenusName() + " label: " + block.getBlockLabel();
         }
@@ -66,7 +66,7 @@ public class WorkspaceEnvironment {
     }
 
     public long getNextBlockID() {
-    	return this.nextBlockID++;
+    	return NEXT_ID++;
     }
 
     // BlockStubs
@@ -127,7 +127,7 @@ public class WorkspaceEnvironment {
 
         //Block.reset();
         this.allBlocks.clear();
-        this.nextBlockID = STARTID;
+        this.NEXT_ID = 1;
 
         //BlockStub.reset();
         this.parentNameToParentBlock.clear();

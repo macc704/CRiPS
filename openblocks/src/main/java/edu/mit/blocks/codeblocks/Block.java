@@ -46,8 +46,7 @@ public class Block implements ISupportMemento {
 	private BlockConnector before;
 	private BlockConnector after;
 
-	protected static long NEXT_ID = 1;
-	protected static long EXPORT_NEXT_ID = 1000;
+	public static long OUTPUT_ID = 1000;
 
 	/**
 	 * The expand-groups. A list is used instead of a map, because we don't
@@ -200,7 +199,7 @@ public class Block implements ISupportMemento {
 	public Block(Workspace workspace, String genusName, String label,
 			boolean linkToStubs) {
 		// more will go into constructor;
-		this(workspace, NEXT_ID++, genusName, label, linkToStubs);
+		this(workspace, workspace.getEnv().getNextBlockID(), genusName, label, linkToStubs);
 	}
 
 	/**
@@ -217,7 +216,7 @@ public class Block implements ISupportMemento {
 	 */
 	public Block(Workspace workspace, String genusName, String label) {
 		// more will go into constructor;
-		this(workspace, NEXT_ID++, genusName, label, true);
+		this(workspace, workspace.getEnv().getNextBlockID() , genusName, label, true);
 	}
 
 	/**
@@ -297,6 +296,8 @@ public class Block implements ISupportMemento {
 	public Long getBlockID() {
 		return blockID;
 	}
+	
+
 
 	/**
 	 * Sets the block property with the specified property and value. If this
@@ -1602,7 +1603,7 @@ public class Block implements ISupportMemento {
 			boolean isCollapsed) {
 		Element blockElement = document.createElement("Block");
 
-		blockElement.setAttribute("id", Long.toString(EXPORT_NEXT_ID++));
+		blockElement.setAttribute("id", Long.toString(OUTPUT_ID + getBlockID()));
 		blockElement.setAttribute("genus-name", getGenusName());
 		if (hasFocus) {
 			blockElement.setAttribute("has-focus", "yes");
@@ -1667,7 +1668,7 @@ public class Block implements ISupportMemento {
 				&& !this.getBeforeBlockID().equals(Block.NULL)) {
 			Element blockIdElement = document.createElement("BeforeBlockId");
 			blockIdElement.appendChild(document.createTextNode(String
-					.valueOf(getBeforeBlockID())));
+					.valueOf(OUTPUT_ID + getBeforeBlockID())));
 			blockElement.appendChild(blockIdElement);
 		}
 
@@ -1675,7 +1676,7 @@ public class Block implements ISupportMemento {
 				&& !this.getAfterBlockID().equals(Block.NULL)) {
 			Element blockIdElement = document.createElement("AfterBlockId");
 			blockIdElement.appendChild(document.createTextNode(String
-					.valueOf(getAfterBlockID())));
+					.valueOf(OUTPUT_ID +  getAfterBlockID())));
 			blockElement.appendChild(blockIdElement);
 		}
 
@@ -1949,7 +1950,7 @@ public class Block implements ISupportMemento {
 		if (mapping.containsKey(input)) {
 			return mapping.get(input);
 		}
-		Long newID = Long.valueOf(NEXT_ID++);
+		Long newID = Long.valueOf(workspace.getEnv().getNextBlockID());
 		mapping.put(input, newID);
 		return newID;
 	}

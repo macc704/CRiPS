@@ -45,6 +45,8 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import bc.apps.BlockToJavaMain;
+import bc.b2j.analyzer.BlockToJavaAnalyzer;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.codeblocks.BlockGenus;
 import edu.mit.blocks.codeblocks.BlockLinkChecker;
@@ -71,6 +73,8 @@ public class WorkspaceController {
 	protected final Workspace workspace;
 	protected SearchBar searchBar;
 	private static String LANG_DEF_PATH;
+	
+	private String enc = "SJIS";
 
 	public Workspace getWorkspace() {
 		return this.workspace;
@@ -518,6 +522,28 @@ public class WorkspaceController {
 			saveAction.actionPerformed(e);
 		}
 	}
+	
+	/**
+	 * Action bound to "Save As..." button.
+	 */
+	private class ConvertAction extends AbstractAction {
+		
+		private static final long serialVersionUID = 4649159219713654455L;
+
+		ConvertAction() {
+			super("Convert");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				BlockToJavaMain.convert(selectedFile, enc , new String[] {});
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}
 
 	/**
 	 * Saves the content of the workspace to the given file
@@ -538,6 +564,7 @@ public class WorkspaceController {
 			}
 		}
 	}
+	
 
 	public void setSelectedFile(File selectedFile) {
 		this.selectedFile = selectedFile;
@@ -558,6 +585,10 @@ public class WorkspaceController {
 		// Save as
 		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
 		buttonPanel.add(new JButton(saveAsAction));
+		
+		ConvertAction convertAction = new  ConvertAction();
+		buttonPanel.add(new JButton(convertAction));
+		
 		return buttonPanel;
 	}
 
@@ -669,8 +700,6 @@ public class WorkspaceController {
 		frame.add(getWorkspacePanel(), BorderLayout.CENTER);
 
 		frame.add(getDebugButtonPanel(), BorderLayout.PAGE_START);
-		
-		
 
 		frame.setVisible(true);
 	}

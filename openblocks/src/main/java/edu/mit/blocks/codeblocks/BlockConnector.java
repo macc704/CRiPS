@@ -424,7 +424,7 @@ public class BlockConnector implements ISupportMemento {
         }
 
         if (!this.connBlockID.equals(Block.NULL)) {
-            connectorElement.setAttribute("con-block-id", Long.toString(connBlockID));
+            connectorElement.setAttribute("con-block-id", Long.toString(Block.OUTPUT_ID + connBlockID));
         }
 
         return connectorElement;

@@ -198,6 +198,7 @@ public class BlockUtilities {
 		} else {
 			block = new Block(myblock.getGenusName(), label);
 		}
+
 		// - djwendel - create a copy of the RB properties too, using an RB copy
 		// constructor. Don't just use the genus.
 		// RenderableBlock renderable = new
