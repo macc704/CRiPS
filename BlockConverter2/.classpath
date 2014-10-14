@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CommonLibrary"/>
+	<classpathentry kind="lib" path="lib/org.apache.commons.logging_1.0.4.v201101211617.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.contenttype_3.4.100.v20110207.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.jobs_3.5.100.v20110214.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.resources_3.7.100.v20110228.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.runtime_3.7.0.v20110110.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.common_3.6.0.v20110110.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.preferences_3.4.0.v20110124-0830.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jdt.core_3.7.0.v_B42.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.osgi_3.7.0.v20110304.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.text_3.5.100.v20110301-0545.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

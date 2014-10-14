@@ -855,7 +855,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			return tag.getPixelLocation();
 		}
 
-		System.out.println("Error, Socket has no connector tag: " + socket);
 		return new Point(0, -100); // JBT hopefully this doesn't hurt anything,
 									// this is masking a bug that needs to be
 									// tracked down, why is the connector tag

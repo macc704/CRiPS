@@ -233,7 +233,6 @@ public class PageDrawerLoadingUtils {
                                     //forever remain inside the drawer and never be active
                                     newBlock = new Block(workspace, genusName, false);
                                     drawerRBs.add(new FactoryRenderableBlock(workspace, manager, newBlock.getBlockID()));
-                                    System.out.println(newBlock.getBlockID());
                                 }
                             }
                             manager.addStaticBlocks(drawerRBs, drawerName);                        	
