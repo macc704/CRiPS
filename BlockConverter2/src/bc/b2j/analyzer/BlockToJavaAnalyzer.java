@@ -91,7 +91,7 @@ public class BlockToJavaAnalyzer {
 
 	private void parsePage(Node node) {
 		Node page = node;
-		NodeList nodes = null;
+		
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
 
@@ -109,20 +109,22 @@ public class BlockToJavaAnalyzer {
 			String className = null;
 			String superClass = null;
 			// first, parse out the attributes
-			nameMatcher = attrExtractor.matcher(pageAttrs.getNamedItem(
-					"page-name").toString());
-			if (nameMatcher.find()) {
-				className = nameMatcher.group(1);
-			}
+			if(pageAttrs != null){
+				nameMatcher = attrExtractor.matcher(pageAttrs.getNamedItem(
+						"page-name").toString());
+				if (nameMatcher.find()) {
+					className = nameMatcher.group(1);
+				}
 
-			PageModel model = new PageModel(className, superClass);
-			
-			Node pageBlocks = getNamedNode("PageBlocks", page.getChildNodes());
-			
-			if (pageBlocks.getFirstChild() != null) {
-				resolveBlock(pageBlocks.getFirstChild(), model);
+				PageModel model = new PageModel(className, superClass);
+				
+				Node pageBlocks = getNamedNode("PageBlocks", page.getChildNodes());
+				
+				if (pageBlocks.getFirstChild() != null) {
+					resolveBlock(pageBlocks.getFirstChild(), model);
+				}
+				programModel.addPage(model);	
 			}
-			programModel.addPage(model);
 			page = page.getNextSibling();
 		}
 	}
@@ -159,129 +161,158 @@ public class BlockToJavaAnalyzer {
 			}
 
 			NamedNodeMap BlockAttrs = block.getAttributes();
-			String genus_name = BlockAttrs.getNamedItem("genus-name")
-					.getNodeValue();
-
-			if ("procedure".equals(genus_name)) {
-				ProcedureBlockModel model = new ProcedureBlockModel();
-				parseBlock(block, model);
-				pageModel.addProcedure(model);
-				blockNode = blockNode.getNextSibling();
-			} else if ("constructor".equals(genus_name)) {// #ohata
-				ConstructorBlockModel model = new ConstructorBlockModel();
-				parseBlock(block, model);
-				model.setLabel(fileURI);
-				model.setURI(fileURI);
-				pageModel.addConstructor(model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("proc-param")) {
-				ProcedureParamBlockModel model = new ProcedureParamBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("caller")) {// isMethodCall
-															// isProjectMethodの前にやらないとエラーが発生する可能性有り
-				CallMethodBlockModel model = new CallMethodBlockModel(true);
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (isMethodCallBlock(genus_name) || isProjectMethod(block)) {
-				CallMethodBlockModel model = new CallMethodBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (isDataBlock(genus_name)) {// ここが変数の参照ブロックを解析するはず
-				NoProcparamDataBlockModel model = new NoProcparamDataBlockModel();
-				parseBlock(block, model);
-				if (parentBlockID != null) {
-					model.setStubParentID(parentBlockID);
+			if(BlockAttrs!= null){
+				String genusName = BlockAttrs.getNamedItem("genus-name")
+						.getNodeValue();
+				
+				if ("procedure".equals(genusName)) {
+					parseBlockNode(block);
+//					ProcedureBlockModel model = new ProcedureBlockModel();
+//					parseBlock(block, model);
+//					pageModel.addProcedure(model);
+//					blockNode = blockNode.getNextSibling();
+				} else if ("constructor".equals(genusName)) {// #ohata
+					parseBlockNode(block);
+//					ConstructorBlockModel model = new ConstructorBlockModel();
+//					parseBlock(block, model);
+//					model.setLabel(fileURI);
+//					model.setURI(fileURI);
+//					pageModel.addConstructor(model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("proc-param")) {
+					parseBlockNode(block);
+//					ProcedureParamBlockModel model = new ProcedureParamBlockModel();
+//					parseBlock(block, model);
+					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("caller")) {// isMethodCall
+//																// isProjectMethodの前にやらないとエラーが発生する可能性有り
+					parseBlockNode(block);				
+//					CallMethodBlockModel model = new CallMethodBlockModel(true);
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (isMethodCallBlock(genusName) || isProjectMethod(block)) {
+					parseBlockNode(block);				
+//					CallMethodBlockModel model = new CallMethodBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (isDataBlock(genusName)) {// ここが変数の参照ブロックを解析するはず
+					parseBlockNode(block);				
+//					NoProcparamDataBlockModel model = new NoProcparamDataBlockModel();
+//					parseBlock(block, model);
+//					if (parentBlockID != null) {
+//						model.setStubParentID(parentBlockID);
+//					}
+//					blockNode = blockNode.getNextSibling();
+				} else if (isInfixCommandBlock(genusName)) {
+					parseBlockNode(block);				
+//					InfixCommandBlockModel model = new InfixCommandBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("local-var-")) {
+					parseBlockNode(block);
+//					LocalVariableBlockModel model = new LocalVariableBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("private")) {// #ohata
+					parseBlockNode(block);				
+//					PrivateVariableBlockModel model = new PrivateVariableBlockModel();
+//					parseBlock(block, model);
+//					pageModel.addPrivateVariableBlock(model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("setter")
+						|| genusName.startsWith("thissetter")) {
+					parseBlockNode(block);				
+//					SetterVariableBlockModel model = new SetterVariableBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if ("while".equals(genusName)) {
+					parseBlockNode(block);				
+//					WhileBlockModel model = new WhileBlockModel(false);
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if ("dowhile".equals(genusName)) {
+					parseBlockNode(block);				
+//					WhileBlockModel model = new WhileBlockModel(true);
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if ("if".equals(genusName) || "ifelse".equals(genusName)) {
+					parseBlockNode(block);				
+//					IfBlockModel model = new IfBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if ("repeat".equals(genusName)) {
+					parseBlockNode(block);				
+//					RepeatBlockModel model = new RepeatBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if ("abstraction".equals(genusName)) {
+					parseBlockNode(block);				
+//					AbstractionBlockModel model = new AbstractionBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("inc")
+						&& genusName.endsWith("number")) {// #matsuzawa 何で特別扱い？
+					parseBlockNode(block);				
+//					PostfixExpressionModel model = new PostfixExpressionModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("not")) {// #matsuzawa
+															// とりあえずadhocに追加
+					parseBlockNode(block);				
+//					NotExpressionModel model = new NotExpressionModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("callActionMethod")
+						|| genusName.startsWith("callGetterMethod")
+						/* ! */|| genusName.startsWith("callBooleanMethod")
+						|| genusName.startsWith("callDoubleMethod")
+						|| genusName.startsWith("callStringMethod")
+						|| genusName.startsWith("callObjectMethod")
+						|| genusName.startsWith("callThisActionMethod")) {
+					parseBlockNode(block);				
+					
+//					ReferenceBlockModel model = new ReferenceBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("special")) {// special,
+																// special-expression
+					parseBlockNode(block);				
+					// とりあえず，call methodと同じで実装 #matsuzawa 2012.11.07 //
+//					SpecialBlockModel model = new SpecialBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("return")) {// #matsuzawa return
+					parseBlockNode(block);				
+//					ReturnBlockModel model = new ReturnBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("break")) {// #matsuzawa
+					parseBlockNode(block);				
+//					BreakBlockModel model = new BreakBlockModel("break");
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("continue")) {// #matsuzawa
+					parseBlockNode(block);				
+//					BreakBlockModel model = new BreakBlockModel("continue");
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("super")) {
+					parseBlockNode(block);				
+//					CallMethodBlockModel model = new CallMethodBlockModel(false);
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else if (genusName.startsWith("type-object")) {
+					parseBlockNode(block);				
+//					TypeBlockModel model = new TypeBlockModel();
+//					parseBlock(block, model);
+//					blockNode = blockNode.getNextSibling();
+				} else {
+					throw new RuntimeException("not supported blockName: "
+							+ genusName);
 				}
-				blockNode = blockNode.getNextSibling();
-			} else if (isInfixCommandBlock(genus_name)) {
-				InfixCommandBlockModel model = new InfixCommandBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("local-var-")) {
-				LocalVariableBlockModel model = new LocalVariableBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("private")) {// #ohata
-				PrivateVariableBlockModel model = new PrivateVariableBlockModel();
-				parseBlock(block, model);
-				pageModel.addPrivateVariableBlock(model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("setter")
-					|| genus_name.startsWith("thissetter")) {
-				SetterVariableBlockModel model = new SetterVariableBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if ("while".equals(genus_name)) {
-				WhileBlockModel model = new WhileBlockModel(false);
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if ("dowhile".equals(genus_name)) {
-				WhileBlockModel model = new WhileBlockModel(true);
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if ("if".equals(genus_name) || "ifelse".equals(genus_name)) {
-				IfBlockModel model = new IfBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if ("repeat".equals(genus_name)) {
-				RepeatBlockModel model = new RepeatBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if ("abstraction".equals(genus_name)) {
-				AbstractionBlockModel model = new AbstractionBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("inc")
-					&& genus_name.endsWith("number")) {// #matsuzawa 何で特別扱い？
-				PostfixExpressionModel model = new PostfixExpressionModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("not")) {// #matsuzawa
-														// とりあえずadhocに追加
-				NotExpressionModel model = new NotExpressionModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("callActionMethod")
-					|| genus_name.startsWith("callGetterMethod")
-					/* ! */|| genus_name.startsWith("callBooleanMethod")
-					|| genus_name.startsWith("callDoubleMethod")
-					|| genus_name.startsWith("callStringMethod")
-					|| genus_name.startsWith("callObjectMethod")
-					|| genus_name.startsWith("callThisActionMethod")) {
-				ReferenceBlockModel model = new ReferenceBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("special")) {// special,
-															// special-expression
-				// とりあえず，call methodと同じで実装 #matsuzawa 2012.11.07 //
-				SpecialBlockModel model = new SpecialBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("return")) {// #matsuzawa return
-				ReturnBlockModel model = new ReturnBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("break")) {// #matsuzawa
-				BreakBlockModel model = new BreakBlockModel("break");
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("continue")) {// #matsuzawa
-				BreakBlockModel model = new BreakBlockModel("continue");
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("super")) {
-				CallMethodBlockModel model = new CallMethodBlockModel(false);
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else if (genus_name.startsWith("type-object")) {
-				TypeBlockModel model = new TypeBlockModel();
-				parseBlock(block, model);
-				blockNode = blockNode.getNextSibling();
-			} else {
-				throw new RuntimeException("not supported blockName: "
-						+ genus_name);
+				
 			}
+			blockNode = blockNode.getNextSibling();
 		}
 
 	}
@@ -418,6 +449,61 @@ public class BlockToJavaAnalyzer {
 		blockModels.put(model.getId(), model);
 	}
 	
+	private void parseBlockNode(Node node){
+
+		NamedNodeMap blockAttrs = node.getAttributes();
+		String blockName = blockAttrs.getNamedItem("genus-name").getNodeValue();
+		int blockId = Integer.parseInt(blockAttrs.getNamedItem("id")
+				.getNodeValue());
+
+
+		Node blockInfo = node.getFirstChild();
+
+		while (blockInfo != null) {
+			if (blockInfo.getNodeName() == "Label") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());
+			} else if (blockInfo.getNodeName() == "HeaderLabel") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "Collapsed") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "ParameterizedType") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "ParentID") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "BeforeBlockId") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "AfterBlockId") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "Type") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "Name") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "Plug") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "LineComment") {// #ohata
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "Location") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+			} else if (blockInfo.getNodeName() == "Sockets") {
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());
+				Node blockConnectorInfo = getNamedNode("BlockConnector", blockInfo.getChildNodes());
+				while(blockConnectorInfo != null){
+					parseBlockConnectorElement(blockConnectorInfo);
+					blockConnectorInfo = blockConnectorInfo.getNextSibling();
+				}
+			}
+			/*
+			 * else if (blockInfo.getNodeName() == "Comment"){ Node
+			 * blockCommentInfo = blockInfo.getFirstChild();
+			 * while(blockCommentInfo != null){
+			 * if(blockCommentInfo.getNodeName() == "Text"){
+			 * model.setText(blockCommentInfo.getTextContent()); } } }
+			 */
+			blockInfo = blockInfo.getNextSibling();
+		}
+		
+	}
+	
 	
 	private Node getNamedNode(String name, NodeList nodeList){
 		if(nodeList.getLength()<1){
@@ -505,5 +591,18 @@ public class BlockToJavaAnalyzer {
 		}
 		return conn;
 	}
-
+	
+	private void parseBlockConnectorElement(Node blockInfo) {
+		NamedNodeMap blockConnecterAttrs = blockInfo.getAttributes();
+		if(blockConnecterAttrs != null){
+			Node id = blockConnecterAttrs.getNamedItem("con-block-id");
+			if (id != null) {
+				System.out.println(id.getNodeName() + ":" + id.getTextContent());
+			}
+			Node type = blockConnecterAttrs.getNamedItem("connector-type");
+			if (type != null) {
+				System.out.println(type.getNodeName() + ":" +type .getTextContent());
+			}	
+		}
+	}
 }
