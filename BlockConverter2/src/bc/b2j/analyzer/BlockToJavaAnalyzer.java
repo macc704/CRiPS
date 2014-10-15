@@ -455,8 +455,9 @@ public class BlockToJavaAnalyzer {
 		String blockName = blockAttrs.getNamedItem("genus-name").getNodeValue();
 		int blockId = Integer.parseInt(blockAttrs.getNamedItem("id")
 				.getNodeValue());
-
-
+		System.out.println("GenusName:" + blockName);
+		System.out.println("block id :" + blockId);
+		
 		Node blockInfo = node.getFirstChild();
 
 		while (blockInfo != null) {
@@ -479,13 +480,14 @@ public class BlockToJavaAnalyzer {
 			} else if (blockInfo.getNodeName() == "Name") {
 				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
 			} else if (blockInfo.getNodeName() == "Plug") {
-				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());
+				parseBlockConnectorElement(getNamedNode("BlockConnector", blockInfo.getChildNodes()));
 			} else if (blockInfo.getNodeName() == "LineComment") {// #ohata
 				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
 			} else if (blockInfo.getNodeName() == "Location") {
 				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());				
 			} else if (blockInfo.getNodeName() == "Sockets") {
-				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getTextContent());
+				System.out.println(blockInfo.getNodeName()  + ":" + blockInfo.getAttributes().getNamedItem("num-sockets"));
 				Node blockConnectorInfo = getNamedNode("BlockConnector", blockInfo.getChildNodes());
 				while(blockConnectorInfo != null){
 					parseBlockConnectorElement(blockConnectorInfo);
@@ -595,14 +597,18 @@ public class BlockToJavaAnalyzer {
 	private void parseBlockConnectorElement(Node blockInfo) {
 		NamedNodeMap blockConnecterAttrs = blockInfo.getAttributes();
 		if(blockConnecterAttrs != null){
-			Node id = blockConnecterAttrs.getNamedItem("con-block-id");
-			if (id != null) {
-				System.out.println(id.getNodeName() + ":" + id.getTextContent());
+			for(int i = 0;i<blockConnecterAttrs.getLength();i++){
+				System.out.println(blockConnecterAttrs.item(i).getNodeName() +  blockConnecterAttrs.item(i));
 			}
-			Node type = blockConnecterAttrs.getNamedItem("connector-type");
-			if (type != null) {
-				System.out.println(type.getNodeName() + ":" +type .getTextContent());
-			}	
+			
+//			Node id = blockConnecterAttrs.getNamedItem("con-block-id");
+//			if (id != null) {
+//				System.out.println(id.getNodeName() + ":" + id.getTextContent());
+//			}
+//			Node type = blockConnecterAttrs.getNamedItem("connector-type");
+//			if (type != null) {
+//				System.out.println(type.getNodeName() + ":" +type .getTextContent());
+//			}	
 		}
 	}
 }
