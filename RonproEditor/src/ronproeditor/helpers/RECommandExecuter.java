@@ -91,7 +91,7 @@ public class RECommandExecuter {
 				"コマンド終了(" + new Date(System.currentTimeMillis()) + "):"
 						+ getCommandString(commands));
 	}
-
+	
 	private static String getCommandString(List<String> list) {
 		String commands = "";
 		Iterator<String> i = list.iterator();
@@ -124,13 +124,48 @@ public class RECommandExecuter {
 					while ((n = reader.read(buf)) > 0) {
 						char[] text = new char[n];
 						System.arraycopy(buf, 0, text, 0, text.length);
-						out.print(text);
+						out.print(fixErrorMessage(String.valueOf(text)));
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 		};
+	}
+	
+	private static String fixErrorMessage(String message){		
+		//2行目のエラー箇所を抽出する
+		String[] messages = message.split(System.getProperty("line.separator"));
+		if(messages.length!=3){
+			//変換の必要性がないのでそのまま返す
+			return message;
+		}
+		String errorMessage = messages[1];
+		
+		int messageLength = errorMessage.length();
+		int messageByteNum = errorMessage.getBytes().length;		
+
+		if(messageLength<messageByteNum){
+			String newErrorPointoutMessage = "";
+			for(int i = 0; i < messageByteNum - messageLength; i++){
+				newErrorPointoutMessage += " ";
+			}
+			//メッセージにタブが入ってたらあれする
+			if(messages[2].contains("\t")){
+				String tmp = messages[2].substring(0, messages[2].lastIndexOf("\t")+1);
+				tmp += newErrorPointoutMessage;
+				messages[2] = tmp + messages[2].substring(messages[2].lastIndexOf("\t"),messages[2].length());
+			}
+			
+			messages[2] = newErrorPointoutMessage + messages[2];
+
+			String newMessage = "";
+			for(int i = 0; i < messages.length ; i++){
+				newMessage += messages[i] + System.getProperty("line.separator");
+			}
+			return newMessage;
+		}
+		return message;
 	}
 
 	// private static String[] getEnv() {
