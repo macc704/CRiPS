@@ -281,7 +281,6 @@ public class PageDrawerLoadingUtils {
 								}
 								drawerRBs.add(new FactoryRenderableBlock(
 										manager, newBlock.getBlockID()));
-								System.out.println(newBlock.getBlockID());
 							}
 						}
 						manager.addStaticBlocks(drawerRBs, drawerName);

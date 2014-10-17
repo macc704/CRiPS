@@ -127,7 +127,7 @@ public class WorkspaceEnvironment {
 
         //Block.reset();
         this.allBlocks.clear();
-        this.NEXT_ID = 1;
+        WorkspaceEnvironment.NEXT_ID = 1;
 
         //BlockStub.reset();
         this.parentNameToParentBlock.clear();

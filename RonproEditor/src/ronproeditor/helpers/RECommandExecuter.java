@@ -75,9 +75,11 @@ public class RECommandExecuter {
 						+ getCommandString(commands));
 
 		Process p = rt.exec(listToStringArray(commands), null, dir);
+
 		processes.add(p);
 		createPrintStreamThread(p.getInputStream(), console.getOut()).start();
 		createPrintStreamThread(p.getErrorStream(), console.getErr()).start();
+
 		console.setConsoleToStream(new PrintStream(p.getOutputStream()));
 		InputStream in = console.getIn();
 		if (in instanceof JTextAreaInputStream) {
@@ -133,6 +135,7 @@ public class RECommandExecuter {
 		};
 	}
 
+	
 	// private static String[] getEnv() {
 	// ArrayList<String> env = new ArrayList<String>();
 	// Map<String, String> envMap = System.getenv();

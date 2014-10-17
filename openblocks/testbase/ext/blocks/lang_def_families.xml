@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <BlockFamily>
-	<FamilyMember>fd</FamilyMember>
-	<FamilyMember>bk</FamilyMember>
+	<FamilyMember>Turtle-fd[@int]</FamilyMember>
+	<FamilyMember>Turtle-bk[@int]</FamilyMember>
 </BlockFamily>
 <BlockFamily>
-	<FamilyMember>rt</FamilyMember>
-	<FamilyMember>lt</FamilyMember>
+	<FamilyMember>Turtle-rt[@int]</FamilyMember>
+	<FamilyMember>Turtle-lt[@int]</FamilyMember>
 </BlockFamily>
 <BlockFamily>
-	<FamilyMember>up</FamilyMember>
-	<FamilyMember>down</FamilyMember>
+	<FamilyMember>Turtle-up[]</FamilyMember>
+	<FamilyMember>Turtle-down[]</FamilyMember>
 </BlockFamily>
 
 <BlockFamily>

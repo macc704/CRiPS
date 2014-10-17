@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -35,9 +33,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -46,7 +41,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import bc.apps.BlockToJavaMain;
-import bc.b2j.analyzer.BlockToJavaAnalyzer;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.codeblocks.BlockGenus;
 import edu.mit.blocks.codeblocks.BlockLinkChecker;
@@ -72,7 +66,7 @@ public class WorkspaceController {
 	protected JPanel workspacePanel;
 	protected final Workspace workspace;
 	protected SearchBar searchBar;
-	private static String LANG_DEF_PATH;
+//	private static String LANG_DEF_PATH;
 	
 	private String enc = "SJIS";
 
@@ -276,25 +270,25 @@ public class WorkspaceController {
 	 * @throws RuntimeException
 	 *             If the validation failed
 	 */
-	private void validate(Document document) {
-		try {
-
-			SchemaFactory schemaFactory = SchemaFactory
-					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			URL schemaUrl = ClassLoader
-					.getSystemResource("edu/mit/blocks/codeblocks/codeblocks.xsd");
-			File file = new File(schemaUrl.getPath());
-			Schema schema = schemaFactory.newSchema(schemaUrl);
-			Validator validator = schema.newValidator();
-			validator.validate(new DOMSource(document));
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		} catch (SAXException e) {
-			throw new RuntimeException(e);
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+//	private void validate(Document document) {
+//		try {
+//
+//			SchemaFactory schemaFactory = SchemaFactory
+//					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+//			URL schemaUrl = ClassLoader
+//					.getSystemResource("edu/mit/blocks/codeblocks/codeblocks.xsd");
+//			File file = new File(schemaUrl.getPath());
+//			Schema schema = schemaFactory.newSchema(schemaUrl);
+//			Validator validator = schema.newValidator();
+//			validator.validate(new DOMSource(document));
+//		} catch (MalformedURLException e) {
+//			throw new RuntimeException(e);
+//		} catch (SAXException e) {
+//			throw new RuntimeException(e);
+//		} catch (IOException e) {
+//			throw new RuntimeException(e);
+//		}
+//	}
 
 	/**
 	 * Loads a fresh workspace based on the default specifications in the

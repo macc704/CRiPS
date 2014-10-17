@@ -175,50 +175,6 @@
 		<BlockGenusMember>local-var-object-bwindow</BlockGenusMember>
 		<BlockGenusMember>private-var-object-bsound</BlockGenusMember>
 		<BlockGenusMember>local-var-object-bsound</BlockGenusMember>
-		<BlockGenusMember>drawArc</BlockGenusMember>
-		<BlockGenusMember>drawFillTriangle</BlockGenusMember>
-		<BlockGenusMember>drawText</BlockGenusMember>
-		<BlockGenusMember>isClick</BlockGenusMember>
-		<BlockGenusMember>isSingleClick</BlockGenusMember>
-		<BlockGenusMember>isDoubleClick</BlockGenusMember>
-		<BlockGenusMember>isDragging</BlockGenusMember>
-		<BlockGenusMember>isRightMouseDown</BlockGenusMember>
-		<BlockGenusMember>isLeftMouseDown</BlockGenusMember>
-		<BlockGenusMember>isMouseDown</BlockGenusMember>
-		<BlockGenusMember>getMouseX</BlockGenusMember>
-		<BlockGenusMember>getMouseY</BlockGenusMember>
-		<BlockGenusMember>isKeyPressing</BlockGenusMember>
-		<BlockGenusMember>isKeyDown</BlockGenusMember>
-		<BlockGenusMember>getKeyCode</BlockGenusMember>
-		<BlockGenusMember>clear</BlockGenusMember>
-		<BlockGenusMember>update</BlockGenusMember>
-		<BlockGenusMember>getImageWidth</BlockGenusMember>
-		<BlockGenusMember>getImageHeight</BlockGenusMember>
-		<BlockGenusMember>drawLine</BlockGenusMember>
-		<BlockGenusMember>sleep</BlockGenusMember>
-		<BlockGenusMember>getCanvasWidth</BlockGenusMember>
-		<BlockGenusMember>getCanvasHeight</BlockGenusMember>
-		<BlockGenusMember>drawImage</BlockGenusMember>
-		<BlockGenusMember>drawFillArc</BlockGenusMember>
-		<BlockGenusMember>setLocation</BlockGenusMember>
-		<BlockGenusMember>setSize</BlockGenusMember>
-		<BlockGenusMember>getCanvas</BlockGenusMember>
-		<BlockGenusMember>show</BlockGenusMember>
-		<BlockGenusMember>loop</BlockGenusMember>
-		<BlockGenusMember>play[@string]</BlockGenusMember>
-		<BlockGenusMember>loadOnMemory[@string]</BlockGenusMember>
-		<BlockGenusMember>stop</BlockGenusMember>
-		<BlockGenusMember>loop</BlockGenusMember>
-		<BlockGenusMember>setVolume</BlockGenusMember>
-		<BlockGenusMember>getVolume</BlockGenusMember>
-		<BlockGenusMember>getDefaultVolume</BlockGenusMember>
-        <BlockGenusMember>size</BlockGenusMember>
-        <BlockGenusMember>add</BlockGenusMember>
-        <BlockGenusMember>contains</BlockGenusMember>
-        <BlockGenusMember>isEmpty</BlockGenusMember>
-        <BlockGenusMember>remove</BlockGenusMember>
-        <BlockGenusMember>get[@number]</BlockGenusMember>
-        <BlockGenusMember>length</BlockGenusMember>
 	</BlockDrawer>
 
 </BlockDrawerSet>
