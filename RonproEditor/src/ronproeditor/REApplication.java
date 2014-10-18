@@ -816,7 +816,7 @@ public class REApplication implements ICFwApplication {
 		// frame.getConsole());
 		// }
 
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getFont()));
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 
 		generefManager.handleCompileDone();
 	}
@@ -919,7 +919,7 @@ public class REApplication implements ICFwApplication {
 		commands.add(cp);
 		commands.add(env.runnable);
 		
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getFont()));
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 		writePresLog(PRCommandLog.SubType.START_RUN);// TODO
 	}
 

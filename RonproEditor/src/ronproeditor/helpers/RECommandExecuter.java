@@ -137,7 +137,7 @@ public class RECommandExecuter {
 	private static String fixErrorMessage(String message, FontMetrics fontMetrics) {
 		// 2行目のエラー箇所を抽出する
 		String[] messages = message.split(System.getProperty("line.separator"));
-		if (messages.length != 3) {
+		if (messages.length < 3) {
 			// 変換の必要性がないのでそのまま返す
 			return message;
 		}
@@ -146,9 +146,12 @@ public class RECommandExecuter {
 		String tmpErrorMessage = messages[1].replaceAll("\t", " ");
 		String tmpPointoutMessage = messages[2].replaceAll("\t", " ");		
 		
+		if(tmpPointoutMessage.indexOf("^") == -1){
+			return message;
+		}
 		
 		//エラーメッセージのピクセル数を取得する
-		int errorMessagePixel = fontMetrics.stringWidth(tmpErrorMessage);
+		int errorMessagePixel = fontMetrics.stringWidth(tmpErrorMessage.substring(0, tmpPointoutMessage.indexOf("^")));
 		
 		//ピクセル数を調整する
 		while(fontMetrics.stringWidth(tmpPointoutMessage) < errorMessagePixel){

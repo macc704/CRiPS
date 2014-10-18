@@ -47,6 +47,7 @@ public class ConsoleTextPane extends JTextPane implements IConsole {
 	 */
 	public ConsoleTextPane() {
 		this.initialize();
+		this.setFont(new Font(Font.MONOSPACED , Font.PLAIN, 12));
 		in.refresh();
 	}
 
