@@ -725,6 +725,7 @@ public class REFrame extends JFrame {
 	public void createNewEditor() {
 		this.editor = new RESourceEditor(application);
 		this.editor.getViewer().changeFont(category.getSelectedFont());
+		this.console.setFont(category.getSelectedFont());
 		// menuEdit.addSeparator();
 		// for (Action action : this.editor.getActions()) {
 		// menuEdit.add(action);
@@ -925,7 +926,7 @@ public class REFrame extends JFrame {
 				// do nothing
 			}
 			field.setText(Integer.toString(size));
-
+			console.setFont(category.getSelectedFont());
 			if (editor != null) {
 				editor.getViewer().changeFont(getSelectedFont());
 			}
@@ -937,6 +938,7 @@ public class REFrame extends JFrame {
 					Integer.toString(getSelectedFontSize()));
 			if (editor != null) {
 				editor.getViewer().changeFont(getSelectedFont());
+				console.setFont(getSelectedFont());
 			}
 		}
 
