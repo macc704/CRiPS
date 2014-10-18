@@ -5,6 +5,7 @@
  */
 package ronproeditor;
 
+import java.awt.FontMetrics;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.ByteArrayOutputStream;
@@ -814,7 +815,8 @@ public class REApplication implements ICFwApplication {
 		// CommandExecuter.executeCommand(commands, env.dir,
 		// frame.getConsole());
 		// }
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole());
+
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getFont()));
 
 		generefManager.handleCompileDone();
 	}
@@ -851,7 +853,7 @@ public class REApplication implements ICFwApplication {
 		console.setErr(new PrintStream(out));
 
 		try {
-			RECommandExecuter.executeCommandWait(commands, env.dir, console);
+			RECommandExecuter.executeCommandWait(commands, env.dir, console, getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -916,8 +918,8 @@ public class REApplication implements ICFwApplication {
 		commands.add("-classpath");
 		commands.add(cp);
 		commands.add(env.runnable);
-
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole());
+		
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getFont()));
 		writePresLog(PRCommandLog.SubType.START_RUN);// TODO
 	}
 
