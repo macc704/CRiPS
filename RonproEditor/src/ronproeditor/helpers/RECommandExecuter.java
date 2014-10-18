@@ -143,15 +143,10 @@ public class RECommandExecuter {
 		}
 		
 		//エラー原因箇所のtabキー,スペースキーを一度取り除く
-		String tmpErrorMessage = messages[1];
-		String tmpPointoutMessage = messages[2];		
-		String removedCharacters = "";
-		while(tmpErrorMessage.charAt(0) == '\t' || tmpErrorMessage.charAt(0) == ' '){
-			removedCharacters+= tmpErrorMessage.charAt(0);
-			tmpErrorMessage = tmpErrorMessage.substring(1, tmpErrorMessage.length());
-			tmpPointoutMessage = tmpPointoutMessage.substring(1, tmpPointoutMessage.length());
-		}
-
+		String tmpErrorMessage = messages[1].replaceAll("\t", " ");
+		String tmpPointoutMessage = messages[2].replaceAll("\t", " ");		
+		
+		
 		//エラーメッセージのピクセル数を取得する
 		int errorMessagePixel = fontMetrics.stringWidth(tmpErrorMessage);
 		
@@ -162,14 +157,9 @@ public class RECommandExecuter {
 		
 		//新しいメッセージを作成する
 		String newMessage = "";
-		String newErrorMessage = removedCharacters + tmpErrorMessage;
 		
-		String newPointoutMessage = "";
-
-		newPointoutMessage = removedCharacters + tmpPointoutMessage;
-		
-		messages[1]= newErrorMessage;
-		messages[2] = newPointoutMessage;
+		messages[1]= tmpErrorMessage;
+		messages[2] = tmpPointoutMessage;
 		
 		for (int i = 0; i < messages.length; i++) {
 			newMessage += messages[i] + System.getProperty("line.separator");
