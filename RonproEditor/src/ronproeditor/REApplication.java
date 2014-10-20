@@ -5,6 +5,7 @@
  */
 package ronproeditor;
 
+import java.awt.FontMetrics;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.ByteArrayOutputStream;
@@ -272,6 +273,8 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 2014/10/01 version 2.27.0 ohata			・2014プログラミング社会学科用
  * 2014/10/01 version 2.27.1 ohata			・軽微なバグを修正
  * 
+ * 2014/10/01 version 2.27.2 ohata			・コンソールのフォントをエディタのフォントと統一
+ * 											・フォントの文字幅によるエラー指摘メッセージのズレを修正
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
@@ -289,7 +292,7 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.27.1";
+	public static final String VERSION = "2.27.2";
 	public static final String BUILD_DATE = "2014/01/08";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
@@ -814,7 +817,8 @@ public class REApplication implements ICFwApplication {
 		// CommandExecuter.executeCommand(commands, env.dir,
 		// frame.getConsole());
 		// }
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole());
+
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 
 		generefManager.handleCompileDone();
 	}
@@ -851,7 +855,7 @@ public class REApplication implements ICFwApplication {
 		console.setErr(new PrintStream(out));
 
 		try {
-			RECommandExecuter.executeCommandWait(commands, env.dir, console);
+			RECommandExecuter.executeCommandWait(commands, env.dir, console, getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -916,8 +920,8 @@ public class REApplication implements ICFwApplication {
 		commands.add("-classpath");
 		commands.add(cp);
 		commands.add(env.runnable);
-
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole());
+		
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 		writePresLog(PRCommandLog.SubType.START_RUN);// TODO
 	}
 

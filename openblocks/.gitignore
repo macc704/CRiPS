@@ -4,3 +4,4 @@ target/
 .idea
 .settings
 openblocks.iml
+/bin/
