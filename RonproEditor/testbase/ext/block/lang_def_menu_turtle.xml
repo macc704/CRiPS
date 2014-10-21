@@ -27,12 +27,9 @@
 		<BlockGenusMember>callActionMethod2</BlockGenusMember>
 		<BlockGenusMember>callGetterMethod2</BlockGenusMember>
 	</BlockDrawer>
-	<!-- 
-	<BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20">
-		<BlockGenusMember>callActionMethod2</BlockGenusMember>
-		<BlockGenusMember>callGetterMethod2</BlockGenusMember>
-	</BlockDrawer>
-	 -->
+	<!-- <BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20"> 
+		<BlockGenusMember>callActionMethod2</BlockGenusMember> <BlockGenusMember>callGetterMethod2</BlockGenusMember> 
+		</BlockDrawer> -->
 	<BlockDrawer name="分岐、繰返" type="factory" button-color="255 80 0">
 		<BlockGenusMember>ifelse</BlockGenusMember>
 		<BlockGenusMember>while</BlockGenusMember>
@@ -55,8 +52,8 @@
 		<BlockGenusMember>lessthanorequalto-double</BlockGenusMember>
 		<BlockGenusMember>greaterthanorequalto-double</BlockGenusMember>
 		<BlockGenusMember>equals-boolean</BlockGenusMember>
-		<BlockGenusMember>not-equals-boolean</BlockGenusMember>		
-		<BlockGenusMember>equals-string</BlockGenusMember>	
+		<BlockGenusMember>not-equals-boolean</BlockGenusMember>
+		<BlockGenusMember>equals-string</BlockGenusMember>
 		<BlockGenusMember>and</BlockGenusMember>
 		<BlockGenusMember>or</BlockGenusMember>
 		<BlockGenusMember>not</BlockGenusMember>
@@ -64,7 +61,7 @@
 		<BlockGenusMember>false</BlockGenusMember>
 	</BlockDrawer>
 
-	
+
 	<BlockDrawer name="計算" type="factory" button-color="102 129 255">
 		<BlockGenusMember>sum</BlockGenusMember>
 		<BlockGenusMember>difference</BlockGenusMember>
@@ -79,7 +76,7 @@
 		<BlockGenusMember>remainder-double</BlockGenusMember>
 
 		<BlockGenusMember>string-append</BlockGenusMember>
-		
+
 		<BlockGenusMember>cui-random</BlockGenusMember>
 		<BlockGenusMember>sqrt</BlockGenusMember>
 		<BlockGenusMember>sin</BlockGenusMember>
@@ -88,27 +85,21 @@
 		<BlockGenusMember>log</BlockGenusMember>
 		<BlockGenusMember>toRadians</BlockGenusMember>
 	</BlockDrawer>
-<!--	
-	<BlockDrawer name="数学" type="factory" button-color="102 129 255">
-		<BlockGenusMember>cui-random</BlockGenusMember>
-		<BlockGenusMember>sqrt</BlockGenusMember>
-		<BlockGenusMember>sin</BlockGenusMember>
-		<BlockGenusMember>cos</BlockGenusMember>
-		<BlockGenusMember>tan</BlockGenusMember>
-		<BlockGenusMember>log</BlockGenusMember>
-		<BlockGenusMember>toRadians</BlockGenusMember>
-	</BlockDrawer>
- -->
-		<!--<BlockGenusMember>pi</BlockGenusMember> <BlockGenusMember>e</BlockGenusMember> 
-			<BlockGenusMember>int</BlockGenusMember> <BlockGenusMember>pow</BlockGenusMember> 
-			<BlockGenusMember>round</BlockGenusMember> <BlockGenusMember>min</BlockGenusMember> 
-			<BlockGenusMember>max</BlockGenusMember> <BlockGenusMember>abs</BlockGenusMember> 
-			<BlockGenusMember>sqrt</BlockGenusMember> <BlockGenusMember>sin</BlockGenusMember> 
-			<BlockGenusMember>cos</BlockGenusMember> <BlockGenusMember>tan</BlockGenusMember> 
-			<BlockGenusMember>asin</BlockGenusMember> <BlockGenusMember>acos</BlockGenusMember> 
-			<BlockGenusMember>log</BlockGenusMember> <BlockGenusMember>ln</BlockGenusMember> 
-			<BlockGenusMember>atan</BlockGenusMember> -->
-	
+	<!-- <BlockDrawer name="数学" type="factory" button-color="102 129 255"> <BlockGenusMember>cui-random</BlockGenusMember> 
+		<BlockGenusMember>sqrt</BlockGenusMember> <BlockGenusMember>sin</BlockGenusMember> 
+		<BlockGenusMember>cos</BlockGenusMember> <BlockGenusMember>tan</BlockGenusMember> 
+		<BlockGenusMember>log</BlockGenusMember> <BlockGenusMember>toRadians</BlockGenusMember> 
+		</BlockDrawer> -->
+	<!--<BlockGenusMember>pi</BlockGenusMember> <BlockGenusMember>e</BlockGenusMember> 
+		<BlockGenusMember>int</BlockGenusMember> <BlockGenusMember>pow</BlockGenusMember> 
+		<BlockGenusMember>round</BlockGenusMember> <BlockGenusMember>min</BlockGenusMember> 
+		<BlockGenusMember>max</BlockGenusMember> <BlockGenusMember>abs</BlockGenusMember> 
+		<BlockGenusMember>sqrt</BlockGenusMember> <BlockGenusMember>sin</BlockGenusMember> 
+		<BlockGenusMember>cos</BlockGenusMember> <BlockGenusMember>tan</BlockGenusMember> 
+		<BlockGenusMember>asin</BlockGenusMember> <BlockGenusMember>acos</BlockGenusMember> 
+		<BlockGenusMember>log</BlockGenusMember> <BlockGenusMember>ln</BlockGenusMember> 
+		<BlockGenusMember>atan</BlockGenusMember> -->
+
 	<BlockDrawer name="変数の定義" type="factory" button-color="230 0 255">
 		<BlockGenusMember>local-var-int-number</BlockGenusMember>
 		<BlockGenusMember>local-var-double-number</BlockGenusMember>
@@ -119,16 +110,10 @@
 		<BlockGenusMember>local-var-object-Text</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Image</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>
-<!-- 		
-		<BlockGenusMember>private-var-int-number</BlockGenusMember>
-		<BlockGenusMember>private-var-double-number</BlockGenusMember>
-		<BlockGenusMember>private-var-string</BlockGenusMember>
-		<BlockGenusMember>private-var-boolean</BlockGenusMember>
-		<BlockGenusMember>private-var-object</BlockGenusMember>
-		<BlockGenusMember>private-var-object-Text</BlockGenusMember>
-		<BlockGenusMember>private-var-object-Image</BlockGenusMember>
-		<BlockGenusMember>private-var-object-Sound</BlockGenusMember>
- -->			 	
+		<!-- <BlockGenusMember>private-var-int-number</BlockGenusMember> <BlockGenusMember>private-var-double-number</BlockGenusMember> 
+			<BlockGenusMember>private-var-string</BlockGenusMember> <BlockGenusMember>private-var-boolean</BlockGenusMember> 
+			<BlockGenusMember>private-var-object</BlockGenusMember> <BlockGenusMember>private-var-object-Text</BlockGenusMember> 
+			<BlockGenusMember>private-var-object-Image</BlockGenusMember> <BlockGenusMember>private-var-object-Sound</BlockGenusMember> -->
 	</BlockDrawer>
 
 	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
@@ -163,10 +148,11 @@
 		<BlockGenusMember>lightGray</BlockGenusMember>
 		<BlockGenusMember>darkGray</BlockGenusMember>
 		<BlockGenusMember>black</BlockGenusMember>
-<!--  		<BlockGenusMember>new-object-Color</BlockGenusMember>-->
+		<!-- <BlockGenusMember>new-object-Color</BlockGenusMember> -->
 	</BlockDrawer>
- 
-	<BlockDrawer name="タートル(座標と大きさ)" type="factory" button-color="153 0 0">
+
+	<BlockDrawer name="タートル(座標と大きさ)" type="factory"
+		button-color="153 0 0">
 		<BlockGenusMember>getX</BlockGenusMember>
 		<BlockGenusMember>getY</BlockGenusMember>
 		<BlockGenusMember>warp</BlockGenusMember>
@@ -181,21 +167,14 @@
 		<BlockGenusMember>tall</BlockGenusMember>
 		<BlockGenusMember>little</BlockGenusMember>
 	</BlockDrawer>
-<!-- 
-	<BlockDrawer name="タートル(大きさ)" type="factory" button-color="153 0 0">
-		<BlockGenusMember>getWidth</BlockGenusMember>
-		<BlockGenusMember>getHeight</BlockGenusMember>
-		<BlockGenusMember>scale</BlockGenusMember>
-		<BlockGenusMember>size</BlockGenusMember>
-		<BlockGenusMember>large</BlockGenusMember>
-		<BlockGenusMember>small</BlockGenusMember>
-		<BlockGenusMember>wide</BlockGenusMember>
-		<BlockGenusMember>narrow</BlockGenusMember>
-		<BlockGenusMember>tall</BlockGenusMember>
-		<BlockGenusMember>little</BlockGenusMember>
-	</BlockDrawer>
- -->
- 
+	<!-- <BlockDrawer name="タートル(大きさ)" type="factory" button-color="153 0 0"> 
+		<BlockGenusMember>getWidth</BlockGenusMember> <BlockGenusMember>getHeight</BlockGenusMember> 
+		<BlockGenusMember>scale</BlockGenusMember> <BlockGenusMember>size</BlockGenusMember> 
+		<BlockGenusMember>large</BlockGenusMember> <BlockGenusMember>small</BlockGenusMember> 
+		<BlockGenusMember>wide</BlockGenusMember> <BlockGenusMember>narrow</BlockGenusMember> 
+		<BlockGenusMember>tall</BlockGenusMember> <BlockGenusMember>little</BlockGenusMember> 
+		</BlockDrawer> -->
+
 	<BlockDrawer name="タートル（見た目と判定）" type="factory"
 		button-color="153 0 0">
 		<BlockGenusMember>show</BlockGenusMember>
@@ -227,110 +206,46 @@
 		<BlockGenusMember>print</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="タートル（Text,Image,Sound）" type="factory" button-color="153 0 102">
+	<BlockDrawer name="タートル（Text,Image,Sound）" type="factory"
+		button-color="153 0 102">
 		<BlockGenusMember>local-var-object-Text</BlockGenusMember>
-		<BlockGenusMember>text</BlockGenusMember>
-		<BlockGenusMember>getText</BlockGenusMember>
 		<!-- image -->
 		<BlockGenusMember>local-var-object-Image</BlockGenusMember>
-		<BlockGenusMember>image</BlockGenusMember>
 		<!-- sound -->
 		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>
-		<BlockGenusMember>file</BlockGenusMember>
-		<BlockGenusMember>play</BlockGenusMember>
-		<BlockGenusMember>loop</BlockGenusMember>
-		<BlockGenusMember>stop</BlockGenusMember>
-		<BlockGenusMember>isPlaying</BlockGenusMember>
-		<BlockGenusMember>getVolume</BlockGenusMember>
-		<BlockGenusMember>setVolume</BlockGenusMember>
-		<BlockGenusMember>loadOnMemory</BlockGenusMember>
 	</BlockDrawer>
-<!-- 	
-	<BlockDrawer name="ImageTurtle" type="factory"
-		button-color="153 0 102">
-		<BlockGenusMember>local-var-object-Image</BlockGenusMember>
-		<BlockGenusMember>image</BlockGenusMember>
-		<BlockGenusMember>getImage</BlockGenusMember>
-	</BlockDrawer>
+	<!-- <BlockDrawer name="ImageTurtle" type="factory" button-color="153 0 
+		102"> <BlockGenusMember>local-var-object-Image</BlockGenusMember> <BlockGenusMember>image</BlockGenusMember> 
+		<BlockGenusMember>getImage</BlockGenusMember> </BlockDrawer> <BlockDrawer 
+		name="SoundTurtle" type="factory" button-color="153 0 102"> <BlockGenusMember>local-var-object-Sound</BlockGenusMember> 
+		<BlockGenusMember>file</BlockGenusMember> <BlockGenusMember>play</BlockGenusMember> 
+		<BlockGenusMember>loop</BlockGenusMember> <BlockGenusMember>stop</BlockGenusMember> 
+		<BlockGenusMember>isPlaying</BlockGenusMember> <BlockGenusMember>getVolume</BlockGenusMember> 
+		<BlockGenusMember>setVolume</BlockGenusMember> <BlockGenusMember>loadOnMemory</BlockGenusMember> 
+		</BlockDrawer> -->
 
-	<BlockDrawer name="SoundTurtle" type="factory"
-		button-color="153 0 102">
-		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>
-		<BlockGenusMember>file</BlockGenusMember>
-		<BlockGenusMember>play</BlockGenusMember>
-		<BlockGenusMember>loop</BlockGenusMember>
-		<BlockGenusMember>stop</BlockGenusMember>
-		<BlockGenusMember>isPlaying</BlockGenusMember>
-		<BlockGenusMember>getVolume</BlockGenusMember>
-		<BlockGenusMember>setVolume</BlockGenusMember>
-		<BlockGenusMember>loadOnMemory</BlockGenusMember>
-	</BlockDrawer>
--->
-	
 	<BlockDrawer name="タートル（リスト）" type="factory" button-color="255 255 100">
 		<BlockGenusMember>local-var-object-List</BlockGenusMember>
-		<BlockGenusMember>get</BlockGenusMember>
-		<BlockGenusMember>getSize</BlockGenusMember>
-		<BlockGenusMember>add</BlockGenusMember>
-		<BlockGenusMember>addFirst</BlockGenusMember>
-		<BlockGenusMember>addLast</BlockGenusMember>
-		<BlockGenusMember>addAll</BlockGenusMember>
-		<BlockGenusMember>moveAllTo</BlockGenusMember>
-		<BlockGenusMember>removeFirst</BlockGenusMember>
-		<BlockGenusMember>removeLast</BlockGenusMember>
-		<BlockGenusMember>removeAll</BlockGenusMember>
-		<BlockGenusMember>getCursor</BlockGenusMember>
-		<BlockGenusMember>setCursor</BlockGenusMember>
-		<BlockGenusMember>moveCursorToNext</BlockGenusMember>
-		<BlockGenusMember>moveCursorToPrevious</BlockGenusMember>
-		<BlockGenusMember>getObjectAtCursor</BlockGenusMember>		
-		<BlockGenusMember>addToBeforeCursor</BlockGenusMember>
-		<BlockGenusMember>addToAfterCursor</BlockGenusMember>
-		<BlockGenusMember>removeAtCursor</BlockGenusMember>
-		<BlockGenusMember>shuffle</BlockGenusMember>
-        <BlockGenusMember>warpByTopLeft</BlockGenusMember>
 	</BlockDrawer>
-	
-	<BlockDrawer name="タートル（Card,Button,Input）" type="factory" button-color="255 255 100">
-		<BlockGenusMember>new-object-CardTurtle</BlockGenusMember>
-		<BlockGenusMember>getNumber</BlockGenusMember>
-		<BlockGenusMember>getText</BlockGenusMember>
+
+	<BlockDrawer name="タートル（Card,Button,Input）" type="factory"
+		button-color="255 255 100">
+		<BlockGenusMember>local-var-object-Card</BlockGenusMember>
 		<!-- button -->
-		<BlockGenusMember>new-object-ButtonTurtle</BlockGenusMember>
-		<BlockGenusMember>isClicked</BlockGenusMember>
-		<BlockGenusMember>fontsize</BlockGenusMember>
-		<!--Input  -->
-		<BlockGenusMember>new-object-InputTurtle</BlockGenusMember>
-		<BlockGenusMember>getText</BlockGenusMember>
-		<BlockGenusMember>text</BlockGenusMember>
-		<BlockGenusMember>clearText</BlockGenusMember>
-		<BlockGenusMember>setActive</BlockGenusMember>
-		<BlockGenusMember>isActive</BlockGenusMember>
-		<BlockGenusMember>toJapaneseMode</BlockGenusMember>
-		<BlockGenusMember>toEnglishMode</BlockGenusMember>
-		<BlockGenusMember>fontsize</BlockGenusMember>
+		<BlockGenusMember>local-var-object-Button</BlockGenusMember>
+		<!--Input -->
+		<BlockGenusMember>local-var-object-Input</BlockGenusMember>
 	</BlockDrawer>
-<!--  
-	<BlockDrawer name="ButtonTurtle" type="factory" button-color="255 255 100">
-		<BlockGenusMember>new-object-ButtonTurtle</BlockGenusMember>
-		<BlockGenusMember>isClicked</BlockGenusMember>
-		<BlockGenusMember>fontsize</BlockGenusMember>
-	</BlockDrawer>	
--->
-	 
-<!-- 	
-	 <BlockDrawer name="InputTurtle" type="factory" button-color="255 255 100">
-		<BlockGenusMember>new-object-InputTurtle</BlockGenusMember>
-		<BlockGenusMember>getText</BlockGenusMember>
-		<BlockGenusMember>text</BlockGenusMember>
-		<BlockGenusMember>clearText</BlockGenusMember>
-		<BlockGenusMember>setActive</BlockGenusMember>
-		<BlockGenusMember>isActive</BlockGenusMember>
-		<BlockGenusMember>toJapaneseMode</BlockGenusMember>
-		<BlockGenusMember>toEnglishMode</BlockGenusMember>
-		<BlockGenusMember>fontsize</BlockGenusMember>
-	</BlockDrawer>
--->
-    
+	<!-- <BlockDrawer name="ButtonTurtle" type="factory" button-color="255 255 
+		100"> <BlockGenusMember>new-object-ButtonTurtle</BlockGenusMember> <BlockGenusMember>isClicked</BlockGenusMember> 
+		<BlockGenusMember>fontsize</BlockGenusMember> </BlockDrawer> -->
+
+	<!-- <BlockDrawer name="InputTurtle" type="factory" button-color="255 255 
+		100"> <BlockGenusMember>new-object-InputTurtle</BlockGenusMember> <BlockGenusMember>getText</BlockGenusMember> 
+		<BlockGenusMember>text</BlockGenusMember> <BlockGenusMember>clearText</BlockGenusMember> 
+		<BlockGenusMember>setActive</BlockGenusMember> <BlockGenusMember>isActive</BlockGenusMember> 
+		<BlockGenusMember>toJapaneseMode</BlockGenusMember> <BlockGenusMember>toEnglishMode</BlockGenusMember> 
+		<BlockGenusMember>fontsize</BlockGenusMember> </BlockDrawer> -->
+
 
 </BlockDrawerSet>
