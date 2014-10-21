@@ -20,6 +20,7 @@ import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceWidget;
 import bc.j2b.model.ElementModel;
+import blockengine.BlockGenus;
 import codeblocks.Block;
 import codeblocks.BlockLink;
 
@@ -798,16 +799,25 @@ public class SContextMenuProvider {
 
 	public static RenderableBlock createNewBlock(WorkspaceWidget widget,
 			String genusName) {
+		//ファクトリに登録されているブロックを取り出す
 		for (RenderableBlock block : Workspace.getInstance()
 				.getFactoryManager().getBlocks()) {
 			if (block.getBlock().getGenusName().equals(genusName)) {
-				RenderableBlock newBlock = BlockUtilities.cloneBlock(block
-						.getBlock());
+				RenderableBlock newBlock = BlockUtilities.cloneBlock(block.getBlock());
 				newBlock.setParentWidget(widget);
 				widget.addBlock(newBlock);
 				return newBlock;
 			}
 		}
+		//登録されていないものは，新しく作成する
+		if(codeblocks.BlockGenus.getGenusWithName(genusName) != null){
+			Block block = new Block(genusName);
+			RenderableBlock newBlock = BlockUtilities.cloneBlock(block);
+			newBlock.setParentWidget(widget);
+			widget.addBlock(newBlock);
+			return newBlock;
+		}
+		
 		throw new RuntimeException("block not found: " + genusName);
 	}
 
