@@ -959,7 +959,7 @@
 
 <!-- card turtle -->
 
-<BlockGenus name="CartTurtle-getNumber[]" kind="function" initlabel="番号" color="255 255 100">
+<BlockGenus name="CardTurtle-getNumber[]" kind="function" initlabel="番号" color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug" connector-type="number"/>
 	</BlockConnectors>
@@ -980,8 +980,21 @@
 	</BlockConnectors>
 </BlockGenus>
 
+<BlockGenus name="ButtonTurtle-fontsize[@int]" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="サイズ" connector-kind="socket" connector-type="number">
+			<DefaultArg genus-name="number" label="20"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
 <!-- input turtle -->
-
+<BlockGenus name="InputTurtle-fontsize[@int]" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="サイズ" connector-kind="socket" connector-type="number">
+			<DefaultArg genus-name="number" label="20"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
 <BlockGenus name="InputTurtle-clearText[]" kind="command" initlabel="テキストを空にする" color="255 255 100"/>
 
 <BlockGenus name="InputTurtle-setActive[@boolean]" kind="command" initlabel="活動状態を変える" color="255 255 100">
@@ -1005,16 +1018,35 @@
 <BlockGenus name="InputTurtle-toJapaneseMode[]" kind="command" initlabel="日本語モードにする" color="255 255 100"/>
 <BlockGenus name="InputTurtle-toEnglishMode[]" kind="command" initlabel="英語モードにする" color="255 255 100"/>
 
-<BlockGenus name="InputTurtle-fontsize[@int]" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
+<BlockGenus name="InputTurtle-getText[]" kind="function" color="255 0 0"
+	initlabel="テキストを取得する">
+	<description>
+		<text>コンソールから文字を入力します。</text>
+	</description>
 	<BlockConnectors>
-		<BlockConnector label="サイズ" connector-kind="socket" connector-type="number">
-			<DefaultArg genus-name="number" label="20"></DefaultArg>
-		</BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="string"
+			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
+
 
 <BlockGenus name="TextTurtle-getText[]" kind="function" color="255 0 0"
 	initlabel="テキストを取得する">
+	<description>
+		<text>コンソールから文字を入力します。</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
+</BlockGenus>
+
+<BlockGenus name="CardTurtle-getText[]" kind="function" color="255 0 0"
+	initlabel="カードのテキストを取得する">
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
@@ -1191,6 +1223,100 @@
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
+
+<BlockGenus name="local-var-object-Input" kind="local-variable"
+	initlabel="turtles" header-label="InputTurtle型の変数を作り、"
+	footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="InputTurtle"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-Card" kind="local-variable"
+	initlabel="turtles" header-label="CardTurtle型の変数を作り、"
+	footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="CardTurtle"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-Button" kind="local-variable"
+	initlabel="turtles" header-label="InputTurtle型の変数を作り、"
+	footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-object" label="ButtonTurtle"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
 
 <BlockGenus name="private-var-object-Text" kind="global-variable"
 	initlabel="tt" header-label="TextTurtle型のインスタンス変数を作り、" footer-label="と名付ける"

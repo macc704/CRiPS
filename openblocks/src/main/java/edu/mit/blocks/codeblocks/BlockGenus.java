@@ -123,7 +123,6 @@ public class BlockGenus {
 		BlockGenus genusToCopy = env.getGenusWithName(genusName);
 
 		this.genusName = newGenusName;
-		System.out.println(genusName);
 		this.areSocketsExpandable = genusToCopy.areSocketsExpandable;
 		this.color = new Color(genusToCopy.color.getRed(),
 				genusToCopy.color.getGreen(), genusToCopy.color.getBlue());
