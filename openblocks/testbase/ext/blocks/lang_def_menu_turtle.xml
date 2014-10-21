@@ -24,6 +24,8 @@
 		<BlockGenusMember>proc-param-string</BlockGenusMember>
 		<BlockGenusMember>return</BlockGenusMember>
 		<BlockGenusMember>constructor</BlockGenusMember>
+		<BlockGenusMember>callActionMethod2</BlockGenusMember>
+		<BlockGenusMember>callGetterMethod2</BlockGenusMember>				
 	</BlockDrawer>
 	<!-- <BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20"> 
 		<BlockGenusMember>callActionMethod2</BlockGenusMember> <BlockGenusMember>callGetterMethod2</BlockGenusMember> 

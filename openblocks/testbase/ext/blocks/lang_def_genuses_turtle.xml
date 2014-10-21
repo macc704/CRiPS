@@ -1085,6 +1085,144 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
+		<MethodStubs>
+			<ClassName name="タートル（（基本）">
+				<Stub stub-genus="Turtle-fd[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-bk[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-rt[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-lt[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>				
+				<Stub stub-genus="Turtle-up[]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-down[]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>						
+				<Stub stub-genus="Turtle-input[]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>				
+				<Stub stub-genus="Turtle-print[@string]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>	
+				<Stub stub-genus="Turtle-random[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+			</ClassName>
+			<ClassName name="タートル（座標と大きさ）">				
+				<Stub stub-genus="Turtle-getX[]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-getX[]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>																																	
+				<Stub stub-genus="Turtle-warp[@int@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-getWidth[]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>				
+				<Stub stub-genus="Turtle-getHeight[]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-scale[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-size[@int@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>						
+				<Stub stub-genus="Turtle-large[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>						
+				<Stub stub-genus="Turtle-small[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-wide[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>				
+				<Stub stub-genus="Turtle-narrow[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-tall[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>
+				<Stub stub-genus="Turtle-little[@int]">
+					<LangSpecProperties>
+						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+					</LangSpecProperties>
+				</Stub>												
+			</ClassName>
+		</MethodStubs>
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
