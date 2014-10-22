@@ -156,7 +156,7 @@ public class Block implements ISupportMemento {
 		}
 
 		if (genus.getName() != null) {
-			this.name = genus.getReturnType();
+			this.name = genus.getName();
 		}
 		// 変数，パラメータの場合は，ラベルが名前
 		if (isVariableDeclBlock() || isProcedureParamBlock()) {
