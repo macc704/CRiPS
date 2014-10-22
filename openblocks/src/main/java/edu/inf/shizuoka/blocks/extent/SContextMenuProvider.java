@@ -16,7 +16,6 @@ import javax.swing.JPopupMenu;
 
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockLink;
-import edu.mit.blocks.codeblocks.MethodInformation;
 import edu.mit.blocks.renderable.BlockUtilities;
 import edu.mit.blocks.renderable.RenderableBlock;
 import edu.mit.blocks.workspace.Workspace;
@@ -111,14 +110,43 @@ public class SContextMenuProvider {
 		return createIncrementerItem;
 	}
 
-	private JMenuItem createWriterMenu(final String stubName) {
-		JMenuItem item = new JMenuItem(rb.getWorkspace().getEnv().getGenusWithName(stubName).getInitialLabel());
+	private JMenuItem createWriterMenu(final String genusName) {
+		JMenuItem item = new JMenuItem(rb.getWorkspace().getEnv()
+				.getGenusWithName(genusName).getInitialLabel());
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				createCallMethod(stubName,new SStubCreator(stubName, rb).doWork(e));
+				createCallMethod(genusName);
 			}
 		});
 		return item;
+	}
+
+	private void createCallMethod(String name) {
+		// RenderableBlock createRb =
+		// BlockUtilities.getBlock("get","hoge");//does not work !!
+
+		RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(),
+				rb.getParentWidget(), name);
+
+		boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
+		if (cmd) {
+			RenderableBlock newActionRBlock = createActionGetterBlock(rb,
+					"callActionMethod2");
+			connectByBefore(newActionRBlock, 1, newCommandRBlock);
+		} else {
+			RenderableBlock newGetterRBlock = createActionGetterBlock(rb,
+					"callGetterMethod2");
+			connectByPlug(newGetterRBlock, 1, newCommandRBlock);
+
+			boolean returnObject = newCommandRBlock.getBlock().getPlug()
+					.getKind().equals("object");
+			if (returnObject) {
+				RenderableBlock newActionRBlock = createNewBlock(rb.getWorkspace(),
+						rb.getParentWidget(), "callActionMethod2");
+				newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
+				connectByPlug(newActionRBlock, 0, newGetterRBlock);
+			}
+		}
 	}
 
 	// private JMenuItem createLengthMenu() {
@@ -214,24 +242,25 @@ public class SContextMenuProvider {
 		return createCallerItem;
 	}
 
-//	public JMenu createClassMethodsCategory(String className,
-//			List<MethodInformation> methods) {
-//		JMenu category = new JMenu(className);
-//		for (MethodInformation method : methods) {
-//			category.add(createCallClassMethodMenu(method));
-//		}
-//
-//		return category;
-//	}
-	
-	public JMenu createClassMethodsCategory(String className, List<String> methods){
+	// public JMenu createClassMethodsCategory(String className,
+	// List<MethodInformation> methods) {
+	// JMenu category = new JMenu(className);
+	// for (MethodInformation method : methods) {
+	// category.add(createCallClassMethodMenu(method));
+	// }
+	//
+	// return category;
+	// }
+
+	public JMenu createClassMethodsCategory(String className,
+			List<String> methods) {
 		JMenu category = new JMenu(className);
-		
-		for(String methodName : methods){
+
+		for (String methodName : methods) {
 			category.add(createWriterMenu(methodName));
 		}
-		
-		return category;		
+
+		return category;
 	}
 
 	/**
@@ -258,15 +287,18 @@ public class SContextMenuProvider {
 			// menu.add(createCreateGetterMenu());
 			menu.addSeparator();
 		}
-		
+
 		Map<String, List<String>> methods;
-		
-		for (String className : rb.getWorkspace().getEnv().getBlock(rb.getBlockID())
-				.getMethodStubList().keySet()) {
-			methods = rb.getWorkspace().getEnv().getBlock(rb.getBlockID()).getMethodStubList();
-			menu.add(createClassMethodsCategory(className, methods.get(className)));
-			menu.addSeparator();
+
+		for (String className : rb.getWorkspace().getEnv()
+				.getBlock(rb.getBlockID()).getMethodList().keySet()) {
+			methods = rb.getWorkspace().getEnv().getBlock(rb.getBlockID())
+					.getMethodList();
+			menu.add(createClassMethodsCategory(className,
+					methods.get(className)));
 		}
+		
+		menu.addSeparator();
 
 		if (rb.getBlock().isProcedureParamBlock()) {
 			menu.add(createCreateValueMenu());
@@ -384,10 +416,10 @@ public class SContextMenuProvider {
 		// menu.add(createGetterBlockMenu());
 		//
 
-//		for (String key : rb.getBlock().getMethods().keySet()) {
-//			menu.add(createClassMethodsCategory(key, rb.getBlock().getMethods()
-//					.get(key)));
-//		}
+		// for (String key : rb.getBlock().getMethods().keySet()) {
+		// menu.add(createClassMethodsCategory(key, rb.getBlock().getMethods()
+		// .get(key)));
+		// }
 		//
 		// if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
 		// {
@@ -561,8 +593,6 @@ public class SContextMenuProvider {
 	// });
 	// return item;
 	// }
-
-
 
 	/**
 	 */
@@ -794,6 +824,7 @@ public class SContextMenuProvider {
 				return newBlock;
 			}
 		}
+
 		throw new RuntimeException("block not found: " + genusName);
 	}
 

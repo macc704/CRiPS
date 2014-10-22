@@ -81,8 +81,6 @@ public class Block implements ISupportMemento {
 	private String headerLabel;
 	private String footerLabel;
 
-	private HashMap<String, List<MethodInformation>> method;
-
 	private String type;
 	private String name;
 	private String returnType;
@@ -131,7 +129,6 @@ public class Block implements ISupportMemento {
 		this.headerLabel = genus.getInitHeaderLabel();
 		this.footerLabel = genus.getInitFooterLabel();
 
-		this.method = genus.getMethods();
 
 		// copy the block connectors from block genus
 		for (final BlockConnector con : genus.getInitSockets()) {
@@ -1130,9 +1127,9 @@ public class Block implements ISupportMemento {
 		}
 	}
 
-	public Map<String, List<String>> getMethodStubList() {
+	public Map<String, List<String>> getMethodList() {
 		if (this.linkToStubs) {
-			return getGenus().getMethodStubs();
+			return getGenus().getMethods();
 		} else {
 			return new HashMap<String, List<String>>();
 		}
@@ -1525,10 +1522,6 @@ public class Block implements ISupportMemento {
 	 */
 	public BlockConnector getInitPlug() {
 		return getGenus().getInitPlug();
-	}
-
-	public HashMap<String, List<MethodInformation>> getMethods() {
-		return this.method;
 	}
 
 	/**

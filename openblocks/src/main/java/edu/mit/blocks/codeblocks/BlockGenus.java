@@ -74,9 +74,7 @@ public class BlockGenus {
 	// hashmap of language specific properties.
 	private Map<String, String> properties = new HashMap<String, String>();
 
-	// list of type of stub genuses this genus has
-	private Map<String, List<String>> methodStubList = new HashMap<String, List<String>>();	
-	
+
 	// Set of argument index to desciptions.
 	// Argument index to argument description relationship
 	// may not be inferred as one-to-one
@@ -91,12 +89,11 @@ public class BlockGenus {
 	private String initHeaderLabel;
 	private String initFooterLabel;
 
-	private HashMap<String, List<MethodInformation>> methods = new HashMap<String, List<MethodInformation>>();
-	
-	private String type;//variable type
-	private String returnType;//variable type
-	private String name;//variable type
+	private HashMap<String, List<String>> methods = new HashMap<String, List<String>>();
 
+	private String type;// variable type
+	private String returnType;// variable type
+	private String name;// variable type
 
 	/**
 	 * Only BlockGenus can create BlockGenus objects, specifically only the
@@ -123,7 +120,6 @@ public class BlockGenus {
 		BlockGenus genusToCopy = env.getGenusWithName(genusName);
 
 		this.genusName = newGenusName;
-		System.out.println(genusName);
 		this.areSocketsExpandable = genusToCopy.areSocketsExpandable;
 		this.color = new Color(genusToCopy.color.getRed(),
 				genusToCopy.color.getGreen(), genusToCopy.color.getBlue());
@@ -186,10 +182,6 @@ public class BlockGenus {
 	 */
 	public Iterable<String> getStubList() {
 		return Collections.unmodifiableList(stubList);
-	}
-	
-	public Map<String, List<String>> getMethodStubs(){
-		return this.methodStubList;
 	}
 
 	/**
@@ -266,10 +258,10 @@ public class BlockGenus {
 	 * 
 	 * @return true if this block is a global variable declaration block; false
 	 */
-	public boolean isGlobalVariableDeclBlock(){
+	public boolean isGlobalVariableDeclBlock() {
 		return kind.equals("global-variable");
 	}
-	
+
 	/**
 	 * Returns true if this block is a procedure declaration block; false
 	 * otherwise
@@ -388,7 +380,7 @@ public class BlockGenus {
 	public boolean isInfix() {
 		return isInfix;
 	}
-	
+
 	/**
 	 * created by sakai lab 2010/11 Returns true if this block is a abstract
 	 * block; false otherwise
@@ -398,7 +390,7 @@ public class BlockGenus {
 	public boolean isAbstractionBlock() {
 		return kind.equals("abstraction");
 	}
-	
+
 	/**
 	 * created by sakai lab 2011/11/21
 	 * 
@@ -574,14 +566,7 @@ public class BlockGenus {
 		return after;
 	}
 
-	/*
-     * 
-     */
-	public HashMap<String, List<MethodInformation>> getMethods() {
-		return this.methods;
-	}
-	
-	public String getKind(){
+	public String getKind() {
 		return this.kind;
 	}
 
@@ -591,16 +576,16 @@ public class BlockGenus {
 	public List<List<BlockConnector>> getExpandGroups() {
 		return Collections.unmodifiableList(expandGroups);
 	}
-	
-	public String getType(){
+
+	public String getType() {
 		return this.type;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return this.name;
 	}
-	
-	public String getReturnType(){
+
+	public String getReturnType() {
 		return this.returnType;
 	}
 
@@ -1001,79 +986,50 @@ public class BlockGenus {
 						genus.stubList.add(stubGenus);
 					}
 				}
-			}else if(stub.getNodeName().equals("MethodStubs")){
-				//methodstubの読み込み
-				loadClassMethodsStubs(stub.getChildNodes(), genus);
 			}
 		}
 	}
-	
-	
+
 	/*
 	 * クラス・メソッドのブロックの読み込みを行う
 	 */
-	private static void loadClassMethodsStubs(NodeList stubs,  BlockGenus genus){
+	private static void loadClassMethods(NodeList stubs, BlockGenus genus) {
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
 		Node stub;
 		for (int m = 0; m < stubs.getLength(); m++) {
 			stub = stubs.item(m);
-			if(stub.getNodeName().equals("ClassName")){
-				nameMatcher = attrExtractor.matcher(stub.getAttributes().getNamedItem("name").toString());
-				if(nameMatcher.find()){
-					loadMethodStubs(stub.getChildNodes(), genus, nameMatcher.group(1));
+			if (stub.getNodeName().equals("CategoryName")) {
+				nameMatcher = attrExtractor.matcher(stub.getAttributes()
+						.getNamedItem("name").toString());
+				if (nameMatcher.find()) {
+					loadMethods(stub.getChildNodes(), genus,
+							nameMatcher.group(1));
 				}
 			}
 		}
 	}
-	
-	/*
-	 * 1つのクラス・メソッドの呼び出しブロックのstub情報を全て読み込む
-	 */
-	private static void loadMethodStubs(NodeList stubs,  BlockGenus genus, String className){
-		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
-		Matcher nameMatcher;
-		Node stub;
-		String stubGenus = "";
-		List<String> methodStubs = new ArrayList<String>();
-		for (int m = 0; m < stubs.getLength(); m++) {
-			stub = stubs.item(m);
-			if (stub.getNodeName().equals("Stub")) {
-				if (stub.getAttributes().getLength() > 0) {
-					nameMatcher = attrExtractor.matcher(stub.getAttributes()
-							.getNamedItem("stub-genus").toString());
-					if (nameMatcher.find()) {
-						stubGenus = nameMatcher.group(1);
-					}
-					if (stub.hasChildNodes()) {
-						// this stub for this genus deviates from generic stub
-						// generate genus by copying one of generic ones
 
-						BlockGenus newStubGenus = new BlockGenus(genus.env,
-								stubGenus, stubGenus + genus.genusName);
-						// load unique stub genus properties
-						NodeList stubChildren = stub.getChildNodes();
-						for (int n = 0; n < stubChildren.getLength(); n++) {
-							Node stubChild = stubChildren.item(n);
-							if (stubChild.getNodeName().equals(
-									"LangSpecProperties")) {
-								loadLangDefProperties(
-										stubChild.getChildNodes(), newStubGenus);
-							}
-						}
-						genus.env.addBlockGenus(newStubGenus);
-						genus.stubList.add(newStubGenus.genusName);
-						methodStubs.add(newStubGenus.genusName);
-					} else {
-						// not a unique stub, add generic stub
-						genus.stubList.add(stubGenus);
-					}
-				}
+	/*
+	 * 1つのクラス・メソッドの呼び出しブロックの情報を全て読み込む
+	 */
+	private static void loadMethods(NodeList methodsNode, BlockGenus genus,
+			String className) {
+		Node node;
+		List<String> methods = new ArrayList<String>();
+		for (int m = 0; m < methodsNode.getLength(); m++) {
+			node = methodsNode.item(m);
+			if (node.getNodeName().equals("MethodName")) {
+				methods.add(node.getTextContent());
 			}
 		}
-		genus.methodStubList.put(className, methodStubs);
+		genus.methods.put(className, methods);
 	}
 	
+	public Map<String, List<String>> getMethods(){
+		return this.methods;
+	}
+
 	/**
 	 * Loads the all the initial BlockGenuses and BlockGenus families of this
 	 * language
@@ -1217,15 +1173,14 @@ public class BlockGenus {
 								.equals("yes") ? true : false;
 					}
 				}
-				
+
 				// if genus is a data genus (kind=data) or a variable block (and
 				// soon a declaration block)
 				// it is both a starter and terminator
 				// in other words, it should not have before and after
 				// connectors
-				if (newGenus.isDataBlock() 
-						|| newGenus.isFunctionBlock() || newGenus.isGlobalVariableDeclBlock()
-						) {
+				if (newGenus.isDataBlock() || newGenus.isFunctionBlock()
+						|| newGenus.isGlobalVariableDeclBlock()) {
 					newGenus.isStarter = true;
 					newGenus.isTerminator = true;
 				}
@@ -1260,17 +1215,18 @@ public class BlockGenus {
 						// / LOAD LANGUAGE SPECIFIC PROPERTIES ///
 						loadLangDefProperties(genusChild.getChildNodes(),
 								newGenus);
-
-					} else if(genusChild.getNodeName().equals("Type")){ 
+					} else if (genusChild.getNodeName().equals("Type")) {
 						newGenus.type = genusChild.getTextContent();
-					} else if(genusChild.getNodeName().equals("Name")){ 
+					} else if (genusChild.getNodeName().equals("Name")) {
 						newGenus.name = genusChild.getTextContent();
-					} else if(genusChild.getNodeName().equals("ReturnType")){ 
+					} else if (genusChild.getNodeName().equals("ReturnType")) {
 						newGenus.returnType = genusChild.getTextContent();
 					} else if (genusChild.getNodeName().equals("Stubs")) {
 						// / LOAD STUBS INFO AND GENERATE GENUSES FOR EACH STUB
 						// ///
 						loadStubs(genusChild.getChildNodes(), newGenus);
+					} else if (genusChild.getNodeName().equals("ClassMethods")) {
+						loadClassMethods(genusChild.getChildNodes(), newGenus);
 					}
 				}
 
@@ -1332,86 +1288,87 @@ public class BlockGenus {
 		}
 	}
 
-//
-//	/*
-//	 * メソッド情報の読み込み
-//	 */
-//	private static void loadClassMethods(NodeList classMethods, BlockGenus genus) {
-//		Pattern extractor = Pattern.compile("\"(.*)\"");
-//		Matcher matcher;
-//		Node prop;
-//		// String methodDecralation;
-//		List<MethodInformation> methodList = new ArrayList<MethodInformation>();
-//
-//		String className = "";
-//
-//		for (int i = 0; i < classMethods.getLength(); i++) {
-//
-//			Node parent = classMethods.item(i);
-//
-//			if (parent.getNodeName().equals("ClassName")) {
-//
-//				matcher = extractor.matcher(parent.getAttributes()
-//						.getNamedItem("name").toString());
-//
-//				if (matcher.find()) {// will be true
-//					className = matcher.group(1).toString();
-//				}
-//
-//				NodeList methods = parent.getChildNodes();
-//				for (int l = 0; l < methods.getLength(); l++) {
-//					prop = methods.item(l);
-//					if (prop.getNodeName().equals("Method")) {
-//						String name = "";
-//						String label = "";
-//						List<String> parameters = new ArrayList<String>();
-//						NodeList tmp = prop.getChildNodes();
-//						for (int m = 0; m < tmp.getLength(); m++) {
-//							prop = tmp.item(m);
-//							if (prop.getNodeName().equals("MethodProperty")) {
-//								if (prop.getAttributes().getLength() > 0) {
-//									matcher = extractor.matcher(prop
-//											.getAttributes()
-//											.getNamedItem("name").toString());
-//
-//									if (matcher.find()) {// will be true
-//										name = matcher.group(1).toString();
-//										label = name;
-//									}
-//									
-//									Node label_item = prop.getAttributes()
-//											.getNamedItem("label");
-//
-//									if (label_item != null) {
-//										matcher = extractor.matcher(label_item.toString());
-//										if (matcher.find()) {
-//											label = matcher.group(1).toString();
-//										}
-//									}
-//
-//									NodeList parameter_item = prop
-//											.getChildNodes();
-//									Node parameter;
-//									for (int j = 0; j < parameter_item
-//											.getLength(); j++) {
-//										parameter = parameter_item.item(j);
-//										if (parameter.getNodeName().equals(
-//												"Parameter")) {
-//											parameters.add(parameter
-//													.getTextContent());
-//										}
-//									}
-//								}
-//							}
-//						}
-//						methodList.add(new MethodInformation(
-//								name, label));
-//					}
-//				}
-//				genus.methods.put(className, methodList);
-//			}
-//		}
-//	}
+	//
+	// /*
+	// * メソッド情報の読み込み
+	// */
+	// private static void loadClassMethods(NodeList classMethods, BlockGenus
+	// genus) {
+	// Pattern extractor = Pattern.compile("\"(.*)\"");
+	// Matcher matcher;
+	// Node prop;
+	// // String methodDecralation;
+	// List<MethodInformation> methodList = new ArrayList<MethodInformation>();
+	//
+	// String className = "";
+	//
+	// for (int i = 0; i < classMethods.getLength(); i++) {
+	//
+	// Node parent = classMethods.item(i);
+	//
+	// if (parent.getNodeName().equals("ClassName")) {
+	//
+	// matcher = extractor.matcher(parent.getAttributes()
+	// .getNamedItem("name").toString());
+	//
+	// if (matcher.find()) {// will be true
+	// className = matcher.group(1).toString();
+	// }
+	//
+	// NodeList methods = parent.getChildNodes();
+	// for (int l = 0; l < methods.getLength(); l++) {
+	// prop = methods.item(l);
+	// if (prop.getNodeName().equals("Method")) {
+	// String name = "";
+	// String label = "";
+	// List<String> parameters = new ArrayList<String>();
+	// NodeList tmp = prop.getChildNodes();
+	// for (int m = 0; m < tmp.getLength(); m++) {
+	// prop = tmp.item(m);
+	// if (prop.getNodeName().equals("MethodProperty")) {
+	// if (prop.getAttributes().getLength() > 0) {
+	// matcher = extractor.matcher(prop
+	// .getAttributes()
+	// .getNamedItem("name").toString());
+	//
+	// if (matcher.find()) {// will be true
+	// name = matcher.group(1).toString();
+	// label = name;
+	// }
+	//
+	// Node label_item = prop.getAttributes()
+	// .getNamedItem("label");
+	//
+	// if (label_item != null) {
+	// matcher = extractor.matcher(label_item.toString());
+	// if (matcher.find()) {
+	// label = matcher.group(1).toString();
+	// }
+	// }
+	//
+	// NodeList parameter_item = prop
+	// .getChildNodes();
+	// Node parameter;
+	// for (int j = 0; j < parameter_item
+	// .getLength(); j++) {
+	// parameter = parameter_item.item(j);
+	// if (parameter.getNodeName().equals(
+	// "Parameter")) {
+	// parameters.add(parameter
+	// .getTextContent());
+	// }
+	// }
+	// }
+	// }
+	// }
+	// methodList.add(new MethodInformation(
+	// name, label));
+	// }
+	// }
+	// genus.methods.put(className, methodList);
+	// }
+	// }
+	// }
 
 	/**
 	 * Returns String representation of this
@@ -1458,4 +1415,3 @@ public class BlockGenus {
 	}
 
 }
-
