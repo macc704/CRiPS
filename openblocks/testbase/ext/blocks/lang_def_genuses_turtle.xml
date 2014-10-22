@@ -1372,7 +1372,7 @@
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
 		</CategoryName>
-		<CategoryName name="ImageTurtleへの命令">
+		<CategoryName name="ImageTurtle">
 			<MethodName>ImageTurtle-image[@string]</MethodName>
 		</CategoryName>
 	</ClassMethods>
@@ -1467,7 +1467,7 @@
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
 		</CategoryName>
-		<CategoryName name="SoundTurtleへの命令">
+		<CategoryName name="SoundTurtle">
 			<MethodName>SoundTurtle-file[@string]</MethodName>
 			<MethodName>SoundTurtle-play[]</MethodName>
 			<MethodName>SoundTurtle-loop[]</MethodName>
@@ -1564,7 +1564,7 @@
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
 		</CategoryName>
- 		<CategoryName name="ListTurtleへの命令">
+ 		<CategoryName name="ListTurtle">
 			<MethodName>ListTurtle-get[@int]</MethodName>
 			<MethodName>ListTurtle-getSize[]</MethodName>
 			<MethodName>ListTurtle-add[@int]</MethodName>
@@ -1673,7 +1673,7 @@
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
 		</CategoryName>
-		<CategoryName name="InputTurtleへの命令">
+		<CategoryName name="InputTurtle">
 			<MethodName>InputTurtle-fontsize[@int]</MethodName>
 			<MethodName>InputTurtle-clearText[]</MethodName>
 			<MethodName>InputTurtle-setActive[@boolean]</MethodName>
@@ -1769,8 +1769,8 @@
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
 		</CategoryName>
-		<CategoryName name="CardTurtleへの命令">
-			<MethodName>CardTurtle-getText[]</MethodName>
+		<CategoryName name="CardTurtle">
+			<MethodName>CardTurtle-getText[]</MethodName>n
 			<MethodName>CardTurtle-getNumber[]</MethodName>
 		</CategoryName>
 	</ClassMethods>
@@ -1860,7 +1860,7 @@
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
 		</CategoryName>
-		<CategoryName name="ButtonTurtleへの命令">
+		<CategoryName name="ButtonTurtle">
 			<MethodName>ButtonTurtle-isClicked[]</MethodName>
 			<MethodName>ButtonTurtle-fontSize[@int]</MethodName>
 		</CategoryName>

@@ -387,6 +387,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public HeaderLabel getHeaderLabel() {
 		return this.headerLabel;
 	}
+	
+	public String getBlockName(){
+		return getBlockLabel().getText();
+	}
 
 	/**
 	 * @param abstractBlockArea

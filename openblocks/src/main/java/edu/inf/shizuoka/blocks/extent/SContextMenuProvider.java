@@ -286,19 +286,25 @@ public class SContextMenuProvider {
 			menu.add(createCreateWriterMenu());
 			// menu.add(createCreateGetterMenu());
 			menu.addSeparator();
-		}
+			//メソッドの呼び出しブロックメニューの追加
+			
+			JMenu methodCallMenu = new JMenu(rb.getBlockName() + "への命令");
+			
+			Map<String, List<String>> methods;
+			
+			for (String className : rb.getWorkspace().getEnv()
+					.getBlock(rb.getBlockID()).getMethodList().keySet()) {
+				methods = rb.getWorkspace().getEnv().getBlock(rb.getBlockID())
+						.getMethodList();
+				methodCallMenu.add(createClassMethodsCategory(className,
+						methods.get(className)));
+			}
+			
+			menu.add(methodCallMenu);
+			
+			menu.addSeparator();
 
-		Map<String, List<String>> methods;
-
-		for (String className : rb.getWorkspace().getEnv()
-				.getBlock(rb.getBlockID()).getMethodList().keySet()) {
-			methods = rb.getWorkspace().getEnv().getBlock(rb.getBlockID())
-					.getMethodList();
-			menu.add(createClassMethodsCategory(className,
-					methods.get(className)));
 		}
-		
-		menu.addSeparator();
 
 		if (rb.getBlock().isProcedureParamBlock()) {
 			menu.add(createCreateValueMenu());
