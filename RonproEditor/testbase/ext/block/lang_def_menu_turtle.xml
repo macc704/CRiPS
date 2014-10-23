@@ -23,9 +23,6 @@
 		<BlockGenusMember>proc-param-boolean</BlockGenusMember>
 		<BlockGenusMember>proc-param-string</BlockGenusMember>
 		<BlockGenusMember>return</BlockGenusMember>
-		<BlockGenusMember>constructor</BlockGenusMember>
-		<BlockGenusMember>callActionMethod2</BlockGenusMember>
-		<BlockGenusMember>callGetterMethod2</BlockGenusMember>
 	</BlockDrawer>
 	<!-- <BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20"> 
 		<BlockGenusMember>callActionMethod2</BlockGenusMember> <BlockGenusMember>callGetterMethod2</BlockGenusMember> 
@@ -105,17 +102,18 @@
 		<BlockGenusMember>local-var-double-number</BlockGenusMember>
 		<BlockGenusMember>local-var-string</BlockGenusMember>
 		<BlockGenusMember>local-var-boolean</BlockGenusMember>
-		<BlockGenusMember>local-var-object</BlockGenusMember>
-		<BlockGenusMember>local-var-object-Turtle</BlockGenusMember>
+	</BlockDrawer>
+	<BlockDrawer name="変数（タートル）の定義" type="factory" button-color="230 0 255">
+		<BlockGenusMember>local-var-object-Turtle</BlockGenusMember>	
 		<BlockGenusMember>local-var-object-Text</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Image</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>
-		<!-- <BlockGenusMember>private-var-int-number</BlockGenusMember> <BlockGenusMember>private-var-double-number</BlockGenusMember> 
-			<BlockGenusMember>private-var-string</BlockGenusMember> <BlockGenusMember>private-var-boolean</BlockGenusMember> 
-			<BlockGenusMember>private-var-object</BlockGenusMember> <BlockGenusMember>private-var-object-Text</BlockGenusMember> 
-			<BlockGenusMember>private-var-object-Image</BlockGenusMember> <BlockGenusMember>private-var-object-Sound</BlockGenusMember> -->
+		<BlockGenusMember>local-var-object-Button</BlockGenusMember>			
+		<BlockGenusMember>local-var-object-Card</BlockGenusMember>
+		<BlockGenusMember>local-var-object-Input</BlockGenusMember>	
+		<BlockGenusMember>local-var-object-List</BlockGenusMember>			
 	</BlockDrawer>
-
+	
 	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
 		<BlockGenusMember>toIntFromDouble</BlockGenusMember>
 		<BlockGenusMember>toIntFromString</BlockGenusMember>
@@ -206,14 +204,6 @@
 		<BlockGenusMember>print</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="タートル（Text,Image,Sound）" type="factory"
-		button-color="153 0 102">
-		<BlockGenusMember>local-var-object-Text</BlockGenusMember>
-		<!-- image -->
-		<BlockGenusMember>local-var-object-Image</BlockGenusMember>
-		<!-- sound -->
-		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>
-	</BlockDrawer>
 	<!-- <BlockDrawer name="ImageTurtle" type="factory" button-color="153 0 
 		102"> <BlockGenusMember>local-var-object-Image</BlockGenusMember> <BlockGenusMember>image</BlockGenusMember> 
 		<BlockGenusMember>getImage</BlockGenusMember> </BlockDrawer> <BlockDrawer 
@@ -224,18 +214,6 @@
 		<BlockGenusMember>setVolume</BlockGenusMember> <BlockGenusMember>loadOnMemory</BlockGenusMember> 
 		</BlockDrawer> -->
 
-	<BlockDrawer name="タートル（リスト）" type="factory" button-color="255 255 100">
-		<BlockGenusMember>local-var-object-List</BlockGenusMember>
-	</BlockDrawer>
-
-	<BlockDrawer name="タートル（Card,Button,Input）" type="factory"
-		button-color="255 255 100">
-		<BlockGenusMember>local-var-object-Card</BlockGenusMember>
-		<!-- button -->
-		<BlockGenusMember>local-var-object-Button</BlockGenusMember>
-		<!--Input -->
-		<BlockGenusMember>local-var-object-Input</BlockGenusMember>
-	</BlockDrawer>
 	<!-- <BlockDrawer name="ButtonTurtle" type="factory" button-color="255 255 
 		100"> <BlockGenusMember>new-object-ButtonTurtle</BlockGenusMember> <BlockGenusMember>isClicked</BlockGenusMember> 
 		<BlockGenusMember>fontsize</BlockGenusMember> </BlockDrawer> -->

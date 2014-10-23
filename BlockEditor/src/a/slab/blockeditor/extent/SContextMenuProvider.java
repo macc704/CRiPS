@@ -20,7 +20,6 @@ import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceWidget;
 import bc.j2b.model.ElementModel;
-import blockengine.BlockGenus;
 import codeblocks.Block;
 import codeblocks.BlockLink;
 
