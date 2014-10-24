@@ -21,6 +21,7 @@ import workspace.WorkspaceEvent;
 import workspace.WorkspaceWidget;
 import bc.j2b.model.ElementModel;
 import codeblocks.Block;
+import codeblocks.BlockGenus;
 import codeblocks.BlockLink;
 
 /**
@@ -368,7 +369,7 @@ public class SContextMenuProvider {
 					menu.add(category);
 				}
 			}
-			if (rb.getBlock().getHeaderLabel().contains("Turtle")) {
+			if (rb.getBlock().getHeaderLabel().contains("Turtle") || BlockGenus.getGenusWithName(rb.getBlock().getGenusName()).getSuperClassName().contains("Turtle")) {
 				{
 					JMenu category = new JMenu("Turtle基本");
 					category.add(createCallMethodMenu("fd", "進む"));
