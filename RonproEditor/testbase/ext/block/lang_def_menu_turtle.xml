@@ -103,17 +103,18 @@
 		<BlockGenusMember>local-var-string</BlockGenusMember>
 		<BlockGenusMember>local-var-boolean</BlockGenusMember>
 	</BlockDrawer>
-	<BlockDrawer name="変数（タートル）の定義" type="factory" button-color="230 0 255">
-		<BlockGenusMember>local-var-object-Turtle</BlockGenusMember>	
+	<BlockDrawer name="変数（タートル）の定義" type="factory"
+		button-color="230 0 255">
+		<BlockGenusMember>local-var-object-Turtle</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Text</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Image</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>
-		<BlockGenusMember>local-var-object-Button</BlockGenusMember>			
+		<BlockGenusMember>local-var-object-Button</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Card</BlockGenusMember>
-		<BlockGenusMember>local-var-object-Input</BlockGenusMember>	
-		<BlockGenusMember>local-var-object-List</BlockGenusMember>			
+		<BlockGenusMember>local-var-object-Input</BlockGenusMember>
+		<BlockGenusMember>local-var-object-List</BlockGenusMember>
 	</BlockDrawer>
-	
+
 	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
 		<BlockGenusMember>toIntFromDouble</BlockGenusMember>
 		<BlockGenusMember>toIntFromString</BlockGenusMember>
@@ -181,6 +182,7 @@
 		<BlockGenusMember>looks</BlockGenusMember>
 		<BlockGenusMember>contains</BlockGenusMember>
 		<BlockGenusMember>intersects</BlockGenusMember>
+		<BlockGenusMember>setShow</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer button-color="153 0 0" name="タートル（キーとマウス）">

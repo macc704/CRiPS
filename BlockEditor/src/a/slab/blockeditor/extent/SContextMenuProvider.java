@@ -371,7 +371,7 @@ public class SContextMenuProvider {
 			}
 			if (rb.getBlock().getHeaderLabel().contains("Turtle") || BlockGenus.getGenusWithName(rb.getBlock().getGenusName()).getSuperClassName().contains("Turtle")) {
 				{
-					JMenu category = new JMenu("Turtle基本");
+					JMenu category = new JMenu("タートル");
 					category.add(createCallMethodMenu("fd", "進む"));
 					category.add(createCallMethodMenu("bk", "戻る"));
 					category.add(createCallMethodMenu("rt", "回る（右）"));
@@ -379,26 +379,63 @@ public class SContextMenuProvider {
 					category.add(createCallMethodMenu("up", "ペンを上げる"));
 					category.add(createCallMethodMenu("down", "ペンを下ろす"));
 					category.add(createCallMethodMenu("color", "ペン色を変える"));
+					category.add(createCallMethodMenu("input", "コンソールから入力し、その値"));
+					category.add(createCallMethodMenu("print", "コンソールに出力する"));
+					category.add(createCallMethodMenu("random", "乱数を作り、その値"));					
 					menu.add(category);
 				}
 				{
-					JMenu category = new JMenu("Turtle応用");
-					category.add(createCallMethodMenu("warp", "ワープする"));
-					category.add(createCallMethodMenu("size", "大きさを変える"));
+					JMenu category = new JMenu("タートル（座標と大きさ）");
 					category.add(createCallMethodMenu("getX", "X座標"));
 					category.add(createCallMethodMenu("getY", "Y座標"));
+					category.add(createCallMethodMenu("warp", "ワープする"));					
 					category.add(createCallMethodMenu("getWidth", "幅"));
 					category.add(createCallMethodMenu("getHeight", "高さ"));
-					category.add(createCallMethodMenu("intersects",
-							"オブジェクトが重なっているかどうか調べる"));
-					category.add(createCallMethodMenu("contains",
-							"オブジェクトが指定した座標を含む位置にいるか調べる"));
-					category.add(createCallMethodMenu("looks", "見た目を変える"));
+					category.add(createCallMethodMenu("scale", "倍率を指定して大きさを変える"));
+					category.add(createCallMethodMenu("size", "縦横サイズを指定して大きさを変える"));
+					category.add(createCallMethodMenu("large", "縦・横の幅を大きくする"));
+					category.add(createCallMethodMenu("small", "縦・横の幅を小さくする"));
+					category.add(createCallMethodMenu("wide", "横の幅を大きくする"));
+					category.add(createCallMethodMenu("narrow", "横の幅を小さくする"));
+					category.add(createCallMethodMenu("tall", "縦の幅を大きくする"));
+					category.add(createCallMethodMenu("little", "縦の幅を小さくする"));
+					menu.add(category);
+				}
+				{
+					JMenu category = new JMenu("タートル（見た目と判定）");
 					category.add(createCallMethodMenu("show", "表示する"));
 					category.add(createCallMethodMenu("hide", "非表示にする"));
-					category.add(createCallMethodMenu("setShow", "表示状態を設定する"));
 					category.add(createCallMethodMenu("isShow",
 							"表示されているかどうか調べる"));
+					category.add(createCallMethodMenu("looks", "見た目を変える"));
+					category.add(createCallMethodMenu("contains",
+							"オブジェクトが指定した座標を含む位置にいるか調べる"));
+					category.add(createCallMethodMenu("intersects",
+							"オブジェクトが重なっているかどうか調べる"));
+					category.add(createCallMethodMenu("setShow", "表示状態を設定する"));
+					menu.add(category);
+				}
+				{
+					JMenu category = new JMenu("タートル（キーとマウス）");
+					category.add(createCallMethodMenu("key", "押されているキーコードを調べる"));
+					category.add(createCallMethodMenu("keyDown", "指定したキーが押されているか調べる"));
+					category.add(createCallMethodMenu("mouseX", "マウスの現在地のX座標を取得する"));
+					category.add(createCallMethodMenu("mouseY", "マウスの現在地のY座標を取得する"));
+					category.add(createCallMethodMenu("mouseClicked", "マウスがクリックされたか調べる"));
+					category.add(createCallMethodMenu("leftMouseClicked", "マウスが左クリックされたか調べる"));
+					category.add(createCallMethodMenu("rightMouseClicked", "マウスが右クリックされたか調べる"));
+					category.add(createCallMethodMenu("doubleClick", "マウスがダブルクリックされたか調べる"));
+					category.add(createCallMethodMenu("mouseDown", "マウスが押されたか調べる"));
+					category.add(createCallMethodMenu("leftMouseDown", "マウスの左ボタンが押されたか調べる"));
+					category.add(createCallMethodMenu("rightMouseDown", "マウスの右ボタンが押されたか調べる"));
+					menu.add(category);
+				}
+				{
+					JMenu category = new JMenu("タートル（アニメーション操作）");
+					category.add(createCallMethodMenu("update",
+							"再描画する"));
+					category.add(createCallMethodMenu("sleep",
+							"待つ"));		
 					menu.add(category);
 				}
 			}

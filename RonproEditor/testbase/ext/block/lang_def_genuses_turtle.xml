@@ -576,9 +576,8 @@
 		</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector connector-kind="socket" connector-type="boolean"
-			position-type="mirror">
-			<DefaultArg genus-name="number" label="50"></DefaultArg>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="boolean">
 		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
