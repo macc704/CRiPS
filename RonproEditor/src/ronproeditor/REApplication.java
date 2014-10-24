@@ -5,7 +5,6 @@
  */
 package ronproeditor;
 
-import java.awt.FontMetrics;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.ByteArrayOutputStream;
@@ -34,9 +33,9 @@ import ronproeditor.dialogs.REDirtyOptionDialog;
 import ronproeditor.dialogs.RERefactoringFileNameDialog;
 import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
+import ronproeditor.ext.RECheCoProManager;
 import ronproeditor.ext.RECocoViewerManager;
 import ronproeditor.ext.RECreateCocoDataManager;
-import ronproeditor.ext.RECheCoProManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
@@ -271,10 +270,13 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 2014/01/08 version 2.25.0 matsuzawa		・git参照のこと
  * 
  * 2014/10/01 version 2.27.0 ohata			・2014プログラミング社会学科用
- * 2014/10/01 version 2.27.1 ohata			・軽微なバグを修正
+ * 2014/10/11 version 2.27.1 ohata			・軽微なバグを修正
  * 
- * 2014/10/01 version 2.27.1 ohata			・コンソールのフォントをエディタのフォントと統一
+ * 2014/10/18 version 2.27.2 ohata			・コンソールのフォントをエディタのフォントと統一
  * 											・フォントの文字幅によるエラー指摘メッセージのズレを修正
+ * 2014/10/24 version 2.27.3 ohata			・sizeメソッドのBlock>>Java変換のエラーを修正
+ * 											・Turtleを継承した自作クラスブロックを右クリックしたときのコンテキストメニューに，タートルメニューを追加
+ * 											・List,Image,TextTurtleなどのメソッド呼び出しブロックを隠蔽
  * 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．

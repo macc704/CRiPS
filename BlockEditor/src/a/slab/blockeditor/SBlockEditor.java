@@ -300,6 +300,9 @@ import controller.WorkspaceController;
  *  	・ブロックの多重登録を修正
  *  	・thisキーワードの複製の問題を修正
  *  	・superメソッドブロックの作成処理を追加
+ *  2014.10.24 3.2.1 ohata
+ *  	・コンテキストメニューの変更（タートル継承した自作クラスオブジェクトにタートルのメニューを表示する）
+ *  	・List,Image,TextTurtleなどのメソッド呼び出しブロックを隠蔽
  *  
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
@@ -320,7 +323,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "3.2.0";
+	public final static String VERSION = "3.2.1";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;
