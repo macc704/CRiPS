@@ -621,7 +621,7 @@ public class WorkspaceController {
 		JMenuBar menuBar = new JMenuBar();
 		
 		//open other blockeditor
-		JMenu menu = new JMenu("Tooles");
+		JMenu menu = new JMenu("Tools");
 		JMenuItem item = new JMenuItem("Open other BlockEditor");
 		item.addActionListener(new ActionListener() {
 			@Override
