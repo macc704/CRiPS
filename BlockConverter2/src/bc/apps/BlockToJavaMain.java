@@ -5,12 +5,7 @@ import java.io.File;
 import org.w3c.dom.Document;
 
 import bc.b2j.analyzer.BlockToJavaAnalyzer;
-import bc.b2j.model.JavaSourceWriter;
-import bc.b2j.model.ProgramModel;
-import bc.b2j.model.ResolveSyntaxError;
-import bc.classblockfilewriters.LangDefFilesReWriterMain;
 import bc.utils.DomParserWrapper;
-import bc.utils.ExtensionChanger;
 
 public class BlockToJavaMain {
 

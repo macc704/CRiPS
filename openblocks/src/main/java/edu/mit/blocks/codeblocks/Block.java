@@ -1598,6 +1598,7 @@ public class Block implements ISupportMemento {
 
 		blockElement.setAttribute("id", Long.toString(OUTPUT_ID + getBlockID()));
 		blockElement.setAttribute("genus-name", getGenusName());
+		blockElement.setAttribute("kind", getGenus().getKind());
 		if (hasFocus) {
 			blockElement.setAttribute("has-focus", "yes");
 		}
@@ -1636,6 +1637,7 @@ public class Block implements ISupportMemento {
 					.createTextNode(this.returnType));
 			blockElement.appendChild(returnTypeElement);
 		}
+		
 
 		// Location
 		Element locationElement = document.createElement("Location");
