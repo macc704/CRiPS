@@ -93,6 +93,9 @@ public class InfixBlockShape extends BlockShape {
                 } else { //there is a connected block
                     Block connectedBlock = rb.getWorkspace().getEnv().getBlock(curSocket.getBlockID());
                     RenderableBlock connectedRBlock = rb.getWorkspace().getEnv().getRenderableBlock(curSocket.getBlockID());
+                    if(connectedRBlock == null){
+                    	connectedRBlock = new RenderableBlock(rb.getWorkspace(), rb.getParentWidget(), curSocket.getBlockID());
+                    }
 
                     //calculate and update the new socket point
                     //update the socket point of this cursocket which should now adopt the plug socket point of its
