@@ -255,6 +255,8 @@ public class SContextMenuProvider {
 //			menu.add(createLengthMenu());
 //			menu.addSeparator();
 //		}
+		
+
 
 		if (rb.getBlock().getGenusName().contains("arrayobject")) {//配列
 			final String scope = getBlockScope(rb.getBlock().getGenusName());
@@ -284,8 +286,9 @@ public class SContextMenuProvider {
 			});
 
 			menu.add(elementSetter);
-
 		}
+		
+		JMenu methodMenu = new JMenu(rb.getBlock().getBlockLabel() + "に命令する");
 
 		if (rb.getBlock().getGenusName().contains("-bcanvas")) {
 			JMenu category = new JMenu("BCanvas");
@@ -318,7 +321,7 @@ public class SContextMenuProvider {
 			category.add(createCallMethodMenu("getCanvasWidth", "キャンバスの幅を取得します"));
 			category.add(createCallMethodMenu("getCanvasHeight", "キャンバスの高さを取得します"));
 			
-			menu.add(category);
+			methodMenu.add(category);
 		}
 
 		if (rb.getBlock().getGenusName().contains("-bwindow")) {
@@ -327,7 +330,7 @@ public class SContextMenuProvider {
 			category.add(createCallMethodMenu("show", "ウインドウを表示する"));
 			category.add(createCallMethodMenu("setSize", "大きさを指定する"));
 			category.add(createCallMethodMenu("getCanvas", "書き込みできるキャンバスを取得する"));
-			menu.add(category);
+			methodMenu.add(category);
 		}
 
 		if (rb.getBlock().getGenusName().contains("-bsound")) {
@@ -341,17 +344,17 @@ public class SContextMenuProvider {
 			category.add(createCallMethodMenu("loop", "ループ再生する"));
 			category.add(createCallMethodMenu("stop", "停止する"));
 			category.add(createCallMethodMenu("isPlaying", "再生しているかどうか"));
-			menu.add(category);
+			methodMenu.add(category);
 		}
 
 		if (rb.getBlock().isObjectTypeVariableDeclBlock()
 				|| rb.getBlock().getGenusName().contains("listobject")) {
-			menu.add(createActionBlockMenu());
-			menu.add(createGetterBlockMenu());
+//			menu.add(createActionBlockMenu());
+//			menu.add(createGetterBlockMenu());
 
 			//TODO menuにクラスメソッドを追加
 			for (String key : rb.getMethods().keySet()) {
-				menu.add(createClassMethodsCategory(key,
+				methodMenu.add(createClassMethodsCategory(key + "のメソッド",
 						rb.getMethods().get(key)));
 			}
 
@@ -366,7 +369,7 @@ public class SContextMenuProvider {
 							"入力が実数型かどうか調べる"));
 					category.add(createCallMethodMenu("nextDouble",
 							"入力を受け取る(実数型)"));
-					menu.add(category);
+					methodMenu.add(category);
 				}
 			}
 			if (rb.getBlock().getHeaderLabel().contains("Turtle") || BlockGenus.getGenusWithName(rb.getBlock().getGenusName()).getSuperClassName().contains("Turtle")) {
@@ -382,7 +385,7 @@ public class SContextMenuProvider {
 					category.add(createCallMethodMenu("input", "コンソールから入力し、その値"));
 					category.add(createCallMethodMenu("print", "コンソールに出力する"));
 					category.add(createCallMethodMenu("random", "乱数を作り、その値"));					
-					menu.add(category);
+					methodMenu.add(category);
 				}
 				{
 					JMenu category = new JMenu("タートル（座標と大きさ）");
@@ -399,7 +402,7 @@ public class SContextMenuProvider {
 					category.add(createCallMethodMenu("narrow", "横の幅を小さくする"));
 					category.add(createCallMethodMenu("tall", "縦の幅を大きくする"));
 					category.add(createCallMethodMenu("little", "縦の幅を小さくする"));
-					menu.add(category);
+					methodMenu.add(category);
 				}
 				{
 					JMenu category = new JMenu("タートル（見た目と判定）");
@@ -413,7 +416,7 @@ public class SContextMenuProvider {
 					category.add(createCallMethodMenu("intersects",
 							"オブジェクトが重なっているかどうか調べる"));
 					category.add(createCallMethodMenu("setShow", "表示状態を設定する"));
-					menu.add(category);
+					methodMenu.add(category);
 				}
 				{
 					JMenu category = new JMenu("タートル（キーとマウス）");
@@ -428,7 +431,7 @@ public class SContextMenuProvider {
 					category.add(createCallMethodMenu("mouseDown", "マウスが押されたか調べる"));
 					category.add(createCallMethodMenu("leftMouseDown", "マウスの左ボタンが押されたか調べる"));
 					category.add(createCallMethodMenu("rightMouseDown", "マウスの右ボタンが押されたか調べる"));
-					menu.add(category);
+					methodMenu.add(category);
 				}
 				{
 					JMenu category = new JMenu("タートル（アニメーション操作）");
@@ -436,20 +439,20 @@ public class SContextMenuProvider {
 							"再描画する"));
 					category.add(createCallMethodMenu("sleep",
 							"待つ"));		
-					menu.add(category);
+					methodMenu.add(category);
 				}
 			}
 			if (rb.getBlock().getHeaderLabel().contains("ImageTurtle")) {
 				JMenu category = new JMenu("ImageTurtle");
 				category.add(createCallMethodMenu("image", "画像ファイルを設定する"));
-				menu.add(category);
+				methodMenu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("TextTurtle")) {
 				JMenu category = new JMenu("TextTurtle");
 				category.add(createCallMethodMenu("text", "テキストを設定する"));
 				category.add(createCallMethodMenu("getText", "テキストを取得する"));
 				category.add(category);
-				menu.add(category);
+				methodMenu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("SoundTurtle")) {
 				JMenu category = new JMenu("TextTurtle");
@@ -458,7 +461,7 @@ public class SContextMenuProvider {
 				category.add(createCallMethodMenu("loop", "ループ再生する"));
 				category.add(createCallMethodMenu("stop", "停止する"));
 				category.add(createCallMethodMenu("isPlaying", "再生しているかどうか"));
-				menu.add(category);
+				methodMenu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("ListTurtle")) {
 				JMenu category = new JMenu("ListTurtle");
@@ -489,7 +492,7 @@ public class SContextMenuProvider {
 				category.add(createCallMethodMenu("shuffle", "かき混ぜる"));
 				category.add(createCallMethodMenu("warpByTopLeft",
 						"（左上の座標指定で）ワープする"));
-				menu.add(category);
+				methodMenu.add(category);
 			}
 
 			if (rb.getBlock().getGenusName().contains("listobject")) {
@@ -503,19 +506,19 @@ public class SContextMenuProvider {
 				category.add(createCallListMethodMenu("isEmpty", "リストが空か調べる"));
 				category.add(createCallListMethodMenu("remove",
 						"指定した要素を削除する"));
-				menu.add(category);
+				methodMenu.add(category);
 			}
 
 			if (rb.getBlock().getHeaderLabel().contains("CardTurtle")) {
 				JMenu category = new JMenu("CardTurtle");
 				category.add(createCallMethodMenu("getNumber", "番号取得"));
 				category.add(createCallMethodMenu("getText", "文字列取得"));
-				menu.add(category);
+				methodMenu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("ButtonTurtle")) {
 				JMenu category = new JMenu("ButtonTurtle");
 				category.add(createCallMethodMenu("isClicked", "クリックされたかどうか"));
-				menu.add(category);
+				methodMenu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("InputTurtle")) {
 				JMenu category = new JMenu("InputTurtle");
@@ -527,9 +530,13 @@ public class SContextMenuProvider {
 				category.add(createCallMethodMenu("toJapaneseMode", "日本語モードにする"));
 				category.add(createCallMethodMenu("toEnglishMode", "英語モードにする"));
 				category.add(createCallMethodMenu("fontsize", "フォントサイズを設定する"));
-				menu.add(category);
+				methodMenu.add(category);
 			}
-			menu.addSeparator();
+			
+			if(methodMenu.getItemCount()>0){
+				menu.add(methodMenu);
+				menu.addSeparator();
+			}
 		}
 
 		if (rb.getBlock().isProcedureDeclBlock()) {

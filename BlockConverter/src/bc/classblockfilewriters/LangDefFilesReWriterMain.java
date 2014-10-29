@@ -97,15 +97,15 @@ public class LangDefFilesReWriterMain {
 				String superClassName = getSuperClassName(javaFile);
 				// ローカル変数ブロックのモデルを追加
 				selfDefModel.setLocalVariableBlockModel(name, methods, superClassName);// メソッドリストを引数に追加
-				// インスタンス変数ブロックのモデルを追加
-				selfDefModel.setInstanceVariableBlockMode(name, methods, superClassName);
+//				// インスタンス変数ブロックのモデルを追加
+//				selfDefModel.setInstanceVariableBlockMode(name, methods, superClassName);
 				
 				// 型変換ブロックモデルの追加
 				selfDefModel.setConvertBlockModel(name);
 				// 引数ブロックモデルの追加
 				selfDefModel.setParameterBlockModel(name, methods);
-				//配列ブロックモデルの追加
-				selfDefModel.setArrayParameterBlockModel(name, methods);
+//				//配列ブロックモデルの追加
+//				selfDefModel.setArrayParameterBlockModel(name, methods);
 				
 				//キャッシュに登録済みクラスを追加する
 				addedClasses.add(name);

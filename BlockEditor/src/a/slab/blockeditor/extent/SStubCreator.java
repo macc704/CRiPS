@@ -7,7 +7,6 @@ package a.slab.blockeditor.extent;
 
 import java.awt.event.ActionEvent;
 
-import controller.WorkspaceController;
 import renderable.RenderableBlock;
 import workspace.Workspace;
 import codeblocks.Block;
