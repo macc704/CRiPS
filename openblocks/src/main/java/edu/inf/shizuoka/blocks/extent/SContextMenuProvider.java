@@ -288,7 +288,7 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 			//メソッドの呼び出しブロックメニューの追加
 			
-			JMenu methodCallMenu = new JMenu(rb.getBlockName() + "への命令");
+			JMenu methodCallMenu = new JMenu(rb.getBlockName() + "に命令する");
 			
 			Map<String, List<String>> methods;
 			
@@ -299,11 +299,10 @@ public class SContextMenuProvider {
 				methodCallMenu.add(createClassMethodsCategory(className,
 						methods.get(className)));
 			}
-			
-			menu.add(methodCallMenu);
-			
-			menu.addSeparator();
-
+			if(methodCallMenu.getItemCount()>0){
+				menu.add(methodCallMenu);
+				menu.addSeparator();
+			}
 		}
 
 		if (rb.getBlock().isProcedureParamBlock()) {
@@ -639,30 +638,30 @@ public class SContextMenuProvider {
 	// rb.getParentWidget(), name);
 	// newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20);
 	// }
-
-	private void createCallMethod(String name, RenderableBlock newCommandRBlock) {
-
-		boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
-		if (cmd) {
-			RenderableBlock newActionRBlock = createActionGetterBlock(rb,
-					"callActionMethod2");
-			connectByBefore(newActionRBlock, 1, newCommandRBlock);
-		} else {
-			RenderableBlock newGetterRBlock = createActionGetterBlock(rb,
-					"callGetterMethod2");
-			connectByPlug(newGetterRBlock, 1, newCommandRBlock);
-
-			boolean returnObject = newCommandRBlock.getBlock().getPlug()
-					.getKind().equals("object");
-			if (returnObject) {
-				RenderableBlock newActionRBlock = createNewBlock(
-						rb.getWorkspace(), rb.getParentWidget(),
-						"callActionMethod2");
-				newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
-				connectByPlug(newActionRBlock, 0, newGetterRBlock);
-			}
-		}
-	}
+//
+//	private void createCallMethod(String name, RenderableBlock newCommandRBlock) {
+//
+//		boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
+//		if (cmd) {
+//			RenderableBlock newActionRBlock = createActionGetterBlock(rb,
+//					"callActionMethod2");
+//			connectByBefore(newActionRBlock, 1, newCommandRBlock);
+//		} else {
+//			RenderableBlock newGetterRBlock = createActionGetterBlock(rb,
+//					"callGetterMethod2");
+//			connectByPlug(newGetterRBlock, 1, newCommandRBlock);
+//
+//			boolean returnObject = newCommandRBlock.getBlock().getPlug()
+//					.getKind().equals("object");
+//			if (returnObject) {
+//				RenderableBlock newActionRBlock = createNewBlock(
+//						rb.getWorkspace(), rb.getParentWidget(),
+//						"callActionMethod2");
+//				newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
+//				connectByPlug(newActionRBlock, 0, newGetterRBlock);
+//			}
+//		}
+//	}
 
 	// private void createCallStaticMethod(String name) {
 	// RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(),

@@ -2062,7 +2062,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
 	}
 
 	public static void hilightAllStubBlocks(Block parentBlock, Block catchedBlock, WorkspaceWidget widget){
