@@ -106,6 +106,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 				return textValid(text);
 			}
 		};
+		
 		widget.setNumeric(Block.getBlock(this.blockID).getGenusName()
 				.equals("number"));
 		// arranged by sakai lab 2011/10
@@ -289,6 +290,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 	}
 
 	protected void textChanged(String text) {
+		
 		if ((this.labelType.equals(BlockLabel.Type.NAME_LABEL) || this.labelType
 				.equals(BlockLabel.Type.PORT_LABEL))
 				&& Block.getBlock(blockID).isLabelEditable()) {

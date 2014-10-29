@@ -110,7 +110,6 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
                 return textValid(text);
             }
         };
-        widget.setNumeric(workspace.getEnv().getBlock(this.blockID).getGenusName().equals("number"));
 
         // Only editable if the isEditable parameter was true, the label is either a Block's name or
         // socket label, the block can edit labels, and the block is not in the factory.
@@ -146,7 +145,17 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
         widget.addMouseListenerToLabel(this);
         widget.addMouseMotionListenerToLabel(this);
         widget.addKeyListenerToTextField(this);
-
+        
+        widget.setNumeric(workspace.getEnv().getBlock(this.blockID).getGenusName().equals("number"));
+		// arranged by sakai lab 2011/10
+		widget.setVariable(workspace.getEnv().getBlock(this.blockID).getGenusName()
+				.indexOf("-var-") != -1);
+		widget.setProcedure(workspace.getEnv().getBlock(this.blockID).getGenusName()
+				.equals("procedure"));
+		widget.setNewObject(workspace.getEnv().getBlock(this.blockID).getGenusName()
+				.equals("new-object"));
+        
+        
         //set initial text
         widget.updateLabelText(initLabelText);
         //add and show the textLabel initially

@@ -2,6 +2,7 @@ package edu.mit.blocks.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -40,6 +41,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import clib.view.app.javainfo.CJavaInfoPanels;
 import bc.apps.BlockToJavaMain;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.codeblocks.BlockGenus;
@@ -622,8 +624,8 @@ public class WorkspaceController {
 		
 		//open other blockeditor
 		JMenu menu = new JMenu("Tools");
-		JMenuItem item = new JMenuItem("Open other BlockEditor");
-		item.addActionListener(new ActionListener() {
+		JMenuItem debugItem = new JMenuItem("Open other BlockEditor");
+		debugItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				runBlockEditor();
@@ -640,11 +642,15 @@ public class WorkspaceController {
 			}
 		});
 		
-		menu.add(item);
-		menu.add(exit);
+		JMenu help = new JMenu("help");
+		help.add(CJavaInfoPanels.createJavaInformationAction());
+
+		menu.add(debugItem);
+		menu.add(exit);	
 		
 		menuBar.add(menu);
-		
+		menuBar.add(help);
+
 		return menuBar;
 	}
 
