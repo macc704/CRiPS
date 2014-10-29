@@ -124,10 +124,14 @@ public class RECheCoProManager {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (application.getFrame().getEditor() != null) {
+				
+				if(evt.getPropertyName().equals("prepareDocumentClose")) {
+					removeREKeyListner();
+				} else if (evt.getPropertyName().equals("documentOpened")) {
 					initializeREKeyListener();
 					processFilelistRequest(new CHFilelistRequest(user));
 				}
+				
 			}
 		};
 
@@ -187,7 +191,33 @@ public class RECheCoProManager {
 				.addKeyListener(reKeyListener);
 	}
 
+	// TODO ìÀä—çHéñ
+	private ActionListener copyListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			writeCopyLog(application);
+		}
+	};
+	
+	private ActionListener pasteListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			writePasteLog(application.getSourceManager().getCCurrentFile());
+		}
+	};
+	
+	private ActionListener saveListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			processFilelistRequest(new CHFilelistRequest(user));
+		}
+	};
+	
 	private void initializeREMenuListener(final REApplication application) {
+		
 		JMenu menu = application.getFrame().getJMenuBar().getMenu(1);
 
 		List<JMenuItem> items = new ArrayList<JMenuItem>();
@@ -195,31 +225,32 @@ public class RECheCoProManager {
 		items.add(menu.getItem(4));
 
 		for (JMenuItem aItem : items) {
-			aItem.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					writeCopyLog(application);
-				}
-			});
+			aItem.addActionListener(copyListener);
 		}
 
-		menu.getItem(5).addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				writePasteLog(application.getSourceManager().getCCurrentFile());
-			}
-		});
-
+		menu.getItem(5).addActionListener(pasteListener);
+		
 		application.getFrame().getJMenuBar().getMenu(0).getItem(8)
-				.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						processFilelistRequest(new CHFilelistRequest(user));
-					}
-				});
+				.addActionListener(saveListener);
+	}
+	
+	private void removeREMenuListener(){
+		
+		JMenu menu = application.getFrame().getJMenuBar().getMenu(1);
+		
+		List<JMenuItem> items = new ArrayList<JMenuItem>();
+		items.add(menu.getItem(3));
+		items.add(menu.getItem(4));
+		
+		for (JMenuItem aItem : items) {
+			aItem.removeActionListener(copyListener);
+		}
+		
+		menu.getItem(5).removeActionListener(pasteListener);
+		
+		application.getFrame().getJMenuBar().getMenu(0).getItem(8)
+				.removeActionListener(saveListener);
+		
 	}
 
 	private void writeCopyLog(REApplication application) {
@@ -776,6 +807,11 @@ public class RECheCoProManager {
 	private void removeListeners() {
 		application.getSourceManager().removePropertyChangeListener(
 				rePropertyChangeListener);
+		removeREKeyListner();
+		removeREMenuListener();
+	}
+	
+	private void removeREKeyListner() {
 		if (reKeyListener != null) {
 			application.getFrame().getEditor().getViewer().getTextPane()
 					.removeKeyListener(reKeyListener);
