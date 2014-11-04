@@ -71,7 +71,7 @@ public class ArrowObject extends JComponent {
 	public void paint(Graphics g) {
 		super.paint(g);
 		//boundsの再設定
-		setBounds(Workspace.getInstance().getBlockCanvas().getCanvas().getBounds());
+		setBounds(0,0,Workspace.getInstance().getBlockCanvas().getCanvas().getHeight(),Workspace.getInstance().getBlockCanvas().getCanvas().getWidth());
 		drawArrow((Graphics2D) g);
 	}
 
