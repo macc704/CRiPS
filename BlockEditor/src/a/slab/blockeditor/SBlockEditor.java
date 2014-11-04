@@ -306,7 +306,9 @@ import controller.WorkspaceController;
  *  2014.10.24 3.2.2 ohata
  *  	・コンテキストメニューの変更（クラス型変数へのメソッド参照を，変数名へ命令するというメニューに変更）
  *  	・ブロックファクトリを1年生用に変更（自作クラス型変数の配列，プライベート変数を作成しない）
- *  
+ *  2014.11.04 3.2.3 ohata
+ *  	・コンテキストメニューの変更（クラス型変数へのメソッド参照を，変数名へ命令するというメニューに変更）
+ *  	・ブロックファクトリを1年生用に変更（自作クラス型変数の配列，プライベート変数を作成しない） 
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
  * ・引数の使用時にスコープのチェック
@@ -326,7 +328,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "3.2.2";
+	public final static String VERSION = "3.2.3";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;

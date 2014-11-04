@@ -455,7 +455,7 @@ public class SContextMenuProvider {
 				methodMenu.add(category);
 			}
 			if (rb.getBlock().getHeaderLabel().contains("SoundTurtle")) {
-				JMenu category = new JMenu("TextTurtle");
+				JMenu category = new JMenu("SoundTurtle");
 				category.add(createCallMethodMenu("file", "ファイルを設定する"));
 				category.add(createCallMethodMenu("play", "再生する"));
 				category.add(createCallMethodMenu("loop", "ループ再生する"));
