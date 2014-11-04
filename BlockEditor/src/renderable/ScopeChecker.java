@@ -2,13 +2,12 @@ package renderable;
 
 import java.awt.Color;
 
-import bc.BCSystem;
 import codeblocks.Block;
 import codeblocks.BlockConnector;
 
 public class ScopeChecker {
 
-	public boolean checkScope(Block beforeBlock, Block cmpBlock) {
+	public static boolean checkScope(Block beforeBlock, Block cmpBlock) {
 		//cmpblock:チェックする変数のブロック
 		//before　結合先のブロック
 
@@ -53,9 +52,7 @@ public class ScopeChecker {
 					compareBlockName)) {
 				return true;
 			}
-			BCSystem.out.println("cant belong block:"
-					+ cmpBlock.getBlockLabel());
-
+		
 			RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
 					.setBlockHighlightColor(Color.RED);
 
@@ -65,7 +62,7 @@ public class ScopeChecker {
 		}
 	}
 
-	private Block purcePlugBlock(Block block) {
+	private static Block purcePlugBlock(Block block) {
 
 		while (Block.getBlock(block.getPlugBlockID()) != null) {
 			block = Block.getBlock(block.getPlugBlockID());
@@ -126,7 +123,7 @@ public class ScopeChecker {
 
 	//参照ブロックが所属できるかどうか確認する. 参照ブロックから上に順番にたどっていって、スコープがあっているか確認する
 	//引数　スコープを確認するブロック:cmpblock 結合先の一番前のブロック:beforelock
-	private boolean confirmCompareBlockIsBelongable(Block cmpBlock,
+	private static boolean confirmCompareBlockIsBelongable(Block cmpBlock,
 			Block beforeBlock, String originBlockName) {
 
 		Block checkBlock = cmpBlock;

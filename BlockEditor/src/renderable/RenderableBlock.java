@@ -2222,51 +2222,44 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	private boolean checkScope(BlockLink link) {
-		ScopeChecker scpChecker = new ScopeChecker();
 		boolean scopeCheck = true;
 		// 結合するブロックのもつすべてのブロックのスコープをチェックしていく
 		for (Block checkBlock = getBlock(); checkBlock != null; checkBlock = Block
 				.getBlock(checkBlock.getAfterBlockID())) {
 			// 抽象化ブロックの場合は、抽象化ブロック内を全てチェックしなければいけない
 			if (checkBlock.getGenusName().equals("abstraction")) {
-				scopeCheck &= checkBlocks(scpChecker, link, checkBlock);
+				scopeCheck &= checkBlocks( link, checkBlock);
 			}
 
 			boolean check = true;
 			// ブロックがソケットをもつ場合は、ソケット内で参照ブロックが使われているかもしれないのでチェック
-			check &= checkVariableBlocksScope(scpChecker, link, checkBlock);
+			check &= checkVariableBlocksScope(link, checkBlock);
 			scopeCheck &= check;
-			if (check == false) {
-				RenderableBlock.getRenderableBlock(checkBlock.getBlockID())
-						.setBlockHighlightColor(Color.RED);
-			}
+			
 			check = true;
-			check &= scpChecker.checkScope(
+			check &= ScopeChecker.checkScope(
 					Block.getBlock(link.getSocketBlockID()), checkBlock);
+			
 			scopeCheck &= check;
-			if (check == false) {
-				RenderableBlock.getRenderableBlock(checkBlock.getBlockID())
-						.setBlockHighlightColor(Color.RED);
-			}
+			
 		}
 		return scopeCheck;
 	}
 
 	// abstractionブロック内のブロックのスコープをチェックする
-	private boolean checkBlocks(ScopeChecker scpChecker, BlockLink link,
-			Block abstBlock) {
+	private boolean checkBlocks(BlockLink link, Block abstBlock) {
 		boolean scopeCheck = true;
 		// 抽象化ブロック内のすべてのブロックのスコープをチェックしていく
 		for (Block checkBlock = Block.getBlock(abstBlock.getSocketAt(0)
 				.getBlockID()); checkBlock != null; checkBlock = Block
 				.getBlock(checkBlock.getAfterBlockID())) {
 			if (checkBlock.getGenusName().equals("abstraction")) {
-				scopeCheck &= checkBlocks(scpChecker, link, checkBlock);
+				scopeCheck &= checkBlocks(link, checkBlock);
 			}
 
-			scopeCheck &= checkVariableBlocksScope(scpChecker, link, checkBlock);
+			scopeCheck &= checkVariableBlocksScope(link, checkBlock);
 
-			scopeCheck &= scpChecker.checkScope(
+			scopeCheck &= ScopeChecker.checkScope(
 					Block.getBlock(link.getSocketBlockID()), checkBlock);
 		}
 
@@ -2274,8 +2267,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	// 値ブロックのスコープをチェックする　値のスコープが正しい、またはチェックするブロックがない場合はT それ以外はF
-	private boolean checkVariableBlocksScope(ScopeChecker scpChecker,
-			BlockLink link, Block checkBlock) {
+	private boolean checkVariableBlocksScope(BlockLink link, Block checkBlock) {
 		boolean scopeCheck = true;
 
 		if (checkBlock.getGenusName().equals("procedure")) {// とりあえず例外に
@@ -2286,16 +2278,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				.getSocketEquivalents(checkBlock)) {
 			// ソケットのブロックの中でも、参照ブロック（getter)のみをチェックする。それ以外は素通し
 			if (socket.hasBlock()) {
-				scopeCheck &= checkVariableBlocksScope(scpChecker, link,
+				scopeCheck &= checkVariableBlocksScope(link,
 						Block.getBlock(socket.getBlockID()));// ソケットのブロックのスコープをチェックする
-
-				scopeCheck &= scpChecker.checkScope(
+				
+				scopeCheck &= ScopeChecker.checkScope(
 						Block.getBlock(link.getSocketBlockID()),
 						Block.getBlock(socket.getBlockID()));
-				if (scopeCheck == false) {
-					System.out.println(Block.getBlock(socket.getBlockID())
-							.getBlockLabel());
-				}
+				
+				
 			}
 		}
 
