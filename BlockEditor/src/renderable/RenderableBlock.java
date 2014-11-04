@@ -2199,7 +2199,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			add(popup);
 			popup.show(this, e.getX(), e.getY());
 		}
-		Workspace.getInstance().getMiniMap().repaint();
+//		Workspace.getInstance().getMiniMap().repaint();
 
 	}
 
@@ -2311,14 +2311,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				return;
 			}
 
-			Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
-					Workspace.getInstance().getMiniMap());
-			if (Workspace.getInstance().getMiniMap().contains(pp)) {
-				Workspace.getInstance().getMiniMap()
-						.blockDragged(this, e.getPoint());
-				lastDragWidget = Workspace.getInstance().getMiniMap();
-				return;
-			}
+//			Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
+//					Workspace.getInstance().getMiniMap());
+//			if (Workspace.getInstance().getMiniMap().contains(pp)) {
+//				Workspace.getInstance().getMiniMap()
+//						.blockDragged(this, e.getPoint());
+//				lastDragWidget = Workspace.getInstance().getMiniMap();
+//				return;
+//			}
 
 			// drag this block if appropriate (checks bounds first)
 			dragHandler.mouseDragged(e);
@@ -2355,8 +2355,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 			// drag this block and all attached to it
 			drag(this, dragHandler.dragDX, dragHandler.dragDY, widget, true);
-
-			Workspace.getInstance().getMiniMap().repaint();
 			
 			catchBlockSetHighlight(this, widget);
 		}

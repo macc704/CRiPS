@@ -560,26 +560,26 @@ public class SContextMenuProvider {
 //		}
 		return menu;
 	}
-
-	private JMenuItem createActionBlockMenu() {
-		JMenuItem item = new JMenuItem("「実行」ブロック作成");
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				createActionGetterBlock(rb, "callActionMethod2");
-			}
-		});
-		return item;
-	}
-
-	private JMenuItem createGetterBlockMenu() {
-		JMenuItem item = new JMenuItem("「実行値」ブロック作成");
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				createActionGetterBlock(rb, "callGetterMethod2");
-			}
-		});
-		return item;
-	}
+//
+//	private JMenuItem createActionBlockMenu() {
+//		JMenuItem item = new JMenuItem("「実行」ブロック作成");
+//		item.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				createActionGetterBlock(rb, "callActionMethod2");
+//			}
+//		});
+//		return item;
+//	}
+//
+//	private JMenuItem createGetterBlockMenu() {
+//		JMenuItem item = new JMenuItem("「実行値」ブロック作成");
+//		item.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				createActionGetterBlock(rb, "callGetterMethod2");
+//			}
+//		});
+//		return item;
+//	}
 
 	private JMenuItem createCallClassMethodMenu(
 			final Map<String, List<String>> method) {

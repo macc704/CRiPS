@@ -2,6 +2,7 @@ package drawingobjects;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -12,6 +13,8 @@ import javax.swing.JComponent;
 
 import workspace.Workspace;
 
+
+
 public class ArrowObject extends JComponent {
 
 	private static final long serialVersionUID = -1745361279120477995L;
@@ -20,8 +23,7 @@ public class ArrowObject extends JComponent {
 	private Color arrowCollor = Color.RED;
 	
 	public ArrowObject(Point p1, Point p2) {
-		setBounds(0, 0, Workspace.getInstance().getBlockCanvas().getWidth(),
-				Workspace.getInstance().getBlockCanvas().getHeight());
+		setBounds(Workspace.getInstance().getBlockCanvas().getCanvas().getBounds());
 		this.startPoint = p1;
 		this.endPoint = p2;
 		setDoubleBuffered(true);
@@ -69,8 +71,7 @@ public class ArrowObject extends JComponent {
 	public void paint(Graphics g) {
 		super.paint(g);
 		//boundsの再設定
-		setBounds(0, 0, Workspace.getInstance().getBlockCanvas().getWidth(),
-				Workspace.getInstance().getBlockCanvas().getHeight());
+		setBounds(Workspace.getInstance().getBlockCanvas().getCanvas().getBounds());
 		drawArrow((Graphics2D) g);
 	}
 
@@ -95,6 +96,22 @@ public class ArrowObject extends JComponent {
 				(int) p2.getY());
 		graphic.drawLine(getEndPoint().x, getEndPoint().y, (int) p3.getX(),
 				(int) p3.getY());
+		
+		Workspace.getInstance().getBlockCanvas().getCanvas().repaint();
+	}
+	
+	public static Container getOrigin(JComponent cmp){
+		Container component = cmp.getParent();
+		
+		if(component == null){
+			return cmp;
+		}
+		
+		while(component.getParent() != null){
+			component = component.getParent();
+		}
+		
+		return component;
 	}
 
 }
