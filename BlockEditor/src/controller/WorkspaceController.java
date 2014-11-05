@@ -719,7 +719,6 @@ public class WorkspaceController {
 					if (showTraceLineButton.isSelected()) {
 						// 関数呼び出しをトレースするラインを非表示にする
 						disposeTraceLine();
-
 					} else {
 						// 関数呼び出しをトレースするラインを表示する
 						showAllTraceLine();
@@ -778,15 +777,43 @@ public class WorkspaceController {
 	 * メソッド呼び出し関係を表示するラインを描画します
 	 */
 	public void showAllTraceLine() {
+		
+		List<Block> bodyBlocks = new ArrayList<Block>();
 		for (Block block : workspace.getBlocks()) {
 			// 呼び出しブロックにラインを表示する
 			RenderableBlock callerblock = RenderableBlock.getRenderableBlock(block
 					.getBlockID());
 			
 			if (callerblock.getGenus().startsWith("caller")) {
+				System.out.println(callerblock.getBlock().getBlockLabel());
 				addTraceLine(callerblock);
 			}
+			
+			if(callerblock.getGenus().equals("procedure") || callerblock.getGenus().equals("abstraction")){
+				if(callerblock.isCollapsed()){
+					bodyBlocks.add(block);	
+				}
+			}
 		}
+		
+		//閉じてるブロックの全てのトレースラインを隠す
+		
+		for(Block parent : bodyBlocks){
+			RenderableBlock rBlock = RenderableBlock.getRenderableBlock(parent.getBlockID());;
+			while(parent.getAfterBlockID() != -1){
+				System.out.println(parent.getAfterBlockID());
+				if(rBlock.hasArrows()){
+					rBlock.visibleArrows(false);
+				}
+				parent = RenderableBlock.getRenderableBlock(parent.getAfterBlockID()).getBlock();
+				rBlock = RenderableBlock.getRenderableBlock(parent.getBlockID());
+			}
+			if(rBlock.hasArrows()){
+				rBlock.visibleArrows(false);
+			}
+		}
+		
+		
 	}
 	
 	public void addTraceLine(RenderableBlock callerblock){
@@ -805,7 +832,6 @@ public class WorkspaceController {
 			Point p2 = new Point(parentBlock.getLocation());
 			p2.y +=  parentBlock.getHeight()/2;
 			ArrowObject arrow = new ArrowObject(p1, p2);
-			arrow.drawArrow((Graphics2D)component.getGraphics());
 			Page parentPage = (Page)callerblock.getParentWidget();
 			parentPage.addArrow(arrow);
 							
@@ -820,6 +846,8 @@ public class WorkspaceController {
 			//managerにブロック登録
 			String pageName = calcClassName();
 			canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(callerblock);
+			
+			
 		}
 	}
 	

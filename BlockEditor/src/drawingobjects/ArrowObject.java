@@ -71,7 +71,6 @@ public class ArrowObject extends JComponent {
 	public void paint(Graphics g) {
 		super.paint(g);
 		//boundsの再設定
-		setBounds(0,0,Workspace.getInstance().getBlockCanvas().getCanvas().getHeight(),Workspace.getInstance().getBlockCanvas().getCanvas().getWidth());
 		drawArrow((Graphics2D) g);
 	}
 
@@ -81,6 +80,7 @@ public class ArrowObject extends JComponent {
 	}
 
 	public void drawArrow(Graphics2D graphic) {
+		setBounds(0,0,Workspace.getInstance().getBlockCanvas().getCanvas().getHeight(),Workspace.getInstance().getBlockCanvas().getCanvas().getWidth());
 		graphic.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		ArrowPointCalcUtil util = new ArrowPointCalcUtil(getStartPoint(), getEndPoint());
 		BasicStroke stroke = new BasicStroke(3.0f);
