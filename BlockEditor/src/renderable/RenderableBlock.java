@@ -62,6 +62,7 @@ import codeblocks.rendering.BlockShapeUtil;
 import codeblockutil.CToolTip;
 import codeblockutil.GraphicsManager;
 import drawingobjects.ArrowObject;
+import drawingobjects.DrawingArrowManager;
 
 /**
  * RenderableBlock is responsible for all graphical rendering of a code Block.
@@ -231,6 +232,17 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public void clearArrows() {
 		startArrows.clear();
 		endArrows.clear();
+	}
+	
+	public void resetArrowPosition(){
+//		for (ArrowObject arrow : startArrows) {
+//			System.out.println("update start Arrows" + this  + " " + getBlock().getGenusName());
+//			arrow.resetPoint(arrow.getStartPoint(), arrow.getEndPoint());
+//		}
+
+		for (ArrowObject arrow : endArrows) {
+			arrow.resetPoint(DrawingArrowManager.calcCallerBlockPoint(this), arrow.getEndPoint());
+		}
 	}
 
 	public Map<String, List<Map<String, List<String>>>> getMethods() {
@@ -1952,33 +1964,25 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	public void updateEndArrowPoints(long parentBlockID, BlockLink link,
 			boolean isActive) {
-		RenderableBlock parent = RenderableBlock
-				.getRenderableBlock(parentBlockID);
-		if (link == null) {
-			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : endArrows) {
-				endArrow.setStartPoint(p);
-				if (endArrow.getColor().getAlpha() != 30) {
-					endArrow.setColor(new Color(255, 0, 0, 30));
+		Block block = Block.getBlock(parentBlockID);
+		if(block != null){
+			int concentration = 255;
+
+			if (link == null) {
+				concentration = 30;
+			} 
+
+			do{
+				if(("abstraction").equals(block.getGenusName())){
+					updateEndArrowPoints(block.getSocketAt(0).getBlockID(), link, isActive);
 				}
-			}
-		} else {
-			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : endArrows) {
-				endArrow.setStartPoint(p);
-				if (endArrow.getColor() != Color.RED) {
-					endArrow.setColor(Color.RED);
-				}
-			}
+				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(block.getBlockID()), concentration);
+				block = Block.getBlock(block.getAfterBlockID());
+			}while(block != null);			
 		}
 	}
 
+	
 	public static RenderableBlock getLastBlock(Block block) {
 		Block tmpBlock = block;
 		while (tmpBlock.getAfterBlockID() != -1) {
@@ -2186,7 +2190,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				}
 
 				//矢印再描画
-				updateEndArrowPoints(getBlock().getParentBlockID(), link, false);
+				updateEndArrowPoints(getBlockID(), link, false);
 			}
 		}
 		pickedUp = false;

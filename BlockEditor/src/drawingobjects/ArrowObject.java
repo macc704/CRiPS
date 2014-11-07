@@ -22,11 +22,16 @@ public class ArrowObject extends JComponent {
 	private Point endPoint;// 終点
 	private Color arrowCollor = Color.RED;
 	
-	public ArrowObject(Point p1, Point p2) {
+	public ArrowObject(Point startPoint, Point endPoint) {
 		setBounds(Workspace.getInstance().getBlockCanvas().getCanvas().getBounds());
-		this.startPoint = p1;
-		this.endPoint = p2;
+		this.startPoint = startPoint;
+		this.endPoint = endPoint;
 		setDoubleBuffered(true);
+	}
+	
+	public void resetPoint(Point startPoint, Point endPoint){
+		this.startPoint = startPoint;
+		this.endPoint = endPoint;
 	}
 	
 	public Point getStartPoint(){
