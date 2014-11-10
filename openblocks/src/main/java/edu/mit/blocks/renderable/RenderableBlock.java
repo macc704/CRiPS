@@ -36,6 +36,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+
 import edu.inf.shizuoka.blocks.extent.SAbstractionBlockShape;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
@@ -57,6 +58,7 @@ import edu.mit.blocks.workspace.MiniMap;
 import edu.mit.blocks.workspace.RBParent;
 import edu.mit.blocks.workspace.SearchableElement;
 import edu.mit.blocks.workspace.Workspace;
+import edu.mit.blocks.workspace.WorkspaceEnvironment;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceWidget;
 
@@ -1882,12 +1884,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 						// drop the block and connect its link
 						stopDragging(this, widget);
-						link.connect();
-						workspace.notifyListeners(new WorkspaceEvent(workspace,
-								widget, link, WorkspaceEvent.BLOCKS_CONNECTED));
-						workspace.getEnv()
-								.getRenderableBlock(link.getSocketBlockID())
-								.moveConnectedBlocks();
+						
+						connectBlocks(link, workspace, widget);
+				
 					}
 
 
@@ -1918,7 +1917,28 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		workspace.getMiniMap().repaint();
 	}
 
+	public void connectBlocks(BlockLink link, Workspace ws, WorkspaceWidget widget){
+		WorkspaceEnvironment env = ws.getEnv();
+		
+		if (checkScope(link, env)) {
+			link.connect();
+
+			ws.notifyListeners(
+					new WorkspaceEvent(ws,widget, link,
+							WorkspaceEvent.BLOCKS_CONNECTED));
+			env.getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
+		} else {
+			// moveSocketBlocks(this);
+			blockSlideMoveAnimetion(ws.getEnv().getRenderableBlock(blockID)
+					.getY()
+					+ ws.getEnv().getRenderableBlock(blockID).getWidth(),
+					"down", ws.getEnv());
+
+		}
+	}
+	
 	public void mouseDragged(MouseEvent e) {
+		getHilightHandler().resetHighlight();
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			if (pickedUp) {
 				Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
@@ -2490,6 +2510,82 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return x;
 	}
 	
+
+	private boolean checkScope(BlockLink link, WorkspaceEnvironment we) {
+		boolean scopeCheck = true;
+		// 結合するブロックのもつすべてのブロックのスコープをチェックしていく
+		for (Block checkBlock = getBlock(); checkBlock != null; checkBlock = we.getBlock(checkBlock.getAfterBlockID())) {
+			// 抽象化ブロックの場合は、抽象化ブロック内を全てチェックしなければいけない
+			if (checkBlock.getGenusName().equals("abstraction")) {
+				scopeCheck &= checkBlocks( link, checkBlock);
+			}
+
+			boolean check = true;
+			// ブロックがソケットをもつ場合は、ソケット内で参照ブロックが使われているかもしれないのでチェック
+			check &= checkVariableBlocksScope(link, checkBlock);
+			scopeCheck &= check;
+			
+			check = true;
+			check &= ScopeChecker.checkScope(
+					we.getBlock(link.getSocketBlockID()), checkBlock);
+			
+			scopeCheck &= check;
+			
+		}
+		return scopeCheck;
+	}
+
+	// abstractionブロック内のブロックのスコープをチェックする
+	private boolean checkBlocks(BlockLink link, Block abstBlock) {
+		boolean scopeCheck = true;
+		WorkspaceEnvironment we = abstBlock.getWorkspace().getEnv();
+		// 抽象化ブロック内のすべてのブロックのスコープをチェックしていく
+		for (Block checkBlock = we.getBlock(abstBlock.getSocketAt(0)
+				.getBlockID()); checkBlock != null; checkBlock = we.getBlock(checkBlock.getAfterBlockID())) {
+			if (checkBlock.getGenusName().equals("abstraction")) {
+				scopeCheck &= checkBlocks(link, checkBlock);
+			}
+
+			scopeCheck &= checkVariableBlocksScope(link, checkBlock);
+
+			scopeCheck &= ScopeChecker.checkScope(
+					we.getBlock(link.getSocketBlockID()), checkBlock);
+		}
+
+		return scopeCheck;
+	}
+
+	// 値ブロックのスコープをチェックする　値のスコープが正しい、またはチェックするブロックがない場合はT それ以外はF
+	private boolean checkVariableBlocksScope(BlockLink link, Block checkBlock) {
+		boolean scopeCheck = true;
+		Workspace ws = checkBlock.getWorkspace();
+
+		if (checkBlock.getGenusName().equals("procedure")) {// とりあえず例外に
+			return true;
+		}
+		// すべてのソケットをチェックする
+		for (BlockConnector socket : BlockLinkChecker
+				.getSocketEquivalents(checkBlock)) {
+			// ソケットのブロックの中でも、参照ブロック（getter)のみをチェックする。それ以外は素通し
+			if (socket.hasBlock()) {
+				scopeCheck &= checkVariableBlocksScope(link,
+						ws.getEnv().getBlock(socket.getBlockID()));// ソケットのブロックのスコープをチェックする
+				
+				scopeCheck &= ScopeChecker.checkScope(
+						ws.getEnv().getBlock(link.getSocketBlockID()),
+						ws.getEnv().getBlock(socket.getBlockID()));
+			}
+		}
+
+		return scopeCheck;
+	}
+
+	private void blockSlideMoveAnimetion(int endPosition, String direction, WorkspaceEnvironment we) {
+		RenderableBlock rb = we.getRenderableBlock(blockID);
+		BlockAnimationThread th = new BlockAnimationThread(rb, direction);
+		th.start();
+	}
+	
 }
 
 class BlockHilighter{
@@ -2558,5 +2654,6 @@ class BlockHilighter{
 		}
 		hilightBlocks.clear();
 	}
+	
 	
 }
