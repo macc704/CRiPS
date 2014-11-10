@@ -63,6 +63,7 @@ public class ProcedureBlockModel extends CommandBlockModel {
 			}
 		}
 
+
 		out.println(") {");
 		if (getAfterID() != BlockModel.NULL) {
 			BlockToJavaAnalyzer.getBlock(getAfterID()).print(out, indent + 1);

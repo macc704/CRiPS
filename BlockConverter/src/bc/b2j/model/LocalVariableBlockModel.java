@@ -76,6 +76,7 @@ public class LocalVariableBlockModel extends VariableBlockModel {
 				}
 			}
 			out.println(";");
+
 			if (getAfterID() != BlockModel.NULL) {
 				BlockToJavaAnalyzer.getBlock(getAfterID()).print(out, indent);
 			}

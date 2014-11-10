@@ -62,6 +62,7 @@ import codeblocks.rendering.BlockShapeUtil;
 import codeblockutil.CToolTip;
 import codeblockutil.GraphicsManager;
 import drawingobjects.ArrowObject;
+import drawingobjects.DrawingArrowManager;
 
 /**
  * RenderableBlock is responsible for all graphical rendering of a code Block.
@@ -231,6 +232,17 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public void clearArrows() {
 		startArrows.clear();
 		endArrows.clear();
+	}
+	
+	public void resetArrowPosition(){
+//		for (ArrowObject arrow : startArrows) {
+//			System.out.println("update start Arrows" + this  + " " + getBlock().getGenusName());
+//			arrow.resetPoint(arrow.getStartPoint(), arrow.getEndPoint());
+//		}
+
+		for (ArrowObject arrow : endArrows) {
+			arrow.resetPoint(DrawingArrowManager.calcCallerBlockPoint(this), arrow.getEndPoint());
+		}
 	}
 
 	public Map<String, List<Map<String, List<String>>>> getMethods() {
@@ -1952,33 +1964,25 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	public void updateEndArrowPoints(long parentBlockID, BlockLink link,
 			boolean isActive) {
-		RenderableBlock parent = RenderableBlock
-				.getRenderableBlock(parentBlockID);
-		if (link == null) {
-			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : endArrows) {
-				endArrow.setStartPoint(p);
-				if (endArrow.getColor().getAlpha() != 30) {
-					endArrow.setColor(new Color(255, 0, 0, 30));
+		Block block = Block.getBlock(parentBlockID);
+		if(block != null){
+			int concentration = 255;
+
+			if (link == null) {
+				concentration = 30;
+			} 
+
+			do{
+				if(("abstraction").equals(block.getGenusName())){
+					updateEndArrowPoints(block.getSocketAt(0).getBlockID(), link, isActive);
 				}
-			}
-		} else {
-			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : endArrows) {
-				endArrow.setStartPoint(p);
-				if (endArrow.getColor() != Color.RED) {
-					endArrow.setColor(Color.RED);
-				}
-			}
+				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(block.getBlockID()), concentration);
+				block = Block.getBlock(block.getAfterBlockID());
+			}while(block != null);			
 		}
 	}
 
+	
 	public static RenderableBlock getLastBlock(Block block) {
 		Block tmpBlock = block;
 		while (tmpBlock.getAfterBlockID() != -1) {
@@ -2185,7 +2189,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				}
 
 				//矢印再描画
-				updateEndArrowPoints(getBlock().getParentBlockID(), link, false);
+				updateEndArrowPoints(getBlockID(), link, false);
 			}
 		}
 		pickedUp = false;
@@ -2198,7 +2202,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			add(popup);
 			popup.show(this, e.getX(), e.getY());
 		}
-		Workspace.getInstance().getMiniMap().repaint();
+//		Workspace.getInstance().getMiniMap().repaint();
 
 	}
 
@@ -2221,51 +2225,44 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	private boolean checkScope(BlockLink link) {
-		ScopeChecker scpChecker = new ScopeChecker();
 		boolean scopeCheck = true;
 		// 結合するブロックのもつすべてのブロックのスコープをチェックしていく
 		for (Block checkBlock = getBlock(); checkBlock != null; checkBlock = Block
 				.getBlock(checkBlock.getAfterBlockID())) {
 			// 抽象化ブロックの場合は、抽象化ブロック内を全てチェックしなければいけない
 			if (checkBlock.getGenusName().equals("abstraction")) {
-				scopeCheck &= checkBlocks(scpChecker, link, checkBlock);
+				scopeCheck &= checkBlocks( link, checkBlock);
 			}
 
 			boolean check = true;
 			// ブロックがソケットをもつ場合は、ソケット内で参照ブロックが使われているかもしれないのでチェック
-			check &= checkVariableBlocksScope(scpChecker, link, checkBlock);
+			check &= checkVariableBlocksScope(link, checkBlock);
 			scopeCheck &= check;
-			if (check == false) {
-				RenderableBlock.getRenderableBlock(checkBlock.getBlockID())
-						.setBlockHighlightColor(Color.RED);
-			}
+			
 			check = true;
-			check &= scpChecker.checkScope(
+			check &= ScopeChecker.checkScope(
 					Block.getBlock(link.getSocketBlockID()), checkBlock);
+			
 			scopeCheck &= check;
-			if (check == false) {
-				RenderableBlock.getRenderableBlock(checkBlock.getBlockID())
-						.setBlockHighlightColor(Color.RED);
-			}
+			
 		}
 		return scopeCheck;
 	}
 
 	// abstractionブロック内のブロックのスコープをチェックする
-	private boolean checkBlocks(ScopeChecker scpChecker, BlockLink link,
-			Block abstBlock) {
+	private boolean checkBlocks(BlockLink link, Block abstBlock) {
 		boolean scopeCheck = true;
 		// 抽象化ブロック内のすべてのブロックのスコープをチェックしていく
 		for (Block checkBlock = Block.getBlock(abstBlock.getSocketAt(0)
 				.getBlockID()); checkBlock != null; checkBlock = Block
 				.getBlock(checkBlock.getAfterBlockID())) {
 			if (checkBlock.getGenusName().equals("abstraction")) {
-				scopeCheck &= checkBlocks(scpChecker, link, checkBlock);
+				scopeCheck &= checkBlocks(link, checkBlock);
 			}
 
-			scopeCheck &= checkVariableBlocksScope(scpChecker, link, checkBlock);
+			scopeCheck &= checkVariableBlocksScope(link, checkBlock);
 
-			scopeCheck &= scpChecker.checkScope(
+			scopeCheck &= ScopeChecker.checkScope(
 					Block.getBlock(link.getSocketBlockID()), checkBlock);
 		}
 
@@ -2273,8 +2270,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	// 値ブロックのスコープをチェックする　値のスコープが正しい、またはチェックするブロックがない場合はT それ以外はF
-	private boolean checkVariableBlocksScope(ScopeChecker scpChecker,
-			BlockLink link, Block checkBlock) {
+	private boolean checkVariableBlocksScope(BlockLink link, Block checkBlock) {
 		boolean scopeCheck = true;
 
 		if (checkBlock.getGenusName().equals("procedure")) {// とりあえず例外に
@@ -2285,10 +2281,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				.getSocketEquivalents(checkBlock)) {
 			// ソケットのブロックの中でも、参照ブロック（getter)のみをチェックする。それ以外は素通し
 			if (socket.hasBlock()) {
-				scopeCheck &= checkVariableBlocksScope(scpChecker, link,
+				scopeCheck &= checkVariableBlocksScope(link,
 						Block.getBlock(socket.getBlockID()));// ソケットのブロックのスコープをチェックする
-
-				scopeCheck &= scpChecker.checkScope(
+				
+				scopeCheck &= ScopeChecker.checkScope(
 						Block.getBlock(link.getSocketBlockID()),
 						Block.getBlock(socket.getBlockID()));
 			}
@@ -2316,14 +2312,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				return;
 			}
 
-			Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
-					Workspace.getInstance().getMiniMap());
-			if (Workspace.getInstance().getMiniMap().contains(pp)) {
-				Workspace.getInstance().getMiniMap()
-						.blockDragged(this, e.getPoint());
-				lastDragWidget = Workspace.getInstance().getMiniMap();
-				return;
-			}
+//			Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
+//					Workspace.getInstance().getMiniMap());
+//			if (Workspace.getInstance().getMiniMap().contains(pp)) {
+//				Workspace.getInstance().getMiniMap()
+//						.blockDragged(this, e.getPoint());
+//				lastDragWidget = Workspace.getInstance().getMiniMap();
+//				return;
+//			}
 
 			// drag this block if appropriate (checks bounds first)
 			dragHandler.mouseDragged(e);
@@ -2360,8 +2356,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 			// drag this block and all attached to it
 			drag(this, dragHandler.dragDX, dragHandler.dragDY, widget, true);
-
-			Workspace.getInstance().getMiniMap().repaint();
 			
 			catchBlockSetHighlight(this, widget);
 		}

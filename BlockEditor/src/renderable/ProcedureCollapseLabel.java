@@ -49,7 +49,6 @@ class ProcedureCollapseLabel extends CollapseLabel {
 	public void updateCollapse() {
 		RenderableBlock rb = RenderableBlock.getRenderableBlock(getBlockID());
 		//トレース矢印の座標の再設定
-		updatePoint(getBlockID());
 		if (rb != null) {
 			collapseAfterBlocks(rb.getBlockID());
 			rb.repaintBlock();
@@ -59,7 +58,6 @@ class ProcedureCollapseLabel extends CollapseLabel {
 						&& rb.getHighlightHandler().getParent().getParent() != null)
 					rb.getHighlightHandler().getParent().getParent().repaint(); //force redraw to erase highlight
 			}
-
 		}
 	}
 }

@@ -69,6 +69,11 @@ public class SBlockCopier {
 			BlockConnector newCon = newBlock.getAfterConnector();
 			copyValueAndConnect(srcCon, newBlock, newCon);
 		}
+		
+		if(srcRBlock.getEndArrows().size() > 0){
+			Workspace.getInstance().getWorkSpaceController().disposeTraceLine();
+			Workspace.getInstance().getWorkSpaceController().showAllTraceLine();
+		}
 		return newRBlock;
 	}
 

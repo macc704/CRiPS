@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import codeblocks.Block;
 import codeblocks.BlockConnectorShape;
+import drawingobjects.DrawingArrowManager;
 
 /**
  * created by sakai lab 2011/10/29
@@ -44,6 +45,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		if (!init) {
 			reformRelatedBlocks();
 		}
+		DrawingArrowManager.resetArrowsPosition();
 	}
 
 	// 抽象化ブロックが開閉されたとき関係するブロックをリフォームする
@@ -145,6 +147,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		RenderableBlock rb = RenderableBlock.getRenderableBlock(getBlockID());
 		if (rb != null) {
 			//collapseAfterBlocks(rb.getBlockID());//original
+			updatePoint(getBlockID());
 			collapseInsideBlocks();//sakailab
 			rb.repaintBlock();
 			if (rb.getHighlightHandler() != null) {

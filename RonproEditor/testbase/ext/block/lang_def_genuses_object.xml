@@ -184,7 +184,7 @@
 
 <BlockGenus name="local-var-object-Card" kind="local-variable"
 	initlabel="ct" header-label="CardTurtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	editable-label="yes" label-unique="yes" color="255 255 100">
 	<description>
 		<text>
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
@@ -220,7 +220,7 @@
 
 <BlockGenus name="local-var-object-Input" kind="local-variable"
 	initlabel="it" header-label="InputTurtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	editable-label="yes" label-unique="yes" color="255 255 100">
 	<description>
 		<text>
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。

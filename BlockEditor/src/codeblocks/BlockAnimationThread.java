@@ -30,8 +30,8 @@ public class BlockAnimationThread extends Thread {
 			downSlideAnimation();
 		}
 
-		block.resetHighlight();
-		BCSystem.out.println("animation end");
+		
+		
 		isRun = false;
 	}
 

@@ -2,6 +2,7 @@ package drawingobjects;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -12,6 +13,8 @@ import javax.swing.JComponent;
 
 import workspace.Workspace;
 
+
+
 public class ArrowObject extends JComponent {
 
 	private static final long serialVersionUID = -1745361279120477995L;
@@ -19,12 +22,16 @@ public class ArrowObject extends JComponent {
 	private Point endPoint;// 終点
 	private Color arrowCollor = Color.RED;
 	
-	public ArrowObject(Point p1, Point p2) {
-		setBounds(0, 0, Workspace.getInstance().getBlockCanvas().getWidth(),
-				Workspace.getInstance().getBlockCanvas().getHeight());
-		this.startPoint = p1;
-		this.endPoint = p2;
+	public ArrowObject(Point startPoint, Point endPoint) {
+		setBounds(Workspace.getInstance().getBlockCanvas().getCanvas().getBounds());
+		this.startPoint = startPoint;
+		this.endPoint = endPoint;
 		setDoubleBuffered(true);
+	}
+	
+	public void resetPoint(Point startPoint, Point endPoint){
+		this.startPoint = startPoint;
+		this.endPoint = endPoint;
 	}
 	
 	public Point getStartPoint(){
@@ -69,8 +76,6 @@ public class ArrowObject extends JComponent {
 	public void paint(Graphics g) {
 		super.paint(g);
 		//boundsの再設定
-		setBounds(0, 0, Workspace.getInstance().getBlockCanvas().getWidth(),
-				Workspace.getInstance().getBlockCanvas().getHeight());
 		drawArrow((Graphics2D) g);
 	}
 
@@ -80,6 +85,7 @@ public class ArrowObject extends JComponent {
 	}
 
 	public void drawArrow(Graphics2D graphic) {
+		setBounds(0,0,Workspace.getInstance().getBlockCanvas().getCanvas().getHeight(),Workspace.getInstance().getBlockCanvas().getCanvas().getWidth());
 		graphic.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		ArrowPointCalcUtil util = new ArrowPointCalcUtil(getStartPoint(), getEndPoint());
 		BasicStroke stroke = new BasicStroke(3.0f);
@@ -95,6 +101,22 @@ public class ArrowObject extends JComponent {
 				(int) p2.getY());
 		graphic.drawLine(getEndPoint().x, getEndPoint().y, (int) p3.getX(),
 				(int) p3.getY());
+		
+		Workspace.getInstance().getBlockCanvas().getCanvas().repaint();
+	}
+	
+	public static Container getOrigin(JComponent cmp){
+		Container component = cmp.getParent();
+		
+		if(component == null){
+			return cmp;
+		}
+		
+		while(component.getParent() != null){
+			component = component.getParent();
+		}
+		
+		return component;
 	}
 
 }
