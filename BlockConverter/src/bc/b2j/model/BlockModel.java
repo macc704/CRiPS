@@ -101,6 +101,9 @@ public abstract class BlockModel {
 	 * @return
 	 */
 	public String getType() {
+		if(javaType != null){
+			return javaType;
+		}
 		return typeString(type);
 	}
 

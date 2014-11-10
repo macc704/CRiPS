@@ -112,87 +112,86 @@ public class SContextMenuProvider {
 		return createIncrementerItem;
 	}
 
-	
-//	private JMenuItem createLengthMenu() {
-//		if (createIncrementerItem == null) {
-//			createIncrementerItem = new JMenuItem("文字列の長さを取得する");
-//			createIncrementerItem.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					createCallMethod("length");
-//				}
-//			});
-//		}
-//		return createIncrementerItem;
-//	}
-	
-//	private JMenuItem createCallActionMethodBlockMenu() {
-//		if (createCallActionMethodBlockItem == null) {
-//			createCallActionMethodBlockItem = new JMenuItem("「メソッド実行ブロック」の作成");
-//			createCallActionMethodBlockItem
-//					.addActionListener(new ActionListener() {
-//						public void actionPerformed(ActionEvent e) {
-//							new SStubCreator("callActionMethod", rb).doWork(e);
-//						}
-//					});
-//		}
-//		return createCallActionMethodBlockItem;
-//	}
-//
-//	private JMenuItem createCallGetterMethodBlockMenu() {
-//		if (createCallGetterMethodBlockItem == null) {
-//			createCallGetterMethodBlockItem = new JMenuItem(
-//					"「メソッド実行ブロック(整数型)」の作成");
-//			createCallGetterMethodBlockItem
-//					.addActionListener(new ActionListener() {
-//						public void actionPerformed(ActionEvent e) {
-//							new SStubCreator("callGetterMethod", rb).doWork(e);
-//						}
-//					});
-//		}
-//		return createCallGetterMethodBlockItem;
-//	}
-//
-//	private JMenuItem createCallDoubleMethodBlockMenu() {
-//		if (createCallDoubleMethodBlockItem == null) {
-//			createCallDoubleMethodBlockItem = new JMenuItem(
-//					"「メソッド実行ブロック(double型)」の作成");
-//			createCallDoubleMethodBlockItem
-//					.addActionListener(new ActionListener() {
-//						public void actionPerformed(ActionEvent e) {
-//							new SStubCreator("callDoubleMethod", rb).doWork(e);
-//						}
-//					});
-//		}
-//		return createCallDoubleMethodBlockItem;
-//	}
-//
-//	private JMenuItem createCallBooleanMethodBlockMenu() {
-//		if (createCallBooleanMethodBlockItem == null) {
-//			createCallBooleanMethodBlockItem = new JMenuItem(
-//					"「メソッド実行ブロック(真偽型)」の作成");
-//			createCallBooleanMethodBlockItem
-//					.addActionListener(new ActionListener() {
-//						public void actionPerformed(ActionEvent e) {
-//							new SStubCreator("callBooleanMethod", rb).doWork(e);
-//						}
-//					});
-//		}
-//		return createCallBooleanMethodBlockItem;
-//	}
-//
-//	private JMenuItem createCallStringMethodBlockMenu() {
-//		if (createCallStringMethodBlockItem == null) {
-//			createCallStringMethodBlockItem = new JMenuItem(
-//					"「メソッド実行ブロック(文字列)」の作成");
-//			createCallStringMethodBlockItem
-//					.addActionListener(new ActionListener() {
-//						public void actionPerformed(ActionEvent e) {
-//							new SStubCreator("callStringMethod", rb).doWork(e);
-//						}
-//					});
-//		}
-//		return createCallStringMethodBlockItem;
-//	}
+	//	private JMenuItem createLengthMenu() {
+	//		if (createIncrementerItem == null) {
+	//			createIncrementerItem = new JMenuItem("文字列の長さを取得する");
+	//			createIncrementerItem.addActionListener(new ActionListener() {
+	//				public void actionPerformed(ActionEvent e) {
+	//					createCallMethod("length");
+	//				}
+	//			});
+	//		}
+	//		return createIncrementerItem;
+	//	}
+
+	//	private JMenuItem createCallActionMethodBlockMenu() {
+	//		if (createCallActionMethodBlockItem == null) {
+	//			createCallActionMethodBlockItem = new JMenuItem("「メソッド実行ブロック」の作成");
+	//			createCallActionMethodBlockItem
+	//					.addActionListener(new ActionListener() {
+	//						public void actionPerformed(ActionEvent e) {
+	//							new SStubCreator("callActionMethod", rb).doWork(e);
+	//						}
+	//					});
+	//		}
+	//		return createCallActionMethodBlockItem;
+	//	}
+	//
+	//	private JMenuItem createCallGetterMethodBlockMenu() {
+	//		if (createCallGetterMethodBlockItem == null) {
+	//			createCallGetterMethodBlockItem = new JMenuItem(
+	//					"「メソッド実行ブロック(整数型)」の作成");
+	//			createCallGetterMethodBlockItem
+	//					.addActionListener(new ActionListener() {
+	//						public void actionPerformed(ActionEvent e) {
+	//							new SStubCreator("callGetterMethod", rb).doWork(e);
+	//						}
+	//					});
+	//		}
+	//		return createCallGetterMethodBlockItem;
+	//	}
+	//
+	//	private JMenuItem createCallDoubleMethodBlockMenu() {
+	//		if (createCallDoubleMethodBlockItem == null) {
+	//			createCallDoubleMethodBlockItem = new JMenuItem(
+	//					"「メソッド実行ブロック(double型)」の作成");
+	//			createCallDoubleMethodBlockItem
+	//					.addActionListener(new ActionListener() {
+	//						public void actionPerformed(ActionEvent e) {
+	//							new SStubCreator("callDoubleMethod", rb).doWork(e);
+	//						}
+	//					});
+	//		}
+	//		return createCallDoubleMethodBlockItem;
+	//	}
+	//
+	//	private JMenuItem createCallBooleanMethodBlockMenu() {
+	//		if (createCallBooleanMethodBlockItem == null) {
+	//			createCallBooleanMethodBlockItem = new JMenuItem(
+	//					"「メソッド実行ブロック(真偽型)」の作成");
+	//			createCallBooleanMethodBlockItem
+	//					.addActionListener(new ActionListener() {
+	//						public void actionPerformed(ActionEvent e) {
+	//							new SStubCreator("callBooleanMethod", rb).doWork(e);
+	//						}
+	//					});
+	//		}
+	//		return createCallBooleanMethodBlockItem;
+	//	}
+	//
+	//	private JMenuItem createCallStringMethodBlockMenu() {
+	//		if (createCallStringMethodBlockItem == null) {
+	//			createCallStringMethodBlockItem = new JMenuItem(
+	//					"「メソッド実行ブロック(文字列)」の作成");
+	//			createCallStringMethodBlockItem
+	//					.addActionListener(new ActionListener() {
+	//						public void actionPerformed(ActionEvent e) {
+	//							new SStubCreator("callStringMethod", rb).doWork(e);
+	//						}
+	//					});
+	//		}
+	//		return createCallStringMethodBlockItem;
+	//	}
 
 	private JMenuItem createCallerMenu() {
 		if (createCallerItem == null) {
@@ -250,17 +249,14 @@ public class SContextMenuProvider {
 			menu.add(createCreateIncrementerMenu());
 			menu.addSeparator();
 		}
-		
-//		if(rb.getBlock().isStringVariableDecBlock()){
-//			menu.add(createLengthMenu());
-//			menu.addSeparator();
-//		}
-		
 
+		//		if(rb.getBlock().isStringVariableDecBlock()){
+		//			menu.add(createLengthMenu());
+		//			menu.addSeparator();
+		//		}
 
 		if (rb.getBlock().getGenusName().contains("arrayobject")) {//配列
 			final String scope = getBlockScope(rb.getBlock().getGenusName());
-					
 
 			final String type = getBlockVariableType(rb.getBlock()
 					.getGenusName());
@@ -270,8 +266,8 @@ public class SContextMenuProvider {
 			//getterの作成
 			elementGetter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new SStubCreator("setter-arrayelement" + scope 
-							+ type + "-arrayobject", rb).doWork(e);
+					new SStubCreator("setter-arrayelement" + scope + type
+							+ "-arrayobject", rb).doWork(e);
 				}
 			});
 			menu.add(elementGetter);
@@ -280,14 +276,14 @@ public class SContextMenuProvider {
 			JMenuItem elementSetter = new JMenuItem("「値ブロック（要素）」の作成");
 			elementSetter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new SStubCreator("getter-arrayelement" +  scope 
-							+ type + "-arrayobject", rb).doWork(e);
+					new SStubCreator("getter-arrayelement" + scope + type
+							+ "-arrayobject", rb).doWork(e);
 				}
 			});
 
 			menu.add(elementSetter);
 		}
-		
+
 		JMenu methodMenu = new JMenu(rb.getBlock().getBlockLabel() + "に命令する");
 
 		if (rb.getBlock().getGenusName().contains("-bcanvas")) {
@@ -295,12 +291,9 @@ public class SContextMenuProvider {
 			category.add(createCallMethodMenu("drawLine", "線を引きます"));
 			category.add(createCallMethodMenu("drawFillTriangle",
 					"塗りつぶした三角形を書きます"));
-			category.add(createCallMethodMenu("drawText",
-					"文字を書きます"));
-			category.add(createCallMethodMenu(
-					"drawFillArc", "塗りつぶした円を書きます"));
-			category.add(createCallMethodMenu(
-					"drawArc", "円を書きます"));			
+			category.add(createCallMethodMenu("drawText", "文字を書きます"));
+			category.add(createCallMethodMenu("drawFillArc", "塗りつぶした円を書きます"));
+			category.add(createCallMethodMenu("drawArc", "円を書きます"));
 			category.add(createCallMethodMenu("drawImage", "画像を書きます"));
 			//			category.add(createCallMethodMenu("drawImage",
 			//					"指定したサイズにリサイズする画像を書きます"));
@@ -310,17 +303,23 @@ public class SContextMenuProvider {
 			category.add(createCallMethodMenu("update", "画面を更新します"));
 			category.add(createCallMethodMenu("getKeyCode", "押されたキーのコードを取得します"));
 			category.add(createCallMethodMenu("isKeyDown", "キーが押されたかどうか調べます"));
-			category.add(createCallMethodMenu("isKeyPressing", "指定されたキーコードが押されているか調べます"));
-			category.add(createCallMethodMenu("isSingleClick", "シングルクリックかどうか調べます"));
-			category.add(createCallMethodMenu("isDoubleClick", "ダブルクリックかどうか調べます"));
+			category.add(createCallMethodMenu("isKeyPressing",
+					"指定されたキーコードが押されているか調べます"));
+			category.add(createCallMethodMenu("isSingleClick",
+					"シングルクリックかどうか調べます"));
+			category.add(createCallMethodMenu("isDoubleClick",
+					"ダブルクリックかどうか調べます"));
 			category.add(createCallMethodMenu("isDragging", "ドラッグしているかどうか調べます"));
-			category.add(createCallMethodMenu("isRightMouseDown", "右クリックかどうか調べます"));
-			category.add(createCallMethodMenu("isLeftMouseDown", "左クリックかどうか調べます"));
+			category.add(createCallMethodMenu("isRightMouseDown",
+					"右クリックかどうか調べます"));
+			category.add(createCallMethodMenu("isLeftMouseDown",
+					"左クリックかどうか調べます"));
 			category.add(createCallMethodMenu("getMouseX", "マウスのX座標を取得します"));
 			category.add(createCallMethodMenu("getMouseY", "マウスのY座標を取得します"));
 			category.add(createCallMethodMenu("getCanvasWidth", "キャンバスの幅を取得します"));
-			category.add(createCallMethodMenu("getCanvasHeight", "キャンバスの高さを取得します"));
-			
+			category.add(createCallMethodMenu("getCanvasHeight",
+					"キャンバスの高さを取得します"));
+
 			methodMenu.add(category);
 		}
 
@@ -340,7 +339,8 @@ public class SContextMenuProvider {
 			category.add(createCallMethodMenu("getDefaultVolume",
 					"音量のデフォルト値を取得する"));
 			category.add(createCallStaticMethodMenu("play[@string]", "再生する"));
-			category.add(createCallStaticMethodMenu("loadOnMemory[@string]", "メモリに読み込む"));
+			category.add(createCallStaticMethodMenu("loadOnMemory[@string]",
+					"メモリに読み込む"));
 			category.add(createCallMethodMenu("loop", "ループ再生する"));
 			category.add(createCallMethodMenu("stop", "停止する"));
 			category.add(createCallMethodMenu("isPlaying", "再生しているかどうか"));
@@ -349,13 +349,13 @@ public class SContextMenuProvider {
 
 		if (rb.getBlock().isObjectTypeVariableDeclBlock()
 				|| rb.getBlock().getGenusName().contains("listobject")) {
-//			menu.add(createActionBlockMenu());
-//			menu.add(createGetterBlockMenu());
+			//			menu.add(createActionBlockMenu());
+			//			menu.add(createGetterBlockMenu());
 
 			//TODO menuにクラスメソッドを追加
 			for (String key : rb.getMethods().keySet()) {
-				methodMenu.add(createClassMethodsCategory(key + "のメソッド",
-						rb.getMethods().get(key)));
+				methodMenu.add(createClassMethodsCategory(key + "のメソッド", rb
+						.getMethods().get(key)));
 			}
 
 			if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
@@ -363,16 +363,19 @@ public class SContextMenuProvider {
 					JMenu category = new JMenu("Scanner");
 					category.add(createCallMethodMenu("next", "入力を受け取る(文字列型)"));
 					category.add(createCallMethodMenu("nextInt", "入力を受け取る(整数型)"));
+					category.add(createCallMethodMenu("nextDouble",
+							"入力を受け取る(実数型)"));
 					category.add(createCallMethodMenu("hasNextInt",
 							"入力が整数型かどうか調べる"));
 					category.add(createCallMethodMenu("hasNextDouble",
 							"入力が実数型かどうか調べる"));
-					category.add(createCallMethodMenu("nextDouble",
-							"入力を受け取る(実数型)"));
 					methodMenu.add(category);
 				}
 			}
-			if (rb.getBlock().getHeaderLabel().contains("Turtle") || BlockGenus.getGenusWithName(rb.getBlock().getGenusName()).getSuperClassName().contains("Turtle")) {
+			if (rb.getBlock().getHeaderLabel().contains("Turtle")
+					|| BlockGenus
+							.getGenusWithName(rb.getBlock().getGenusName())
+							.getSuperClassName().contains("Turtle")) {
 				{
 					JMenu category = new JMenu("タートル");
 					category.add(createCallMethodMenu("fd", "進む"));
@@ -384,18 +387,19 @@ public class SContextMenuProvider {
 					category.add(createCallMethodMenu("color", "ペン色を変える"));
 					category.add(createCallMethodMenu("input", "コンソールから入力し、その値"));
 					category.add(createCallMethodMenu("print", "コンソールに出力する"));
-					category.add(createCallMethodMenu("random", "乱数を作り、その値"));					
+					category.add(createCallMethodMenu("random", "乱数を作り、その値"));
 					methodMenu.add(category);
 				}
 				{
 					JMenu category = new JMenu("タートル（座標と大きさ）");
 					category.add(createCallMethodMenu("getX", "X座標"));
 					category.add(createCallMethodMenu("getY", "Y座標"));
-					category.add(createCallMethodMenu("warp", "ワープする"));					
+					category.add(createCallMethodMenu("warp", "ワープする"));
 					category.add(createCallMethodMenu("getWidth", "幅"));
 					category.add(createCallMethodMenu("getHeight", "高さ"));
 					category.add(createCallMethodMenu("scale", "倍率を指定して大きさを変える"));
-					category.add(createCallMethodMenu("size", "縦横サイズを指定して大きさを変える"));
+					category.add(createCallMethodMenu("size",
+							"縦横サイズを指定して大きさを変える"));
 					category.add(createCallMethodMenu("large", "縦・横の幅を大きくする"));
 					category.add(createCallMethodMenu("small", "縦・横の幅を小さくする"));
 					category.add(createCallMethodMenu("wide", "横の幅を大きくする"));
@@ -421,24 +425,32 @@ public class SContextMenuProvider {
 				{
 					JMenu category = new JMenu("タートル（キーとマウス）");
 					category.add(createCallMethodMenu("key", "押されているキーコードを調べる"));
-					category.add(createCallMethodMenu("keyDown", "指定したキーが押されているか調べる"));
-					category.add(createCallMethodMenu("mouseX", "マウスの現在地のX座標を取得する"));
-					category.add(createCallMethodMenu("mouseY", "マウスの現在地のY座標を取得する"));
-					category.add(createCallMethodMenu("mouseClicked", "マウスがクリックされたか調べる"));
-					category.add(createCallMethodMenu("leftMouseClicked", "マウスが左クリックされたか調べる"));
-					category.add(createCallMethodMenu("rightMouseClicked", "マウスが右クリックされたか調べる"));
-					category.add(createCallMethodMenu("doubleClick", "マウスがダブルクリックされたか調べる"));
-					category.add(createCallMethodMenu("mouseDown", "マウスが押されたか調べる"));
-					category.add(createCallMethodMenu("leftMouseDown", "マウスの左ボタンが押されたか調べる"));
-					category.add(createCallMethodMenu("rightMouseDown", "マウスの右ボタンが押されたか調べる"));
+					category.add(createCallMethodMenu("keyDown",
+							"指定したキーが押されているか調べる"));
+					category.add(createCallMethodMenu("mouseX",
+							"マウスの現在地のX座標を取得する"));
+					category.add(createCallMethodMenu("mouseY",
+							"マウスの現在地のY座標を取得する"));
+					category.add(createCallMethodMenu("mouseClicked",
+							"マウスがクリックされたか調べる"));
+					category.add(createCallMethodMenu("leftMouseClicked",
+							"マウスが左クリックされたか調べる"));
+					category.add(createCallMethodMenu("rightMouseClicked",
+							"マウスが右クリックされたか調べる"));
+					category.add(createCallMethodMenu("doubleClick",
+							"マウスがダブルクリックされたか調べる"));
+					category.add(createCallMethodMenu("mouseDown",
+							"マウスが押されたか調べる"));
+					category.add(createCallMethodMenu("leftMouseDown",
+							"マウスの左ボタンが押されたか調べる"));
+					category.add(createCallMethodMenu("rightMouseDown",
+							"マウスの右ボタンが押されたか調べる"));
 					methodMenu.add(category);
 				}
 				{
 					JMenu category = new JMenu("タートル（アニメーション操作）");
-					category.add(createCallMethodMenu("update",
-							"再描画する"));
-					category.add(createCallMethodMenu("sleep",
-							"待つ"));		
+					category.add(createCallMethodMenu("update", "再描画する"));
+					category.add(createCallMethodMenu("sleep", "待つ"));
 					methodMenu.add(category);
 				}
 			}
@@ -504,8 +516,7 @@ public class SContextMenuProvider {
 				category.add(createCallListMethodMenu("clear", "全ての要素を削除する"));
 				category.add(createCallListMethodMenu("contains", "ある要素があるか調べる"));
 				category.add(createCallListMethodMenu("isEmpty", "リストが空か調べる"));
-				category.add(createCallListMethodMenu("remove",
-						"指定した要素を削除する"));
+				category.add(createCallListMethodMenu("remove", "指定した要素を削除する"));
 				methodMenu.add(category);
 			}
 
@@ -532,8 +543,8 @@ public class SContextMenuProvider {
 				category.add(createCallMethodMenu("fontsize", "フォントサイズを設定する"));
 				methodMenu.add(category);
 			}
-			
-			if(methodMenu.getItemCount()>0){
+
+			if (methodMenu.getItemCount() > 0) {
 				menu.add(methodMenu);
 				menu.addSeparator();
 			}
@@ -548,38 +559,39 @@ public class SContextMenuProvider {
 			menu.add(createBlockCopyMenu());
 			menu.addSeparator();
 		}
-//
-//		//古いオブジェクト実行ブロックの互換性のために残してあります．
-//		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
-//			menu.add(createCallActionMethodBlockMenu());
-//			menu.add(createCallGetterMethodBlockMenu());
-//			menu.add(createCallDoubleMethodBlockMenu());
-//			menu.add(createCallBooleanMethodBlockMenu());
-//			menu.add(createCallStringMethodBlockMenu());
-//			menu.addSeparator();
-//		}
+		//
+		//		//古いオブジェクト実行ブロックの互換性のために残してあります．
+		//		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
+		//			menu.add(createCallActionMethodBlockMenu());
+		//			menu.add(createCallGetterMethodBlockMenu());
+		//			menu.add(createCallDoubleMethodBlockMenu());
+		//			menu.add(createCallBooleanMethodBlockMenu());
+		//			menu.add(createCallStringMethodBlockMenu());
+		//			menu.addSeparator();
+		//		}
 		return menu;
 	}
-//
-//	private JMenuItem createActionBlockMenu() {
-//		JMenuItem item = new JMenuItem("「実行」ブロック作成");
-//		item.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				createActionGetterBlock(rb, "callActionMethod2");
-//			}
-//		});
-//		return item;
-//	}
-//
-//	private JMenuItem createGetterBlockMenu() {
-//		JMenuItem item = new JMenuItem("「実行値」ブロック作成");
-//		item.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				createActionGetterBlock(rb, "callGetterMethod2");
-//			}
-//		});
-//		return item;
-//	}
+
+	//
+	//	private JMenuItem createActionBlockMenu() {
+	//		JMenuItem item = new JMenuItem("「実行」ブロック作成");
+	//		item.addActionListener(new ActionListener() {
+	//			public void actionPerformed(ActionEvent e) {
+	//				createActionGetterBlock(rb, "callActionMethod2");
+	//			}
+	//		});
+	//		return item;
+	//	}
+	//
+	//	private JMenuItem createGetterBlockMenu() {
+	//		JMenuItem item = new JMenuItem("「実行値」ブロック作成");
+	//		item.addActionListener(new ActionListener() {
+	//			public void actionPerformed(ActionEvent e) {
+	//				createActionGetterBlock(rb, "callGetterMethod2");
+	//			}
+	//		});
+	//		return item;
+	//	}
 
 	private JMenuItem createCallClassMethodMenu(
 			final Map<String, List<String>> method) {
@@ -637,7 +649,7 @@ public class SContextMenuProvider {
 		});
 		return item;
 	}
-	
+
 	private JMenuItem createCallStaticMethodMenu(final String name, String label) {
 		JMenuItem item = new JMenuItem(label);
 		item.addActionListener(new ActionListener() {
@@ -690,11 +702,11 @@ public class SContextMenuProvider {
 			}
 		}
 	}
-	
-	private void createCallStaticMethod(String name){
+
+	private void createCallStaticMethod(String name) {
 		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
 				name);
-		newCommandRBlock.setLocation(rb.getX() + 20,  rb.getY() + 20);
+		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20);
 	}
 
 	private void createListMethod(String name) {
@@ -847,21 +859,22 @@ public class SContextMenuProvider {
 		for (RenderableBlock block : Workspace.getInstance()
 				.getFactoryManager().getBlocks()) {
 			if (block.getBlock().getGenusName().equals(genusName)) {
-				RenderableBlock newBlock = BlockUtilities.cloneBlock(block.getBlock());
+				RenderableBlock newBlock = BlockUtilities.cloneBlock(block
+						.getBlock());
 				newBlock.setParentWidget(widget);
 				widget.addBlock(newBlock);
 				return newBlock;
 			}
 		}
 		//登録されていないものは，新しく作成する
-		if(codeblocks.BlockGenus.getGenusWithName(genusName) != null){
+		if (codeblocks.BlockGenus.getGenusWithName(genusName) != null) {
 			Block block = new Block(genusName);
 			RenderableBlock newBlock = BlockUtilities.cloneBlock(block);
 			newBlock.setParentWidget(widget);
 			widget.addBlock(newBlock);
 			return newBlock;
 		}
-		
+
 		throw new RuntimeException("block not found: " + genusName);
 	}
 
@@ -900,19 +913,20 @@ public class SContextMenuProvider {
 				new WorkspaceEvent(parent.getParentWidget(), link,
 						WorkspaceEvent.BLOCKS_CONNECTED));
 	}
-	
-	private String getBlockScope(String name){
 
-		String scope = name.substring(0, rb.getBlock().getGenusName().indexOf("-"));
-		
-		if("proc".equals(scope)){
+	private String getBlockScope(String name) {
+
+		String scope = name.substring(0,
+				rb.getBlock().getGenusName().indexOf("-"));
+
+		if ("proc".equals(scope)) {
 			scope += "-param-";
-		}else{
+		} else {
 			scope += "-var-";
 		}
-		
+
 		return scope;
-		
+
 	}
 
 	private String getBlockVariableType(String name) {
