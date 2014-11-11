@@ -193,7 +193,7 @@ public class RECheCoProManager {
 	
 	// TODO ファイル送信処理重複
 	public void sendFiles() {
-		if (isConnect()) {
+		if (conn != null && isConnect()) {
 			processFilelistRequest(new CHFilelistRequest(user));
 		}
 	}
