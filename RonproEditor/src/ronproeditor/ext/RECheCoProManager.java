@@ -190,6 +190,13 @@ public class RECheCoProManager {
 		application.getFrame().getEditor().getViewer().getTextPane()
 				.addKeyListener(reKeyListener);
 	}
+	
+	// TODO ファイル送信処理重複
+	public void sendFiles() {
+		if (isConnect()) {
+			processFilelistRequest(new CHFilelistRequest(user));
+		}
+	}
 
 	// TODO 突貫工事
 	private ActionListener copyListener = new ActionListener() {
@@ -856,6 +863,10 @@ public class RECheCoProManager {
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean isConnect() {
+		return conn.established();
 	}
 
 	/****************

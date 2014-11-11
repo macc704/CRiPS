@@ -5,7 +5,6 @@
  */
 package ronproeditor;
 
-import java.awt.FontMetrics;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.ByteArrayOutputStream;
@@ -539,6 +538,8 @@ public class REApplication implements ICFwApplication {
 
 			// TODO è„Ç∆èdï°
 			flowManager.refreshChart();
+			
+			checoproManager.sendFiles();
 		}
 	}
 
