@@ -1904,8 +1904,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.getArrow().updateArrow();
 		}
 
-	}
-
+	}	
+	
 	public void resetPoints(int dx, int dy) {
 		for (ArrowObject arrow : startArrows) {
 			arrow.addEndPoint(dx, dy);

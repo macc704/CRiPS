@@ -2,7 +2,7 @@ package edu.mit.blocks.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.MenuItem;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -23,6 +25,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -41,17 +44,24 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import clib.view.app.javainfo.CJavaInfoPanels;
 import bc.apps.BlockToJavaMain;
+import clib.view.app.javainfo.CJavaInfoPanels;
+import edu.inf.shizuoka.drawingobjects.ArrowObject;
+import edu.inf.shizuoka.drawingobjects.DrawingArrowManager;
+import edu.mit.blocks.codeblocks.Block;
+import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.codeblocks.BlockGenus;
 import edu.mit.blocks.codeblocks.BlockLinkChecker;
+import edu.mit.blocks.codeblocks.BlockStub;
 import edu.mit.blocks.codeblocks.CommandRule;
 import edu.mit.blocks.codeblocks.Constants;
 import edu.mit.blocks.codeblocks.InfixRule;
 import edu.mit.blocks.codeblocks.ParamRule;
 import edu.mit.blocks.codeblocks.PolyRule;
 import edu.mit.blocks.codeblocks.SocketRule;
+import edu.mit.blocks.renderable.RenderableBlock;
+import edu.mit.blocks.workspace.Page;
 import edu.mit.blocks.workspace.SearchBar;
 import edu.mit.blocks.workspace.SearchableContainer;
 import edu.mit.blocks.workspace.Workspace;
@@ -402,6 +412,9 @@ public class WorkspaceController {
 			}
 			workspace.loadWorkspaceFrom(projectRoot, langRoot);
 			workspaceLoaded = true;
+			
+			showAllTraceLine(workspace);
+			
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		} catch (SAXException e) {
@@ -585,6 +598,24 @@ public class WorkspaceController {
 		ConvertAction convertAction = new  ConvertAction();
 		buttonPanel.add(new JButton(convertAction));
 		
+		{// create showing method trace line bottun
+			final JToggleButton showTraceLineButton = new JToggleButton(
+					"hide trace line");
+			showTraceLineButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (showTraceLineButton.isSelected()) {
+						// 関数呼び出しをトレースするラインを非表示にする
+						disposeTraceLine(workspace);
+					} else {
+						// 関数呼び出しをトレースするラインを表示する
+						showAllTraceLine(workspace);
+					}
+				}
+			});
+			buttonPanel.add(showTraceLineButton);
+		}
+
+		
 		return buttonPanel;
 	}
 
@@ -681,6 +712,155 @@ public class WorkspaceController {
 		frame.setVisible(true);
 	}
 	
+	/*
+	 * メソッド呼び出し関係を表示するラインを描画します
+	 */
+	public static void showAllTraceLine(Workspace workspace) {
+		
+		List<Block> bodyBlocks = new ArrayList<Block>();
+		for (Block block : workspace.getBlocks()) {
+			// 呼び出しブロックにラインを表示する
+			RenderableBlock callerblock = workspace.getEnv().getRenderableBlock(block
+					.getBlockID());
+			
+			if (callerblock.getGenus().startsWith("caller")) {
+				addTraceLine(callerblock, workspace);
+			}
+			
+			if(callerblock.getGenus().equals("procedure") || callerblock.getGenus().equals("abstraction")){
+				if(callerblock.isCollapsed()){
+					bodyBlocks.add(block);	
+				}
+			}
+		}
+		
+		//閉じてるブロックの全てのトレースラインを隠す
+		
+		for(Block parent : bodyBlocks){
+			RenderableBlock rBlock;
+			if(parent.getGenusName().equals("procedure")){
+				rBlock = workspace.getEnv().getRenderableBlock(parent.getAfterBlockID());
+			}else{
+				rBlock = workspace.getEnv().getRenderableBlock(parent.getSocketAt(0).getBlockID());
+			}
+			if(rBlock != null){
+				while(rBlock.getBlock().getAfterBlockID() != -1){
+					if(rBlock.hasArrows()){
+						rBlock.visibleArrows(false);
+					}
+					rBlock = workspace.getEnv().getRenderableBlock(rBlock.getBlock().getAfterBlockID());
+				}
+				
+				if(rBlock.hasArrows()){
+					rBlock.visibleArrows(false);
+				}	
+			}
+		}
+		
+		
+	}
+	
+	public static void addTraceLine(RenderableBlock callerBlock, Workspace workspace){
+		
+		//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
+		BlockStub stub = (BlockStub) (callerBlock.getBlock());				
+		RenderableBlock parentBlock = searchMethodDefinidionBlock(stub, workspace);
+		if(parentBlock != null){
+			//呼び出しブロックの座標
+			Point p1 = DrawingArrowManager.calcCallerBlockPoint(callerBlock);
+			
+			//呼び出し関数の定義ファイル
+			Point p2 = DrawingArrowManager.calcDefinisionBlockPoint(parentBlock);
+			ArrowObject arrow = new ArrowObject(p1, p2, workspace);
+			Page parentPage = (Page)callerBlock.getParentWidget();
+			parentPage.addArrow(arrow);
+							
+			//定義ブロックへの矢印の追加
+			parentBlock.addStartArrow(arrow);
+			DrawingArrowManager.addPossesser(parentBlock);
+			//callerブロックへの矢印の追加
+			callerBlock.addEndArrow(arrow);
+			DrawingArrowManager.addPossesser(callerBlock);
+			
+			
+		}
+	}
+	
+	
+	
+	public static boolean checkParameterType(Block block, List<String> params){
+		int connectorSize = -1;//ソケットは必ず一つカウントされる
+		int counterSize = 0;
+		
+		for(@SuppressWarnings("unused") BlockConnector connector : block.getSockets()){
+			connectorSize++;
+		}
+		
+		//引数の数をチェック
+		if(connectorSize != params.size()){
+			return false;
+		}
+		
+		//引数無し同士
+		if(params.size() == 0 && connectorSize == 0){
+			return true;
+		}
+		
+		for(int i = 0; i < counterSize; i++){
+			if(checkIllegalParameter(block, params, connectorSize, i)){
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	private static boolean checkIllegalParameter(Block block, List<String> params, int connectorSize ,int i){
+		//引数の数が合わない
+		if(connectorSize < i || params.size() < i){
+			return true;
+		}
+		//ソケットがどちらかnull
+		if(block.getSocketAt(i) == null || params.get(i) == null){
+			return true;
+		}
+		//型が不一致
+		if(!block.getSocketAt(i).getKind().equals(params.get(i))){
+			return true;
+		}
+		return false;
+	}
+	
+	private static  List<String> calcParamTypes(BlockStub stub){
+		List<String> params = new ArrayList<String>();
+		for(BlockConnector connector : stub.getSockets()){
+			params.add(connector.getKind());
+		}
+		return params;
+	}
+	
+	private static  RenderableBlock searchMethodDefinidionBlock(BlockStub stub, Workspace workspace) {
+		String name = stub.getBlockLabel();
+		List<String> params = calcParamTypes(stub);
+		
+		for (Block block : workspace.getBlocks()) {
+			RenderableBlock rb = workspace.getEnv().getRenderableBlock(block.getBlockID());
+			
+			if(rb.getGenus().equals("procedure") && rb.getBlock().getBlockLabel().equals(name) && checkParameterType(block, params)){
+				return workspace.getEnv().getRenderableBlock(block.getBlockID());
+			}
+		}
+		return null;
+	}
+	
+	public static void disposeTraceLine(Workspace workspace){
+		if(workspace.getBlockCanvas()!= null){
+			workspace.getBlockCanvas().getPages().get(0).clearArrowLayer();
+			workspace.getBlockCanvas().getPages().get(0).getJComponent().repaint();
+			DrawingArrowManager.clearPossessers();
+		}
+	}
+	
 	
 	private void runBlockEditor(){
 		final WorkspaceController wc = new WorkspaceController();
@@ -689,6 +869,7 @@ public class WorkspaceController {
 //		wc.loadProjectFromPath(path);
 		wc.createDebugGUI();
 	}
+	
 	private void createDebugGUI() {
 
 		frame = new JFrame("BlockEditor");

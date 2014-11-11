@@ -31,6 +31,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.inf.shizuoka.drawingobjects.ArrowObject;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblockutil.CToolTip;
 import edu.mit.blocks.renderable.RenderableBlock;
@@ -180,6 +181,19 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
         }
         this.pageJComponent.setFullView(inFullview);
     }
+    
+	public void clearArrow(Object o){
+		this.pageJComponent.clearArrow(o);
+	}
+	
+	public void clearArrowLayer(){
+		this.pageJComponent.clearArrowLayer();
+	}
+
+	public void addArrow(Component p){
+		this.pageJComponent.addToArrowLayer(p);
+		this.pageJComponent.revalidate();
+	}
 
     public void disableMinimize() {
         this.hideMinimize = true;
@@ -1139,12 +1153,47 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
 class PageJComponent extends JLayeredPane implements RBParent {
 
     private static final long serialVersionUID = 83982193213L;
+	private static final Integer ARROW_LAYER = new Integer(2);    
     private static final Integer BLOCK_LAYER = new Integer(1);
     private static final Integer HIGHLIGHT_LAYER = new Integer(0);
     private static final int IMAGE_WIDTH = 60;
     private Image image = null;
     private boolean fullview = true;
 
+	public void clearArrow(Object arrow){
+		Object[] arrows = getAllArrow(); 
+		for(Object o : arrows){
+			if(o.equals(arrow)){
+				remove((Component)o);
+				break;
+			}
+		}
+	}
+    
+	public void clearArrowLayer(){
+		Object[] arrows = getAllArrow(); 		
+		for(Object arrow : arrows){
+			remove((Component)arrow);
+		}
+	}
+	
+	public Object[] getAllArrow(){
+		Component[] allComponents = getComponents();
+		List<Component> arrows = new ArrayList<Component>();
+		for(Component cmp : allComponents){
+			if(cmp instanceof ArrowObject){
+				arrows.add(cmp);
+			}
+		}
+		return arrows.toArray();
+	}
+	
+	public void addToArrowLayer(Component c){
+		this.add(c);
+		this.setLayer(c, ARROW_LAYER);
+	}
+
+    
     public void setFullView(boolean isFullView) {
         this.fullview = isFullView;
     }

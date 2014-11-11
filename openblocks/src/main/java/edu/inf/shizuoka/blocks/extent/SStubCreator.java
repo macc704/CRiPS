@@ -8,6 +8,7 @@ package edu.inf.shizuoka.blocks.extent;
 import java.awt.event.ActionEvent;
 
 import edu.mit.blocks.codeblocks.Block;
+import edu.mit.blocks.controller.WorkspaceController;
 import edu.mit.blocks.renderable.RenderableBlock;
 
 
@@ -46,11 +47,10 @@ public class SStubCreator {
 
 				rb.getParentWidget().addBlock(newRB);
 
-//				b.getWorkspace().getWorkSpaceController()
-//						.disposeTraceLine();
-//				b.getWorkspace().getInstance().getWorkSpaceController()
-//						.showTraceLine();
-
+				if(stubGenus.startsWith("caller")){
+					WorkspaceController.addTraceLine(newRB, rb.getWorkspace());
+				}
+				
 				return newRB;
 			}
 		}
