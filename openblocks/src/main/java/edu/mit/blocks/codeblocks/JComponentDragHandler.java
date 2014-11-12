@@ -153,35 +153,49 @@ public class JComponentDragHandler implements MouseListener, MouseMotionListener
      */
     public void mouseDragged(MouseEvent e) {
         //System.out.println("mouse dragged: "+this.getLocation());
-        myComponent.setCursor(closedHandCursor);
-        mCurrentX = e.getX();
+        myComponent.setCursor(closedHandCursor); 
+    	mCurrentX = e.getX();
         mCurrentY = e.getY();
         int dx = mCurrentX - mPressedX;
         int dy = mCurrentY - mPressedY;
         int curX = myComponent.getX();
         int curY = myComponent.getY();
-
+        
         // shift new location by amount of drag
         int newX = dx + curX;
         int newY = dy + curY;
-
+        
         /*
          * Prevent dragging outside of the canvas (keep the mouse-down point inside the canvas)
-         */
+         */ 
         workspace.scrollToComponent(myComponent);
         Point p = SwingUtilities.convertPoint(myComponent, newX + mPressedX, newY + mPressedY, workspace);
         if (workspace.getWidgetAt(p) == null && !workspace.contains(p)) {
-            // how is this not working?  if it's in the window, shouldn't it be dragging?
-            // I guess the drawer cards aren't widgets, so it's getting confused...
-            //...should add them as widgets but pass calls to the drawer.
-            //return; TODO djwendel - is the above way the best to do it?  Figure it out then do it.
+        	// how is this not working?  if it's in the window, shouldn't it be dragging?
+        	// I guess the drawer cards aren't widgets, so it's getting confused... 
+        	//...should add them as widgets but pass calls to the drawer.
+        	
+        	//return;  djwendel - is the above way the best to do it?  Figure it out then do it. 
         }
+        /*        if (newY + mPressedY < 0) {
+        	newY = 1-mPressedY;
+        }
+        if (newX + mPressedX < 0) {
+        	newX = 1-mPressedX;        	
+        }
+        if (newY + mPressedY >= myComponent.getParent().getHeight()) {
+        	newY = myComponent.getParent().getHeight()-mPressedY-1;
+        }
+        if (newX + mPressedX >= myComponent.getParent().getWidth()) {
+        	newX = myComponent.getParent().getWidth()-mPressedX-1;
+        }
+*/        
         // save how much this drag amount is
         dragDX = newX - myComponent.getX();
         dragDY = newY - myComponent.getY();
-
+                
         // move to the new location
-        myComponent.setLocation(newX, newY);
+        myComponent.setLocation(newX, newY);    
     }
 
     /**
