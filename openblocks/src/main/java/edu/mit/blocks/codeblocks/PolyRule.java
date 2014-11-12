@@ -11,12 +11,11 @@ public class PolyRule implements LinkRule,WorkspaceListener {
 			BlockConnector socket2) {
 		WorkspaceEnvironment ws = block1.getWorkspace().getEnv();
 		//既にブロックがくっついている場合は，結合しない
-		if(ws.getRenderableBlock(socket1.getBlockID()) != null || ws.getRenderableBlock(socket2.getBlockID()) != null){
-			return false;
+		if("poly".equals(socket1.getKind()) ||"poly".equals(socket2.getKind())){
+			return true;
 		}
 		
-		
-		return true;
+		return false;
 	}
 
 	@Override
