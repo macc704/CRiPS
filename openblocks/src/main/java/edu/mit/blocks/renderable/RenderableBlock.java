@@ -403,14 +403,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		synchronizeSockets();
 
 		// initialize collapse label
-		if ((getBlock().isProcedureDeclBlock() || getBlock()
-				.isAbstractionBlock())
+		if (getBlock().isProcedureDeclBlock()
 				&& (parent == null || !(parent instanceof FactoryManager))) {
-			this.collapseLabel = new CollapseLabel(workspace, blockID);
+			this.collapseLabel = new ProcedureCollapseLabel(workspace, blockID);
 			this.add(collapseLabel);
 		} else if (getBlock().isAbstractionBlock()
 				&& (parent == null || !(parent instanceof FactoryManager))) {
-			this.collapseLabel = new CollapseLabel(workspace, blockID);
+			this.collapseLabel = new AbstractionBlockCollapseLabel(workspace, blockID);
 			this.add(collapseLabel);
 		}
 
@@ -2059,7 +2058,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					.getY()
 					+ ws.getEnv().getRenderableBlock(blockID).getWidth(),
 					"down", ws.getEnv());
-
 		}
 	}
 
