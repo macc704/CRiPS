@@ -1968,7 +1968,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if(block != null){
 			int concentration = 255;
 
-			if (link == null) {
+			if (link == null && !getBlock().isProcedureDeclBlock()) {
 				concentration = 30;
 			} 
 

@@ -19,6 +19,7 @@ import renderable.BlockUtilities;
 import renderable.RenderableBlock;
 import controller.WorkspaceController;
 import drawingobjects.ArrowObject;
+import drawingobjects.DrawingArrowManager;
 
 public class TrashCan extends JComponent implements MouseListener,
 		WorkspaceWidget, ComponentListener {
@@ -99,7 +100,8 @@ public class TrashCan extends JComponent implements MouseListener,
 		for(ArrowObject arrow : block.getStartArrows()){
 			ws.getPageNamed(wc.calcClassName()).clearArrow((Object)arrow);	
 		}
-		ws.getBlockCanvas().getPageNamed(wc.calcClassName()).getDrawingArrowManager().clearPosesser(block);
+		
+		DrawingArrowManager.clearPosesser(block);
 		
 		ws.getPageNamed(wc.calcClassName()).getJComponent().repaint();
 		
