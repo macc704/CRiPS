@@ -1942,26 +1942,24 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				}
 			}
 		}
-		//		if (parent != null) {
-		//			if (isActive) {
-		//				//親の座標
-		//				Point p = new Point(getLocation());
-		//				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
-		//						parent.getBlockID()).getEndArrows()) {
-		//					arrow.setStartPoint(p);
-		//				}
-		//			} else {
-		//				RenderableBlock lastBlock = RenderableBlock.getLastBlock(Block
-		//						.getBlock(parentBlockID));
-		//				Point p = new Point(lastBlock.getLocation());
-		//				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
-		//						parent.getBlockID()).getEndArrows()) {
-		//					arrow.setStartPoint(p);
-		//				}
-		//			}
-		//		}
 	}
 
+	
+	public void updateEndArrowPoint(){
+		if(hasArrows()){
+			for(ArrowObject arrow : endArrows){
+				int concentration = 255;
+
+				if(getBlock().getBeforeBlockID() != null && ScopeChecker.isAloneBlock(getBlock())){
+					concentration = 30;
+				}
+				
+				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(getBlockID()), concentration);			
+			}
+		}
+	}
+	
+	
 	public void updateEndArrowPoints(long parentBlockID, BlockLink link,
 			boolean isActive) {
 		Block block = Block.getBlock(parentBlockID);
@@ -1982,6 +1980,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
+	public static RenderableBlock getTopBlock(Block block) {
+		Block tmpBlock = block;
+		while (tmpBlock.getBeforeBlockID() != -1) {
+			tmpBlock = Block.getBlock(tmpBlock.getAfterBlockID());
+		}
+		return RenderableBlock.getRenderableBlock(tmpBlock.getBlockID());
+	}
+	
 	
 	public static RenderableBlock getLastBlock(Block block) {
 		Block tmpBlock = block;

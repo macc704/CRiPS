@@ -3,13 +3,19 @@ package drawingobjects;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
-import controller.WorkspaceController;
 import renderable.RenderableBlock;
 import workspace.Workspace;
+import workspace.WorkspaceEvent;
+import workspace.WorkspaceListener;
+import codeblocks.Block;
+import codeblocks.BlockConnector;
+import codeblocks.BlockStub;
+import controller.WorkspaceController;
 
-public class DrawingArrowManager {
+public class DrawingArrowManager implements WorkspaceListener{
 	
 	private static List<RenderableBlock> arrowPossesser = new ArrayList<RenderableBlock>();
 	
@@ -23,6 +29,12 @@ public class DrawingArrowManager {
 			block.clearArrows();
 		}
 		arrowPossesser.clear();
+	}
+	
+	public static void updatePossessers(){
+		for(RenderableBlock rb: arrowPossesser){
+			rb.updateEndArrowPoint();
+		}
 	}
 	
 	public static void clearPosesser(RenderableBlock posesser){
@@ -46,15 +58,30 @@ public class DrawingArrowManager {
 	}
 	
 	public static void thinArrows(RenderableBlock rBlock, int concentration){
-		Point p = new Point(rBlock.getLocation());
-		
-		p.x += rBlock.getWidth();
-		p.y += rBlock.getHeight() / 2;
-		
-		for (ArrowObject endArrow : rBlock.getEndArrows()) {
-			endArrow.setStartPoint(p);
-			endArrow.setColor(new Color(255, 0, 0, concentration));
+		if(rBlock.getEndArrows().size()>0){
+			Point p = new Point(rBlock.getLocation());
+			
+			p.x += rBlock.getWidth();
+			p.y += rBlock.getHeight() / 2;
+			
+			if(rBlock.getBlock() instanceof BlockStub && hasEmptySocket(rBlock.getBlock())){
+				concentration = 30;
+			}
+			
+			for (ArrowObject endArrow : rBlock.getEndArrows()) {
+				endArrow.setStartPoint(p);
+				endArrow.setColor(new Color(255, 0, 0, concentration));
+			}	
 		}
+	}
+	
+	public static boolean hasEmptySocket(Block block){
+	    for(Iterator<BlockConnector> itarator = block.getSockets().iterator(); itarator.hasNext();){
+	    	if(!itarator.next().hasBlock()){
+	    		return true;
+	    	}
+	    }
+		return false;
 	}
 	
 	
@@ -90,5 +117,11 @@ public class DrawingArrowManager {
 		
 		ws.getPageNamed(wc.calcClassName()).getJComponent().repaint();
 		
+	}
+
+	public void workspaceEventOccurred(WorkspaceEvent event) {
+		if(event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED){
+			updatePossessers();
+		}
 	}
 }

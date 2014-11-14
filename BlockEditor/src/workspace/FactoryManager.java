@@ -16,7 +16,6 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import renderable.BlockUtilities;
 import renderable.FactoryRenderableBlock;
 import renderable.RenderableBlock;
 import codeblocks.Block;
