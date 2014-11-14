@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import renderable.BlockUtilities;
 import renderable.FactoryRenderableBlock;
 import renderable.RenderableBlock;
 import codeblocks.Block;
@@ -24,6 +25,7 @@ import codeblockutil.CBorderlessButton;
 import codeblockutil.CLabel;
 import codeblockutil.Canvas;
 import codeblockutil.Navigator;
+import drawingobjects.DrawingArrowManager;
 
 /**
  * ***********************OVERVIEW**************************
@@ -780,6 +782,11 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 	}
 
 	public void blockDropped(RenderableBlock block) {
+		
+		RenderableBlock.resetHilightAllStubBlocks();
+
+		DrawingArrowManager.removeArrow(block);
+		
 		// remove block
 		WorkspaceWidget oldParent = block.getParentWidget();
 		if (oldParent != null)
@@ -796,9 +803,12 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 		// fire to workspace that block was removed
 		// DO FIRE AN EVENT IF BLOCK IS REMOVED BY USER!!!!
 		// NOTE however that we do not throw na event for adding internally
+		
 		Workspace.getInstance().notifyListeners(
 				new WorkspaceEvent(this, block.getBlockID(), WorkspaceEvent.BLOCK_REMOVED));
 	}
+	
+	
 
 	public JComponent getJComponent() {
 		return this.navigator.getJComponent();

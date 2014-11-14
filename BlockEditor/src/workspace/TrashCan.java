@@ -79,7 +79,7 @@ public class TrashCan extends JComponent implements MouseListener,
 		RenderableBlock
 				.resetHilightAllStubBlocks();
 
-		removeArrow(block);
+		DrawingArrowManager.removeArrow(block);
 
 		
 		BlockUtilities.deleteBlock(block);
@@ -89,23 +89,7 @@ public class TrashCan extends JComponent implements MouseListener,
 		this.repaint();
 	}
 	
-	public void removeArrow(RenderableBlock block){
-		Workspace ws = Workspace.getInstance();
-		WorkspaceController wc = ws.getWorkSpaceController();
-		
-		for(ArrowObject arrow : block.getEndArrows()){
-			ws.getPageNamed(wc.calcClassName()).clearArrow((Object)arrow);	
-		}
-		
-		for(ArrowObject arrow : block.getStartArrows()){
-			ws.getPageNamed(wc.calcClassName()).clearArrow((Object)arrow);	
-		}
-		
-		DrawingArrowManager.clearPosesser(block);
-		
-		ws.getPageNamed(wc.calcClassName()).getJComponent().repaint();
-		
-	}
+
 
 	public void addBlock(RenderableBlock block) {
 	}

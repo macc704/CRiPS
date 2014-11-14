@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import controller.WorkspaceController;
 import renderable.RenderableBlock;
 import workspace.Workspace;
 
@@ -71,5 +72,23 @@ public class DrawingArrowManager {
 		p2.y +=  parentBlock.getHeight()/2;
 		
 		return p2;
+	}
+	
+	public static void removeArrow(RenderableBlock block){
+		Workspace ws = Workspace.getInstance();
+		WorkspaceController wc = ws.getWorkSpaceController();
+		
+		for(ArrowObject arrow : block.getEndArrows()){
+			ws.getPageNamed(wc.calcClassName()).clearArrow((Object)arrow);	
+		}
+		
+		for(ArrowObject arrow : block.getStartArrows()){
+			ws.getPageNamed(wc.calcClassName()).clearArrow((Object)arrow);	
+		}
+		
+		DrawingArrowManager.clearPosesser(block);
+		
+		ws.getPageNamed(wc.calcClassName()).getJComponent().repaint();
+		
 	}
 }
