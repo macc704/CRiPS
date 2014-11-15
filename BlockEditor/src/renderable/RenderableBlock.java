@@ -1916,9 +1916,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
-	public void updateEndArrowPoints(long parentBlockID, boolean isActive) {
-		RenderableBlock parent = RenderableBlock
-				.getRenderableBlock(parentBlockID);
+	public void visibleEndArrowPoint(long parentBlockID, boolean isActive) {
+		RenderableBlock parent = RenderableBlock.getRenderableBlock(parentBlockID);
 		if (parentBlockID == -1) {
 			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
 			Point p = new Point(getLocation());
@@ -1926,9 +1925,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			p.y += getHeight() / 2;
 			for (ArrowObject endArrow : endArrows) {
 				endArrow.setStartPoint(p);
-				if (endArrow.getColor().getAlpha() != 30) {
-					endArrow.setColor(new Color(255, 0, 0, 30));
-				}
 			}
 		} else {
 			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
@@ -1937,9 +1933,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			p.y += getHeight() / 2;
 			for (ArrowObject endArrow : endArrows) {
 				endArrow.setStartPoint(p);
-				if (endArrow.getColor() != Color.RED) {
-					endArrow.setColor(Color.RED);
-				}
 			}
 		}
 	}
@@ -1950,7 +1943,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			for(ArrowObject arrow : endArrows){
 				int concentration = 255;
 
-				if(getBlock().getBeforeBlockID() != null && ScopeChecker.isAloneBlock(getBlock())){
+				if(getBlock().getBeforeBlockID() != null && ScopeChecker.isIndependentBlock(getBlock())){
 					concentration = 30;
 				}
 				
@@ -1960,20 +1953,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 	
 	
-	public void updateEndArrowPoints(long parentBlockID, BlockLink link,
-			boolean isActive) {
+	public void updateEndArrowPoints(long parentBlockID, int concentration) {
 		Block block = Block.getBlock(parentBlockID);
 		if(block != null){
-			int concentration = 255;
-
-			if (link == null && !getBlock().isProcedureDeclBlock()) {
-				concentration = 30;
-			} 
-
 			do{
 				if(("abstraction").equals(block.getGenusName())){
-					updateEndArrowPoints(block.getSocketAt(0).getBlockID(), link, isActive);
+					updateEndArrowPoints(block.getSocketAt(0).getBlockID(), concentration);
 				}
+								
 				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(block.getBlockID()), concentration);
 				block = Block.getBlock(block.getAfterBlockID());
 			}while(block != null);			
@@ -2195,8 +2182,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							.animateAutoCenter(this);
 				}
 
-				//矢印再描画
-				updateEndArrowPoints(getBlockID(), link, false);
+//				//矢印再描画
+//				updateEndArrowPoints(getBlockID(), link);
 			}
 		}
 		pickedUp = false;

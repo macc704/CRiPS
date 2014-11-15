@@ -85,7 +85,7 @@ public class CollapseLabel extends BlockControlLabel {
 	protected void updatePoint(long blockID){
 		RenderableBlock rBlock = RenderableBlock.getRenderableBlock(blockID);
 		if(rBlock.hasArrows()){
-			rBlock.updateEndArrowPoints(blockID, isActive());	
+			rBlock.visibleEndArrowPoint(blockID, isActive());	
 		}
 	}
 
