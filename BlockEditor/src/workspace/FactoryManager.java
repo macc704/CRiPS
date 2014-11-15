@@ -16,6 +16,7 @@ import java.util.List;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import renderable.BlockHIlighter;
 import renderable.FactoryRenderableBlock;
 import renderable.RenderableBlock;
 import codeblocks.Block;
@@ -782,7 +783,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 
 	public void blockDropped(RenderableBlock block) {
 		
-		RenderableBlock.resetHilightAllStubBlocks();
+		BlockHIlighter.resetAllHilightedStubBlocks();
 
 		DrawingArrowManager.removeArrow(block);
 		

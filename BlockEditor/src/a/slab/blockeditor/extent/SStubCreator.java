@@ -48,6 +48,7 @@ public class SStubCreator {
 				
 				if(stubGenus.startsWith("caller")){
 					Workspace.getInstance().getWorkSpaceController().addTraceLine(newRB);
+					newRB.updateEndArrowPoint();
 				}
 				
 				return newRB;

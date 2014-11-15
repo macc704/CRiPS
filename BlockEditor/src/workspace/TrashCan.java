@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import javax.swing.JComponent;
 
+import renderable.BlockHIlighter;
 import renderable.BlockUtilities;
 import renderable.RenderableBlock;
 import drawingobjects.DrawingArrowManager;
@@ -74,7 +75,7 @@ public class TrashCan extends JComponent implements MouseListener,
 		// remove the block from the land of the living
 
 		//#ohata added reset highlight
-		RenderableBlock.resetHilightAllStubBlocks();
+		BlockHIlighter.resetAllHilightedStubBlocks();
 
 		DrawingArrowManager.removeArrow(block);
 
