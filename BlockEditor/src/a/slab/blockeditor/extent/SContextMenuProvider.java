@@ -245,7 +245,7 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 		}
 
-		if (rb.getBlock().isNumberVariableDecBlock()) {
+		if (rb.getBlock().getGenusName().endsWith("var-int-number")) {
 			menu.add(createCreateIncrementerMenu());
 			menu.addSeparator();
 		}

@@ -94,8 +94,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private static final float DRAGGING_ALPHA = 0.66F;
 	/** Mapping from blockID to the corresponding RenderableBlock instance */
 	private static final Map<Long, RenderableBlock> ALL_RENDERABLE_BLOCKS = new HashMap<Long, RenderableBlock>();
-
-	private static final List<Long> hilightBlocks = new ArrayList<Long>();
 	
 	// /////////////////////
 	// COMPONENT FIELDS
@@ -385,9 +383,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return blockID;
 	}
 	
-	private static List<Long> getHilightBlocksList(){
-		return hilightBlocks;
-	}
 
 	/**
 	 * Returns the height of the block shape of this
@@ -1916,9 +1911,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
-	public void updateEndArrowPoints(long parentBlockID, boolean isActive) {
-		RenderableBlock parent = RenderableBlock
-				.getRenderableBlock(parentBlockID);
+	public void visibleEndArrowPoint(long parentBlockID, boolean isActive) {
+		RenderableBlock parent = RenderableBlock.getRenderableBlock(parentBlockID);
 		if (parentBlockID == -1) {
 			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
 			Point p = new Point(getLocation());
@@ -1926,9 +1920,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			p.y += getHeight() / 2;
 			for (ArrowObject endArrow : endArrows) {
 				endArrow.setStartPoint(p);
-				if (endArrow.getColor().getAlpha() != 30) {
-					endArrow.setColor(new Color(255, 0, 0, 30));
-				}
 			}
 		} else {
 			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
@@ -1937,51 +1928,48 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			p.y += getHeight() / 2;
 			for (ArrowObject endArrow : endArrows) {
 				endArrow.setStartPoint(p);
-				if (endArrow.getColor() != Color.RED) {
-					endArrow.setColor(Color.RED);
-				}
 			}
 		}
-		//		if (parent != null) {
-		//			if (isActive) {
-		//				//親の座標
-		//				Point p = new Point(getLocation());
-		//				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
-		//						parent.getBlockID()).getEndArrows()) {
-		//					arrow.setStartPoint(p);
-		//				}
-		//			} else {
-		//				RenderableBlock lastBlock = RenderableBlock.getLastBlock(Block
-		//						.getBlock(parentBlockID));
-		//				Point p = new Point(lastBlock.getLocation());
-		//				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
-		//						parent.getBlockID()).getEndArrows()) {
-		//					arrow.setStartPoint(p);
-		//				}
-		//			}
-		//		}
 	}
 
-	public void updateEndArrowPoints(long parentBlockID, BlockLink link,
-			boolean isActive) {
+	
+	public void updateEndArrowPoint(){
+		if(hasArrows()){
+			for(ArrowObject arrow : endArrows){
+				int concentration = 255;
+
+				if(getBlock().getBeforeBlockID() != null && ScopeChecker.isIndependentBlock(getBlock())){
+					concentration = 30;
+				}
+				
+				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(getBlockID()), concentration);			
+			}
+		}
+	}
+	
+	
+	public void updateEndArrowPoints(long parentBlockID, int concentration) {
 		Block block = Block.getBlock(parentBlockID);
 		if(block != null){
-			int concentration = 255;
-
-			if (link == null) {
-				concentration = 30;
-			} 
-
 			do{
 				if(("abstraction").equals(block.getGenusName())){
-					updateEndArrowPoints(block.getSocketAt(0).getBlockID(), link, isActive);
+					updateEndArrowPoints(block.getSocketAt(0).getBlockID(), concentration);
 				}
+								
 				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(block.getBlockID()), concentration);
 				block = Block.getBlock(block.getAfterBlockID());
 			}while(block != null);			
 		}
 	}
 
+	public static RenderableBlock getTopBlock(Block block) {
+		Block tmpBlock = block;
+		while (tmpBlock.getBeforeBlockID() != -1) {
+			tmpBlock = Block.getBlock(tmpBlock.getAfterBlockID());
+		}
+		return RenderableBlock.getRenderableBlock(tmpBlock.getBlockID());
+	}
+	
 	
 	public static RenderableBlock getLastBlock(Block block) {
 		Block tmpBlock = block;
@@ -2040,63 +2028,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
-	private static void catchBlockSetHighlight(RenderableBlock catchedRBlock,
-			WorkspaceWidget widget) {
-
-		if(widget == null){
-			return;
-		}
-		
-		Block catchedBlock = catchedRBlock.getBlock();
-
-		try {
-			if (catchedBlock instanceof BlockStub ) {
-				//親ブロックのハイライト
-				Block parentBlock = ((BlockStub) catchedBlock).getParent();
-				RenderableBlock.getRenderableBlock(parentBlock.getBlockID()).highlighter.setHighlightColor(Color.YELLOW);
-
-				hilightBlocks.add(parentBlock.getBlockID());
-				
-				//子ブロックのハイライト
-				hilightAllStubBlocks(parentBlock, catchedBlock, widget);
-
-			}else if(catchedBlock.isVariableDeclBlock()){
-				hilightAllStubBlocks(catchedBlock, catchedBlock, widget);
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	public static void hilightAllStubBlocks(Block parentBlock, Block catchedBlock, WorkspaceWidget widget){
-		//子ブロックのハイライト
-		for(RenderableBlock rb : widget.getBlocks()){
-			Block block = rb.getBlock();
-			if(block instanceof BlockStub  && parentBlock.equals(((BlockStub) block).getParent())){
-				if(isShouldHilightBlock(block.getGenusName())){
-					rb.highlighter.setHighlightColor(Color.yellow);	
-					RenderableBlock.getHilightBlocksList().add(rb.blockID);
-				}
-			}
-		}
-	}
-
-	public static boolean isShouldHilightBlock(String genusName){
-		if(genusName.startsWith("setter") || genusName.startsWith("getter") || genusName.startsWith("inc") || genusName.startsWith("caller")){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	public static void resetHilightAllStubBlocks(){
-		//子ブロックのハイライトを消す
-		List<Long> hilightBlocks = RenderableBlock.getHilightBlocksList(); 
-		for(Long blockID : hilightBlocks){
-			RenderableBlock.getRenderableBlock(blockID).highlighter.resetHighlight();
-		}
-		hilightBlocks.clear();
-	}
 	
 	// /////////////////
 	// MOUSE EVENTS //
@@ -2173,7 +2104,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				}
 
 				// #ohata addedゲッターとセッターのハイライトを消す
-				resetHilightAllStubBlocks();
+				BlockHIlighter.resetAllHilightedStubBlocks();
 
 				// set the locations for X and Y based on zoom at 1.0
 				this.unzoomedX = this.calculateUnzoomedX(this.getX());
@@ -2188,8 +2119,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							.animateAutoCenter(this);
 				}
 
-				//矢印再描画
-				updateEndArrowPoints(getBlockID(), link, false);
+//				//矢印再描画
+//				updateEndArrowPoints(getBlockID(), link);
 			}
 		}
 		pickedUp = false;
@@ -2351,13 +2282,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							new WorkspaceEvent(widget, link,
 									WorkspaceEvent.BLOCKS_DISCONNECTED));
 				}
+				BlockHIlighter.catchBlockSetHighlight(this, widget);
 				startDragging(this, widget);
 			}
 
 			// drag this block and all attached to it
 			drag(this, dragHandler.dragDX, dragHandler.dragDY, widget, true);
 			
-			catchBlockSetHighlight(this, widget);
 		}
 
 		Workspace.getInstance().repaint(0, 0,
@@ -2906,7 +2837,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * 
 	 * @return the highlighter
 	 */
-	RBHighlightHandler getHighlightHandler() {
+	public RBHighlightHandler getHighlightHandler() {
 		return highlighter;
 	}
 

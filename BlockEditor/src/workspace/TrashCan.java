@@ -15,10 +15,10 @@ import java.util.Collection;
 
 import javax.swing.JComponent;
 
+import renderable.BlockHIlighter;
 import renderable.BlockUtilities;
 import renderable.RenderableBlock;
-import controller.WorkspaceController;
-import drawingobjects.ArrowObject;
+import drawingobjects.DrawingArrowManager;
 
 public class TrashCan extends JComponent implements MouseListener,
 		WorkspaceWidget, ComponentListener {
@@ -75,10 +75,9 @@ public class TrashCan extends JComponent implements MouseListener,
 		// remove the block from the land of the living
 
 		//#ohata added reset highlight
-		RenderableBlock
-				.resetHilightAllStubBlocks();
+		BlockHIlighter.resetAllHilightedStubBlocks();
 
-		removeArrow(block);
+		DrawingArrowManager.removeArrow(block);
 
 		
 		BlockUtilities.deleteBlock(block);
@@ -88,22 +87,7 @@ public class TrashCan extends JComponent implements MouseListener,
 		this.repaint();
 	}
 	
-	public void removeArrow(RenderableBlock block){
-		Workspace ws = Workspace.getInstance();
-		WorkspaceController wc = ws.getWorkSpaceController();
-		
-		for(ArrowObject arrow : block.getEndArrows()){
-			ws.getPageNamed(wc.calcClassName()).clearArrow((Object)arrow);	
-		}
-		
-		for(ArrowObject arrow : block.getStartArrows()){
-			ws.getPageNamed(wc.calcClassName()).clearArrow((Object)arrow);	
-		}
-		ws.getBlockCanvas().getPageNamed(wc.calcClassName()).getDrawingArrowManager().clearPosesser(block);
-		
-		ws.getPageNamed(wc.calcClassName()).getJComponent().repaint();
-		
-	}
+
 
 	public void addBlock(RenderableBlock block) {
 	}
