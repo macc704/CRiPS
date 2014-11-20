@@ -19,6 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -805,20 +806,33 @@ public class WorkspaceController {
 				rBlock = RenderableBlock.getRenderableBlock(parent.getSocketAt(0).getBlockID());
 			}
 			if(rBlock != null){
-				while(rBlock.getBlock().getAfterBlockID() != -1){
-					if(rBlock.hasArrows()){
-						rBlock.visibleArrows(false);
-					}
-					rBlock = RenderableBlock.getRenderableBlock(rBlock.getBlock().getAfterBlockID());
-				}
-				
-				if(rBlock.hasArrows()){
-					rBlock.visibleArrows(false);
-				}	
+				hideTraceLines(rBlock);
 			}
 		}
+	}
+	
+	public void hideTraceLines(RenderableBlock rBlock){
+		while(rBlock.getBlock().getAfterBlockID() != -1){
+			hideTraceLine(rBlock);
+			rBlock = RenderableBlock.getRenderableBlock(rBlock.getBlock().getAfterBlockID());
+		}
 		
-		
+		hideTraceLine(rBlock);
+
+	}
+	
+	public void hideTraceLine(RenderableBlock rBlock){
+		if(rBlock.hasArrows()){
+			rBlock.visibleArrows(false);
+		}
+		Iterable<BlockConnector> sockets = rBlock.getBlock().getSockets();
+		if(sockets != null){
+			Iterator<BlockConnector> socketConnectors = sockets.iterator();
+			while(socketConnectors.hasNext()){
+				BlockConnector socket = socketConnectors.next();
+				hideTraceLines(RenderableBlock.getRenderableBlock(socket.getBlockID()));
+			}
+		}
 	}
 	
 	public void addTraceLine(RenderableBlock callerBlock){
