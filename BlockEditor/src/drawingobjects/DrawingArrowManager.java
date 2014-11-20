@@ -123,8 +123,6 @@ public class DrawingArrowManager implements WorkspaceListener {
 			RenderableBlock socketBlock = RenderableBlock.getRenderableBlock(event.getSourceLink().getSocketBlockID());
 			RenderableBlock plugBlock = RenderableBlock.getRenderableBlock(event.getSourceLink().getPlugBlockID());
 
-//			System.out.println(socketBlock);
-//			System.out.println(plugBlock);
 			socketBlock.updateEndArrowPoints(socketBlock.getBlockID(),calcConcentration(ScopeChecker.isIndependentBlock(socketBlock.getBlock())));
 			plugBlock.updateEndArrowPoints(plugBlock.getBlockID(), calcConcentration(ScopeChecker.isIndependentBlock(plugBlock.getBlock())));
 
@@ -135,7 +133,6 @@ public class DrawingArrowManager implements WorkspaceListener {
 			RenderableBlock plugBlock = RenderableBlock.getRenderableBlock(event.getSourceLink().getPlug().getBlockID());
 			
 			socketBlock.updateEndArrowPoints(socketBlock.getBlockID(),calcConcentration(ScopeChecker.isIndependentBlock(socketBlock.getBlock())));
-			plugBlock.updateEndArrowPoints(plugBlock.getBlockID(), calcConcentration(ScopeChecker.isIndependentBlock(plugBlock.getBlock())));
 		}
 	}
 	
