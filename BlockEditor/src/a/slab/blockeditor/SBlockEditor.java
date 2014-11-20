@@ -315,6 +315,9 @@ import controller.WorkspaceController;
  *  2014.11.04 3.2.5 ohata
  *  	・メソッド矢印を修正，テスト
  *  	・ハイライターの修正
+ *  2014.11.04 3.2.6 ohata
+ *  	・ゴミ箱，抽象化ブロック等の処理を追加　テストパス
+ *  	・ハイライターの修正
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
  * ・引数の使用時にスコープのチェック
@@ -334,7 +337,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "3.2.5";
+	public final static String VERSION = "3.2.6";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;
