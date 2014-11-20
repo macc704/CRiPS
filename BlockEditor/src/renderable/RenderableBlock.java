@@ -234,7 +234,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	
 	public void resetArrowPosition(){
 //		for (ArrowObject arrow : startArrows) {
-//			System.out.println("update start Arrows" + this  + " " + getBlock().getGenusName());
 //			arrow.resetPoint(arrow.getStartPoint(), arrow.getEndPoint());
 //		}
 
@@ -452,7 +451,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		dx = x - getX();
 		dy = y - getY();
 		super.setLocation(x, y);
-
+		
 		if (hasComment() && !(dx == x && dy == y)) {
 			if (getComment().getParent() != getParent()) {
 				getComment().setParent(getParent(),
@@ -460,6 +459,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			}
 			getComment().translatePosition(dx, dy);
 		}
+		
 	}
 
 	/**
@@ -1913,22 +1913,12 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	public void visibleEndArrowPoint(long parentBlockID, boolean isActive) {
 		RenderableBlock parent = RenderableBlock.getRenderableBlock(parentBlockID);
-		if (parentBlockID == -1) {
-			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : endArrows) {
-				endArrow.setStartPoint(p);
-			}
-		} else {
-			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : endArrows) {
-				endArrow.setStartPoint(p);
-			}
+		ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
+		Point p = new Point(getLocation());
+		p.x += getWidth();
+		p.y += getHeight() / 2;
+		for (ArrowObject endArrow : endArrows) {
+			endArrow.setStartPoint(p);
 		}
 	}
 
@@ -1936,13 +1926,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public void updateEndArrowPoint(){
 		if(hasArrows()){
 			for(ArrowObject arrow : endArrows){
-				int concentration = 255;
-
-				if(getBlock().getBeforeBlockID() != null && ScopeChecker.isIndependentBlock(getBlock())){
-					concentration = 30;
-				}
-				
-				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(getBlockID()), concentration);			
+				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(getBlockID()));			
 			}
 		}
 	}
@@ -1956,7 +1940,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					updateEndArrowPoints(block.getSocketAt(0).getBlockID(), concentration);
 				}
 								
-				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(block.getBlockID()), concentration);
+				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(block.getBlockID()));
 				block = Block.getBlock(block.getAfterBlockID());
 			}while(block != null);			
 		}

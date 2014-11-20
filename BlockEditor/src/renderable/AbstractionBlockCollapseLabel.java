@@ -78,9 +78,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 			topBlock = beforeBlock;
 		}
 
-		if (topBlock == null) {
-			throw new RuntimeException("ari e nai!");
-		}
+
 		if (topBlock.getBlockID().equals(getBlockID())) {
 			return null;
 		}
@@ -147,7 +145,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		RenderableBlock rb = RenderableBlock.getRenderableBlock(getBlockID());
 		if (rb != null) {
 			//collapseAfterBlocks(rb.getBlockID());//original
-			updatePoint(getBlockID());
+			updateArrowPoints(getBlockID());
 			collapseInsideBlocks();//sakailab
 			rb.repaintBlock();
 			if (rb.getHighlightHandler() != null) {

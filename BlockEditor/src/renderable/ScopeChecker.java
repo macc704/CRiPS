@@ -287,6 +287,7 @@ public class ScopeChecker {
 	}
 
 	public static boolean isIndependentBlock(Block block) {
+		
 		while (!block.getGenusName().equals("procedure")) {
 			//次のブロックが存在シない場合は、離れ小島のブロックのためtrue
 			if (Block.getBlock(block.getBeforeBlockID()) == null) {

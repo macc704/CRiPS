@@ -720,9 +720,12 @@ public class WorkspaceController {
 					if (showTraceLineButton.isSelected()) {
 						// 関数呼び出しをトレースするラインを非表示にする
 						disposeTraceLine();
+						DrawingArrowManager.setActive(false);
 					} else {
 						// 関数呼び出しをトレースするラインを表示する
+						DrawingArrowManager.setActive(true);
 						showAllTraceLine();
+
 					}
 				}
 			});
@@ -777,8 +780,7 @@ public class WorkspaceController {
 	/*
 	 * メソッド呼び出し関係を表示するラインを描画します
 	 */
-	public void showAllTraceLine() {
-		
+	public void showAllTraceLine() {	
 		List<Block> bodyBlocks = new ArrayList<Block>();
 		for (Block block : workspace.getBlocks()) {
 			// 呼び出しブロックにラインを表示する
@@ -795,9 +797,7 @@ public class WorkspaceController {
 				}
 			}
 		}
-		
 		//閉じてるブロックの全てのトレースラインを隠す
-		
 		for(Block parent : bodyBlocks){
 			RenderableBlock rBlock;
 			if(parent.getGenusName().equals("procedure")){
@@ -836,31 +836,34 @@ public class WorkspaceController {
 	}
 	
 	public void addTraceLine(RenderableBlock callerBlock){
-		BlockCanvas canvas = workspace.getBlockCanvas();
-		JComponent component = callerBlock.getParentWidget().getJComponent();
-		//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
-		BlockStub stub = (BlockStub) (callerBlock.getBlock());				
-		RenderableBlock parentBlock = searchMethodDefinidionBlock(stub);
-		if(parentBlock != null){
-			//呼び出しブロックの座標
-			Point p1 = DrawingArrowManager.calcCallerBlockPoint(callerBlock);
-			
-			//呼び出し関数の定義ファイル
-			Point p2 = DrawingArrowManager.calcDefinisionBlockPoint(parentBlock);
-			ArrowObject arrow = new ArrowObject(p1, p2);
-			Page parentPage = (Page)callerBlock.getParentWidget();
-			parentPage.addArrow(arrow);
-							
-			//定義ブロックへの矢印の追加
-			parentBlock.addStartArrow(arrow);
-			DrawingArrowManager.addPossesser(parentBlock);
-			//callerブロックへの矢印の追加
-			callerBlock.addEndArrow(arrow);
-			DrawingArrowManager.addPossesser(callerBlock);
-			
-			//managerにブロック登録
-			String pageName = calcClassName();
-			
+		if(DrawingArrowManager.isActive()){
+			BlockCanvas canvas = workspace.getBlockCanvas();
+			JComponent component = callerBlock.getParentWidget().getJComponent();
+			//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
+			BlockStub stub = (BlockStub) (callerBlock.getBlock());				
+			RenderableBlock parentBlock = searchMethodDefinidionBlock(stub);
+			if(parentBlock != null){
+				//呼び出しブロックの座標
+				Point p1 = DrawingArrowManager.calcCallerBlockPoint(callerBlock);
+				
+				//呼び出し関数の定義ファイル
+				Point p2 = DrawingArrowManager.calcDefinisionBlockPoint(parentBlock);
+				ArrowObject arrow = new ArrowObject(p1, p2);
+				Page parentPage = (Page)callerBlock.getParentWidget();
+				parentPage.addArrow(arrow);
+				
+				//定義ブロックへの矢印の追加
+				parentBlock.addStartArrow(arrow);
+				DrawingArrowManager.addPossesser(parentBlock);
+				//callerブロックへの矢印の追加
+				callerBlock.addEndArrow(arrow);
+				DrawingArrowManager.addPossesser(callerBlock);
+				
+				callerBlock.updateEndArrowPoint();
+				//managerにブロック登録
+				String pageName = calcClassName();
+				
+			}	
 		}
 	}
 	
