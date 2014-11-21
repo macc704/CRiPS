@@ -4,6 +4,13 @@ import java.io.PrintStream;
 
 public class ProcedureParamBlockModel extends DataBlockModel {
 
+	private final String[] reservedWords = { "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char",
+			"class", "const", "continue", "default", "do", "double", "else", "enum", "extends", "final", "finally",
+			"float", "for", "goto", "if", "implements", "import", "instanceof", "int", "interface", "long", "native",
+			"new", "package", "private", "protected", "public", "return", "short", "static", "strictfp", "super",
+			"switch", "synchrnized", "this", "throw", "throws", "transient", "try", "void", "volatile", "while" };
+
+	
 	@Override
 	public void print(PrintStream out, int indent) {
 
@@ -22,8 +29,14 @@ public class ProcedureParamBlockModel extends DataBlockModel {
 				out.print("Object");
 			}
 		}
+		String label = getLabel();
+		for (String reservedWord : reservedWords) {
+			if (label.equals(reservedWord)) {
+				throw new RuntimeException("変数" + label + "はJavaで予約語となっていますので使用できません。");
+			}
+		}
 
-		out.print(" " + getLabel());
+		out.print(" " + label);
 	}
 
 	public String getType() {

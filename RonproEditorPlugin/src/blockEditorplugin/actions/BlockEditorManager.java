@@ -282,6 +282,12 @@ public class BlockEditorManager {
 				// app.doCompile();
 			}
 
+			@Override
+			public void toggleTraceLines(String state) {
+				// TODO Auto-generated method stub
+				writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
+			}
+
 		}, ENCODING);
 		blockEditor.getFrame().addWindowFocusListener(
 				new WindowFocusListener() {
@@ -534,7 +540,7 @@ class BlockEditorLog extends PRFileLog {
 	};
 
 	public static enum SubType implements PRLogSubType {
-		ANY, BLOCK_TO_JAVA, BLOCK_TO_JAVA_ERROR, JAVA_TO_BLOCK, JAVA_TO_BLOCK_ERROR, COMPILE, RUN, DEBUGRUN, OPENED, CLOSEED, FOCUS_GAINED, FOCUS_LOST, LOADING_START, LOADING_END,INHERITANCE_CHANGED
+		ANY, BLOCK_TO_JAVA, BLOCK_TO_JAVA_ERROR, JAVA_TO_BLOCK, JAVA_TO_BLOCK_ERROR, COMPILE, RUN, DEBUGRUN, OPENED, CLOSEED, FOCUS_GAINED, FOCUS_LOST, LOADING_START, LOADING_END,INHERITANCE_CHANGED, TOGGLE_TRACELINES
 	};
 
 	/**

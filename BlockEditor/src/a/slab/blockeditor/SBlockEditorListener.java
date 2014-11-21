@@ -13,4 +13,6 @@ public interface SBlockEditorListener {
 	public void blockDebugRun();
 	
 	public void chengeInheritance();
+	
+	public void toggleTraceLines(String state);
 }

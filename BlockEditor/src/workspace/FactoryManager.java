@@ -785,8 +785,8 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 		
 		BlockHIlighter.resetAllHilightedStubBlocks();
 
-		DrawingArrowManager.removeArrow(block);
-		
+		DrawingArrowManager.removeArrows(block);
+
 		// remove block
 		WorkspaceWidget oldParent = block.getParentWidget();
 		if (oldParent != null)

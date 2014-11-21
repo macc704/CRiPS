@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import org.w3c.dom.NodeList;
 
 import renderable.RenderableBlock;
 import codeblocks.Block;
+import codeblocks.BlockConnector;
 import codeblockutil.CToolTip;
 import drawingobjects.ArrowObject;
 import drawingobjects.DrawingArrowManager;
@@ -717,7 +719,21 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 	/** @ovverride WorkspaceWidget.removeBlock() */
 	public void removeBlock(RenderableBlock block) {
-		this.pageJComponent.remove(block);
+		if(block != null){
+			Iterable<BlockConnector> sockets = block.getBlock().getSockets();
+			if(sockets !=null){
+				Iterator <BlockConnector> socketConnectors = sockets.iterator();
+				while(socketConnectors.hasNext()){
+					removeBlock(RenderableBlock.getRenderableBlock(socketConnectors.next().getBlockID()));
+				}
+			}
+			
+			while(block.getBlock().getAfterBlockID() != -1){
+				removeBlock(RenderableBlock.getRenderableBlock(block.getBlock().getAfterBlockID()));
+				block = RenderableBlock.getRenderableBlock(block.getBlock().getAfterBlockID());
+			}
+			this.pageJComponent.remove(block);
+		}
 	}
 
 	/** @ovverride WorkspaceWidget.getJComponent() */

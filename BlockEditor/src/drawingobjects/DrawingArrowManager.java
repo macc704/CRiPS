@@ -19,9 +19,22 @@ import controller.WorkspaceController;
 public class DrawingArrowManager implements WorkspaceListener {
 
 	private static List<RenderableBlock> arrowPossesser = new ArrayList<RenderableBlock>();
+	private static boolean isActive = true;
 
 	public static void addPossesser(RenderableBlock possesser) {
 		arrowPossesser.add(possesser);
+	}
+
+	public static void removePossesser(RenderableBlock possesser) {
+		arrowPossesser.remove(possesser);
+	}
+
+	public static void setActive(boolean isActive) {
+		DrawingArrowManager.isActive = isActive;
+	}
+
+	public static boolean isActive() {
+		return isActive;
 	}
 
 	public static void clearPossessers() {
@@ -56,22 +69,46 @@ public class DrawingArrowManager implements WorkspaceListener {
 		}
 	}
 
-	public static void thinArrows(RenderableBlock rBlock, int concentration) {
-		if (rBlock.getEndArrows().size() > 0) {
-			Point p = new Point(rBlock.getLocation());
+	public static void thinArrows(RenderableBlock rBlock) {
+		if(rBlock != null){
+			int concentration = calcConcentration(rBlock);
+			if (rBlock.getEndArrows().size() > 0) {
+				Point p = new Point(rBlock.getLocation());
 
-			p.x += rBlock.getWidth();
-			p.y += rBlock.getHeight() / 2;
+				p.x += rBlock.getWidth();
+				p.y += rBlock.getHeight() / 2;
 
-			if (rBlock.getBlock() instanceof BlockStub && hasEmptySocket(rBlock.getBlock())) {
+				for (ArrowObject endArrow : rBlock.getEndArrows()) {
+					endArrow.setStartPoint(p);
+					endArrow.setColor(new Color(255, 0, 0, concentration));
+				}
+			}	
+		}
+	}
+
+	public static int calcConcentration(RenderableBlock rBlock) {
+		int concentration = 255;
+
+		//stub
+		if (rBlock.getBlock() instanceof BlockStub) {
+			//引数がない
+			if (hasEmptySocket(rBlock.getBlock())) {
 				concentration = 30;
 			}
 
-			for (ArrowObject endArrow : rBlock.getEndArrows()) {
-				endArrow.setStartPoint(p);
-				endArrow.setColor(new Color(255, 0, 0, concentration));
+			{//孤島かどうか
+				if (rBlock.getBlock().getPlug() != null && "SINGLE".equals(rBlock.getBlock().getPlug().getPositionType().toString())) {
+					rBlock = RenderableBlock.getRenderableBlock(rBlock
+							.getBlock().getPlugBlockID());
+				}
+				//rblock == null は独立した引数ブロック 
+				if (rBlock == null || ScopeChecker.isIndependentBlock(rBlock.getBlock())) {
+					concentration = 30;
+				}
 			}
 		}
+
+		return concentration;
 	}
 
 	public static boolean hasEmptySocket(Block block) {
@@ -90,7 +127,6 @@ public class DrawingArrowManager implements WorkspaceListener {
 		p1.y += callerblock.getHeight() / 2;
 
 		return p1;
-
 	}
 
 	public static Point calcDefinisionBlockPoint(RenderableBlock parentBlock) {
@@ -100,53 +136,78 @@ public class DrawingArrowManager implements WorkspaceListener {
 		return p2;
 	}
 
-	public static void removeArrow(RenderableBlock block) {
+	public static void removeArrows(RenderableBlock block) {
 		Workspace ws = Workspace.getInstance();
 		WorkspaceController wc = ws.getWorkSpaceController();
+		removeArrow(block, wc, ws);
+		wc.getWorkspace().getPageNamed(wc.calcClassName()).getJComponent()
+				.repaint();
+	}
 
-		for (ArrowObject arrow : block.getEndArrows()) {
-			ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
+	public static void removeArrow(RenderableBlock block,
+			WorkspaceController wc, Workspace ws) {
+		if (block != null) {
+			for (ArrowObject arrow : block.getEndArrows()) {
+				ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
+			}
+			for (ArrowObject arrow : block.getStartArrows()) {
+				ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
+			}
+
+			DrawingArrowManager.clearPosesser(block);
+
+			Iterable<BlockConnector> sockets = block.getBlock().getSockets();
+			if (sockets != null) {
+				Iterator<BlockConnector> socketConnectors = sockets.iterator();
+				while (socketConnectors.hasNext()) {
+					removeArrow(
+							RenderableBlock.getRenderableBlock(socketConnectors
+									.next().getBlockID()), wc, ws);
+				}
+			}
+
+			if (block.getBlock().getAfterBlockID() != -1) {
+				removeArrow(RenderableBlock.getRenderableBlock(block.getBlock()
+						.getAfterBlockID()), wc, ws);
+			}
 		}
-
-		for (ArrowObject arrow : block.getStartArrows()) {
-			ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
-		}
-
-		DrawingArrowManager.clearPosesser(block);
-
-		ws.getPageNamed(wc.calcClassName()).getJComponent().repaint();
-
 	}
 
 	public void workspaceEventOccurred(WorkspaceEvent event) {
 		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED) {
-			RenderableBlock socketBlock = RenderableBlock.getRenderableBlock(event.getSourceLink().getSocketBlockID());
-			RenderableBlock plugBlock = RenderableBlock.getRenderableBlock(event.getSourceLink().getPlugBlockID());
-
-//			System.out.println(socketBlock);
-//			System.out.println(plugBlock);
-			socketBlock.updateEndArrowPoints(socketBlock.getBlockID(),calcConcentration(ScopeChecker.isIndependentBlock(socketBlock.getBlock())));
-			plugBlock.updateEndArrowPoints(plugBlock.getBlockID(), calcConcentration(ScopeChecker.isIndependentBlock(plugBlock.getBlock())));
-
+			updatePossessers();
 		}
 
 		if (event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED) {
-			RenderableBlock socketBlock = RenderableBlock.getRenderableBlock(event.getSourceLink().getSocket().getBlockID());
-			RenderableBlock plugBlock = RenderableBlock.getRenderableBlock(event.getSourceLink().getPlug().getBlockID());
-			
-			socketBlock.updateEndArrowPoints(socketBlock.getBlockID(),calcConcentration(ScopeChecker.isIndependentBlock(socketBlock.getBlock())));
-			plugBlock.updateEndArrowPoints(plugBlock.getBlockID(), calcConcentration(ScopeChecker.isIndependentBlock(plugBlock.getBlock())));
+			RenderableBlock socketBlock = RenderableBlock
+					.getRenderableBlock(event.getSourceLink().getSocket()
+							.getBlockID());
+			RenderableBlock plugBlock = RenderableBlock
+					.getRenderableBlock(event.getSourceLink().getPlug()
+							.getBlockID());
+
+			plugBlock.updateEndArrowPoints(plugBlock.getBlockID(),
+					calcConcentration(ScopeChecker.isIndependentBlock(plugBlock
+							.getBlock())));
+			socketBlock.updateEndArrowPoints(socketBlock.getBlockID(),
+					calcConcentration(ScopeChecker
+							.isIndependentBlock(socketBlock.getBlock())));
+		}
+
+		if (event.getEventType() == WorkspaceEvent.BLOCK_REMOVED) {
+			removePossesser(RenderableBlock.getRenderableBlock(event
+					.getSourceBlockID()));
 		}
 	}
-	
-	public int calcConcentration(boolean isAloneBlock){
+
+	public int calcConcentration(boolean isAloneBlock) {
 		int concentration = 255;
-		
-		if(isAloneBlock){
+
+		if (isAloneBlock) {
 			concentration = 30;
 		}
-		
+
 		return concentration;
 	}
-	
+
 }

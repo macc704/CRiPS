@@ -19,6 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -117,13 +118,13 @@ public class WorkspaceController {
 	public static final int PROJECT_SELECTED = 2;
 	public static final int COMPILE_ERROR = 3;
 	private int state = PROJECT_SELECTED;
-	
+
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
 	 * with the codeblocks.Workspace
 	 * 
 	 */
-	
+
 	public WorkspaceController(String imagePath) {
 		workspace = Workspace.getInstance();
 		this.imagePath = imagePath;// added by macchan
@@ -411,7 +412,9 @@ public class WorkspaceController {
 				setFrameTitle(path);
 
 				setDirty(false);
+
 				showAllTraceLine();
+
 			}
 
 		} catch (ParserConfigurationException e) {
@@ -719,9 +722,13 @@ public class WorkspaceController {
 					if (showTraceLineButton.isSelected()) {
 						// 関数呼び出しをトレースするラインを非表示にする
 						disposeTraceLine();
+						DrawingArrowManager.setActive(false);
+						ronproEditor.toggleTraceLines("ON");
 					} else {
 						// 関数呼び出しをトレースするラインを表示する
+						DrawingArrowManager.setActive(true);
 						showAllTraceLine();
+						ronproEditor.toggleTraceLines("OFF");
 					}
 				}
 			});
@@ -765,165 +772,194 @@ public class WorkspaceController {
 		frame.setVisible(true);
 	}
 
-	public void disposeTraceLine(){
-		if(workspace.getBlockCanvas()!= null){
+	public void disposeTraceLine() {
+		if (workspace.getBlockCanvas() != null) {
 			workspace.getPageNamed(calcClassName()).clearArrowLayer();
 			workspace.getPageNamed(calcClassName()).getJComponent().repaint();
 			DrawingArrowManager.clearPossessers();
 		}
 	}
-	
+
 	/*
 	 * メソッド呼び出し関係を表示するラインを描画します
 	 */
 	public void showAllTraceLine() {
-		
-		List<Block> bodyBlocks = new ArrayList<Block>();
-		for (Block block : workspace.getBlocks()) {
-			// 呼び出しブロックにラインを表示する
-			RenderableBlock callerblock = RenderableBlock.getRenderableBlock(block
-					.getBlockID());
-			
-			if (callerblock.getGenus().startsWith("caller")) {
-				addTraceLine(callerblock);
-			}
-			
-			if(callerblock.getGenus().equals("procedure") || callerblock.getGenus().equals("abstraction")){
-				if(callerblock.isCollapsed()){
-					bodyBlocks.add(block);	
+		if(DrawingArrowManager.isActive()){
+			List<Block> bodyBlocks = new ArrayList<Block>();
+			for (Block block : workspace.getBlocks()) {
+				// 呼び出しブロックにラインを表示する
+				RenderableBlock callerblock = RenderableBlock
+						.getRenderableBlock(block.getBlockID());
+
+				if (callerblock.getGenus().startsWith("caller")) {
+					addTraceLine(callerblock);
 				}
-			}
-		}
-		
-		//閉じてるブロックの全てのトレースラインを隠す
-		
-		for(Block parent : bodyBlocks){
-			RenderableBlock rBlock;
-			if(parent.getGenusName().equals("procedure")){
-				rBlock = RenderableBlock.getRenderableBlock(parent.getAfterBlockID());
-			}else{
-				rBlock = RenderableBlock.getRenderableBlock(parent.getSocketAt(0).getBlockID());
-			}
-			if(rBlock != null){
-				while(rBlock.getBlock().getAfterBlockID() != -1){
-					if(rBlock.hasArrows()){
-						rBlock.visibleArrows(false);
+
+				if (callerblock.getGenus().equals("procedure")
+						|| callerblock.getGenus().equals("abstraction")) {
+					if (callerblock.isCollapsed()) {
+						bodyBlocks.add(block);
 					}
-					rBlock = RenderableBlock.getRenderableBlock(rBlock.getBlock().getAfterBlockID());
 				}
-				
-				if(rBlock.hasArrows()){
-					rBlock.visibleArrows(false);
-				}	
+			}
+			//閉じてるブロックの全てのトレースラインを隠す
+			for (Block parent : bodyBlocks) {
+				RenderableBlock rBlock;
+				if (parent.getGenusName().equals("procedure")) {
+					rBlock = RenderableBlock.getRenderableBlock(parent
+							.getAfterBlockID());
+				} else {
+					rBlock = RenderableBlock.getRenderableBlock(parent.getSocketAt(
+							0).getBlockID());
+				}
+				if (rBlock != null) {
+					hideTraceLines(rBlock);
+				}
+			}	
+		}
+	}
+
+	public void hideTraceLines(RenderableBlock rBlock) {
+		while (rBlock.getBlock().getAfterBlockID() != -1) {
+			hideTraceLine(rBlock);
+			rBlock = RenderableBlock.getRenderableBlock(rBlock.getBlock()
+					.getAfterBlockID());
+		}
+
+		hideTraceLine(rBlock);
+
+	}
+
+	public void hideTraceLine(RenderableBlock rBlock) {
+		if (rBlock.hasArrows()) {
+			rBlock.visibleArrows(false);
+		}
+		Iterable<BlockConnector> sockets = rBlock.getBlock().getSockets();
+		if (sockets != null) {
+			Iterator<BlockConnector> socketConnectors = sockets.iterator();
+			while (socketConnectors.hasNext()) {
+				BlockConnector socket = socketConnectors.next();
+				hideTraceLines(RenderableBlock.getRenderableBlock(socket
+						.getBlockID()));
 			}
 		}
-		
-		
 	}
-	
-	public void addTraceLine(RenderableBlock callerBlock){
-		BlockCanvas canvas = workspace.getBlockCanvas();
-		JComponent component = callerBlock.getParentWidget().getJComponent();
-		//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
-		BlockStub stub = (BlockStub) (callerBlock.getBlock());				
-		RenderableBlock parentBlock = searchMethodDefinidionBlock(stub);
-		if(parentBlock != null){
-			//呼び出しブロックの座標
-			Point p1 = DrawingArrowManager.calcCallerBlockPoint(callerBlock);
-			
-			//呼び出し関数の定義ファイル
-			Point p2 = DrawingArrowManager.calcDefinisionBlockPoint(parentBlock);
-			ArrowObject arrow = new ArrowObject(p1, p2);
-			Page parentPage = (Page)callerBlock.getParentWidget();
-			parentPage.addArrow(arrow);
-							
-			//定義ブロックへの矢印の追加
-			parentBlock.addStartArrow(arrow);
-			DrawingArrowManager.addPossesser(parentBlock);
-			//callerブロックへの矢印の追加
-			callerBlock.addEndArrow(arrow);
-			DrawingArrowManager.addPossesser(callerBlock);
-			
-			//managerにブロック登録
-			String pageName = calcClassName();
-			
+
+	public void addTraceLine(RenderableBlock callerBlock) {
+		if (DrawingArrowManager.isActive()) {
+			BlockCanvas canvas = workspace.getBlockCanvas();
+			JComponent component = callerBlock.getParentWidget()
+					.getJComponent();
+			//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
+			BlockStub stub = (BlockStub) (callerBlock.getBlock());
+			RenderableBlock parentBlock = searchMethodDefinidionBlock(stub);
+			if (parentBlock != null) {
+				//呼び出しブロックの座標
+				Point p1 = DrawingArrowManager
+						.calcCallerBlockPoint(callerBlock);
+
+				//呼び出し関数の定義ファイル
+				Point p2 = DrawingArrowManager
+						.calcDefinisionBlockPoint(parentBlock);
+				ArrowObject arrow = new ArrowObject(p1, p2);
+				Page parentPage = (Page) callerBlock.getParentWidget();
+				parentPage.addArrow(arrow);
+
+				//定義ブロックへの矢印の追加
+				parentBlock.addStartArrow(arrow);
+				DrawingArrowManager.addPossesser(parentBlock);
+				//callerブロックへの矢印の追加
+				callerBlock.addEndArrow(arrow);
+				DrawingArrowManager.addPossesser(callerBlock);
+
+				callerBlock.updateEndArrowPoint();
+				//managerにブロック登録
+				String pageName = calcClassName();
+
+			}
 		}
 	}
-	
-	public String calcClassName(){
-		String className = this.selectedJavaFile.substring(0,selectedJavaFile.indexOf(".xml"));
-		while(className.indexOf(System.getProperty("file.separator")) != -1){
-			className = className.substring(className.indexOf(System.getProperty("file.separator")) + 1, className.length());
+
+	public String calcClassName() {
+		String className = this.selectedJavaFile.substring(0,
+				selectedJavaFile.indexOf(".xml"));
+		while (className.indexOf(System.getProperty("file.separator")) != -1) {
+			className = className
+					.substring(className.indexOf(System
+							.getProperty("file.separator")) + 1, className
+							.length());
 		}
 		return className;
 	}
 
-
 	public RenderableBlock searchMethodDefinidionBlock(BlockStub stub) {
 		String name = stub.getBlockLabel();
 		List<String> params = calcParamTypes(stub);
-		
+
 		for (Block block : workspace.getBlocks()) {
 			RenderableBlock rb = RenderableBlock.getRenderableBlock(block
 					.getBlockID());
-			if(rb.getGenus().equals("procedure") && rb.getBlock().getBlockLabel().equals(name) && checkParameterType(block, params)){
+			if (rb.getGenus().equals("procedure")
+					&& rb.getBlock().getBlockLabel().equals(name)
+					&& checkParameterType(block, params)) {
 				return RenderableBlock.getRenderableBlock(block.getBlockID());
 			}
 		}
 		return null;
 	}
-	
-	public boolean checkParameterType(Block block, List<String> params){
+
+	public boolean checkParameterType(Block block, List<String> params) {
 		int connectorSize = -1;//ソケットは必ず一つカウントされる
 		int counterSize = 0;
-		
-		for(BlockConnector connector : block.getSockets()){
+
+		for (BlockConnector connector : block.getSockets()) {
 			connectorSize++;
 		}
-		
+
 		//引数の数をチェック
-		if(connectorSize != params.size()){
+		if (connectorSize != params.size()) {
 			return false;
 		}
-		
+
 		//引数無し同士
-		if(params.size() == 0 && connectorSize == 0){
+		if (params.size() == 0 && connectorSize == 0) {
 			return true;
 		}
-		
-		for(int i = 0; i < counterSize; i++){
-			if(checkIllegalParameter(block, params, connectorSize, i)){
+
+		for (int i = 0; i < counterSize; i++) {
+			if (checkIllegalParameter(block, params, connectorSize, i)) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
-	public boolean checkIllegalParameter(Block block, List<String> params, int connectorSize ,int i){
+
+	public boolean checkIllegalParameter(Block block, List<String> params,
+			int connectorSize, int i) {
 		//引数の数が合わない
-		if(connectorSize < i || params.size() < i){
+		if (connectorSize < i || params.size() < i) {
 			return true;
 		}
 		//ソケットがどちらかnull
-		if(block.getSocketAt(i) == null || params.get(i) == null){
+		if (block.getSocketAt(i) == null || params.get(i) == null) {
 			return true;
 		}
 		//型が不一致
-		if(!block.getSocketAt(i).getKind().equals(params.get(i))){
+		if (!block.getSocketAt(i).getKind().equals(params.get(i))) {
 			return true;
 		}
 		return false;
 	}
-	
-	public List<String> calcParamTypes(BlockStub stub){
+
+	public List<String> calcParamTypes(BlockStub stub) {
 		List<String> params = new ArrayList<String>();
-		for(BlockConnector connector : stub.getSockets()){
+		for (BlockConnector connector : stub.getSockets()) {
 			params.add(connector.getKind());
 		}
 		return params;
 	}
-	
+
 	public void createAndShowGUIForTesting(final WorkspaceController wc,
 			final String enc) {
 
