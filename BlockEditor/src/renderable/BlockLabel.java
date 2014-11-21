@@ -110,7 +110,8 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 				.equals("number"));
 		// arranged by sakai lab 2011/10
 		widget.setVariable(Block.getBlock(this.blockID).getGenusName()
-				.indexOf("-var-") != -1);
+				.indexOf("-var-") != -1 || Block.getBlock(this.blockID).getGenusName()
+				.indexOf("proc-param-") != -1);
 		widget.setProcedure(Block.getBlock(this.blockID).getGenusName()
 				.equals("procedure"));
 		widget.setNewObject(Block.getBlock(this.blockID).getGenusName()

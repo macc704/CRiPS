@@ -665,8 +665,9 @@ public class Block implements ISupportMemento {
 		// its own sockets
 		// if block has stubs, update its stubs as well
 		
-		if (hasStubs() && Block.getBlock(connectedBlockID).getGenusName().startsWith("proc-param"))
+		if (hasStubs() && Block.getBlock(connectedBlockID).getGenusName().startsWith("proc-param")){
 			BlockStub.parentConnectorsChanged(blockID);
+		}
 	}
 
 	/**
