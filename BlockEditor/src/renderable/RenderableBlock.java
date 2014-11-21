@@ -1936,8 +1936,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		Block block = Block.getBlock(parentBlockID);
 		if(block != null){
 			do{
-				if(("abstraction").equals(block.getGenusName())){
-					updateEndArrowPoints(block.getSocketAt(0).getBlockID(), concentration);
+				//ソケットを持っていたらソケット内をアップデートする
+				Iterable<BlockConnector> socks = block.getSockets();
+				
+				if(socks != null){
+					Iterator<BlockConnector> sockets = socks.iterator();
+					while(sockets.hasNext()){
+						updateEndArrowPoints(sockets.next().getBlockID(), concentration);		
+					}
 				}
 								
 				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(block.getBlockID()));
