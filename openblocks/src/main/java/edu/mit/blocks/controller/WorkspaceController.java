@@ -5,11 +5,13 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -38,6 +40,14 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import net.unicoen.interpreter.Engine;
+import net.unicoen.interpreter.ExecutionListener;
+import net.unicoen.node.UniClassDec;
+import net.unicoen.node.UniFuncDec;
+import net.unicoen.node.UniMemberDec;
+import net.unicoen.node.UniNode;
+import net.unicoen.parser.blockeditor.ToBlockEditorParser;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -46,6 +56,7 @@ import org.xml.sax.SAXException;
 
 import bc.apps.BlockToJavaMain;
 import clib.view.app.javainfo.CJavaInfoPanels;
+import edu.inf.shizuoka.debugger.BlockEditorDebbugger;
 import edu.inf.shizuoka.drawingobjects.ArrowObject;
 import edu.inf.shizuoka.drawingobjects.DrawingArrowManager;
 import edu.mit.blocks.codeblocks.Block;
@@ -659,7 +670,7 @@ public class WorkspaceController {
 		debugItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				runBlockEditor();
+				runDebbuger();
 			}
 		});
 		
@@ -862,11 +873,12 @@ public class WorkspaceController {
 	}
 	
 	
-	private void runBlockEditor(){
+	private void runDebbuger(){
 		final WorkspaceController wc = new WorkspaceController();
 		wc.setLangDefFilePath(langDefRootPath);
 		wc.loadFreshWorkspace();
-//		wc.loadProjectFromPath(path);
+		wc.loadProjectFromPath(selectedFile.getPath());
+		wc.selectedFile = this.selectedFile;
 		wc.createDebugGUI();
 	}
 	
@@ -881,10 +893,37 @@ public class WorkspaceController {
 		frame.add(getWorkspacePanel(), BorderLayout.CENTER);
 
 		frame.add(getDebugButtonPanel(), BorderLayout.PAGE_START);
-
+		
 		frame.setVisible(true);
+		
+		runProgram();
+		
 	}
 
+	public void runProgram(){
+		if(selectedFile==null){
+			throw new RuntimeException("ファイルが選択されていません");
+		}
+		List<UniNode> list = ToBlockEditorParser.parse(selectedFile);
+		UniClassDec dec = new UniClassDec();
+		dec.members = new ArrayList<UniMemberDec>();
+		for (UniNode node : list) {
+			dec.members.add((UniFuncDec) node);
+		}
+
+		Engine engine = new Engine();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		engine.out = new PrintStream(baos);
+		
+		List<ExecutionListener> debugger = new ArrayList<ExecutionListener>();
+		debugger.add(new BlockEditorDebbugger());
+		
+		engine.listeners = debugger;
+
+		engine.execute(dec);
+
+	}
+	
 	private static String langDefRootPath = "ext/blocks/lang_def.xml";
 
 	public static void main(final String[] args) {
