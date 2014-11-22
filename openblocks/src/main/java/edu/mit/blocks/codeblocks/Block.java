@@ -46,7 +46,6 @@ public class Block implements ISupportMemento {
 	private BlockConnector before;
 	private BlockConnector after;
 
-	public static long OUTPUT_ID = 1000;
 
 	/**
 	 * The expand-groups. A list is used instead of a map, because we don't
@@ -1596,7 +1595,7 @@ public class Block implements ISupportMemento {
 			boolean isCollapsed) {
 		Element blockElement = document.createElement("Block");
 
-		blockElement.setAttribute("id", Long.toString(OUTPUT_ID + getBlockID()));
+		blockElement.setAttribute("id", Long.toString(getBlockID()));
 		blockElement.setAttribute("genus-name", getGenusName());
 		blockElement.setAttribute("kind", getGenus().getKind());
 		if (hasFocus) {
@@ -1663,7 +1662,7 @@ public class Block implements ISupportMemento {
 				&& !this.getBeforeBlockID().equals(Block.NULL)) {
 			Element blockIdElement = document.createElement("BeforeBlockId");
 			blockIdElement.appendChild(document.createTextNode(String
-					.valueOf(OUTPUT_ID + getBeforeBlockID())));
+					.valueOf(getBeforeBlockID())));
 			blockElement.appendChild(blockIdElement);
 		}
 
@@ -1671,7 +1670,7 @@ public class Block implements ISupportMemento {
 				&& !this.getAfterBlockID().equals(Block.NULL)) {
 			Element blockIdElement = document.createElement("AfterBlockId");
 			blockIdElement.appendChild(document.createTextNode(String
-					.valueOf(OUTPUT_ID +  getAfterBlockID())));
+					.valueOf(getAfterBlockID())));
 			blockElement.appendChild(blockIdElement);
 		}
 

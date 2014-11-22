@@ -1,7 +1,6 @@
 package edu.inf.shizuoka.debugger;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,37 +9,26 @@ import java.util.List;
 import net.unicoen.interpreter.Engine;
 import net.unicoen.interpreter.ExecutionListener;
 import net.unicoen.node.UniClassDec;
-import net.unicoen.node.UniFuncDec;
-import net.unicoen.node.UniMemberDec;
-import net.unicoen.node.UniNode;
-import net.unicoen.parser.blockeditor.ToBlockEditorParser;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.renderable.RenderableBlock;
 
 public class ProgramRunnner extends Thread{
-	private File selectedFile;
+	private static UniClassDec classDec;
 	
 	private static BlockEditorDebbugger stepDebugger;
 	
 	private DebuggerWorkspaceController wc;
 	
-	public ProgramRunnner(File selectedFile, DebuggerWorkspaceController wc){
-		this.selectedFile = selectedFile;
+	public ProgramRunnner(UniClassDec dec, DebuggerWorkspaceController wc){
+		classDec = dec;
 		this.wc = wc;
 	}
 	
 	
 	public void run(){
-		if(selectedFile==null){
-			throw new RuntimeException("ファイルが選択されていません");
+		if(classDec == null){
+			throw new RuntimeException("null class exe");
 		}
-		List<UniNode> list = ToBlockEditorParser.parse(selectedFile);
-		UniClassDec dec = new UniClassDec();
-		dec.members = new ArrayList<UniMemberDec>();
-		for (UniNode node : list) {
-			dec.members.add((UniFuncDec) node);
-		}
-
 		Engine engine = new Engine();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		engine.out = new PrintStream(baos);
@@ -50,7 +38,7 @@ public class ProgramRunnner extends Thread{
 		debugger.add(stepDebugger);
 		
 		engine.listeners = debugger;
-		engine.execute(dec);		
+		engine.execute(classDec);		
 	}
 	
 	public RenderableBlock getStartMethodBlock(){

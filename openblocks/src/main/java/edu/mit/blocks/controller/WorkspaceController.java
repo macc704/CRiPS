@@ -857,7 +857,12 @@ public class WorkspaceController {
 	
 	
 	private void runDebbuger(){
-		debugger = new DebuggerWorkspaceController(langDefRootPath,selectedFile);
+		try {
+			debugger = new DebuggerWorkspaceController(langDefRootPath,selectedFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 		
 	private static String langDefRootPath = "ext/blocks/lang_def.xml";

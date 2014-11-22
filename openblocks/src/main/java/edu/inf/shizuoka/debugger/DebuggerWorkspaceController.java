@@ -4,14 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import net.unicoen.node.UniClassDec;
+import net.unicoen.node.UniFuncDec;
+import net.unicoen.node.UniNode;
+import net.unicoen.parser.blockeditor.ToBlockEditorParser;
+import net.unicoen.parser.blockeditor.UniToBlockParser;
 import edu.mit.blocks.controller.WorkspaceController;
-import edu.mit.blocks.workspace.Workspace;
 
 public class DebuggerWorkspaceController extends WorkspaceController{
 
@@ -19,29 +26,40 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 	// Reference kept to be able to update frame title with current loaded file
 	private JFrame frame;
 	
-	
-	public DebuggerWorkspaceController(String langDefRootPath, File selectedFile){
+	public DebuggerWorkspaceController(String langDefRootPath, File selectedFile) throws IOException{
 		
 		setLangDefFilePath(langDefRootPath);
 		loadFreshWorkspace();
 		this.selectedFile = selectedFile;
 		
+		UniClassDec exeClass = parse();
+
 		loadProjectFromPath(selectedFile.getPath());
 		
 		createDebugGUI();
+		runProgram(exeClass);
+	}
+	
+	public UniClassDec parse() throws IOException{
+		List<UniNode> list = ToBlockEditorParser.parse(selectedFile);
+		UniClassDec dec = new UniClassDec();
+		dec.members = new ArrayList<>();
+		dec.className = selectedFile.getName().substring(0, selectedFile.getName().indexOf(".xml"));
+		for (UniNode node : list) {
+			dec.members.add((UniFuncDec) node);
+		}
 		
-		runProgram();
+		UniToBlockParser.parse(dec);
 		
+		return dec;
 	}
 	
 	
 	private void createDebugGUI() {
 
-		frame = new JFrame("BlockEditor");
+		frame = new JFrame("BlockEditor Debugger");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 800, 600);
-
-		frame.setJMenuBar(getMenuBar());
 		
 		frame.add(getWorkspacePanel(), BorderLayout.CENTER);
 
@@ -53,9 +71,7 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 	
 	protected JComponent getDebugButtonPanel() {
 		JPanel buttonPanel = new JPanel();
-
-		buttonPanel.add(new JButton("◀|"));
-
+		
 		JButton button = new JButton("|▶");
 		button.addActionListener(new NextAction());
 		
@@ -63,8 +79,8 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 		return buttonPanel;
 	}
 	
-	public void runProgram(){
-		ProgramRunnner runnner = new ProgramRunnner(selectedFile, this);
+	public void runProgram(UniClassDec exeClass){
+		ProgramRunnner runnner = new ProgramRunnner(exeClass, this);
 		runnner.start();
 	}
 	

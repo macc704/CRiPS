@@ -1,6 +1,8 @@
 package edu.inf.shizuoka.debugger;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.Map;
 
 import net.unicoen.interpreter.ExecutionListener;
 import net.unicoen.interpreter.Scope;
@@ -8,6 +10,11 @@ import net.unicoen.node.UniExpr;
 import net.unicoen.node.UniFuncDec;
 import net.unicoen.node.UniMethodCall;
 import net.unicoen.node.UniNode;
+import net.unicoen.parser.blockeditor.UniToBlockParser;
+
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
 import edu.mit.blocks.renderable.RenderableBlock;
 import edu.mit.blocks.workspace.Workspace;
 
@@ -16,11 +23,14 @@ public class BlockEditorDebbugger implements ExecutionListener {
 	private static boolean flag = false;
 	private RenderableBlock executingBlock;
 	private Workspace ws;
-
+	private static Map<String, Element> map;
+//	private Map<UniNode, Node> uniMap = new HashMap<UniNode,Node>();
+	
 	public BlockEditorDebbugger(RenderableBlock startBlock, Workspace ws) {
 		this.executingBlock = startBlock;
 		executingBlock.getHilightHandler().setHighlightColor(Color.YELLOW);
 		this.ws = ws;
+		map = UniToBlockParser.getAddedModels();
 	}
 
 	public void setExeCutingBlock(RenderableBlock block) {
@@ -29,9 +39,7 @@ public class BlockEditorDebbugger implements ExecutionListener {
 
 	@Override
 	public void preExecute(UniNode node, Scope scope) {
-		// TODO Auto-generated method stub
-//		executingBlock.getHilightHandler().setHighlightColor(Color.YELLOW);
-
+		System.out.println(node);
 		while (!flag) {
 			try {
 				Thread.sleep(1000);
@@ -40,7 +48,16 @@ public class BlockEditorDebbugger implements ExecutionListener {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(node);
+		//nodeに対応したRenderableBlockをハイライトする
+		executingBlock.getHilightHandler().resetHighlight();
+		Element element = UniToBlockParser.getAddedModels().get(Integer.toString(node.hashCode()));
+		if(element != null){
+			System.out.println(Integer.valueOf(element.getAttributes().getNamedItem("id").getNodeValue()));
+			int value = Integer.valueOf(element.getAttributes().getNamedItem("id").getNodeValue());
+			executingBlock = ws.getEnv().getRenderableBlock(Integer.toUnsignedLong(value));
+			executingBlock.getHilightHandler().setHighlightColor(Color.YELLOW);
+		}
+		
 		flag = false;
 	}
 
@@ -50,11 +67,9 @@ public class BlockEditorDebbugger implements ExecutionListener {
 
 	@Override
 	public void postExecute(UniNode node, Scope scope, Object value) {
-		// TODO Auto-generated method stub
+
 		System.out.println("post" + node);
-//		executingBlock.getHilightHandler().resetHighlight();
 //		if (node instanceof UniExpr) {
-//			executingBlock = getNextBlock(node, executingBlock);
 //		}
 	}
 
@@ -89,6 +104,18 @@ public class BlockEditorDebbugger implements ExecutionListener {
 		}
 
 		return block;
+	}
+
+	@Override
+	public void preExecuteAll(Scope global) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void postExecuteAll(Scope global) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
