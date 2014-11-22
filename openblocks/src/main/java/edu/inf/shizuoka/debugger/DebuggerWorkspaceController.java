@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import edu.mit.blocks.controller.WorkspaceController;
+import edu.mit.blocks.workspace.Workspace;
 
 public class DebuggerWorkspaceController extends WorkspaceController{
 
@@ -63,9 +64,10 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 	}
 	
 	public void runProgram(){
-		ProgramRunnner runnner = new ProgramRunnner(selectedFile);
+		ProgramRunnner runnner = new ProgramRunnner(selectedFile, this);
 		runnner.start();
 	}
+	
 }
 
 class NextAction implements ActionListener{
