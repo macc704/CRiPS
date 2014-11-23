@@ -174,40 +174,15 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 
 	public void workspaceEventOccurred(WorkspaceEvent event) {
-		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED) {
+		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED) {
 			updatePossessers();
 		}
 
-		if (event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED) {
-			RenderableBlock socketBlock = RenderableBlock
-					.getRenderableBlock(event.getSourceLink().getSocket()
-							.getBlockID());
-			RenderableBlock plugBlock = RenderableBlock
-					.getRenderableBlock(event.getSourceLink().getPlug()
-							.getBlockID());
-
-			plugBlock.updateEndArrowPoints(plugBlock.getBlockID(),
-					calcConcentration(ScopeChecker.isIndependentBlock(plugBlock
-							.getBlock())));
-			socketBlock.updateEndArrowPoints(socketBlock.getBlockID(),
-					calcConcentration(ScopeChecker
-							.isIndependentBlock(socketBlock.getBlock())));
-		}
 
 		if (event.getEventType() == WorkspaceEvent.BLOCK_REMOVED) {
 			removePossesser(RenderableBlock.getRenderableBlock(event
 					.getSourceBlockID()));
 		}
-	}
-
-	public int calcConcentration(boolean isAloneBlock) {
-		int concentration = 255;
-
-		if (isAloneBlock) {
-			concentration = 30;
-		}
-
-		return concentration;
 	}
 
 }

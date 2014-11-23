@@ -290,7 +290,7 @@ public class ScopeChecker {
 		
 		while (!block.getGenusName().equals("procedure")) {
 			//次のブロックが存在シない場合は、離れ小島のブロックのためtrue
-			if (Block.getBlock(block.getBeforeBlockID()) == null) {
+			if (Block.getBlock(block.getBeforeBlockID()) == null || block.getBeforeBlockID() == -1 ) {
 				return true;
 			}
 			block = Block.getBlock(block.getBeforeBlockID());
