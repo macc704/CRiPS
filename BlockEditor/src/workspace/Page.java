@@ -126,15 +126,12 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	private boolean hideMinimize = false;
 	/** super class of Java */
 	private String superClass = "";
-	
+
 	private DrawingArrowManager drawingArrowManager = new DrawingArrowManager();
-	
-	
-	public DrawingArrowManager getDrawingArrowManager(){
+
+	public DrawingArrowManager getDrawingArrowManager() {
 		return this.drawingArrowManager;
 	}
-
-	
 
 	//////////////////////////////
 	//Constructor/ Destructor	//
@@ -256,12 +253,12 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 			this.pageJComponent.remove(block);
 		}
 	}
-	
-	public void clearArrow(Object o){
+
+	public void clearArrow(Object o) {
 		this.pageJComponent.clearArrow(o);
 	}
-	
-	public void clearArrowLayer(){
+
+	public void clearArrowLayer() {
 		this.pageJComponent.clearArrowLayer();
 	}
 
@@ -648,11 +645,11 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		this.pageJComponent.repaint();
 	}
 
-	public void addArrow(Component p){
+	public void addArrow(Component p) {
 		this.pageJComponent.addToArrowLayer(p);
 		this.pageJComponent.revalidate();
 	}
-	
+
 	/** @ovverride WorkspaceWidget.addBlock() */
 	public void addBlock(RenderableBlock block) {
 		//update parent widget if dropped block
@@ -719,20 +716,19 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 	/** @ovverride WorkspaceWidget.removeBlock() */
 	public void removeBlock(RenderableBlock block) {
-		if(block != null){
+		System.out.println(block);
+		if (block != null) {
 			Iterable<BlockConnector> sockets = block.getBlock().getSockets();
-			if(sockets !=null){
-				Iterator <BlockConnector> socketConnectors = sockets.iterator();
-				while(socketConnectors.hasNext()){
-					removeBlock(RenderableBlock.getRenderableBlock(socketConnectors.next().getBlockID()));
+			if (sockets != null) {
+				Iterator<BlockConnector> socketConnectors = sockets.iterator();
+				while (socketConnectors.hasNext()) {
+					removeBlock(RenderableBlock
+							.getRenderableBlock(socketConnectors.next()
+									.getBlockID()));
 				}
 			}
-			
-			while(block.getBlock().getAfterBlockID() != -1){
-				removeBlock(RenderableBlock.getRenderableBlock(block.getBlock().getAfterBlockID()));
-				block = RenderableBlock.getRenderableBlock(block.getBlock().getAfterBlockID());
-			}
 			this.pageJComponent.remove(block);
+			removeBlock(RenderableBlock.getRenderableBlock(block.getBlock().getAfterBlockID()));
 		}
 	}
 
@@ -805,11 +801,11 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 						// save the loaded blocks to add later
 						loadedBlocks.add(rb);
 					} catch (Exception ex) {
-						throw new RuntimeException(ex.getMessage() + "error happened: "
-								+ blockNode.getNodeName() + " value: "
-								+ blockNode.getNodeValue() + " type: "
-								+ blockNode.getNodeName() + "content: "
-								+ blockNode.getTextContent());
+						throw new RuntimeException(ex.getMessage()
+								+ "error happened: " + blockNode.getNodeName()
+								+ " value: " + blockNode.getNodeValue()
+								+ " type: " + blockNode.getNodeName()
+								+ "content: " + blockNode.getTextContent());
 					}
 				}
 
@@ -898,15 +894,15 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		return s.replaceAll("&", "&amp;").replaceAll("<", "&lt;")
 				.replaceAll(">", "&gt;");
 	}
-	
-	public String getSuperClassName(){
+
+	public String getSuperClassName() {
 		return this.superClass;
 	}
 
-	public void setSuperClassName(String name){
+	public void setSuperClassName(String name) {
 		this.superClass = name;
 	}
-	
+
 	public String getSaveString() {
 		StringBuffer buf = new StringBuffer();
 
@@ -1265,36 +1261,36 @@ class PageJComponent extends JLayeredPane implements RBParent {
 		return image;
 	}
 
-	public void clearArrow(Object arrow){
+	public void clearArrow(Object arrow) {
 		Component[] allComponents = getComponents();
-		Object[] arrows = getAllArrow(); 
-		for(Object o : arrows){
-			if(o.equals(arrow)){
-				remove((Component)o);
+		Object[] arrows = getAllArrow();
+		for (Object o : arrows) {
+			if (o.equals(arrow)) {
+				remove((Component) o);
 				break;
 			}
 		}
 	}
-	
-	public void clearArrowLayer(){
+
+	public void clearArrowLayer() {
 		Component[] allComponents = getComponents();
-		Object[] arrows = getAllArrow(); 		
-		for(Object arrow : arrows){
-			remove((Component)arrow);
+		Object[] arrows = getAllArrow();
+		for (Object arrow : arrows) {
+			remove((Component) arrow);
 		}
 	}
-	
-	public Object[] getAllArrow(){
+
+	public Object[] getAllArrow() {
 		Component[] allComponents = getComponents();
 		List<Component> arrows = new ArrayList<Component>();
-		for(Component cmp : allComponents){
-			if(cmp instanceof ArrowObject){
+		for (Component cmp : allComponents) {
+			if (cmp instanceof ArrowObject) {
 				arrows.add(cmp);
 			}
 		}
 		return arrows.toArray();
 	}
-	
+
 	/**
 	 * renders this JComponent
 	 */
@@ -1343,8 +1339,8 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	public void addToBlockLayer(Component c) {
 		this.add(c, BLOCK_LAYER);
 	}
-	
-	public void addToArrowLayer(Component c){
+
+	public void addToArrowLayer(Component c) {
 		this.add(c);
 		this.setLayer(c, ARROW_LAYER);
 	}
