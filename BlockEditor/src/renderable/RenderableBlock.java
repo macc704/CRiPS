@@ -2109,9 +2109,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					Workspace.getInstance().getMiniMap()
 							.animateAutoCenter(this);
 				}
-
-//				//矢印再描画
-//				updateEndArrowPoints(getBlockID(), link);
 			}
 		}
 		pickedUp = false;
@@ -2131,11 +2128,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
 		if (checkScope(link)) {
 			link.connect();
-
-			Workspace.getInstance().notifyListeners(
-					new WorkspaceEvent(widget, link,
-							WorkspaceEvent.BLOCKS_CONNECTED));
 			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
+			
+			Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, link,WorkspaceEvent.BLOCKS_CONNECTED));
 		} else {
 			// moveSocketBlocks(this);
 			blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID)

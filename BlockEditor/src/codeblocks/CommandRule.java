@@ -1,5 +1,6 @@
 package codeblocks;
 
+import drawingobjects.DrawingArrowManager;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceListener;
 
@@ -66,6 +67,7 @@ public class CommandRule implements LinkRule, WorkspaceListener {
 				link = BlockLink.getBlockLink(top, bottom,
 						top.getAfterConnector(), bottom.getBeforeConnector());
 				link.connect();
+				DrawingArrowManager.updatePossessers();
 			}
 		}
 	}

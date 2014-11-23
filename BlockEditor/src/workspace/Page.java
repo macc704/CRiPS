@@ -716,7 +716,6 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 	/** @ovverride WorkspaceWidget.removeBlock() */
 	public void removeBlock(RenderableBlock block) {
-		System.out.println(block);
 		if (block != null) {
 			Iterable<BlockConnector> sockets = block.getBlock().getSockets();
 			if (sockets != null) {
