@@ -45,7 +45,7 @@ public class WorkspaceEnvironment {
     // Block
 
     private final Map<Long, Block> allBlocks = new HashMap<Long, Block>();
-    private static long NEXT_ID = 1;
+    private long NEXT_ID = 1;
 
     public Block getBlock(Long blockID) {
         return this.allBlocks.get(blockID);
@@ -117,6 +117,10 @@ public class WorkspaceEnvironment {
     public void removeBlockStubs(String parentName) {
     	this.parentNameToBlockStubs.remove(parentName);
     }
+    
+    public long getNextID(){
+    	return this.NEXT_ID++;
+    }
 
     public void resetAll() {
 
@@ -127,7 +131,7 @@ public class WorkspaceEnvironment {
 
         //Block.reset();
         this.allBlocks.clear();
-        WorkspaceEnvironment.NEXT_ID = 1;
+        this.NEXT_ID = 1;
 
         //BlockStub.reset();
         this.parentNameToParentBlock.clear();

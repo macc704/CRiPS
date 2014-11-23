@@ -34,11 +34,12 @@ public class ProgramRunnner extends Thread{
 		engine.out = new PrintStream(baos);
 		
 		List<ExecutionListener> debugger = new ArrayList<ExecutionListener>();
-		stepDebugger = new BlockEditorDebbugger(getStartMethodBlock(), wc.getWorkspace());
+		stepDebugger = new BlockEditorDebbugger(wc.getWorkspace());
 		debugger.add(stepDebugger);
 		
 		engine.listeners = debugger;
-		engine.execute(classDec);		
+		engine.execute(classDec);
+		engine.listeners.clear();
 	}
 	
 	public RenderableBlock getStartMethodBlock(){

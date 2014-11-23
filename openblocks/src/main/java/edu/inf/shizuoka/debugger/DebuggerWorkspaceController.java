@@ -49,11 +49,12 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 			dec.members.add((UniFuncDec) node);
 		}
 		
-		UniToBlockParser.parse(dec);
+		UniToBlockParser parser = new UniToBlockParser();
+		
+		parser.parse(dec);
 		
 		return dec;
 	}
-	
 	
 	private void createDebugGUI() {
 
@@ -66,7 +67,6 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 		frame.add(getDebugButtonPanel(), BorderLayout.PAGE_START);
 		
 		frame.setVisible(true);
-		
 	}
 	
 	protected JComponent getDebugButtonPanel() {
@@ -78,6 +78,7 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 		buttonPanel.add(button);
 		return buttonPanel;
 	}
+
 	
 	public void runProgram(UniClassDec exeClass){
 		ProgramRunnner runnner = new ProgramRunnner(exeClass, this);
