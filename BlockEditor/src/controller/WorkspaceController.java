@@ -717,6 +717,7 @@ public class WorkspaceController {
 		{// create showing method trace line bottun
 			final JToggleButton showTraceLineButton = new JToggleButton(
 					"hide trace line");
+			showTraceLineButton.setSelected(!DrawingArrowManager.isActive());
 			showTraceLineButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
