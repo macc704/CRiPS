@@ -14,18 +14,6 @@ public class CommandRule implements LinkRule, WorkspaceListener {
 		if (!BlockConnectorShape.isCommandConnector(socket1)
 				|| !BlockConnectorShape.isCommandConnector(socket2))
 			return false;
-		// We want exactly one before connector
-
-		//		if(block1.getGenusName().startsWith("getterlocal")){
-		//			Block block = block2;
-		//			while(block != null){
-		//				if(block.getGenusName().toString().equals("procedure")){
-		//					System.out.println(block.getGenusName().toString());
-		//				}
-		//				block = Block.getBlock(block.getBeforeConnector().getBlockID());
-		//			}
-		//		}
-
 		if (socket1 == block1.getBeforeConnector()) {
 			return !socket1.hasBlock();
 		} else if (socket2 == block2.getBeforeConnector()) {

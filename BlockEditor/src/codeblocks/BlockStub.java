@@ -410,8 +410,7 @@ public class BlockStub extends Block {
 	 * @param parentID
 	 */
 	public static void parentConnectorsChanged(Long parentID) {
-		String key = Block.getBlock(parentID).getBlockLabel()
-				+ Block.getBlock(parentID).getGenusName();
+		String key = Block.getBlock(parentID).getBlockLabel()+ Block.getBlock(parentID).getGenusName();
 
 		// update each stub only if stub is a caller (as callers are the only
 		// type of stubs that

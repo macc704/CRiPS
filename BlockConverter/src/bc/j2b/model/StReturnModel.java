@@ -22,6 +22,7 @@ public class StReturnModel extends StatementModel {
 	public void print(PrintStream out, int indent) {
 		// Child
 		if (getReturnValue() != null) {
+			getReturnValue().setConnectorId(getId());
 			getReturnValue().print(out, indent);
 		}
 

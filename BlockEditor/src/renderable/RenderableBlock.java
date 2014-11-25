@@ -94,7 +94,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private static final float DRAGGING_ALPHA = 0.66F;
 	/** Mapping from blockID to the corresponding RenderableBlock instance */
 	private static final Map<Long, RenderableBlock> ALL_RENDERABLE_BLOCKS = new HashMap<Long, RenderableBlock>();
-	
+
 	// /////////////////////
 	// COMPONENT FIELDS
 	/** BlockID of this. MAY BE Block.NULL */
@@ -231,14 +231,15 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		startArrows.clear();
 		endArrows.clear();
 	}
-	
-	public void resetArrowPosition(){
-//		for (ArrowObject arrow : startArrows) {
-//			arrow.resetPoint(arrow.getStartPoint(), arrow.getEndPoint());
-//		}
+
+	public void resetArrowPosition() {
+		//		for (ArrowObject arrow : startArrows) {
+		//			arrow.resetPoint(arrow.getStartPoint(), arrow.getEndPoint());
+		//		}
 
 		for (ArrowObject arrow : endArrows) {
-			arrow.resetPoint(DrawingArrowManager.calcCallerBlockPoint(this), arrow.getEndPoint());
+			arrow.resetPoint(DrawingArrowManager.calcCallerBlockPoint(this),
+					arrow.getEndPoint());
 		}
 	}
 
@@ -381,7 +382,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public Long getBlockID() {
 		return blockID;
 	}
-	
 
 	/**
 	 * Returns the height of the block shape of this
@@ -451,7 +451,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		dx = x - getX();
 		dy = y - getY();
 		super.setLocation(x, y);
-		
+
 		if (hasComment() && !(dx == x && dy == y)) {
 			if (getComment().getParent() != getParent()) {
 				getComment().setParent(getParent(),
@@ -459,7 +459,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			}
 			getComment().translatePosition(dx, dy);
 		}
-		
+
 	}
 
 	/**
@@ -634,9 +634,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				if (SocketLabel.ignoreSocket(socket)) {
 					tag.setLabel(null); // ignored sockets have no labels
 				} else {
-					SocketLabel label = new SocketLabel(socket,
-							socket.getLabel(), BlockLabel.Type.PORT_LABEL,
-							socket.isLabelEditable(), blockID);
+					SocketLabel label = new SocketLabel(socket, socket.getLabel(), BlockLabel.Type.PORT_LABEL, socket.isLabelEditable(), blockID);
 					String argumentToolTip = getBlock().getArgumentDescription(
 							i);
 					if (argumentToolTip != null) {
@@ -654,9 +652,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				if (!SocketLabel.ignoreSocket(socket)) {
 					// ignored bottom sockets or sockets with label == ""
 					if (label == null) {
-						label = new SocketLabel(socket, socket.getLabel(),
-								BlockLabel.Type.PORT_LABEL,
-								socket.isLabelEditable(), blockID);
+						label = new SocketLabel(socket, socket.getLabel(), BlockLabel.Type.PORT_LABEL, socket.isLabelEditable(), blockID);
 						String argumentToolTip = getBlock()
 								.getArgumentDescription(i);
 						if (argumentToolTip != null) {
@@ -1188,7 +1184,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (!isConnected) {
 			// remove the mapping
 			this.getConnectorTag(connectedSocket).setDimension(null);
-
 		} else {
 			// Block connectedToBlock = Block.getBlock(connectedToBlockID);
 			// if no before block, then no recursion
@@ -1392,10 +1387,58 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		// once
 		getBlock().blockDisconnected(disconnectedSocket);
 
+//		resetReturnType(disconnectedSocket);
+		
 		updateSocketSpace(disconnectedSocket, Block.NULL, false);
 
 		// synchronize sockets
 		synchronizeSockets();
+	}
+
+	public void resetReturnType(BlockConnector disconnectedSocket) {
+		RenderableBlock topBlock = getTopBlock(getBlock());
+		if (topBlock != null && topBlock.getBlock().getGenusName().equals("procedure")) {
+			String returnType = getReturnType(topBlock);
+			BlockStub.parentPlugChanged(topBlock.blockID, returnType);
+		}
+	}
+
+	public String getReturnType(RenderableBlock procedureBlock) {
+		return calcReturnType( searchBlocks(procedureBlock.getBlock(), "return"));
+	}
+	
+	private String calcReturnType(List<RenderableBlock> blocks){
+		if(blocks.size()> 0){
+			boolean isSame = true;
+			String tmp = blocks.get(0).getBlock().getSocketAt(0).getKind();
+			for(RenderableBlock block : blocks){
+				isSame &= (block.getBlock().getSocketAt(0).getKind().equals(tmp) && !block.getBlock().getSocketAt(0).getKind().equals( "poly"));
+			}
+			if(isSame){
+				return tmp;
+			}
+		}
+		//blockのサイズが0なのはコマンド
+		return "cmd";
+	}
+
+	public List<RenderableBlock> searchBlocks(Block block,
+			String searchGenusName) {
+		List<RenderableBlock> results = new ArrayList<RenderableBlock>();
+		while (block != null) {
+			if (searchGenusName.equals(block.getGenusName())) {
+				results.add(RenderableBlock.getRenderableBlock(block.getBlockID()));
+			}
+
+			Iterator<BlockConnector> sockets = block.getSockets().iterator();
+			while (sockets.hasNext()) {
+				results.addAll(searchBlocks(Block.getBlock(sockets.next().getBlockID()),searchGenusName));
+			}
+
+			block = Block.getBlock(block.getAfterBlockID());
+		}
+
+		return results;
 	}
 
 	// /////////////////
@@ -1912,7 +1955,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void visibleEndArrowPoint(long parentBlockID, boolean isActive) {
-		RenderableBlock parent = RenderableBlock.getRenderableBlock(parentBlockID);
+		RenderableBlock parent = RenderableBlock
+				.getRenderableBlock(parentBlockID);
 		ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
 		Point p = new Point(getLocation());
 		p.x += getWidth();
@@ -1922,45 +1966,46 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
-	
-	public void updateEndArrowPoint(){
-		if(hasArrows()){
-			for(ArrowObject arrow : endArrows){
-				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(getBlockID()));			
+	public void updateEndArrowPoint() {
+		if (hasArrows()) {
+			for (ArrowObject arrow : endArrows) {
+				DrawingArrowManager.thinArrows(RenderableBlock
+						.getRenderableBlock(getBlockID()));
 			}
 		}
 	}
-	
-	
+
 	public void updateEndArrowPoints(long parentBlockID, int concentration) {
 		Block block = Block.getBlock(parentBlockID);
-		if(block != null){
-			do{
+		if (block != null) {
+			do {
 				//ソケットを持っていたらソケット内をアップデートする
 				Iterable<BlockConnector> socks = block.getSockets();
-				
-				if(socks != null){
+
+				if (socks != null) {
 					Iterator<BlockConnector> sockets = socks.iterator();
-					while(sockets.hasNext()){
-						updateEndArrowPoints(sockets.next().getBlockID(), concentration);		
+					while (sockets.hasNext()) {
+						updateEndArrowPoints(sockets.next().getBlockID(),
+								concentration);
 					}
 				}
-								
-				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(block.getBlockID()));
+
+				DrawingArrowManager.thinArrows(RenderableBlock
+						.getRenderableBlock(block.getBlockID()));
 				block = Block.getBlock(block.getAfterBlockID());
-			}while(block != null);			
+			} while (block != null);
 		}
 	}
 
 	public static RenderableBlock getTopBlock(Block block) {
 		Block tmpBlock = block;
-		while (tmpBlock.getBeforeBlockID() != -1) {
-			tmpBlock = Block.getBlock(tmpBlock.getAfterBlockID());
+		while (tmpBlock.getBeforeBlockID() != -1
+				&& tmpBlock.getBeforeBlockID() != null) {
+			tmpBlock = Block.getBlock(tmpBlock.getBeforeBlockID());
 		}
 		return RenderableBlock.getRenderableBlock(tmpBlock.getBlockID());
 	}
-	
-	
+
 	public static RenderableBlock getLastBlock(Block block) {
 		Block tmpBlock = block;
 		while (tmpBlock.getAfterBlockID() != -1) {
@@ -2018,8 +2063,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
-
-	
 	// /////////////////
 	// MOUSE EVENTS //
 	// /////////////////
@@ -2121,7 +2164,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			add(popup);
 			popup.show(this, e.getX(), e.getY());
 		}
-//		Workspace.getInstance().getMiniMap().repaint();
+		//		Workspace.getInstance().getMiniMap().repaint();
 
 	}
 
@@ -2129,15 +2172,16 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (checkScope(link)) {
 			link.connect();
 			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
-			
-			Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, link,WorkspaceEvent.BLOCKS_CONNECTED));
+
+			Workspace.getInstance().notifyListeners(
+					new WorkspaceEvent(widget, link,
+							WorkspaceEvent.BLOCKS_CONNECTED));
 		} else {
 			// moveSocketBlocks(this);
 			blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID)
 					.getY()
 					+ RenderableBlock.getRenderableBlock(blockID).getWidth(),
 					"down");
-
 		}
 	}
 
@@ -2148,20 +2192,20 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				.getBlock(checkBlock.getAfterBlockID())) {
 			// 抽象化ブロックの場合は、抽象化ブロック内を全てチェックしなければいけない
 			if (checkBlock.getGenusName().equals("abstraction")) {
-				scopeCheck &= checkBlocks( link, checkBlock);
+				scopeCheck &= checkBlocks(link, checkBlock);
 			}
 
 			boolean check = true;
 			// ブロックがソケットをもつ場合は、ソケット内で参照ブロックが使われているかもしれないのでチェック
 			check &= checkVariableBlocksScope(link, checkBlock);
 			scopeCheck &= check;
-			
+
 			check = true;
 			check &= ScopeChecker.checkScope(
 					Block.getBlock(link.getSocketBlockID()), checkBlock);
-			
+
 			scopeCheck &= check;
-			
+
 		}
 		return scopeCheck;
 	}
@@ -2200,12 +2244,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			if (socket.hasBlock()) {
 				scopeCheck &= checkVariableBlocksScope(link,
 						Block.getBlock(socket.getBlockID()));// ソケットのブロックのスコープをチェックする
-				
+
 				scopeCheck &= ScopeChecker.checkScope(
 						Block.getBlock(link.getSocketBlockID()),
 						Block.getBlock(socket.getBlockID()));
-				
-				
+
 			}
 		}
 
@@ -2231,14 +2274,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				return;
 			}
 
-//			Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
-//					Workspace.getInstance().getMiniMap());
-//			if (Workspace.getInstance().getMiniMap().contains(pp)) {
-//				Workspace.getInstance().getMiniMap()
-//						.blockDragged(this, e.getPoint());
-//				lastDragWidget = Workspace.getInstance().getMiniMap();
-//				return;
-//			}
+			//			Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
+			//					Workspace.getInstance().getMiniMap());
+			//			if (Workspace.getInstance().getMiniMap().contains(pp)) {
+			//				Workspace.getInstance().getMiniMap()
+			//						.blockDragged(this, e.getPoint());
+			//				lastDragWidget = Workspace.getInstance().getMiniMap();
+			//				return;
+			//			}
 
 			// drag this block if appropriate (checks bounds first)
 			dragHandler.mouseDragged(e);
@@ -2276,7 +2319,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 			// drag this block and all attached to it
 			drag(this, dragHandler.dragDX, dragHandler.dragDY, widget, true);
-			
+
 		}
 
 		Workspace.getInstance().repaint(0, 0,
@@ -2326,6 +2369,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		getReturnType(this);
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mouseClicked(e);
 			if (e.getClickCount() == 2 && !dragging) {

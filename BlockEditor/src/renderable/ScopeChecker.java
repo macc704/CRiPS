@@ -17,13 +17,13 @@ public class ScopeChecker {
 		String compareBlockName;
 		Block compareBlock = cmpBlock;
 		//参照ブロック、private変数ブロックでない場合はスコープを確認
-		if (isCompareBlock(cmpBlock)
-				&& !cmpBlock.getGenusName().contains("private")) {
+		if (isCompareBlock(cmpBlock) && !cmpBlock.getGenusName().contains("private")) {
 			//直前のブロックがプラグを持っている場合、そちらが直前のブロックになる
 			if (Block.getBlock(beforeBlock.getPlugBlockID()) != null) {
 				beforeBlock = purcePlugBlock(beforeBlock);
 				originBlock = beforeBlock;
 			}
+			
 			//離れ小島のブロックの場合はtrueを返す
 			if (isIndependentBlock(beforeBlock)) {
 				return true;
@@ -128,7 +128,7 @@ public class ScopeChecker {
 
 		Block checkBlock = cmpBlock;
 
-		if (cmpBlock.getPlugBlockID() != -1) {
+		if (cmpBlock.getPlugBlockID() != -1 ) {
 			while (cmpBlock.getPlugBlockID() != -1) {
 				cmpBlock = Block.getBlock(cmpBlock.getPlugBlockID());
 			}
