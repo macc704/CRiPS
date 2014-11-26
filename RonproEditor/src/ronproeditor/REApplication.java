@@ -385,10 +385,12 @@ public class REApplication implements ICFwApplication {
 		cocoViewerManager = new RECocoViewerManager(this);
 		checoproManager = new RECheCoProManager(this);
 
-		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
-				"*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
-				"*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3",
-				"*.csv"));
+		this.sourceManager.setFileFilter(CFileFilter
+				.ACCEPT_BY_NAME_FILTER("*.java"));
+		// this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
+		// "*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
+		// "*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3",
+		// "*.csv"));
 		// this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*",
 		// "CVS", "bin"));
 		// @TODO ‚«‚¿‚ñ‚ÆŽÀ‘•‚·‚é‚±‚Æ 2011/11/22
@@ -825,7 +827,13 @@ public class REApplication implements ICFwApplication {
 		// frame.getConsole());
 		// }
 
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
+		RECommandExecuter
+				.executeCommand(
+						commands,
+						env.dir,
+						frame.getConsole(),
+						frame.getConsole().getFontMetrics(
+								frame.getConsole().getFont()));
 
 		generefManager.handleCompileDone();
 	}
@@ -862,7 +870,12 @@ public class REApplication implements ICFwApplication {
 		console.setErr(new PrintStream(out));
 
 		try {
-			RECommandExecuter.executeCommandWait(commands, env.dir, console, getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
+			RECommandExecuter.executeCommandWait(
+					commands,
+					env.dir,
+					console,
+					getFrame().getConsole().getFontMetrics(
+							getFrame().getConsole().getFont()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -927,8 +940,14 @@ public class REApplication implements ICFwApplication {
 		commands.add("-classpath");
 		commands.add(cp);
 		commands.add(env.runnable);
-		
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
+
+		RECommandExecuter
+				.executeCommand(
+						commands,
+						env.dir,
+						frame.getConsole(),
+						frame.getConsole().getFontMetrics(
+								frame.getConsole().getFont()));
 		writePresLog(PRCommandLog.SubType.START_RUN);// TODO
 	}
 
