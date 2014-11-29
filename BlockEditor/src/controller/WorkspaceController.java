@@ -74,6 +74,7 @@ import codeblocks.InfixRule;
 import codeblocks.SocketRule;
 import drawingobjects.ArrowObject;
 import drawingobjects.DrawingArrowManager;
+import drawingobjects.MultiJointArrowObject;
 
 /**
  * 
@@ -853,16 +854,13 @@ public class WorkspaceController {
 					.getJComponent();
 			//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
 			BlockStub stub = (BlockStub) (callerBlock.getBlock());
-			RenderableBlock parentBlock = searchMethodDefinidionBlock(stub);
+			RenderableBlock parentBlock = RenderableBlock.getRenderableBlock(stub.getParent().getBlockID());
 			if (parentBlock != null) {
 				//呼び出しブロックの座標
-				Point p1 = DrawingArrowManager
-						.calcCallerBlockPoint(callerBlock);
-
+				Point p1 = DrawingArrowManager.calcCallerBlockPoint(callerBlock);
 				//呼び出し関数の定義ファイル
-				Point p2 = DrawingArrowManager
-						.calcDefinisionBlockPoint(parentBlock);
-				ArrowObject arrow = new ArrowObject(p1, p2);
+				Point p2 = DrawingArrowManager.calcDefinisionBlockPoint(parentBlock);
+				ArrowObject arrow = new MultiJointArrowObject(p1, p2);
 				Page parentPage = (Page) callerBlock.getParentWidget();
 				parentPage.addArrow(arrow);
 
@@ -898,8 +896,7 @@ public class WorkspaceController {
 		List<String> params = calcParamTypes(stub);
 
 		for (Block block : workspace.getBlocks()) {
-			RenderableBlock rb = RenderableBlock.getRenderableBlock(block
-					.getBlockID());
+			RenderableBlock rb = RenderableBlock.getRenderableBlock(block.getBlockID());
 			if (rb.getGenus().equals("procedure")
 					&& rb.getBlock().getBlockLabel().equals(name)
 					&& checkParameterType(block, params)) {

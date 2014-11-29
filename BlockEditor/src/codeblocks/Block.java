@@ -686,7 +686,7 @@ public class Block implements ISupportMemento {
 		// stubs use this as a reference to update
 		// its own sockets
 		// if block has stubs, update its stubs as well
-		if (hasStubs()){
+		if (hasStubs() && "BOTTOM".equals(disconnectedSocket.getPositionType())){
 				BlockStub.parentConnectorsChanged(blockID);	
 		}
 	}

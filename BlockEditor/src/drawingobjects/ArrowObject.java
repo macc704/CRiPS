@@ -20,13 +20,31 @@ public class ArrowObject extends JComponent {
 	private static final long serialVersionUID = -1745361279120477995L;
 	private Point startPoint;// 起点
 	private Point endPoint;// 終点
-	private Color arrowCollor = Color.RED;
+
+	
+	private static Color thinColor = new Color(255,255,0,30);
+	private static Color normalColor = new Color(255,255,0, 255);
+	private Color arrowColor = normalColor;
+	
 	
 	public ArrowObject(Point startPoint, Point endPoint) {
 		setBounds(Workspace.getInstance().getBlockCanvas().getCanvas().getBounds());
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		setDoubleBuffered(true);
+	}
+	
+	public Color getArrowColor(){
+		return this.arrowColor;
+	}
+	
+	public void chengeColor(boolean isThin){
+		if(isThin){
+			arrowColor = thinColor;
+		}else{
+			arrowColor = normalColor;
+		}
+		
 	}
 	
 	public void resetPoint(Point startPoint, Point endPoint){
@@ -36,14 +54,6 @@ public class ArrowObject extends JComponent {
 	
 	public Point getStartPoint(){
 		return this.startPoint;
-	}
-	
-	public void setColor(Color color){
-		this.arrowCollor = color;
-	}
-	
-	public Color getColor(){
-		return this.arrowCollor;
 	}
 	
 	public Point getEndPoint(){
@@ -60,12 +70,10 @@ public class ArrowObject extends JComponent {
 		this.endPoint.y += dy;
 	}
 
-	public void setEndPoint(Point p) {
-		this.endPoint = p;
-	}
 
 	public void setStartPoint(Point p) {
-		this.startPoint = p;
+		this.startPoint.x = p.x;
+		this.startPoint.y = p.y;
 	}
 
 	public void paintComponent(Graphics g) {
@@ -94,15 +102,39 @@ public class ArrowObject extends JComponent {
 		Point2D p2 = util.getPoint2();
 		Point2D p3 = util.getPoint3();
 
-		graphic.setColor(arrowCollor);
+		graphic.setColor(arrowColor);
 		// arrowLengthの変更（ベクトルの向きに応じて変更）
+		int dx = getMiddleDx();
+		int dy = getMiddleDy();
+		
 		graphic.drawLine(getStartPoint().x, getStartPoint().y, getEndPoint().x, getEndPoint().y);
-		graphic.drawLine(getEndPoint().x, getEndPoint().y, (int) p2.getX(),
-				(int) p2.getY());
-		graphic.drawLine(getEndPoint().x, getEndPoint().y, (int) p3.getX(),
-				(int) p3.getY());
+		graphic.drawLine(getEndPoint().x + dx,  getEndPoint().y + dy, (int) p2.getX() + dx,(int) p2.getY() + dy);
+		graphic.drawLine(getEndPoint().x + dx,  getEndPoint().y + dy, (int) p3.getX() + dx,(int) p3.getY() + dy);
 		
 		Workspace.getInstance().getBlockCanvas().getCanvas().repaint();
+	}
+	
+	public int getMiddleDy(){
+		int yLength = Math.abs(getEndPoint().y - getStartPoint().y);
+		int dy = 0;
+		if(getEndPoint().y > getStartPoint().y){
+			dy = -yLength/2;
+		}else if(getEndPoint().y < getStartPoint().y){
+			dy = yLength/2;
+		}
+		return dy;
+	}
+	
+	public int getMiddleDx(){
+		int xLength = Math.abs(getEndPoint().x - getStartPoint().x);
+		int dx = 0;
+		if(getEndPoint().x > getStartPoint().x){
+			dx = -xLength/2;
+		}else if(getEndPoint().x < getStartPoint().x){
+			dx = xLength/2;
+		}
+		
+		return dx;
 	}
 	
 	public static Container getOrigin(JComponent cmp){
