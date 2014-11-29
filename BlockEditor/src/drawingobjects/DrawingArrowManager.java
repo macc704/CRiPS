@@ -94,7 +94,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 				isThin = true;
 			}
 			{//孤島かどうか
-				while (rBlock != null && rBlock.getBlock().getPlug()!= null  && "SINGLE".equals(rBlock.getBlock().getPlug().getPositionType().toString())) {
+				while (rBlock != null && rBlock.getBlock().getPlug()!= null) {
 					rBlock = RenderableBlock.getRenderableBlock(rBlock.getBlock().getPlugBlockID());
 				}
 				//rblock == null は独立した引数ブロック 
@@ -170,10 +170,8 @@ public class DrawingArrowManager implements WorkspaceListener {
 
 	public static boolean isRecursiveFunction(Block topBlock, Block callerBlock){
 		if(callerBlock instanceof BlockStub && topBlock.getBlockID().equals(((BlockStub)callerBlock).getParentBlockID())){
-				System.out.println(true);
 			return true;
 		}
-		System.out.println(false);
 		return false;
 	}
 	

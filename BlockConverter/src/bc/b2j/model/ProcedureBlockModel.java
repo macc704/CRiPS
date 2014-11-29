@@ -71,10 +71,10 @@ public class ProcedureBlockModel extends CommandBlockModel {
 		makeIndent(out, indent);
 		if (isCollapsed()) {
 			out.print("}//" + getComment() + " @(" + getX() + ", " + getY()
-					+ ")" + " [close]");
+					+ ")" + " [close]" + System.getProperty("line.separator"));
 		} else {
 			out.print("}//" + getComment() + " @(" + getX() + ", " + getY()
-					+ ")" + " [open]");
+					+ ")" + " [open]" + System.getProperty("line.separator"));
 		}
 
 	}

@@ -2,6 +2,7 @@ package workspace;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -16,6 +17,8 @@ import renderable.FactoryRenderableBlock;
 import renderable.RenderableBlock;
 import codeblocks.Block;
 import codeblocks.BlockGenus;
+import codeblocks.BlockLink;
+import codeblocks.BlockLinkChecker;
 
 /**
  * Utilities class that provides the loading and saving of pages and drawers
@@ -203,6 +206,7 @@ public class PageDrawerLoadingUtils {
 				p.addLoadedBlocks(blocksForPages.get(p), false);
 			}
 		}
+
 	}
 
 	public static void loadBlockDrawerSets(Element root, FactoryManager manager) {

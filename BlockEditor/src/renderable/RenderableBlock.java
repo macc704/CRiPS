@@ -1923,7 +1923,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public void updateEndArrowPoint() {
 		if (hasArrows()) {
 			RenderableBlock  topBlock = getTopBlock(getBlock());
-			if(DrawingArrowManager.isRecursiveFunction(getTopBlock(getBlock()).getBlock(), getBlock())){
+			if(topBlock != null && DrawingArrowManager.isRecursiveFunction(topBlock.getBlock(), getBlock())){
 				for(ArrowObject arrow : originArrows){
 					Point startJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
 					Point endJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
@@ -1960,8 +1960,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	public static RenderableBlock getTopBlock(Block block) {
 		Block tmpBlock = block;
-		while (tmpBlock.getBeforeBlockID() != -1
-				&& tmpBlock.getBeforeBlockID() != null) {
+		if(tmpBlock == null){
+			return null;
+		}
+		while ((tmpBlock.getBeforeBlockID() != -1 && tmpBlock.getBeforeBlockID() != null)) {
 			tmpBlock = Block.getBlock(tmpBlock.getBeforeBlockID());
 		}
 		return RenderableBlock.getRenderableBlock(tmpBlock.getBlockID());
@@ -2328,7 +2330,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(DrawingArrowManager.isRecursiveFunction(getTopBlock(getBlock()).getBlock(), getBlock()));
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mouseClicked(e);
 			if (e.getClickCount() == 2 && !dragging) {

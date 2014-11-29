@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import renderable.RenderableBlock;
-import slcodeblocks.PolyRule;
-import slcodeblocks.ProcedureOutputManager;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import codeblocks.BlockConnector.PositionType;
