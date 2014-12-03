@@ -664,10 +664,8 @@ public class Block implements ISupportMemento {
 		// stubs use this as a reference to update
 		// its own sockets
 		// if block has stubs, update its stubs as well
-		
-		if (hasStubs() && Block.getBlock(connectedBlockID).getGenusName().startsWith("proc-param")){
-			BlockStub.parentConnectorsChanged(blockID);
-		}
+		if (hasStubs() && connectedSocket.getPositionType().toString().equals("SINGLE"))
+				BlockStub.parentConnectorsChanged(blockID);
 	}
 
 	/**
@@ -677,8 +675,7 @@ public class Block implements ISupportMemento {
 	 * @param disconnectedSocket
 	 */
 	public void blockDisconnected(BlockConnector disconnectedSocket) {
-		if (disconnectedSocket.isExpandable()
-				&& canRemoveSocket(disconnectedSocket)) {
+		if (disconnectedSocket.isExpandable() && canRemoveSocket(disconnectedSocket)) {
 			if (disconnectedSocket.getExpandGroup().length() > 0)
 				shrinkSocketGroup(disconnectedSocket);
 			else
@@ -689,8 +686,9 @@ public class Block implements ISupportMemento {
 		// stubs use this as a reference to update
 		// its own sockets
 		// if block has stubs, update its stubs as well
-		if (hasStubs() && disconnectedSocket.getPositionType().equals("SINGLE"))
-			BlockStub.parentConnectorsChanged(blockID);
+		if (hasStubs() && "BOTTOM".equals(disconnectedSocket.getPositionType())){
+				BlockStub.parentConnectorsChanged(blockID);	
+		}
 	}
 
 	// //////////////////////////////

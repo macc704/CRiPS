@@ -1,6 +1,5 @@
 package drawingobjects;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -71,44 +70,40 @@ public class DrawingArrowManager implements WorkspaceListener {
 
 	public static void thinArrows(RenderableBlock rBlock) {
 		if(rBlock != null){
-			int concentration = calcConcentration(rBlock);
+			boolean isThin = calcConcentration(rBlock);
 			if (rBlock.getEndArrows().size() > 0) {
-				Point p = new Point(rBlock.getLocation());
-
+				Point p = rBlock.getLocation();
 				p.x += rBlock.getWidth();
 				p.y += rBlock.getHeight() / 2;
 
 				for (ArrowObject endArrow : rBlock.getEndArrows()) {
 					endArrow.setStartPoint(p);
-					endArrow.setColor(new Color(255, 0, 0, concentration));
+					endArrow.chengeColor(isThin);
 				}
 			}	
 		}
 	}
 
-	public static int calcConcentration(RenderableBlock rBlock) {
-		int concentration = 255;
+	public static boolean calcConcentration(RenderableBlock rBlock) {
+		boolean isThin = false;
 
 		//stub
 		if (rBlock.getBlock() instanceof BlockStub) {
 			//引数がない
 			if (hasEmptySocket(rBlock.getBlock())) {
-				concentration = 30;
+				isThin = true;
 			}
-
 			{//孤島かどうか
-				if (rBlock.getBlock().getPlug() != null && "SINGLE".equals(rBlock.getBlock().getPlug().getPositionType().toString())) {
-					rBlock = RenderableBlock.getRenderableBlock(rBlock
-							.getBlock().getPlugBlockID());
+				while (rBlock != null && rBlock.getBlock().getPlug()!= null) {
+					rBlock = RenderableBlock.getRenderableBlock(rBlock.getBlock().getPlugBlockID());
 				}
 				//rblock == null は独立した引数ブロック 
 				if (rBlock == null || ScopeChecker.isIndependentBlock(rBlock.getBlock())) {
-					concentration = 30;
+					isThin = true;
 				}
 			}
 		}
-
-		return concentration;
+		return isThin;
 	}
 
 	public static boolean hasEmptySocket(Block block) {
@@ -122,7 +117,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 
 	public static Point calcCallerBlockPoint(RenderableBlock callerblock) {
-		Point p1 = new Point(callerblock.getLocation());
+		Point p1 = callerblock.getLocation();
 		p1.x += callerblock.getWidth();
 		p1.y += callerblock.getHeight() / 2;
 
@@ -173,41 +168,21 @@ public class DrawingArrowManager implements WorkspaceListener {
 		}
 	}
 
+	public static boolean isRecursiveFunction(Block topBlock, Block callerBlock){
+		if(callerBlock instanceof BlockStub && topBlock.getBlockID().equals(((BlockStub)callerBlock).getParentBlockID())){
+			return true;
+		}
+		return false;
+	}
+	
 	public void workspaceEventOccurred(WorkspaceEvent event) {
-		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED) {
+		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED || event.getEventType() == WorkspaceEvent.BLOCK_MOVED) {
 			updatePossessers();
 		}
-
-		if (event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED) {
-			RenderableBlock socketBlock = RenderableBlock
-					.getRenderableBlock(event.getSourceLink().getSocket()
-							.getBlockID());
-			RenderableBlock plugBlock = RenderableBlock
-					.getRenderableBlock(event.getSourceLink().getPlug()
-							.getBlockID());
-
-			plugBlock.updateEndArrowPoints(plugBlock.getBlockID(),
-					calcConcentration(ScopeChecker.isIndependentBlock(plugBlock
-							.getBlock())));
-			socketBlock.updateEndArrowPoints(socketBlock.getBlockID(),
-					calcConcentration(ScopeChecker
-							.isIndependentBlock(socketBlock.getBlock())));
-		}
-
+		
 		if (event.getEventType() == WorkspaceEvent.BLOCK_REMOVED) {
-			removePossesser(RenderableBlock.getRenderableBlock(event
-					.getSourceBlockID()));
+			removePossesser(RenderableBlock.getRenderableBlock(event.getSourceBlockID()));
 		}
-	}
-
-	public int calcConcentration(boolean isAloneBlock) {
-		int concentration = 255;
-
-		if (isAloneBlock) {
-			concentration = 30;
-		}
-
-		return concentration;
 	}
 
 }

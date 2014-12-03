@@ -113,12 +113,11 @@ public class REBlockEditorManager {
 
 			public void chengeInheritance() {
 				// TODO Auto-generated method stub
-				
 			}	
-			
-			public void toggleTraceLines(String state){
-				writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
-			}
+
+			public void toggleTraceLines(String state) {
+					writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
+			}			
 
 		}, REApplication.SRC_ENCODING);
 		blockEditor.getFrame().addWindowFocusListener(
