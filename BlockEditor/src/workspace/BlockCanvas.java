@@ -24,7 +24,6 @@ import org.w3c.dom.Element;
 import renderable.RenderableBlock;
 import codeblocks.Block;
 import codeblocks.BlockLink;
-import codeblocks.BlockLinkChecker;
 import codeblockutil.CGraphite;
 import codeblockutil.CHoverScrollPane;
 import codeblockutil.CScrollPane;
