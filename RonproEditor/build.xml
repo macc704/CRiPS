@@ -58,6 +58,8 @@
     		<fileset dir="../CocoViewer/bin"/>
     		<zipfileset excludes="META-INF/*.SF" src="../CocoViewer/lib/super-csv-2.1.0.jar"/>
     		
+    		<fileset dir="../CheCoPro/bin"/>
+    		
     		<!--<fileset dir="../ReflectionSupportSystem/bin"/>-->
         </jar>
     	

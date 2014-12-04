@@ -70,7 +70,7 @@ public class RECheCoProManager {
 	public static final String DEFAULT_NAME = "";
 	public static final String DEFAULT_PASSWAOD = "";
 	public static final Color DEFAULT_COLOR = Color.WHITE;
-	public static final int DEFAULT_PORT = 10000;
+	public static final int DEFAULT_PORT = 20000;
 	public static final String IP = "localhost";
 
 	private static int CTRL_MASK = InputEvent.CTRL_MASK;
@@ -158,12 +158,14 @@ public class RECheCoProManager {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				// TODO àÍéûëﬁî
-				// conn.write(new CHSourceChanged(user, application.getFrame()
-				// .getEditor().getViewer().getText(), application
-				// .getSourceManager().getCurrentFile().getName()));
+				
+//				conn.write(new CHSourceChanged(user, application.getFrame()
+//						.getEditor().getViewer().getText(), application
+//						.getSourceManager().getCurrentFile().getName(), 1));
+				
 				if (e.getKeyCode() == KeyEvent.VK_S) {
 					if ((mod & CTRL_MASK) != 0) {
+						sendText();
 						processFilelistRequest(new CHFilelistRequest(user));
 					}
 				}
@@ -197,6 +199,14 @@ public class RECheCoProManager {
 			processFilelistRequest(new CHFilelistRequest(user));
 		}
 	}
+	
+	public void sendText() {
+		if (conn != null && isConnect()) {
+			conn.write(new CHSourceChanged(user, application.getFrame()
+				.getEditor().getViewer().getText(), application
+				.getSourceManager().getCurrentFile().getName(), 1));
+		}
+	}
 
 	// TODO ìÀä—çHéñ
 	private ActionListener copyListener = new ActionListener() {
@@ -219,6 +229,7 @@ public class RECheCoProManager {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			sendText();
 			processFilelistRequest(new CHFilelistRequest(user));
 		}
 	};

@@ -539,6 +539,7 @@ public class REApplication implements ICFwApplication {
 			// TODO è„Ç∆èdï°
 			flowManager.refreshChart();
 			
+			checoproManager.sendText();
 			checoproManager.sendFiles();
 		}
 	}
