@@ -752,6 +752,7 @@ public class RECheCoProManager {
 				if (shouldPrintSource(sender, senderCurrentFile)) {
 					chFrameMap.get(sender).getFrame().getEditor()
 							.setText(source);
+					chFrameMap.get(sender).doSave();
 				}
 			}
 		});

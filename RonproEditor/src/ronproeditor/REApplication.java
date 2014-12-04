@@ -1274,6 +1274,8 @@ public class REApplication implements ICFwApplication {
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
+		application.initializeLookAndFeel();
+		application.initializeCommands();
 		application.initializeAndOpen(dirPath);
 		// ï‘ÇËílí«â¡ÅikatoÅj
 		return application;
