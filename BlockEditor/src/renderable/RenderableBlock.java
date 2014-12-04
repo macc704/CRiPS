@@ -1922,18 +1922,18 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	public void updateEndArrowPoint() {
 		if (hasArrows()) {
-			RenderableBlock  topBlock = getTopBlock(getBlock());
-			if(topBlock != null && DrawingArrowManager.isRecursiveFunction(topBlock.getBlock(), getBlock())){
-				for(ArrowObject arrow : originArrows){
-					Point startJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
-					Point endJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
-					((MultiJointArrowObject)arrow).updateJoints(startJointPoint, endJointPoint);
-				}
-			}else{
-				for(ArrowObject arrow : originArrows){
-					((MultiJointArrowObject)arrow).resetJoiuts();
-				}
-			}
+//			RenderableBlock  topBlock = getTopBlock(getBlock());
+//			if(topBlock != null && DrawingArrowManager.isRecursiveFunction(topBlock.getBlock(), getBlock())){
+//				for(ArrowObject arrow : originArrows){
+//					Point startJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
+//					Point endJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
+//					((MultiJointArrowObject)arrow).updateJoints(startJointPoint, endJointPoint);
+//				}
+//			}else{
+//				for(ArrowObject arrow : originArrows){
+//					((MultiJointArrowObject)arrow).resetJoiuts();
+//				}
+//			}
 			DrawingArrowManager.thinArrows(this);
 		}
 	}
