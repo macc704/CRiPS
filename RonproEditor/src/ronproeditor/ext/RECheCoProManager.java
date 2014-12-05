@@ -72,6 +72,7 @@ public class RECheCoProManager {
 	public static final Color DEFAULT_COLOR = Color.WHITE;
 	public static final int DEFAULT_PORT = 20000;
 	public static final String IP = "localhost";
+	public static final int DEFAULT_LANGUAGE = 0;
 
 	private static int CTRL_MASK = InputEvent.CTRL_MASK;
 	static {
@@ -88,6 +89,7 @@ public class RECheCoProManager {
 	private String password = DEFAULT_PASSWAOD;
 	private int port = DEFAULT_PORT;
 	private Color color = DEFAULT_COLOR;
+	private int language = DEFAULT_LANGUAGE;
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 	private CHUserLogWriter logWriter;
 
@@ -426,7 +428,7 @@ public class RECheCoProManager {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CHPullDialog pullDialog = new CHPullDialog(user);
+				CHPullDialog pullDialog = new CHPullDialog(user, language);
 				boolean java = pullDialog.isJavaChecked();
 				boolean material = pullDialog.isMaterialCecked();
 				if (java || material) {
@@ -889,6 +891,7 @@ public class RECheCoProManager {
 	private static final String PASSWORD_LABEL = "CheCoPro.password";
 	private static final String PORTNUMBER_LABEL = "CheCoPro.portnumber";
 	private static final String COLOR_LABEL = "CheCoPro.color";
+	private static final String LANGUAGE_LABEL = "CheCoPro.language";
 
 	class CheCoProPreferenceCategory extends CAbstractPreferenceCategory {
 
@@ -898,6 +901,7 @@ public class RECheCoProManager {
 		private JPasswordField passField = new JPasswordField(15);
 		private JComboBox<Integer> portBox = new JComboBox<Integer>();
 		private JComboBox<String> colorBox = new JComboBox<String>();
+		private JComboBox<String> languageBox = new JComboBox<String>();
 		private JPanel panel = new CheCoProPreferencePanel();
 
 		@Override
@@ -929,6 +933,11 @@ public class RECheCoProManager {
 				colorBox.setSelectedItem(getRepository().get(COLOR_LABEL));
 				changeStringToColor(getRepository().get(COLOR_LABEL));
 			}
+			if (getRepository().exists(LANGUAGE_LABEL)) {
+				languageBox.setSelectedIndex(Integer.parseInt(getRepository()
+						.get(LANGUAGE_LABEL)));
+				language = Integer.parseInt(getRepository().get(LANGUAGE_LABEL));
+			}
 
 			port += 20000;
 		}
@@ -953,12 +962,16 @@ public class RECheCoProManager {
 			password = String.valueOf(passField.getPassword());
 			port = portBox.getSelectedIndex() + 20000;
 			changeStringToColor((String) colorBox.getSelectedItem());
+			language = languageBox.getSelectedIndex();
+			
 			getRepository().put(LOGINID_LABEL, user);
 			getRepository().put(PASSWORD_LABEL, password);
 			getRepository().put(PORTNUMBER_LABEL,
 					Integer.toString(portBox.getSelectedIndex()));
 			getRepository().put(COLOR_LABEL,
 					(String) colorBox.getSelectedItem());
+			getRepository().put(LANGUAGE_LABEL, 
+					Integer.toString(languageBox.getSelectedIndex()));
 		}
 
 		class CheCoProPreferencePanel extends JPanel {
@@ -991,11 +1004,18 @@ public class RECheCoProManager {
 				colorBox.addItem("Yellow");
 				colorBox.addItem("Orange");
 				colorPanel.add(colorBox);
-
+				
+				JPanel languagePanel = new JPanel(flowLayout);
+				languagePanel.add(new JLabel("Language : "));
+				languageBox.addItem("“ú–{Œê");
+				languageBox.addItem("English");
+				languagePanel.add(languageBox);
+				
 				this.add(namePanel, BorderLayout.CENTER);
 				this.add(passPanel, BorderLayout.CENTER);
 				this.add(portPanel, BorderLayout.CENTER);
 				this.add(colorPanel, BorderLayout.CENTER);
+				this.add(languagePanel, BorderLayout.CENTER);
 			}
 		}
 
