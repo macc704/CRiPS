@@ -46,8 +46,8 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		refreshFigure();
 		if (!init) {
 			reformRelatedBlocks();
+			Workspace.getInstance().notifyListeners(new WorkspaceEvent(RenderableBlock.getRenderableBlock(getBlockID()).getParentWidget(), WorkspaceEvent.BLOCK_COLLAPSED));
 		}
-		Workspace.getInstance().notifyListeners(new WorkspaceEvent(RenderableBlock.getRenderableBlock(getBlockID()).getParentWidget(), WorkspaceEvent.BLOCK_COLLAPSED));
 	}
 
 	// 抽象化ブロックが開閉されたとき関係するブロックをリフォームする
