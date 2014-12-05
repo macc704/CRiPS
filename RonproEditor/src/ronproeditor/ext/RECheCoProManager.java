@@ -361,12 +361,22 @@ public class RECheCoProManager {
 			menuBar.getMenu(i).setBackground(getUserColor(user));
 		}
 
-		final JToggleButton connButton = new JToggleButton("“¯Šú’†", true);
+		final String syncLabel;
+		final String nonSyncLabel;
+		if (language == 0){
+			syncLabel = "“¯Šú’†";
+			nonSyncLabel = "”ñ“¯Šú’†";
+		} else {
+			syncLabel = "sync";
+			nonSyncLabel = "async";
+		}
+		
+		final JToggleButton connButton = new JToggleButton(syncLabel, true);
 		for (CHUserState aUserState : userStates) {
 			if (user.equals(aUserState.getUser()) && !aUserState.isLogin()) {
 				connButton.doClick();
 				connButton.setEnabled(false);
-				connButton.setText("”ñ“¯Šú’†");
+				connButton.setText(nonSyncLabel);
 			}
 		}
 
@@ -379,12 +389,12 @@ public class RECheCoProManager {
 					logWriter.writeFrom(user);
 					logWriter.addRowToTable();
 					conn.write(new CHFilelistRequest(user));
-					connButton.setText("“¯Šú’†");
+					connButton.setText(syncLabel);
 				} else {
 					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
 					logWriter.writeFrom(user);
 					logWriter.addRowToTable();
-					connButton.setText("”ñ“¯Šú’†");
+					connButton.setText(nonSyncLabel);
 				}
 				if (chApplication.getFrame().getEditor() != null) {
 					chApplication.getFrame().getEditor().getViewer()
@@ -423,7 +433,14 @@ public class RECheCoProManager {
 		// }
 		// });
 
-		JButton pullButton = new JButton("æ‚è‚İ«");
+		JButton pullButton = new JButton();
+		
+		if (language == 0) {
+			pullButton.setText("æ‚è‚İ«");
+		} else {
+			pullButton.setText("Import«");
+		}
+		
 		pullButton.addActionListener(new ActionListener() {
 
 			@Override

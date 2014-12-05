@@ -20,9 +20,11 @@ public class CHPullDialog extends JDialog implements ActionListener {
 	private JCheckBox materialCheckBox = new JCheckBox("素材(画像・音楽ファイル)", true);
 	private boolean javaChecked;
 	private boolean materialChecked;
+	private int language = 0;
 
 	public CHPullDialog(String user, int language) {
 		this.user = user;
+		this.language = language;
 		initialize(language);
 	}
 
@@ -85,7 +87,7 @@ public class CHPullDialog extends JDialog implements ActionListener {
 			setJavaChecked(javaCheckBox.isSelected());
 			setMaterialChecked(materialCheckBox.isSelected());
 			if (isJavaChecked()) {
-				CHWarningDialog warningDialog = new CHWarningDialog();
+				CHWarningDialog warningDialog = new CHWarningDialog(language);
 				if (warningDialog.isOk()) {
 					this.dispose();
 				}

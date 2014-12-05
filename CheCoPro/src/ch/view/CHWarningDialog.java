@@ -16,22 +16,30 @@ public class CHWarningDialog extends JDialog implements ActionListener {
 
 	private boolean ok;
 
-	public CHWarningDialog() {
-		initialize();
+	public CHWarningDialog(int language) {
+		initialize(language);
 	}
 
-	private void initialize() {
+	private void initialize(int language) {
 		this.setTitle("Warning!");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setModal(true);
-		this.setBounds(100, 100, 350, 150);
+		this.setBounds(100, 100, 375, 150);
 		this.setResizable(false);
 
-		JLabel label = new JLabel("あなたのプロジェクトに上書きしてもよろしいですか？");
-
-		JPanel panel = new JPanel(new FlowLayout());
+		JLabel label = new JLabel();
 		JButton cancelButton = new JButton("キャンセル");
 		JButton okButton = new JButton("OK");
+		
+		if (language == 0) {
+			label.setText("あなたのプロジェクトに上書きしてもよろしいですか？");
+			cancelButton.setText("キャンセル");
+		} else {
+			label.setText("If you wish to overwrite your existing project, press OK.");
+			cancelButton.setText("CANCEL");
+		}
+		
+		JPanel panel = new JPanel(new FlowLayout());
 		panel.add(cancelButton);
 		panel.add(okButton);
 
@@ -51,7 +59,7 @@ public class CHWarningDialog extends JDialog implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		new CHWarningDialog();
+		new CHWarningDialog(0);
 	}
 
 	@Override
