@@ -135,12 +135,10 @@ public class DrawingArrowManager implements WorkspaceListener {
 		Workspace ws = Workspace.getInstance();
 		WorkspaceController wc = ws.getWorkSpaceController();
 		removeArrow(block, wc, ws);
-		wc.getWorkspace().getPageNamed(wc.calcClassName()).getJComponent()
-				.repaint();
+		wc.getWorkspace().getPageNamed(wc.calcClassName()).getJComponent().repaint();
 	}
 
-	public static void removeArrow(RenderableBlock block,
-			WorkspaceController wc, Workspace ws) {
+	public static void removeArrow(RenderableBlock block, WorkspaceController wc, Workspace ws) {
 		if (block != null) {
 			for (ArrowObject arrow : block.getEndArrows()) {
 				ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
@@ -155,28 +153,34 @@ public class DrawingArrowManager implements WorkspaceListener {
 			if (sockets != null) {
 				Iterator<BlockConnector> socketConnectors = sockets.iterator();
 				while (socketConnectors.hasNext()) {
-					removeArrow(
-							RenderableBlock.getRenderableBlock(socketConnectors
-									.next().getBlockID()), wc, ws);
+					removeArrow(RenderableBlock.getRenderableBlock(socketConnectors.next().getBlockID()), wc, ws);
 				}
 			}
 
-			if (block.getBlock().getAfterBlockID() != -1) {
-				removeArrow(RenderableBlock.getRenderableBlock(block.getBlock()
-						.getAfterBlockID()), wc, ws);
+			if (hasNoAfterBlock(block.getBlock())) {
+				removeArrow(RenderableBlock.getRenderableBlock(block.getBlock().getAfterBlockID()), wc, ws);
 			}
 		}
 	}
 
+	public static boolean hasNoAfterBlock(Block block){
+		if(block != null){
+			if (block.getAfterBlockID() != -1 || block.getAfterBlockID() != null) {
+				return true;
+			}	
+		}
+		return false;
+	}
+	
 	public static boolean isRecursiveFunction(Block topBlock, Block callerBlock){
-		if(callerBlock instanceof BlockStub && topBlock.getBlockID().equals(((BlockStub)callerBlock).getParentBlockID())){
+		if(callerBlock instanceof BlockStub && topBlock.getBlockID().equals(((BlockStub)callerBlock).getParent().getBlockID())){
 			return true;
 		}
 		return false;
 	}
 	
 	public void workspaceEventOccurred(WorkspaceEvent event) {
-		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED || event.getEventType() == WorkspaceEvent.BLOCK_MOVED) {
+		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED || event.getEventType() == WorkspaceEvent.BLOCK_MOVED || event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED) {
 			updatePossessers();
 		}
 		

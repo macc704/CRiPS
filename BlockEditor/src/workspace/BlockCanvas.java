@@ -504,9 +504,11 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
 				//再結合
 				Block returnBlock = rb.getBlock();
 				Block returnValue = Block.getBlock(rb.getBlock().getSocketAt(0).getBlockID());
-				BlockLink link = BlockLink.getBlockLink(returnBlock, returnValue, returnBlock.getSocketAt(0), returnValue.getPlug());
-				link.connect();
-				Workspace.getInstance().notifyListeners(new WorkspaceEvent(rb.getParentWidget(), link, WorkspaceEvent.BLOCKS_CONNECTED));
+				if(returnValue != null){
+					BlockLink link = BlockLink.getBlockLink(returnBlock, returnValue, returnBlock.getSocketAt(0), returnValue.getPlug());
+					link.connect();
+					Workspace.getInstance().notifyListeners(new WorkspaceEvent(rb.getParentWidget(), link, WorkspaceEvent.BLOCKS_CONNECTED));	
+				}
 			}
 		}
 		

@@ -1319,8 +1319,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				RenderableBlock.getRenderableBlock(curBlockID).redrawFromTop();
 
 				// add dimension to the mapping
-				this.getConnectorTag(socket).setDimension(
-						calcDimensionOfSocket(socket));
+				this.getConnectorTag(socket).setDimension( calcDimensionOfSocket(socket));
 			} else {
 				this.getConnectorTag(socket).setDimension(null);
 			}
@@ -1840,8 +1839,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 		Component oldParent = renderable.getParent();
 		Workspace.getInstance().addToBlockLayer(renderable);
-		renderable.setLocation(SwingUtilities.convertPoint(oldParent,
-				renderable.getLocation(), Workspace.getInstance()));
+		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
+		
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(Block.getBlock(renderable.blockID))) {
 			if (socket.hasBlock()) {
@@ -1922,18 +1921,18 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	public void updateEndArrowPoint() {
 		if (hasArrows()) {
-//			RenderableBlock  topBlock = getTopBlock(getBlock());
-//			if(topBlock != null && DrawingArrowManager.isRecursiveFunction(topBlock.getBlock(), getBlock())){
-//				for(ArrowObject arrow : originArrows){
-//					Point startJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
-//					Point endJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
-//					((MultiJointArrowObject)arrow).updateJoints(startJointPoint, endJointPoint);
-//				}
-//			}else{
-//				for(ArrowObject arrow : originArrows){
-//					((MultiJointArrowObject)arrow).resetJoiuts();
-//				}
-//			}
+			RenderableBlock  topBlock = getTopBlock(getBlock());
+			if(topBlock != null && DrawingArrowManager.isRecursiveFunction(topBlock.getBlock(), getBlock())){
+				for(ArrowObject arrow : originArrows){
+					Point startJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
+					Point endJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
+					((MultiJointArrowObject)arrow).updateJoints(startJointPoint, endJointPoint);
+				}
+			}else{
+				for(ArrowObject arrow : originArrows){
+					((MultiJointArrowObject)arrow).resetJoiuts();
+				}
+			}
 			DrawingArrowManager.thinArrows(this);
 		}
 	}
@@ -2330,13 +2329,12 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mouseClicked(e);
 			if (e.getClickCount() == 2 && !dragging) {
 				Workspace.getInstance().notifyListeners(
-						new WorkspaceEvent(this.getParentWidget(), this
-								.getBlockID(),
-								WorkspaceEvent.BLOCK_STACK_COMPILED));
+						new WorkspaceEvent(this.getParentWidget(), this.getBlockID(), WorkspaceEvent.BLOCK_STACK_COMPILED));
 			}
 		}
 	}

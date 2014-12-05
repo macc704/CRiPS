@@ -811,8 +811,7 @@ public class WorkspaceController {
 					rBlock = RenderableBlock.getRenderableBlock(parent
 							.getAfterBlockID());
 				} else {
-					rBlock = RenderableBlock.getRenderableBlock(parent.getSocketAt(
-							0).getBlockID());
+					rBlock = RenderableBlock.getRenderableBlock(parent.getSocketAt(0).getBlockID());
 				}
 				if (rBlock != null) {
 					hideTraceLines(rBlock);
@@ -822,28 +821,29 @@ public class WorkspaceController {
 	}
 
 	public void hideTraceLines(RenderableBlock rBlock) {
-		while (rBlock.getBlock().getAfterBlockID() != -1) {
-			hideTraceLine(rBlock);
-			rBlock = RenderableBlock.getRenderableBlock(rBlock.getBlock()
-					.getAfterBlockID());
-		}
+			while (rBlock != null && DrawingArrowManager.hasNoAfterBlock(rBlock.getBlock())) {
+				hideTraceLine(rBlock);
+				rBlock = RenderableBlock.getRenderableBlock(rBlock.getBlock()
+						.getAfterBlockID());
+			}
 
-		hideTraceLine(rBlock);
-
+			hideTraceLine(rBlock);	
 	}
 
 	public void hideTraceLine(RenderableBlock rBlock) {
-		if (rBlock.hasArrows()) {
-			rBlock.visibleArrows(false);
-		}
-		Iterable<BlockConnector> sockets = rBlock.getBlock().getSockets();
-		if (sockets != null) {
-			Iterator<BlockConnector> socketConnectors = sockets.iterator();
-			while (socketConnectors.hasNext()) {
-				BlockConnector socket = socketConnectors.next();
-				hideTraceLines(RenderableBlock.getRenderableBlock(socket
-						.getBlockID()));
+		if(rBlock != null){
+			if (rBlock.hasArrows()) {
+				rBlock.visibleArrows(false);
 			}
+			Iterable<BlockConnector> sockets = rBlock.getBlock().getSockets();
+			if (sockets != null) {
+				Iterator<BlockConnector> socketConnectors = sockets.iterator();
+				while (socketConnectors.hasNext()) {
+					BlockConnector socket = socketConnectors.next();
+					hideTraceLines(RenderableBlock.getRenderableBlock(socket
+							.getBlockID()));
+				}
+			}	
 		}
 	}
 
