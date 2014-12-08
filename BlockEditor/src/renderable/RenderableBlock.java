@@ -1938,8 +1938,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public Block getCommandBlock(Block block){
-		while(block.getPlug() != null && block.getPlug().getBlockID() != Block.NULL){
-			block = Block.getBlock(block.getPlug().getBlockID());
+		if(block != null){
+			while(block.getPlug() != null && block.getPlug().getBlockID() != Block.NULL){
+				block = Block.getBlock(block.getPlug().getBlockID());
+			}	
 		}
 		return block;
 	}
