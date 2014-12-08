@@ -1921,11 +1921,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	public void updateEndArrowPoint() {
 		if (hasArrows()) {
-			RenderableBlock  topBlock = getTopBlock(getBlock());
+			RenderableBlock  topBlock = getTopBlock(getCommandBlock(getBlock()));
 			if(topBlock != null && DrawingArrowManager.isRecursiveFunction(topBlock.getBlock(), getBlock())){
 				for(ArrowObject arrow : originArrows){
-					Point startJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
-					Point endJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
+					Point startJointPoint = new Point(topBlock.getLocation().x - (DrawingArrowManager.ARROW_GAP * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
+					Point endJointPoint = new Point(topBlock.getLocation().x - (DrawingArrowManager.ARROW_GAP * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
 					((MultiJointArrowObject)arrow).updateJoints(startJointPoint, endJointPoint);
 				}
 			}else{
@@ -1937,6 +1937,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
+	public Block getCommandBlock(Block block){
+		while(block.getPlug() != null && block.getPlug().getBlockID() != Block.NULL){
+			block = Block.getBlock(block.getPlug().getBlockID());
+		}
+		return block;
+	}
+	
 	public void updateEndArrowPoints(long parentBlockID, int concentration) {
 		Block block = Block.getBlock(parentBlockID);
 		if (block != null) {
@@ -2329,7 +2336,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mouseClicked(e);
 			if (e.getClickCount() == 2 && !dragging) {

@@ -19,7 +19,9 @@ public class DrawingArrowManager implements WorkspaceListener {
 
 	private static List<RenderableBlock> arrowPossesser = new ArrayList<RenderableBlock>();
 	private static boolean isActive = true;
-
+	public static int ARROW_GAP = 15;
+	
+	
 	public static void addPossesser(RenderableBlock possesser) {
 		arrowPossesser.add(possesser);
 	}
