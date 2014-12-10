@@ -355,6 +355,16 @@ public class RECheCoProManager {
 		for (int i = menuCount; i > 0; i--) {
 			menuBar.getMenu(3).remove(i);
 		}
+		
+		menuBar.getMenu(3).getItem(0).addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				chApplication.doOpenBlockEditor(user);
+			}
+		});
+		
 		menuBar.getMenu(4).remove(0);
 
 		for (int i = 0; i < menuBar.getMenuCount(); i++) {

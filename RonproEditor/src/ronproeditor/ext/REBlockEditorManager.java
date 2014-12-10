@@ -41,6 +41,7 @@ public class REBlockEditorManager {
 	private static final String IMAGES_PATH = "ext/block/images/";
 	private REApplication app;
 	private WorkspaceController blockEditor;
+	private String user = "";
 
 	public REBlockEditorManager(REApplication app) {
 		this.app = app;
@@ -75,6 +76,12 @@ public class REBlockEditorManager {
 				});
 	}
 
+	// for CheCoPro
+	public void doOpenBlockEditor(String user) {
+		this.user = user;
+		doOpenBlockEditor();
+	}
+	
 	public void doOpenBlockEditor() {
 		if (isWorkspaceOpened()) { // already opened
 			CFrameUtils.toFront(blockEditor.getFrame());
@@ -82,6 +89,7 @@ public class REBlockEditorManager {
 		}
 
 		blockEditor = new WorkspaceController(IMAGES_PATH);
+		blockEditor.setUser(user); // for CheCoPro
 		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 		blockEditor.loadFreshWorkspace();
 		blockEditor.createAndShowGUI(blockEditor, new SBlockEditorListener() {

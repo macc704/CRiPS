@@ -1200,6 +1200,11 @@ public class REApplication implements ICFwApplication {
 			deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
 		}
 	}
+	
+	// for CheCoPro
+	public void doOpenBlockEditor(String user) {
+		blockManager.doOpenBlockEditor(user);
+	}
 
 	public void doOpenFlowViewer() {
 		flowManager.doOpenFlowViewer();
