@@ -2441,8 +2441,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * @return RenderableBlock instance holding the information in blockNode;
 	 *         null if no RenderableBlock loaded
 	 */
-	public static RenderableBlock loadBlockNode(Node blockNode,
-			WorkspaceWidget parent, HashMap<Long, Long> idMapping) {
+	public static RenderableBlock loadBlockNode(Node blockNode, WorkspaceWidget parent, HashMap<Long, Long> idMapping) {
 		boolean isBlock = blockNode.getNodeName().equals("Block");
 		boolean isBlockStub = blockNode.getNodeName().equals("BlockStub");
 
