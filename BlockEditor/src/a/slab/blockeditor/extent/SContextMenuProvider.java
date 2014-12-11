@@ -126,7 +126,7 @@ public class SContextMenuProvider {
 			
 			public void actionPerformed(ActionEvent e) {
 				RenderableBlock importBlock = BlockUtilities.cloneBlock(rb.getBlock());
-				copyToClipboard(importBlock.getSaveString());
+				copyToClipboard(importBlock.getBlock().getGenusName());
 			}
 		});
 		return item;
@@ -145,7 +145,8 @@ public class SContextMenuProvider {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				String saveString = getStringFromClipboard();
+				String genusName = getStringFromClipboard();
+				createNewBlock(rb.getParentWidget(), genusName);
 			}
 		});
 		

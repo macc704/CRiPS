@@ -17,10 +17,11 @@ import clib.common.table.CCSVFileIO;
 
 public class CHFileSystem {
 
-	public static String PROJECTPATH = "runtime-EclipseApplication/final";
-	public static String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
-	public static String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
-
+	public static final String PROJECTPATH = "runtime-EclipseApplication/final";
+	public static final String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
+	public static final String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
+	public static String user;
+	
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
 				"CH/" + port);
@@ -31,8 +32,9 @@ public class CHFileSystem {
 	}
 
 	public static CDirectory getFinalProjectDir() {
+		// TODO テスト用に変更中
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/final");
+				"MyProjects/" + user);
 	}
 
 	public static CDirectory getUserDirForClient(String user) {

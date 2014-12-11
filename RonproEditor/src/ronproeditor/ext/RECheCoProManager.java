@@ -628,6 +628,9 @@ public class RECheCoProManager {
 
 	public void startCheCoPro() {
 
+		// for test
+		CHFileSystem.user = user;
+		
 		logWriter = new CHUserLogWriter(user);
 		// if (user.equals("")) {
 		// application.doOpenPreferencePage();
