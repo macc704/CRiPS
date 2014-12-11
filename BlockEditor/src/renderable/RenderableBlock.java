@@ -312,6 +312,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				BlockLabel.Type.NAME_LABEL, getBlock().isLabelEditable(),
 				blockID);
 		// arranged by sakai lab 2011/11/20
+		
 		this.headerLabel = new HeaderLabel(getBlock().getHeaderLabel(),
 				BlockLabel.Type.HEADER_LABEL, getBlock().isLabelEditable(),
 				blockID);

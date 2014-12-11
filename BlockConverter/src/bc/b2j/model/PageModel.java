@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import bc.BCSystem;
 import bc.apps.OutputSourceModel;
 
 public class PageModel extends BlockModel {
