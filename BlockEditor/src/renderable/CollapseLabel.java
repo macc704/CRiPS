@@ -46,7 +46,6 @@ public class CollapseLabel extends BlockControlLabel {
 			do {
 				block = Block.getBlock(block.getAfterBlockID());
 				collapseBlock(block.getBlockID());
-				updateArrowPoints(block.getBlockID());
 			} while (block.getAfterBlockID() != Block.NULL);
 		}
 	}
@@ -63,13 +62,11 @@ public class CollapseLabel extends BlockControlLabel {
 		rBlock = RenderableBlock.getRenderableBlock(blockID);
 		rBlock.setVisible(!isActive());
 		
-		if (rBlock.hasComment()
-				&& rBlock.getComment().getCommentLabel().isActive()) {
+		if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
 			rBlock.getComment().setVisible(!isActive());
 		}
 		
 		if(rBlock.hasArrows()){
-			updateArrowPoints(rBlock.getBlockID());
 			rBlock.visibleArrows(!isActive());
 		}
 		
@@ -79,7 +76,9 @@ public class CollapseLabel extends BlockControlLabel {
 		if (rBlock.isCollapsed()) {
 			return;
 		}
+		
 		collapseSockets(blockID);
+
 	}
 	
 	protected void updateArrowPoints(long blockID){
@@ -101,7 +100,6 @@ public class CollapseLabel extends BlockControlLabel {
 			if (socket.getBlockID() != Block.NULL) {
 				collapseBlock(socket.getBlockID());
 				collapseAfterBlocks(socket.getBlockID());
-				RenderableBlock.getRenderableBlock(socket.getBlockID()).updateEndArrowPoint();
 			}
 		}
 	}

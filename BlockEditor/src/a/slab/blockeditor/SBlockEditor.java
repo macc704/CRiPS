@@ -324,6 +324,9 @@ import controller.WorkspaceController;
  *  2014.11.04 3.3.1 ohata
  *  	・矢印修正
  *  	・多点矢印に変更 再帰に対応
+ *  2014.11.04 3.3.3 ohata
+ *  	・矢印修正
+ *  	・多点矢印に変更 再帰バグを修正　その他メソッド定義に関するバグを修正
  * 
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
@@ -344,7 +347,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "3.3.1";
+	public final static String VERSION = "3.3.2";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;

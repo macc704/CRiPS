@@ -312,6 +312,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				BlockLabel.Type.NAME_LABEL, getBlock().isLabelEditable(),
 				blockID);
 		// arranged by sakai lab 2011/11/20
+		
 		this.headerLabel = new HeaderLabel(getBlock().getHeaderLabel(),
 				BlockLabel.Type.HEADER_LABEL, getBlock().isLabelEditable(),
 				blockID);
@@ -967,8 +968,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public void updateSocketPoint(BlockConnector socket, Point2D point) {
 		ConnectorTag tag = this.getConnectorTag(socket);
 		// what if tag does not exist? should we throw exception or add new tag?
-		tag.setAbstractLocation(point);
-
+		if(tag != null)
+			tag.setAbstractLocation(point);
 	}
 
 	/**
@@ -1319,8 +1320,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				RenderableBlock.getRenderableBlock(curBlockID).redrawFromTop();
 
 				// add dimension to the mapping
-				this.getConnectorTag(socket).setDimension(
-						calcDimensionOfSocket(socket));
+				this.getConnectorTag(socket).setDimension( calcDimensionOfSocket(socket));
 			} else {
 				this.getConnectorTag(socket).setDimension(null);
 			}
@@ -1840,8 +1840,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 		Component oldParent = renderable.getParent();
 		Workspace.getInstance().addToBlockLayer(renderable);
-		renderable.setLocation(SwingUtilities.convertPoint(oldParent,
-				renderable.getLocation(), Workspace.getInstance()));
+		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
+		
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(Block.getBlock(renderable.blockID))) {
 			if (socket.hasBlock()) {
@@ -1922,11 +1922,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	public void updateEndArrowPoint() {
 		if (hasArrows()) {
-			RenderableBlock  topBlock = getTopBlock(getBlock());
+			RenderableBlock  topBlock = getTopBlock(getCommandBlock(getBlock()));
 			if(topBlock != null && DrawingArrowManager.isRecursiveFunction(topBlock.getBlock(), getBlock())){
 				for(ArrowObject arrow : originArrows){
-					Point startJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
-					Point endJointPoint = new Point(getTopBlock(getBlock()).getLocation().x - (10 * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
+					Point startJointPoint = new Point(topBlock.getLocation().x - (DrawingArrowManager.ARROW_GAP * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
+					Point endJointPoint = new Point(topBlock.getLocation().x - (DrawingArrowManager.ARROW_GAP * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
 					((MultiJointArrowObject)arrow).updateJoints(startJointPoint, endJointPoint);
 				}
 			}else{
@@ -1938,6 +1938,15 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
+	public Block getCommandBlock(Block block){
+		if(block != null){
+			while(block.getPlug() != null && block.getPlug().getBlockID() != Block.NULL){
+				block = Block.getBlock(block.getPlug().getBlockID());
+			}	
+		}
+		return block;
+	}
+	
 	public void updateEndArrowPoints(long parentBlockID, int concentration) {
 		Block block = Block.getBlock(parentBlockID);
 		if (block != null) {
@@ -2333,9 +2342,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			dragHandler.mouseClicked(e);
 			if (e.getClickCount() == 2 && !dragging) {
 				Workspace.getInstance().notifyListeners(
-						new WorkspaceEvent(this.getParentWidget(), this
-								.getBlockID(),
-								WorkspaceEvent.BLOCK_STACK_COMPILED));
+						new WorkspaceEvent(this.getParentWidget(), this.getBlockID(), WorkspaceEvent.BLOCK_STACK_COMPILED));
 			}
 		}
 	}
@@ -2434,8 +2441,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * @return RenderableBlock instance holding the information in blockNode;
 	 *         null if no RenderableBlock loaded
 	 */
-	public static RenderableBlock loadBlockNode(Node blockNode,
-			WorkspaceWidget parent, HashMap<Long, Long> idMapping) {
+	public static RenderableBlock loadBlockNode(Node blockNode, WorkspaceWidget parent, HashMap<Long, Long> idMapping) {
 		boolean isBlock = blockNode.getNodeName().equals("Block");
 		boolean isBlockStub = blockNode.getNodeName().equals("BlockStub");
 

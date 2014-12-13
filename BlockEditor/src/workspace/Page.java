@@ -795,8 +795,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 				for (int j = 0; j < blocks.getLength(); j++) {
 					blockNode = blocks.item(j);
 					try {
-						RenderableBlock rb = RenderableBlock.loadBlockNode(
-								blockNode, this, idMapping);
+						RenderableBlock rb = RenderableBlock.loadBlockNode(blockNode, this, idMapping);
 						// save the loaded blocks to add later
 						loadedBlocks.add(rb);
 					} catch (Exception ex) {

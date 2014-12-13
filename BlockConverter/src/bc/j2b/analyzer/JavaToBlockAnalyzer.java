@@ -1347,17 +1347,14 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		String typeString = typeString(node.getType());
-		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
-				.fragments().get(0);
+		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node.fragments().get(0);
 
 		boolean isArray = false;
 		if (node.getType().isArrayType()) {
 			isArray = true;
 		}
 
-		StLocalVariableModel model = createLocalVariableModel(typeString,
-				fragment.getName().toString(), fragment.getInitializer(),
-				false, isArray);
+		StLocalVariableModel model = createLocalVariableModel(typeString, fragment.getName().toString(), fragment.getInitializer(), false, isArray);
 
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
@@ -2593,27 +2590,27 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private ExpressionModel parseClassInstanceCreation(
 			ClassInstanceCreation node) {
 
-		if (node.getType().isParameterizedType()) {
-			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
-			ParameterizedType type = (ParameterizedType) node.getType();
-			model.setValue(type.getType().toString());
-
-			model.setId(idCounter.getNextId());
-			model.setLineNumber(compilationUnit.getLineNumber(node
-					.getStartPosition()));
-			for (Object argument : type.typeArguments()) {
-				// 型ブロックを作成する
-				ExTypeModel typeModel = new ExTypeModel();
-				typeModel.setId(idCounter.getNextId());
-				typeModel.setLineNumber(compilationUnit.getLineNumber(node
-						.getStartPosition()));
-				typeModel.setType(argument.toString());
-				typeModel.setLabel(argument.toString());
-				typeModel.setParent(model);
-				model.addArgument(typeModel);
-			}
-			return model;
-		} else {
+//		if (node.getType().isParameterizedType()) {
+//			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
+//			ParameterizedType type = (ParameterizedType) node.getType();
+//			model.setValue(type.getType().toString());
+//
+//			model.setId(idCounter.getNextId());
+//			model.setLineNumber(compilationUnit.getLineNumber(node
+//					.getStartPosition()));
+//			for (Object argument : type.typeArguments()) {
+//				// 型ブロックを作成する
+//				ExTypeModel typeModel = new ExTypeModel();
+//				typeModel.setId(idCounter.getNextId());
+//				typeModel.setLineNumber(compilationUnit.getLineNumber(node
+//						.getStartPosition()));
+//				typeModel.setType(argument.toString());
+//				typeModel.setLabel(argument.toString());
+//				typeModel.setParent(model);
+//				model.addArgument(typeModel);
+//			}
+//			return model;
+//		} else {
 			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
 			model.setValue(typeString(node.getType()));
 			model.setId(idCounter.getNextId());
@@ -2641,7 +2638,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			}
 
 			return model;
-		}
+		
 	}
 
 	// ohata
