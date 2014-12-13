@@ -27,6 +27,9 @@ public class WorkspaceEvent {
     public final static int BLOCK_COMMENT_RESIZED = 16;
     public final static int BLOCK_COMMENT_VISBILITY_CHANGE = 17;
     public final static int BLOCK_COMMENT_CHANGED = 18;
+    
+    public final static int BLOCK_COLLAPSED = 19;
+    
     //workspace specific event
     public final static int WORKSPACE_FINISHED_LOADING = 100;
     

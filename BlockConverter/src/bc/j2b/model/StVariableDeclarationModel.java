@@ -269,8 +269,8 @@ public class StVariableDeclarationModel extends StatementModel implements
 		makeIndent(out, indent + 2);
 		out.println("<BlockConnector connector-kind=\"plug\" connector-type=\""
 				+ blockType + "\"" + " init-type=\"" + blockType
-				+ "\" position-type=\"single\" con-block-id=\""
-				+ getParent().getId() + "\"/>");
+				+ "\" position-type=\"single\" con-block-id=\"" 
+				+ getParent().getId() +  "\"" + " label=\"\"" + "/>");
 		// end Plug
 		makeIndent(out, indent + 1);
 		out.println("</Plug>");

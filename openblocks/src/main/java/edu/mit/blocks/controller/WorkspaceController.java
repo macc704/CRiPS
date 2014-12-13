@@ -865,7 +865,7 @@ public class WorkspaceController {
 		}
 	}
 		
-	private static String langDefRootPath = "ext/blocks/lang_def.xml";
+	private static String langDefRootPath = "oldext/block/lang_def.xml";
 
 	public static void main(final String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {

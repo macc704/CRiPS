@@ -6,10 +6,11 @@ import edu.inf.shizuoka.drawingobjects.DrawingArrowManager;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.workspace.Workspace;
+import edu.mit.blocks.workspace.WorkspaceEvent;
 
 
 /**
- * created by sakai lab 2011/10/29
+ * created by sakai lab 2014/12/13
  * 
  * @author yasui
  * 
@@ -27,7 +28,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 	AbstractionBlockCollapseLabel(Workspace workspace,long blockID) {
 		super(workspace, blockID);
 		this.setForeground(new Color(0, 0, 0));
-		updateCollapse(true);
+		updateCollapse(true, workspace);
 	}
 
 	/**
@@ -37,17 +38,17 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		//refreshFigure();//original
 	}
 
-	public void updateCollapse() {
-		updateCollapse(false);
+	public void updateCollapse(Workspace workspace) {
+		updateCollapse(false, workspace);
 	}
 
-	private void updateCollapse(boolean init) {
+	private void updateCollapse(boolean init, Workspace workspace) {
 		originalUpdateCollapse();
 		refreshFigure();
 		if (!init) {
 			reformRelatedBlocks();
+			workspace.notifyListeners(new WorkspaceEvent(workspace, workspace.getEnv().getRenderableBlock(getBlockID()).getParentWidget(), WorkspaceEvent.BLOCK_COLLAPSED));
 		}
-		DrawingArrowManager.resetArrowsPosition();
 	}
 
 	// 抽象化ブロックが開閉されたとき関係するブロックをリフォームする

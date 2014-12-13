@@ -24,6 +24,7 @@ public class SAbstractionBlockShape extends BlockShape {
 
 	public SAbstractionBlockShape(RenderableBlock rb) {
 		super(rb);
+		
 	}
 
 	@Override

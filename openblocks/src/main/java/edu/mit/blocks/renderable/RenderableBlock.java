@@ -388,19 +388,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		this.add(blockLabel.getJComponent(), 0);
 		synchronizeSockets();
 
-		// initialize tags, labels, and sockets:
-		// this.plugTag = new ConnectorTag(getBlock().getPlug());
-		// this.afterTag = new ConnectorTag(getBlock().getAfterConnector());
-		// this.beforeTag = new ConnectorTag(getBlock().getBeforeConnector());
-		// this.blockLabel = new NameLabel(workspace,
-		// getBlock().getBlockLabel(), BlockLabel.Type.NAME_LABEL,
-		// getBlock().isLabelEditable(), blockID);
-		// this.pageLabel = new PageLabel(workspace, getBlock().getPageLabel(),
-		// BlockLabel.Type.PAGE_LABEL, false, blockID);
-
-		this.add(pageLabel.getJComponent());
-		this.add(blockLabel.getJComponent(), 0);
-		synchronizeSockets();
 
 		// initialize collapse label
 		if (getBlock().isProcedureDeclBlock()
