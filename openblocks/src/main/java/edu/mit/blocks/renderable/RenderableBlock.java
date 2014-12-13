@@ -2270,14 +2270,16 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				if (child.getNodeName().equals("Location")) {
 					// extract location information
 					extractLocationInfo(child, blockLoc);
-				} else if (child.getNodeName().equals("Comment")) {
-					rb.comment = Comment.loadComment(workspace,
-							child.getChildNodes(), rb);
-					if (rb.comment != null) {
-						rb.comment.setParent(rb.getParentWidget()
-								.getJComponent());
-					}
-				} else if (child.getNodeName().equals("Collapsed")) {
+				} 
+//				else if (child.getNodeName().equals("Comment")) {
+//					rb.comment = Comment.loadComment(workspace,
+//							child.getChildNodes(), rb);
+//					if (rb.comment != null) {
+//						rb.comment.setParent(rb.getParentWidget()
+//								.getJComponent());
+//					}
+//				} 
+				else if (child.getNodeName().equals("Collapsed")) {
 					rb.setCollapsed(true);
 				}
 			}

@@ -226,8 +226,7 @@ public class Block implements ISupportMemento {
 	 *            the name of its associated <code>BlockGenus</code>
 	 */
 	public Block(Workspace workspace, String genusName) {
-		this(workspace, genusName, workspace.getEnv()
-				.getGenusWithName(genusName).getInitialLabel());
+		this(workspace, genusName, workspace.getEnv().getGenusWithName(genusName).getInitialLabel());
 	}
 
 	/**
@@ -1860,15 +1859,7 @@ public class Block implements ISupportMemento {
 								value = propertyNode.getTextContent();
 							}
 							if (key != null && value != null) {
-								blockLangProperties.put(key, value);/*
-																	 * if(key.equals
-																	 * ("xml"))
-																	 * System
-																	 * .err
-																	 * .println(
-																	 * "VALUE OF XML: "
-																	 * +value);
-																	 */
+								blockLangProperties.put(key, value);
 								key = null;
 								value = null;
 							}
@@ -1882,9 +1873,7 @@ public class Block implements ISupportMemento {
 			// create block or block stub instance
 			if (!isStubBlock) {
 				if (label == null) {
-					block = new Block(workspace, id, genusName, workspace
-							.getEnv().getGenusWithName(genusName)
-							.getInitialLabel(), true);
+					block = new Block(workspace, id, genusName, workspace.getEnv().getGenusWithName(genusName).getInitialLabel(), true);
 				} else {
 					block = new Block(workspace, id, genusName, label, true);
 				}
@@ -1929,6 +1918,11 @@ public class Block implements ISupportMemento {
 			if (blockLangProperties != null && !blockLangProperties.isEmpty()) {
 				block.properties = blockLangProperties;
 			}
+			
+			if(block.getBlockID()>workspace.getEnv().getNextID()){
+				workspace.getEnv().updateNextID(block.getBlockID() + 1);
+			}
+			
 
 			return block;
 		}
@@ -1947,6 +1941,10 @@ public class Block implements ISupportMemento {
 		Long newID = Long.valueOf(workspace.getEnv().getNextBlockID());
 		mapping.put(input, newID);
 		return newID;
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 
 	/***********************************

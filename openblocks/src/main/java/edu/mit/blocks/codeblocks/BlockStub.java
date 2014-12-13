@@ -11,7 +11,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import edu.mit.blocks.codeblocks.BlockConnector.PositionType;
-
 import edu.mit.blocks.renderable.RenderableBlock;
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEvent;
@@ -190,7 +189,7 @@ public class BlockStub extends Block {
      * @param parentGenus the String BlockGenus name of its parent
      */
     protected BlockStub(Workspace workspace, Long blockID, String stubGenus, String label, String parentName, String parentGenus) {
-        super(workspace, workspace.getEnv().getNextBlockID(), stubGenus, label, true);   //stubs may have stubs...
+        super(workspace, blockID, stubGenus, label, true);   //stubs may have stubs...
         //unlike the above constructor, the blockID specified should already
         //be referencing a fully loaded block with all necessary information
         //such as sockets, plugs, labels, etc.
@@ -570,5 +569,10 @@ public class BlockStub extends Block {
     	
     	return stubElement;
     }
+    
+	public void setBlockLabel(String newLabel) {
+		super.setBlockLabel(newLabel);
+		setName(newLabel);
+	}
     
 }

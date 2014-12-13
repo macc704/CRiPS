@@ -54,8 +54,11 @@ public class WorkspaceEnvironment {
     public void addBlock(Block block) {
 
     	long id = block.getBlockID();
-
+    	System.out.println("Block " + block.getBlockID() + " " +block.getBlockLabel() + " " + block.getGenusName());
     	
+    	if(block.getGenusName().equals("callerprocedure")){
+    		System.out.println("hoge");
+    	}
         if (this.allBlocks.containsKey(id)) {
     		Block dup = this.allBlocks.get(id);
             System.out.println("pre-existing block is: " + dup + " with genus " + dup.getGenusName() + " and label " + dup.getBlockLabel());
@@ -120,6 +123,10 @@ public class WorkspaceEnvironment {
     
     public long getNextID(){
     	return this.NEXT_ID++;
+    }
+    
+    public void updateNextID(long id){
+    	this.NEXT_ID = id;
     }
 
     public void resetAll() {
