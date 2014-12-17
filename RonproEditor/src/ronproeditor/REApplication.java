@@ -46,6 +46,7 @@ import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.views.DummyConsole;
 import ronproeditor.views.REFrame;
 import ronproeditor.views.RESourceEditor;
+import bc.apps.JavaToBlockMain;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileElement;
@@ -58,6 +59,9 @@ import clib.preference.app.CPreferenceManager;
 import clib.view.dialogs.CErrorDialog;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+
+import edu.mit.blocks.controller.WorkspaceController;
+
 
 /*
  * Ronpro Editor Application
@@ -1209,6 +1213,7 @@ public class REApplication implements ICFwApplication {
 	}
 
 	public void doOpenBlockEditor() {
+		// doOpenBlockEditor("", getResourceRepository().getCCurrentFile().toJavaFile());
 		blockManager.doOpenBlockEditor();
 		// 20130926 DENOÇ™BEÇíºê⁄éQè∆Ç∑ÇÈÅ@ébíËëŒâû
 		if (deno != null && deno.isRunning()) {
@@ -1217,8 +1222,16 @@ public class REApplication implements ICFwApplication {
 	}
 	
 	// for CheCoPro
-	public void doOpenBlockEditor(String user) {
-		blockManager.doOpenBlockEditor(user);
+	public void doOpenBlockEditor(String user, File selectedFile) {
+		edu.mit.blocks.controller.WorkspaceController wc = new WorkspaceController();
+		String[] libs = getLibraryManager().getLibsAsArray();
+		String xmlFilePath;
+		try {
+			xmlFilePath = new JavaToBlockMain(true).run(selectedFile,REApplication.SRC_ENCODING, libs);
+			wc.openBlockEditor(xmlFilePath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void doOpenFlowViewer() {

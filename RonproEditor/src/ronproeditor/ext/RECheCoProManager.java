@@ -14,12 +14,15 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -31,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import ronproeditor.REApplication;
@@ -352,18 +356,24 @@ public class RECheCoProManager {
 		menuBar.getMenu(0).remove(4);
 
 		int menuCount = menuBar.getMenu(3).getItemCount() - 1;
-		for (int i = menuCount; i > 0; i--) {
+		for (int i = menuCount; i >= 0; i--) {
 			menuBar.getMenu(3).remove(i);
 		}
 		
-		menuBar.getMenu(3).getItem(0).addActionListener(new ActionListener() {
-			
-			@Override
+		// --BlockEditor
+		Action actionOpenBlockEditor;
+		actionOpenBlockEditor = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				
-				chApplication.doOpenBlockEditor(user);
+				File selectedFile = chApplication.getResourceRepository().getCCurrentFile().toJavaFile();
+				chApplication.doOpenBlockEditor(user, selectedFile);
 			}
-		});
+		};
+		actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
+		actionOpenBlockEditor.putValue(Action.ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_MASK));
+		actionOpenBlockEditor.setEnabled(true);
+		
+		menuBar.getMenu(3).add(actionOpenBlockEditor);
 		
 		menuBar.getMenu(4).remove(0);
 

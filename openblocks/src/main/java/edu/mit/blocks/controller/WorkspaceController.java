@@ -45,6 +45,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import bc.apps.BlockToJavaMain;
+import bc.apps.JavaToBlockMain;
 import clib.view.app.javainfo.CJavaInfoPanels;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.inf.shizuoka.drawingobjects.ArrowObject;
@@ -865,17 +866,40 @@ public class WorkspaceController {
 		}
 	}
 		
-	private static String langDefRootPath = "oldext/block/lang_def.xml";
+	private String langDefRootPath = "ext/block/lang_def_turtle.xml";
+
+	public void setLangDefRootPath(String langDefRootPath) {
+		this.langDefRootPath = langDefRootPath;
+	}
 
 	public static void main(final String[] args) {
+		WorkspaceController wc = new WorkspaceController();
+		wc.openBlockEditor();
+	}
+	
+	public void openBlockEditor() {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				final WorkspaceController wc = new WorkspaceController();
-				wc.setLangDefFilePath(langDefRootPath);
-				wc.loadFreshWorkspace();
-				wc.createAndShowGUI();
+				// final WorkspaceController wc = new WorkspaceController();
+				setLangDefFilePath(langDefRootPath);
+				loadFreshWorkspace();
+				createAndShowGUI();
+			}
+		});
+	}
 
+	public void openBlockEditor(final String xmlFilePath) {
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				// final WorkspaceController wc = new WorkspaceController();
+				
+				setLangDefFilePath(langDefRootPath);
+				loadFreshWorkspace();
+				createAndShowGUI();
+				
+				loadProjectFromPath(xmlFilePath);
 			}
 		});
 	}
