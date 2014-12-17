@@ -33,9 +33,9 @@ import ronproeditor.dialogs.REDirtyOptionDialog;
 import ronproeditor.dialogs.RERefactoringFileNameDialog;
 import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
+import ronproeditor.ext.RECheCoProManager;
 import ronproeditor.ext.RECocoViewerManager;
 import ronproeditor.ext.RECreateCocoDataManager;
-import ronproeditor.ext.RECheCoProManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
@@ -270,11 +270,26 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 2014/01/08 version 2.25.0 matsuzawa		・git参照のこと
  * 
  * 2014/10/01 version 2.27.0 ohata			・2014プログラミング社会学科用
- * 2014/10/01 version 2.27.1 ohata			・軽微なバグを修正
+ * 2014/10/11 version 2.27.1 ohata			・軽微なバグを修正
  * 
- * 2014/10/01 version 2.27.1 ohata			・コンソールのフォントをエディタのフォントと統一
+<<<<<<< HEAD
+ * 2014/10/01 version 2.27.2 ohata			・コンソールのフォントをエディタのフォントと統一
+=======
+ * 2014/10/18 version 2.27.2 ohata			・コンソールのフォントをエディタのフォントと統一
+>>>>>>> ronpro_plugin_master
  * 											・フォントの文字幅によるエラー指摘メッセージのズレを修正
- * 
+ * 2014/10/24 version 2.27.3 ohata			・sizeメソッドのBlock>>Java変換のエラーを修正
+ * 											・Turtleを継承した自作クラスブロックを右クリックしたときのコンテキストメニューに，タートルメニューを追加
+ * 											・List,Image,TextTurtleなどのメソッド呼び出しブロックを隠蔽
+ * 2014/10/24 version 2.27.4 ohata			・コンテキストメニュー変更
+ * 2014/10/24 version 2.27.5 ohata			・メソッドコール矢印の描画処理を修正
+ * 											・Block>>Javaのエラーを修正 
+ * 2014/10/24 version 2.27.6 ohata			・メソッドコール矢印の修正,テスト
+ * 											・参照ブロックのハイライト処理を修正
+ * 2014/10/24 version 2.28.0 ohata			・メソッドコール矢印のリリース
+ * 2014/10/24 version 2.28.1 ohata			・メソッドコール矢印の修正
+ * 2014/10/24 version 2.28.2 ohata			・再帰対応を一時停止
+ * 2014/10/24 version 2.28.3 ohata			・BEの再帰バグを修正，その他メソッド定義のバグを修正 
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
  * ・"}"を押したときのスマートインデント
@@ -291,10 +306,10 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.27.2";
-	public static final String BUILD_DATE = "2014/01/08";
+	public static final String VERSION = "2.28.3";
+	public static final String BUILD_DATE = "2014/11/10";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
-	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
+	public static final String COPYRIGHT = "Copyright(c) 2007-2014 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
 	public static final String SRC_ENCODING = "SJIS";
 	// public static final String SRC_ENCODING = "UTF-8"; // for test

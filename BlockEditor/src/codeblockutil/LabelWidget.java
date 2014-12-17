@@ -750,7 +750,7 @@ public abstract class LabelWidget extends JComponent {
 		 */
 		protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
 				int condition, boolean pressed) {
-
+			
 			if (isNumber) {
 				if (e.getKeyChar() == '-' && canProcessNegativeSign()) {
 					return super.processKeyBinding(ks, e, condition, pressed);

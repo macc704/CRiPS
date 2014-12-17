@@ -7,7 +7,6 @@ package a.slab.blockeditor.extent;
 
 import java.awt.event.ActionEvent;
 
-import controller.WorkspaceController;
 import renderable.RenderableBlock;
 import workspace.Workspace;
 import codeblocks.Block;
@@ -49,6 +48,7 @@ public class SStubCreator {
 				
 				if(stubGenus.startsWith("caller")){
 					Workspace.getInstance().getWorkSpaceController().addTraceLine(newRB);
+					newRB.updateEndArrowPoint();
 				}
 				
 				return newRB;

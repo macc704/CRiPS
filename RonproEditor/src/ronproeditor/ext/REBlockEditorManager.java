@@ -17,9 +17,6 @@ import pres.core.model.PRLog;
 import ronproeditor.ICFwResourceRepository;
 import ronproeditor.REApplication;
 import ronproeditor.helpers.CFrameUtils;
-import workspace.Workspace;
-import workspace.WorkspaceEvent;
-import workspace.WorkspaceListener;
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
@@ -48,13 +45,13 @@ public class REBlockEditorManager {
 
 		man.start();
 		man.setPriority(Thread.currentThread().getPriority() - 1);
-
-		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
-			public void workspaceEventOccurred(WorkspaceEvent event) {
-				writeBlockEditingLog(BlockEditorLog.SubType.ANY,
-						event.toString());
-			}
-		});
+//		“€Œ‹
+//		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
+//			public void workspaceEventOccurred(WorkspaceEvent event) {
+//				writeBlockEditingLog(BlockEditorLog.SubType.ANY,
+//						event.toString());
+//			}
+//		});
 
 		app.getSourceManager().addPropertyChangeListener(
 				new PropertyChangeListener() {
@@ -121,7 +118,10 @@ public class REBlockEditorManager {
 
 			public void chengeInheritance() {
 				// TODO Auto-generated method stub
-				
+			}	
+
+			public void toggleTraceLines(String state) {
+					writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
 			}			
 
 		}, REApplication.SRC_ENCODING);
@@ -383,7 +383,7 @@ class BlockEditorLog extends PRFileLog {
 	};
 
 	public static enum SubType implements PRLogSubType {
-		ANY, BLOCK_TO_JAVA, BLOCK_TO_JAVA_ERROR, JAVA_TO_BLOCK, JAVA_TO_BLOCK_ERROR, COMPILE, RUN, DEBUGRUN, OPENED, CLOSEED, FOCUS_GAINED, FOCUS_LOST, LOADING_START, LOADING_END
+		ANY, BLOCK_TO_JAVA, BLOCK_TO_JAVA_ERROR, JAVA_TO_BLOCK, JAVA_TO_BLOCK_ERROR, COMPILE, RUN, DEBUGRUN, OPENED, CLOSEED, FOCUS_GAINED, FOCUS_LOST, LOADING_START, LOADING_END,TOGGLE_TRACELINES
 	};
 
 	/**

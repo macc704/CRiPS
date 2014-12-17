@@ -125,8 +125,15 @@ public class ExCallActionMethodModel2 extends ExpressionModel {
 			out.println("<Sockets num-sockets=\"2\">");
 			// blockConnecters
 			makeIndent(out, indent + 3);
+			
+			String socketLabel = "が";
+			if(!cmd){
+				socketLabel = "の";
+			}
+				
+			
 			out.print("<BlockConnector connector-kind=\"socket\" connector-type=\"object\""
-					+ " init-type=\"object\" label=\"receiver\" position-type=\"single\"");
+					+ " init-type=\"object\" label=\"" + socketLabel + "\" position-type=\"single\"");
 			if (receiver.getId() != -1) {
 				out.print(" con-block-id=\"" + receiver.getId() + "\"");
 			}

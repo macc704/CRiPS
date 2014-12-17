@@ -62,6 +62,8 @@ import codeblocks.rendering.BlockShapeUtil;
 import codeblockutil.CToolTip;
 import codeblockutil.GraphicsManager;
 import drawingobjects.ArrowObject;
+import drawingobjects.DrawingArrowManager;
+import drawingobjects.MultiJointArrowObject;
 
 /**
  * RenderableBlock is responsible for all graphical rendering of a code Block.
@@ -94,8 +96,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/** Mapping from blockID to the corresponding RenderableBlock instance */
 	private static final Map<Long, RenderableBlock> ALL_RENDERABLE_BLOCKS = new HashMap<Long, RenderableBlock>();
 
-	private static final List<Long> hilightBlocks = new ArrayList<Long>();
-	
 	// /////////////////////
 	// COMPONENT FIELDS
 	/** BlockID of this. MAY BE Block.NULL */
@@ -196,14 +196,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
 
 	private ArrayList<ArrowObject> startArrows = new ArrayList<ArrowObject>();
-	private ArrayList<ArrowObject> endArrows = new ArrayList<ArrowObject>();
+	private ArrayList<ArrowObject> originArrows = new ArrayList<ArrowObject>();
 
 	public void addStartArrow(ArrowObject arrow) {
 		startArrows.add(arrow);
 	}
 
 	public void addEndArrow(ArrowObject arrow) {
-		endArrows.add(arrow);
+		originArrows.add(arrow);
 	}
 
 	public ArrayList<ArrowObject> getStartArrows() {
@@ -211,11 +211,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public ArrayList<ArrowObject> getEndArrows() {
-		return this.endArrows;
+		return this.originArrows;
 	}
 
 	public boolean hasArrows() {
-		return startArrows.size() > 0 || endArrows.size() > 0;
+		return startArrows.size() > 0 || originArrows.size() > 0;
 	}
 
 	public void visibleArrows(boolean visible) {
@@ -223,14 +223,25 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			arrow.setVisible(visible);
 		}
 
-		for (ArrowObject arrow : endArrows) {
+		for (ArrowObject arrow : originArrows) {
 			arrow.setVisible(visible);
 		}
 	}
 
 	public void clearArrows() {
 		startArrows.clear();
-		endArrows.clear();
+		originArrows.clear();
+	}
+
+	public void resetArrowPosition() {
+		//		for (ArrowObject arrow : startArrows) {
+		//			arrow.resetPoint(arrow.getStartPoint(), arrow.getEndPoint());
+		//		}
+
+		for (ArrowObject arrow : originArrows) {
+			arrow.resetPoint(DrawingArrowManager.calcCallerBlockPoint(this),
+					arrow.getEndPoint());
+		}
 	}
 
 	public Map<String, List<Map<String, List<String>>>> getMethods() {
@@ -301,6 +312,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				BlockLabel.Type.NAME_LABEL, getBlock().isLabelEditable(),
 				blockID);
 		// arranged by sakai lab 2011/11/20
+		
 		this.headerLabel = new HeaderLabel(getBlock().getHeaderLabel(),
 				BlockLabel.Type.HEADER_LABEL, getBlock().isLabelEditable(),
 				blockID);
@@ -371,10 +383,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 */
 	public Long getBlockID() {
 		return blockID;
-	}
-	
-	private static List<Long> getHilightBlocksList(){
-		return hilightBlocks;
 	}
 
 	/**
@@ -453,6 +461,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			}
 			getComment().translatePosition(dx, dy);
 		}
+
 	}
 
 	/**
@@ -627,9 +636,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				if (SocketLabel.ignoreSocket(socket)) {
 					tag.setLabel(null); // ignored sockets have no labels
 				} else {
-					SocketLabel label = new SocketLabel(socket,
-							socket.getLabel(), BlockLabel.Type.PORT_LABEL,
-							socket.isLabelEditable(), blockID);
+					SocketLabel label = new SocketLabel(socket, socket.getLabel(), BlockLabel.Type.PORT_LABEL, socket.isLabelEditable(), blockID);
 					String argumentToolTip = getBlock().getArgumentDescription(
 							i);
 					if (argumentToolTip != null) {
@@ -647,9 +654,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				if (!SocketLabel.ignoreSocket(socket)) {
 					// ignored bottom sockets or sockets with label == ""
 					if (label == null) {
-						label = new SocketLabel(socket, socket.getLabel(),
-								BlockLabel.Type.PORT_LABEL,
-								socket.isLabelEditable(), blockID);
+						label = new SocketLabel(socket, socket.getLabel(), BlockLabel.Type.PORT_LABEL, socket.isLabelEditable(), blockID);
 						String argumentToolTip = getBlock()
 								.getArgumentDescription(i);
 						if (argumentToolTip != null) {
@@ -963,8 +968,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	public void updateSocketPoint(BlockConnector socket, Point2D point) {
 		ConnectorTag tag = this.getConnectorTag(socket);
 		// what if tag does not exist? should we throw exception or add new tag?
-		tag.setAbstractLocation(point);
-
+		if(tag != null)
+			tag.setAbstractLocation(point);
 	}
 
 	/**
@@ -1181,7 +1186,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (!isConnected) {
 			// remove the mapping
 			this.getConnectorTag(connectedSocket).setDimension(null);
-
 		} else {
 			// Block connectedToBlock = Block.getBlock(connectedToBlockID);
 			// if no before block, then no recursion
@@ -1316,8 +1320,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				RenderableBlock.getRenderableBlock(curBlockID).redrawFromTop();
 
 				// add dimension to the mapping
-				this.getConnectorTag(socket).setDimension(
-						calcDimensionOfSocket(socket));
+				this.getConnectorTag(socket).setDimension( calcDimensionOfSocket(socket));
 			} else {
 				this.getConnectorTag(socket).setDimension(null);
 			}
@@ -1384,12 +1387,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		// notify block first so that we will only need to repaint this block
 		// once
 		getBlock().blockDisconnected(disconnectedSocket);
-
+		
 		updateSocketSpace(disconnectedSocket, Block.NULL, false);
 
 		// synchronize sockets
 		synchronizeSockets();
 	}
+
 
 	// /////////////////
 	// BLOCK RENDERING//
@@ -1836,8 +1840,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 		Component oldParent = renderable.getParent();
 		Workspace.getInstance().addToBlockLayer(renderable);
-		renderable.setLocation(SwingUtilities.convertPoint(oldParent,
-				renderable.getLocation(), Workspace.getInstance()));
+		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
+		
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(Block.getBlock(renderable.blockID))) {
 			if (socket.hasBlock()) {
@@ -1892,91 +1896,86 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.getArrow().updateArrow();
 		}
 
-	}
-
+	}	
+	
 	public void resetPoints(int dx, int dy) {
 		for (ArrowObject arrow : startArrows) {
 			arrow.addEndPoint(dx, dy);
 		}
 
-		for (ArrowObject arrow : endArrows) {
+		for (ArrowObject arrow : originArrows) {
 			arrow.addStartPoint(dx, dy);
 		}
 	}
 
-	public void updateEndArrowPoints(long parentBlockID, boolean isActive) {
+	public void visibleEndArrowPoint(long parentBlockID, boolean isActive) {
 		RenderableBlock parent = RenderableBlock
 				.getRenderableBlock(parentBlockID);
-		if (parentBlockID == -1) {
-			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : endArrows) {
-				endArrow.setStartPoint(p);
-				if (endArrow.getColor().getAlpha() != 30) {
-					endArrow.setColor(new Color(255, 0, 0, 30));
-				}
-			}
-		} else {
-			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : endArrows) {
-				endArrow.setStartPoint(p);
-				if (endArrow.getColor() != Color.RED) {
-					endArrow.setColor(Color.RED);
-				}
-			}
+		ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
+		Point p = getLocation();
+		p.x += getWidth();
+		p.y += getHeight() / 2;
+		for (ArrowObject endArrow : originArrows) {
+			endArrow.setStartPoint(p);
 		}
-		//		if (parent != null) {
-		//			if (isActive) {
-		//				//親の座標
-		//				Point p = new Point(getLocation());
-		//				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
-		//						parent.getBlockID()).getEndArrows()) {
-		//					arrow.setStartPoint(p);
-		//				}
-		//			} else {
-		//				RenderableBlock lastBlock = RenderableBlock.getLastBlock(Block
-		//						.getBlock(parentBlockID));
-		//				Point p = new Point(lastBlock.getLocation());
-		//				for (ArrowObject arrow : RenderableBlock.getRenderableBlock(
-		//						parent.getBlockID()).getEndArrows()) {
-		//					arrow.setStartPoint(p);
-		//				}
-		//			}
-		//		}
 	}
 
-	public void updateEndArrowPoints(long parentBlockID, BlockLink link,
-			boolean isActive) {
-		RenderableBlock parent = RenderableBlock
-				.getRenderableBlock(parentBlockID);
-		if (link == null) {
-			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : endArrows) {
-				endArrow.setStartPoint(p);
-				if (endArrow.getColor().getAlpha() != 30) {
-					endArrow.setColor(new Color(255, 0, 0, 30));
+	public void updateEndArrowPoint() {
+		if (hasArrows()) {
+			RenderableBlock  topBlock = getTopBlock(getCommandBlock(getBlock()));
+			if(topBlock != null && DrawingArrowManager.isRecursiveFunction(topBlock.getBlock(), getBlock())){
+				for(ArrowObject arrow : originArrows){
+					Point startJointPoint = new Point(topBlock.getLocation().x - (DrawingArrowManager.ARROW_GAP * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
+					Point endJointPoint = new Point(topBlock.getLocation().x - (DrawingArrowManager.ARROW_GAP * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
+					((MultiJointArrowObject)arrow).updateJoints(startJointPoint, endJointPoint);
+				}
+			}else{
+				for(ArrowObject arrow : originArrows){
+					((MultiJointArrowObject)arrow).resetJoiuts();
 				}
 			}
-		} else {
-			ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : endArrows) {
-				endArrow.setStartPoint(p);
-				if (endArrow.getColor() != Color.RED) {
-					endArrow.setColor(Color.RED);
-				}
-			}
+			DrawingArrowManager.thinArrows(this);
 		}
+	}
+
+	public Block getCommandBlock(Block block){
+		if(block != null){
+			while(block.getPlug() != null && block.getPlug().getBlockID() != Block.NULL){
+				block = Block.getBlock(block.getPlug().getBlockID());
+			}	
+		}
+		return block;
+	}
+	
+	public void updateEndArrowPoints(long parentBlockID, int concentration) {
+		Block block = Block.getBlock(parentBlockID);
+		if (block != null) {
+			do {
+				//ソケットを持っていたらソケット内をアップデートする
+				Iterable<BlockConnector> socks = block.getSockets();
+
+				if (socks != null) {
+					Iterator<BlockConnector> sockets = socks.iterator();
+					while (sockets.hasNext()) {
+						updateEndArrowPoints(sockets.next().getBlockID(),
+								concentration);
+					}
+				}
+				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(block.getBlockID()));
+				block = Block.getBlock(block.getAfterBlockID());
+			} while (block != null);
+		}
+	}
+
+	public static RenderableBlock getTopBlock(Block block) {
+		Block tmpBlock = block;
+		if(tmpBlock == null){
+			return null;
+		}
+		while ((tmpBlock.getBeforeBlockID() != -1 && tmpBlock.getBeforeBlockID() != null)) {
+			tmpBlock = Block.getBlock(tmpBlock.getBeforeBlockID());
+		}
+		return RenderableBlock.getRenderableBlock(tmpBlock.getBlockID());
 	}
 
 	public static RenderableBlock getLastBlock(Block block) {
@@ -2019,8 +2018,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(renderable.getBlock())) {
 			if (socket.hasBlock()) {
-				drag(getRenderableBlock(socket.getBlockID()), dx, dy, widget,
-						false);
+				drag(getRenderableBlock(socket.getBlockID()), dx, dy, widget, false);
 			}
 		}
 
@@ -2031,70 +2029,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		for (ArrowObject arrow : startArrows) {
 			arrow.update(parent.getJComponent().getGraphics());
 		}
-		for (ArrowObject arrow : endArrows) {
+		for (ArrowObject arrow : originArrows) {
 			arrow.update(parent.getJComponent().getGraphics());
 		}
 	}
 
-	private static void catchBlockSetHighlight(RenderableBlock catchedRBlock,
-			WorkspaceWidget widget) {
-
-		if(widget == null){
-			return;
-		}
-		
-		Block catchedBlock = catchedRBlock.getBlock();
-
-		try {
-			if (catchedBlock instanceof BlockStub ) {
-				//親ブロックのハイライト
-				Block parentBlock = ((BlockStub) catchedBlock).getParent();
-				RenderableBlock.getRenderableBlock(parentBlock.getBlockID()).highlighter.setHighlightColor(Color.YELLOW);
-
-				hilightBlocks.add(parentBlock.getBlockID());
-				
-				//子ブロックのハイライト
-				hilightAllStubBlocks(parentBlock, catchedBlock, widget);
-
-			}else if(catchedBlock.isVariableDeclBlock()){
-				hilightAllStubBlocks(catchedBlock, catchedBlock, widget);
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-	}
-
-	public static void hilightAllStubBlocks(Block parentBlock, Block catchedBlock, WorkspaceWidget widget){
-		//子ブロックのハイライト
-		for(RenderableBlock rb : widget.getBlocks()){
-			Block block = rb.getBlock();
-			if(block instanceof BlockStub  && parentBlock.equals(((BlockStub) block).getParent())){
-				if(isShouldHilightBlock(block.getGenusName())){
-					rb.highlighter.setHighlightColor(Color.yellow);	
-					RenderableBlock.getHilightBlocksList().add(rb.blockID);
-				}
-			}
-		}
-	}
-
-	public static boolean isShouldHilightBlock(String genusName){
-		if(genusName.startsWith("setter") || genusName.startsWith("getter") || genusName.startsWith("inc") || genusName.startsWith("caller")){
-			return true;
-		}else{
-			return false;
-		}
-	}
-	
-	public static void resetHilightAllStubBlocks(){
-		//子ブロックのハイライトを消す
-		List<Long> hilightBlocks = RenderableBlock.getHilightBlocksList(); 
-		for(Long blockID : hilightBlocks){
-			RenderableBlock.getRenderableBlock(blockID).highlighter.resetHighlight();
-		}
-		hilightBlocks.clear();
-	}
-	
 	// /////////////////
 	// MOUSE EVENTS //
 	// /////////////////
@@ -2165,12 +2104,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 					connectBlocks(link, widget);// connect blocks if blocks can
 												// connect
-					getRenderableBlock(link.getSocketBlockID())
-							.moveConnectedBlocks();
+					getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
 				}
 
 				// #ohata addedゲッターとセッターのハイライトを消す
-				resetHilightAllStubBlocks();
+				BlockHIlighter.resetAllHilightedStubBlocks();
 
 				// set the locations for X and Y based on zoom at 1.0
 				this.unzoomedX = this.calculateUnzoomedX(this.getX());
@@ -2184,9 +2122,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					Workspace.getInstance().getMiniMap()
 							.animateAutoCenter(this);
 				}
-
-				//矢印再描画
-				updateEndArrowPoints(getBlock().getParentBlockID(), link, false);
 			}
 		}
 		pickedUp = false;
@@ -2199,74 +2134,66 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			add(popup);
 			popup.show(this, e.getX(), e.getY());
 		}
-		Workspace.getInstance().getMiniMap().repaint();
+		//		Workspace.getInstance().getMiniMap().repaint();
 
 	}
 
 	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
 		if (checkScope(link)) {
+			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
 			link.connect();
-
+			
 			Workspace.getInstance().notifyListeners(
 					new WorkspaceEvent(widget, link,
 							WorkspaceEvent.BLOCKS_CONNECTED));
-			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
 		} else {
 			// moveSocketBlocks(this);
 			blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID)
 					.getY()
 					+ RenderableBlock.getRenderableBlock(blockID).getWidth(),
 					"down");
-
 		}
 	}
 
 	private boolean checkScope(BlockLink link) {
-		ScopeChecker scpChecker = new ScopeChecker();
 		boolean scopeCheck = true;
 		// 結合するブロックのもつすべてのブロックのスコープをチェックしていく
 		for (Block checkBlock = getBlock(); checkBlock != null; checkBlock = Block
 				.getBlock(checkBlock.getAfterBlockID())) {
 			// 抽象化ブロックの場合は、抽象化ブロック内を全てチェックしなければいけない
 			if (checkBlock.getGenusName().equals("abstraction")) {
-				scopeCheck &= checkBlocks(scpChecker, link, checkBlock);
+				scopeCheck &= checkBlocks(link, checkBlock);
 			}
 
 			boolean check = true;
 			// ブロックがソケットをもつ場合は、ソケット内で参照ブロックが使われているかもしれないのでチェック
-			check &= checkVariableBlocksScope(scpChecker, link, checkBlock);
+			check &= checkVariableBlocksScope(link, checkBlock);
 			scopeCheck &= check;
-			if (check == false) {
-				RenderableBlock.getRenderableBlock(checkBlock.getBlockID())
-						.setBlockHighlightColor(Color.RED);
-			}
+
 			check = true;
-			check &= scpChecker.checkScope(
+			check &= ScopeChecker.checkScope(
 					Block.getBlock(link.getSocketBlockID()), checkBlock);
+
 			scopeCheck &= check;
-			if (check == false) {
-				RenderableBlock.getRenderableBlock(checkBlock.getBlockID())
-						.setBlockHighlightColor(Color.RED);
-			}
+
 		}
 		return scopeCheck;
 	}
 
 	// abstractionブロック内のブロックのスコープをチェックする
-	private boolean checkBlocks(ScopeChecker scpChecker, BlockLink link,
-			Block abstBlock) {
+	private boolean checkBlocks(BlockLink link, Block abstBlock) {
 		boolean scopeCheck = true;
 		// 抽象化ブロック内のすべてのブロックのスコープをチェックしていく
 		for (Block checkBlock = Block.getBlock(abstBlock.getSocketAt(0)
 				.getBlockID()); checkBlock != null; checkBlock = Block
 				.getBlock(checkBlock.getAfterBlockID())) {
 			if (checkBlock.getGenusName().equals("abstraction")) {
-				scopeCheck &= checkBlocks(scpChecker, link, checkBlock);
+				scopeCheck &= checkBlocks(link, checkBlock);
 			}
 
-			scopeCheck &= checkVariableBlocksScope(scpChecker, link, checkBlock);
+			scopeCheck &= checkVariableBlocksScope(link, checkBlock);
 
-			scopeCheck &= scpChecker.checkScope(
+			scopeCheck &= ScopeChecker.checkScope(
 					Block.getBlock(link.getSocketBlockID()), checkBlock);
 		}
 
@@ -2274,8 +2201,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	// 値ブロックのスコープをチェックする　値のスコープが正しい、またはチェックするブロックがない場合はT それ以外はF
-	private boolean checkVariableBlocksScope(ScopeChecker scpChecker,
-			BlockLink link, Block checkBlock) {
+	private boolean checkVariableBlocksScope(BlockLink link, Block checkBlock) {
 		boolean scopeCheck = true;
 
 		if (checkBlock.getGenusName().equals("procedure")) {// とりあえず例外に
@@ -2286,16 +2212,12 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				.getSocketEquivalents(checkBlock)) {
 			// ソケットのブロックの中でも、参照ブロック（getter)のみをチェックする。それ以外は素通し
 			if (socket.hasBlock()) {
-				scopeCheck &= checkVariableBlocksScope(scpChecker, link,
+				scopeCheck &= checkVariableBlocksScope(link,
 						Block.getBlock(socket.getBlockID()));// ソケットのブロックのスコープをチェックする
 
-				scopeCheck &= scpChecker.checkScope(
+				scopeCheck &= ScopeChecker.checkScope(
 						Block.getBlock(link.getSocketBlockID()),
 						Block.getBlock(socket.getBlockID()));
-				if (scopeCheck == false) {
-					System.out.println(Block.getBlock(socket.getBlockID())
-							.getBlockLabel());
-				}
 			}
 		}
 
@@ -2321,14 +2243,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				return;
 			}
 
-			Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
-					Workspace.getInstance().getMiniMap());
-			if (Workspace.getInstance().getMiniMap().contains(pp)) {
-				Workspace.getInstance().getMiniMap()
-						.blockDragged(this, e.getPoint());
-				lastDragWidget = Workspace.getInstance().getMiniMap();
-				return;
-			}
+			//			Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
+			//					Workspace.getInstance().getMiniMap());
+			//			if (Workspace.getInstance().getMiniMap().contains(pp)) {
+			//				Workspace.getInstance().getMiniMap()
+			//						.blockDragged(this, e.getPoint());
+			//				lastDragWidget = Workspace.getInstance().getMiniMap();
+			//				return;
+			//			}
 
 			// drag this block if appropriate (checks bounds first)
 			dragHandler.mouseDragged(e);
@@ -2360,15 +2282,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 							new WorkspaceEvent(widget, link,
 									WorkspaceEvent.BLOCKS_DISCONNECTED));
 				}
+				BlockHIlighter.catchBlockSetHighlight(this, widget);
 				startDragging(this, widget);
 			}
 
 			// drag this block and all attached to it
 			drag(this, dragHandler.dragDX, dragHandler.dragDY, widget, true);
 
-			Workspace.getInstance().getMiniMap().repaint();
-			
-			catchBlockSetHighlight(this, widget);
 		}
 
 		Workspace.getInstance().repaint(0, 0,
@@ -2422,9 +2342,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			dragHandler.mouseClicked(e);
 			if (e.getClickCount() == 2 && !dragging) {
 				Workspace.getInstance().notifyListeners(
-						new WorkspaceEvent(this.getParentWidget(), this
-								.getBlockID(),
-								WorkspaceEvent.BLOCK_STACK_COMPILED));
+						new WorkspaceEvent(this.getParentWidget(), this.getBlockID(), WorkspaceEvent.BLOCK_STACK_COMPILED));
 			}
 		}
 	}
@@ -2523,8 +2441,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * @return RenderableBlock instance holding the information in blockNode;
 	 *         null if no RenderableBlock loaded
 	 */
-	public static RenderableBlock loadBlockNode(Node blockNode,
-			WorkspaceWidget parent, HashMap<Long, Long> idMapping) {
+	public static RenderableBlock loadBlockNode(Node blockNode, WorkspaceWidget parent, HashMap<Long, Long> idMapping) {
 		boolean isBlock = blockNode.getNodeName().equals("Block");
 		boolean isBlockStub = blockNode.getNodeName().equals("BlockStub");
 
@@ -2917,7 +2834,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * 
 	 * @return the highlighter
 	 */
-	RBHighlightHandler getHighlightHandler() {
+	public RBHighlightHandler getHighlightHandler() {
 		return highlighter;
 	}
 

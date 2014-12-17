@@ -2,8 +2,11 @@ package renderable;
 
 import java.awt.Color;
 
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
 import codeblocks.Block;
 import codeblocks.BlockConnectorShape;
+import drawingobjects.DrawingArrowManager;
 
 /**
  * created by sakai lab 2011/10/29
@@ -43,6 +46,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		refreshFigure();
 		if (!init) {
 			reformRelatedBlocks();
+			Workspace.getInstance().notifyListeners(new WorkspaceEvent(RenderableBlock.getRenderableBlock(getBlockID()).getParentWidget(), WorkspaceEvent.BLOCK_COLLAPSED));
 		}
 	}
 
@@ -61,6 +65,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 					.getRenderableBlock(topBlock.getBlockID());
 			//RenderableBlock.getRenderableBlock()
 			topFigure.redrawFromTop();
+			DrawingArrowManager.updatePossessers();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -76,9 +81,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 			topBlock = beforeBlock;
 		}
 
-		if (topBlock == null) {
-			throw new RuntimeException("ari e nai!");
-		}
+
 		if (topBlock.getBlockID().equals(getBlockID())) {
 			return null;
 		}
@@ -149,8 +152,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 			rb.repaintBlock();
 			if (rb.getHighlightHandler() != null) {
 				rb.getHighlightHandler().updateImage();
-				if (rb.getHighlightHandler().getParent() != null
-						&& rb.getHighlightHandler().getParent().getParent() != null)
+				if (rb.getHighlightHandler().getParent() != null && rb.getHighlightHandler().getParent().getParent() != null)
 					// force redraw to erase highlight
 					rb.getHighlightHandler().getParent().getParent().repaint();
 			}

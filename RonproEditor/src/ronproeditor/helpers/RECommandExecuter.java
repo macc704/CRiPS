@@ -76,9 +76,12 @@ public class RECommandExecuter {
 						+ getCommandString(commands));
 
 		Process p = rt.exec(listToStringArray(commands), null, dir);
+
 		processes.add(p);
+		
 		createPrintStreamThread(p.getInputStream(), console.getOut(), fontMetrics).start();
 		createPrintStreamThread(p.getErrorStream(), console.getErr(), fontMetrics).start();
+
 		console.setConsoleToStream(new PrintStream(p.getOutputStream()));
 		InputStream in = console.getIn();
 		if (in instanceof JTextAreaInputStream) {

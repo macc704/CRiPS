@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 
 import codeblocks.Block;
 import codeblocks.BlockConnector;
+import drawingobjects.DrawingArrowManager;
 
 public class CollapseLabel extends BlockControlLabel {
 
@@ -41,7 +42,6 @@ public class CollapseLabel extends BlockControlLabel {
 	 */
 	protected void collapseAfterBlocks(long blockID) {
 		Block block = Block.getBlock(blockID);
-
 		if (block.getAfterBlockID() != Block.NULL) {
 			do {
 				block = Block.getBlock(block.getAfterBlockID());
@@ -61,10 +61,8 @@ public class CollapseLabel extends BlockControlLabel {
 		
 		rBlock = RenderableBlock.getRenderableBlock(blockID);
 		rBlock.setVisible(!isActive());
-
 		
-		if (rBlock.hasComment()
-				&& rBlock.getComment().getCommentLabel().isActive()) {
+		if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
 			rBlock.getComment().setVisible(!isActive());
 		}
 		
@@ -74,15 +72,21 @@ public class CollapseLabel extends BlockControlLabel {
 		
 		rBlock.getHighlightHandler().updateImage();
 		rBlock.repaintBlock();
+		
 		if (rBlock.isCollapsed()) {
 			return;
 		}
+		
 		collapseSockets(blockID);
+
 	}
 	
-	protected void updatePoint(long blockID){
+	protected void updateArrowPoints(long blockID){
 		RenderableBlock rBlock = RenderableBlock.getRenderableBlock(blockID);
-		rBlock.updateEndArrowPoints(blockID, isActive());
+		
+		if(rBlock.hasArrows()){
+			rBlock.visibleEndArrowPoint(blockID, isActive());
+		}
 	}
 
 	/**
@@ -108,6 +112,10 @@ public class CollapseLabel extends BlockControlLabel {
 		toggle();
 		collapseBlockAndStack();
 		update();
+	}
+	
+	public void collapseArrows(){
+		DrawingArrowManager.setVisible(!isActive());
 	}
 
 	/**

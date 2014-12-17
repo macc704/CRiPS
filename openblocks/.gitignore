@@ -1,0 +1,8 @@
+build/
+target/
+.classpath
+.idea
+.settings
+.project
+openblocks.iml
+/bin/

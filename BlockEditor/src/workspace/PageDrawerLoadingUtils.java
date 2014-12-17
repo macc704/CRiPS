@@ -203,6 +203,7 @@ public class PageDrawerLoadingUtils {
 				p.addLoadedBlocks(blocksForPages.get(p), false);
 			}
 		}
+
 	}
 
 	public static void loadBlockDrawerSets(Element root, FactoryManager manager) {

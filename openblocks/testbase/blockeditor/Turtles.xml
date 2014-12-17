@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cb:CODEBLOCKS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://education.mit.edu/openblocks/ns http://education.mit.edu/openblocks/codeblocks.xsd"
+	xmlns:cb="http://education.mit.edu/openblocks/ns">
+	<Pages collapsible-pages="no">
+		<Page page-color="40 40 40" page-drawer="" page-infullview="yes"
+			page-name="" page-width="1366">
+			<PageBlocks>
+				<Block genus-name="Turtle-lt[@int]" id="1144" kind="command">
+					<Label>左へ回る</Label>
+					<Name>lt</Name>
+					<Location>
+						<X>84</X>
+						<Y>179</Y>
+					</Location>
+					<BeforeBlockId>1142</BeforeBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector con-block-id="1145" connector-kind="socket"
+							connector-type="number" init-type="number" label="角度"
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="number" id="1145" kind="data">
+					<Label>90</Label>
+					<Location>
+						<X>188</X>
+						<Y>182</Y>
+					</Location>
+					<Plug>
+						<BlockConnector con-block-id="1144" connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" />
+					</Plug>
+				</Block>
+				<Block genus-name="Turtle-rt[@int]" id="1142" kind="command">
+					<Label>右へ回る</Label>
+					<Name>rt</Name>
+					<Location>
+						<X>84</X>
+						<Y>149</Y>
+					</Location>
+					<BeforeBlockId>1140</BeforeBlockId>
+					<AfterBlockId>1144</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector con-block-id="1143" connector-kind="socket"
+							connector-type="number" init-type="number" label="角度"
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="number" id="1143" kind="data">
+					<Label>90</Label>
+					<Location>
+						<X>188</X>
+						<Y>152</Y>
+					</Location>
+					<Plug>
+						<BlockConnector con-block-id="1142" connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" />
+					</Plug>
+				</Block>
+				<Block genus-name="Turtle-bk[@int]" id="1140" kind="command">
+					<Label>戻る</Label>
+					<Name>bk</Name>
+					<Location>
+						<X>84</X>
+						<Y>119</Y>
+					</Location>
+					<BeforeBlockId>1138</BeforeBlockId>
+					<AfterBlockId>1142</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector con-block-id="1141" connector-kind="socket"
+							connector-type="number" init-type="number" label="歩数"
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="number" id="1141" kind="data">
+					<Label>50</Label>
+					<Location>
+						<X>164</X>
+						<Y>122</Y>
+					</Location>
+					<Plug>
+						<BlockConnector con-block-id="1140" connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" />
+					</Plug>
+				</Block>
+				<Block genus-name="procedure" id="1136" kind="procedure">
+					<Label>start</Label>
+					<Location>
+						<X>84</X>
+						<Y>59</Y>
+					</Location>
+					<AfterBlockId>1138</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="socket"
+							connector-type="poly" init-type="poly" is-expandable="yes" label=""
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="Turtle-fd[@int]" id="1138" kind="command">
+					<Label>進む</Label>
+					<Name>fd</Name>
+					<Location>
+						<X>84</X>
+						<Y>89</Y>
+					</Location>
+					<BeforeBlockId>1136</BeforeBlockId>
+					<AfterBlockId>1140</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector con-block-id="1139" connector-kind="socket"
+							connector-type="number" init-type="number" label="歩数"
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="number" id="1139" kind="data">
+					<Label>50</Label>
+					<Location>
+						<X>164</X>
+						<Y>92</Y>
+					</Location>
+					<Plug>
+						<BlockConnector con-block-id="1138" connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" />
+					</Plug>
+				</Block>
+			</PageBlocks>
+		</Page>
+	</Pages>
+</cb:CODEBLOCKS>

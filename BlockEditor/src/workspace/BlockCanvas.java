@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,6 +22,8 @@ import javax.swing.SwingUtilities;
 import org.w3c.dom.Element;
 
 import renderable.RenderableBlock;
+import codeblocks.Block;
+import codeblocks.BlockLink;
 import codeblockutil.CGraphite;
 import codeblockutil.CHoverScrollPane;
 import codeblockutil.CScrollPane;
@@ -493,6 +496,22 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
 			p.addPixelWidth(screenWidth - canvasWidth);
 			PageChangeEventManager.notifyListeners();
 		}
+		
+		//ohata ProcedureなんとかManagerの誤爆回避のため追加 コードでreturnブロックの返り値を再結合する
+		Collection<RenderableBlock> blocks  = getPageAt(0).getBlocks();
+		for(RenderableBlock rb : blocks){
+			if(rb.getBlock().getGenusName().equals("return")){
+				//再結合
+				Block returnBlock = rb.getBlock();
+				Block returnValue = Block.getBlock(rb.getBlock().getSocketAt(0).getBlockID());
+				if(returnValue != null){
+					BlockLink link = BlockLink.getBlockLink(returnBlock, returnValue, returnBlock.getSocketAt(0), returnValue.getPlug());
+					link.connect();
+					Workspace.getInstance().notifyListeners(new WorkspaceEvent(rb.getParentWidget(), link, WorkspaceEvent.BLOCKS_CONNECTED));	
+				}
+			}
+		}
+		
 	}
 
 	//////////////////////////////

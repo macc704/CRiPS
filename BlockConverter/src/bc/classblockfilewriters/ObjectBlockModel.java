@@ -124,7 +124,8 @@ public class ObjectBlockModel extends BasicModel {
 		}
 		makeIndent(out, lineNumber);
 		out.println("<JavaType>" + className + "</JavaType>");
-
+		out.println("<SuperClassName>" + superClassName + "</SuperClassName>");
+		
 		out.println("</BlockGenus>");
 		out.println();
 		// コマンドブロック情報の書き出し

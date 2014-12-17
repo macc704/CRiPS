@@ -824,6 +824,7 @@ public class REApplication implements ICFwApplication {
 		JavaEnv env = FileSystemUtil.createJavaEnv(
 				sourceManager.getRootDirectory(),
 				sourceManager.getCurrentFile());
+		
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();

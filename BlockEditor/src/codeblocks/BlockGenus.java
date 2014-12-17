@@ -99,6 +99,8 @@ public class BlockGenus {
 
 	private String javaType;
 	private String javaLabel;
+	
+	private String superClassName = "";
 
 	public Map<String, List<Map<String, List<String>>>> getMethods() {
 		return methods;
@@ -731,6 +733,10 @@ public class BlockGenus {
 		return javaType;
 	}
 
+	public String getSuperClassName() {
+		return superClassName;
+	}	
+	
 	/**
 	 * Return the expand-group for the given group. Can be null if group doesn't
 	 * exist.
@@ -1453,6 +1459,8 @@ public class BlockGenus {
 						newGenus.javaLabel = genusChild.getTextContent();
 					} else if (genusChild.getNodeName().equals("JavaType")) {
 						newGenus.javaType = genusChild.getTextContent();
+					}else if(genusChild.getNodeName().equals("SuperClassName")){
+						newGenus.superClassName = genusChild.getTextContent();
 					}
 
 				}

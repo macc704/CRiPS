@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Procedure and parameters -->
+
+<BlockGenus name="procedure" kind="procedure" initlabel="XXをする"
+	editable-label="yes" label-unique="yes" is-starter="yes" color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="poly"
+			is-expandable="yes"></BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="caller">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-procedure"></LangSpecProperty>
+				<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+				<LangSpecProperty key="is-breed-set-by-canvas"
+					value="yes"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-procedure"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-breed-set-by-canvas" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-number" kind="param" initlabel="整数型引数"
+	editable-label="yes" header-label="整数型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
+	</BlockConnectors>
+	<Type>int</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>	
+		<Stub stub-genus="inc">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>			
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="number"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-double-number" kind="param" initlabel="実数型引数"
+	editable-label="yes" header-label="実数型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
+	</BlockConnectors>
+	<Type>double</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>		
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="double-number"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-boolean" kind="param" initlabel="真偽型引数"
+	editable-label="yes" header-label="真偽型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"></BlockConnector>
+	</BlockConnectors>
+	<Type>boolean</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>				
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="boolean"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-string" kind="param" initlabel="文字列型引数"
+	editable-label="yes" header-label="文字列型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
+	</BlockConnectors>
+	<Type>String</Type>	
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>				
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="string"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-object" kind="param" initlabel="オブジェクト型引数"
+	editable-label="yes" header-label="オブジェクト型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
+	</BlockConnectors>
+	<Type>Object</Type>	
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+        <Stub stub-genus="getter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-int-number-arrayobject" kind="param" initlabel="整数型配列引数"
+	editable-label="yes" header-label="int[]型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
+	</BlockConnectors>
+	<Type>int-array</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+        <Stub stub-genus="getter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-object-arrayobject" kind="param" initlabel="Object型配列引数"
+	editable-label="yes" header-label="Object[]型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
+	</BlockConnectors>
+	<Type>Object-array</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+        <Stub stub-genus="getter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-double-number-arrayobject" kind="param" initlabel="実数型配列引数"
+	editable-label="yes" header-label="double[]型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
+	</BlockConnectors>
+	<Type>double-array</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+        <Stub stub-genus="getter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-string-arrayobject" kind="param" initlabel="文字列型配列引数"
+	editable-label="yes" header-label="String[]型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
+	</BlockConnectors>
+	<Type>String-array</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+        <Stub stub-genus="getter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter-arrayelement">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-object-bcanvas" kind="param" initlabel="BCanvas型引数"
+	editable-label="yes" header-label="BCanvas型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
+	</BlockConnectors>
+	<Type>obpro.BCanvas</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-object-bwindow" kind="param" initlabel="BWindow型引数"
+	editable-label="yes" header-label="BWindow型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<Type>obpro.BWindow</Type>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-object-bsound" kind="param" initlabel="BSound型引数"
+	editable-label="yes" header-label="BSound型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
+	</BlockConnectors>
+	<Type>obpro.BSound</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="proc-param-object-color" kind="param" initlabel="Color型引数"
+	editable-label="yes" header-label="Color型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
+	</BlockConnectors>
+	<Type>util.Color</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
+<!-- <BlockGenus name="proc-param-list-number" kind="param" initlabel="number_list" 
+	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes" 
+	color="177 10 255"> <description> <text> Adds a list parameter to a procedure. 
+	</text> </description> <BlockConnectors> <BlockConnector connector-kind="plug" 
+	connector-type="number-list"></BlockConnector> </BlockConnectors> <Stubs> 
+	<Stub stub-genus="getter"> <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" 
+	value="eval-local"></LangSpecProperty> <LangSpecProperty key="scope" value="local"></LangSpecProperty> 
+	<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty> 
+	</LangSpecProperties> </Stub> </Stubs> <LangSpecProperties> <LangSpecProperty 
+	key="type" value="list"></LangSpecProperty> <LangSpecProperty key="stack-type" 
+	value="breed-procedure"></LangSpecProperty> </LangSpecProperties> </BlockGenus> 
+	<BlockGenus name="proc-param-list-string" kind="param" initlabel="string_number" 
+	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes" 
+	color="177 10 255"> <description> <text> Adds a list parameter to a procedure. 
+	</text> </description> <BlockConnectors> <BlockConnector connector-kind="plug" 
+	connector-type="string-list"></BlockConnector> </BlockConnectors> <Stubs> 
+	<Stub stub-genus="getter"> <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" 
+	value="eval-local"></LangSpecProperty> <LangSpecProperty key="scope" value="local"></LangSpecProperty> 
+	<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty> 
+	</LangSpecProperties> </Stub> </Stubs> <LangSpecProperties> <LangSpecProperty 
+	key="type" value="list"></LangSpecProperty> <LangSpecProperty key="stack-type" 
+	value="breed-procedure"></LangSpecProperty> </LangSpecProperties> </BlockGenus> 
+	<BlockGenus name="proc-param-list-boolean" kind="param" initlabel="boolean_list" 
+	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes" 
+	color="177 10 255"> <description> <text> Adds a list parameter to a procedure. 
+	</text> </description> <BlockConnectors> <BlockConnector connector-kind="plug" 
+	connector-type="boolean-list"></BlockConnector> </BlockConnectors> <Stubs> 
+	<Stub stub-genus="getter"> <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" 
+	value="eval-local"></LangSpecProperty> <LangSpecProperty key="scope" value="local"></LangSpecProperty> 
+	<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty> 
+	</LangSpecProperties> </Stub> </Stubs> <LangSpecProperties> <LangSpecProperty 
+	key="type" value="list"></LangSpecProperty> <LangSpecProperty key="stack-type" 
+	value="breed-procedure"></LangSpecProperty> </LangSpecProperties> </BlockGenus> -->
+
+<BlockGenus name="return" kind="command" initlabel="return"
+	color="200 200 200" is-terminator="yes">
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="poly"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="output"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+<!-- Ohata added. This is use for  OOP Block Editor-->
+
+<BlockGenus name="constructor" kind="procedure" initlabel="コンストラクタ"
+	editable-label="no" label-unique="yes" is-starter="yes" color="200 200 200">
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="poly"
+			is-expandable="yes"></BlockConnector>
+	</BlockConnectors>
+	<Stubs>
+		<Stub stub-genus="caller">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-procedure"></LangSpecProperty>
+				<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+				<LangSpecProperty key="is-breed-set-by-canvas"
+					value="yes"></LangSpecProperty>
+				<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="eval-procedure"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-breed-set-by-canvas" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
