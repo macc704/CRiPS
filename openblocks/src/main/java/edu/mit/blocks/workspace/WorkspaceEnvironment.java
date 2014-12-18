@@ -54,7 +54,7 @@ public class WorkspaceEnvironment {
     public void addBlock(Block block) {
 
     	long id = block.getBlockID();
-    	System.out.println("Block " + block.getBlockID() + " " +block.getBlockLabel() + " " + block.getGenusName());
+    	System.out.println("Block " + block.getBlockID() + " " + block.getGenusName());
     	
     	if(block.getGenusName().equals("callerprocedure")){
     		System.out.println("hoge");
