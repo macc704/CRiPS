@@ -45,7 +45,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import bc.apps.BlockToJavaMain;
-import bc.apps.JavaToBlockMain;
 import clib.view.app.javainfo.CJavaInfoPanels;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.inf.shizuoka.drawingobjects.ArrowObject;
@@ -910,7 +909,6 @@ public class WorkspaceController {
 			public void run() {
 				loadFreshWorkspace();
 				createAndShowGUI();
-				
 				loadProjectFromPath(xmlFilePath);
 				setSelectedFile(new File(xmlFilePath));
 			}
