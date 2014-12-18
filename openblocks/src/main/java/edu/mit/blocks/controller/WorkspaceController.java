@@ -897,7 +897,6 @@ public class WorkspaceController {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				setLangDefFilePath(langDefRootPath);
 				loadFreshWorkspace();
 				createAndShowGUI();
 			}
@@ -908,7 +907,6 @@ public class WorkspaceController {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				setLangDefFilePath(langDefRootPath);
 				loadFreshWorkspace();
 				createAndShowGUI();
 				

@@ -1213,7 +1213,9 @@ public class REApplication implements ICFwApplication {
 	}
 
 	public void doOpenBlockEditor() {
-		// doOpenBlockEditor("", getResourceRepository().getCCurrentFile().toJavaFile());
+//		doOpenBlockEditor("", getResourceRepository().getCCurrentFile().toJavaFile()
+//				, getResourceRepository().getCCurrentProject().getAbsolutePath().toString()
+//				+ "/lang_def_project.xml");
 		blockManager.doOpenBlockEditor();
 		// 20130926 DENOÇ™BEÇíºê⁄éQè∆Ç∑ÇÈÅ@ébíËëŒâû
 		if (deno != null && deno.isRunning()) {
@@ -1222,12 +1224,13 @@ public class REApplication implements ICFwApplication {
 	}
 	
 	// for CheCoPro
-	public void doOpenBlockEditor(String user, File selectedFile) {
+	public void doOpenBlockEditor(String user, File selectedFile, String langDefFilePath) {
 		edu.mit.blocks.controller.WorkspaceController wc = new WorkspaceController(user, true);
 		String[] libs = getLibraryManager().getLibsAsArray();
 		String xmlFilePath;
 		try {
 			xmlFilePath = new JavaToBlockMain(true).run(selectedFile,REApplication.SRC_ENCODING, libs);
+			wc.setLangDefFilePath(langDefFilePath);
 			wc.openBlockEditor(xmlFilePath);
 		} catch (Exception e) {
 			e.printStackTrace();

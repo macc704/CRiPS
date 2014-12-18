@@ -363,9 +363,16 @@ public class RECheCoProManager {
 		// --BlockEditor
 		Action actionOpenBlockEditor;
 		actionOpenBlockEditor = new AbstractAction() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			public void actionPerformed(ActionEvent e) {
 				File selectedFile = chApplication.getResourceRepository().getCCurrentFile().toJavaFile();
-				chApplication.doOpenBlockEditor(user, selectedFile);
+				String langDefFilePath = chApplication.getResourceRepository()
+						.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
+				chApplication.doOpenBlockEditor(user, selectedFile, langDefFilePath);
 			}
 		};
 		actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
