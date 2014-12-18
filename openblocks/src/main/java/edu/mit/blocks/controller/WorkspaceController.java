@@ -127,6 +127,7 @@ public class WorkspaceController {
 	 */
 	public void setLangDefFilePath(final String filePath) {
 		InputStream in = null;
+		this.langDefRootPath = filePath;
 		try {
 			in = new FileInputStream(filePath);
 			setLangDefStream(in);
@@ -884,9 +885,9 @@ public class WorkspaceController {
 		
 	private String langDefRootPath = "ext/block/lang_def_turtle.xml";
 
-	public void setLangDefRootPath(String langDefRootPath) {
-		this.langDefRootPath = langDefRootPath;
-	}
+//	public void setLangDefRootPath(String langDefRootPath) {
+//		this.langDefRootPath = langDefRootPath;
+//	}
 
 	public static void main(final String[] args) {
 		WorkspaceController wc = new WorkspaceController();
@@ -903,13 +904,12 @@ public class WorkspaceController {
 		});
 	}
 
-	public void openBlockEditor(final String xmlFilePath) {
+	public void openBlockEditor(final String xmlFilePath, final String ldfPath) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				loadFreshWorkspace();
 				createAndShowGUI();
-				
 				loadProjectFromPath(xmlFilePath);
 				setSelectedFile(new File(xmlFilePath));
 			}
