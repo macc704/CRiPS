@@ -37,6 +37,7 @@ import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import ronproeditor.ICFwResourceRepository;
 import ronproeditor.REApplication;
 import ronproeditor.views.REFrame;
 import ch.conn.framework.CHConnection;
@@ -58,6 +59,7 @@ import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
+import ch.util.CHBlockEditorController;
 import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
 import ch.view.CHPullDialog;
@@ -333,6 +335,7 @@ public class RECheCoProManager {
 	public void doOpenNewCH(String user) {
 		REApplication chApplication = application.doOpenNewRE("MyProjects/.CH/"
 				+ user);
+		chApplication.setChBlockEditorController(new CHBlockEditorController(user));
 		initializeCHEditor(chApplication, user);
 		chFrameMap.put(user, chApplication);
 	}
@@ -370,9 +373,9 @@ public class RECheCoProManager {
 
 			public void actionPerformed(ActionEvent e) {
 				File selectedFile = chApplication.getResourceRepository().getCCurrentFile().toJavaFile();
-				String langDefFilePath = chApplication.getResourceRepository()
-						.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
-				chApplication.doOpenBlockEditor(user, selectedFile, langDefFilePath);
+				String langDefFilePath = chApplication.getResourceRepository().getCCurrentProject()
+						.getAbsolutePath().toString() + "/lang_def_project.xml";
+				openBlockEditorForCH(chApplication.getChBlockEditorController(), selectedFile, langDefFilePath);
 			}
 		};
 		actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
@@ -545,7 +548,7 @@ public class RECheCoProManager {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						setCHTitleBar(chApplication, user);
-						if (chApplication.getFrame().getEditor() != null) {
+						if (evt.getPropertyName().equals(ICFwResourceRepository.DOCUMENT_OPENED)) {
 							initializeCHKeyListener(chApplication);
 							JToggleButton connButton = (JToggleButton) chApplication
 									.getFrame().getJMenuBar().getComponent(5);
@@ -554,9 +557,29 @@ public class RECheCoProManager {
 									.setEditable(!connButton.isSelected());
 							changeCHMenubar(chApplication,
 									connButton.isSelected());
+							
+							File selectedFile = chApplication.getResourceRepository().getCCurrentFile().toJavaFile();
+							String langDefFilePath = chApplication.getResourceRepository()
+									.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
+							reloadBlockEditor(chApplication.getChBlockEditorController(), selectedFile, langDefFilePath);
+						}
+						if (chApplication.getFrame().getEditor() != null) {
+							
 						}
 					}
 				});
+	}
+	
+	private void reloadBlockEditor(CHBlockEditorController bc, File selectedFile, String langDefFilePath) {
+		
+		bc.reloadBlockEditor(langDefFilePath, bc.createXmlFromJava(selectedFile, 
+				REApplication.SRC_ENCODING, application.getLibraryManager().getLibsAsArray()));
+	}
+	
+	public void openBlockEditorForCH(CHBlockEditorController bc,File selectedFile, String langDefFilePath) {
+		
+		bc.openBlockEditor(langDefFilePath, bc.createXmlFromJava(selectedFile,
+				REApplication.SRC_ENCODING, application.getLibraryManager().getLibsAsArray()));
 	}
 
 	private void initializeCHKeyListener(final REApplication chApplication) {

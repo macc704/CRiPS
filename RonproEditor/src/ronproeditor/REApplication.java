@@ -46,7 +46,7 @@ import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.views.DummyConsole;
 import ronproeditor.views.REFrame;
 import ronproeditor.views.RESourceEditor;
-import bc.apps.JavaToBlockMain;
+import ch.util.CHBlockEditorController;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileElement;
@@ -59,8 +59,6 @@ import clib.preference.app.CPreferenceManager;
 import clib.view.dialogs.CErrorDialog;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-
-import edu.mit.blocks.controller.WorkspaceController;
 
 
 /*
@@ -1213,27 +1211,14 @@ public class REApplication implements ICFwApplication {
 	}
 
 	public void doOpenBlockEditor() {
-		doOpenBlockEditor("", getResourceRepository().getCCurrentFile().toJavaFile()
+		checoproManager.openBlockEditorForCH(new CHBlockEditorController(""),
+				getResourceRepository().getCCurrentFile().toJavaFile()
 				, getResourceRepository().getCCurrentProject().getAbsolutePath().toString()
 				+ "/lang_def_project.xml");
 		// blockManager.doOpenBlockEditor();
 		// 20130926 DENOがBEを直接参照する　暫定対応
 		if (deno != null && deno.isRunning()) {
 			deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
-		}
-	}
-	
-	// for CheCoPro
-	public void doOpenBlockEditor(String user, File selectedFile, String langDefFilePath) {
-		edu.mit.blocks.controller.WorkspaceController wc = new WorkspaceController(user, true);
-		String[] libs = getLibraryManager().getLibsAsArray();
-		String xmlFilePath;
-		try {
-			xmlFilePath = new JavaToBlockMain(true).run(selectedFile,REApplication.SRC_ENCODING, libs);
-			wc.setLangDefFilePath(langDefFilePath);
-			wc.openBlockEditor(xmlFilePath);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -1302,6 +1287,17 @@ public class REApplication implements ICFwApplication {
 			ex.printStackTrace();
 			CErrorDialog.show(frame, "Clear Cash中にエラーが発生しました．", ex);
 		}
+	}
+
+	private CHBlockEditorController chBlockEditorController;
+	
+	public CHBlockEditorController getChBlockEditorController() {
+		return chBlockEditorController;
+	}
+
+	public void setChBlockEditorController(
+			CHBlockEditorController chBlockEditorController) {
+		this.chBlockEditorController = chBlockEditorController;
 	}
 
 	public REApplication doOpenNewRE(String dirPath) {

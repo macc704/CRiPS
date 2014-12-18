@@ -127,6 +127,7 @@ public class WorkspaceController {
 	 */
 	public void setLangDefFilePath(final String filePath) {
 		InputStream in = null;
+		this.langDefRootPath = filePath;
 		try {
 			in = new FileInputStream(filePath);
 			setLangDefStream(in);
@@ -207,6 +208,10 @@ public class WorkspaceController {
 		BlockConnectorShape.resetConnectorShapeMappings();
 		getWorkspace().getEnv().resetAllGenuses();
 		BlockLinkChecker.reset();
+	}
+
+	public JFrame getFrame() {
+		return frame;
 	}
 
 	/**
@@ -883,10 +888,6 @@ public class WorkspaceController {
 	}
 		
 	private String langDefRootPath = "ext/block/lang_def_turtle.xml";
-
-	public void setLangDefRootPath(String langDefRootPath) {
-		this.langDefRootPath = langDefRootPath;
-	}
 
 	public static void main(final String[] args) {
 		WorkspaceController wc = new WorkspaceController();
