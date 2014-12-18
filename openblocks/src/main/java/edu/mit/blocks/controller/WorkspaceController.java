@@ -101,6 +101,10 @@ public class WorkspaceController {
 	private JFrame frame;
 	
 	private DebuggerWorkspaceController debugger;
+	
+	// for CheCoPro
+	private boolean openedFromCH = false;
+	private String user = "";
 
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
@@ -108,6 +112,12 @@ public class WorkspaceController {
 	 *
 	 */
 	public WorkspaceController() {
+		this.workspace = new Workspace();
+	}
+	
+	public WorkspaceController(String user, boolean openedFromCH) {
+		this.openedFromCH = openedFromCH;
+		this.user = user;
 		this.workspace = new Workspace();
 	}
 
@@ -581,7 +591,7 @@ public class WorkspaceController {
 
 	public void setSelectedFile(File selectedFile) {
 		this.selectedFile = selectedFile;
-		frame.setTitle("BlockEditor - " + selectedFile.getPath());
+		frame.setTitle("BlockEditor - " + selectedFile.getPath() + " - " + user);
 	}
 
 	/**
@@ -686,7 +696,11 @@ public class WorkspaceController {
 	 */
 	private void createAndShowGUI() {
 		frame = new JFrame("BlockEditor");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		if(openedFromCH) { 
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		} else {
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 		frame.setBounds(100, 100, 800, 600);
 		// // final SearchBar sb = new SearchBar("Search blocks",
 		// // "Search for blocks in the drawers and workspace", workspace);
@@ -702,7 +716,9 @@ public class WorkspaceController {
 		
 		frame.add(getWorkspacePanel(), BorderLayout.CENTER);
 
-		frame.add(getButtonPanel(), BorderLayout.PAGE_START);
+		if(!openedFromCH) {
+			frame.add(getButtonPanel(), BorderLayout.PAGE_START);
+		}
 		
 		frame.setVisible(true);
 	}
@@ -881,7 +897,6 @@ public class WorkspaceController {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				// final WorkspaceController wc = new WorkspaceController();
 				setLangDefFilePath(langDefRootPath);
 				loadFreshWorkspace();
 				createAndShowGUI();
@@ -893,13 +908,12 @@ public class WorkspaceController {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				// final WorkspaceController wc = new WorkspaceController();
-				
 				setLangDefFilePath(langDefRootPath);
 				loadFreshWorkspace();
 				createAndShowGUI();
 				
 				loadProjectFromPath(xmlFilePath);
+				setSelectedFile(new File(xmlFilePath));
 			}
 		});
 	}

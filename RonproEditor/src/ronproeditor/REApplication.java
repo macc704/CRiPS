@@ -1223,7 +1223,7 @@ public class REApplication implements ICFwApplication {
 	
 	// for CheCoPro
 	public void doOpenBlockEditor(String user, File selectedFile) {
-		edu.mit.blocks.controller.WorkspaceController wc = new WorkspaceController();
+		edu.mit.blocks.controller.WorkspaceController wc = new WorkspaceController(user, true);
 		String[] libs = getLibraryManager().getLibsAsArray();
 		String xmlFilePath;
 		try {
