@@ -45,7 +45,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import bc.apps.BlockToJavaMain;
-import bc.apps.JavaToBlockMain;
 import clib.view.app.javainfo.CJavaInfoPanels;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.inf.shizuoka.drawingobjects.ArrowObject;
@@ -904,7 +903,7 @@ public class WorkspaceController {
 		});
 	}
 
-	public void openBlockEditor(final String xmlFilePath, final String ldfPath) {
+	public void openBlockEditor(final String xmlFilePath) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
