@@ -32,8 +32,8 @@ public class BlockEditorDebbugger implements ExecutionListener {
 		Element element = UniToBlockParser.getAddedModels().get(Integer.toString(node.hashCode()));
 		
 		if (element != null) {
-			int value = Integer.valueOf(element.getAttributes().getNamedItem("id").getNodeValue());
-			executingBlock = ws.getEnv().getRenderableBlock(Integer.toUnsignedLong(value));
+			Long value = Long.valueOf(element.getAttributes().getNamedItem("id").getNodeValue());
+			executingBlock = ws.getEnv().getRenderableBlock(value);
 			executingBlock.getHilightHandler().setHighlightColor(Color.YELLOW);
 		}
 
