@@ -44,7 +44,6 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import bc.apps.BlockToJavaMain;
 import clib.view.app.javainfo.CJavaInfoPanels;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.inf.shizuoka.drawingobjects.ArrowObject;
@@ -535,27 +534,27 @@ public class WorkspaceController {
 		}
 	}
 	
-	/**
-	 * Action bound to "Save As..." button.
-	 */
-	private class ConvertAction extends AbstractAction {
-		
-		private static final long serialVersionUID = 4649159219713654455L;
-
-		ConvertAction() {
-			super("Convert");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			try {
-				BlockToJavaMain.convert(selectedFile, enc , new String[] {});
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-	}
+//	/**
+//	 * Action bound to "Save As..." button.
+//	 */
+//	private class ConvertAction extends AbstractAction {
+//		
+//		private static final long serialVersionUID = 4649159219713654455L;
+//
+//		ConvertAction() {
+//			super("Convert");
+//		}
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			try {
+//				BlockToJavaMain.convert(selectedFile, enc , new String[] {});
+//			} catch (Exception e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//		}
+//	}
 
 	/**
 	 * Saves the content of the workspace to the given file
@@ -598,8 +597,8 @@ public class WorkspaceController {
 		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
 		buttonPanel.add(new JButton(saveAsAction));
 		
-		ConvertAction convertAction = new  ConvertAction();
-		buttonPanel.add(new JButton(convertAction));
+//		ConvertAction convertAction = new  ConvertAction();
+//		buttonPanel.add(new JButton(convertAction));
 		
 		{// create showing method trace line bottun
 			final JToggleButton showTraceLineButton = new JToggleButton(
