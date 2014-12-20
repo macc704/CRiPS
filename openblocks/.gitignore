@@ -6,3 +6,5 @@ target/
 .project
 openblocks.iml
 /bin/
+testbase/MyProjects
+testbase/oldext
