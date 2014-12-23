@@ -1211,11 +1211,11 @@ public class REApplication implements ICFwApplication {
 	}
 
 	public void doOpenBlockEditor() {
-		checoproManager.openBlockEditorForCH(new CHBlockEditorController(""),
-				getResourceRepository().getCCurrentFile().toJavaFile()
-				, getResourceRepository().getCCurrentProject().getAbsolutePath().toString()
-				+ "/lang_def_project.xml");
-		// blockManager.doOpenBlockEditor();
+//		checoproManager.openBlockEditorForCH(new CHBlockEditorController(""),
+//				getResourceRepository().getCCurrentFile().toJavaFile()
+//				, getResourceRepository().getCCurrentProject().getAbsolutePath().toString()
+//				+ "/lang_def_project.xml");
+		blockManager.doOpenBlockEditor();
 		// 20130926 DENOÇ™BEÇíºê⁄éQè∆Ç∑ÇÈÅ@ébíËëŒâû
 		if (deno != null && deno.isRunning()) {
 			deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
