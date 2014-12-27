@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ch.conn.framework.CHUserState;
@@ -31,21 +32,36 @@ public class CHMemberSelectorFrame extends JFrame {
 	public void setMembers(List<CHUserState> userStates) {
 
 		this.getContentPane().removeAll();
-		JPanel buttonPanel = new JPanel();
-		this.getContentPane().add(buttonPanel);
+		List<JPanel> panels = new ArrayList<JPanel>();
+		JPanel basePanel = new JPanel();
+		
+		this.getContentPane().add(basePanel);
 
 		for (final CHUserState aUserState : userStates) {
+			
+			JPanel panel = new JPanel();
+			
 			JButton button = new JButton(aUserState.getUser());
 			button.setBackground(aUserState.getColor());
-
-			buttonPanel.add(button);
+			
+			JLabel lastLoginTime = new JLabel("online");
+			
+			panel.add(button);
+			panel.add(lastLoginTime);
+			panels.add(panel);
 
 			if (!aUserState.isLogin()) {
 				button.setForeground(Color.RED);
+				lastLoginTime.setText(aUserState.getLastLogin().toString());
 			}
 
 			buttons.add(button);
 		}
+		
+		for (JPanel aPanle : panels) {
+			basePanel.add(aPanle);
+		}
+		
 		this.getContentPane().validate();
 
 	}
