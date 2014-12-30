@@ -372,9 +372,13 @@ public class RECheCoProManager {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				File selectedFile = chApplication.getResourceRepository().getCCurrentFile().toJavaFile();
-				String langDefFilePath = chApplication.getResourceRepository().getCCurrentProject()
-						.getAbsolutePath().toString() + "/lang_def_project.xml";
+				File selectedFile = null;
+				String langDefFilePath = "";
+				if (chApplication.getChBlockEditorController().isFileOpened()){
+					selectedFile = chApplication.getResourceRepository().getCCurrentFile().toJavaFile();
+					langDefFilePath = chApplication.getResourceRepository().getCCurrentProject()
+							.getAbsolutePath().toString() + "/lang_def_project.xml";
+				}
 				openBlockEditorForCH(chApplication.getChBlockEditorController(), selectedFile, langDefFilePath);
 			}
 		};
@@ -558,10 +562,15 @@ public class RECheCoProManager {
 							changeCHMenubar(chApplication,
 									connButton.isSelected());
 							
+							chApplication.getChBlockEditorController().setFileOpened(true);
+							
 							File selectedFile = chApplication.getResourceRepository().getCCurrentFile().toJavaFile();
 							String langDefFilePath = chApplication.getResourceRepository()
 									.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
 							reloadBlockEditor(chApplication.getChBlockEditorController(), selectedFile, langDefFilePath);
+						} else {
+							chApplication.getChBlockEditorController().setFileOpened(false);
+							reloadBlockEditor(chApplication.getChBlockEditorController(), null, "");
 						}
 						if (chApplication.getFrame().getEditor() != null) {
 							
@@ -571,15 +580,24 @@ public class RECheCoProManager {
 	}
 	
 	private void reloadBlockEditor(CHBlockEditorController bc, File selectedFile, String langDefFilePath) {
+		String xmlFilePaht = "";
 		
-		bc.reloadBlockEditor(langDefFilePath, bc.createXmlFromJava(selectedFile, 
-				REApplication.SRC_ENCODING, application.getLibraryManager().getLibsAsArray()));
+		if (selectedFile != null) {
+			xmlFilePaht = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
+					application.getLibraryManager().getLibsAsArray());
+		}
+		
+		bc.reloadBlockEditor(langDefFilePath, xmlFilePaht);
 	}
 	
 	public void openBlockEditorForCH(CHBlockEditorController bc,File selectedFile, String langDefFilePath) {
+		String xmlFilePaht = "";
 		
-		bc.openBlockEditor(langDefFilePath, bc.createXmlFromJava(selectedFile,
-				REApplication.SRC_ENCODING, application.getLibraryManager().getLibsAsArray()));
+		if (selectedFile != null) {
+			xmlFilePaht = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
+					application.getLibraryManager().getLibsAsArray());
+		}
+		bc.openBlockEditor(langDefFilePath, xmlFilePaht);
 	}
 
 	private void initializeCHKeyListener(final REApplication chApplication) {

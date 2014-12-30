@@ -8,7 +8,7 @@ import edu.mit.blocks.controller.WorkspaceController;
 public class CHBlockEditorController {
 
 	private WorkspaceController wc;
-
+	private boolean fileOpened;
 	public CHBlockEditorController(String user) {
 		wc = new WorkspaceController(user, true);
 	}
@@ -23,16 +23,30 @@ public class CHBlockEditorController {
 	}
 
 	public void openBlockEditor(String langDefFilePath, String xmlFilePath) {
-		wc.setLangDefFilePath(langDefFilePath);
-		wc.openBlockEditor(xmlFilePath);
+		if (fileOpened) {
+			wc.setLangDefFilePath(langDefFilePath);
+			wc.openBlockEditor(xmlFilePath);
+		} else {
+			wc.loadFreshWorkspace();
+		}
 	}
 
 	public void reloadBlockEditor(String langDefFilePath, String xmlFilePath) {
-		if (wc.isOpened()) {
+		if (wc.isOpened() && fileOpened) {
 			wc.setLangDefFilePath(langDefFilePath);
 			wc.resetWorkspace();
 			wc.loadProjectFromPath(xmlFilePath);
+		} else if (wc.isOpened() && !fileOpened) {
+			wc.loadFreshWorkspace();
 		}
+	}
+
+	public void setFileOpened(boolean fileOpened) {
+		this.fileOpened = fileOpened;
+	}
+
+	public boolean isFileOpened() {
+		return fileOpened;
 	}
 
 }
