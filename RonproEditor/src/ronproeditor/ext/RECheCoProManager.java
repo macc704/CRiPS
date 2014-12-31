@@ -923,16 +923,18 @@ public class RECheCoProManager {
 		}
 
 		private void changeStringToColor(String str) {
-			if (str.equals("Gray")) {
+			if (str.equals("GRAY")) {
 				color = Color.GRAY;
-			} else if (str.equals("Blue")) {
+			} else if (str.equals("BLUE")) {
 				color = Color.BLUE;
-			} else if (str.equals("Green")) {
-				color = Color.GREEN;
-			} else if (str.equals("Yellow")) {
+			} else if (str.equals("PINK")) {
+				color = Color.PINK;
+			} else if (str.equals("YELLOW")) {
 				color = Color.YELLOW;
-			} else if (str.equals("Orange")) {
+			} else if (str.equals("ORANGE")) {
 				color = Color.ORANGE;
+			} else if (str.equals("CYAN")) {
+				color = Color.CYAN;
 			}
 		}
 
@@ -978,11 +980,12 @@ public class RECheCoProManager {
 
 				JPanel colorPanel = new JPanel(flowLayout);
 				colorPanel.add(new JLabel("Color : "));
-				colorBox.addItem("Gray");
-				colorBox.addItem("Blue");
-				colorBox.addItem("Green");
-				colorBox.addItem("Yellow");
-				colorBox.addItem("Orange");
+				colorBox.addItem("GRAY");
+				colorBox.addItem("BLUE");
+				colorBox.addItem("PINK");
+				colorBox.addItem("YELLOW");
+				colorBox.addItem("ORANGE");
+				colorBox.addItem("CYAN");				
 				colorPanel.add(colorBox);
 				
 				JPanel languagePanel = new JPanel(flowLayout);

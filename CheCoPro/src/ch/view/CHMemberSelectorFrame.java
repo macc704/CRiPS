@@ -1,6 +1,8 @@
 package ch.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class CHMemberSelectorFrame extends JFrame {
 		this.getContentPane().removeAll();
 		List<JPanel> panels = new ArrayList<JPanel>();
 		JPanel basePanel = new JPanel();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
 		
 		this.getContentPane().add(basePanel);
 
@@ -45,14 +48,17 @@ public class CHMemberSelectorFrame extends JFrame {
 			button.setBackground(aUserState.getColor());
 			
 			JLabel lastLoginTime = new JLabel("online");
+			lastLoginTime.setForeground(Color.GREEN);
 			
-			panel.add(button);
-			panel.add(lastLoginTime);
+			panel.setLayout(new BorderLayout());
+			panel.add(button, BorderLayout.NORTH);
+			panel.add(lastLoginTime, BorderLayout.CENTER);
 			panels.add(panel);
 
 			if (!aUserState.isLogin()) {
 				button.setForeground(Color.RED);
-				lastLoginTime.setText(aUserState.getLastLogin().toString());
+				lastLoginTime.setText(formatter.format(aUserState.getLastLogin()));
+				lastLoginTime.setForeground(Color.RED);
 			}
 
 			buttons.add(button);
