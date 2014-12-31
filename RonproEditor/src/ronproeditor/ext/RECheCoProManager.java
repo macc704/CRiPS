@@ -577,7 +577,7 @@ public class RECheCoProManager {
 	 ********************/
 
 	public void startCheCoPro() {
-
+		
 		// for test
 		CHFileSystem.user = user;
 		
@@ -667,7 +667,7 @@ public class RECheCoProManager {
 		if (result.isResult() == CHLoginCheck.FAILURE) {
 			conn.close();
 		} else if (result.isResult() == CHLoginCheck.NEW_ENTRY) {
-			CHEntryDialog entryDialog = new CHEntryDialog();
+			CHEntryDialog entryDialog = new CHEntryDialog(user, password);
 			entryDialog.open();
 			user = entryDialog.getUser();
 			password = entryDialog.getPassword();
@@ -801,7 +801,9 @@ public class RECheCoProManager {
 		logWriter.saveTableToFile();
 		resetMenubar();
 		closeCHEditor();
-		msFrame.dispose();
+		if (msFrame != null) {
+			msFrame.dispose();
+		}
 		removeListeners();
 	}
 

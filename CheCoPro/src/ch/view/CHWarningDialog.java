@@ -10,6 +10,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import clib.view.windowmanager.CWindowCentraizer;
+
 public class CHWarningDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +28,7 @@ public class CHWarningDialog extends JDialog implements ActionListener {
 		this.setModal(true);
 		this.setBounds(100, 100, 375, 150);
 		this.setResizable(false);
+		CWindowCentraizer.centerWindow(this);
 
 		JLabel label = new JLabel();
 		JButton cancelButton = new JButton("キャンセル");

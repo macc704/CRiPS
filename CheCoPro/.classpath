@@ -6,5 +6,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/CommonLibrary"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/openblocks"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BlockConverter"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CSwing"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

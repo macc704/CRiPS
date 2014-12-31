@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import clib.view.windowmanager.CWindowCentraizer;
+
 public class CHEntryDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -26,10 +28,12 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 	private JPasswordField confirmField = new JPasswordField(15);
 
 	public static void main(String[] args) {
-		new CHEntryDialog().open();
+		new CHEntryDialog("YuyaKato", "passWord").open();
 	}
 
-	public CHEntryDialog() {
+	public CHEntryDialog(String user, String password) {
+		this.user = user;
+		this.password = password;
 		initialize();
 	}
 
@@ -38,6 +42,7 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setBounds(100, 100, 400, 200);
+		CWindowCentraizer.centerWindow(this);
 
 		JPanel gridPanel = new JPanel(new GridLayout(3, 0));
 
@@ -48,10 +53,13 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 		JPanel confirmPanel = new JPanel(layout);
 
 		userPanel.add(new JLabel("Name : "));
+		userField.setText(user);
 		userPanel.add(userField);
 		passwordPanel.add(new JLabel("Password : "));
+		passwordField.setText(password);
 		passwordPanel.add(passwordField);
-		confirmPanel.add(new JLabel("Confirm Password ; "));
+		confirmPanel.add(new JLabel("Confirm Password : "));
+		confirmField.setText(password);
 		confirmPanel.add(confirmField);
 
 		gridPanel.add(userPanel);

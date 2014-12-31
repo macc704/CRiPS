@@ -11,6 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import clib.view.windowmanager.CWindowCentraizer;
+
 public class CHPullDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -29,7 +31,7 @@ public class CHPullDialog extends JDialog implements ActionListener {
 	}
 
 	private void initialize(int language) {
-
+		
 		JLabel label = new JLabel();
 		JButton cancelButton = new JButton();
 		JButton okButton = new JButton("OK");
@@ -47,10 +49,12 @@ public class CHPullDialog extends JDialog implements ActionListener {
 			javaCheckBox.setText("Source (Java)");
 			materialCheckBox.setText("Materials (Image & Music files)");
 		}
+		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setBounds(100, 100, 300, 150);
 		this.setResizable(false);
+		CWindowCentraizer.centerWindow(this);
 
 		JPanel checkBoxPanel = new JPanel(new FlowLayout());
 		checkBoxPanel.add(javaCheckBox);
