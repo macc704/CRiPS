@@ -27,9 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -145,18 +143,6 @@ public class RECheCoProManager {
 
 		application.getSourceManager().addPropertyChangeListener(
 				rePropertyChangeListener);
-
-		// JMenuBar menubar = application.getFrame().getJMenuBar();
-		// JButton fileSendButton = new JButton("Save to server");
-		// menubar.add(fileSendButton);
-		// application.getFrame().setJMenuBar(menubar);
-		// fileSendButton.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// processFilelistRequest(new CHFilelistRequest(user));
-		// }
-		// });
 	}
 
 	private void initializeREKeyListener() {
@@ -165,29 +151,9 @@ public class RECheCoProManager {
 			int mod;
 
 			@Override
-			public void keyReleased(KeyEvent e) {
-				
-//				conn.write(new CHSourceChanged(user, application.getFrame()
-//						.getEditor().getViewer().getText(), application
-//						.getSourceManager().getCurrentFile().getName(), 1));
-				
-				if (e.getKeyCode() == KeyEvent.VK_S) {
-					if ((mod & CTRL_MASK) != 0) {
-						sendText();
-						processFilelistRequest(new CHFilelistRequest(user));
-					}
-				}
-			}
-
-			@Override
 			public void keyPressed(KeyEvent e) {
 				mod = e.getModifiers();
-				if (e.getKeyCode() == KeyEvent.VK_C
-						|| e.getKeyCode() == KeyEvent.VK_X) {
-					if ((mod & CTRL_MASK) != 0) {
-						writeCopyLog(application);
-					}
-				} else if (e.getKeyCode() == KeyEvent.VK_V) {
+				if (e.getKeyCode() == KeyEvent.VK_V) {
 					if ((mod & CTRL_MASK) != 0) {
 						System.out.println("paste");
 						writePasteLog(application.getSourceManager()
@@ -201,7 +167,6 @@ public class RECheCoProManager {
 				.addKeyListener(reKeyListener);
 	}
 	
-	// TODO ファイル送信処理重複
 	public void sendFiles() {
 		if (conn != null && isConnect()) {
 			processFilelistRequest(new CHFilelistRequest(user));
@@ -216,7 +181,6 @@ public class RECheCoProManager {
 		}
 	}
 
-	// TODO 突貫工事
 	private ActionListener copyListener = new ActionListener() {
 		
 		@Override
@@ -244,17 +208,8 @@ public class RECheCoProManager {
 	
 	private void initializeREMenuListener(final REApplication application) {
 		
-		JMenu menu = application.getFrame().getJMenuBar().getMenu(1);
-
-		List<JMenuItem> items = new ArrayList<JMenuItem>();
-		items.add(menu.getItem(3));
-		items.add(menu.getItem(4));
-
-		for (JMenuItem aItem : items) {
-			aItem.addActionListener(copyListener);
-		}
-
-		menu.getItem(5).addActionListener(pasteListener);
+		application.getFrame().getJMenuBar().getMenu(1).getItem(5)
+				.addActionListener(pasteListener);
 		
 		application.getFrame().getJMenuBar().getMenu(0).getItem(8)
 				.addActionListener(saveListener);
@@ -262,21 +217,11 @@ public class RECheCoProManager {
 	
 	private void removeREMenuListener(){
 		
-		JMenu menu = application.getFrame().getJMenuBar().getMenu(1);
-		
-		List<JMenuItem> items = new ArrayList<JMenuItem>();
-		items.add(menu.getItem(3));
-		items.add(menu.getItem(4));
-		
-		for (JMenuItem aItem : items) {
-			aItem.removeActionListener(copyListener);
-		}
-		
-		menu.getItem(5).removeActionListener(pasteListener);
+		application.getFrame().getJMenuBar().getMenu(1).getItem(5)
+				.removeActionListener(pasteListener);
 		
 		application.getFrame().getJMenuBar().getMenu(0).getItem(8)
 				.removeActionListener(saveListener);
-		
 	}
 
 	private void writeCopyLog(REApplication application) {
@@ -313,10 +258,6 @@ public class RECheCoProManager {
 						} else {
 							doOpenNewCH(user);
 							conn.write(new CHFilelistRequest(user));
-							logWriter
-									.writeCommand(CHUserLogWriter.OPEN_CHEDITOR);
-							logWriter.writeFrom(user);
-							logWriter.addRowToTable();
 						}
 					}
 				}
@@ -357,6 +298,9 @@ public class RECheCoProManager {
 		menuBar.getMenu(0).remove(1);
 		menuBar.getMenu(0).remove(1);
 		menuBar.getMenu(0).remove(4);
+		
+		menuBar.getMenu(1).getItem(3).addActionListener(copyListener);
+		menuBar.getMenu(1).getItem(4).addActionListener(copyListener);
 
 		int menuCount = menuBar.getMenu(3).getItemCount() - 1;
 		for (int i = menuCount; i >= 0; i--) {
@@ -382,6 +326,7 @@ public class RECheCoProManager {
 				openBlockEditorForCH(chApplication.getChBlockEditorController(), selectedFile, langDefFilePath);
 			}
 		};
+		
 		actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
 		actionOpenBlockEditor.putValue(Action.ACCELERATOR_KEY,
 				KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_MASK));
@@ -419,15 +364,9 @@ public class RECheCoProManager {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (connButton.isSelected()) {
-					logWriter.writeCommand(CHUserLogWriter.SYNC_START);
-					logWriter.writeFrom(user);
-					logWriter.addRowToTable();
 					conn.write(new CHFilelistRequest(user));
 					connButton.setText(syncLabel);
 				} else {
-					logWriter.writeCommand(CHUserLogWriter.SYNC_STOP);
-					logWriter.writeFrom(user);
-					logWriter.addRowToTable();
 					connButton.setText(nonSyncLabel);
 				}
 				if (chApplication.getFrame().getEditor() != null) {
@@ -440,32 +379,6 @@ public class RECheCoProManager {
 		});
 
 		menuBar.add(connButton);
-
-		// JButton fileRequestButton = new JButton("File request");
-		// fileRequestButton.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// logWriter.writeCommand(CHUserLogWriter.FILE_REQUEST);
-		// logWriter.writeTo(user);
-		// logWriter.addRowToTable();
-		// conn.write(new CHFilelistRequest(user));
-		// chApplication.doRefresh();
-		// }
-		// });
-
-		// JButton copyFileButton = new JButton("Copy All to MyProjects");
-		// copyFileButton.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
-		// logWriter.writeFrom(user);
-		// logWriter.addRowToTable();
-		// CHFileSystem.copyUserDirToMyProjects(user);
-		// application.doRefresh();
-		// }
-		// });
 
 		JButton pullButton = new JButton();
 		
@@ -490,21 +403,10 @@ public class RECheCoProManager {
 
 		});
 
-		// menuBar.add(fileRequestButton);
-		// menuBar.add(copyFileButton);
 		menuBar.add(pullButton);
 
 		menuBar.setBackground(getUserColor(user));
 		chApplication.getFrame().setJMenuBar(menuBar);
-
-		// for (CHUserState aUserState : userStates) {
-		// if (user.equals(aUserState.getUser()) && !aUserState.isLogin()) {
-		// JToggleButton toggleButton = (JToggleButton) chApplication
-		// .getFrame().getJMenuBar().getComponent(5);
-		// toggleButton.doClick();
-		// toggleButton.setEnabled(false);
-		// }
-		// }
 
 		changeCHMenubar(chApplication, connButton.isSelected());
 	}
@@ -538,9 +440,7 @@ public class RECheCoProManager {
 		chApplication.getFrame().addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				logWriter.writeCommand(CHUserLogWriter.CLOSE_CHEDITOR);
-				logWriter.writeFrom(user);
-				logWriter.addRowToTable();
+
 				chFrameMap.remove(user);
 				msFrame.setMembers(userStates);
 				setMemberSelectorListner();
@@ -571,9 +471,6 @@ public class RECheCoProManager {
 						} else {
 							chApplication.getChBlockEditorController().setFileOpened(false);
 							reloadBlockEditor(chApplication.getChBlockEditorController(), null, "");
-						}
-						if (chApplication.getFrame().getEditor() != null) {
-							
 						}
 					}
 				});
@@ -619,11 +516,6 @@ public class RECheCoProManager {
 								|| e.getKeyCode() == KeyEvent.VK_X) {
 							if ((mod & CTRL_MASK) != 0) {
 								writeCopyLog(chApplication);
-							}
-						} else if (e.getKeyCode() == KeyEvent.VK_V) {
-							if ((mod & CTRL_MASK) != 0) {
-								writePasteLog(chApplication.getSourceManager()
-										.getCCurrentFile());
 							}
 						} else if (e.getKeyCode() == KeyEvent.VK_S) {
 							if ((mod & CTRL_MASK) != 0) {
