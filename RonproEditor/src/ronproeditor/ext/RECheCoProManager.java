@@ -3,6 +3,7 @@ package ronproeditor.ext;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -174,10 +175,13 @@ public class RECheCoProManager {
 	}
 	
 	public void sendText() {
+		
 		if (conn != null && isConnect()) {
 			conn.write(new CHSourceChanged(user, application.getFrame()
 				.getEditor().getViewer().getText(), application
-				.getSourceManager().getCurrentFile().getName(), 1));
+				.getSourceManager().getCurrentFile().getName(), 
+				application.getFrame().getEditor().getViewer().getScroll()
+				.getViewport().getViewPosition()));
 		}
 	}
 
@@ -728,6 +732,7 @@ public class RECheCoProManager {
 		final String sender = response.getUser();
 		final String source = response.getSource();
 		final String senderCurrentFile = response.getCurrentFileName();
+		final Point point = response.getPoint();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -735,6 +740,15 @@ public class RECheCoProManager {
 					chFrameMap.get(sender).getFrame().getEditor()
 							.setText(source);
 					chFrameMap.get(sender).doSave();
+					SwingUtilities.invokeLater(new Runnable() {
+						
+						@Override
+						public void run() {
+							chFrameMap.get(sender).getFrame().getEditor()
+							.getViewer().getScroll().getViewport()
+							.setViewPosition(point);
+						}
+					});
 				}
 			}
 		});

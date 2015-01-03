@@ -37,6 +37,7 @@ public class RESourceViewer extends JPanel {
 
 	private JTextPane textPane;
 	private LineNumberView lineNumberView;
+	private JScrollPane scroll;
 
 	public RESourceViewer() {
 		this("");
@@ -59,7 +60,7 @@ public class RESourceViewer extends JPanel {
 		textPane.setEditorKit(new CJavaCodeKit());
 		this.lineNumberView = new LineNumberView(textPane);
 
-		JScrollPane scroll = new JScrollPane(textPane);
+		scroll = new JScrollPane(textPane);
 		scroll.setRowHeaderView(lineNumberView);
 		this.add(BorderLayout.CENTER, scroll);
 	}
@@ -85,6 +86,10 @@ public class RESourceViewer extends JPanel {
 
 	public LineNumberView getLineNumberView() {
 		return lineNumberView;
+	}
+
+	public JScrollPane getScroll() {
+		return scroll;
 	}
 
 	/**
