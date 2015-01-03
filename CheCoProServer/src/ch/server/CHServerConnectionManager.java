@@ -8,6 +8,7 @@ import java.util.Map;
 
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHUserState;
+import ch.conn.framework.packets.CHLoginMemberChanged;
 
 public class CHServerConnectionManager {
 
@@ -115,16 +116,23 @@ public class CHServerConnectionManager {
 
 	public void sendToOne(Object obj, String user) {
 		synchronized (lock) {
-			connections.get(user).write(obj);
-			CHServer.out.println("send to: " + user + ", object: " + obj);
+			if (connections.get(user).write(obj)) {
+				CHServer.out.println("send to: " + user + ", object: " + obj);
+			} else {
+				logout(user);
+				broadCast(new CHLoginMemberChanged(getUserStates()));
+			}
 		}
 	}
 
 	public void sendToOne(Object obj, CHConnection conn) {
 		synchronized (lock) {
-			conn.write(obj);
-			CHServer.out.println("send to: " + conn + ", object: " + obj);
+			if (conn.write(obj)) {
+				CHServer.out.println("send to: " + conn + ", object: " + obj);
+			} else {
+				logout(conn);
+				broadCast(new CHLoginMemberChanged(getUserStates()));
+			}
 		}
 	}
-
 }

@@ -94,7 +94,7 @@ public class CHFileSystem {
 	}
 
 	public static CFileHashList createFileList(CDirectory dir) {
-		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(".*",
+		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(
 				".class", ".xml", "bin"));
 	}
 

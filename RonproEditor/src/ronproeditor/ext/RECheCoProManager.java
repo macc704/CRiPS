@@ -751,9 +751,6 @@ public class RECheCoProManager {
 	}
 
 	private void processFileRequest(CHFileRequest request) {
-		logWriter.writeCommand(CHUserLogWriter.SEND_FILE);
-		logWriter.writeFrom(user);
-		logWriter.addRowToTable();
 		List<CHFile> files = CHFileSystem.getCHFiles(
 				request.getRequestFilePaths(),
 				CHFileSystem.getFinalProjectDir());
@@ -761,9 +758,6 @@ public class RECheCoProManager {
 	}
 
 	private void processFileResponse(CHFileResponse response) {
-		logWriter.writeCommand(CHUserLogWriter.RECIVE_FILE);
-		logWriter.writeFrom(response.getUser());
-		logWriter.addRowToTable();
 		CHFileSystem.saveFiles(response.getFiles(),
 				CHFileSystem.getUserDirForClient(response.getUser()));
 		if (chFrameMap.containsKey(response.getUser())) {
