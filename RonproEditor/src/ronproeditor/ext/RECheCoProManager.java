@@ -861,10 +861,14 @@ public class RECheCoProManager {
 			if (chFrameMap.containsKey(userState.getUser())) {
 				chFrameMap.get(userState.getUser()).getFrame()
 						.setVisible(false);
-				;
+				closeCHBlockEditor(chFrameMap.get(userState.getUser()));
 				chFrameMap.remove(userState.getUser());
 			}
 		}
+	}
+	
+	private void closeCHBlockEditor(REApplication chApplication) {
+		chApplication.getChBlockEditorController().close();
 	}
 
 	/**********

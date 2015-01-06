@@ -51,7 +51,9 @@ public class CHBlockEditorController {
 	}
 	
 	public void close() {
-		wc.getFrame().dispose();
+		if (wc.getFrame().isVisible()) {
+			wc.getFrame().dispose();
+		}
 	}
 
 }
