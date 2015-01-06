@@ -466,6 +466,7 @@ public class RECheCoProManager {
 			@Override
 			public void windowClosing(WindowEvent e) {
 
+				chApplication.getChBlockEditorController().close();
 				chFrameMap.remove(user);
 				msFrame.setMembers(userStates);
 				setMemberSelectorListner();
@@ -513,13 +514,13 @@ public class RECheCoProManager {
 	}
 	
 	public void openBlockEditorForCH(CHBlockEditorController bc,File selectedFile, String langDefFilePath) {
-		String xmlFilePaht = "";
+		String xmlFilePath = "";
 		
 		if (selectedFile != null) {
-			xmlFilePaht = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
+			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
 					application.getLibraryManager().getLibsAsArray());
 		}
-		bc.openBlockEditor(langDefFilePath, xmlFilePaht);
+		bc.openBlockEditor(langDefFilePath, xmlFilePath);
 	}
 
 	private void initializeCHKeyListener(final REApplication chApplication) {
