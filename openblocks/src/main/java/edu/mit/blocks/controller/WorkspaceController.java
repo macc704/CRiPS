@@ -46,7 +46,6 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import bc.apps.BlockToJavaMain;
 import clib.view.app.javainfo.CJavaInfoPanels;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.inf.shizuoka.drawingobjects.ArrowObject;
@@ -567,7 +566,7 @@ public class WorkspaceController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				BlockToJavaMain.convert(selectedFile, enc , new String[] {});
+//				BlockToJavaMain.convert(selectedFile, enc , new String[] {});
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();

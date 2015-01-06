@@ -1,6 +1,5 @@
 package edu.mit.blocks.renderable;
 
-import bc.BCSystem;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockLinkChecker;
 
@@ -23,7 +22,6 @@ public class BlockAnimationThread extends Thread {
 	}
 
 	public void run() {
-		BCSystem.out.println("animationthread start");
 		isRun = true;
 
 		if (animationDirection.equals("right")) {
@@ -42,7 +40,6 @@ public class BlockAnimationThread extends Thread {
 		int x = block.getX() + 1;
 		int y = block.getY();
 
-		BCSystem.out.println("distance:" + distance);
 		double realWaitTime = 1.0;
 
 //		for (BlockConnector socket : BlockLinkChecker
@@ -60,8 +57,6 @@ public class BlockAnimationThread extends Thread {
 
 		try {
 			while (block.getX() < initX + distance) {
-				BCSystem.out.println("location:" + block.getLocation());
-				BCSystem.out.println("waitTime:" + waitTime);
 				block.setLocation(x, y);
 				if ((int) (((block.getX() - initX) * 100 / distance)) % 25 == 24) {
 					if (realWaitTime * 1.7 < 10) {

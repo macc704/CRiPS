@@ -103,7 +103,7 @@ public class ExSpecialExpressionModel extends ExpressionModel {
 			out.println("<BlockConnector connector-kind=\"plug\" connector-type=\""
 					+ parentType
 					+ "\""
-					+ " init-type=\"poly\" position-type=\"single\" con-block-id=\""
+					+ " label=\"\" init-type=\"poly\" position-type=\"single\" con-block-id=\""
 					+ getParent().getId() + "\"/>");
 			// end Plug
 			makeIndent(out, indent + 1);
