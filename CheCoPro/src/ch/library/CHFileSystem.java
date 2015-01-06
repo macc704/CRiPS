@@ -20,6 +20,7 @@ public class CHFileSystem {
 	public static final String PROJECTPATH = "runtime-EclipseApplication/final";
 	public static final String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
 	public static final String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
+	// TODO for test
 	public static String user;
 	
 	private static CDirectory getBaseDir(int port) {
@@ -95,7 +96,7 @@ public class CHFileSystem {
 
 	public static CFileHashList createFileList(CDirectory dir) {
 		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(
-				".class", ".xml", "bin"));
+				".class", ".xml", "bin", ".pres2"));
 	}
 
 	public static CFileHashList createFileList(CDirectory dir,
