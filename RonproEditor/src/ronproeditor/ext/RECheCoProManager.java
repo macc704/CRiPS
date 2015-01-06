@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Point;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -16,6 +20,7 @@ import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -158,7 +163,7 @@ public class RECheCoProManager {
 					if ((mod & CTRL_MASK) != 0) {
 						System.out.println("paste");
 						writePasteLog(application.getSourceManager()
-								.getCCurrentFile());
+								.getCCurrentFile(), getClipbordString());
 					}
 				}
 			}
@@ -166,6 +171,21 @@ public class RECheCoProManager {
 
 		application.getFrame().getEditor().getViewer().getTextPane()
 				.addKeyListener(reKeyListener);
+	}
+	
+	public String getClipbordString() {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Clipboard clipboard = toolkit.getSystemClipboard();
+		
+		try {
+			return (String) clipboard.getData(DataFlavor.stringFlavor);
+		} catch (UnsupportedFlavorException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public void sendFiles() {
@@ -197,7 +217,7 @@ public class RECheCoProManager {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			writePasteLog(application.getSourceManager().getCCurrentFile());
+			writePasteLog(application.getSourceManager().getCCurrentFile(), getClipbordString());
 		}
 	};
 	
@@ -237,9 +257,10 @@ public class RECheCoProManager {
 		logWriter.addRowToTable();
 	}
 
-	private void writePasteLog(CFile file) {
+	private void writePasteLog(CFile file, String code) {
 		logWriter.writeCommand(CHUserLogWriter.PASTE_CODE);
 		logWriter.writeTo(file);
+		logWriter.writeCode(code);
 		logWriter.addRowToTable();
 	}
 
@@ -445,6 +466,7 @@ public class RECheCoProManager {
 			@Override
 			public void windowClosing(WindowEvent e) {
 
+				chApplication.getChBlockEditorController().close();
 				chFrameMap.remove(user);
 				msFrame.setMembers(userStates);
 				setMemberSelectorListner();
@@ -492,13 +514,13 @@ public class RECheCoProManager {
 	}
 	
 	public void openBlockEditorForCH(CHBlockEditorController bc,File selectedFile, String langDefFilePath) {
-		String xmlFilePaht = "";
+		String xmlFilePath = "";
 		
 		if (selectedFile != null) {
-			xmlFilePaht = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
+			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
 					application.getLibraryManager().getLibsAsArray());
 		}
-		bc.openBlockEditor(langDefFilePath, xmlFilePaht);
+		bc.openBlockEditor(langDefFilePath, xmlFilePath);
 	}
 
 	private void initializeCHKeyListener(final REApplication chApplication) {

@@ -1211,7 +1211,10 @@ public class REApplication implements ICFwApplication {
 	}
 
 	public void doOpenBlockEditor() {
-//		checoproManager.openBlockEditorForCH(new CHBlockEditorController(""),
+		// for test
+//		chBlockEditorController = new CHBlockEditorController("");
+//		chBlockEditorController.setFileOpened(true);
+//		checoproManager.openBlockEditorForCH(chBlockEditorController,
 //				getResourceRepository().getCCurrentFile().toJavaFile()
 //				, getResourceRepository().getCCurrentProject().getAbsolutePath().toString()
 //				+ "/lang_def_project.xml");

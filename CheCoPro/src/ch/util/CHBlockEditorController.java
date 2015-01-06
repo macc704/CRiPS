@@ -9,6 +9,7 @@ public class CHBlockEditorController {
 
 	private WorkspaceController wc;
 	private boolean fileOpened;
+	
 	public CHBlockEditorController(String user) {
 		wc = new WorkspaceController(user, true);
 	}
@@ -47,6 +48,10 @@ public class CHBlockEditorController {
 
 	public boolean isFileOpened() {
 		return fileOpened;
+	}
+	
+	public void close() {
+		wc.getFrame().dispose();
 	}
 
 }
