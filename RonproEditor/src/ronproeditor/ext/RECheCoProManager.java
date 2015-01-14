@@ -81,7 +81,7 @@ public class RECheCoProManager {
 	public static final String DEFAULT_PASSWAOD = "";
 	public static final Color DEFAULT_COLOR = Color.WHITE;
 	public static final int DEFAULT_PORT = 20000;
-	public static final String IP = "localhost";
+	public static final String IP = "163.43.140.82";
 	public static final int DEFAULT_LANGUAGE = 0;
 
 	private static int CTRL_MASK = InputEvent.CTRL_MASK;
@@ -603,9 +603,6 @@ public class RECheCoProManager {
 	 ********************/
 
 	public void startCheCoPro() {
-		
-		// for test
-		CHFileSystem.user = user;
 		
 		logWriter = new CHUserLogWriter(user);
 		// if (user.equals("")) {

@@ -20,8 +20,6 @@ public class CHFileSystem {
 	public static final String PROJECTPATH = "runtime-EclipseApplication/final";
 	public static final String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
 	public static final String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
-	// TODO for test
-	public static String user;
 	
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
@@ -33,9 +31,8 @@ public class CHFileSystem {
 	}
 
 	public static CDirectory getFinalProjectDir() {
-		// TODO テスト用に変更中
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/" + user);
+				"MyProjects/final");
 	}
 
 	public static CDirectory getUserDirForClient(String user) {
@@ -190,7 +187,7 @@ public class CHFileSystem {
 	public static void copyUserDirToMyProjects(String user) {
 		CDirectory masterDir = CHFileSystem.getUserDirForClient(user);
 		CDirectory copyDir = CFileSystem.getExecuteDirectory()
-				.findOrCreateDirectory("MyProjects/" + user);
+				.findOrCreateDirectory("MyProjects/final");
 		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
 				createFileList(masterDir), copyDir);
 

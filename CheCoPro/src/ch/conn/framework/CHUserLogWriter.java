@@ -51,9 +51,7 @@ public class CHUserLogWriter {
 	}
 
 	public CDirectory getCHDir() {
-		// TODO テスト用
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/" + user + "/.ch");
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(CHDIR_PATH);
 	}
 
 	public CFile getLogFile() {
