@@ -292,6 +292,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 2014/10/24 version 2.28.1 ohata			・メソッドコール矢印の修正
  * 2014/10/24 version 2.28.2 ohata			・再帰対応を一時停止
  * 2014/10/24 version 2.28.3 ohata			・BEの再帰バグを修正，その他メソッド定義のバグを修正 
+ * 2015/01/14 version 2.29.0 kato           ・CheCoProリリース
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
  * ・"}"を押したときのスマートインデント
@@ -308,7 +309,7 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.28.4";
+	public static final String VERSION = "2.29.0";
 	public static final String BUILD_DATE = "2014/11/10";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2014 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
