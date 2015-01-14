@@ -479,7 +479,7 @@ public class RECheCoProManager {
 					public void propertyChange(PropertyChangeEvent evt) {
 						setCHTitleBar(chApplication, user);
 						if (evt.getPropertyName().equals(ICFwResourceRepository.DOCUMENT_OPENED)) {
-							initializeCHKeyListener(chApplication);
+							initializeCHKeyListener(chApplication, user);
 							JToggleButton connButton = (JToggleButton) chApplication
 									.getFrame().getJMenuBar().getComponent(5);
 							chApplication.getFrame().getEditor().getViewer()
@@ -523,7 +523,7 @@ public class RECheCoProManager {
 		bc.openBlockEditor(langDefFilePath, xmlFilePath);
 	}
 
-	private void initializeCHKeyListener(final REApplication chApplication) {
+	private void initializeCHKeyListener(final REApplication chApplication, final String user) {
 		List<KeyListener> keyListeners = Arrays.asList(chApplication.getFrame()
 				.getEditor().getViewer().getTextPane().getKeyListeners());
 
@@ -759,6 +759,7 @@ public class RECheCoProManager {
 					chFrameMap.get(sender).getFrame().getEditor()
 							.setText(source);
 					chFrameMap.get(sender).doSave();
+					chFrameMap.get(sender).getFrame().setTitle(sender + "-" + APP_NAME + " Editor");
 					SwingUtilities.invokeLater(new Runnable() {
 						
 						@Override

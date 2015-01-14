@@ -2,6 +2,8 @@ package ch.util;
 
 import java.io.File;
 
+import javax.swing.SwingUtilities;
+
 import bc.apps.JavaToBlockMain;
 import edu.mit.blocks.controller.WorkspaceController;
 
@@ -32,14 +34,20 @@ public class CHBlockEditorController {
 		}
 	}
 
-	public void reloadBlockEditor(String langDefFilePath, String xmlFilePath) {
-		if (wc.isOpened() && fileOpened) {
-			wc.setLangDefFilePath(langDefFilePath);
-			wc.resetWorkspace();
-			wc.loadProjectFromPath(xmlFilePath);
-		} else if (wc.isOpened() && !fileOpened) {
-			wc.loadFreshWorkspace();
-		}
+	public void reloadBlockEditor(final String langDefFilePath, final String xmlFilePath) {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				if (wc.isOpened() && fileOpened) {
+					wc.setLangDefFilePath(langDefFilePath);
+					wc.resetWorkspace();
+					wc.loadProjectFromPath(xmlFilePath);
+				} else if (wc.isOpened() && !fileOpened) {
+					wc.loadFreshWorkspace();
+				}
+			}
+		});
 	}
 
 	public void setFileOpened(boolean fileOpened) {
