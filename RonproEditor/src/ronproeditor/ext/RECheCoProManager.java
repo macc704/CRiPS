@@ -437,7 +437,6 @@ public class RECheCoProManager {
 	}
 
 	private void doPull(final String user, CFileFilter filter) {
-		logWriter.writeCommand(CHUserLogWriter.COPY_FILE);
 		logWriter.writeFrom(user);
 		logWriter.addRowToTable();
 		CDirectory from = CHFileSystem.getUserDirForClient(user);
@@ -447,10 +446,13 @@ public class RECheCoProManager {
 
 	private CFileFilter createCFileFilter(boolean java, boolean material) {
 		if (java && material) {
+			logWriter.writeCommand(CHUserLogWriter.COPY_ALL_FILE);
 			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", ".*xml");
 		} else if (java && !material) {
+			logWriter.writeCommand(CHUserLogWriter.COPY_JAVA_FILE);
 			return CFileFilter.ACCEPT_BY_NAME_FILTER("*.java");
 		} else if (!java && material) {
+			logWriter.writeCommand(CHUserLogWriter.COPY_MATERIAL_FILE);
 			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml",
 					"*.java");
 		}
