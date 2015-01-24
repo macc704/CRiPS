@@ -1,0 +1,49 @@
+ErrorID,rare,ErrorMessage
+1,1,cannot find symbol（variable）
+2,1,';' expected
+3,1,class, interface, or enum expected
+4,1,not a statement
+5,1,cannot find symbol（method）
+6,1,illegal start of expression
+7,1,illegal start of type
+8,1,<identifier> expected
+9,1,reached and of file while parsing
+10,1,')' expected
+11,1,iliegal character: A
+12,1,no suitable method found for A
+13,1,cannot find symbol（class）
+14,1,variable or methodA defiened method or class or package
+15,1,imcompatible types
+16,1,invalid method declaration; return type required
+17,1,operand A cannot be applied to B
+18,2,variable A might not have been initialized
+19,2,'else' without 'if'
+20,2,unreachable statement
+21,2,'.class' expected
+22,2,possible loss of precision
+23,2,'(' expected
+24,2,A has private access in B
+25,2,A cannot be dereferenced
+26,2,missing return statement
+27,3,non-static method A cannot be referenced from a static context
+28,3,unexpected type
+29,3,'(' or'[' expected
+30,3,unclosed string literal
+31,3,package A does not exist
+32,3,A is public. should be declared in a file named B
+33,3,incomparable types: int and boolean
+34,3,malfromed floating point literal
+35,3,> expected
+36,3,constructor A in class A cannot be applied to given 
+37,3,missing method body or declare abstract
+38,4,cannot return value from method whose result type is void
+39,4,: expected
+40,4,inconvertible types
+41,4,']' expected
+42,4,cannot access A
+43,4,unclosed character literal
+44,4,'void' type not allowed here
+45,4,illegal excape character
+46,4,break outside switch or loop
+47,5,missing return value
+48,5,integer number too large

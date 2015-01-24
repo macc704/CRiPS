@@ -13,7 +13,7 @@ public class RECocoViewerManager {
 	private REApplication application;
 
 	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvフォルダに展開する
-	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv";
+	private static String KINDS_FILE = "ext/cocoviewer/ErrorKindsEng.csv";
 	private static String DATA_FILE = "CompileErrorLog.csv";
 	private static String METRICS_FILE = "FileMetrics.csv";
 
@@ -32,7 +32,8 @@ public class RECocoViewerManager {
 		manager.setLibDir(libDir);
 		manager.setPPProjectSet(ppProjectSet);
 
-		new CCMainFrame2(manager).setVisible(true);
+		CCMainFrame2 frame = new CCMainFrame2(manager, "EN");
+		frame.start();
 	}
 
 	private void loadData(CCCompileErrorManager manager) {

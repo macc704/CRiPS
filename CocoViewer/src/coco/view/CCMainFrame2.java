@@ -51,6 +51,7 @@ public class CCMainFrame2 extends JFrame {
 	// Button Size
 	private int buttonWidth = 100;
 	private int buttonHeight = 100;
+	private String lang = "JP";
 
 	// Dialog size
 	private int width = 1120;
@@ -63,6 +64,11 @@ public class CCMainFrame2 extends JFrame {
 	private JPanel rootPanel = new JPanel();
 	private ArrayList<CCErrorElementButton2> buttons = new ArrayList<CCErrorElementButton2>();
 
+	public CCMainFrame2(CCCompileErrorManager manager, String lang) {
+		this(manager);
+		this.lang = lang;
+	}
+	
 	public CCMainFrame2(CCCompileErrorManager manager) {
 		this.manager = manager;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -70,7 +76,11 @@ public class CCMainFrame2 extends JFrame {
 		this.height = d.height * 3 / 4;
 		this.buttonWidth = this.width / 8;
 		this.buttonHeight = this.height / 8;
+	}
+	
+	public void start() {
 		initialize();
+		setVisible(true);
 	}
 
 	private void initialize() {
@@ -140,11 +150,18 @@ public class CCMainFrame2 extends JFrame {
 			avg = time / count;
 		}
 
-		String string = "<html>これまでのコンパイルエラー修正数: " + count
-				+ "　　これまでのコンパイルエラー修正時間累計: " + timeStr + "<br>"
-				+ "１つあたり修正時間平均: " + avg + "秒" + "  これまでの総作業時間:  " + workingStr
-				+ "<br>" + "  コンパイルエラー修正時間割合:  " + rate + "%" + "</html>";
-
+		String string = "";
+		if(lang.equals("JP")) {
+			string = "<html>これまでのコンパイルエラー修正数: " + count
+					+ "　　これまでのコンパイルエラー修正時間累計: " + timeStr + "<br>"
+					+ "１つあたり修正時間平均: " + avg + "秒" + "  これまでの総作業時間:  " + workingStr
+					+ "<br>" + "  コンパイルエラー修正時間割合:  " + rate + "%" + "</html>";
+		} else {
+			string = "<html>All compile error correction number: " + count
+					+ "　　All compile error correction time: " + timeStr + "<br>"
+					+ "Avarage of per compile error correction time: " + avg + " seconds" + "　　All working time:  " + workingStr
+					+ "<br>" + "Rate of compile error time:  " + rate + "%" + "</html>";
+		}
 		label.setText(string);
 		label.setMaximumSize(new Dimension(width, height / 24));
 		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
@@ -163,12 +180,24 @@ public class CCMainFrame2 extends JFrame {
 		long hour = time / 60 / 60;
 		long minute = (time / 60) % 60;
 		long second = time % 60;
-		String timeStr = hour + "時間" + minute + "分" + second + "秒";
+		String timeStr = "";
+		if(lang == "JP") {
+			timeStr	= hour + "時間" + minute + "分" + second + "秒";
+		} else {
+			timeStr	= hour + ":" + minute + ":" + second + "";
+		}
 		return timeStr;
 	}
 
 	private void setChangeGraphRangeButton(JPanel panel) {
-		String[] labels = { "120秒固定モード", "グラフ概形モード  " };
+		String[] labels = new String[2];
+		if(lang == "JP") {
+			labels[0] = "120秒固定モード";
+			labels[1] = "グラフ概形モード  ";
+		} else {
+			labels[0] = "120 seconds mode";
+			labels[1] = "graph curve mode";
+		}
 		final JComboBox<String> comboBox = new JComboBox<String>(labels);
 
 		comboBox.addActionListener(new ActionListener() {
@@ -197,7 +226,7 @@ public class CCMainFrame2 extends JFrame {
 		// エラーIDごとの数値を書き込み、ボタンを実装する
 		for (CCCompileErrorKind list : manager.getAllKinds()) {
 			CCErrorElementButton2 button = new CCErrorElementButton2(manager,
-					list, buttonWidth, buttonHeight);
+					list, buttonWidth, buttonHeight, lang);
 			buttons.add(button);
 		}
 
@@ -235,10 +264,25 @@ public class CCMainFrame2 extends JFrame {
 		}
 		String rare = "";
 		if (list != null) {
-			rare = "(レア度" + Integer.toString(list.getRare()) + ")";
+			if(lang.equals("JP")) {
+				rare = "(レア度" + Integer.toString(list.getRare()) + ")";
+			} else {
+				rare = "(RARITY" + Integer.toString(list.getRare()) + ")";
+			}
 		}
-		JButton emptyButton = new JButton("<html><center>未発生</center><br/>"
-				+ message + rare + "</html>");
+		
+		String buttonlabel = "";
+		if (list != null) {
+			if(lang.equals("JP")) {
+				buttonlabel = "<html><center>未修正</center><br/>"
+						+ message + rare + "</html>";
+			} else {
+				buttonlabel = "<html><center>inexperienced</center><br/>"
+						+ message + rare + "</html>";
+			}
+		}
+		
+		JButton emptyButton = new JButton(buttonlabel);
 		emptyButton.setEnabled(false);
 		emptyButton.setToolTipText("未発生です");
 		emptyButton.setBackground(Color.GRAY);

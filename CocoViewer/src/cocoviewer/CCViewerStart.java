@@ -16,7 +16,7 @@ public class CCViewerStart {
 		CCCompileErrorManager manager = new CCCompileErrorManager();
 		CCCompileErrorKindLoader kindloader = new CCCompileErrorKindLoader(
 				manager);
-		kindloader.load("ErrorKinds.csv");
+		kindloader.load("ErrorKindsEng.csv");
 
 		CCCompileErrorLoader errorloader = new CCCompileErrorLoader(manager);
 		errorloader.load("CompileErrorLog.csv");
@@ -33,7 +33,8 @@ public class CCViewerStart {
 		// manager.setBaseDir(dir);
 		// }
 
-		CCMainFrame2 frame = new CCMainFrame2(manager);
+		CCMainFrame2 frame = new CCMainFrame2(manager, "EN");
+		frame.start();
 		frame.setVisible(true);
 	}
 }
