@@ -37,6 +37,7 @@ public class CCErrorElementButton2 extends JButton {
 
 	private int width;
 	private int height;
+	private String lang = "JP";
 
 	private CCCompileErrorManager manager;
 	private CCCompileErrorKind list;
@@ -47,11 +48,12 @@ public class CCErrorElementButton2 extends JButton {
 	private List<CCGraphFrame> graphframes = new ArrayList<CCGraphFrame>();
 
 	public CCErrorElementButton2(CCCompileErrorManager manager,
-			CCCompileErrorKind list, int width, int height) {
+			CCCompileErrorKind list, int width, int height, String lang) {
 		this.manager = manager;
 		this.list = list;
 		this.width = width;
 		this.height = height;
+		this.lang = lang;
 
 		super.setPreferredSize(new Dimension(width, height));
 		super.setLayout(null);
@@ -70,8 +72,13 @@ public class CCErrorElementButton2 extends JButton {
 		// グラフデータ設定
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
+			if(lang == "JP") {
 			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
 					"修正時間", Integer.toString(i + 1));
+			} else {
+				dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
+						"Correction Time", Integer.toString(i + 1));	
+			}
 		}
 
 		// TODO: ミニグラフのタイトルメッセージ表示 現在は10文字のみ表示
@@ -80,8 +87,13 @@ public class CCErrorElementButton2 extends JButton {
 			message = message.substring(0, 9) + "...";
 		}
 
+		if(lang == "JP") {
 		chart = ChartFactory.createLineChart(message, "修正回数", "修正時間", dataset,
 				PlotOrientation.VERTICAL, false, false, false);
+		} else {
+			chart = ChartFactory.createLineChart(message, "number", "time", dataset,
+					PlotOrientation.VERTICAL, false, false, false);
+		}
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 
 		// 背景色セット
@@ -130,7 +142,7 @@ public class CCErrorElementButton2 extends JButton {
 				}
 
 				CCGraphFrame graphframe = new CCGraphFrame(list, manager,
-						errorID);
+						errorID, lang);
 				graphframe.setVisible(true);
 				graphframes.add(graphframe);
 

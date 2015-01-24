@@ -14,7 +14,9 @@ public class CocoviewerHandler extends AbstractHandler {
 		// OpenCocoViewクリック時の処理
 		IWorkbenchWindow window = HandlerUtil
 				.getActiveWorkbenchWindowChecked(event);
-		new CocoViewerManager(window);
+		CocoViewerManager manager = new CocoViewerManager(window);
+		manager.start();
+		
 		return null;
 	}
 }

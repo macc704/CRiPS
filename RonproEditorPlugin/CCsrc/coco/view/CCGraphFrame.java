@@ -54,6 +54,7 @@ public class CCGraphFrame extends JFrame {
 
 	private int width = 680;
 	private int height = 560;
+	private String lang = "JP";
 
 	private JPanel rootPanel = new JPanel();
 	private JFreeChart chart;
@@ -67,11 +68,12 @@ public class CCGraphFrame extends JFrame {
 	private List<CCSourceCompareViewer> sourceviewers = new ArrayList<CCSourceCompareViewer>();
 
 	public CCGraphFrame(CCCompileErrorKind list, CCCompileErrorManager manager,
-			int errorID) {
+			int errorID, String lang) {
 		this.list = list;
 		this.manager = manager;
 		this.ppProjectSet = manager.getPPProjectSet();
 		this.errorID = errorID;
+		this.lang = lang;
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		width = (int) (d.width * 0.6);
@@ -106,9 +108,12 @@ public class CCGraphFrame extends JFrame {
 		// rootPanel.setLayout(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(width, height);
-		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - "
+		if(lang == "JP") {
+			setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - "
 				+ list.getMessage() + " の詳細");
-
+		} else {
+			setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - Detail of " + list.getMessage());
+		}
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -126,15 +131,25 @@ public class CCGraphFrame extends JFrame {
 		// グラフデータ設定
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
+			if(lang == "JP") {
 			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
 					"修正時間", Integer.toString(i + 1));
+			} else {
+				dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
+						"Correction Time", Integer.toString(i + 1));	
+			}
 		}
 
 		// グラフ生成
+		if(lang == "JP") {
 		chart = ChartFactory.createLineChart(list.getMessage()
 				+ "の修正時間   レア度: " + list.getRare(), "修正回数", "修正時間", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
-
+		} else {
+			chart = ChartFactory.createLineChart("Correction time of \"" + list.getMessage()
+					+ "\" RARITY: " + list.getRare(), "Correction Number", "Correction Time", dataset,
+					PlotOrientation.VERTICAL, true, true, false);
+		}
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 		chart.getLegend().setItemFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
@@ -181,7 +196,15 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	private void setChangeGraphRangeComboBox(JPanel panel) {
-		String[] labels = { "120秒固定モード", "グラフ概形モード" };
+		String[] labels = new String[2];
+		if(lang == "JP") {
+			labels[0] = "120秒固定モード";
+			labels[1] = "グラフ概形モード  ";
+		} else {
+			labels[0] = "120 seconds mode";
+			labels[1] = "graph curve mode";
+		}
+		
 		final JComboBox<String> comboBox = new JComboBox<String>(labels);
 
 		comboBox.addActionListener(new ActionListener() {
@@ -207,7 +230,18 @@ public class CCGraphFrame extends JFrame {
 
 	private void setSourceTable(JPanel panel) {
 		// テーブルデータ作成
-		String[] columnNames = { "修正回数", "発生時刻", "プログラム名", "修正時間" };
+		String[] columnNames = new String[4];
+		if(lang == "JP") {
+			columnNames[0] = "修正回数";
+			columnNames[1] = "発生時刻 ";
+			columnNames[2] = "プログラム名";
+			columnNames[3] = "修正時間 ";
+		} else {
+			columnNames[0] = "Number";
+			columnNames[1] = "Time";
+			columnNames[2] = "Program name";
+			columnNames[3] = "Correction time";
+		}
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		for (int i = 0; i < list.getErrors().size(); i++) {
 			String count = String.valueOf(i + 1);
