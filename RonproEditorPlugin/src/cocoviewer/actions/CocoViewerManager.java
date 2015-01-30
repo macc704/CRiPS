@@ -20,6 +20,7 @@ import clib.common.filesystem.CPath;
 import coco.controller.CCCompileErrorKindLoader;
 import coco.controller.CCCompileErrorLoader;
 import coco.controller.CCMetricsLoader;
+import coco.controller.CCPropertiesLoader;
 import coco.model.CCCompileErrorManager;
 import coco.view.CCMainFrame2;
 
@@ -29,6 +30,7 @@ public class CocoViewerManager {
 	private String PPV_ROOT_DIR = CFileSystem.getHomeDirectory()
 			.findOrCreateDirectory(".ppvdata").getAbsolutePath().toString();
 	private String KINDS_FILE = "ext/cocoviewer/ErrorKindsEng.csv";
+	private String LANG_FILE_EN = "ext/cocoviewer/lang/coco_en.xml";
 	private String ERROR_LOG_FILE = "/CompileErrorLog.csv";
 	private String METRICS_FILE = "/FileMetrics.csv";
 
@@ -76,8 +78,8 @@ public class CocoViewerManager {
 	}
 
 	public void start() {
-		CCMainFrame2 frame = new CCMainFrame2(manager, "EN");
-		frame.toFront();
+		CCPropertiesLoader propertiesloader = new CCPropertiesLoader(LANG_FILE_EN);
+		CCMainFrame2 frame = new CCMainFrame2(manager, propertiesloader.getProperties("EN"));
 		frame.start();
 	}
 	

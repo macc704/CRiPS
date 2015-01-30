@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="all.compile.error.number">これまでのコンパイルエラー修正数</entry>
+	<entry key="all.compile.error.time">これまでのコンパイルエラー修正時間累計:</entry>
+	<entry key="avarage.compile.error.correction.time">１つあたりの修正時間平均:</entry>
+	<entry key="all.working.time">これまでの総作業時間:</entry>
+	<entry key="rate.of.compile.error.correction.time">コンパイルエラー修正時間割合:</entry>
+	<entry key="inexperienced">未修正</entry>	
+	<entry key="correction.time">修正時間</entry>
+	<entry key="correction.time2">修正時間</entry>
+	<entry key="correction.number">修正回数</entry>
+	<entry key="correction.date">発生時刻</entry>
+	<entry key="program.name">プログラム名</entry>
+	<entry key="hour">時</entry>
+	<entry key="minute">分</entry>
+	<entry key="nosecond">秒</entry>
+	<entry key="second">秒</entry>
+	<entry key="detail"> の詳細</entry>
+	<entry key="120seconds.mode">120秒固定モード</entry>
+	<entry key="graph.curve.mode">グラフ概形モード  </entry>
+	<entry key="rarity">レア度</entry>
+	<entry key="language">JP</entry>
+</properties>
