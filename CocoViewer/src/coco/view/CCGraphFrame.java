@@ -238,7 +238,7 @@ public class CCGraphFrame extends JFrame {
 			String filename = list.getErrors().get(i).getFilenameNoPath();
 			String correctTime = String.valueOf(list.getErrors().get(i)
 					.getCorrectionTime())
-					+ properties.getProperty("second");
+					+ " " + properties.getProperty("second");
 
 			String[] oneColumn = { count, time, filename, correctTime };
 			model.addRow(oneColumn);

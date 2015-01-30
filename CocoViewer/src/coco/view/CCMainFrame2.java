@@ -90,6 +90,7 @@ public class CCMainFrame2 extends JFrame {
 
 	public void start() {
 		initialize();
+		toFront();
 		setVisible(true);
 	}
 

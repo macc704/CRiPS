@@ -9,10 +9,9 @@
 	<entry key="inexperienced">inexperienced</entry>	
 	<entry key="correction.time">Correction Time</entry>
 	<entry key="correction.time2">Time</entry>
-	<entry key="correction.time3">の修正時間</entry>
 	<entry key="correction.number">number</entry>
-	<entry key="correction.date">発生時刻</entry>
-	<entry key="program.name">プログラム名</entry>
+	<entry key="correction.date">Day and Time</entry>
+	<entry key="program.name">Program name</entry>
 	<entry key="hour">:</entry>
 	<entry key="minute">:</entry>
 	<entry key="nosecond"></entry>

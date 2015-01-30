@@ -7,6 +7,7 @@ import java.util.Properties;
 import coco.controller.CCCompileErrorKindLoader;
 import coco.controller.CCCompileErrorLoader;
 import coco.controller.CCMetricsLoader;
+import coco.controller.CCPropertiesLoader;
 import coco.model.CCCompileErrorManager;
 import coco.view.CCMainFrame2;
 
@@ -17,8 +18,8 @@ public class CCViewerStart {
 	}
 
 	public void run() {
-		// engtest();
-		jptest();
+		engtest();
+		// jptest();
 	}
 
 	public void jptest() {
@@ -42,17 +43,10 @@ public class CCViewerStart {
 		// manager.setBaseDir(dir);
 		// }
 
-		Properties properties = new Properties();
-		try {
-			InputStream is = new FileInputStream("lang/coco_jp.xml");
-			properties.loadFromXML(is);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		CCPropertiesLoader propertiesloader = new CCPropertiesLoader("lang/coco_jp.xml");
 
-		CCMainFrame2 frame = new CCMainFrame2(manager, properties);
+		CCMainFrame2 frame = new CCMainFrame2(manager, propertiesloader.getProperties("JP"));
 		frame.start();
-		frame.setVisible(true);
 	}
 
 	public void engtest() {
@@ -76,17 +70,9 @@ public class CCViewerStart {
 		// manager.setBaseDir(dir);
 		// }
 
-		Properties properties = new Properties();
+		CCPropertiesLoader propertiesloader = new CCPropertiesLoader("lang/coco_en.xml");
 
-		try {
-			InputStream is = new FileInputStream("lang/coco_en.xml");
-			properties.loadFromXML(is);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		CCMainFrame2 frame = new CCMainFrame2(manager, properties);
+		CCMainFrame2 frame = new CCMainFrame2(manager, propertiesloader.getProperties("EN"));
 		frame.start();
-		frame.setVisible(true);
 	}
 }
