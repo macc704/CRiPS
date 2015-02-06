@@ -331,7 +331,7 @@ public class CCGraphFrame extends JFrame {
 					CCCompileError compileError, IPLUnit model) {
 				// ProjectViewer → 簡易なソース比較ウィンドウに変更
 				final CCSourceCompareViewer sourceviewer = new CCSourceCompareViewer(
-						model, errorID, index, manager);
+						model, errorID, index, manager, properties);
 
 				long beginTime = compileError.getBeginTime();
 				sourceviewer.getTimelinePane().getTimeModel2()

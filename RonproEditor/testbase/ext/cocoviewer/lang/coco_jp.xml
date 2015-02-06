@@ -20,5 +20,7 @@
 	<entry key="120seconds.mode">120秒固定モード</entry>
 	<entry key="graph.curve.mode">グラフ概形モード  </entry>
 	<entry key="rarity">レア度</entry>
+	<entry key="before.correction">修正前</entry>
+	<entry key="after.correction">修正後</entry>
 	<entry key="language">JP</entry>
 </properties>

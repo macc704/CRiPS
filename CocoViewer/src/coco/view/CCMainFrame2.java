@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -54,7 +52,6 @@ public class CCMainFrame2 extends JFrame {
 	// Button Size
 	private int buttonWidth = 100;
 	private int buttonHeight = 100;
-	private String lang = "JP";
 
 	// Dialog size
 	private int width = 1120;
@@ -68,11 +65,6 @@ public class CCMainFrame2 extends JFrame {
 	// For GUI
 	private JPanel rootPanel = new JPanel();
 	private ArrayList<CCErrorElementButton2> buttons = new ArrayList<CCErrorElementButton2>();
-
-	public CCMainFrame2(CCCompileErrorManager manager, String lang) {
-		this(manager);
-		this.lang = lang;
-	}
 
 	public CCMainFrame2(CCCompileErrorManager manager, Properties properties) {
 		this(manager);

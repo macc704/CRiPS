@@ -20,5 +20,7 @@
 	<entry key="120seconds.mode">120 seconds mode</entry>
 	<entry key="graph.curve.mode">graph curve mode</entry>
 	<entry key="rarity">RARITY</entry>
+	<entry key="before.correction">before</entry>
+	<entry key="after.correction">after</entry>
 	<entry key="language">EN</entry>
 </properties>
