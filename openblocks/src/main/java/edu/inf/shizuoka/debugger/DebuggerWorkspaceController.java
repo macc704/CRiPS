@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import net.unicoen.node.UniClassDec;
-import net.unicoen.node.UniFuncDec;
+import net.unicoen.node.UniMemberDec;
 import net.unicoen.node.UniNode;
 import net.unicoen.parser.blockeditor.ToBlockEditorParser;
 import net.unicoen.parser.blockeditor.UniToBlockParser;
@@ -43,10 +43,10 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 	public UniClassDec parse() throws IOException{
 		List<UniNode> list = ToBlockEditorParser.parse(selectedFile);
 		UniClassDec dec = new UniClassDec();
-		dec.members = new ArrayList<>();
+		dec.members = new ArrayList<UniMemberDec>();
 		dec.className = selectedFile.getName().substring(0, selectedFile.getName().indexOf(".xml"));
 		for (UniNode node : list) {
-			dec.members.add((UniFuncDec) node);
+//			dec.members.add((UniFuncDec) node);
 		}
 		
 		UniToBlockParser parser = new UniToBlockParser();

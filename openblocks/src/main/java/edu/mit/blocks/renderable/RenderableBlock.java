@@ -55,13 +55,14 @@ import edu.mit.blocks.renderable.BlockImageIcon.ImageLocation;
 import edu.mit.blocks.workspace.ContextMenu;
 import edu.mit.blocks.workspace.FactoryManager;
 import edu.mit.blocks.workspace.ISupportMemento;
-import edu.mit.blocks.workspace.MiniMap;
+import edu.mit.blocks.workspace.Page;
 import edu.mit.blocks.workspace.RBParent;
 import edu.mit.blocks.workspace.SearchableElement;
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEnvironment;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceWidget;
+
 
 /**
  * RenderableBlock is responsible for all graphical rendering of a code Block.
@@ -1843,15 +1844,17 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			WorkspaceWidget widget) {
 		renderable.pickedUp = true;
 		renderable.lastDragWidget = widget;
-		if (renderable.hasComment()) {
-			renderable.comment.setConstrainComment(false);
-		}
+//		if (renderable.hasComment()) {
+//			renderable.comment.setConstrainComment(false);
+//		}
 		Component oldParent = renderable.getParent();
 		Workspace workspace = renderable.getWorkspace();
-		workspace.addToBlockLayer(renderable);
-		renderable.setLocation(SwingUtilities.convertPoint(oldParent,
-				renderable.getLocation(), workspace));
-		renderable.setHighlightParent(workspace);
+		
+		if(!(getParentWidget() instanceof Page)){
+			workspace.addToBlockLayer(renderable);
+			renderable.setLocation(SwingUtilities.convertPoint(oldParent,renderable.getLocation(), workspace));
+		}
+
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(workspace.getEnv().getBlock(
 						renderable.blockID))) {
@@ -1889,18 +1892,18 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		// stop rendering as transparent
 		renderable.dragging = false;
 		// move comment
-		if (renderable.hasComment()) {
-			if (renderable.getParentWidget() != null) {
-				renderable.comment.setParent(renderable.getParentWidget()
-						.getJComponent(), 0);
-			} else {
-				renderable.comment.setParent(null, renderable.getBounds());
-			}
-
-			renderable.comment.setConstrainComment(true);
-			renderable.comment.setLocation(renderable.comment.getLocation());
-			renderable.comment.getArrow().updateArrow();
-		}
+//		if (renderable.hasComment()) {
+//			if (renderable.getParentWidget() != null) {
+//				renderable.comment.setParent(renderable.getParentWidget()
+//						.getJComponent(), 0);
+//			} else {
+//				renderable.comment.setParent(null, renderable.getBounds());
+//			}
+//
+//			renderable.comment.setConstrainComment(true);
+//			renderable.comment.setLocation(renderable.comment.getLocation());
+//			renderable.comment.getArrow().updateArrow();
+//		}
 	}
 
 	private void drag(RenderableBlock renderable, int dx, int dy,
@@ -1915,7 +1918,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.setLocation(renderable.getX() + dx, renderable.getY()
 					+ dy);
 		}
-
 
 		// send blockEntered/blockExited/blogDragged as appropriate
 		if (widget != null) {
@@ -1987,10 +1989,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 						} else {
 							// dragged block is the plug block, so take the
 							// socket block's parent.
-							widget = workspace
-									.getEnv()
-									.getRenderableBlock(link.getSocketBlockID())
-									.getParentWidget();
+							widget = workspace.getEnv().getRenderableBlock(link.getSocketBlockID()).getParentWidget();
 						}
 
 						// drop the block and connect its link
@@ -2009,9 +2008,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 					workspace.notifyListeners(new WorkspaceEvent(workspace,
 							widget, link, WorkspaceEvent.BLOCK_MOVED, true));
-					if (widget instanceof MiniMap) {
-						workspace.getMiniMap().animateAutoCenter(this);
-					}
+//					if (widget instanceof MiniMap) {
+//						workspace.getMiniMap().animateAutoCenter(this);
+//					}
 				}
 			}
 		}
@@ -2024,7 +2023,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			add(popup);
 			popup.show(this, e.getX(), e.getY());
 		}
-		workspace.getMiniMap().repaint();
+//		workspace.getMiniMap().repaint();
 		resetArrowPosition();
 	}
 
@@ -2049,17 +2048,15 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseDragged(MouseEvent e) {
-		getHilightHandler().resetHighlight();
-		
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			if (pickedUp) {
-				Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
-						workspace.getMiniMap());
-				if (workspace.getMiniMap().contains(pp)) {
-					workspace.getMiniMap().blockDragged(this, e.getPoint());
-					lastDragWidget = workspace.getMiniMap();
-					return;
-				}
+//				Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
+//						workspace.getMiniMap());
+//				if (workspace.getMiniMap().contains(pp)) {
+//					workspace.getMiniMap().blockDragged(this, e.getPoint());
+//					lastDragWidget = workspace.getMiniMap();
+//					return;
+//				}
 
 				// drag this block if appropriate (checks bounds first)
 				dragHandler.mouseDragged(e);
@@ -2101,8 +2098,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				
 				// drag this block and all attached to it
 				drag(this, dragHandler.dragDX, dragHandler.dragDY, widget, true);
-
-				workspace.getMiniMap().repaint();
+//				workspace.getMiniMap().repaint();
 			}
 
 		}
@@ -2140,14 +2136,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (SwingUtilities.isLeftMouseButton(e)) {
-			dragHandler.mouseClicked(e);
-			if (e.getClickCount() == 2 && !dragging) {
-				workspace.notifyListeners(new WorkspaceEvent(workspace, this
-						.getParentWidget(), this.getBlockID(),
-						WorkspaceEvent.BLOCK_STACK_COMPILED));
-			}
-		}
+//		if (SwingUtilities.isLeftMouseButton(e)) {
+//			dragHandler.mouseClicked(e);
+//			if (e.getClickCount() == 2 && !dragging) {
+//				workspace.notifyListeners(new WorkspaceEvent(workspace, this
+//						.getParentWidget(), this.getBlockID(),
+//						WorkspaceEvent.BLOCK_STACK_COMPILED));
+//			}
+//		}
 	}
 
 	public void mousePressed(MouseEvent e) {
