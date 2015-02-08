@@ -4,7 +4,7 @@
 
 <!-- MOVEMENT -->
 
-<BlockGenus name="fd" kind="command" initlabel="進む" color="255 0 0">
+<BlockGenus name="fd" kind="command" initlabel="move" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -16,7 +16,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="歩数" connector-kind="socket"
+		<BlockConnector label="steps" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
@@ -50,7 +50,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="lt" kind="command" initlabel="左へ回る" color="255 0 0">
+<BlockGenus name="lt" kind="command" initlabel="turn left" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -62,7 +62,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="角度" connector-kind="socket"
+		<BlockConnector label="degs" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="90"></DefaultArg>
 		</BlockConnector>
@@ -73,7 +73,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="rt" kind="command" initlabel="右へ回る" color="255 0 0">
+<BlockGenus name="rt" kind="command" initlabel="tutn right" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -85,7 +85,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="角度" connector-kind="socket"
+		<BlockConnector label="degs" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="90"></DefaultArg>
 		</BlockConnector>

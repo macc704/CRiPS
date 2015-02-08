@@ -151,7 +151,7 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-int-number" kind="local-variable"
-	initlabel="i" header-label="int型の変数を作り、" footer-label="と名付ける"
+	initlabel="i" header-label="Define number variable and named " footer-label=""
 	editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
 		<text>
@@ -159,7 +159,7 @@
 		</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
+		<BlockConnector label="initialize" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="1"></DefaultArg>
 		</BlockConnector>

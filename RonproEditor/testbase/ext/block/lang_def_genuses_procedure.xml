@@ -27,8 +27,8 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="proc-param-number" kind="param" initlabel="整数型引数"
-	editable-label="yes" header-label="整数型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
+<BlockGenus name="proc-param-number" kind="param" initlabel="numberParam"
+	editable-label="yes" header-label="Define number variable parameter and named" footer-label="" label-unique="yes" is-starter="yes" is-terminator="yes"
 	color="200 200 200">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>

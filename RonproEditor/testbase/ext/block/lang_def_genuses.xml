@@ -34,13 +34,13 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="while" kind="command" initlabel="繰返" color="255 80 0">
+<BlockGenus name="while" kind="command" initlabel="repeat" color="255 80 0">
 	<BlockConnectors>
-		<BlockConnector label="かどうか調べて" connector-kind="socket"
+		<BlockConnector label="untill" connector-kind="socket"
 			connector-type="boolean">
 			<DefaultArg genus-name="lessthanorequalto" label="≦"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="真の間" connector-kind="socket"
+		<BlockConnector label="" connector-kind="socket"
 			connector-type="cmd"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
