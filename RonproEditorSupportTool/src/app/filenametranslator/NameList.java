@@ -21,6 +21,7 @@ public class NameList {
 	private Map<String, String> create(File file) {
 		Map<String, String> map = new HashMap<String, String>();
 		try {
+			// SJIS‚Å‚Íˆê•ª•¶š‚Ì“Ç‚İ‚İ‚É¸”s‚·‚é‚Ì‚ÅCMS932‚Å“Ç‚İ‚Ş
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					new FileInputStream(file), "MS932"));
 			String line = null;
