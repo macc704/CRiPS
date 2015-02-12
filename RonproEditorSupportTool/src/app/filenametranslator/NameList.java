@@ -22,7 +22,7 @@ public class NameList {
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					new FileInputStream(file)));
+					new FileInputStream(file), "MS932"));
 			String line = null;
 			while ((line = reader.readLine()) != null) {
 				String[] splitedLine = line.split(",");
