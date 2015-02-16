@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -64,6 +65,7 @@ import edu.mit.blocks.renderable.RenderableBlock;
 import edu.mit.blocks.workspace.Page;
 import edu.mit.blocks.workspace.SearchBar;
 import edu.mit.blocks.workspace.SearchableContainer;
+import edu.mit.blocks.workspace.TrashCan;
 import edu.mit.blocks.workspace.Workspace;
 
 /**
@@ -82,6 +84,8 @@ public class WorkspaceController {
 	
 	private String enc = "SJIS";
 
+	private String imagePath = "../support/images/";// added by macchan
+	
 	public Workspace getWorkspace() {
 		return this.workspace;
 	}
@@ -444,9 +448,17 @@ public class WorkspaceController {
 	 * function. Should be call only once at application startup.
 	 */
 	private void initWorkspacePanel() {
+		//refactor
+		ImageIcon tc = new ImageIcon(imagePath + "trash.png");
+		ImageIcon openedtc = new ImageIcon(imagePath + "trash_open.png");
+		TrashCan trash = new TrashCan(workspace, tc.getImage(), openedtc.getImage());
+		
+		workspace.addWidget(trash, true, true);
+		
 		workspacePanel = new JPanel();
 		workspacePanel.setLayout(new BorderLayout());
 		workspacePanel.add(workspace, BorderLayout.CENTER);
+		
 		isWorkspacePanelInitialized = true;
 	}
 

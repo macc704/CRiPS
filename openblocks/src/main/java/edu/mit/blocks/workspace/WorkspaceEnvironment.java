@@ -54,11 +54,7 @@ public class WorkspaceEnvironment {
     public void addBlock(Block block) {
 
     	long id = block.getBlockID();
-    	System.out.println("Block " + block.getBlockID() + " " +block.getBlockLabel() + " " + block.getGenusName());
     	
-    	if(block.getGenusName().equals("callerprocedure")){
-    		System.out.println("hoge");
-    	}
         if (this.allBlocks.containsKey(id)) {
     		Block dup = this.allBlocks.get(id);
             System.out.println("pre-existing block is: " + dup + " with genus " + dup.getGenusName() + " and label " + dup.getBlockLabel());
