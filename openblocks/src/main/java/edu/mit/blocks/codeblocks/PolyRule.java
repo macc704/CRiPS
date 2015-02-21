@@ -32,7 +32,6 @@ public class PolyRule implements LinkRule,WorkspaceListener {
 				}
 			}
 		}
-		
 		return false;
 	}
 

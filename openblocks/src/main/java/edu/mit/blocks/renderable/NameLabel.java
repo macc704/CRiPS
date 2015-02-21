@@ -14,10 +14,10 @@ class NameLabel extends BlockLabel {
 
 	private long blockID;
 
-	public NameLabel(Workspace workspace, String initLabelText,
-			BlockLabel.Type labelType, boolean isEditable, long blockID) {
-		super(workspace, initLabelText, labelType, isEditable, blockID, true,
-				new Color(255, 255, 225));
+	public NameLabel(Workspace workspace, String initLabelText, BlockLabel.Type labelType,
+			boolean isEditable, long blockID) {
+		super(workspace, initLabelText, labelType, isEditable, blockID, true, new Color(255, 255,
+				225));
 		this.blockID = blockID;
 	}
 
@@ -31,20 +31,18 @@ class NameLabel extends BlockLabel {
 			}
 			if (rb.getBlock().isCommandBlock())
 				x += 5;
-			// if (rb.getBlock().isAbstractionBlock()) {
-			// y -= 10;
-			// }
+			if (rb.getBlock().isAbstractionBlock()) {
+				y -= 10;
+			}
 			if (rb.getBlock().isDeclaration())
 				x += 12;
 			if (rb.getBlock().hasPlug())
-				x += 4 + BlockConnectorShape.getConnectorDimensions(rb
-						.getBlock().getPlug()).width;
+				x += 4 + BlockConnectorShape.getConnectorDimensions(rb.getBlock().getPlug()).width;
 			if (rb.getBlock().isInfix()) {
 				if (!rb.getBlock().getSocketAt(0).hasBlock()) {
 					x += 30;
 				} else {
-					x += rb.getSocketSpaceDimension(rb.getBlock()
-							.getSocketAt(0)).width;
+					x += rb.getSocketSpaceDimension(rb.getBlock().getSocketAt(0)).width;
 				}
 
 			}
@@ -56,8 +54,7 @@ class NameLabel extends BlockLabel {
 
 			if (rb.getBlock().isCommandBlock())
 				y -= 2;
-			if (rb.getBlock().hasPageLabel()
-					&& rb.getBlock().hasAfterConnector())
+			if (rb.getBlock().hasPageLabel() && rb.getBlock().hasAfterConnector())
 				y -= BlockConnectorShape.CONTROL_PLUG_HEIGHT;
 			if (!rb.getBlock().hasPageLabel())
 				y -= getAbstractHeight() / 2;
@@ -67,19 +64,15 @@ class NameLabel extends BlockLabel {
 			x += rb.getControlLabelsWidth();
 
 			// if block is collapsed keep the name label from moving
-			y += (rb.isCollapsed() ? BlockConnectorShape.CONTROL_PLUG_HEIGHT / 2
-					: 0);
+			y += (rb.isCollapsed() ? BlockConnectorShape.CONTROL_PLUG_HEIGHT / 2 : 0);
 
 			x = rescale(x);
 			y = rescale(y);
-
 			if (rb.getBlock().isAbstractionBlock()) {
 				x += 5;
 				y = 8;
 			}
-			
 			setPixelLocation(x, y);
-
 		}
 	}
 }
