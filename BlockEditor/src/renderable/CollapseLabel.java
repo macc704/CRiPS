@@ -2,6 +2,8 @@ package renderable;
 
 import java.awt.event.MouseEvent;
 
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
 import codeblocks.Block;
 import codeblocks.BlockConnector;
 import drawingobjects.DrawingArrowManager;
@@ -62,14 +64,12 @@ public class CollapseLabel extends BlockControlLabel {
 		rBlock = RenderableBlock.getRenderableBlock(blockID);
 		rBlock.setVisible(!isActive());
 		
+		Workspace.getInstance().notifyListeners(new WorkspaceEvent(rBlock.getParentWidget(), rBlock.getBlockID(), WorkspaceEvent.BLOCK_COLLAPSED));
+		
 		if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
 			rBlock.getComment().setVisible(!isActive());
 		}
-		
-		if(rBlock.hasArrows()){
-			rBlock.visibleArrows(!isActive());
-		}
-		
+
 		rBlock.getHighlightHandler().updateImage();
 		rBlock.repaintBlock();
 		
@@ -78,16 +78,10 @@ public class CollapseLabel extends BlockControlLabel {
 		}
 		
 		collapseSockets(blockID);
-
+	
+		
 	}
 	
-	protected void updateArrowPoints(long blockID){
-		RenderableBlock rBlock = RenderableBlock.getRenderableBlock(blockID);
-		
-		if(rBlock.hasArrows()){
-			rBlock.visibleEndArrowPoint(blockID, isActive());
-		}
-	}
 
 	/**
 	 * Toggles visibility of all blocks connected to sockets NB Sockets on

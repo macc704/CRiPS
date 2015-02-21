@@ -2,6 +2,7 @@ package drawingobjects;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,7 +11,9 @@ import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
+import renderable.RenderableBlock;
 import workspace.Workspace;
 
 
@@ -18,21 +21,34 @@ import workspace.Workspace;
 public class ArrowObject extends JComponent {
 
 	private static final long serialVersionUID = -1745361279120477995L;
-	private Point startPoint;// 起点
-	private Point endPoint;// 終点
-
+	private RenderableBlock caller;
+	private RenderableBlock callee;
 	
 	private static Color thinColor = new Color(255,255,0,30);
 	private static Color normalColor = new Color(255,255,0, 255);
 	private Color arrowColor = normalColor;
 	
+	private boolean collapsed = false;
 	
-	public ArrowObject(Point startPoint, Point endPoint) {
+	private Component oldParent;
+	
+	public ArrowObject(RenderableBlock caller, RenderableBlock callee, boolean isShow) {
 		setBounds(Workspace.getInstance().getBlockCanvas().getCanvas().getBounds());
-		this.startPoint = startPoint;
-		this.endPoint = endPoint;
+		this.caller = caller;
+		this.callee = callee;
 		setDoubleBuffered(true);
+		setVisible(isShow);
+		oldParent = caller.getParent();
 	}
+
+	public Point getStartPoint(){
+		return caller.getLocation();
+	}
+	
+	public Point getEndPoint(){
+		return caller.getLocation();
+	}
+	
 	
 	public Color getArrowColor(){
 		return this.arrowColor;
@@ -45,35 +61,6 @@ public class ArrowObject extends JComponent {
 			arrowColor = normalColor;
 		}
 		
-	}
-	
-	public void resetPoint(Point startPoint, Point endPoint){
-		this.startPoint = startPoint;
-		this.endPoint = endPoint;
-	}
-	
-	public Point getStartPoint(){
-		return this.startPoint;
-	}
-	
-	public Point getEndPoint(){
-		return this.endPoint;
-	}
-	
-	public void addStartPoint(int dx, int dy) {
-		this.startPoint.x += dx;
-		this.startPoint.y += dy;
-	}
-
-	public void addEndPoint(int dx, int dy) {
-		this.endPoint.x += dx;
-		this.endPoint.y += dy;
-	}
-
-
-	public void setStartPoint(Point p) {
-		this.startPoint.x = p.x;
-		this.startPoint.y = p.y;
 	}
 
 	public void paintComponent(Graphics g) {
@@ -93,44 +80,86 @@ public class ArrowObject extends JComponent {
 	}
 
 	public void drawArrow(Graphics2D graphic) {
-		setBounds(0,0,Workspace.getInstance().getBlockCanvas().getCanvas().getHeight(),Workspace.getInstance().getBlockCanvas().getCanvas().getWidth());
 		graphic.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		ArrowPointCalcUtil util = new ArrowPointCalcUtil(getStartPoint(), getEndPoint());
+
 		BasicStroke stroke = new BasicStroke(3.0f);
 		graphic.setStroke(stroke);
 
-		Point2D p2 = util.getPoint2();
-		Point2D p3 = util.getPoint3();
 
 		graphic.setColor(arrowColor);
 		// arrowLengthの変更（ベクトルの向きに応じて変更）
-		int dx = getMiddleDx();
-		int dy = getMiddleDy();
 		
-		graphic.drawLine(getStartPoint().x, getStartPoint().y, getEndPoint().x, getEndPoint().y);
-		graphic.drawLine(getEndPoint().x + dx,  getEndPoint().y + dy, (int) p2.getX() + dx,(int) p2.getY() + dy);
-		graphic.drawLine(getEndPoint().x + dx,  getEndPoint().y + dy, (int) p3.getX() + dx,(int) p3.getY() + dy);
+		if(oldParent != callee.getParent()){
+			Point p = SwingUtilities.convertPoint(callee.getParent(), getCalleePoint(), oldParent);
+
+			ArrowPointCalcUtil util = new ArrowPointCalcUtil(getCallerPoint(), p);
+			Point2D p2 = util.getPoint2();
+			Point2D p3 = util.getPoint3();
+			
+			int dx = getMiddleDx(getCallerPoint(), p);
+			int dy = getMiddleDy(getCallerPoint(), p);
+
+			graphic.drawLine(p.x, p.y, getCallerPoint().x, getCallerPoint().y);
+			graphic.drawLine(p.x + dx,  p.y + dy , (int) p2.getX() + dx,(int) p2.getY() + dy);
+			graphic.drawLine(p.x + dx,  p.y + dy , (int) p3.getX() + dx,(int) p3.getY() + dy);
+		}else if(oldParent != caller.getParent()){
+			Point p = SwingUtilities.convertPoint(caller.getParent(), getCallerPoint(), oldParent);
+
+			ArrowPointCalcUtil util = new ArrowPointCalcUtil(p, getCalleePoint());
+			Point2D p2 = util.getPoint2();
+			Point2D p3 = util.getPoint3();
+			
+			int dx = getMiddleDx(p, getCalleePoint());
+			int dy = getMiddleDy(p, getCalleePoint());
+
+			graphic.drawLine(getCalleePoint().x, getCalleePoint().y, p.x, p.y);
+			graphic.drawLine(getCalleePoint().x + dx,  getCalleePoint().y + dy , (int) p2.getX() + dx,(int) p2.getY() + dy);
+			graphic.drawLine(getCalleePoint().x + dx,  getCalleePoint().y + dy , (int) p3.getX() + dx,(int) p3.getY() + dy);
+		}else{
+			ArrowPointCalcUtil util = new ArrowPointCalcUtil(getCallerPoint(), getCalleePoint());
+			Point2D p2 = util.getPoint2();
+			Point2D p3 = util.getPoint3();
+			int dx = getMiddleDx(getCallerPoint(), getCalleePoint());
+			int dy = getMiddleDy(getCallerPoint(), getCalleePoint());
+			
+			graphic.drawLine(getCalleePoint().x, getCalleePoint().y, getCallerPoint().x, getCallerPoint().y);
+			graphic.drawLine(getCalleePoint().x + dx,  getCalleePoint().y + dy , (int) p2.getX() + dx,(int) p2.getY() + dy);
+			graphic.drawLine(getCalleePoint().x + dx,  getCalleePoint().y + dy , (int) p3.getX() + dx,(int) p3.getY() + dy);
+		}
 		
 		Workspace.getInstance().getBlockCanvas().getCanvas().repaint();
 	}
 	
-	public int getMiddleDy(){
-		int yLength = Math.abs(getEndPoint().y - getStartPoint().y);
+	public Point getCallerPoint(){ 
+		Point p = caller.getLocation();
+		p.x+=caller.getBlockWidth();
+		p.y+=caller.getBlockHeight()/2;
+		return p;
+	}
+	
+	public Point getCalleePoint(){ 
+		Point p = callee.getLocation();
+		p.y+=callee.getBlockHeight()/2;
+		return p;
+	}
+	
+	public int getMiddleDy(Point callerPoint, Point calleePoint){
+		int yLength = Math.abs(callerPoint.y - calleePoint.y);
 		int dy = 0;
-		if(getEndPoint().y > getStartPoint().y){
+		if(callerPoint.y < calleePoint.y){
 			dy = -yLength/2;
-		}else if(getEndPoint().y < getStartPoint().y){
+		}else if(callerPoint.y > calleePoint.y){
 			dy = yLength/2;
 		}
 		return dy;
 	}
 	
-	public int getMiddleDx(){
-		int xLength = Math.abs(getEndPoint().x - getStartPoint().x);
+	public int getMiddleDx(Point callerPoint, Point calleePoint){
+		int xLength = Math.abs(callerPoint.x - calleePoint.x);
 		int dx = 0;
-		if(getEndPoint().x > getStartPoint().x){
+		if(callerPoint.x < calleePoint.x){
 			dx = -xLength/2;
-		}else if(getEndPoint().x < getStartPoint().x){
+		}else if(callerPoint.x> calleePoint.x){
 			dx = xLength/2;
 		}
 		
@@ -150,5 +179,7 @@ public class ArrowObject extends JComponent {
 		
 		return component;
 	}
+	
+
 
 }

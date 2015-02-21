@@ -426,7 +426,6 @@ public class BlockStub extends Block {
 			if (blockStub.stubGenus.startsWith(CALLER_STUB)) {
 				blockStub.updateConnectors();
 				blockStub.notifyRenderable();
-				RenderableBlock.getRenderableBlock(blockStub.getBlockID()).updateEndArrowPoint();
 			}
 		}
 	}

@@ -195,54 +195,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
 
-	private ArrayList<ArrowObject> startArrows = new ArrayList<ArrowObject>();
-	private ArrayList<ArrowObject> originArrows = new ArrayList<ArrowObject>();
 
-	public void addStartArrow(ArrowObject arrow) {
-		startArrows.add(arrow);
-	}
 
-	public void addEndArrow(ArrowObject arrow) {
-		originArrows.add(arrow);
-	}
-
-	public ArrayList<ArrowObject> getStartArrows() {
-		return this.startArrows;
-	}
-
-	public ArrayList<ArrowObject> getEndArrows() {
-		return this.originArrows;
-	}
-
-	public boolean hasArrows() {
-		return startArrows.size() > 0 || originArrows.size() > 0;
-	}
-
-	public void visibleArrows(boolean visible) {
-		for (ArrowObject arrow : startArrows) {
-			arrow.setVisible(visible);
-		}
-
-		for (ArrowObject arrow : originArrows) {
-			arrow.setVisible(visible);
-		}
-	}
-
-	public void clearArrows() {
-		startArrows.clear();
-		originArrows.clear();
-	}
-
-	public void resetArrowPosition() {
-		//		for (ArrowObject arrow : startArrows) {
-		//			arrow.resetPoint(arrow.getStartPoint(), arrow.getEndPoint());
-		//		}
-
-		for (ArrowObject arrow : originArrows) {
-			arrow.resetPoint(DrawingArrowManager.calcCallerBlockPoint(this),
-					arrow.getEndPoint());
-		}
-	}
 
 	public Map<String, List<Map<String, List<String>>>> getMethods() {
 		return methods;
@@ -1897,46 +1851,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 
 	}	
-	
-	public void resetPoints(int dx, int dy) {
-		for (ArrowObject arrow : startArrows) {
-			arrow.addEndPoint(dx, dy);
-		}
 
-		for (ArrowObject arrow : originArrows) {
-			arrow.addStartPoint(dx, dy);
-		}
-	}
-
-	public void visibleEndArrowPoint(long parentBlockID, boolean isActive) {
-		RenderableBlock parent = RenderableBlock
-				.getRenderableBlock(parentBlockID);
-		ArrayList<ArrowObject> arrows = new ArrayList<ArrowObject>();
-		Point p = getLocation();
-		p.x += getWidth();
-		p.y += getHeight() / 2;
-		for (ArrowObject endArrow : originArrows) {
-			endArrow.setStartPoint(p);
-		}
-	}
-
-	public void updateEndArrowPoint() {
-		if (hasArrows()) {
-			RenderableBlock  topBlock = getTopBlock(getCommandBlock(getBlock()));
-			if(topBlock != null && DrawingArrowManager.isRecursiveFunction(topBlock.getBlock(), getBlock())){
-				for(ArrowObject arrow : originArrows){
-					Point startJointPoint = new Point(topBlock.getLocation().x - (DrawingArrowManager.ARROW_GAP * (topBlock.getStartArrows().indexOf(arrow) + 1)), arrow.getStartPoint().y);
-					Point endJointPoint = new Point(topBlock.getLocation().x - (DrawingArrowManager.ARROW_GAP * (topBlock.getStartArrows().indexOf(arrow) + 1)) , arrow.getEndPoint().y);
-					((MultiJointArrowObject)arrow).updateJoints(startJointPoint, endJointPoint);
-				}
-			}else{
-				for(ArrowObject arrow : originArrows){
-					((MultiJointArrowObject)arrow).resetJoiuts();
-				}
-			}
-			DrawingArrowManager.thinArrows(this);
-		}
-	}
 
 	public Block getCommandBlock(Block block){
 		if(block != null){
@@ -1992,7 +1907,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			throw new RuntimeException("dragging without prior pickup");
 		// mark this as being dragged
 		renderable.dragging = true;
-		renderable.resetPoints(dx, dy);
 		// move the block by drag amount
 		if (!isTopLevelBlock) {
 			renderable.setLocation(renderable.getX() + dx, renderable.getY()
@@ -2024,15 +1938,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	}
 
-	public void redrawArrows() {
-		// 矢印の再描画
-		for (ArrowObject arrow : startArrows) {
-			arrow.update(parent.getJComponent().getGraphics());
-		}
-		for (ArrowObject arrow : originArrows) {
-			arrow.update(parent.getJComponent().getGraphics());
-		}
-	}
 
 	// /////////////////
 	// MOUSE EVENTS //

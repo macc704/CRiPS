@@ -1,9 +1,9 @@
 package drawingobjects;
 
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 
 import renderable.RenderableBlock;
 import renderable.ScopeChecker;
@@ -17,21 +17,24 @@ import controller.WorkspaceController;
 
 public class DrawingArrowManager implements WorkspaceListener {
 
-	private static List<RenderableBlock> arrowPossesser = new ArrayList<RenderableBlock>();
+	private static Map<Long, ArrowObject> arrows = new HashMap<Long, ArrowObject>();
 	private static boolean isActive = true;
 	public static int ARROW_GAP = 15;
 	
 	
-	public static void addPossesser(RenderableBlock possesser) {
-		arrowPossesser.add(possesser);
+	public static void addPossesser(Long id, ArrowObject arrow) {
+		arrows.put(id, arrow);
 	}
 
-	public static void removePossesser(RenderableBlock possesser) {
-		arrowPossesser.remove(possesser);
+	public static void removePossesser(Long id) {
+		arrows.remove(id);
 	}
 
 	public static void setActive(boolean isActive) {
 		DrawingArrowManager.isActive = isActive;
+		for(Long id : arrows.keySet()){
+			arrows.get(id).setVisible(isActive);
+		}
 	}
 
 	public static boolean isActive() {
@@ -39,21 +42,15 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 
 	public static void clearPossessers() {
-		for (RenderableBlock block : arrowPossesser) {
-			block.clearArrows();
-		}
-		arrowPossesser.clear();
+		arrows.clear();
 	}
 
 	public static void updatePossessers() {
-		for (RenderableBlock rb : arrowPossesser) {
-			rb.updateEndArrowPoint();
-		}
+
 	}
 
-	public static void clearPosesser(RenderableBlock posesser) {
-		posesser.clearArrows();
-		arrowPossesser.remove(posesser);
+	public static void clearPosesser(ArrowObject arrow) {
+		arrows.remove(arrow);
 	}
 
 	public static void setVisible(boolean active) {
@@ -65,25 +62,25 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 
 	public static void resetArrowsPosition() {
-		for (RenderableBlock rb : arrowPossesser) {
-			rb.resetArrowPosition();
-		}
+//		for (RenderableBlock rb : arrows) {
+//			rb.resetArrowPosition();
+//		}
 	}
 
 	public static void thinArrows(RenderableBlock rBlock) {
-		if(rBlock != null){
-			boolean isThin = calcConcentration(rBlock);
-			if (rBlock.getEndArrows().size() > 0) {
-				Point p = rBlock.getLocation();
-				p.x += rBlock.getWidth();
-				p.y += rBlock.getHeight() / 2;
-
-				for (ArrowObject endArrow : rBlock.getEndArrows()) {
-					endArrow.setStartPoint(p);
-					endArrow.chengeColor(isThin);
-				}
-			}	
-		}
+//		if(rBlock != null){
+//			boolean isThin = calcConcentration(rBlock);
+//			if (rBlock.getEndArrows().size() > 0) {
+//				Point p = rBlock.getLocation();
+//				p.x += rBlock.getWidth();
+//				p.y += rBlock.getHeight() / 2;
+//
+//				for (ArrowObject endArrow : rBlock.getEndArrows()) {
+//					endArrow.setStartPoint(p);
+//					endArrow.chengeColor(isThin);
+//				}
+//			}	
+//		}
 	}
 
 	public static boolean calcConcentration(RenderableBlock rBlock) {
@@ -141,28 +138,28 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 
 	public static void removeArrow(RenderableBlock block, WorkspaceController wc, Workspace ws) {
-		if (block != null) {
-			for (ArrowObject arrow : block.getEndArrows()) {
-				ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
-			}
-			for (ArrowObject arrow : block.getStartArrows()) {
-				ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
-			}
-
-			DrawingArrowManager.clearPosesser(block);
-
-			Iterable<BlockConnector> sockets = block.getBlock().getSockets();
-			if (sockets != null) {
-				Iterator<BlockConnector> socketConnectors = sockets.iterator();
-				while (socketConnectors.hasNext()) {
-					removeArrow(RenderableBlock.getRenderableBlock(socketConnectors.next().getBlockID()), wc, ws);
-				}
-			}
-
-			if (hasNoAfterBlock(block.getBlock())) {
-				removeArrow(RenderableBlock.getRenderableBlock(block.getBlock().getAfterBlockID()), wc, ws);
-			}
-		}
+//		if (block != null) {
+//			for (ArrowObject arrow : block.getEndArrows()) {
+//				ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
+//			}
+//			for (ArrowObject arrow : block.getStartArrows()) {
+//				ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
+//			}
+//
+//			DrawingArrowManager.clearPosesser(block);
+//
+//			Iterable<BlockConnector> sockets = block.getBlock().getSockets();
+//			if (sockets != null) {
+//				Iterator<BlockConnector> socketConnectors = sockets.iterator();
+//				while (socketConnectors.hasNext()) {
+//					removeArrow(RenderableBlock.getRenderableBlock(socketConnectors.next().getBlockID()), wc, ws);
+//				}
+//			}
+//
+//			if (hasNoAfterBlock(block.getBlock())) {
+//				removeArrow(RenderableBlock.getRenderableBlock(block.getBlock().getAfterBlockID()), wc, ws);
+//			}
+//		}
 	}
 
 	public static boolean hasNoAfterBlock(Block block){
@@ -182,13 +179,30 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 	
 	public void workspaceEventOccurred(WorkspaceEvent event) {
-		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED || event.getEventType() == WorkspaceEvent.BLOCK_MOVED || event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED) {
-			updatePossessers();
+		System.out.println(event.getEventType());
+		if(event.getEventType() == WorkspaceEvent.CALLERBLOCK_CREATED){
+			//callerかつ表示状態ならcalleeとの矢印を作成
+			RenderableBlock sourceBlock = RenderableBlock.getRenderableBlock(event.getSourceBlockID());
+			System.out.println(sourceBlock.getBlock().getGenusName());
+			if(sourceBlock.getBlock().getGenusName().equals("callerprocedure")){
+				//呼び出し元を取ってくる
+				RenderableBlock calleeBlock = RenderableBlock.getRenderableBlock(((BlockStub)sourceBlock.getBlock()).getParent().getBlockID());
+				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, isActive);
+				arrows.put(sourceBlock.getBlockID(), arrow);
+				Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).addArrow(arrow);
+			}
+		}
+		if(event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED){
+			System.out.println(RenderableBlock.getRenderableBlock(event.getSourceBlockID()).toString());
 		}
 		
-		if (event.getEventType() == WorkspaceEvent.BLOCK_REMOVED) {
-			removePossesser(RenderableBlock.getRenderableBlock(event.getSourceBlockID()));
-		}
+//		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED || event.getEventType() == WorkspaceEvent.BLOCK_MOVED || event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED) {
+//			updatePossessers();
+//		}
+		
+//		if (event.getEventType() == WorkspaceEvent.BLOCK_REMOVED) {
+//			removePossesser(RenderableBlock.getRenderableBlock(event.getSourceBlockID()));
+//		}
 	}
 
 }
