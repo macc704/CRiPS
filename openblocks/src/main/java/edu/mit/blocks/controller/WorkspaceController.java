@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -103,6 +105,11 @@ public class WorkspaceController {
 	private JFrame frame;
 	
 	private DebuggerWorkspaceController debugger;
+	
+	// for CheCoPro
+	private boolean openedFromCH = false;
+	private String user = "";
+	boolean opened = false;
 
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
@@ -112,6 +119,12 @@ public class WorkspaceController {
 	public WorkspaceController() {
 		this.workspace = new Workspace();
 	}
+	
+	public WorkspaceController(String user, boolean openedFromCH) {
+		this.openedFromCH = openedFromCH;
+		this.user = user;
+		this.workspace = new Workspace();
+	}
 
 	/**
 	 * Sets the file path for the language definition file, if the language
@@ -119,6 +132,7 @@ public class WorkspaceController {
 	 */
 	public void setLangDefFilePath(final String filePath) {
 		InputStream in = null;
+		this.langDefRootPath = filePath;
 		try {
 			in = new FileInputStream(filePath);
 			setLangDefStream(in);
@@ -199,6 +213,10 @@ public class WorkspaceController {
 		BlockConnectorShape.resetConnectorShapeMappings();
 		getWorkspace().getEnv().resetAllGenuses();
 		BlockLinkChecker.reset();
+	}
+
+	public JFrame getFrame() {
+		return frame;
 	}
 
 	/**
@@ -568,6 +586,7 @@ public class WorkspaceController {
 //		}
 //	}
 
+
 	/**
 	 * Saves the content of the workspace to the given file
 	 * 
@@ -591,7 +610,7 @@ public class WorkspaceController {
 
 	public void setSelectedFile(File selectedFile) {
 		this.selectedFile = selectedFile;
-		frame.setTitle("BlockEditor - " + selectedFile.getPath());
+		frame.setTitle("BlockEditor - " + selectedFile.getPath() + " - " + user);
 	}
 
 	/**
@@ -696,7 +715,11 @@ public class WorkspaceController {
 	 */
 	private void createAndShowGUI() {
 		frame = new JFrame("BlockEditor");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		if(openedFromCH) { 
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		} else {
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 		frame.setBounds(100, 100, 800, 600);
 		// // final SearchBar sb = new SearchBar("Search blocks",
 		// // "Search for blocks in the drawers and workspace", workspace);
@@ -712,7 +735,9 @@ public class WorkspaceController {
 		
 		frame.add(getWorkspacePanel(), BorderLayout.CENTER);
 
-		frame.add(getButtonPanel(), BorderLayout.PAGE_START);
+		if(!openedFromCH) {
+			frame.add(getButtonPanel(), BorderLayout.PAGE_START);
+		}
 		
 		frame.setVisible(true);
 	}
@@ -879,14 +904,49 @@ public class WorkspaceController {
 	private static String langDefRootPath = "ext/blocks/lang_def.xml";
 
 	public static void main(final String[] args) {
+		WorkspaceController wc = new WorkspaceController();
+		wc.openBlockEditor();
+	}
+	
+	public void openBlockEditor() {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				final WorkspaceController wc = new WorkspaceController();
-				wc.setLangDefFilePath(langDefRootPath);
-				wc.loadFreshWorkspace();
-				wc.createAndShowGUI();
+				loadFreshWorkspace();
+				createAndShowGUI();
+			}
+		});
+	}
 
+	public boolean isOpened() {
+		return opened;
+	}
+
+	private WindowAdapter windowAdapter = new WindowAdapter() {
+		
+		@Override
+		public void windowOpened(WindowEvent e) {
+			opened = true;
+		}
+		
+		@Override
+		public void windowClosing(WindowEvent e) {
+			opened = false;
+			frame.removeWindowListener(windowAdapter);
+		}
+	};
+	
+	public void openBlockEditor(final String xmlFilePath) {
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				loadFreshWorkspace();
+				createAndShowGUI();
+				loadProjectFromPath(xmlFilePath);
+				setSelectedFile(new File(xmlFilePath));
+				if (openedFromCH) {
+					frame.addWindowListener(windowAdapter);
+				}
 			}
 		});
 	}

@@ -5,6 +5,7 @@
 *.war
 *.ear
 .pres2
+.metadata
 RonproEditor/testbase/MyProjects
 RonproEditor/testbase/.Trash
 GoodSub/.project

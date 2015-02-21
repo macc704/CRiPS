@@ -71,7 +71,7 @@ public class REBlockEditorManager {
 					}
 				});
 	}
-
+	
 	public void doOpenBlockEditor() {
 		if (isWorkspaceOpened()) { // already opened
 			CFrameUtils.toFront(blockEditor.getFrame());

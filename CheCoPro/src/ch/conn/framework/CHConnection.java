@@ -42,16 +42,19 @@ public class CHConnection {
 		}
 	}
 
-	public void write(Object obj) {
+	public boolean write(Object obj) {
 		if (established()) {
 			try {
 				out.reset();
 				out.writeObject(obj);
+				return true;
 			} catch (Exception ex) {
-				throw new RuntimeException(ex);
+				// throw new RuntimeException(ex);
+				return false;
 			}
 		} else {
-			throw new RuntimeException();
+			// throw new RuntimeException();
+			return false;
 		}
 	}
 

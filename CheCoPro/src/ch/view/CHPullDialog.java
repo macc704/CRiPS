@@ -11,6 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import clib.view.windowmanager.CWindowCentraizer;
+
 public class CHPullDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -20,28 +22,45 @@ public class CHPullDialog extends JDialog implements ActionListener {
 	private JCheckBox materialCheckBox = new JCheckBox("素材(画像・音楽ファイル)", true);
 	private boolean javaChecked;
 	private boolean materialChecked;
+	private int language = 0;
 
-	public CHPullDialog(String user) {
+	public CHPullDialog(String user, int language) {
 		this.user = user;
-		initialize();
+		this.language = language;
+		initialize(language);
 	}
 
-	private void initialize() {
-		this.setTitle("PULL(取り込み)");
+	private void initialize(int language) {
+		
+		JLabel label = new JLabel();
+		JButton cancelButton = new JButton();
+		JButton okButton = new JButton("OK");
+		
+		if (language == 0) {
+			this.setTitle("PULL(取り込み)");
+			label.setText(user + "さんのプロジェクトをfinalに取り込みます．");
+			cancelButton.setText("キャンセル");
+			javaCheckBox.setText("Javaのプログラム");
+			materialCheckBox.setText("素材(画像・音楽ファイル)");
+		} else {
+			this.setTitle("PULL (Import)");
+			label.setText("Import " + user + "'s project into final.");
+			cancelButton.setText("CANCEL");
+			javaCheckBox.setText("Source (Java)");
+			materialCheckBox.setText("Materials (Image & Music files)");
+		}
+		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setModal(true);
 		this.setBounds(100, 100, 300, 150);
 		this.setResizable(false);
-
-		JLabel label = new JLabel(user + "さんのプロジェクトをfinalに取り込みます．");
+		CWindowCentraizer.centerWindow(this);
 
 		JPanel checkBoxPanel = new JPanel(new FlowLayout());
 		checkBoxPanel.add(javaCheckBox);
 		checkBoxPanel.add(materialCheckBox);
 
 		JPanel buttonPanel = new JPanel(new FlowLayout());
-		JButton cancelButton = new JButton("キャンセル");
-		JButton okButton = new JButton("OK");
 		buttonPanel.add(cancelButton);
 		buttonPanel.add(okButton);
 
@@ -72,7 +91,7 @@ public class CHPullDialog extends JDialog implements ActionListener {
 			setJavaChecked(javaCheckBox.isSelected());
 			setMaterialChecked(materialCheckBox.isSelected());
 			if (isJavaChecked()) {
-				CHWarningDialog warningDialog = new CHWarningDialog();
+				CHWarningDialog warningDialog = new CHWarningDialog(language);
 				if (warningDialog.isOk()) {
 					this.dispose();
 				}
@@ -99,7 +118,7 @@ public class CHPullDialog extends JDialog implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		new CHPullDialog("user");
+		new CHPullDialog("user", 1);
 	}
 
 }

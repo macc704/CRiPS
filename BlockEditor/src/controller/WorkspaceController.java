@@ -120,6 +120,8 @@ public class WorkspaceController {
 	public static final int COMPILE_ERROR = 3;
 	private int state = PROJECT_SELECTED;
 
+	private String user = ""; // for CheCoPro
+	
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
 	 * with the codeblocks.Workspace
@@ -443,6 +445,10 @@ public class WorkspaceController {
 		String javaName = ChangeExtension.changeToJavaExtension(name);
 
 		String title = defaultTitle + "-" + javaName;
+		
+		if (!user.equals("")) {
+			title = user + "-" + title;
+		}
 
 		frame.setTitle(title);
 	}
@@ -1226,6 +1232,10 @@ public class WorkspaceController {
 
 	public Workspace getWorkspace() {
 		return workspace;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 }

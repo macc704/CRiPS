@@ -17,10 +17,10 @@ import clib.common.table.CCSVFileIO;
 
 public class CHFileSystem {
 
-	public static String PROJECTPATH = "runtime-EclipseApplication/final";
-	public static String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
-	public static String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
-
+	public static final String PROJECTPATH = "runtime-EclipseApplication/final";
+	public static final String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
+	public static final String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
+	
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
 				"CH/" + port);
@@ -92,8 +92,8 @@ public class CHFileSystem {
 	}
 
 	public static CFileHashList createFileList(CDirectory dir) {
-		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(".*",
-				".class", ".xml", "bin"));
+		return new CFileHashList(dir, CFileFilter.IGNORE_BY_NAME_FILTER(
+				".class", ".xml", "bin", ".pres2"));
 	}
 
 	public static CFileHashList createFileList(CDirectory dir,
@@ -187,7 +187,7 @@ public class CHFileSystem {
 	public static void copyUserDirToMyProjects(String user) {
 		CDirectory masterDir = CHFileSystem.getUserDirForClient(user);
 		CDirectory copyDir = CFileSystem.getExecuteDirectory()
-				.findOrCreateDirectory("MyProjects/" + user);
+				.findOrCreateDirectory("MyProjects/final");
 		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
 				createFileList(masterDir), copyDir);
 

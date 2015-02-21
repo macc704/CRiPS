@@ -22,7 +22,9 @@ public class CHUserLogWriter {
 	public static final String SYNC_STOP = "stop sync";
 	public static final String SEND_FILE = "send file";
 	public static final String RECIVE_FILE = "recive file";
-	public static final String COPY_FILE = "copy file";
+	public static final String COPY_ALL_FILE = "copy all file";
+	public static final String COPY_JAVA_FILE = "copy java file";
+	public static final String COPY_MATERIAL_FILE = "copy material fila";
 	public static final String COPY_CODE = "copy code";
 	public static final String PASTE_CODE = "paste code";
 	public static final String OPEN_CHEDITOR = "open cheditor";
@@ -51,8 +53,7 @@ public class CHUserLogWriter {
 	}
 
 	public CDirectory getCHDir() {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				CHDIR_PATH);
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(CHDIR_PATH);
 	}
 
 	public CFile getLogFile() {
@@ -153,7 +154,7 @@ public class CHUserLogWriter {
 		log.addRowToTable();
 		log.writeCommand(SYNC_STOP);
 		log.addRowToTable();
-		log.writeCommand(COPY_FILE);
+		log.writeCommand(COPY_ALL_FILE);
 		log.writeFrom(".CH/user2/Final.java");
 		log.addRowToTable();
 		log.writeCommand(COPY_CODE);

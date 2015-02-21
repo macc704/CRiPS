@@ -46,6 +46,7 @@ import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.views.DummyConsole;
 import ronproeditor.views.REFrame;
 import ronproeditor.views.RESourceEditor;
+import ch.util.CHBlockEditorController;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileElement;
@@ -58,6 +59,7 @@ import clib.preference.app.CPreferenceManager;
 import clib.view.dialogs.CErrorDialog;
 
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+
 
 /*
  * Ronpro Editor Application
@@ -290,6 +292,8 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 2014/10/24 version 2.28.1 ohata			・メソッドコール矢印の修正
  * 2014/10/24 version 2.28.2 ohata			・再帰対応を一時停止
  * 2014/10/24 version 2.28.3 ohata			・BEの再帰バグを修正，その他メソッド定義のバグを修正 
+ * 2015/01/14 version 2.29.0 kato           ・CheCoProリリース
+ * 2015/01/14 version 2.29.1 kato           ・CheCoPro pullログ修正
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
  * ・"}"を押したときのスマートインデント
@@ -306,7 +310,7 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.28.3";
+	public static final String VERSION = "2.29.1";
 	public static final String BUILD_DATE = "2014/11/10";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2014 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
@@ -553,6 +557,9 @@ public class REApplication implements ICFwApplication {
 
 			// TODO 上と重複
 			flowManager.refreshChart();
+			
+			checoproManager.sendText();
+			checoproManager.sendFiles();
 		}
 	}
 
@@ -1206,6 +1213,13 @@ public class REApplication implements ICFwApplication {
 	}
 
 	public void doOpenBlockEditor() {
+		// for test
+//		chBlockEditorController = new CHBlockEditorController("");
+//		chBlockEditorController.setFileOpened(true);
+//		checoproManager.openBlockEditorForCH(chBlockEditorController,
+//				getResourceRepository().getCCurrentFile().toJavaFile()
+//				, getResourceRepository().getCCurrentProject().getAbsolutePath().toString()
+//				+ "/lang_def_project.xml");
 		blockManager.doOpenBlockEditor();
 		// 20130926 DENOがBEを直接参照する　暫定対応
 		if (deno != null && deno.isRunning()) {
@@ -1280,12 +1294,25 @@ public class REApplication implements ICFwApplication {
 		}
 	}
 
+	private CHBlockEditorController chBlockEditorController;
+	
+	public CHBlockEditorController getChBlockEditorController() {
+		return chBlockEditorController;
+	}
+
+	public void setChBlockEditorController(
+			CHBlockEditorController chBlockEditorController) {
+		this.chBlockEditorController = chBlockEditorController;
+	}
+
 	public REApplication doOpenNewRE(String dirPath) {
 		REApplication application = new REApplication();
 		File dir = new File(dirPath);
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
+		application.initializeLookAndFeel();
+		application.initializeCommands();
 		application.initializeAndOpen(dirPath);
 		// 返り値追加（kato）
 		return application;
