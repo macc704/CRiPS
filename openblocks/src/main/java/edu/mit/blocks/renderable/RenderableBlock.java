@@ -22,6 +22,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -2691,17 +2692,20 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private void blockSlideMoveAnimetion(int endPosition, String direction,
 			WorkspaceEnvironment we) {
 		RenderableBlock rb = we.getRenderableBlock(blockID);
-		BlockAnimationThread th = new BlockAnimationThread(rb, direction);
-		th.start();
+		//スコープチェックで弾くブロックは必ずstubになるはず
+		if(rb.getBlock() instanceof BlockStub){
+			BlockAnimationThread th = new BlockStubAnimetionThread((BlockStub)(rb.getBlock()), direction);
+			th.start();
+		}
 	}
 
 }
 
 class BlockHilighter {
 	// #ohata
-	private static final List<Long> hilightBlocks = new ArrayList<Long>();
-
-	public static List<Long> getHilightBlocksList() {
+	private static final HashSet<Long> hilightBlocks = new HashSet<Long>();
+	
+	public static HashSet<Long> getHilightBlocksList() {
 		return hilightBlocks;
 	}
 
@@ -2718,15 +2722,12 @@ class BlockHilighter {
 			if (catchedBlock instanceof BlockStub) {
 				// 親ブロックのハイライト
 				Block parentBlock = ((BlockStub) catchedBlock).getParent();
+				//ハイライトカラーの設定
 				catchedBlock.getWorkspace().getEnv()
 						.getRenderableBlock(parentBlock.getBlockID())
 						.getHilightHandler().setHighlightColor(Color.YELLOW);
 
 				hilightBlocks.add(parentBlock.getBlockID());
-
-				// 子ブロックのハイライト
-				hilightAllStubBlocks(parentBlock, catchedBlock, widget);
-
 			} else if (catchedBlock.isVariableDeclBlock()) {
 				hilightAllStubBlocks(catchedBlock, catchedBlock, widget);
 			}
@@ -2762,7 +2763,7 @@ class BlockHilighter {
 
 	public static void resetHilightAllStubBlocks(Workspace workspace) {
 		// 子ブロックのハイライトを消す
-		List<Long> hilightBlocks = BlockHilighter.getHilightBlocksList();
+		HashSet<Long> hilightBlocks = BlockHilighter.getHilightBlocksList();
 		for (Long blockID : hilightBlocks) {
 
 			workspace.getEnv().getRenderableBlock(blockID).getHilightHandler()
