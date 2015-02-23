@@ -56,7 +56,7 @@ public class CCViewerStart {
 		kindloader.load("ErrorKindsEng.csv");
 
 		CCCompileErrorLoader errorloader = new CCCompileErrorLoader(manager);
-		errorloader.load("CompileErrorLog.csv");
+		errorloader.load("CompileErrorLogTest.csv");
 
 		CCMetricsLoader metricsloader = new CCMetricsLoader(manager);
 		metricsloader.load("FileMetrics.csv");

@@ -7,7 +7,7 @@ ErrorID,rare,ErrorMessage
 6,1,illegal start of expression
 7,1,illegal start of type
 8,1,<identifier> expected
-9,1,reached and of file while parsing
+9,1,reached end of file while parsing
 10,1,')' expected
 11,1,iliegal character: A
 12,1,no suitable method found for A
