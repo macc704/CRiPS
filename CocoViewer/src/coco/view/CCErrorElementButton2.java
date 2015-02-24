@@ -7,6 +7,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.JButton;
 
@@ -37,6 +38,7 @@ public class CCErrorElementButton2 extends JButton {
 
 	private int width;
 	private int height;
+	Properties properties = new Properties();
 
 	private CCCompileErrorManager manager;
 	private CCCompileErrorKind list;
@@ -47,11 +49,12 @@ public class CCErrorElementButton2 extends JButton {
 	private List<CCGraphFrame> graphframes = new ArrayList<CCGraphFrame>();
 
 	public CCErrorElementButton2(CCCompileErrorManager manager,
-			CCCompileErrorKind list, int width, int height) {
+			CCCompileErrorKind list, int width, int height, Properties properties) {
 		this.manager = manager;
 		this.list = list;
 		this.width = width;
 		this.height = height;
+		this.properties = properties;
 
 		super.setPreferredSize(new Dimension(width, height));
 		super.setLayout(null);
@@ -71,7 +74,7 @@ public class CCErrorElementButton2 extends JButton {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
 			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
-					"修正時間", Integer.toString(i + 1));
+					properties.getProperty("correction.time"), Integer.toString(i + 1));
 		}
 
 		// TODO: ミニグラフのタイトルメッセージ表示 現在は10文字のみ表示
@@ -80,8 +83,9 @@ public class CCErrorElementButton2 extends JButton {
 			message = message.substring(0, 9) + "...";
 		}
 
-		chart = ChartFactory.createLineChart(message, "修正回数", "修正時間", dataset,
+		chart = ChartFactory.createLineChart(message, properties.getProperty("correction.number"), properties.getProperty("correction.time2"), dataset,
 				PlotOrientation.VERTICAL, false, false, false);
+		
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 
 		// 背景色セット
@@ -130,7 +134,7 @@ public class CCErrorElementButton2 extends JButton {
 				}
 
 				CCGraphFrame graphframe = new CCGraphFrame(list, manager,
-						errorID);
+						errorID, properties);
 				graphframe.setVisible(true);
 				graphframes.add(graphframe);
 

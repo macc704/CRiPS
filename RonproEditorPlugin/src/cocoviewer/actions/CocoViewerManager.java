@@ -20,6 +20,7 @@ import clib.common.filesystem.CPath;
 import coco.controller.CCCompileErrorKindLoader;
 import coco.controller.CCCompileErrorLoader;
 import coco.controller.CCMetricsLoader;
+import coco.controller.CCPropertiesLoader;
 import coco.model.CCCompileErrorManager;
 import coco.view.CCMainFrame2;
 
@@ -28,7 +29,8 @@ public class CocoViewerManager {
 	// TODO: データを置く場所・ppvrootフォルダの場所
 	private String PPV_ROOT_DIR = CFileSystem.getHomeDirectory()
 			.findOrCreateDirectory(".ppvdata").getAbsolutePath().toString();
-	private String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv";
+	private String KINDS_FILE = "ext/cocoviewer/ErrorKindsEng.csv";
+	private String LANG_FILE_EN = "ext/cocoviewer/lang/coco_en.xml";
 	private String ERROR_LOG_FILE = "/CompileErrorLog.csv";
 	private String METRICS_FILE = "/FileMetrics.csv";
 
@@ -39,6 +41,7 @@ public class CocoViewerManager {
 
 	private CPath path;
 	private IPRRecordingProject project;
+	CCCompileErrorManager manager = new CCCompileErrorManager();
 
 	public CocoViewerManager(IWorkbenchWindow window) {
 		if (Activator.getDefault().getppProjectset() == null) {
@@ -51,7 +54,7 @@ public class CocoViewerManager {
 		}
 		this.window = window;
 
-		CCCompileErrorManager manager = new CCCompileErrorManager();
+
 		CCCompileErrorKindLoader kindloader = new CCCompileErrorKindLoader(
 				manager);
 		kindloader.load(KINDS_FILE);
@@ -72,12 +75,14 @@ public class CocoViewerManager {
 		writeCocoViewerLog(PRCocoViewerLog.SubType.COCOVIEWER_OPEN);
 		manager.setProjectPath(path);
 		manager.setRecordingProject(project);
-
-		CCMainFrame2 frame = new CCMainFrame2(manager);
-		frame.toFront();
-		frame.setVisible(true);
 	}
 
+	public void start() {
+		CCPropertiesLoader propertiesloader = new CCPropertiesLoader(LANG_FILE_EN);
+		CCMainFrame2 frame = new CCMainFrame2(manager, propertiesloader.getProperties("EN"));
+		frame.start();
+	}
+	
 	private void writeCocoViewerLog(PRCocoViewerLog.SubType subType,
 			Object... texts) {
 		try {

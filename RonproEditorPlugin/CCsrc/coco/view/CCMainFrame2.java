@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -59,9 +60,16 @@ public class CCMainFrame2 extends JFrame {
 	// Compile Error Date
 	private CCCompileErrorManager manager;
 
+	Properties properties = new Properties();
+
 	// For GUI
 	private JPanel rootPanel = new JPanel();
 	private ArrayList<CCErrorElementButton2> buttons = new ArrayList<CCErrorElementButton2>();
+
+	public CCMainFrame2(CCCompileErrorManager manager, Properties properties) {
+		this(manager);
+		this.properties = properties;
+	}
 
 	public CCMainFrame2(CCCompileErrorManager manager) {
 		this.manager = manager;
@@ -70,7 +78,12 @@ public class CCMainFrame2 extends JFrame {
 		this.height = d.height * 3 / 4;
 		this.buttonWidth = this.width / 8;
 		this.buttonHeight = this.height / 8;
+	}
+
+	public void start() {
 		initialize();
+		toFront();
+		setVisible(true);
 	}
 
 	private void initialize() {
@@ -140,11 +153,25 @@ public class CCMainFrame2 extends JFrame {
 			avg = time / count;
 		}
 
-		String string = "<html>これまでのコンパイルエラー修正数: " + count
-				+ "　　これまでのコンパイルエラー修正時間累計: " + timeStr + "<br>"
-				+ "１つあたり修正時間平均: " + avg + "秒" + "  これまでの総作業時間:  " + workingStr
-				+ "<br>" + "  コンパイルエラー修正時間割合:  " + rate + "%" + "</html>";
-
+		String string = "";
+		string = "<html>"
+				+ properties.getProperty("all.compile.error.number")
+				+ count
+				+ "　　"
+				+ properties.getProperty("all.compile.error.time")
+				+ timeStr
+				+ "<br>"
+				+ properties
+						.getProperty("avarage.compile.error.correction.time")
+				+ avg
+				+ properties.getProperty("second")
+				+ "  "
+				+ properties.getProperty("all.working.time")
+				+ workingStr
+				+ "<br>  "
+				+ properties
+						.getProperty("rate.of.compile.error.correction.time")
+				+ "  " + rate + "%" + "</html>";
 		label.setText(string);
 		label.setMaximumSize(new Dimension(width, height / 24));
 		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
@@ -163,12 +190,18 @@ public class CCMainFrame2 extends JFrame {
 		long hour = time / 60 / 60;
 		long minute = (time / 60) % 60;
 		long second = time % 60;
-		String timeStr = hour + "時間" + minute + "分" + second + "秒";
+		String timeStr = "";
+		timeStr = hour + properties.getProperty("hour") + minute
+				+ properties.getProperty("minute") + second
+				+ properties.getProperty("nosecond");
+
 		return timeStr;
 	}
 
 	private void setChangeGraphRangeButton(JPanel panel) {
-		String[] labels = { "120秒固定モード", "グラフ概形モード  " };
+		String[] labels = { properties.getProperty("120seconds.mode"),
+				properties.getProperty("graph.curve.mode") };
+
 		final JComboBox<String> comboBox = new JComboBox<String>(labels);
 
 		comboBox.addActionListener(new ActionListener() {
@@ -197,7 +230,7 @@ public class CCMainFrame2 extends JFrame {
 		// エラーIDごとの数値を書き込み、ボタンを実装する
 		for (CCCompileErrorKind list : manager.getAllKinds()) {
 			CCErrorElementButton2 button = new CCErrorElementButton2(manager,
-					list, buttonWidth, buttonHeight);
+					list, buttonWidth, buttonHeight, properties);
 			buttons.add(button);
 		}
 
@@ -235,12 +268,19 @@ public class CCMainFrame2 extends JFrame {
 		}
 		String rare = "";
 		if (list != null) {
-			rare = "(レア度" + Integer.toString(list.getRare()) + ")";
+			rare = "(" + properties.getProperty("rarity")
+					+ Integer.toString(list.getRare()) + ")";
 		}
-		JButton emptyButton = new JButton("<html><center>未発生</center><br/>"
-				+ message + rare + "</html>");
+
+		String buttonlabel = "";
+		if (list != null) {
+			buttonlabel = "<html><center>"
+					+ properties.getProperty("inexperienced")
+					+ "</center><br/>" + message + rare + "</html>";
+		}
+
+		JButton emptyButton = new JButton(buttonlabel);
 		emptyButton.setEnabled(false);
-		emptyButton.setToolTipText("未発生です");
 		emptyButton.setBackground(Color.GRAY);
 		emptyButton.setPreferredSize(new Dimension(buttonWidth, buttonHeight));
 		return emptyButton;

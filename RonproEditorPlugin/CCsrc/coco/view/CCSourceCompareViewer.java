@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -29,9 +30,12 @@ public class CCSourceCompareViewer extends JFrame {
 
 	private IPLUnit unit;
 
-	private CCTimeLinePane timelinePane = new CCTimeLinePane();
+	private CCTimeLinePane timelinePane;
+	private Properties properties;
 
-	public CCSourceCompareViewer(IPLUnit unit) {
+	public CCSourceCompareViewer(IPLUnit unit, Properties properties) {
+		this.properties = properties;
+		timelinePane = new CCTimeLinePane(properties);
 		// 単体srcフォルダの場合，自動で中身を展開する．（仮の機能）
 		if (unit instanceof PLPackage
 				&& ((PLPackage) unit).getChildren().size() == 1
@@ -41,14 +45,15 @@ public class CCSourceCompareViewer extends JFrame {
 			unit = ((PLPackage) unit).getChildren().get(0);
 		}
 		this.unit = unit;
+		this.properties = properties;
 		initialize();
 		initializeData();
 	}
 
 	public CCSourceCompareViewer(IPLUnit unit, final int errorID,
-			final int rowIndex, final CCCompileErrorManager manager) {
+			final int rowIndex, final CCCompileErrorManager manager, Properties properties) {
 		// 単体srcフォルダの場合，自動で中身を展開する．（仮の機能）
-		this(unit);
+		this(unit, properties);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -98,8 +103,8 @@ public class CCSourceCompareViewer extends JFrame {
 		verticalSplitPane.setLeftComponent(topSplitPane);
 
 		JSplitPane topRightSplitPane = sourceAndComsolePanel(unit, model1,
-				"修正後");
-		JSplitPane topLeftSplitPane = sourceAndComsolePanel(unit, model2, "修正前");
+				properties.getProperty("after.correction"));
+		JSplitPane topLeftSplitPane = sourceAndComsolePanel(unit, model2, properties.getProperty("before.correction"));
 
 		topSplitPane.setRightComponent(topRightSplitPane);
 		topSplitPane.setLeftComponent(topLeftSplitPane);

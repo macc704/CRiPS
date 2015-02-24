@@ -13,6 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -54,6 +55,8 @@ public class CCGraphFrame extends JFrame {
 
 	private int width = 680;
 	private int height = 560;
+	
+	private Properties properties;
 
 	private JPanel rootPanel = new JPanel();
 	private JFreeChart chart;
@@ -67,11 +70,12 @@ public class CCGraphFrame extends JFrame {
 	private List<CCSourceCompareViewer> sourceviewers = new ArrayList<CCSourceCompareViewer>();
 
 	public CCGraphFrame(CCCompileErrorKind list, CCCompileErrorManager manager,
-			int errorID) {
+			int errorID, Properties properties) {
 		this.list = list;
 		this.manager = manager;
 		this.ppProjectSet = manager.getPPProjectSet();
 		this.errorID = errorID;
+		this.properties = properties;
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		width = (int) (d.width * 0.6);
@@ -106,9 +110,15 @@ public class CCGraphFrame extends JFrame {
 		// rootPanel.setLayout(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(width, height);
-		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - "
-				+ list.getMessage() + " の詳細");
 
+		// 語順が異なるので，ここはif文
+		if(properties.getProperty("language") == "JP") {
+			setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - "
+				+ list.getMessage() + " の詳細");
+		} else {
+			setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - Detail of " + list.getMessage());
+		}
+		
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -127,14 +137,20 @@ public class CCGraphFrame extends JFrame {
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
 			dataset.addValue(list.getErrors().get(i).getCorrectionTime(),
-					"修正時間", Integer.toString(i + 1));
+					properties.getProperty("correction.time"), Integer.toString(i + 1));
 		}
 
 		// グラフ生成
-		chart = ChartFactory.createLineChart(list.getMessage()
+		// 語順問題からif文
+		if(properties.getProperty("language") == "JP") {
+		chart = ChartFactory.createLineChart("「" + list.getMessage() + "」"
 				+ "の修正時間   レア度: " + list.getRare(), "修正回数", "修正時間", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
-
+		} else {
+			chart = ChartFactory.createLineChart("Correction time of \"" + list.getMessage()
+					+ "\" RARITY: " + list.getRare(), "Correction Number", "Correction Time", dataset,
+					PlotOrientation.VERTICAL, true, true, false);
+		}
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
 		chart.getLegend().setItemFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
@@ -181,7 +197,8 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	private void setChangeGraphRangeComboBox(JPanel panel) {
-		String[] labels = { "120秒固定モード", "グラフ概形モード" };
+		String[] labels = {properties.getProperty("120seconds.mode"), properties.getProperty("graph.curve.mode")}; 
+		
 		final JComboBox<String> comboBox = new JComboBox<String>(labels);
 
 		comboBox.addActionListener(new ActionListener() {
@@ -207,7 +224,12 @@ public class CCGraphFrame extends JFrame {
 
 	private void setSourceTable(JPanel panel) {
 		// テーブルデータ作成
-		String[] columnNames = { "修正回数", "発生時刻", "プログラム名", "修正時間" };
+		String[] columnNames = {properties.getProperty("correction.number"), 
+				properties.getProperty("correction.date"),
+				properties.getProperty("program.name"),
+				properties.getProperty("correction.time")
+		};
+
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 		for (int i = 0; i < list.getErrors().size(); i++) {
 			String count = String.valueOf(i + 1);
@@ -216,7 +238,7 @@ public class CCGraphFrame extends JFrame {
 			String filename = list.getErrors().get(i).getFilenameNoPath();
 			String correctTime = String.valueOf(list.getErrors().get(i)
 					.getCorrectionTime())
-					+ "秒";
+					+ " " + properties.getProperty("second");
 
 			String[] oneColumn = { count, time, filename, correctTime };
 			model.addRow(oneColumn);
@@ -309,7 +331,7 @@ public class CCGraphFrame extends JFrame {
 					CCCompileError compileError, IPLUnit model) {
 				// ProjectViewer → 簡易なソース比較ウィンドウに変更
 				final CCSourceCompareViewer sourceviewer = new CCSourceCompareViewer(
-						model, errorID, index, manager);
+						model, errorID, index, manager, properties);
 
 				long beginTime = compileError.getBeginTime();
 				sourceviewer.getTimelinePane().getTimeModel2()

@@ -3,6 +3,7 @@ package ronproeditor.ext;
 import coco.controller.CCCompileErrorKindLoader;
 import coco.controller.CCCompileErrorLoader;
 import coco.controller.CCMetricsLoader;
+import coco.controller.CCPropertiesLoader;
 import coco.model.CCCompileErrorManager;
 import coco.view.CCMainFrame2;
 import ppv.app.datamanager.PPProjectSet;
@@ -13,7 +14,8 @@ public class RECocoViewerManager {
 	private REApplication application;
 
 	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvフォルダに展開する
-	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv";
+	private static String KINDS_FILE = "ext/cocoviewer/ErrorKindsEng.csv";
+	private static String LANG_FILE_EN = "ext/cocoviewer/lang/coco_en.xml";
 	private static String DATA_FILE = "CompileErrorLog.csv";
 	private static String METRICS_FILE = "FileMetrics.csv";
 
@@ -32,7 +34,9 @@ public class RECocoViewerManager {
 		manager.setLibDir(libDir);
 		manager.setPPProjectSet(ppProjectSet);
 
-		new CCMainFrame2(manager).setVisible(true);
+		CCPropertiesLoader propertiesloader = new CCPropertiesLoader(LANG_FILE_EN);
+		CCMainFrame2 frame = new CCMainFrame2(manager, propertiesloader.getProperties("EN"));
+		frame.start();
 	}
 
 	private void loadData(CCCompileErrorManager manager) {
