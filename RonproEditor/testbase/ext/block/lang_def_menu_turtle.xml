@@ -15,7 +15,7 @@
 		<BlockGenusMember>random</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="Structure,Object" type="factory" button-color="255 255 255">
+	<BlockDrawer name="Structure" type="factory" button-color="255 255 255">
 		<BlockGenusMember>abstraction</BlockGenusMember>
 		<BlockGenusMember>procedure</BlockGenusMember>
 		<BlockGenusMember>proc-param-number</BlockGenusMember>
