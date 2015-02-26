@@ -206,7 +206,7 @@ public class LangDefFilesRewriter {
 //			ps.println("</BlockDrawer>");
 
 			makeIndent(ps, lineNum++);
-			ps.println("<BlockDrawer name=\"継承メソッド\" type=\"factory\" button-color=\"255 155 64\">");
+			ps.println("<BlockDrawer name=\"Inheritance Methods\" type=\"factory\" button-color=\"255 155 64\">");
 
 			addInheritanceMethodBlocksToMenu(ps, lineNum);
 
