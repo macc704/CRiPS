@@ -20,7 +20,7 @@ public abstract class VariableBlockModel extends BlockModel {
 
 	@Override
 	public void setType(String type) {
-		super.setType(type.substring(0, type.indexOf("型")));
+
 	}
 
 	// 今は使っていません。 2011/11/20

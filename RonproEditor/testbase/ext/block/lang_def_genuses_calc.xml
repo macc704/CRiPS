@@ -81,7 +81,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="remainder" kind="function" initlabel="割り算の余り"
+<BlockGenus name="remainder" kind="function" initlabel="reminder"
 	color="15 20 220">	
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
@@ -104,7 +104,7 @@
 
 <!-- number 比較演算　-->
 
-<BlockGenus name="equals-number" kind="function" initlabel="等しい"
+<BlockGenus name="equals-number" kind="function" initlabel="equals"
 	color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
@@ -125,7 +125,7 @@
 </BlockGenus>
 
 <BlockGenus name="not-equals-number" kind="function"
-	initlabel="等しくない" color="15 20 220">
+	initlabel="not equals" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
@@ -328,7 +328,7 @@
 <!-- double 比較演算 -->
 
 <BlockGenus name="equals-number-double" kind="function"
-	initlabel="等しい" color="15 20 220">
+	initlabel="equals" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
@@ -348,7 +348,7 @@
 </BlockGenus>
 
 <BlockGenus name="not-equals-number-double" kind="function"
-	initlabel="等しくない" color="15 20 220">
+	initlabel="not equals" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
@@ -470,7 +470,7 @@
 </BlockGenus>
 
 <!-- String　比較演算 -->
-<BlockGenus name="equals-string" kind="function" initlabel="等しい"
+<BlockGenus name="equals-string" kind="function" initlabel="equals"
 	color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
@@ -491,7 +491,7 @@
 </BlockGenus>
 
 <BlockGenus name="not-equals-string" kind="function"
-	initlabel="等しくない" color="45 201 255">
+	initlabel="not equals" color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
@@ -564,7 +564,7 @@
 
 <!-- boolean　比較演算 -->
 
-<BlockGenus name="equals-boolean" kind="function" initlabel="等しい"
+<BlockGenus name="equals-boolean" kind="function" initlabel="equals"
 	color="255 0 255">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
@@ -585,7 +585,7 @@
 </BlockGenus>
 
 <BlockGenus name="not-equals-boolean" kind="function"
-	initlabel="等しくない" color="255 0 255">
+	initlabel="not equals" color="255 0 255">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>

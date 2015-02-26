@@ -31,7 +31,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="string" kind="data" initlabel="あいうえお"
+<BlockGenus name="string" kind="data" initlabel="abcde"
 	editable-label="yes" is-label-value="yes" color="255 0 255">
 	<description>
 		<text>
@@ -48,7 +48,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="true" kind="data" initlabel="真" color="255 0 255">
+<BlockGenus name="true" kind="data" initlabel="true" color="255 0 255">
 	<!--<description> <text> 真値です。 </text> </description> -->
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
@@ -60,7 +60,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="false" kind="data" initlabel="偽" color="255 0 255">
+<BlockGenus name="false" kind="data" initlabel="fase" color="255 0 255">
 	<!--<description> <text> 偽値です。 </text> </description> -->
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"

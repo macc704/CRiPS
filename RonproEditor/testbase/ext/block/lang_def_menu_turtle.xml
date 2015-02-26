@@ -35,7 +35,7 @@
 		<BlockGenusMember>continue</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="Relation" type="factory" button-color="204 204 102">
+	<BlockDrawer name="Logical Operation" type="factory" button-color="204 204 102">
 		<BlockGenusMember>equals-number</BlockGenusMember>
 		<BlockGenusMember>not-equals-number</BlockGenusMember>
 		<BlockGenusMember>lessthan</BlockGenusMember>
