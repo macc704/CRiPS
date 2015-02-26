@@ -771,16 +771,7 @@ public class WorkspaceController {
 		frame.setVisible(true);
 	}
 
-	public void disposeTraceLine() {
-		DrawingArrowManager.setActive(false);
-	}
 
-	/*
-	 * メソッド呼び出し関係を表示するラインを描画します
-	 */
-	public void showAllTraceLine() {
-		DrawingArrowManager.setActive(true);
-	}
 
 	public String calcClassName() {
 		String className = this.selectedJavaFile.substring(0,

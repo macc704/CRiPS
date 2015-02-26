@@ -1,5 +1,6 @@
 package drawingobjects;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -67,12 +68,6 @@ public class DrawingArrowManager implements WorkspaceListener {
 		arrow.toggleCollapsed();
 	}
 
-	public static void resetArrowsPosition() {
-//		for (RenderableBlock rb : arrows) {
-//			rb.resetArrowPosition();
-//		}
-	}
-
 	public static void thinArrows(RenderableBlock rBlock) {
 //		if(rBlock != null){
 //			boolean isThin = calcConcentration(rBlock);
@@ -121,53 +116,6 @@ public class DrawingArrowManager implements WorkspaceListener {
 		return false;
 	}
 
-	public static Point calcCallerBlockPoint(RenderableBlock callerblock) {
-		Point p1 = callerblock.getLocation();
-		p1.x += callerblock.getWidth();
-		p1.y += callerblock.getHeight() / 2;
-
-		return p1;
-	}
-
-	public static Point calcDefinisionBlockPoint(RenderableBlock parentBlock) {
-		Point p2 = new Point(parentBlock.getLocation());
-		p2.y += parentBlock.getHeight() / 2;
-
-		return p2;
-	}
-
-	public static void removeArrows(RenderableBlock block) {
-		Workspace ws = Workspace.getInstance();
-		WorkspaceController wc = ws.getWorkSpaceController();
-		removeArrow(block, wc, ws);
-		wc.getWorkspace().getPageNamed(wc.calcClassName()).getJComponent().repaint();
-	}
-
-	public static void removeArrow(RenderableBlock block, WorkspaceController wc, Workspace ws) {
-//		if (block != null) {
-//			for (ArrowObject arrow : block.getEndArrows()) {
-//				ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
-//			}
-//			for (ArrowObject arrow : block.getStartArrows()) {
-//				ws.getPageNamed(wc.calcClassName()).clearArrow((Object) arrow);
-//			}
-//
-//			DrawingArrowManager.clearPosesser(block);
-//
-//			Iterable<BlockConnector> sockets = block.getBlock().getSockets();
-//			if (sockets != null) {
-//				Iterator<BlockConnector> socketConnectors = sockets.iterator();
-//				while (socketConnectors.hasNext()) {
-//					removeArrow(RenderableBlock.getRenderableBlock(socketConnectors.next().getBlockID()), wc, ws);
-//				}
-//			}
-//
-//			if (hasNoAfterBlock(block.getBlock())) {
-//				removeArrow(RenderableBlock.getRenderableBlock(block.getBlock().getAfterBlockID()), wc, ws);
-//			}
-//		}
-	}
-
 	public static boolean hasNoAfterBlock(Block block){
 		if(block != null){
 			if (block.getAfterBlockID() != -1 || block.getAfterBlockID() != null) {
@@ -185,24 +133,32 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 	
 	public void workspaceEventOccurred(WorkspaceEvent event) {
-		System.out.println(event.getEventType());
 		if(event.getEventType() == WorkspaceEvent.CALLERBLOCK_CREATED || event.getEventType() == WorkspaceEvent.BLOCK_ADDED){
 			//callerかつ表示状態ならcalleeとの矢印を作成
 			RenderableBlock sourceBlock = RenderableBlock.getRenderableBlock(event.getSourceBlockID());
 			if(sourceBlock.getBlock().getGenusName().equals("callerprocedure")){
 				//呼び出し元を取ってくる
 				RenderableBlock calleeBlock = RenderableBlock.getRenderableBlock(((BlockStub)sourceBlock.getBlock()).getParent().getBlockID());
-				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, isActive);
+				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, sourceBlock.isVisible());
 				arrows.put(sourceBlock.getBlockID(), arrow);
 				Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).addArrow(arrow);
+				if(hasEmptySocket(Block.getBlock(sourceBlock.getBlockID()))){
+					arrow.chengeColor(true);
+				}
 			}
 		}
+		
 		if(event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED){
 			RenderableBlock sourceBlock = RenderableBlock.getRenderableBlock(event.getSourceBlockID());
 			if(sourceBlock.getBlock().getGenusName().equals("callerprocedure")){
 				toggleVisible(sourceBlock.getBlockID());
 			}
-		}		
+		}
+		
+		if(event.getEventType() == WorkspaceEvent.BLOCK_REMOVED){
+			Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).removeArrow(arrows.get(event.getSourceBlockID()));
+			arrows.remove(event.getSourceBlockID());
+		}
 //		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED || event.getEventType() == WorkspaceEvent.BLOCK_MOVED || event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED) {
 //			updatePossessers();
 //		}

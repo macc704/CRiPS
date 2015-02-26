@@ -2761,7 +2761,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void callBlockCollapse() {
-		collapseLabel.blockCollapse();
+		collapseLabel.initialBlockCollapse();
 	}
 
 }

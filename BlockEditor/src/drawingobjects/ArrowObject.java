@@ -36,8 +36,14 @@ public class ArrowObject extends JComponent {
 		setBounds(Workspace.getInstance().getBlockCanvas().getCanvas().getBounds());
 		this.caller = caller;
 		this.callee = callee;
+		this.collapsed = !isShow;		
 		setDoubleBuffered(true);
-		setVisible(isShow);
+		if(DrawingArrowManager.isActive()){
+			setVisible(isShow);	
+		}else{
+			setVisible(false);
+		}
+		
 		oldParent = caller.getParent();
 	}
 
@@ -119,6 +125,7 @@ public class ArrowObject extends JComponent {
 			graphic.drawLine(getCalleePoint().x + dx,  getCalleePoint().y + dy , (int) p3.getX() + dx,(int) p3.getY() + dy);
 		}
 		
+		
 		Workspace.getInstance().getBlockCanvas().getCanvas().repaint();
 	}
 	
@@ -180,6 +187,7 @@ public class ArrowObject extends JComponent {
 	
 	public void toggleVisible(){
 		if(DrawingArrowManager.isActive()){
+			System.out.println(isVisible());
 			super.setVisible(!isVisible());			
 		}
 	}
