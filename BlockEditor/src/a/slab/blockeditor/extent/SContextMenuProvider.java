@@ -120,38 +120,38 @@ public class SContextMenuProvider {
 	}
 	
 	// TODO ドラッグ＆ドロップで実装
-	private JMenuItem createImportMenu() {
-		JMenuItem item = new JMenuItem("コピー");
-		item.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				RenderableBlock importBlock = BlockUtilities.cloneBlock(rb.getBlock());
-				copyToClipboard(importBlock.getBlock().getGenusName());
-			}
-		});
-		return item;
-	}
+//	private JMenuItem createImportMenu() {
+//		JMenuItem item = new JMenuItem("コピー");
+//		item.addActionListener(new ActionListener() {
+//			
+//			public void actionPerformed(ActionEvent e) {
+//				RenderableBlock importBlock = BlockUtilities.cloneBlock(rb.getBlock());
+//				copyToClipboard(importBlock.getBlock().getGenusName());
+//			}
+//		});
+//		return item;
+//	}
 	
 	// TODO for CheCoPro(temp)
-	private void copyToClipboard(String str) {
-		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-	    StringSelection selection = new StringSelection(str);
-	    clipboard.setContents(selection, selection);
-	}
-	
-	private JMenuItem createPasteMenu() {
-		JMenuItem item = new JMenuItem("ペースト");
-		item.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				
-				String genusName = getStringFromClipboard();
-				createNewBlock(rb.getParentWidget(), genusName);
-			}
-		});
-		
-		return item;
-	}
+//	private void copyToClipboard(String str) {
+//		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+//	    StringSelection selection = new StringSelection(str);
+//	    clipboard.setContents(selection, selection);
+//	}
+//	
+//	private JMenuItem createPasteMenu() {
+//		JMenuItem item = new JMenuItem("ペースト");
+//		item.addActionListener(new ActionListener() {
+//			
+//			public void actionPerformed(ActionEvent e) {
+//				
+//				String genusName = getStringFromClipboard();
+//				createNewBlock(rb.getParentWidget(), genusName);
+//			}
+//		});
+//		
+//		return item;
+//	}
 	
 	private String getStringFromClipboard() {
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -615,11 +615,11 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 		}
 		
-		if (!rb.getBlock().isProcedureDeclBlock()) {
-			menu.add(createImportMenu());
-			menu.add(createPasteMenu());
-			menu.addSeparator();
-		}
+//		if (!rb.getBlock().isProcedureDeclBlock()) {
+//			menu.add(createImportMenu());
+//			menu.add(createPasteMenu());
+//			menu.addSeparator();
+//		}
 		
 		//
 		//		//古いオブジェクト実行ブロックの互換性のために残してあります．
