@@ -410,6 +410,7 @@ public class WorkspaceController {
 				setFrameTitle(path);
 
 				setDirty(false);
+
 			}
 
 		} catch (ParserConfigurationException e) {
@@ -771,7 +772,7 @@ public class WorkspaceController {
 	}
 
 	public void disposeTraceLine() {
-			DrawingArrowManager.setActive(false);
+		DrawingArrowManager.setActive(false);
 	}
 
 	/*

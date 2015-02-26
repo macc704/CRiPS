@@ -22,16 +22,20 @@ public class DrawingArrowManager implements WorkspaceListener {
 	public static int ARROW_GAP = 15;
 	
 	
-	public static void addPossesser(Long id, ArrowObject arrow) {
+	public static void addArrow(Long id, ArrowObject arrow) {
 		arrows.put(id, arrow);
 	}
 
-	public static void removePossesser(Long id) {
+	public static void removArrow(Long id) {
 		arrows.remove(id);
 	}
-
+	
+	/*
+	 * MeRVのON/FFを設定
+	 */
 	public static void setActive(boolean isActive) {
 		DrawingArrowManager.isActive = isActive;
+		//再描画
 		for(Long id : arrows.keySet()){
 			arrows.get(id).setVisible(isActive);
 		}
@@ -53,12 +57,14 @@ public class DrawingArrowManager implements WorkspaceListener {
 		arrows.remove(arrow);
 	}
 
-	public static void setVisible(boolean active) {
-		if (active) {
-			Workspace.getInstance().getWorkSpaceController().showAllTraceLine();
-		} else {
-			Workspace.getInstance().getWorkSpaceController().disposeTraceLine();
-		}
+	public static void setVisible(Long id, boolean visible) {
+		arrows.get(id).setVisible(visible);
+	}
+	
+	public static void toggleVisible(Long id) {
+		ArrowObject arrow = arrows.get(id);
+		arrow.toggleVisible();			
+		arrow.toggleCollapsed();
 	}
 
 	public static void resetArrowsPosition() {
@@ -180,10 +186,9 @@ public class DrawingArrowManager implements WorkspaceListener {
 	
 	public void workspaceEventOccurred(WorkspaceEvent event) {
 		System.out.println(event.getEventType());
-		if(event.getEventType() == WorkspaceEvent.CALLERBLOCK_CREATED){
+		if(event.getEventType() == WorkspaceEvent.CALLERBLOCK_CREATED || event.getEventType() == WorkspaceEvent.BLOCK_ADDED){
 			//callerかつ表示状態ならcalleeとの矢印を作成
 			RenderableBlock sourceBlock = RenderableBlock.getRenderableBlock(event.getSourceBlockID());
-			System.out.println(sourceBlock.getBlock().getGenusName());
 			if(sourceBlock.getBlock().getGenusName().equals("callerprocedure")){
 				//呼び出し元を取ってくる
 				RenderableBlock calleeBlock = RenderableBlock.getRenderableBlock(((BlockStub)sourceBlock.getBlock()).getParent().getBlockID());
@@ -193,9 +198,11 @@ public class DrawingArrowManager implements WorkspaceListener {
 			}
 		}
 		if(event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED){
-			System.out.println(RenderableBlock.getRenderableBlock(event.getSourceBlockID()).toString());
-		}
-		
+			RenderableBlock sourceBlock = RenderableBlock.getRenderableBlock(event.getSourceBlockID());
+			if(sourceBlock.getBlock().getGenusName().equals("callerprocedure")){
+				toggleVisible(sourceBlock.getBlockID());
+			}
+		}		
 //		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED || event.getEventType() == WorkspaceEvent.BLOCK_MOVED || event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED) {
 //			updatePossessers();
 //		}

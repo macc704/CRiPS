@@ -6,7 +6,6 @@ import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import codeblocks.Block;
 import codeblocks.BlockConnector;
-import drawingobjects.DrawingArrowManager;
 
 public class CollapseLabel extends BlockControlLabel {
 
@@ -108,9 +107,6 @@ public class CollapseLabel extends BlockControlLabel {
 		update();
 	}
 	
-	public void collapseArrows(){
-		DrawingArrowManager.setVisible(!isActive());
-	}
 
 	/**
 	 * マウスクリック以外でブロックを閉じるとき

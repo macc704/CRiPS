@@ -63,21 +63,13 @@ public class ArrowObject extends JComponent {
 		
 	}
 
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		drawArrow((Graphics2D) g);
-	}
-
 	public void paint(Graphics g) {
 		super.paint(g);
-		//boundsの再設定
-		drawArrow((Graphics2D) g);
+		if(isVisible()){
+			drawArrow((Graphics2D) g);			
+		}
 	}
 
-	public void update(Graphics g) {
-		super.update(g);
-		paint(g);
-	}
 
 	public void drawArrow(Graphics2D graphic) {
 		graphic.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -180,6 +172,20 @@ public class ArrowObject extends JComponent {
 		return component;
 	}
 	
-
+	public void setVisible(boolean visible){
+		if(!collapsed){
+			super.setVisible(visible);
+		}
+	}
+	
+	public void toggleVisible(){
+		if(DrawingArrowManager.isActive()){
+			super.setVisible(!isVisible());			
+		}
+	}
+	
+	public void toggleCollapsed(){
+		this.collapsed = !this.collapsed;
+	}
 
 }
