@@ -51,7 +51,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createBlockCopyMenu() {
 		if (blockCopyItem == null) {
-			blockCopyItem = new JMenuItem("複製");
+			blockCopyItem = new JMenuItem("Copy");
 			blockCopyItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SBlockCopier(rb).doWork(e);
@@ -63,7 +63,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCreateValueMenu() {
 		if (createValueItem == null) {
-			createValueItem = new JMenuItem("「値ブロック」の作成");
+			createValueItem = new JMenuItem("Create the value block");
 			createValueItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("getter", rb).doWork(e);
@@ -75,7 +75,7 @@ public class SContextMenuProvider {
 
 	// #ohata added
 	private JMenuItem createNewGetterMenu() {
-		JMenuItem item = new JMenuItem("ゲッターメソッドの作成");
+		JMenuItem item = new JMenuItem("Cerate the getter method");
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createNewGetterMethod("procedure");
@@ -86,7 +86,7 @@ public class SContextMenuProvider {
 
 	// #ohata added
 	private JMenuItem createNewSetterMenu() {
-		JMenuItem item = new JMenuItem("セッターメソッドの作成");
+		JMenuItem item = new JMenuItem("Create the setter method");
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createNewSetterMethod("procedure");
@@ -97,7 +97,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCreateWriterMenu() {
 		if (createWriterItem == null) {
-			createWriterItem = new JMenuItem("「書込ブロック」の作成");
+			createWriterItem = new JMenuItem("Create the substitution block");
 			createWriterItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("setter", rb).doWork(e);
@@ -109,7 +109,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCreateIncrementerMenu() {
 		if (createIncrementerItem == null) {
-			createIncrementerItem = new JMenuItem("「増やすブロック」の作成");
+			createIncrementerItem = new JMenuItem("Create the increment value block");
 			createIncrementerItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("inc", rb).doWork(e);
@@ -250,7 +250,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCallerMenu() {
 		if (createCallerItem == null) {
-			createCallerItem = new JMenuItem("「メソッド実行ブロック」の作成");
+			createCallerItem = new JMenuItem("Create the call method block");
 			createCallerItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("caller", rb).doWork(e);
@@ -339,7 +339,7 @@ public class SContextMenuProvider {
 			menu.add(elementSetter);
 		}
 
-		JMenu methodMenu = new JMenu(rb.getBlock().getBlockLabel() + "に命令する");
+		JMenu methodMenu = new JMenu("Command for" + rb.getBlock().getBlockLabel());
 
 		if (rb.getBlock().getGenusName().contains("-bcanvas")) {
 			JMenu category = new JMenu("BCanvas");
