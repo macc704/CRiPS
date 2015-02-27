@@ -4,7 +4,7 @@
 
 <!-- MOVEMENT -->
 
-<BlockGenus name="fd" kind="command" initlabel="Move" color="255 0 0">
+<BlockGenus name="fd" kind="command" initlabel="Forward" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -73,7 +73,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="rt" kind="command" initlabel="Tutn right" color="255 0 0">
+<BlockGenus name="rt" kind="command" initlabel="Turn right" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -111,7 +111,7 @@
 	</description>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
-		<BlockConnector label="0~|" connector-kind="socket"
+		<BlockConnector label="0~" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="10" />
 		</BlockConnector>
