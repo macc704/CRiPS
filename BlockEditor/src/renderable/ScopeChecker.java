@@ -23,7 +23,7 @@ public class ScopeChecker {
 				beforeBlock = purcePlugBlock(beforeBlock);
 				originBlock = beforeBlock;
 			}
-			
+
 			//離れ小島のブロックの場合はtrueを返す
 			if (isIndependentBlock(beforeBlock)) {
 				return true;
@@ -42,10 +42,7 @@ public class ScopeChecker {
 			}
 
 			//参照ブロックの名前を取得
-			compareBlockName = compareBlock.getBlockLabel().substring(
-					0,
-					compareBlock.getBlockLabel().indexOf(
-							compareBlock.getLabelSuffix()));
+			compareBlockName = compareBlock.getBlockLabel();
 
 			//所属できる場所かどうか確認する
 			if (confirmCompareBlockIsBelongable(cmpBlock, beforeBlock,

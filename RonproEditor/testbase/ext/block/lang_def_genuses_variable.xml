@@ -151,7 +151,7 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-int-number" kind="local-variable"
-	initlabel="i" header-label="Define local number variable and named "
+	initlabel="i" header-label="Variable "
 	footer-label="" editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
 		<text>
@@ -194,7 +194,7 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-double-number" kind="local-variable"
-	initlabel="d" header-label="Define local double-number variable and named " footer-label=""
+	initlabel="d" header-label="Variable " footer-label=""
 	editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
 		<text>
@@ -237,7 +237,7 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-string" kind="local-variable"
-	initlabel="s" header-label="Define local String variable and named " footer-label=""
+	initlabel="s" header-label="Variable " footer-label=""
 	editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
 		<text>
@@ -274,7 +274,7 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-boolean" kind="local-variable"
-	initlabel="b" header-label="Define local boolean variable and named " footer-label=""
+	initlabel="b" header-label="Variable " footer-label=""
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
