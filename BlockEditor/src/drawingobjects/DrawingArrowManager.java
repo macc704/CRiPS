@@ -1,7 +1,5 @@
 package drawingobjects;
 
-import java.awt.Component;
-import java.awt.Point;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,7 +12,6 @@ import workspace.WorkspaceListener;
 import codeblocks.Block;
 import codeblocks.BlockConnector;
 import codeblocks.BlockStub;
-import controller.WorkspaceController;
 
 public class DrawingArrowManager implements WorkspaceListener {
 
@@ -132,23 +129,33 @@ public class DrawingArrowManager implements WorkspaceListener {
 		return false;
 	}
 	
+	public static void updateArrow(Long blockID){
+		if(hasEmptySocket(Block.getBlock(blockID))){
+			arrows.get(blockID).changeColor(true);
+		}else{
+			arrows.get(blockID).changeColor(false);
+		}
+	}
+	
 	public void workspaceEventOccurred(WorkspaceEvent event) {
 		if(event.getEventType() == WorkspaceEvent.CALLERBLOCK_CREATED || event.getEventType() == WorkspaceEvent.BLOCK_ADDED){
 			//callerかつ表示状態ならcalleeとの矢印を作成
 			RenderableBlock sourceBlock = RenderableBlock.getRenderableBlock(event.getSourceBlockID());
 			if(sourceBlock.getBlock().getGenusName().equals("callerprocedure")){
-				//呼び出し元を取ってくる
 				RenderableBlock calleeBlock = RenderableBlock.getRenderableBlock(((BlockStub)sourceBlock.getBlock()).getParent().getBlockID());
 				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, sourceBlock.isVisible());
 				arrows.put(sourceBlock.getBlockID(), arrow);
+				
 				Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).addArrow(arrow);
+				
 				if(hasEmptySocket(Block.getBlock(sourceBlock.getBlockID()))){
-					arrow.chengeColor(true);
+					arrow.changeColor(true);
 				}
 			}
 		}
 		
 		if(event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED){
+			//可視状態をトグル
 			RenderableBlock sourceBlock = RenderableBlock.getRenderableBlock(event.getSourceBlockID());
 			if(sourceBlock.getBlock().getGenusName().equals("callerprocedure")){
 				toggleVisible(sourceBlock.getBlockID());
@@ -156,16 +163,31 @@ public class DrawingArrowManager implements WorkspaceListener {
 		}
 		
 		if(event.getEventType() == WorkspaceEvent.BLOCK_REMOVED){
+			//矢印削除
 			Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).removeArrow(arrows.get(event.getSourceBlockID()));
 			arrows.remove(event.getSourceBlockID());
 		}
-//		if (event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED || event.getEventType() == WorkspaceEvent.BLOCK_MOVED || event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED) {
-//			updatePossessers();
-//		}
-		
-//		if (event.getEventType() == WorkspaceEvent.BLOCK_REMOVED) {
-//			removePossesser(RenderableBlock.getRenderableBlock(event.getSourceBlockID()));
-//		}
+			
+		if(event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED){
+			//矢印の濃度を変更
+			Block socketBlock = Block.getBlock(event.getSourceLink().getSocketBlockID());
+			Block plugBlock = Block.getBlock(event.getSourceLink().getPlugBlockID());
+			
+			if(socketBlock.getGenusName().equals("callerprocedure")){
+				if(hasEmptySocket(socketBlock)){
+					arrows.get(socketBlock.getBlockID()).changeColor(true);
+				}else{
+					arrows.get(socketBlock.getBlockID()).changeColor(false);
+				}
+			}
+			if(plugBlock.getGenusName().equals("callerprocedure")){
+				if(hasEmptySocket(plugBlock)){
+					arrows.get(plugBlock.getBlockID()).changeColor(true);
+				}else{
+					arrows.get(plugBlock.getBlockID()).changeColor(false);
+				}				
+			}
+		}
 	}
 
 }

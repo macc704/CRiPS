@@ -11,6 +11,7 @@ import renderable.RenderableBlock;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import codeblocks.BlockConnector.PositionType;
+import drawingobjects.DrawingArrowManager;
 
 /**
  * <code>BlockStub</code> are a special form of blocks that provide a particular
@@ -411,7 +412,7 @@ public class BlockStub extends Block {
 	 * @param parentID
 	 */
 	public static void parentConnectorsChanged(Long parentID) {
-		String key = Block.getBlock(parentID).getBlockLabel()+ Block.getBlock(parentID).getGenusName();
+		String key = Block.getBlock(parentID).getBlockLabel() + Block.getBlock(parentID).getGenusName();
 
 		// update each stub only if stub is a caller (as callers are the only
 		// type of stubs that
@@ -426,6 +427,7 @@ public class BlockStub extends Block {
 			if (blockStub.stubGenus.startsWith(CALLER_STUB)) {
 				blockStub.updateConnectors();
 				blockStub.notifyRenderable();
+				DrawingArrowManager.updateArrow(stub);
 			}
 		}
 	}
@@ -596,8 +598,11 @@ public class BlockStub extends Block {
 					.iterator();
 			int i; // socket index
 			// clear all sockets temporary solution
+			RenderableBlock.getRenderableBlock(getBlockID()).clearSocketLabels();
+			
 			for (BlockConnector socket : getSockets())
 				removeSocket(socket);
+			
 			// add parent sockets
 			for (i = 0; parentSockets.hasNext(); i++) {
 				BlockConnector parentSocket = parentSockets.next();
@@ -614,16 +619,8 @@ public class BlockStub extends Block {
 									Block.NULL);
 					} else {
 						BlockConnector con = getSocketAt(i);
-						this.setSocketAt(i, parentSocket.getKind(), con
-								.getPositionType(),
-								Block.getBlock(parentSocket.getBlockID())
-										.getBlockLabel(),
-								con.isLabelEditable(), con.isExpandable(), con
-										.getBlockID());
-						// ria remove this eventually
-						// BlockConnector con = getSocketAt(i);
-						// con.setKind(parentSocket.getKind());
-						// con.setLabel(Block.getBlock(parentSocket.getBlockID()).getBlockLabel());
+						this.setSocketAt(i, parentSocket.getKind(), con.getPositionType(),Block.getBlock(parentSocket.getBlockID()).getBlockLabel(),
+								con.isLabelEditable(), con.isExpandable(), con.getBlockID());
 					}
 				}
 			}

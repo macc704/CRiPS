@@ -2678,6 +2678,12 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 		return null;
 	}
+	
+	public void clearSocketLabels(){
+		for(ConnectorTag tag : this.socketTags){
+			tag.getLabel().setText("");
+		}
+	}
 
 	/**
 	 * Returns the collapsed state if the block has a collapseLabel otherwise

@@ -845,8 +845,7 @@ public class Block implements ISupportMemento {
 			connectedBlock.getConnectorTo(this.blockID).setConnectorBlockID(
 					Block.NULL);
 			socket.setConnectorBlockID(Block.NULL);
-			RenderableBlock.getRenderableBlock(blockID).blockDisconnected(
-					socket);
+			RenderableBlock.getRenderableBlock(blockID).blockDisconnected(socket);
 		}
 		sockets.remove(socket);
 	}

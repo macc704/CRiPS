@@ -60,7 +60,7 @@ public class ArrowObject extends JComponent {
 		return this.arrowColor;
 	}
 	
-	public void chengeColor(boolean isThin){
+	public void changeColor(boolean isThin){
 		if(isThin){
 			arrowColor = thinColor;
 		}else{
@@ -187,7 +187,6 @@ public class ArrowObject extends JComponent {
 	
 	public void toggleVisible(){
 		if(DrawingArrowManager.isActive()){
-			System.out.println(isVisible());
 			super.setVisible(!isVisible());			
 		}
 	}
