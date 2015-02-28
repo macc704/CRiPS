@@ -37,7 +37,6 @@ public class ArrowObject extends JComponent {
 		this.caller = caller;
 		this.callee = callee;
 		this.collapsed = !isShow;		
-		setDoubleBuffered(true);
 		if(DrawingArrowManager.isActive()){
 			setVisible(isShow);	
 		}else{
@@ -69,8 +68,7 @@ public class ArrowObject extends JComponent {
 		
 	}
 
-	public void paint(Graphics g) {
-		super.paint(g);
+	public void paintComponent(Graphics g) {
 		if(isVisible()){
 			drawArrow((Graphics2D) g);			
 		}
@@ -124,9 +122,6 @@ public class ArrowObject extends JComponent {
 			graphic.drawLine(getCalleePoint().x + dx,  getCalleePoint().y + dy , (int) p2.getX() + dx,(int) p2.getY() + dy);
 			graphic.drawLine(getCalleePoint().x + dx,  getCalleePoint().y + dy , (int) p3.getX() + dx,(int) p3.getY() + dy);
 		}
-		
-		
-		Workspace.getInstance().getBlockCanvas().getCanvas().repaint();
 	}
 	
 	public Point getCallerPoint(){ 
