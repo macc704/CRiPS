@@ -28,16 +28,16 @@ public class ArrowObject extends JComponent {
 	private static Color normalColor = new Color(255,255,0, 255);
 	private Color arrowColor = normalColor;
 	
-	private boolean collapsed = false;
+	private boolean collapsed;
 	
 	private Component oldParent;
 	
-	public ArrowObject(RenderableBlock caller, RenderableBlock callee, boolean isShow) {
+	public ArrowObject(RenderableBlock caller, RenderableBlock callee, boolean isShow, boolean isActive) {
 		setBounds(Workspace.getInstance().getBlockCanvas().getCanvas().getBounds());
 		this.caller = caller;
 		this.callee = callee;
 		this.collapsed = !isShow;		
-		if(DrawingArrowManager.isActive()){
+		if(isActive){
 			setVisible(isShow);	
 		}else{
 			setVisible(false);
@@ -175,19 +175,19 @@ public class ArrowObject extends JComponent {
 	}
 	
 	public void setVisible(boolean visible){
-		if(!collapsed){
+		if(!this.collapsed){
 			super.setVisible(visible);
 		}
 	}
 	
-	public void toggleVisible(){
-		if(DrawingArrowManager.isActive()){
-			super.setVisible(!isVisible());			
+	public void toggleVisible(boolean isVisible, boolean isActive){
+		if(isActive){
+			super.setVisible(isVisible);			
 		}
 	}
 	
-	public void toggleCollapsed(){
-		this.collapsed = !this.collapsed;
+	public void toggleCollapsed(boolean collapsed){
+		this.collapsed = collapsed;
 	}
 
 }

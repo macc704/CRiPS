@@ -61,9 +61,6 @@ import codeblocks.JComponentDragHandler;
 import codeblocks.rendering.BlockShapeUtil;
 import codeblockutil.CToolTip;
 import codeblockutil.GraphicsManager;
-import drawingobjects.ArrowObject;
-import drawingobjects.DrawingArrowManager;
-import drawingobjects.MultiJointArrowObject;
 
 /**
  * RenderableBlock is responsible for all graphical rendering of a code Block.
@@ -1852,7 +1849,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	}	
 
-
 	public Block getCommandBlock(Block block){
 		if(block != null){
 			while(block.getPlug() != null && block.getPlug().getBlockID() != Block.NULL){
@@ -1862,26 +1858,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return block;
 	}
 	
-	public void updateEndArrowPoints(long parentBlockID, int concentration) {
-		Block block = Block.getBlock(parentBlockID);
-		if (block != null) {
-			do {
-				//ソケットを持っていたらソケット内をアップデートする
-				Iterable<BlockConnector> socks = block.getSockets();
-
-				if (socks != null) {
-					Iterator<BlockConnector> sockets = socks.iterator();
-					while (sockets.hasNext()) {
-						updateEndArrowPoints(sockets.next().getBlockID(),
-								concentration);
-					}
-				}
-				DrawingArrowManager.thinArrows(RenderableBlock.getRenderableBlock(block.getBlockID()));
-				block = Block.getBlock(block.getAfterBlockID());
-			} while (block != null);
-		}
-	}
-
 	public static RenderableBlock getTopBlock(Block block) {
 		Block tmpBlock = block;
 		if(tmpBlock == null){

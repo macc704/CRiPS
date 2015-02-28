@@ -11,7 +11,6 @@ import renderable.RenderableBlock;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import codeblocks.BlockConnector.PositionType;
-import drawingobjects.DrawingArrowManager;
 
 /**
  * <code>BlockStub</code> are a special form of blocks that provide a particular
@@ -427,7 +426,8 @@ public class BlockStub extends Block {
 			if (blockStub.stubGenus.startsWith(CALLER_STUB)) {
 				blockStub.updateConnectors();
 				blockStub.notifyRenderable();
-				DrawingArrowManager.updateArrow(stub);
+				//矢印の再描画
+				Workspace.getInstance().getMeRVManager().updateArrowColor(blockStub.getBlockID());
 			}
 		}
 	}

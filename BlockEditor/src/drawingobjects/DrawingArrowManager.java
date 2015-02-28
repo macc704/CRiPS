@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import renderable.RenderableBlock;
-import renderable.ScopeChecker;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceListener;
@@ -15,35 +14,38 @@ import codeblocks.BlockStub;
 
 public class DrawingArrowManager implements WorkspaceListener {
 
-	private static Map<Long, ArrowObject> arrows = new HashMap<Long, ArrowObject>();
-	private static boolean isActive = true;
+	private Map<Long, ArrowObject> arrows;
+	private boolean isActive = true;
 	public static int ARROW_GAP = 15;
 	
+	public DrawingArrowManager(){
+		arrows = new HashMap<Long, ArrowObject>();
+	}	
 	
-	public static void addArrow(Long id, ArrowObject arrow) {
+	public  void addArrow(Long id, ArrowObject arrow) {
 		arrows.put(id, arrow);
 	}
 
-	public static void removArrow(Long id) {
+	public  void removArrow(Long id) {
 		arrows.remove(id);
 	}
 	
 	/*
 	 * MeRVのON/FFを設定
 	 */
-	public static void setActive(boolean isActive) {
-		DrawingArrowManager.isActive = isActive;
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 		//再描画
 		for(Long id : arrows.keySet()){
 			arrows.get(id).setVisible(isActive);
 		}
 	}
 
-	public static boolean isActive() {
+	public boolean isActive() {
 		return isActive;
 	}
 
-	public static void clearPossessers() {
+	public  void clearPossessers() {
 		arrows.clear();
 	}
 
@@ -51,57 +53,20 @@ public class DrawingArrowManager implements WorkspaceListener {
 
 	}
 
-	public static void clearPosesser(ArrowObject arrow) {
+	public void clearPosesser(ArrowObject arrow) {
 		arrows.remove(arrow);
 	}
 
-	public static void setVisible(Long id, boolean visible) {
+	public void setVisible(Long id, boolean visible) {
 		arrows.get(id).setVisible(visible);
 	}
 	
-	public static void toggleVisible(Long id) {
-		ArrowObject arrow = arrows.get(id);
-		arrow.toggleVisible();			
-		arrow.toggleCollapsed();
+	public void toggleVisible(Long id, boolean isVisible) {
+			ArrowObject arrow = arrows.get(id);
+			arrow.toggleVisible(isVisible, isActive);			
+			arrow.toggleCollapsed(!isVisible);	
 	}
 
-	public static void thinArrows(RenderableBlock rBlock) {
-//		if(rBlock != null){
-//			boolean isThin = calcConcentration(rBlock);
-//			if (rBlock.getEndArrows().size() > 0) {
-//				Point p = rBlock.getLocation();
-//				p.x += rBlock.getWidth();
-//				p.y += rBlock.getHeight() / 2;
-//
-//				for (ArrowObject endArrow : rBlock.getEndArrows()) {
-//					endArrow.setStartPoint(p);
-//					endArrow.chengeColor(isThin);
-//				}
-//			}	
-//		}
-	}
-
-	public static boolean calcConcentration(RenderableBlock rBlock) {
-		boolean isThin = false;
-
-		//stub
-		if (rBlock.getBlock() instanceof BlockStub) {
-			//引数がない
-			if (hasEmptySocket(rBlock.getBlock())) {
-				isThin = true;
-			}
-			{//孤島かどうか
-				while (rBlock != null && rBlock.getBlock().getPlug()!= null) {
-					rBlock = RenderableBlock.getRenderableBlock(rBlock.getBlock().getPlugBlockID());
-				}
-				//rblock == null は独立した引数ブロック 
-				if (rBlock == null || ScopeChecker.isIndependentBlock(rBlock.getBlock())) {
-					isThin = true;
-				}
-			}
-		}
-		return isThin;
-	}
 
 	public static boolean hasEmptySocket(Block block) {
 		for (Iterator<BlockConnector> itarator = block.getSockets().iterator(); itarator
@@ -129,7 +94,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 		return false;
 	}
 	
-	public static void updateArrow(Long blockID){
+	public void updateArrowColor(Long blockID){
 		if(hasEmptySocket(Block.getBlock(blockID))){
 			arrows.get(blockID).changeColor(true);
 		}else{
@@ -143,9 +108,8 @@ public class DrawingArrowManager implements WorkspaceListener {
 			RenderableBlock sourceBlock = RenderableBlock.getRenderableBlock(event.getSourceBlockID());
 			if(sourceBlock.getBlock().getGenusName().equals("callerprocedure")){
 				RenderableBlock calleeBlock = RenderableBlock.getRenderableBlock(((BlockStub)sourceBlock.getBlock()).getParent().getBlockID());
-				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, sourceBlock.isVisible());
+				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, sourceBlock.isVisible(), isActive());
 				arrows.put(sourceBlock.getBlockID(), arrow);
-				
 				Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).addArrow(arrow);
 				
 				if(hasEmptySocket(Block.getBlock(sourceBlock.getBlockID()))){
@@ -158,7 +122,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 			//可視状態をトグル
 			Block sourceBlock = Block.getBlock(event.getSourceBlockID());
 			if(isCaller(sourceBlock) && hasArrow(sourceBlock.getBlockID())){
-				toggleVisible(sourceBlock.getBlockID());
+				toggleVisible(sourceBlock.getBlockID(), RenderableBlock.getRenderableBlock(sourceBlock.getBlockID()).isVisible());
 			}
 		}
 		

@@ -117,6 +117,7 @@ public class WorkspaceController {
 
 	private String user = ""; // for CheCoPro
 	
+	
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
 	 * with the codeblocks.Workspace
@@ -717,16 +718,16 @@ public class WorkspaceController {
 		{// create showing method trace line bottun
 			final JToggleButton showTraceLineButton = new JToggleButton(
 					"hide trace line");
-			showTraceLineButton.setSelected(!DrawingArrowManager.isActive());
+			showTraceLineButton.setSelected(!workspace.getMeRVManager().isActive());
 			showTraceLineButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
 						// 関数呼び出しをトレースするラインを非表示にする
-						DrawingArrowManager.setActive(false);
+						workspace.getMeRVManager().setActive(false);
 						ronproEditor.toggleTraceLines("ON");
 					} else {
 						// 関数呼び出しをトレースするラインを表示する
-						DrawingArrowManager.setActive(true);
+						workspace.getMeRVManager().setActive(true);
 						ronproEditor.toggleTraceLines("OFF");
 					}
 				}

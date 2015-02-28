@@ -88,14 +88,15 @@ public class CollapseLabel extends BlockControlLabel {
 		rBlock = RenderableBlock.getRenderableBlock(blockID);
 		rBlock.setVisible(!isActive());
 		
-		Workspace.getInstance().notifyListeners(new WorkspaceEvent(rBlock.getParentWidget(), rBlock.getBlockID(), WorkspaceEvent.BLOCK_COLLAPSED));
 		
-		if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
-			rBlock.getComment().setVisible(!isActive());
-		}
+//		if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
+//			rBlock.getComment().setVisible(!isActive());
+//		}
 
 		rBlock.getHighlightHandler().updateImage();
 		rBlock.repaintBlock();
+		
+		Workspace.getInstance().notifyListeners(new WorkspaceEvent(rBlock.getParentWidget(), rBlock.getBlockID(), WorkspaceEvent.BLOCK_COLLAPSED));
 		
 		if (rBlock.isCollapsed()) {
 			return;

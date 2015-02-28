@@ -16,8 +16,8 @@ public class MultiJointArrowObject extends ArrowObject{
 	private static final long serialVersionUID = 5134494205703423521L;
 
 	
-	public MultiJointArrowObject(RenderableBlock caller, RenderableBlock callee, Boolean isShow) {
-		super(caller, callee, isShow);
+	public MultiJointArrowObject(RenderableBlock caller, RenderableBlock callee, boolean isShow, boolean isActive) {
+		super(caller, callee, isShow, isActive);
 		this.callerJointPoint = caller.getLocation();
 		this.calleeJointPoint = callee.getLocation();
 	}
