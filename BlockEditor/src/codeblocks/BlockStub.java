@@ -170,12 +170,10 @@ public class BlockStub extends Block {
 					BlockConnector socket = sockets.next();
 					// socket labels should correspond with the socket blocks of
 					// parent
-					if (socket.getBlockID() != Block.NULL)
-						addSocket(socket.getKind(),
-								BlockConnector.PositionType.SINGLE, Block
-										.getBlock(socket.getBlockID())
-										.getBlockLabel(), false, false,
-								Block.NULL);
+					if (socket.getBlockID() != Block.NULL){
+						addSocket(socket.getKind(),BlockConnector.PositionType.SINGLE, Block.getBlock(socket.getBlockID()).getBlockLabel(), false, false,Block.NULL);
+					}
+
 				}
 			}
 

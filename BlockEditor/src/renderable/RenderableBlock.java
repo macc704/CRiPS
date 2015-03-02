@@ -2219,6 +2219,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		System.out.println(getBlock());
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mouseClicked(e);
 			if (e.getClickCount() == 2 && !dragging) {
@@ -2657,7 +2658,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	
 	public void clearSocketLabels(){
 		for(ConnectorTag tag : this.socketTags){
-			tag.getLabel().setText("");
+			if(tag.getLabel() != null){
+				tag.getLabel().setText("");
+			}
 		}
 	}
 
