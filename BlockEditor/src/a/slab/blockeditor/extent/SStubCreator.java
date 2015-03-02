@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 
 import renderable.RenderableBlock;
 import workspace.Workspace;
+import workspace.WorkspaceEvent;
 import codeblocks.Block;
 
 /**
@@ -46,10 +47,11 @@ public class SStubCreator {
 				
 				rb.getParentWidget().addBlock(newRB);
 				
-				if(stubGenus.startsWith("caller")){
-					Workspace.getInstance().getWorkSpaceController().addTraceLine(newRB);
-					newRB.updateEndArrowPoint();
-				}
+//				if(stubGenus.startsWith("caller")){
+//					Workspace.getInstance().getWorkSpaceController().addTraceLine(newRB);
+//					newRB.updateEndArrowPoint();
+//				}
+				Workspace.getInstance().notifyListeners(new WorkspaceEvent(newRB.getParentWidget(), newRB.getBlockID(), WorkspaceEvent.CALLERBLOCK_CREATED));
 				
 				return newRB;
 			}

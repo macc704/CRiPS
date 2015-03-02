@@ -70,10 +70,10 @@ public class SBlockCopier {
 			copyValueAndConnect(srcCon, newBlock, newCon);
 		}
 		
-		if(srcRBlock.getEndArrows().size() > 0){
-			Workspace.getInstance().getWorkSpaceController().disposeTraceLine();
-			Workspace.getInstance().getWorkSpaceController().showAllTraceLine();
-		}
+//		if(srcRBlock.getEndArrows().size() > 0){
+//			Workspace.getInstance().getWorkSpaceController().disposeTraceLine();
+//			Workspace.getInstance().getWorkSpaceController().showAllTraceLine();
+//		}
 		return newRBlock;
 	}
 

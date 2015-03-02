@@ -1,7 +1,6 @@
 package controller;
 
 import java.awt.BorderLayout;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +18,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -49,7 +47,6 @@ import slcodeblocks.ParamRule;
 import slcodeblocks.PolyRule;
 import util.ChangeExtension;
 import workspace.BlockCanvas;
-import workspace.Page;
 import workspace.SearchBar;
 import workspace.SearchableContainer;
 import workspace.TrashCan;
@@ -72,9 +69,6 @@ import codeblocks.BlockStub;
 import codeblocks.CommandRule;
 import codeblocks.InfixRule;
 import codeblocks.SocketRule;
-import drawingobjects.ArrowObject;
-import drawingobjects.DrawingArrowManager;
-import drawingobjects.MultiJointArrowObject;
 
 /**
  * 
@@ -121,6 +115,7 @@ public class WorkspaceController {
 	private int state = PROJECT_SELECTED;
 
 	private String user = ""; // for CheCoPro
+	
 	
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
@@ -415,8 +410,6 @@ public class WorkspaceController {
 				setFrameTitle(path);
 
 				setDirty(false);
-
-				showAllTraceLine();
 
 			}
 
@@ -723,19 +716,17 @@ public class WorkspaceController {
 
 		{// create showing method trace line bottun
 			final JToggleButton showTraceLineButton = new JToggleButton(
-					"hide trace line");
-			showTraceLineButton.setSelected(!DrawingArrowManager.isActive());
+					"Hide MeRV");
+			showTraceLineButton.setSelected(!workspace.getMeRVManager().isActive());
 			showTraceLineButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
 						// 関数呼び出しをトレースするラインを非表示にする
-						disposeTraceLine();
-						DrawingArrowManager.setActive(false);
+						workspace.getMeRVManager().setActive(false);
 						ronproEditor.toggleTraceLines("ON");
 					} else {
 						// 関数呼び出しをトレースするラインを表示する
-						DrawingArrowManager.setActive(true);
-						showAllTraceLine();
+						workspace.getMeRVManager().setActive(true);
 						ronproEditor.toggleTraceLines("OFF");
 					}
 				}
@@ -780,110 +771,7 @@ public class WorkspaceController {
 		frame.setVisible(true);
 	}
 
-	public void disposeTraceLine() {
-		if (workspace.getBlockCanvas() != null) {
-			workspace.getPageNamed(calcClassName()).clearArrowLayer();
-			workspace.getPageNamed(calcClassName()).getJComponent().repaint();
-			DrawingArrowManager.clearPossessers();
-		}
-	}
 
-	/*
-	 * メソッド呼び出し関係を表示するラインを描画します
-	 */
-	public void showAllTraceLine() {
-		if(DrawingArrowManager.isActive()){
-			List<Block> bodyBlocks = new ArrayList<Block>();
-			for (Block block : workspace.getBlocks()) {
-				// 呼び出しブロックにラインを表示する
-				RenderableBlock callerblock = RenderableBlock
-						.getRenderableBlock(block.getBlockID());
-
-				if (callerblock.getGenus().startsWith("caller")) {
-					addTraceLine(callerblock);
-				}
-
-				if (callerblock.getGenus().equals("procedure")
-						|| callerblock.getGenus().equals("abstraction")) {
-					if (callerblock.isCollapsed()) {
-						bodyBlocks.add(block);
-					}
-				}
-			}
-			//閉じてるブロックの全てのトレースラインを隠す
-			for (Block parent : bodyBlocks) {
-				RenderableBlock rBlock;
-				if (parent.getGenusName().equals("procedure")) {
-					rBlock = RenderableBlock.getRenderableBlock(parent
-							.getAfterBlockID());
-				} else {
-					rBlock = RenderableBlock.getRenderableBlock(parent.getSocketAt(0).getBlockID());
-				}
-				if (rBlock != null) {
-					hideTraceLines(rBlock);
-				}
-			}	
-		}
-	}
-
-	public void hideTraceLines(RenderableBlock rBlock) {
-			while (rBlock != null && DrawingArrowManager.hasNoAfterBlock(rBlock.getBlock())) {
-				hideTraceLine(rBlock);
-				rBlock = RenderableBlock.getRenderableBlock(rBlock.getBlock()
-						.getAfterBlockID());
-			}
-
-			hideTraceLine(rBlock);	
-	}
-
-	public void hideTraceLine(RenderableBlock rBlock) {
-		if(rBlock != null){
-			if (rBlock.hasArrows()) {
-				rBlock.visibleArrows(false);
-			}
-			Iterable<BlockConnector> sockets = rBlock.getBlock().getSockets();
-			if (sockets != null) {
-				Iterator<BlockConnector> socketConnectors = sockets.iterator();
-				while (socketConnectors.hasNext()) {
-					BlockConnector socket = socketConnectors.next();
-					hideTraceLines(RenderableBlock.getRenderableBlock(socket
-							.getBlockID()));
-				}
-			}	
-		}
-	}
-
-	public void addTraceLine(RenderableBlock callerBlock) {
-		if (DrawingArrowManager.isActive()) {
-			BlockCanvas canvas = workspace.getBlockCanvas();
-			JComponent component = callerBlock.getParentWidget()
-					.getJComponent();
-			//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
-			BlockStub stub = (BlockStub) (callerBlock.getBlock());
-			RenderableBlock parentBlock = RenderableBlock.getRenderableBlock(stub.getParent().getBlockID());
-			if (parentBlock != null) {
-				//呼び出しブロックの座標
-				Point p1 = DrawingArrowManager.calcCallerBlockPoint(callerBlock);
-				//呼び出し関数の定義ファイル
-				Point p2 = DrawingArrowManager.calcDefinisionBlockPoint(parentBlock);
-				ArrowObject arrow = new MultiJointArrowObject(p1, p2);
-				Page parentPage = (Page) callerBlock.getParentWidget();
-				parentPage.addArrow(arrow);
-
-				//定義ブロックへの矢印の追加
-				parentBlock.addStartArrow(arrow);
-				DrawingArrowManager.addPossesser(parentBlock);
-				//callerブロックへの矢印の追加
-				callerBlock.addEndArrow(arrow);
-				DrawingArrowManager.addPossesser(callerBlock);
-
-				callerBlock.updateEndArrowPoint();
-				//managerにブロック登録
-				String pageName = calcClassName();
-
-			}
-		}
-	}
 
 	public String calcClassName() {
 		String className = this.selectedJavaFile.substring(0,

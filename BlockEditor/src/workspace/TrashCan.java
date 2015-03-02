@@ -76,7 +76,6 @@ public class TrashCan extends JComponent implements MouseListener,
 
 		//#ohata added reset highlight
 		BlockHIlighter.resetAllHilightedStubBlocks();
-		DrawingArrowManager.removeArrows(block);
 		
 		BlockUtilities.deleteBlock(block);
 		currentColor = Color.BLACK;

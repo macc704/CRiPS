@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -66,6 +67,7 @@ import edu.mit.blocks.renderable.RenderableBlock;
 import edu.mit.blocks.workspace.Page;
 import edu.mit.blocks.workspace.SearchBar;
 import edu.mit.blocks.workspace.SearchableContainer;
+import edu.mit.blocks.workspace.TrashCan;
 import edu.mit.blocks.workspace.Workspace;
 
 /**
@@ -84,6 +86,8 @@ public class WorkspaceController {
 	
 	private String enc = "SJIS";
 
+	private String imagePath = "../support/images/";// added by macchan
+	
 	public Workspace getWorkspace() {
 		return this.workspace;
 	}
@@ -462,9 +466,17 @@ public class WorkspaceController {
 	 * function. Should be call only once at application startup.
 	 */
 	private void initWorkspacePanel() {
+		//refactor
+		ImageIcon tc = new ImageIcon(imagePath + "trash.png");
+		ImageIcon openedtc = new ImageIcon(imagePath + "trash_open.png");
+		TrashCan trash = new TrashCan(workspace, tc.getImage(), openedtc.getImage());
+		
+		workspace.addWidget(trash, true, true);
+		
 		workspacePanel = new JPanel();
 		workspacePanel.setLayout(new BorderLayout());
 		workspacePanel.add(workspace, BorderLayout.CENTER);
+		
 		isWorkspacePanelInitialized = true;
 	}
 
@@ -552,27 +564,28 @@ public class WorkspaceController {
 		}
 	}
 	
-	/**
-	 * Action bound to "Save As..." button.
-	 */
-	private class ConvertAction extends AbstractAction {
-		
-		private static final long serialVersionUID = 4649159219713654455L;
-
-		ConvertAction() {
-			super("Convert");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			try {
+//	/**
+//	 * Action bound to "Save As..." button.
+//	 */
+//	private class ConvertAction extends AbstractAction {
+//		
+//		private static final long serialVersionUID = 4649159219713654455L;
+//
+//		ConvertAction() {
+//			super("Convert");
+//		}
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			try {
 //				BlockToJavaMain.convert(selectedFile, enc , new String[] {});
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}
-	}
+//			} catch (Exception e1) {
+//				// TODO Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+//		}
+//	}
+
 
 	/**
 	 * Saves the content of the workspace to the given file
@@ -615,8 +628,8 @@ public class WorkspaceController {
 		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
 		buttonPanel.add(new JButton(saveAsAction));
 		
-		ConvertAction convertAction = new  ConvertAction();
-		buttonPanel.add(new JButton(convertAction));
+//		ConvertAction convertAction = new  ConvertAction();
+//		buttonPanel.add(new JButton(convertAction));
 		
 		{// create showing method trace line bottun
 			final JToggleButton showTraceLineButton = new JToggleButton(
@@ -888,7 +901,7 @@ public class WorkspaceController {
 		}
 	}
 		
-	private String langDefRootPath = "ext/block/lang_def_turtle.xml";
+	private static String langDefRootPath = "ext/blocks/lang_def.xml";
 
 	public static void main(final String[] args) {
 		WorkspaceController wc = new WorkspaceController();

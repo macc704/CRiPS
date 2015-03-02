@@ -43,6 +43,8 @@ public class BlockGenus {
 	private String labelPrefix = EMPTY_STRING;
 	private String labelSuffix = EMPTY_STRING;
 	private String blockDescription;
+	/** created by sakai lab 2011/10 */
+	private List<String> factorys = new ArrayList<String>();	
 
 	private boolean isStarter;
 	private boolean isTerminator;
@@ -286,7 +288,7 @@ public class BlockGenus {
 	 * define variables and procedures.
 	 */
 	public boolean isDeclaration() {
-		return this.isVariableDeclBlock() || this.isProcedureDeclBlock();
+		return this.isVariableDeclBlock() || this.isProcedureDeclBlock() || this.isAbstractionBlock();
 	}
 
 	/**

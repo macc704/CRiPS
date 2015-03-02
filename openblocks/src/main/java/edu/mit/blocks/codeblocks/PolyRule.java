@@ -1,6 +1,5 @@
 package edu.mit.blocks.codeblocks;
 
-import edu.mit.blocks.workspace.WorkspaceEnvironment;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceListener;
 
@@ -9,25 +8,41 @@ public class PolyRule implements LinkRule,WorkspaceListener {
 	@Override
 	public boolean canLink(Block block1, Block block2, BlockConnector socket1,
 			BlockConnector socket2) {
-		WorkspaceEnvironment ws = block1.getWorkspace().getEnv();
 		//既にブロックがくっついている場合は，結合しない
-		if("poly".equals(socket1.getKind()) ||"poly".equals(socket2.getKind())){
-			return true;
+		if(("poly".equals(socket1.getKind()) || "poly".equals(socket2.getKind()))){
+			if("data".equals(block1.getKind())){
+				if("command".equals(block2.getKind()) || "return".equals(block2.getKind())){
+					return true;
+				}
+			} else if("function".equals(block1.getKind())){
+				if("command".equals(block2.getKind()) || "return".equals(block2.getKind()) || "function".equals(block2.getKind())){
+					return true;
+				}				
+			} else if("command".equals(block1.getKind()) || "return".equals(block1.getKind())){
+				if("data".equals(block2.getKind()) || "function".equals(block2.getKind())){
+					return true;
+				}
+			}else if("procedure".equals(block1.getKind())){
+				if("param".equals(block2.getKind())){
+					return true;
+				}
+			}else if("param".equals(block1.getKind())){
+				if("procedure".equals(block2.getKind())){
+					return true;
+				}
+			}
 		}
-		
 		return false;
 	}
 
 	@Override
 	public boolean isMandatory() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
 	@Override
 	public void workspaceEventOccurred(WorkspaceEvent event) {
 		//ohata added
-		// TODO Auto-generated method stub
 		if(event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED && "poly".equals(event.getSourceLink().getSocket().initKind())){
 			BlockLink link = event.getSourceLink();
 			link.getSocket().setKind("poly");

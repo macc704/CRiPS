@@ -69,7 +69,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="callGetterMethod2" kind="data" initlabel="" color="20 20 20" label-suffix="">
+<BlockGenus name="callGetterMethod2" kind="function" initlabel="" color="20 20 20" label-suffix="">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="poly" position-type="single"/>
 		<BlockConnector connector-kind="socket" connector-type="object" position-type="single" label="の"/>

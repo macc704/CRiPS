@@ -490,7 +490,7 @@ public class Comment extends JPanel {
         }
         super.setLocation(x, y);
         arrow.updateArrow();
-        workspace.getMiniMap().repaint();
+//        workspace.getMiniMap().repaint();
     }
 
     /**

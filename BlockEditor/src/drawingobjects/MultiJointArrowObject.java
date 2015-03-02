@@ -6,35 +6,36 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.geom.Point2D;
 
+import renderable.RenderableBlock;
 import workspace.Workspace;
 
 public class MultiJointArrowObject extends ArrowObject{
 
-	private Point startJointPoint;
-	private Point endJointPoint;
+	private Point callerJointPoint;
+	private Point calleeJointPoint;
 	private static final long serialVersionUID = 5134494205703423521L;
 
 	
-	public MultiJointArrowObject(Point startPoint, Point endPoint) {
-		super(startPoint, endPoint);
-		this.startJointPoint = startPoint;
-		this.endJointPoint = endPoint;
+	public MultiJointArrowObject(RenderableBlock caller, RenderableBlock callee, boolean isShow, boolean isActive) {
+		super(caller, callee, isShow, isActive);
+		this.callerJointPoint = caller.getLocation();
+		this.calleeJointPoint = callee.getLocation();
 	}
 	
 	public void updateJoints(Point startJointPoint, Point endJointPoint){
-		this.startJointPoint = startJointPoint;		
-		this.endJointPoint = endJointPoint;
+		this.callerJointPoint = startJointPoint;		
+		this.calleeJointPoint = endJointPoint;
 	}
 	
 	public void resetJoiuts(){
-		this.startJointPoint = getStartPoint();
-		this.endJointPoint = getEndPoint();
+		this.callerJointPoint = getStartPoint();
+		this.calleeJointPoint = getEndPoint();
 	}
 
 	public void drawArrow(Graphics2D graphic) {
 		setBounds(0,0,Workspace.getInstance().getBlockCanvas().getCanvas().getHeight(),Workspace.getInstance().getBlockCanvas().getCanvas().getWidth());
 		graphic.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		ArrowPointCalcUtil util = new ArrowPointCalcUtil(startJointPoint, endJointPoint);
+		ArrowPointCalcUtil util = new ArrowPointCalcUtil(callerJointPoint, calleeJointPoint);
 		BasicStroke stroke = new BasicStroke(3.0f);
 		graphic.setStroke(stroke);
 
@@ -46,51 +47,51 @@ public class MultiJointArrowObject extends ArrowObject{
 		int dx = getMiddleDx();
 		int dy = getMiddleDy();
 		
-		graphic.drawLine(getStartPoint().x, getStartPoint().y, startJointPoint.x, startJointPoint.y);
+		graphic.drawLine(getStartPoint().x, getStartPoint().y, callerJointPoint.x, callerJointPoint.y);
 //		graphic.setColor(Color.RED);
-		graphic.drawLine(startJointPoint.x, startJointPoint.y, endJointPoint.x, endJointPoint.y);
+		graphic.drawLine(callerJointPoint.x, callerJointPoint.y, calleeJointPoint.x, calleeJointPoint.y);
 //		graphic.setColor(Color.BLUE);
-		graphic.drawLine(getEndPoint().x, getEndPoint().y, endJointPoint.x, endJointPoint.y);
+		graphic.drawLine(getEndPoint().x, getEndPoint().y, calleeJointPoint.x, calleeJointPoint.y);
 	
-		graphic.drawLine(endJointPoint.x + dx,  endJointPoint.y + dy, (int) p2.getX() + dx,(int) p2.getY() + dy);
-		graphic.drawLine(endJointPoint.x + dx,  getEndPoint().y + dy, (int) p3.getX() + dx,(int) p3.getY() + dy);
+		graphic.drawLine(calleeJointPoint.x + dx,  calleeJointPoint.y + dy, (int) p2.getX() + dx,(int) p2.getY() + dy);
+		graphic.drawLine(calleeJointPoint.x + dx,  getEndPoint().y + dy, (int) p3.getX() + dx,(int) p3.getY() + dy);
 		
 		Workspace.getInstance().getBlockCanvas().getCanvas().repaint();
 	}
 	
 	public void addStartPoint(int dx, int dy) {
-		super.addStartPoint(dx, dy);
-		if(!startJointPoint.equals(getStartPoint())){
-			this.startJointPoint.x += dx;
-			this.startJointPoint.y += dy;
-		}
+//		super.addStartPoint(dx, dy);
+//		if(!callerJointPoint.equals(getStartPoint())){
+//			this.callerJointPoint.x += dx;
+//			this.callerJointPoint.y += dy;
+//		}
 	}
 
 	public void addEndPoint(int dx, int dy) {
-		super.addEndPoint(dx, dy);
-		if(!endJointPoint.equals(getEndPoint())){
-			this.endJointPoint.x += dx;
-			this.endJointPoint.y += dy;
-		}
+//		super.addEndPoint(dx, dy);
+//		if(!calleeJointPoint.equals(getEndPoint())){
+//			this.calleeJointPoint.x += dx;
+//			this.calleeJointPoint.y += dy;
+//		}
 	}
 	
 	public int getMiddleDy(){
-		int yLength = Math.abs(endJointPoint.y - startJointPoint.y);
+		int yLength = Math.abs(calleeJointPoint.y - callerJointPoint.y);
 		int dy = 0;
-		if(endJointPoint.y > startJointPoint.y){
+		if(calleeJointPoint.y > callerJointPoint.y){
 			dy = -yLength/2;
-		}else if(endJointPoint.y < startJointPoint.y){
+		}else if(calleeJointPoint.y < callerJointPoint.y){
 			dy = yLength/2;
 		}
 		return dy;
 	}
 	
 	public int getMiddleDx(){
-		int xLength = Math.abs(endJointPoint.x - startJointPoint.x);
+		int xLength = Math.abs(calleeJointPoint.x - callerJointPoint.x);
 		int dx = 0;
-		if(endJointPoint.x > startJointPoint.x){
+		if(calleeJointPoint.x > callerJointPoint.x){
 			dx = -xLength/2;
-		}else if(endJointPoint.x < startJointPoint.x){
+		}else if(calleeJointPoint.x < callerJointPoint.x){
 			dx = xLength/2;
 		}
 		

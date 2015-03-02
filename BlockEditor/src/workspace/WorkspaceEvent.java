@@ -33,6 +33,9 @@ public class WorkspaceEvent {
     
     public final static int BLOCK_COLLAPSED = 19;
     
+    //caller created
+    public final static int CALLERBLOCK_CREATED = 20;
+    
     //workspace specific event
     public final static int WORKSPACE_FINISHED_LOADING = 100;
     

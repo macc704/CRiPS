@@ -2,11 +2,8 @@ package renderable;
 
 import java.awt.Color;
 
-import workspace.Workspace;
-import workspace.WorkspaceEvent;
 import codeblocks.Block;
 import codeblocks.BlockConnectorShape;
-import drawingobjects.DrawingArrowManager;
 
 /**
  * created by sakai lab 2011/10/29
@@ -46,7 +43,6 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		refreshFigure();
 		if (!init) {
 			reformRelatedBlocks();
-			Workspace.getInstance().notifyListeners(new WorkspaceEvent(RenderableBlock.getRenderableBlock(getBlockID()).getParentWidget(), WorkspaceEvent.BLOCK_COLLAPSED));
 		}
 	}
 
@@ -63,9 +59,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 			}
 			RenderableBlock topFigure = RenderableBlock
 					.getRenderableBlock(topBlock.getBlockID());
-			//RenderableBlock.getRenderableBlock()
 			topFigure.redrawFromTop();
-			DrawingArrowManager.updatePossessers();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

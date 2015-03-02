@@ -128,7 +128,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	private FocusTraversalManager focusManager;
 	
-	private DrawingArrowManager arrowManager = new DrawingArrowManager();
+	private DrawingArrowManager mervManager = new DrawingArrowManager();
 
 	/// RENDERING LAYERS ///
 	public final static Integer PAGE_LAYER = new Integer(0);
@@ -147,7 +147,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 		this.factory = new FactoryManager(true, true);
 		this.addWorkspaceListener(this.factory);
-		this.addWorkspaceListener(arrowManager);
+		this.addWorkspaceListener(mervManager);
 		this.blockCanvas.getHorizontalModel().addChangeListener(this);
 		List<Explorer> explorers = factory.getNavigator().getExplorers();
 		for (Explorer exp : explorers) {
@@ -178,6 +178,10 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 		this.focusManager = new FocusTraversalManager();
 	}
 
+	public DrawingArrowManager getMeRVManager(){
+		return this.mervManager;
+	}
+	
 	/*
 	 * Implements explorerEventOccurred method in ExplorerListener interface
 	 * If event is of type "1" then hides the Minimize page button

@@ -109,7 +109,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
     /**
      * MiniMap associated with the blockCanvas
      */
-    private MiniMap miniMap;
+//    private MiniMap miniMap;
     private FactoryManager factory;
     private final FocusTraversalManager focusManager;
 
@@ -136,11 +136,11 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
             exp.addListener(this);
         }
 
-        this.miniMap = new MiniMap(this);
-        this.addWidget(this.miniMap, true, true);
+//        this.miniMap = new MiniMap(this);
+//        this.addWidget(this.miniMap, true, true);
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent e) {
-                miniMap.repositionMiniMap();
+//                miniMap.repositionMiniMap();
                 blockCanvas.reformBlockCanvas();
                 blockCanvasLayer.setSize(getSize());
                 blockCanvasLayer.validate();
@@ -202,9 +202,9 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
     /**
      * @return MiniMap associated with this.blockcanvas
      */
-    public MiniMap getMiniMap() {
-        return this.miniMap;
-    }
+//    public MiniMap getMiniMap() {
+//        return this.miniMap;
+//    }
 
     /**
      * Returns the FocusTraversalManager instance
@@ -218,9 +218,9 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
      * Disables the MiniMap from canvas
      *
      */
-    public void disableMiniMap() {
-        miniMap.hideMiniMap();
-    }
+//    public void disableMiniMap() {
+//        miniMap.hideMiniMap();
+//    }
     ////////////////
     // WIDGETS
     ////////////////
@@ -822,9 +822,9 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
             miniMapNode = miniMapNodes.item(i);
             if (miniMapNode.getNodeName().equals("MiniMap")) {
                 nameMatcher = attrExtractor.matcher(miniMapNode.getAttributes().getNamedItem("enabled").toString());
-                if (nameMatcher.find() && nameMatcher.group(1).equals("no")) {
-                    this.disableMiniMap();
-                }
+//                if (nameMatcher.find() && nameMatcher.group(1).equals("no")) {
+//                    this.disableMiniMap();
+//                }
             }
         }
 
@@ -938,7 +938,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
      * RBParent implemented methods
      ******************************************/
     public void addToBlockLayer(Component c) {
-        this.add(c, DRAGGED_BLOCK_LAYER);
+    	this.add(c, DRAGGED_BLOCK_LAYER);
     }
 
     public void addToHighlightLayer(Component c) {

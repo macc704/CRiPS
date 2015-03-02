@@ -127,11 +127,6 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	/** super class of Java */
 	private String superClass = "";
 
-	private DrawingArrowManager drawingArrowManager = new DrawingArrowManager();
-
-	public DrawingArrowManager getDrawingArrowManager() {
-		return this.drawingArrowManager;
-	}
 
 	//////////////////////////////
 	//Constructor/ Destructor	//
@@ -649,6 +644,11 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		this.pageJComponent.addToArrowLayer(p);
 		this.pageJComponent.revalidate();
 	}
+	
+	public void removeArrow(Component p) {
+		this.pageJComponent.remove(p);
+		this.pageJComponent.revalidate();
+	}
 
 	/** @ovverride WorkspaceWidget.addBlock() */
 	public void addBlock(RenderableBlock block) {
@@ -871,8 +871,19 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		//now we need to redraw all the blocks now that all renderable blocks 
 		//within this page have been loaded, to update the socket dimensions of 
 		//blocks, etc.
-		for (RenderableBlock rb : this.getTopLevelBlocks()) {
-			rb.redrawFromTop();
+//		for (RenderableBlock rb : this.getTopLevelBlocks()) {
+//			if (rb.isCollapsed()) {
+//				rb.callBlockCollapse();
+//				//This insures that blocks connected to a collapsed top level block
+//				//are located properly and have the proper visibility set.
+//				//This doesn't work until all blocks are loaded and dimensions are set.
+//				rb.updateCollapse();
+//			}
+//			rb.redrawFromTop();
+//		}
+		
+		//上の処理を同様に抽象化ブロックでも行う
+		for (RenderableBlock rb : getBlocks()) {
 			if (rb.isCollapsed()) {
 				rb.callBlockCollapse();
 				//This insures that blocks connected to a collapsed top level block
@@ -880,7 +891,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 				//This doesn't work until all blocks are loaded and dimensions are set.
 				rb.updateCollapse();
 			}
+			rb.redrawFromTop();
 		}
+		
 		this.pageJComponent.revalidate();
 		this.pageJComponent.repaint();
 	}

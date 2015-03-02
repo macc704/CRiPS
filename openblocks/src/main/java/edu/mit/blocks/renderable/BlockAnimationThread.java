@@ -6,16 +6,18 @@ import edu.mit.blocks.codeblocks.BlockLinkChecker;
 
 public class BlockAnimationThread extends Thread {
 
-	private RenderableBlock block;
-	private static boolean isRun = false;
-	private static int distance = 192;
-	private String animationDirection;
-	private static int heightDistance = 100;
+	protected RenderableBlock block;
+	protected RenderableBlock parentBlock;
+	protected static boolean isRun = false;
+	protected static int distance = 192;
+	protected String animationDirection;
+	protected static int heightDistance = 100;
 
 	public BlockAnimationThread(RenderableBlock targetBlock, String direction) {
 		block = targetBlock;
 		animationDirection = direction;
 	}
+	
 
 	public static boolean isRun() {
 		return isRun;
@@ -29,9 +31,6 @@ public class BlockAnimationThread extends Thread {
 		} else if (animationDirection.equals("down")) {
 			downSlideAnimation();
 		}
-
-		
-		
 		isRun = false;
 	}
 
@@ -41,17 +40,6 @@ public class BlockAnimationThread extends Thread {
 		int y = block.getY();
 
 		double realWaitTime = 1.0;
-
-//		for (BlockConnector socket : BlockLinkChecker
-//				.getSocketEquivalents(block.getBlock())) {
-//			if (socket.hasBlock()) {
-//				RenderableBlock rb = RenderableBlock.getRenderableBlock(socket
-//						.getBlockID());
-//				BlockAnimationThread t1 = new BlockAnimationThread(rb,
-//						animationDirection);
-//				//t1.start();
-//			}
-//		}
 
 		long waitTime = 1;
 
@@ -103,6 +91,7 @@ public class BlockAnimationThread extends Thread {
 				Thread.sleep(waitTime);
 				y++;
 			}
+			block.getHilightHandler().resetHighlight();
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();

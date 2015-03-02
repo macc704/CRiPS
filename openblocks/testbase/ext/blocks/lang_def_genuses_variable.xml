@@ -201,6 +201,7 @@
 			数値型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>double</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="double-number">
@@ -243,6 +244,7 @@
 			テキスト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>String</Type>	
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="string">
@@ -279,6 +281,7 @@
 			真偽値型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="boolean">

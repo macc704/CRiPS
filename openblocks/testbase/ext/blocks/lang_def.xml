@@ -18,7 +18,15 @@
 	<BlockFamilies>
 		&lang_def_families;
 	</BlockFamilies>
+	
+	<TrashCan>
+		<OpenTrashImage>/ext/block/images/trash_open.png</OpenTrashImage>
+		<ClosedTrashImage>/ext/block/images/trash.png</ClosedTrashImage>
+	</TrashCan>
 
-	%lang_def_etc;
+
+	<Pages drawer-with-page="yes">
+		<Page page-name="BlockEditor" page-width="400"></Page>
+	</Pages>
 
 </BlockLangDef>
