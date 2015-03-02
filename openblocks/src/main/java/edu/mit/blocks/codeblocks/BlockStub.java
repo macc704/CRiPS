@@ -46,6 +46,7 @@ public class BlockStub extends Block {
     private String parentName;
     private final String parentGenus;
     private final String stubGenus;
+    private String factoryName;
 
     /**
      * mySocketToParentSocket maps the sockets of this stubs to the sockets of its parent
@@ -574,5 +575,22 @@ public class BlockStub extends Block {
 		super.setBlockLabel(newLabel);
 		setName(newLabel);
 	}
-    
+	
+	/**
+	 * set factory name of this
+	 * 
+	 * @param factory
+	 *            name of this
+	 */
+	public void setFactoryName(String factoryName) {
+		this.factoryName = factoryName;
+	}
+	
+	/**
+	 * return factory name of this
+	 */
+	public String getFactoryName() {
+		return factoryName;
+	}
+	
 }

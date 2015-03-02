@@ -2,7 +2,6 @@ package edu.mit.blocks.controller;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -49,8 +48,6 @@ import org.xml.sax.SAXException;
 
 import clib.view.app.javainfo.CJavaInfoPanels;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
-import edu.inf.shizuoka.drawingobjects.ArrowObject;
-import edu.inf.shizuoka.drawingobjects.DrawingArrowManager;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
@@ -64,7 +61,6 @@ import edu.mit.blocks.codeblocks.ParamRule;
 import edu.mit.blocks.codeblocks.PolyRule;
 import edu.mit.blocks.codeblocks.SocketRule;
 import edu.mit.blocks.renderable.RenderableBlock;
-import edu.mit.blocks.workspace.Page;
 import edu.mit.blocks.workspace.SearchBar;
 import edu.mit.blocks.workspace.SearchableContainer;
 import edu.mit.blocks.workspace.TrashCan;
@@ -745,76 +741,10 @@ public class WorkspaceController {
 	/*
 	 * メソッド呼び出し関係を表示するラインを描画します
 	 */
-	public static void showAllTraceLine(Workspace workspace) {
-		
-		List<Block> bodyBlocks = new ArrayList<Block>();
-		for (Block block : workspace.getBlocks()) {
-			// 呼び出しブロックにラインを表示する
-			RenderableBlock callerblock = workspace.getEnv().getRenderableBlock(block
-					.getBlockID());
-			
-			if (callerblock.getGenus().startsWith("caller")) {
-				addTraceLine(callerblock, workspace);
-			}
-			
-			if(callerblock.getGenus().equals("procedure") || callerblock.getGenus().equals("abstraction")){
-				if(callerblock.isCollapsed()){
-					bodyBlocks.add(block);	
-				}
-			}
-		}
-		
-		//閉じてるブロックの全てのトレースラインを隠す
-		
-		for(Block parent : bodyBlocks){
-			RenderableBlock rBlock;
-			if(parent.getGenusName().equals("procedure")){
-				rBlock = workspace.getEnv().getRenderableBlock(parent.getAfterBlockID());
-			}else{
-				rBlock = workspace.getEnv().getRenderableBlock(parent.getSocketAt(0).getBlockID());
-			}
-			if(rBlock != null){
-				while(rBlock.getBlock().getAfterBlockID() != -1){
-					if(rBlock.hasArrows()){
-						rBlock.visibleArrows(false);
-					}
-					rBlock = workspace.getEnv().getRenderableBlock(rBlock.getBlock().getAfterBlockID());
-				}
-				
-				if(rBlock.hasArrows()){
-					rBlock.visibleArrows(false);
-				}	
-			}
-		}
-		
-		
+	public void showAllTraceLine(Workspace workspace) {
+
 	}
 	
-	public static void addTraceLine(RenderableBlock callerBlock, Workspace workspace){
-		
-		//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
-		BlockStub stub = (BlockStub) (callerBlock.getBlock());				
-		RenderableBlock parentBlock = searchMethodDefinidionBlock(stub, workspace);
-		if(parentBlock != null){
-			//呼び出しブロックの座標
-			Point p1 = DrawingArrowManager.calcCallerBlockPoint(callerBlock);
-			
-			//呼び出し関数の定義ファイル
-			Point p2 = DrawingArrowManager.calcDefinisionBlockPoint(parentBlock);
-			ArrowObject arrow = new ArrowObject(p1, p2, workspace);
-			Page parentPage = (Page)callerBlock.getParentWidget();
-			parentPage.addArrow(arrow);
-							
-			//定義ブロックへの矢印の追加
-			parentBlock.addStartArrow(arrow);
-			DrawingArrowManager.addPossesser(parentBlock);
-			//callerブロックへの矢印の追加
-			callerBlock.addEndArrow(arrow);
-			DrawingArrowManager.addPossesser(callerBlock);
-			
-			
-		}
-	}
 	
 	
 	
@@ -885,9 +815,6 @@ public class WorkspaceController {
 	
 	public static void disposeTraceLine(Workspace workspace){
 		if(workspace.getBlockCanvas()!= null){
-			workspace.getBlockCanvas().getPages().get(0).clearArrowLayer();
-			workspace.getBlockCanvas().getPages().get(0).getJComponent().repaint();
-			DrawingArrowManager.clearPossessers();
 		}
 	}
 	
@@ -912,6 +839,7 @@ public class WorkspaceController {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				setLangDefFilePath(langDefRootPath);
 				loadFreshWorkspace();
 				createAndShowGUI();
 			}

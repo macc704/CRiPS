@@ -180,126 +180,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private HeaderLabel headerLabel;
 	private FooterLabel footerLabel;
 
-	private ArrayList<ArrowObject> callerArrows = new ArrayList<ArrowObject>();
-	private ArrayList<ArrowObject> calledArrows = new ArrayList<ArrowObject>();
 
-	public void addStartArrow(ArrowObject arrow) {
-		callerArrows.add(arrow);
-	}
 
-	public void addEndArrow(ArrowObject arrow) {
-		calledArrows.add(arrow);
-	}
 
-	public ArrayList<ArrowObject> getStartArrows() {
-		return this.callerArrows;
-	}
-
-	public ArrayList<ArrowObject> getEndArrows() {
-		return this.calledArrows;
-	}
-
-	public boolean hasArrows() {
-		return callerArrows.size() > 0 || calledArrows.size() > 0;
-	}
-
-	public void resetPoints(int dx, int dy) {
-		for (ArrowObject arrow : callerArrows) {
-			arrow.addEndPoint(dx, dy);
-		}
-
-		for (ArrowObject arrow : calledArrows) {
-			arrow.addStartPoint(dx, dy);
-		}
-	}
-
-	public void setPoint(Point p) {
-		for (ArrowObject arrow : callerArrows) {
-			arrow.resetPoint(arrow.getStartPoint(), p);
-		}
-
-		for (ArrowObject arrow : calledArrows) {
-			arrow.resetPoint(p, arrow.getEndPoint());
-		}
-
-	}
-
-	public void visibleArrows(boolean visible) {
-		for (ArrowObject arrow : callerArrows) {
-			arrow.setVisible(visible);
-		}
-
-		for (ArrowObject arrow : calledArrows) {
-			arrow.setVisible(visible);
-		}
-	}
-
-	public void clearArrows() {
-		callerArrows.clear();
-		calledArrows.clear();
-	}
-
-	public void resetArrowPosition() {
-		// for (ArrowObject arrow : startArrows) {
-		// System.out.println("update start Arrows" + this + " " +
-		// getBlock().getGenusName());
-		// arrow.resetPoint(arrow.getStartPoint(), arrow.getEndPoint());
-		// }
-
-		for (ArrowObject arrow : calledArrows) {
-			arrow.resetPoint(DrawingArrowManager.calcCallerBlockPoint(this),
-					arrow.getEndPoint());
-		}
-	}
-
-	public void updateEndArrowPoints(long parentBlockID, boolean isActive) {
-
-		if (parentBlockID == -1) {
-
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : calledArrows) {
-				endArrow.setStartPoint(p);
-				if (endArrow.getColor().getAlpha() != 30) {
-					endArrow.setColor(new Color(255, 0, 0, 30));
-				}
-			}
-		} else {
-
-			Point p = new Point(getLocation());
-			p.x += getWidth();
-			p.y += getHeight() / 2;
-			for (ArrowObject endArrow : calledArrows) {
-				endArrow.setStartPoint(p);
-				if (endArrow.getColor() != Color.RED) {
-					endArrow.setColor(Color.RED);
-				}
-			}
-		}
-	}
-
-	public void updateEndArrowPoints(long parentBlockID, BlockLink link,
-			boolean isActive) {
-		Block block = workspace.getEnv().getBlock(parentBlockID);
-		if (block != null) {
-			int concentration = 255;
-
-			if (link == null) {
-				concentration = 30;
-			}
-
-			do {
-				if (("abstraction").equals(block.getGenusName())) {
-					updateEndArrowPoints(block.getSocketAt(0).getBlockID(),
-							link, isActive);
-				}
-				DrawingArrowManager.thinArrows(workspace.getEnv()
-						.getRenderableBlock(block.getBlockID()), concentration);
-				block = workspace.getEnv().getBlock(block.getAfterBlockID());
-			} while (block != null);
-		}
-	}
 
 	/**
 	 * Constructs a new RenderableBlock instance with the specified parent
@@ -1912,8 +1795,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 		// mark this as being dragged
 		renderable.dragging = true;
-		// move the block by drag amount
-		renderable.resetPoints(dx, dy);
 
 		if (!isTopLevelBlock) {
 			renderable.setLocation(renderable.getX() + dx, renderable.getY()
@@ -2025,7 +1906,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			popup.show(this, e.getX(), e.getY());
 		}
 //		workspace.getMiniMap().repaint();
-		resetArrowPosition();
 	}
 
 	public void connectBlocks(BlockLink link, Workspace ws,
@@ -2765,7 +2645,6 @@ class BlockHilighter {
 		// 子ブロックのハイライトを消す
 		HashSet<Long> hilightBlocks = BlockHilighter.getHilightBlocksList();
 		for (Long blockID : hilightBlocks) {
-
 			workspace.getEnv().getRenderableBlock(blockID).getHilightHandler()
 					.resetHighlight();
 		}

@@ -1052,15 +1052,25 @@ public class Block implements ISupportMemento {
 	 * 
 	 * @return the Stubs of this Block, if it has Stubs; null otherwise
 	 */
-	public Iterable<BlockStub> getFreshStubs() {
+	public Iterable<BlockStub> getFreshStubs(Workspace ws) {
 		if (this.linkToStubs && this.hasStubs()) {
 			ArrayList<BlockStub> newStubBlocks = new ArrayList<BlockStub>();
+
 			for (String stubGenus : getStubList()) {
-				newStubBlocks.add(new BlockStub(workspace, this.getBlockID(),
-						this.getGenusName(), this.getBlockLabel(), stubGenus));
+				int i = 0;
+				// arranged by sakai lab 2011/10/29
+
+				while(i < ws.getEnv().getGenusWithName(stubGenus).getFactorySize()){
+					BlockStub newStubBlock = new BlockStub(ws, this.getBlockID(),this.getGenusName(), this.getBlockLabel(),stubGenus);
+					newStubBlock.setFactoryName(ws.getEnv().getGenusWithName(stubGenus).getFactory(i));
+					newStubBlocks.add(newStubBlock);
+					i++;					
+				}
+
 			}
 			return newStubBlocks;
 		}
+
 		return null;
 	}
 

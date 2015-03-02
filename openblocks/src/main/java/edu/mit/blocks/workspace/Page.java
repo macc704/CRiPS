@@ -182,8 +182,8 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
         this.pageJComponent.setFullView(inFullview);
     }
     
-	public void clearArrow(Object o){
-		this.pageJComponent.clearArrow(o);
+	public void removeArrow(Component p){
+		this.pageJComponent.remove(p);
 	}
 	
 	public void clearArrowLayer(){
@@ -1144,6 +1144,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
             }
         }
     }
+
 }
 
 /**

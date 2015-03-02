@@ -828,7 +828,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
                 Block block = workspace.getEnv().getBlock(event.getSourceBlockID());
                 //block may not be null if this is a block added event
                 if (block.hasStubs()) {
-                    for (BlockStub stub : block.getFreshStubs()) {
+                    for (BlockStub stub : block.getFreshStubs(workspace)) {
                         this.addDynamicBlock(
                                 new FactoryRenderableBlock(event.getWorkspace(), this, stub.getBlockID()),
                                 page.getPageDrawer());

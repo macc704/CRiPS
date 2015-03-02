@@ -67,7 +67,6 @@ public class RBHighlightHandler extends JComponent implements ComponentListener,
     }
 
     public void resetHighlight() {
-    	System.out.println("reet");
         hColor = null;
         updateImage();
         repaint();

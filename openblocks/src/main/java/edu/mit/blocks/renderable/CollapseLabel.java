@@ -84,7 +84,6 @@ public class CollapseLabel extends BlockControlLabel {
 
         if (block.getAfterBlockID() != Block.NULL) {
             do {
-				updatePoint(block.getBlockID());
                 block = workspace.getEnv().getBlock(block.getAfterBlockID());                
                 collapseBlock(block.getBlockID());
             } while (block.getAfterBlockID() != Block.NULL);
@@ -103,11 +102,6 @@ public class CollapseLabel extends BlockControlLabel {
         if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
             rBlock.getComment().setVisible(!isActive());
         }
-		
-        if(rBlock.hasArrows()){
-			updatePoint(rBlock.getBlockID());
-			rBlock.visibleArrows(!isActive());
-		}
 		
         rBlock.getHighlightHandler().updateImage();
         rBlock.repaintBlock();
@@ -140,10 +134,4 @@ public class CollapseLabel extends BlockControlLabel {
         update();
     }
     
-	protected void updatePoint(long blockID){
-		RenderableBlock rBlock = workspace.getEnv().getRenderableBlock(blockID);
-		if(rBlock.hasArrows()){
-			rBlock.updateEndArrowPoints(blockID, isActive());	
-		}
-	}
 }

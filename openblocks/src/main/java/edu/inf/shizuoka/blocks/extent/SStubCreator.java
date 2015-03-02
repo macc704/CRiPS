@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.controller.WorkspaceController;
 import edu.mit.blocks.renderable.RenderableBlock;
+import edu.mit.blocks.workspace.WorkspaceEvent;
 
 
 
@@ -47,9 +48,8 @@ public class SStubCreator {
 
 				rb.getParentWidget().addBlock(newRB);
 
-				if(stubGenus.startsWith("caller")){
-					WorkspaceController.addTraceLine(newRB, rb.getWorkspace());
-				}
+				//イベント通知
+				newRB.getWorkspace().notifyListeners(new WorkspaceEvent(newRB.getWorkspace(), newRB.getParentWidget(), newRB.getBlockID(), WorkspaceEvent.BLOCK_ADDED));
 				
 				return newRB;
 			}

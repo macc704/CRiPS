@@ -1415,5 +1415,23 @@ public class BlockGenus {
 		}
 		return out.toString();
 	}
+	
+	/**
+	 * created by sakai lab 2011/10 Return the factory size
+	 * 
+	 * @return the factory size of this
+	 */
+	public int getFactorySize() {
+		return factorys.size();
+	}
+	
+	/**
+	 * created by sakai lab 2011/10 Return the factory size
+	 * 
+	 * @return the factory size of this
+	 */
+	public String getFactory(int i) {
+		return factorys.get(i);
+	}
 
 }

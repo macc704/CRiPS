@@ -31,6 +31,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import edu.inf.shizuoka.drawingobjects.DrawingArrowManager;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblockutil.Explorer;
 import edu.mit.blocks.codeblockutil.ExplorerEvent;
@@ -114,6 +115,8 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
     private final FocusTraversalManager focusManager;
 
     private final TypeBlockManager typeBlockManager;
+    
+    private DrawingArrowManager mervManager = new DrawingArrowManager();
 
     /// RENDERING LAYERS ///
     public final static Integer PAGE_LAYER = new Integer(0);
@@ -130,6 +133,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
         setPreferredSize(new Dimension(1000, 2000));
 
         this.factory = new FactoryManager(this);
+        this.addWorkspaceListener(mervManager);// ohata added
         this.addWorkspaceListener(this.factory);
         this.blockCanvas.getHorizontalModel().addChangeListener(this);
         for (final Explorer exp : factory.getNavigator().getExplorers()) {

@@ -148,7 +148,6 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		RenderableBlock rb = workspace.getEnv().getRenderableBlock(getBlockID());
 		if (rb != null) {
 			//collapseAfterBlocks(rb.getBlockID());//original
-			updatePoint(getBlockID());
 			collapseInsideBlocks();//sakailab
 			rb.repaintBlock();
 			if (rb.getHighlightHandler() != null) {
@@ -166,7 +165,6 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		Block block = workspace.getEnv().getBlock(getBlockID());
 		Long insideFirstBlockId = block.getSocketAt(0).getBlockID();
 		if (insideFirstBlockId != Block.NULL) {
-			updatePoint(getBlockID());
 			collapseBlock(insideFirstBlockId);
 			collapseAfterBlocks(insideFirstBlockId);
 		}
