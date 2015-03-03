@@ -1,5 +1,6 @@
 package edu.mit.blocks.workspace;
 
+import java.awt.Component;
 import java.util.Collection;
 
 import javax.swing.JComponent;
@@ -85,4 +86,7 @@ public interface WorkspaceWidget {
      * the set of blocks returned all the blocks that "lives" in this widget.
      */
     public Iterable<RenderableBlock> getBlocks();
+    
+    
+    public void addArrow(Component p);
 }

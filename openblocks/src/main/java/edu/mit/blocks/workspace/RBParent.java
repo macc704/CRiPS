@@ -27,4 +27,6 @@ public interface RBParent {
      * @param c the Component to add
      */
     public void addToHighlightLayer(Component c);
+    
+    public void addToArrowLayer(Component c);
 }

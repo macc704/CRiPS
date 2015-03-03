@@ -125,6 +125,8 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
     public final static Integer WIDGET_LAYER = new Integer(3);
     public final static Integer DRAGGED_BLOCK_HIGHLIGHT_LAYER = new Integer(4);
     public final static Integer DRAGGED_BLOCK_LAYER = new Integer(5);
+    public final static Integer ARROW_LAYER = new Integer(6);
+    
 
     public Workspace() {
         super();
@@ -184,6 +186,10 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
                 p.enableMinimize();
             }
         }
+    }
+    
+    public DrawingArrowManager getMeRVManager(){
+    	return this.mervManager;
     }
 
     public Dimension getCanvasSize() {
@@ -947,5 +953,9 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
 
     public void addToHighlightLayer(Component c) {
         this.add(c, DRAGGED_BLOCK_HIGHLIGHT_LAYER);
+    }
+    
+    public void addToArrowLayer(Component c) {
+    	this.add(c, ARROW_LAYER);
     }
 }

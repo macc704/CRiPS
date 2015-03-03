@@ -24,6 +24,7 @@ import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JToolTip;
+import javax.swing.RepaintManager;
 import javax.swing.SwingUtilities;
 
 import org.w3c.dom.Document;
@@ -185,13 +186,9 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
 	public void removeArrow(Component p){
 		this.pageJComponent.remove(p);
 	}
-	
-	public void clearArrowLayer(){
-		this.pageJComponent.clearArrowLayer();
-	}
 
 	public void addArrow(Component p){
-		this.pageJComponent.addToArrowLayer(p);
+		this.getRBParent().addToArrowLayer(p);
 		this.pageJComponent.revalidate();
 	}
 
@@ -671,7 +668,6 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
                 block.getComment().setParent(block.getParentWidget().getJComponent());
             }
         }
-
         this.getRBParent().addToBlockLayer(block);
         block.setHighlightParent(this.getRBParent());
 
@@ -1160,38 +1156,10 @@ class PageJComponent extends JLayeredPane implements RBParent {
     private static final int IMAGE_WIDTH = 60;
     private Image image = null;
     private boolean fullview = true;
-
-	public void clearArrow(Object arrow){
-		Object[] arrows = getAllArrow(); 
-		for(Object o : arrows){
-			if(o.equals(arrow)){
-				remove((Component)o);
-				break;
-			}
-		}
-	}
     
-	public void clearArrowLayer(){
-		Object[] arrows = getAllArrow(); 		
-		for(Object arrow : arrows){
-			remove((Component)arrow);
-		}
-	}
-	
-	public Object[] getAllArrow(){
-		Component[] allComponents = getComponents();
-		List<Component> arrows = new ArrayList<Component>();
-		for(Component cmp : allComponents){
-			if(cmp instanceof ArrowObject){
-				arrows.add(cmp);
-			}
-		}
-		return arrows.toArray();
-	}
 	
 	public void addToArrowLayer(Component c){
-		this.add(c);
-		this.setLayer(c, ARROW_LAYER);
+		this.add(c, ARROW_LAYER);
 	}
 
     
@@ -1229,7 +1197,6 @@ class PageJComponent extends JLayeredPane implements RBParent {
             g.drawString(this.getName(), xpos, getHeight() / 4);
             g.drawString(this.getName(), xpos, getHeight() * 3 / 4);
 
-
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.33F));
             int imageX = (int) (this.getWidth() / 2 - IMAGE_WIDTH / 2 * Page.zoom);
             int imageWidth = (int) (IMAGE_WIDTH * Page.zoom);
@@ -1238,7 +1205,7 @@ class PageJComponent extends JLayeredPane implements RBParent {
             g.drawImage(this.getImage(), imageX, getHeight() * 3 / 4 + 5, imageWidth, imageWidth, null);
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
         }
-
+        
     }
 
     //////////////////////////////////
@@ -1248,7 +1215,6 @@ class PageJComponent extends JLayeredPane implements RBParent {
     @Override
     public void addToBlockLayer(Component c) {
         this.add(c, BLOCK_LAYER);
-
     }
 
     /** @overrides RBParent.addToHighlightLayer() */

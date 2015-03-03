@@ -13,7 +13,6 @@ public class BlockStubAnimetionThread extends BlockAnimationThread {
 	public BlockStubAnimetionThread(BlockStub targetStubBlock, String direction ) {
 		super(targetStubBlock.getWorkspace().getEnv().getRenderableBlock(targetStubBlock.getBlockID()), direction);
 		this.parentBlock = targetStubBlock.getWorkspace().getEnv().getRenderableBlock(targetStubBlock.getParent().getBlockID());
-		System.out.println(parentBlock.toString());
 	}
 	
 	public void run() {
@@ -59,7 +58,6 @@ public class BlockStubAnimetionThread extends BlockAnimationThread {
 			}
 			block.getHilightHandler().resetHighlight();
 			parentBlock.getHilightHandler().resetHighlight();
-			System.out.println("owari");
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();

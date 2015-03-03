@@ -6,8 +6,6 @@ public class ParamRule implements LinkRule{
 
 	public boolean canLink(Block block1, Block block2, BlockConnector socket1,
 			BlockConnector socket2) {
-		// TODO Auto-generated method stub
-		
 		WorkspaceEnvironment ws = block1.getWorkspace().getEnv();
 		//既にブロックがくっついている場合は，結合しない
 		if(ws.getRenderableBlock(socket1.getBlockID()) != null || ws.getRenderableBlock(socket2.getBlockID()) != null){

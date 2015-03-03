@@ -603,4 +603,9 @@ public class MiniMap extends JPanel implements WorkspaceWidget, MouseListener, M
             //this.timer.start();
         }
     }
+
+	@Override
+	public void addArrow(Component p) {
+		
+	}
 }

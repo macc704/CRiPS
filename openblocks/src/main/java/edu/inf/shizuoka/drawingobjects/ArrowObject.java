@@ -34,6 +34,7 @@ public class ArrowObject extends JComponent {
 	
 	public ArrowObject(RenderableBlock caller, RenderableBlock callee, boolean isShow, boolean isActive, Rectangle bounds) {
 		setBounds(bounds);
+		setDoubleBuffered(true);
 		this.caller = caller;
 		this.callee = callee;
 		this.collapsed = !isShow;		
@@ -70,17 +71,15 @@ public class ArrowObject extends JComponent {
 
 	public void paintComponent(Graphics g) {
 		if(isVisible()){
-			drawArrow((Graphics2D) g);			
+			drawArrow((Graphics2D) g);
 		}
 	}
-
 
 	public void drawArrow(Graphics2D graphic) {
 		graphic.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		BasicStroke stroke = new BasicStroke(3.0f);
 		graphic.setStroke(stroke);
-
 
 		graphic.setColor(arrowColor);
 		// arrowLengthの変更（ベクトルの向きに応じて変更）

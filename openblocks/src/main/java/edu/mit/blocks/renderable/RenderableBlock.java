@@ -38,8 +38,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.inf.shizuoka.blocks.extent.SAbstractionBlockShape;
-import edu.inf.shizuoka.drawingobjects.ArrowObject;
-import edu.inf.shizuoka.drawingobjects.DrawingArrowManager;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
@@ -179,7 +177,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	private HeaderLabel headerLabel;
 	private FooterLabel footerLabel;
-
+	
+	private BlockHilighter hilighter = new BlockHilighter();
 
 
 
@@ -1449,7 +1448,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		// update bounds of this renderableBlock as bounds of the shape
 		Dimension updatedDimensionRect = new Dimension(blockArea.getBounds()
 				.getSize());
-
+		
 		// get size of block to determine size needed for bevel image
 		Image bevelImage = BlockShapeUtil.getBevelImage(
 				updatedDimensionRect.width, updatedDimensionRect.height,
@@ -1732,7 +1731,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 //			renderable.comment.setConstrainComment(false);
 //		}
 		Component oldParent = renderable.getParent();
-		Workspace workspace = renderable.getWorkspace();
 		
 		if(!(getParentWidget() instanceof Page)){
 			workspace.addToBlockLayer(renderable);
@@ -1783,11 +1781,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 //			} else {
 //				renderable.comment.setParent(null, renderable.getBounds());
 //			}
-//
-//			renderable.comment.setConstrainComment(true);
-//			renderable.comment.setLocation(renderable.comment.getLocation());
-//			renderable.comment.getArrow().updateArrow();
-//		}
 	}
 
 	private void drag(RenderableBlock renderable, int dx, int dy,
@@ -1882,7 +1875,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					}
 
 					// #ohata addedゲッターとセッターのハイライトを消す
-					BlockHilighter.resetHilightAllStubBlocks(workspace);
+					hilighter.resetHilightAllStubBlocks(workspace);
 
 					// set the locations for X and Y based on zoom at 1.0
 					this.unzoomedX = this.calculateUnzoomedX(this.getX());
@@ -1974,12 +1967,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					}
 					startDragging(this, widget);
 				}
-
-				BlockHilighter.catchBlockSetHighlight(this, widget);
-				
+				hilighter.catchBlockSetHighlight(this, widget);
 				// drag this block and all attached to it
 				drag(this, dragHandler.dragDX, dragHandler.dragDY, widget, true);
-//				workspace.getMiniMap().repaint();
+				getParentWidget().getJComponent().repaint();
 			}
 
 		}
@@ -2583,13 +2574,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 class BlockHilighter {
 	// #ohata
-	private static final HashSet<Long> hilightBlocks = new HashSet<Long>();
+	private final HashSet<Long> hilightBlocks = new HashSet<Long>();
 	
-	public static HashSet<Long> getHilightBlocksList() {
+	public HashSet<Long> getHilightBlocksList() {
 		return hilightBlocks;
 	}
 
-	public static void catchBlockSetHighlight(RenderableBlock catchedRBlock,
+	public void catchBlockSetHighlight(RenderableBlock catchedRBlock,
 			WorkspaceWidget widget) {
 
 		if (widget == null) {
@@ -2606,7 +2597,7 @@ class BlockHilighter {
 				catchedBlock.getWorkspace().getEnv()
 						.getRenderableBlock(parentBlock.getBlockID())
 						.getHilightHandler().setHighlightColor(Color.YELLOW);
-
+				
 				hilightBlocks.add(parentBlock.getBlockID());
 			} else if (catchedBlock.isVariableDeclBlock()) {
 				hilightAllStubBlocks(catchedBlock, catchedBlock, widget);
@@ -2616,7 +2607,7 @@ class BlockHilighter {
 		}
 	}
 
-	public static void hilightAllStubBlocks(Block parentBlock,
+	public void hilightAllStubBlocks(Block parentBlock,
 			Block catchedBlock, WorkspaceWidget widget) {
 		// 子ブロックのハイライト
 		for (RenderableBlock rb : widget.getBlocks()) {
@@ -2625,7 +2616,7 @@ class BlockHilighter {
 					&& parentBlock.equals(((BlockStub) block).getParent())) {
 				if (isShouldHilightBlock(block.getGenusName())) {
 					rb.getHilightHandler().setHighlightColor(Color.yellow);
-					BlockHilighter.getHilightBlocksList().add(rb.getBlockID());
+					getHilightBlocksList().add(rb.getBlockID());
 				}
 			}
 		}
@@ -2641,9 +2632,9 @@ class BlockHilighter {
 		}
 	}
 
-	public static void resetHilightAllStubBlocks(Workspace workspace) {
+	public void resetHilightAllStubBlocks(Workspace workspace) {
 		// 子ブロックのハイライトを消す
-		HashSet<Long> hilightBlocks = BlockHilighter.getHilightBlocksList();
+		HashSet<Long> hilightBlocks = getHilightBlocksList();
 		for (Long blockID : hilightBlocks) {
 			workspace.getEnv().getRenderableBlock(blockID).getHilightHandler()
 					.resetHighlight();

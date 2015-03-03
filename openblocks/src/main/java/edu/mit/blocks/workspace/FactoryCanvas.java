@@ -143,7 +143,8 @@ class FactoryCanvas extends JPanel implements Canvas, SearchableContainer, RBPar
     }
     private final Integer BLOCK_HIGHLIGHT_LAYER = new Integer(0);
     private final Integer BLOCK_LAYER = new Integer(1);
-
+    private final Integer ARROW_LAYER = new Integer(2);
+    
     public void addToBlockLayer(Component c) {
         this.add(c, BLOCK_LAYER);
     }
@@ -164,4 +165,8 @@ class FactoryCanvas extends JPanel implements Canvas, SearchableContainer, RBPar
 
     public void componentShown(ComponentEvent e) {
     }
+    
+	public void addToArrowLayer(Component c) {
+		this.add(c, ARROW_LAYER);	
+	}
 }

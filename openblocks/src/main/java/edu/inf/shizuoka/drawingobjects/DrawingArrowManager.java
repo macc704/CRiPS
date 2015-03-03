@@ -108,7 +108,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 			//callerかつ表示状態ならcalleeとの矢印を作成
 			RenderableBlock sourceBlock = event.getWorkspace().getEnv().getRenderableBlock(event.getSourceBlockID());
 			RenderableBlock calleeBlock = event.getWorkspace().getEnv().getRenderableBlock(((BlockStub)sourceBlock.getBlock()).getParent().getBlockID());
-			ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, sourceBlock.isVisible(), isActive(), event.getWorkspace().getBounds());
+			ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, sourceBlock.isVisible(), isActive(), event.getWorkspace().getBlockCanvas().getCanvas().getBounds());
 			arrows.put(sourceBlock.getBlockID(), arrow);
 			getActivePage(event.getWorkspace()).addArrow(arrow);
 				
@@ -162,6 +162,14 @@ public class DrawingArrowManager implements WorkspaceListener {
 				}				
 			}
 		}
+		
+		if(event.getEventType() == WorkspaceEvent.BLOCK_MOVED){
+			for(long key : arrows.keySet()){
+				event.getSourceWidget().addArrow(arrows.get(key));
+				arrows.get(key).repaint();
+			}
+		}
+
 	}
 	
 	public boolean isCaller(Block block){

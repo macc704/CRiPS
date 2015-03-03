@@ -629,15 +629,16 @@ public class WorkspaceController {
 		
 		{// create showing method trace line bottun
 			final JToggleButton showTraceLineButton = new JToggleButton(
-					"hide trace line");
+					"Hide MeRV");
+			showTraceLineButton.setSelected(!workspace.getMeRVManager().isActive());
 			showTraceLineButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
 						// 関数呼び出しをトレースするラインを非表示にする
-						disposeTraceLine(workspace);
+						workspace.getMeRVManager().setActive(false);
 					} else {
 						// 関数呼び出しをトレースするラインを表示する
-						showAllTraceLine(workspace);
+						workspace.getMeRVManager().setActive(true);
 					}
 				}
 			});

@@ -2,6 +2,7 @@ package edu.mit.blocks.workspace;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -874,4 +875,9 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
     public String toString() {
         return "FactoryManager: " + this.navigator.getJComponent();
     }
+
+	@Override
+	public void addArrow(Component p) {
+		
+	}
 }
