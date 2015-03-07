@@ -88,7 +88,7 @@ public class Block implements ISupportMemento {
 	 * Constructs a new Block from the specified information. This class
 	 * constructor is protected as block loading from XML content or the
 	 * (careful!) creation of its subclasses should override BlockID assignment.
-	 * 
+	 *
 	 * @param workspace
 	 *            The workspace in which this block should be created
 	 * @param id
@@ -180,7 +180,7 @@ public class Block implements ISupportMemento {
 	 * Constructs a new <code>Block</code> instance. Using the genusName
 	 * specified of this Block's corresponding BlockGenus, this constructor
 	 * populates this Block with its genus information.
-	 * 
+	 *
 	 * @param workspace
 	 *            The workspace in which this block should be created
 	 * @param genusName
@@ -202,7 +202,7 @@ public class Block implements ISupportMemento {
 	 * Constructs a new <code>Block</code> instance. Using the genusName
 	 * specified of this Block's corresponding BlockGenus, this constructor
 	 * populates this Block with its genus information.
-	 * 
+	 *
 	 * @param workspace
 	 *            The workspace in which this block should be created
 	 * @param genusName
@@ -219,7 +219,7 @@ public class Block implements ISupportMemento {
 	 * Constructs a new <code>Block</code> instance. Using the genusName
 	 * specified of this Block's corresponding BlockGenus, this constructor
 	 * populates this Block with its genus information.
-	 * 
+	 *
 	 * @param workspace
 	 *            The workspace in which this block should be created
 	 * @param genusName
@@ -233,7 +233,7 @@ public class Block implements ISupportMemento {
 	 * Constructs a new <code>Block</code> instance. Using the genusName
 	 * specified of this Block's corresponding BlockGenus, this constructor
 	 * populates this Block with its genus information.
-	 * 
+	 *
 	 * @param workspace
 	 *            The workspace in which this block should be created
 	 * @param genusName
@@ -285,20 +285,20 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the block ID of this
-	 * 
+	 *
 	 * @return the block ID of this
 	 */
 	public Long getBlockID() {
 		return blockID;
 	}
-	
+
 
 
 	/**
 	 * Sets the block property with the specified property and value. If this
 	 * block's genus already contains a value with the same property, then the
 	 * specified property will not be added to this block's property collection.
-	 * 
+	 *
 	 * @param property
 	 *            the property key to set
 	 * @param value
@@ -316,7 +316,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the block label of this
-	 * 
+	 *
 	 * @return the block label of this
 	 */
 	public String getBlockLabel() {
@@ -326,7 +326,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns true iff this block has a page label and it is non-empty
-	 * 
+	 *
 	 * @return true iff this block has a page label and it is non-empty
 	 */
 	public boolean hasPageLabel() {
@@ -335,7 +335,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the page label string of this
-	 * 
+	 *
 	 * @return the page label string of this
 	 */
 	public String getPageLabel() {
@@ -344,7 +344,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Sets the block label of this iff this block label is editable
-	 * 
+	 *
 	 * @param newLabel
 	 *            the desired label
 	 */
@@ -361,7 +361,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Sets the page label of this
-	 * 
+	 *
 	 * @param newPageLabel
 	 *            the desired page label
 	 */
@@ -376,7 +376,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the BlockGenus of this
-	 * 
+	 *
 	 * @return the BlockGenus of this
 	 */
 	private BlockGenus getGenus() {
@@ -386,7 +386,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Changes the genus of this block, while maintaining this current blocks
 	 * relationships with other blocks it's connected to.
-	 * 
+	 *
 	 * @param genusName
 	 *            the String name of the BlockGenus to change this Block to
 	 */
@@ -402,7 +402,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns the Block ID connected to the before connector of this;
 	 * Block.Null if this does not have a before block
-	 * 
+	 *
 	 * @return the Block ID connected to the before connector of this;
 	 *         Block.Null if this does not have a before block
 	 */
@@ -416,7 +416,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns the Block ID connected to the after connector of this; Block.Null
 	 * if this does not have an after block
-	 * 
+	 *
 	 * @return the Block ID connected to the after connector of this; Block.Null
 	 *         if this does not have an after block
 	 */
@@ -430,7 +430,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns the BlockConnector representing the connection to the block after
 	 * this
-	 * 
+	 *
 	 * @return the BlockConnector of the after connector
 	 */
 	public BlockConnector getAfterConnector() {
@@ -440,7 +440,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns the BlockConnector representing the connection to the block
 	 * before this
-	 * 
+	 *
 	 * @return the BlockConnector of the before connector
 	 */
 	public BlockConnector getBeforeConnector() {
@@ -616,7 +616,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Informs this Block that a block has disconnected from the specified
 	 * disconnectedSocket
-	 * 
+	 *
 	 * @param disconnectedSocket
 	 */
 	public void blockDisconnected(BlockConnector disconnectedSocket) {
@@ -642,7 +642,7 @@ public class Block implements ISupportMemento {
 	// //////////////////////////////
 	/**
 	 * Returns an unmodifiable iterable over a safe copy of the Sockets of this
-	 * 
+	 *
 	 * @return an unmodifiable iterable over a safe copy of the Sockets of this
 	 */
 	public Iterable<BlockConnector> getSockets() {
@@ -652,7 +652,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the number of sockets of this
-	 * 
+	 *
 	 * @return the number of sockets of this
 	 */
 	public int getNumSockets() {
@@ -661,7 +661,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the socket (BlockConnector instance) at the specified index
-	 * 
+	 *
 	 * @param index
 	 *            the index of the desired socket. 0 <= index < getNumSockets()
 	 * @return the socket (BlockConnector instance) at the specified index
@@ -679,7 +679,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Replaces the socket at the specified index with the new specified
 	 * parameters
-	 * 
+	 *
 	 * @param index
 	 *            of the BlockConnector to replace
 	 * @param isLabelEditable
@@ -695,7 +695,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the index number of a given socket
-	 * 
+	 *
 	 * @param socket
 	 *            a socket of this block
 	 * @return the index number of a given socket or -1 if socket doesn't exists
@@ -715,7 +715,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Adds another socket to this. Socket is added to the "end" of socket list.
-	 * 
+	 *
 	 * @param kind
 	 *            the socket kind of new socket
 	 * @param label
@@ -741,7 +741,7 @@ public class Block implements ISupportMemento {
 	 * socket list, where 0 is the first socket. if index is equal
 	 * numOfSockets(), then socket is added to the end of the socket list. If
 	 * index > numOfSockets(), an exception is thrown.
-	 * 
+	 *
 	 * @param index
 	 *            the index to insert new socket to
 	 * @param kind
@@ -768,7 +768,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Removes the socket at the specified index
-	 * 
+	 *
 	 * @param index
 	 *            the index of the socket to remove
 	 */
@@ -778,7 +778,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Removes specified socket
-	 * 
+	 *
 	 * @param socket
 	 *            BlockConnector to remove from this
 	 */
@@ -799,7 +799,7 @@ public class Block implements ISupportMemento {
 	// plug information
 	/**
 	 * Returns if BlockConnector plug exists
-	 * 
+	 *
 	 * @return if BlockConnector plug exists
 	 */
 	public boolean hasPlug() {
@@ -808,7 +808,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the BlockConnector plug of this
-	 * 
+	 *
 	 * @return the BlockConnector plug of this
 	 */
 	public BlockConnector getPlug() {
@@ -817,7 +817,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Sets the plug of this.
-	 * 
+	 *
 	 * @param kind
 	 *            the socket kind of plug
 	 * @param label
@@ -837,7 +837,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Sets the plug kind of this
-	 * 
+	 *
 	 * @param kind
 	 *            the desired plug kind
 	 */
@@ -850,7 +850,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Sets the plug label of this
-	 * 
+	 *
 	 * @param label
 	 *            the desired plug label
 	 */
@@ -863,7 +863,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Sets the block attached to this plug
-	 * 
+	 *
 	 * @param id
 	 *            the block id to attach to this plug
 	 */
@@ -876,7 +876,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Return plug kind; null if plug does not exist
-	 * 
+	 *
 	 * @return plug kind; null if plug does not exist
 	 */
 	public String getPlugKind() {
@@ -888,7 +888,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Return plug label; null if plug does not exist
-	 * 
+	 *
 	 * @return plug label; null if plug does not exist
 	 */
 	public String getPlugLabel() {
@@ -900,7 +900,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Return plug block id; null if plug does not exist
-	 * 
+	 *
 	 * @return plug block id; null if plug does not exist
 	 */
 	public Long getPlugBlockID() {
@@ -923,7 +923,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Searches for the BlockConnector linking this block to another block
-	 * 
+	 *
 	 * @param otherBlockID
 	 *            the Block ID if the other block
 	 * @return the BlockConnector linking this block to the other block
@@ -963,7 +963,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Sets the "bad"-ness of this block. Bad means that this block has an
 	 * associated compile error.
-	 * 
+	 *
 	 * @param isBad
 	 */
 	public void setBad(boolean isBad) {
@@ -980,7 +980,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Sets the message describing this block's badness. In other words, the
 	 * message describes the compile error associated with this block.
-	 * 
+	 *
 	 * @param badMsg
 	 */
 	public void setBadMsg(String badMsg) {
@@ -1001,7 +1001,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Sets the focus state of the block. Should only be used by FocusManager.
-	 * 
+	 *
 	 * @param hasFocus
 	 */
 	public void setFocus(boolean hasFocus) {
@@ -1049,7 +1049,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the Stubs of this Block, if it has Stubs; null otherwise
-	 * 
+	 *
 	 * @return the Stubs of this Block, if it has Stubs; null otherwise
 	 */
 	public Iterable<BlockStub> getFreshStubs(Workspace ws) {
@@ -1064,7 +1064,7 @@ public class Block implements ISupportMemento {
 					BlockStub newStubBlock = new BlockStub(ws, this.getBlockID(),this.getGenusName(), this.getBlockLabel(),stubGenus);
 					newStubBlock.setFactoryName(ws.getEnv().getGenusWithName(stubGenus).getFactory(i));
 					newStubBlocks.add(newStubBlock);
-					i++;					
+					i++;
 				}
 
 			}
@@ -1100,7 +1100,7 @@ public class Block implements ISupportMemento {
 	 * Returns the siblings of this genus. If this does not have siblings,
 	 * returns an empty list. Each element in the list is the block genus name
 	 * of a sibling. FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the siblings of this genus.
 	 */
 	public List<String> getSiblingsList() {
@@ -1112,7 +1112,7 @@ public class Block implements ISupportMemento {
 	 * genus to have siblings, its label must be uneditable. An editable label
 	 * interferes with the drop down menu widget that blocks with siblings have.
 	 * FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if this genus has siblings; false otherwise.
 	 */
 	public boolean hasSiblings() {
@@ -1123,7 +1123,7 @@ public class Block implements ISupportMemento {
 	 * Returns a list of the stub kinds (or stub genus names) of this; if this
 	 * genus does not have any stubs, returns an empty list FORWARDED FROM BLOCK
 	 * GENUS
-	 * 
+	 *
 	 * @return a list of the stub kinds (or stub genus names) of this; if this
 	 *         genus does not have any stubs, returns an empty list
 	 */
@@ -1146,7 +1146,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true is this genus has stubs (references such as getters,
 	 * setters, etc.); false otherwise FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true is this genus has stubs (references such as getters,
 	 *         setters, etc.); false otherwise
 	 */
@@ -1157,7 +1157,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true iff any one of the connectors for this genus has default
 	 * arguments; false otherwise FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true iff any one of the connectors for this genus has default
 	 *         arguments; false otherwise
 	 */
@@ -1168,7 +1168,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if this block is a command block (i.e. forward, say, etc.);
 	 * false otherwise FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if this block is a command block (i.e. forward, say, etc.);
 	 *         false otherwise
 	 */
@@ -1179,7 +1179,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if this block is a data block a.k.a. a primitive (i.e.
 	 * number, string, boolean); false otherwise FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return Returns true if this block is a data block a.k.a. a primitive
 	 *         (i.e. number, string, boolean); false otherwise
 	 */
@@ -1191,7 +1191,7 @@ public class Block implements ISupportMemento {
 	 * Returns true iff this block is a function block, which takes in an input
 	 * and produces an output. (i.e. math blocks, arctan, add to list); false
 	 * otherwise. FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true iff this block is a function block, which takes in an input
 	 *         and produces an output. (i.e. math blocks, arctan, add to list);
 	 *         false otherwise.
@@ -1203,7 +1203,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if this block is a variable block; false otherwise FORWARDED
 	 * FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if this block is a variable block; false otherwise
 	 */
 	public boolean isVariableDeclBlock() {
@@ -1214,7 +1214,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if this block is a procedure declaration block; false
 	 * otherwise FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if this block is a procedure declaration block; false
 	 *         otherwise
 	 */
@@ -1225,7 +1225,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if this genus is a declaration block. Declaration blocks
 	 * define variables and procedures. FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if this genus is a declaration block; false otherwise
 	 */
 	public boolean isDeclaration() {
@@ -1243,7 +1243,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if this block is a list or a list operator (determined by
 	 * whether it has at least one list connector of any type); false otherwise.
-	 * 
+	 *
 	 * @return is determined by whether it has at least one list connector of
 	 *         any type. FORWARDED FROM BLOCK GENUS
 	 */
@@ -1261,7 +1261,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * created by sakai lab 2014/09/26
-	 * 
+	 *
 	 * @return
 	 */
 
@@ -1275,7 +1275,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * created by sakai lab 2011/11/21
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isBlockForSubstitute() {
@@ -1293,7 +1293,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if this genus has a "before" connector; false otherwise.
 	 * FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true is this genus has a "before" connector; false otherwise.
 	 */
 	public boolean hasBeforeConnector() {
@@ -1303,7 +1303,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if this genus has a "after" connector; false otherwise.
 	 * FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if this genus has a "after" connector; false otherwise.
 	 */
 	public boolean hasAfterConnector() {
@@ -1312,7 +1312,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the initial before connector of this FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the initial before connector of this
 	 */
 	public BlockConnector getInitBefore() {
@@ -1321,7 +1321,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the initial after connector of this FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the initial after connector of this
 	 */
 	public BlockConnector getInitAfter() {
@@ -1331,7 +1331,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if the value of this genus is contained within the label of
 	 * this; false otherwise FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if the value of this genus is contained within the label of
 	 *         this; false otherwise
 	 */
@@ -1342,7 +1342,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if the label of this is editable; false otherwise FORWARDED
 	 * FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if the label of this is editable; false otherwise
 	 */
 	public boolean isLabelEditable() {
@@ -1352,7 +1352,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true iff page label of this is set by a page FORWARDED FROM BLOCK
 	 * GENUS
-	 * 
+	 *
 	 * @return true iff page label of this is set by a page
 	 */
 	public boolean isPageLabelSetByPage() {
@@ -1362,7 +1362,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if the label of this must be unique; false otherwise
 	 * FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if the label of this must be unique; false otherwise
 	 */
 	public boolean labelMustBeUnique() {
@@ -1372,7 +1372,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if this genus is infix (i.e. math blocks, and/or blocks);
 	 * false otherwise FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if this genus is infix (i.e. math blocks, and/or blocks);
 	 *         false otherwise
 	 */
@@ -1407,7 +1407,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true if this genus has expandable sockets; false otherwise
 	 * FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return true if this genus has expandable sockets; false otherwise
 	 */
 	public boolean areSocketsExpandable() {
@@ -1416,7 +1416,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the name of this genus FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the name of this genus
 	 */
 	public String getGenusName() {
@@ -1425,7 +1425,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the initial label of this FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the initial label of this
 	 */
 	public String getInitialLabel() {
@@ -1434,7 +1434,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the String block label prefix of this FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the String block label prefix of this
 	 */
 	public String getLabelPrefix() {
@@ -1443,7 +1443,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the String block label prefix of this FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the String block label prefix of this
 	 */
 	public String getLabelSuffix() {
@@ -1454,7 +1454,7 @@ public class Block implements ISupportMemento {
 	 * Returns the String block text description of this. Also known as the
 	 * block tool tip, or block description. If no descriptions exists, return
 	 * null. FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the String block text description of this or NULL if none exists.
 	 */
 	public String getBlockDescription() {
@@ -1465,7 +1465,7 @@ public class Block implements ISupportMemento {
 	 * Returns the the argument description at index i. If the index is out of
 	 * bounds or if no argument description exists for arguemnt at index i ,
 	 * return null.
-	 * 
+	 *
 	 * @return the String argument descriptions of this or NULL.
 	 */
 	public String getArgumentDescription(int index) {
@@ -1478,7 +1478,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns the Color of this; May return Color.Black if color was
 	 * unspecified. FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the Color of this; May return Color.Black if color was
 	 *         unspecified.
 	 */
@@ -1489,7 +1489,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns the initial BlockImageIcon mapping of this. Returned Map is
 	 * unmodifiable. FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the initial and unmodifiable BlockImageIcon mapping of this
 	 */
 	public Map<ImageLocation, BlockImageIcon> getInitBlockImageMap() {
@@ -1499,7 +1499,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns the value of the specified language dependent property
 	 * (partially) FORWARDED FROM BLOCK GENUS depending on specified property
-	 * 
+	 *
 	 * @param property
 	 *            the property to look up
 	 * @return the value of the specified language dependent property; null if
@@ -1516,7 +1516,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the initial set of sockets of this FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the initial set of sockets of this
 	 */
 	public Iterable<BlockConnector> getInitSockets() {
@@ -1525,7 +1525,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the initial plug connector of this FORWARDED FROM BLOCK GENUS
-	 * 
+	 *
 	 * @return the initial plug connector of this
 	 */
 	public BlockConnector getInitPlug() {
@@ -1545,7 +1545,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Returns true iff the other Object is an instance of Block and has the
 	 * same blockID as this; false otherwise
-	 * 
+	 *
 	 * @return true iff the other Object is an instance of Block and has the
 	 *         same blockID as this; false otherwise
 	 */
@@ -1560,7 +1560,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * Returns the hash code of this
-	 * 
+	 *
 	 * @return hash code of this
 	 */
 	@Override
@@ -1579,7 +1579,7 @@ public class Block implements ISupportMemento {
 
 	/**
 	 * 新しくブロックを生成する
-	 * 
+	 *
 	 * @param 生成するブロックの名前
 	 * @return 新しく生成するブロック
 	 */
@@ -1595,7 +1595,7 @@ public class Block implements ISupportMemento {
 	 * Returns the node of this using additional location information specified
 	 * in x and y and comment text . NOTE: in the future will not send these
 	 * coordinates and instead will have renderable block insert them.
-	 * 
+	 *
 	 * @param x
 	 * @param y
 	 * @return the node of this
@@ -1645,7 +1645,7 @@ public class Block implements ISupportMemento {
 					.createTextNode(this.returnType));
 			blockElement.appendChild(returnTypeElement);
 		}
-		
+
 
 		// Location
 		Element locationElement = document.createElement("Location");
@@ -1728,7 +1728,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * Loads Block information from the specified node and return a Block
 	 * instance with the loaded information
-	 * 
+	 *
 	 * @param workspace
 	 *            The workspace in use
 	 * @param node
@@ -1921,18 +1921,18 @@ public class Block implements ISupportMemento {
 			if(name != null){
 				block.name = name;
 			}
-			
+
 			block.hasFocus = hasFocus;
 
 			// load language dependent properties
 			if (blockLangProperties != null && !blockLangProperties.isEmpty()) {
 				block.properties = blockLangProperties;
 			}
-			
+
 			if(block.getBlockID()>workspace.getEnv().getNextID()){
 				workspace.getEnv().updateNextID(block.getBlockID() + 1);
 			}
-			
+
 
 			return block;
 		}
@@ -1952,7 +1952,7 @@ public class Block implements ISupportMemento {
 		mapping.put(input, newID);
 		return newID;
 	}
-	
+
 	public void setName(String name){
 		this.name = name;
 	}
@@ -2086,5 +2086,16 @@ public class Block implements ISupportMemento {
 				this.removeSocket(i);
 			}
 		}
+	}
+
+	public static Block getTopBlock(Block block) {
+		Block tmpBlock = block;
+		if(tmpBlock == null){
+			return null;
+		}
+		while ((tmpBlock.getBeforeBlockID() != -1 && tmpBlock.getBeforeBlockID() != null)) {
+			tmpBlock = block.getWorkspace().getEnv().getBlock(tmpBlock.getBeforeBlockID());
+		}
+		return tmpBlock;
 	}
 }

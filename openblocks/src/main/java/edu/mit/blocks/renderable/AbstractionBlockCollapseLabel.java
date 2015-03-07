@@ -27,7 +27,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 	AbstractionBlockCollapseLabel(Workspace workspace,long blockID) {
 		super(workspace, blockID);
 		this.setForeground(new Color(0, 0, 0));
-		updateCollapse(true, workspace);
+		updateCollapse(true);
 	}
 
 	/**
@@ -37,11 +37,11 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		//refreshFigure();//original
 	}
 
-	public void updateCollapse(Workspace workspace) {
-		updateCollapse(false, workspace);
+	public void updateCollapse() {
+		updateCollapse(false);
 	}
 
-	private void updateCollapse(boolean init, Workspace workspace) {
+	private void updateCollapse(boolean init) {
 		originalUpdateCollapse();
 		refreshFigure();
 		if (!init) {

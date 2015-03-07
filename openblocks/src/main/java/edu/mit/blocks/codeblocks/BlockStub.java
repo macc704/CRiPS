@@ -322,6 +322,9 @@ public class BlockStub extends Block {
                 blockStub.updateConnectors();
                 //System.out.println("updated connectors of: "+blockStub);
                 blockStub.notifyRenderable();
+                
+				//矢印の再描画 イベント飛ばしてもいいかも
+				workspace.getMeRVManager().updateArrowColor(blockStub);
             }
         }
     }

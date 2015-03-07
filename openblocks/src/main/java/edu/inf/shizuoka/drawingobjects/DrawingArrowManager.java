@@ -18,11 +18,11 @@ public class DrawingArrowManager implements WorkspaceListener {
 	private Map<Long, ArrowObject> arrows;
 	private boolean isActive = true;
 	public static int ARROW_GAP = 15;
-	
+
 	public DrawingArrowManager(){
 		arrows = new HashMap<Long, ArrowObject>();
-	}	
-	
+	}
+
 	public  void addArrow(Long id, ArrowObject arrow) {
 		arrows.put(id, arrow);
 	}
@@ -30,7 +30,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 	public  void removArrow(Long id) {
 		arrows.remove(id);
 	}
-	
+
 	/*
 	 * MeRVのON/FFを設定
 	 */
@@ -61,11 +61,11 @@ public class DrawingArrowManager implements WorkspaceListener {
 	public void setVisible(Long id, boolean visible) {
 		arrows.get(id).setVisible(visible);
 	}
-	
+
 	public void toggleVisible(Long id, boolean isVisible) {
 			ArrowObject arrow = arrows.get(id);
-			arrow.toggleVisible(isVisible, isActive);			
-			arrow.toggleCollapsed(!isVisible);	
+			arrow.toggleVisible(isVisible, isActive);
+			arrow.toggleCollapsed(!isVisible);
 	}
 
 
@@ -83,26 +83,26 @@ public class DrawingArrowManager implements WorkspaceListener {
 		if(block != null){
 			if (block.getAfterBlockID() != -1 || block.getAfterBlockID() != null) {
 				return true;
-			}	
+			}
 		}
 		return false;
 	}
-	
+
 	public static boolean isRecursiveFunction(Block topBlock, Block callerBlock){
 		if(callerBlock instanceof BlockStub && topBlock.getBlockID().equals(((BlockStub)callerBlock).getParent().getBlockID())){
 			return true;
 		}
 		return false;
 	}
-	
+
 	public void updateArrowColor(Block block){
-		if(hasEmptySocket(block)){
+		if(hasEmptySocket(block) && arrows.get(block.getBlockID()) != null){
 			arrows.get(block.getBlockID()).changeColor(true);
 		}else{
 			arrows.get(block.getBlockID()).changeColor(false);
 		}
 	}
-	
+
 	public void workspaceEventOccurred(WorkspaceEvent event) {
 		if(event.getEventType() == WorkspaceEvent.BLOCK_ADDED && event.getWorkspace().getEnv().getBlock(event.getSourceBlockID()).getGenusName().equals("callerprocedure")){
 			//callerかつ表示状態ならcalleeとの矢印を作成
@@ -111,12 +111,12 @@ public class DrawingArrowManager implements WorkspaceListener {
 			ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, sourceBlock.isVisible(), isActive(), event.getWorkspace().getBlockCanvas().getCanvas().getBounds());
 			arrows.put(sourceBlock.getBlockID(), arrow);
 			getActivePage(event.getWorkspace()).addArrow(arrow);
-				
+
 			if(hasEmptySocket(sourceBlock.getBlock())){
 				arrow.changeColor(true);
 			}
 		}
-		
+
 		if(event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED){
 			//可視状態をトグル
 			Block sourceBlock = event.getWorkspace().getEnv().getBlock(event.getSourceBlockID());
@@ -124,7 +124,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 				toggleVisible(sourceBlock.getBlockID(), event.getWorkspace().getEnv().getRenderableBlock(sourceBlock.getBlockID()).isVisible());
 			}
 		}
-		
+
 		if(event.getEventType() == WorkspaceEvent.BLOCK_REMOVED){
 			//矢印削除
 			Block sourceBlock = event.getWorkspace().getEnv().getBlock(event.getSourceBlockID());
@@ -136,7 +136,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 				//子のarrowを全て削除
 				for(long stubID : BlockStub.getStubsOfParent(event.getWorkspace(), sourceBlock)){
 					page.removeArrow(arrows.get(stubID));
-					arrows.remove(stubID);						
+					arrows.remove(stubID);
 				}
 			}
 			page.getJComponent().repaint();
@@ -146,7 +146,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 			//矢印の濃度を変更
 			Block socketBlock = event.getWorkspace().getEnv().getBlock(event.getSourceLink().getSocketBlockID());
 			Block plugBlock = event.getWorkspace().getEnv().getBlock(event.getSourceLink().getPlugBlockID());
-			
+
 			if(socketBlock.getGenusName().equals("callerprocedure") && hasArrow(socketBlock.getBlockID())){
 				if(hasEmptySocket(socketBlock)){
 					arrows.get(socketBlock.getBlockID()).changeColor(true);
@@ -159,23 +159,20 @@ public class DrawingArrowManager implements WorkspaceListener {
 					arrows.get(plugBlock.getBlockID()).changeColor(true);
 				}else{
 					arrows.get(plugBlock.getBlockID()).changeColor(false);
-				}				
-			}
-		}
-		
-		if(event.getEventType() == WorkspaceEvent.BLOCK_MOVED){
-			for(long key : arrows.keySet()){
-				event.getSourceWidget().addArrow(arrows.get(key));
-				arrows.get(key).repaint();
+				}
 			}
 		}
 
+
 	}
-	
+
 	public boolean isCaller(Block block){
+		if(block == null){
+			return false;
+		}
 		return block.getGenusName().equals("callerprocedure");
 	}
-	
+
 	public boolean hasArrow(long blockID){
 		return arrows.get(blockID) != null;
 	}
@@ -188,5 +185,5 @@ public class DrawingArrowManager implements WorkspaceListener {
 		}
 		return null;
 	}
-	
+
 }

@@ -11,22 +11,21 @@ public class ParamRule implements LinkRule{
 		if(ws.getRenderableBlock(socket1.getBlockID()) != null || ws.getRenderableBlock(socket2.getBlockID()) != null){
 			return false;
 		}
-		
+
 		if("procedure".equals(block1.getGenusName()) && block2.getGenusName().startsWith("proc-param")){
 			socket1.setKind(socket2.getKind());
 			return true;
 		}
-		
+
 		if("procedure".equals(block2.getGenusName()) && block1.getGenusName().startsWith("proc-param")){
 			socket2.setKind(socket1.getKind());
 			return true;
 		}
-		
+
 		return false;
 	}
 
 	public boolean isMandatory() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

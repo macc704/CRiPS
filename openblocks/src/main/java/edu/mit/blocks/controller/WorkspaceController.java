@@ -46,6 +46,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import slcodeblocks.ProcedureOutputRule;
 import clib.view.app.javainfo.CJavaInfoPanels;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.codeblocks.Block;
@@ -79,11 +80,11 @@ public class WorkspaceController {
 	protected final Workspace workspace;
 	protected SearchBar searchBar;
 //	private static String LANG_DEF_PATH;
-	
+
 	private String enc = "SJIS";
 
 	private String imagePath = "../support/images/";// added by macchan
-	
+
 	public Workspace getWorkspace() {
 		return this.workspace;
 	}
@@ -99,9 +100,9 @@ public class WorkspaceController {
 	private File selectedFile;
 	// Reference kept to be able to update frame title with current loaded file
 	private JFrame frame;
-	
+
 	private DebuggerWorkspaceController debugger;
-	
+
 	// for CheCoPro
 	private boolean openedFromCH = false;
 	private String user = "";
@@ -115,7 +116,7 @@ public class WorkspaceController {
 	public WorkspaceController() {
 		this.workspace = new Workspace();
 	}
-	
+
 	public WorkspaceController(String user, boolean openedFromCH) {
 		this.openedFromCH = openedFromCH;
 		this.user = user;
@@ -147,7 +148,7 @@ public class WorkspaceController {
 
 	/**
 	 * Sets language definition file from the given input stream
-	 * 
+	 *
 	 * @param in
 	 *            input stream to read
 	 */
@@ -173,7 +174,7 @@ public class WorkspaceController {
 	/**
 	 * Loads all the block genuses, properties, and link rules of a language
 	 * specified in the pre-defined language def file.
-	 * 
+	 *
 	 * @param root
 	 *            Loads the language specified in the Element root
 	 */
@@ -191,10 +192,11 @@ public class WorkspaceController {
 		BlockLinkChecker.addRule(workspace, new CommandRule(workspace));
 		BlockLinkChecker.addRule(workspace, new SocketRule());
 
-		BlockLinkChecker.addRule(workspace, new PolyRule());
+		BlockLinkChecker.addRule(workspace, new PolyRule(workspace));
 
 		BlockLinkChecker.addRule(workspace, new ParamRule());
 		BlockLinkChecker.addRule(workspace, new InfixRule());
+
 
 		// set the dirty flag for the language definition file
 		// to false now that the lang file has been loaded
@@ -218,7 +220,7 @@ public class WorkspaceController {
 	/**
 	 * Returns the save string for the entire workspace. This includes the block
 	 * workspace, any custom factories, canvas view state and position, pages
-	 * 
+	 *
 	 * @return the save string for the entire workspace.
 	 */
 	public String getSaveString() {
@@ -243,7 +245,7 @@ public class WorkspaceController {
 	/**
 	 * Returns a DOM node for the entire workspace. This includes the block
 	 * workspace, any custom factories, canvas view state and position, pages
-	 * 
+	 *
 	 * @return the DOM node for the entire workspace.
 	 */
 	public Node getSaveNode() {
@@ -296,7 +298,7 @@ public class WorkspaceController {
 
 	/**
 	 * Validates the code blocks document against the schema
-	 * 
+	 *
 	 * @param document
 	 *            The document to check
 	 * @throws RuntimeException
@@ -341,7 +343,7 @@ public class WorkspaceController {
 	 * Loads the programming project from the specified file path. This method
 	 * assumes that a Language Definition File has already been specified for
 	 * this programming project.
-	 * 
+	 *
 	 * @param path
 	 *            String file path of the programming project to load
 	 */
@@ -432,9 +434,9 @@ public class WorkspaceController {
 			}
 			workspace.loadWorkspaceFrom(projectRoot, langRoot);
 			workspaceLoaded = true;
-			
+
 			showAllTraceLine(workspace);
-			
+
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		} catch (SAXException e) {
@@ -466,19 +468,19 @@ public class WorkspaceController {
 		ImageIcon tc = new ImageIcon(imagePath + "trash.png");
 		ImageIcon openedtc = new ImageIcon(imagePath + "trash_open.png");
 		TrashCan trash = new TrashCan(workspace, tc.getImage(), openedtc.getImage());
-		
+
 		workspace.addWidget(trash, true, true);
-		
+
 		workspacePanel = new JPanel();
 		workspacePanel.setLayout(new BorderLayout());
 		workspacePanel.add(workspace, BorderLayout.CENTER);
-		
+
 		isWorkspacePanelInitialized = true;
 	}
 
 	/**
 	 * Returns the JComponent of the entire workspace.
-	 * 
+	 *
 	 * @return the JComponent of the entire workspace.
 	 */
 	public JComponent getWorkspacePanel() {
@@ -559,12 +561,12 @@ public class WorkspaceController {
 			saveAction.actionPerformed(e);
 		}
 	}
-	
+
 //	/**
 //	 * Action bound to "Save As..." button.
 //	 */
 //	private class ConvertAction extends AbstractAction {
-//		
+//
 //		private static final long serialVersionUID = 4649159219713654455L;
 //
 //		ConvertAction() {
@@ -585,7 +587,7 @@ public class WorkspaceController {
 
 	/**
 	 * Saves the content of the workspace to the given file
-	 * 
+	 *
 	 * @param file
 	 *            Destination file
 	 * @throws IOException
@@ -602,7 +604,7 @@ public class WorkspaceController {
 			}
 		}
 	}
-	
+
 
 	public void setSelectedFile(File selectedFile) {
 		this.selectedFile = selectedFile;
@@ -623,10 +625,10 @@ public class WorkspaceController {
 		// Save as
 		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
 		buttonPanel.add(new JButton(saveAsAction));
-		
+
 //		ConvertAction convertAction = new  ConvertAction();
 //		buttonPanel.add(new JButton(convertAction));
-		
+
 		{// create showing method trace line bottun
 			final JToggleButton showTraceLineButton = new JToggleButton(
 					"Hide MeRV");
@@ -645,10 +647,10 @@ public class WorkspaceController {
 			buttonPanel.add(showTraceLineButton);
 		}
 
-		
+
 		return buttonPanel;
 	}
-	
+
 	/**
 	 * Returns a SearchBar instance capable of searching for blocks within the
 	 * BlockCanvas and block drawers
@@ -664,16 +666,16 @@ public class WorkspaceController {
 
 	/**
 	 * Returns an unmodifiable Iterable of SearchableContainers
-	 * 
+	 *
 	 * @return an unmodifiable Iterable of SearchableContainers
 	 */
 	public Iterable<SearchableContainer> getAllSearchableContainers() {
 		return workspace.getAllSearchableContainers();
 	}
-	
+
 	protected JMenuBar getMenuBar(){
 		JMenuBar menuBar = new JMenuBar();
-		
+
 		//open other blockeditor
 		JMenu menu = new JMenu("Tools");
 		JMenuItem debugItem = new JMenuItem("Open other BlockEditor");
@@ -683,23 +685,23 @@ public class WorkspaceController {
 				runDebbuger();
 			}
 		});
-		
+
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// 
+				//
 				frame.dispose();
 			}
 		});
-		
+
 		JMenu help = new JMenu("help");
 		help.add(CJavaInfoPanels.createJavaInformationAction());
 
 		menu.add(debugItem);
-		menu.add(exit);	
-		
+		menu.add(exit);
+
 		menuBar.add(menu);
 		menuBar.add(help);
 
@@ -712,7 +714,7 @@ public class WorkspaceController {
 	 */
 	private void createAndShowGUI() {
 		frame = new JFrame("BlockEditor");
-		if(openedFromCH) { 
+		if(openedFromCH) {
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		} else {
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -729,53 +731,53 @@ public class WorkspaceController {
 		// // topPane.add(sb.getComponent());
 		// frame.add(topPane, BorderLayout.PAGE_START);
 		frame.setJMenuBar(getMenuBar());
-		
+
 		frame.add(getWorkspacePanel(), BorderLayout.CENTER);
 
 		if(!openedFromCH) {
 			frame.add(getButtonPanel(), BorderLayout.PAGE_START);
 		}
-		
+
 		frame.setVisible(true);
 	}
-	
+
 	/*
 	 * メソッド呼び出し関係を表示するラインを描画します
 	 */
 	public void showAllTraceLine(Workspace workspace) {
 
 	}
-	
-	
-	
-	
+
+
+
+
 	public static boolean checkParameterType(Block block, List<String> params){
 		int connectorSize = -1;//ソケットは必ず一つカウントされる
 		int counterSize = 0;
-		
+
 		for(@SuppressWarnings("unused") BlockConnector connector : block.getSockets()){
 			connectorSize++;
 		}
-		
+
 		//引数の数をチェック
 		if(connectorSize != params.size()){
 			return false;
 		}
-		
+
 		//引数無し同士
 		if(params.size() == 0 && connectorSize == 0){
 			return true;
 		}
-		
+
 		for(int i = 0; i < counterSize; i++){
 			if(checkIllegalParameter(block, params, connectorSize, i)){
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	private static boolean checkIllegalParameter(Block block, List<String> params, int connectorSize ,int i){
 		//引数の数が合わない
 		if(connectorSize < i || params.size() < i){
@@ -791,51 +793,44 @@ public class WorkspaceController {
 		}
 		return false;
 	}
-	
-	private static  List<String> calcParamTypes(BlockStub stub){
-		List<String> params = new ArrayList<String>();
-		for(BlockConnector connector : stub.getSockets()){
-			params.add(connector.getKind());
-		}
-		return params;
-	}
-	
-	private static  RenderableBlock searchMethodDefinidionBlock(BlockStub stub, Workspace workspace) {
-		String name = stub.getBlockLabel();
-		List<String> params = calcParamTypes(stub);
-		
-		for (Block block : workspace.getBlocks()) {
-			RenderableBlock rb = workspace.getEnv().getRenderableBlock(block.getBlockID());
-			
-			if(rb.getGenus().equals("procedure") && rb.getBlock().getBlockLabel().equals(name) && checkParameterType(block, params)){
-				return workspace.getEnv().getRenderableBlock(block.getBlockID());
-			}
-		}
-		return null;
-	}
-	
-	public static void disposeTraceLine(Workspace workspace){
-		if(workspace.getBlockCanvas()!= null){
-		}
-	}
-	
-	
+
+//	private static  List<String> calcParamTypes(BlockStub stub){
+//		List<String> params = new ArrayList<String>();
+//		for(BlockConnector connector : stub.getSockets()){
+//			params.add(connector.getKind());
+//		}
+//		return params;
+//	}
+
+//	private static  RenderableBlock searchMethodDefinidionBlock(BlockStub stub, Workspace workspace) {
+//		String name = stub.getBlockLabel();
+//		List<String> params = calcParamTypes(stub);
+//
+//		for (Block block : workspace.getBlocks()) {
+//			RenderableBlock rb = workspace.getEnv().getRenderableBlock(block.getBlockID());
+//
+//			if(rb.getGenus().equals("procedure") && rb.getBlock().getBlockLabel().equals(name) && checkParameterType(block, params)){
+//				return workspace.getEnv().getRenderableBlock(block.getBlockID());
+//			}
+//		}
+//		return null;
+//	}
+
 	private void runDebbuger(){
 		try {
 			debugger = new DebuggerWorkspaceController(langDefRootPath,selectedFile);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-		
+
 	private static String langDefRootPath = "ext/blocks/lang_def.xml";
 
 	public static void main(final String[] args) {
 		WorkspaceController wc = new WorkspaceController();
 		wc.openBlockEditor();
 	}
-	
+
 	public void openBlockEditor() {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -852,19 +847,19 @@ public class WorkspaceController {
 	}
 
 	private WindowAdapter windowAdapter = new WindowAdapter() {
-		
+
 		@Override
 		public void windowOpened(WindowEvent e) {
 			opened = true;
 		}
-		
+
 		@Override
 		public void windowClosing(WindowEvent e) {
 			opened = false;
 			frame.removeWindowListener(windowAdapter);
 		}
 	};
-	
+
 	public void openBlockEditor(final String xmlFilePath) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override

@@ -61,19 +61,7 @@ public class CollapseLabel extends BlockControlLabel {
      * Sets visibility of afterBlocks and sockets of a procedure block
      */
     void updateCollapse() {
-        RenderableBlock rb = workspace.getEnv().getRenderableBlock(getBlockID());
 
-        if (rb != null) {
-            collapseAfterBlocks(rb.getBlockID());
-            rb.repaintBlock();
-            if (rb.getHighlightHandler() != null) {
-                rb.getHighlightHandler().updateImage();
-                if (rb.getHighlightHandler().getParent() != null && rb.getHighlightHandler().getParent().getParent() != null) {
-                    rb.getHighlightHandler().getParent().getParent().repaint();  //force redraw to erase highlight
-                }
-            }
-
-        }
     }
 
     /**

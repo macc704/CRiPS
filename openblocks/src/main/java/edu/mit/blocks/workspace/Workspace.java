@@ -115,7 +115,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
     private final FocusTraversalManager focusManager;
 
     private final TypeBlockManager typeBlockManager;
-    
+
     private DrawingArrowManager mervManager = new DrawingArrowManager();
 
     /// RENDERING LAYERS ///
@@ -126,7 +126,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
     public final static Integer DRAGGED_BLOCK_HIGHLIGHT_LAYER = new Integer(4);
     public final static Integer DRAGGED_BLOCK_LAYER = new Integer(5);
     public final static Integer ARROW_LAYER = new Integer(6);
-    
+
 
     public Workspace() {
         super();
@@ -135,7 +135,9 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
         setPreferredSize(new Dimension(1000, 2000));
 
         this.factory = new FactoryManager(this);
+
         this.addWorkspaceListener(mervManager);// ohata added
+
         this.addWorkspaceListener(this.factory);
         this.blockCanvas.getHorizontalModel().addChangeListener(this);
         for (final Explorer exp : factory.getNavigator().getExplorers()) {
@@ -187,7 +189,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
             }
         }
     }
-    
+
     public DrawingArrowManager getMeRVManager(){
     	return this.mervManager;
     }
@@ -954,7 +956,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
     public void addToHighlightLayer(Component c) {
         this.add(c, DRAGGED_BLOCK_HIGHLIGHT_LAYER);
     }
-    
+
     public void addToArrowLayer(Component c) {
     	this.add(c, ARROW_LAYER);
     }

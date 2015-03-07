@@ -75,7 +75,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private static final long serialVersionUID = 1L;
 
 	/*
-	 * 
+	 *
 	 * The following may be null: parent, lastdragwidget, comment
 	 */
 	// //////////////////
@@ -202,7 +202,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Constructs a new RenderableBlock instance with the specified parent
 	 * WorkspaceWidget and Long blockID of its associated Block
-	 * 
+	 *
 	 * @param parent
 	 *            the WorkspaceWidget containing this
 	 * @param blockID
@@ -215,7 +215,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Constructs a new RenderableBlock instance with the specified parent
 	 * WorkspaceWidget and Long blockID of its associated Block
-	 * 
+	 *
 	 * @param parent
 	 *            the WorkspaceWidget containing this
 	 * @param blockID
@@ -263,7 +263,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				BlockLabel.Type.NAME_LABEL, getBlock().isLabelEditable(),
 				blockID);
 		// arranged by sakai lab 2011/11/20
-		
+
 		this.headerLabel = new HeaderLabel(getBlock().getHeaderLabel(),
 				BlockLabel.Type.HEADER_LABEL, getBlock().isLabelEditable(),
 				blockID);
@@ -329,7 +329,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Returns the Long id of this
-	 * 
+	 *
 	 * @return the Long id of this
 	 */
 	public Long getBlockID() {
@@ -338,7 +338,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Returns the height of the block shape of this
-	 * 
+	 *
 	 * @return the height of the block shape of this
 	 */
 	public int getBlockHeight() {
@@ -347,7 +347,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Returns the dimensions of the block shape of this
-	 * 
+	 *
 	 * @return the dimensions of the block shape of this
 	 */
 	public Dimension getBlockSize() {
@@ -356,7 +356,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Returns the width of the block shape of this
-	 * 
+	 *
 	 * @return the width of the block shape of this
 	 */
 	public int getBlockWidth() {
@@ -365,7 +365,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Returns the BlockShape instance representing this
-	 * 
+	 *
 	 * @return the BlockShape instance representing this
 	 */
 	public BlockShape getBlockShape() {
@@ -391,7 +391,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * Moves this component to a new location. The top-left corner of the new
 	 * location is specified by the <code>x</code> and <code>y</code> parameters
 	 * in the coordinate space of this component's parent.
-	 * 
+	 *
 	 * @param x
 	 *            the <i>x</i>-coordinate of the new location's top-left corner
 	 *            in the parent's coordinate space
@@ -419,7 +419,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * Moves this component to a new location. The top-left corner of the new
 	 * location is specified by point <code>p</code>. Point <code>p</code> is
 	 * given in the parent's coordinate space.
-	 * 
+	 *
 	 * @param p
 	 *            the point defining the top-left corner of the new location,
 	 *            given in the coordinate space of this component's parent
@@ -432,7 +432,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * Returns the width of the stroke used to draw the highlight. Note that the
 	 * highlight will only appear half this width, so the overall width of the
 	 * block + highlight will be blockWidth + highlightStrokeWidth.
-	 * 
+	 *
 	 * @return the width of the stroke used to draw the highlight.
 	 */
 	public int getHighlightStrokeWidth() {
@@ -443,7 +443,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * Returns the bounds of the block stack of this, where this block is at the
 	 * top of its stack (in other words, it does not take the bounds of the
 	 * blocks above it into account).
-	 * 
+	 *
 	 * @return the bounds of the block stack of this, where this block is at the
 	 *         top of its stack.
 	 */
@@ -455,7 +455,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * Helper method to calculate the bounds of a stack. For now this method
 	 * naively traverses through the entire stack of the specified
 	 * RenderableBlock rb and calculates the bounds.
-	 * 
+	 *
 	 * @param rb
 	 *            the RenderableBlock to calculate the stack bounds of
 	 * @return Dimensions of the stack of the specified rb
@@ -490,7 +490,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * returns the blockWidget for this RenderableBlock
-	 * 
+	 *
 	 * @return
 	 */
 	JComponent getBlockWidget() {
@@ -511,7 +511,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * @param blockWidget
-	 * 
+	 *
 	 * @requires none
 	 * @modifies this.blockWidget
 	 * @effects sets block widget to the input argument "blockWidget" and
@@ -547,7 +547,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Returns the BlockImageIcon instance at the specified location; null if no
 	 * BlockImageIcon exists at that location
-	 * 
+	 *
 	 * @param location
 	 *            the ImageLocation of the desired BlockImageIcon
 	 * @return the BlockImageIcon instance at the specified location; null if no
@@ -564,7 +564,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Synchronizes this RenderableBlock's socket components (including tags,
 	 * labels) with the associated Block's list of sockets.
-	 * 
+	 *
 	 * @effects for every socket in Block: (1) check/add corresponding tag
 	 *          structure, (2) check/add block label for every tag in
 	 *          Renderable: (1) delete any sockets not in Block
@@ -634,7 +634,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Updates all the labels within this block. Returns true if this update
 	 * found any changed labels; false otherwise
-	 * 
+	 *
 	 * @return true if this update found any changed labels; false otherwise.
 	 */
 	private boolean synchronizeLabelsAndSockets() {
@@ -713,7 +713,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * accommodate for placed labels. Used to determine the minimum width of a
 	 * block.
-	 * 
+	 *
 	 * @returns int pixel width needed for the labels
 	 */
 	public int accomodateLabelsWidth() {
@@ -750,7 +750,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Returns the width of the page label on this block; if page label is not
 	 * enabled and does not exist, returns 0.
-	 * 
+	 *
 	 * @return the width of the page label on this block iff page label is
 	 *         enabled and exists; returns 0 otherwise.
 	 */
@@ -771,7 +771,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * created by sakai lab 2011/11/18
-	 * 
+	 *
 	 * @return blockLabel
 	 */
 	protected NameLabel getBlockLabel() {
@@ -780,7 +780,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * created by sakai lab 2011/11/18
-	 * 
+	 *
 	 * @return headerLabel
 	 */
 	protected HeaderLabel getHeaderLabel() {
@@ -789,7 +789,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * created by sakai lab 2011/11/22
-	 * 
+	 *
 	 * @return footerLabel
 	 */
 	protected FooterLabel getFooterLabel() {
@@ -802,7 +802,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Returns the total height of all the images to draw on this block
-	 * 
+	 *
 	 * @return the total height of all the images to draw on this block
 	 */
 	public int accomodateImagesHeight() {
@@ -815,7 +815,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Returns the total width of all the images to draw on this block
-	 * 
+	 *
 	 * @return the total width of all the images to draw on this block
 	 */
 	public int accomodateImagesWidth() {
@@ -832,7 +832,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Looks for links between this RenderableBlock and others.
-	 * 
+	 *
 	 * @return a BlockLink object with information on the closest possible
 	 *         linking between this RenderableBlock and another.
 	 */
@@ -848,7 +848,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Returns the maximum width between all the socket connectors of this or 0
 	 * if this does not have any sockets
-	 * 
+	 *
 	 * @return the maximum width between all the socket connectors of this or 0
 	 *         if this does not have any sockets
 	 */
@@ -870,7 +870,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * socket's center. Mutating the new Point will not affect future calls to
 	 * getSocketPoint; that is, this method clones a new Point object. The new
 	 * Point object MAY NOT BE NULL.
-	 * 
+	 *
 	 * @param socket
 	 *            - the socket whose point we want. socket MAY NOT BE NULL.
 	 * @return a Point representing the socket's center
@@ -893,7 +893,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * socket's center. Mutating the new Point will not affect future calls to
 	 * getSocketPoint; that is, this method clones a new Point object. The new
 	 * Point object MAY NOT BE NULL.
-	 * 
+	 *
 	 * @param socket
 	 *            - the socket whose point we want. socket MAY NOT BE NULL.
 	 * @return a Point representing the socket's center
@@ -906,14 +906,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Updates the center point location of this socket
-	 * 
+	 *
 	 * @param socket
 	 *            - the socket whose point we will update. Socket MAY NOT BE
 	 *            NULL
 	 * @param point
 	 *            - the ABSTRACT location of socket's center. ABSTRACT
 	 *            LOCATION!!!
-	 * 
+	 *
 	 * @requires socket != null and there exist a matching tag for the socket
 	 */
 	public void updateSocketPoint(BlockConnector socket, Point2D point) {
@@ -940,7 +940,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Returns the parent WorkspaceWidget containing this
-	 * 
+	 *
 	 * @return the parent WorkspaceWidget containing this
 	 */
 	public WorkspaceWidget getParentWidget() {
@@ -949,7 +949,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Sets the parent WorkspaceWidget containing this
-	 * 
+	 *
 	 * @param widget
 	 *            the desired WorkspaceWidget
 	 */
@@ -962,7 +962,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * boundaries are defined by the actual area occupied by the Renderable
 	 * Block shape. Returns true iff the specified coordinates are contained
 	 * within the area of the BlockShape.
-	 * 
+	 *
 	 * @return true iff the specified coordinates are contained within the Area
 	 *         of the BlockShape
 	 */
@@ -1076,7 +1076,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Modifies this RenderableBlock such that default arguments are ignored. In
 	 * the future, invoking this.linkDefArgs() will trigger no action.
-	 * 
+	 *
 	 * @requires none
 	 * @modifies this.linkedDefArgsBefore;
 	 * @effects sets linkedDefArgsBefore to false;
@@ -1088,7 +1088,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Returns the Renderable specified by blockID; null if RenderableBlock does
 	 * not exist
-	 * 
+	 *
 	 * @param blockID
 	 *            the block id of the desired RenderableBlock
 	 * @return the Renderable specified by blockID; null if RenderableBlock does
@@ -1120,7 +1120,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * dimensions of the block with id connectedToBlockID. RenderableBlock will
 	 * use these dimensions to determine the appropriate bounds to stretch the
 	 * connectedSocket by.
-	 * 
+	 *
 	 * @param connectedSocket
 	 *            BlockConnector which block connection/disconnection occurred
 	 * @param connectedToBlockID
@@ -1185,7 +1185,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Calculates the dimensions at the specified socket
-	 * 
+	 *
 	 * @param socket
 	 *            BlockConnector to calculate the dimension of
 	 * @return Dimension of the specified socket
@@ -1287,7 +1287,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Helper method for updateSocketSpace and calcStackDim. Returns the maximum
 	 * width of the specified blockID's socket blocks
-	 * 
+	 *
 	 * @param blockID
 	 *            the Long blockID of the desired block
 	 */
@@ -1338,7 +1338,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		// notify block first so that we will only need to repaint this block
 		// once
 		getBlock().blockDisconnected(disconnectedSocket);
-		
+
 		updateSocketSpace(disconnectedSocket, Block.NULL, false);
 
 		// synchronize sockets
@@ -1456,7 +1456,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * returns the Area of the block
-	 * 
+	 *
 	 * @return
 	 */
 	public Area getBlockArea() {
@@ -1512,7 +1512,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Draws the BlockImageIcon instances of this onto itself
-	 * 
+	 *
 	 * @param buffImgG2
 	 *            the current Graphics2D representation of this
 	 * @param width
@@ -1570,7 +1570,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * However when those states are no longer active, the color is set back to
 	 * the specified hlColor, if resetHightlight() was not called in the
 	 * meantime.
-	 * 
+	 *
 	 * @param color
 	 *            the desired highlight Color
 	 */
@@ -1588,7 +1588,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Tells this RenderableBlock to move its highlight handler to a new parent
 	 * (should be called after this RB is moved to a new parent)
-	 * 
+	 *
 	 * @param parent
 	 *            the RBParent that is the RB's new parent
 	 */
@@ -1599,7 +1599,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Overridden from JComponent. Returns true iff it has a parent, its parent
 	 * is visible, and itself is visible; false otherwise.
-	 * 
+	 *
 	 * @return true iff it has a parent, its parent is visible, and itself is
 	 *         visible; false otherwise.
 	 */
@@ -1630,7 +1630,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Sets this RenderableBlock's comment
-	 * 
+	 *
 	 * @param comment
 	 */
 	public void setComment(Comment comment) {
@@ -1691,7 +1691,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * returns where the CommentArrow should draw from
-	 * 
+	 *
 	 * @return
 	 */
 	public Point getCommentLocation() {
@@ -1792,7 +1792,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		Component oldParent = renderable.getParent();
 		Workspace.getInstance().addToBlockLayer(renderable);
 		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
-		
+
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(Block.getBlock(renderable.blockID))) {
 			if (socket.hasBlock()) {
@@ -1804,7 +1804,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * This method is called when this RenderableBlock is plugged into another
 	 * RenderableBlock that has finished dragging.
-	 * 
+	 *
 	 * @param widget
 	 *            the WorkspaceWidget where this RenderableBlock is being
 	 *            dropped.
@@ -1847,17 +1847,17 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.getArrow().updateArrow();
 		}
 
-	}	
+	}
 
 	public Block getCommandBlock(Block block){
 		if(block != null){
 			while(block.getPlug() != null && block.getPlug().getBlockID() != Block.NULL){
 				block = Block.getBlock(block.getPlug().getBlockID());
-			}	
+			}
 		}
 		return block;
 	}
-	
+
 	public static RenderableBlock getTopBlock(Block block) {
 		Block tmpBlock = block;
 		if(tmpBlock == null){
@@ -2023,7 +2023,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		if (checkScope(link)) {
 			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
 			link.connect();
-			
+
 			Workspace.getInstance().notifyListeners(
 					new WorkspaceEvent(widget, link,
 							WorkspaceEvent.BLOCKS_CONNECTED));
@@ -2219,7 +2219,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(getBlock());
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mouseClicked(e);
 			if (e.getClickCount() == 2 && !dragging) {
@@ -2270,7 +2269,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Returns the save string of this
-	 * 
+	 *
 	 * @return the save string of this
 	 */
 	public String getSaveString() {// #ohata replaced
@@ -2304,7 +2303,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Returns whether or not this is still loading data.
-	 * 
+	 *
 	 * @return whether or not this is still loading data.
 	 */
 	public boolean isLoading() {
@@ -2314,7 +2313,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Loads a RenderableBlock and its related Block instance from the specified
 	 * blockNode; returns null if no RenderableBlock was loaded.
-	 * 
+	 *
 	 * @param blockNode
 	 *            Node containing information to load into a RenderableBlock
 	 *            instance
@@ -2382,7 +2381,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * Read Location Node change loc to location in Node
-	 * 
+	 *
 	 * @param location
 	 * @param loc
 	 */
@@ -2402,7 +2401,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Changes Point boxSize (x,y) to the (width,height) of boxSizeNode That is
 	 * x = width and y = height
-	 * 
+	 *
 	 * @param location
 	 * @param boxSize
 	 */
@@ -2491,7 +2490,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * the current zoom for this RenderableBlock
-	 * 
+	 *
 	 * @return the zoom
 	 */
 	public double getZoom() {
@@ -2500,7 +2499,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * returns a new int x based on the current zoom
-	 * 
+	 *
 	 * @param x
 	 * @return
 	 */
@@ -2510,7 +2509,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * returns a new double x position based on the current zoom
-	 * 
+	 *
 	 * @param x
 	 * @return
 	 */
@@ -2521,7 +2520,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * returns the descaled x based on the current zoom that is given a scaled x
 	 * it returns what that position would be when zoom == 1
-	 * 
+	 *
 	 * @param x
 	 * @return
 	 */
@@ -2532,7 +2531,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * returns the descaled x based on the current zoom that is given a scaled x
 	 * it returns what that position would be when zoom == 1
-	 * 
+	 *
 	 * @param x
 	 * @return
 	 */
@@ -2543,7 +2542,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * calculates the x when the zoom is 1.0
-	 * 
+	 *
 	 * @param x
 	 *            of the current position
 	 * @return the x when the zoom is 1.0
@@ -2554,7 +2553,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * calculates the y when the zoom is 1.0
-	 * 
+	 *
 	 * @param y
 	 *            of the current position
 	 * @return the y when the zoom is 1.0
@@ -2565,7 +2564,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * mutator for the initial value of x
-	 * 
+	 *
 	 * @param unzoomedX
 	 */
 	public void setUnzoomedX(double unzoomedX) {
@@ -2574,7 +2573,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * mutator for the initial value of y
-	 * 
+	 *
 	 * @param unzoomedY
 	 */
 	public void setUnzoomedY(double unzoomedY) {
@@ -2583,7 +2582,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * observer for the initial value of x
-	 * 
+	 *
 	 * @return initial value of x coordinate
 	 */
 	public double getUnzoomedX() {
@@ -2592,7 +2591,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * observer for the initial value of y
-	 * 
+	 *
 	 * @return initial value of x coordinate
 	 */
 	public double getUnzoomedY() {
@@ -2655,7 +2654,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 		return null;
 	}
-	
+
 	public void clearSocketLabels(){
 		for(ConnectorTag tag : this.socketTags){
 			if(tag.getLabel() != null){
@@ -2677,7 +2676,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * If this block can be collapsed its collapse state will be set
-	 * 
+	 *
 	 * @param collapse
 	 */
 	public void setCollapsed(boolean collapse) {
@@ -2708,7 +2707,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * Returns the width of the collapseLabel for this block if there is one, 0
 	 * otherwise
-	 * 
+	 *
 	 * @return
 	 */
 	public int getCollapseLabelWidth() {
@@ -2721,7 +2720,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	/**
 	 * returns the RBHighlightHandler for this RenderableBlock
-	 * 
+	 *
 	 * @return the highlighter
 	 */
 	public RBHighlightHandler getHighlightHandler() {
@@ -2731,7 +2730,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/**
 	 * returns the larger width of the ProcedureCollapseLabel or CommentLabel if
 	 * they exist for this RenderableBlock
-	 * 
+	 *
 	 * @return
 	 */
 	int getControlLabelsWidth() {
