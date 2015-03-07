@@ -96,10 +96,12 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 
 	public void updateArrowColor(Block block){
-		if(hasEmptySocket(block) && arrows.get(block.getBlockID()) != null){
-			arrows.get(block.getBlockID()).changeColor(true);
-		}else{
-			arrows.get(block.getBlockID()).changeColor(false);
+		if(arrows.get(block.getBlockID()) != null){
+			if(hasEmptySocket(block)){
+				arrows.get(block.getBlockID()).changeColor(true);
+			}else{
+				arrows.get(block.getBlockID()).changeColor(false);
+			}
 		}
 	}
 

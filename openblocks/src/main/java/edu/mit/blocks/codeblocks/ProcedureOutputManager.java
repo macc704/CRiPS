@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.mit.blocks.workspace.Workspace;
+import edu.mit.blocks.workspace.WorkspaceEnvironment;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceWidget;
 
@@ -27,11 +28,11 @@ public class ProcedureOutputManager {
 
     }
 
-
     public ProcedureOutputManager(Workspace wworkspace)
     {
         workspace = wworkspace;
     }
+
 
     public void procedureUpdateInfo(WorkspaceEvent event)
     {
@@ -39,22 +40,22 @@ public class ProcedureOutputManager {
         BlockLink link = event.getSourceLink();
         switch(event.getEventType())
         {
-        case 5: // '\005'
+        case WorkspaceEvent.BLOCKS_CONNECTED: // '\005'
             if(link != null)
                 blocksConnected(workspace, event.getSourceWidget(), link.getSocketBlockID(), link.getPlugBlockID());
             return;
 
-        case 6: // '\006'
+        case WorkspaceEvent.BLOCKS_DISCONNECTED: // '\006'
             if(link != null)
                 blocksDisconnected(workspace,  event.getSourceWidget(), link.getSocketBlockID(), link.getPlugBlockID());
             return;
 
-        case 3: // '\003'
+        case WorkspaceEvent.BLOCK_ADDED: // '\003'
             if(b != null && b.isProcedureDeclBlock())
                 myProcInfo.put(b.getBlockID(), new OutputInfo());
             return;
 
-        case 4: // '\004'
+        case WorkspaceEvent.BLOCK_REMOVED: // '\004'
             if(b != null && b.isProcedureDeclBlock())
             {
                 myProcInfo.remove(b.getBlockID());
@@ -132,6 +133,47 @@ public class ProcedureOutputManager {
 //            workspace.notifyListeners(events);
     }
 
+	public boolean canLinkReturnBlock(Workspace ws, WorkspaceWidget w, Long block, Long socket){
+		Long top = SLBlockProperties.getTopBlockID(ws, socket);
+
+
+		if(top == null || !ws.getEnv().getBlock(top).isProcedureDeclBlock()){
+			return true;
+		}
+
+        OutputInfo info = (OutputInfo)myProcInfo.get(top);
+        Block b = ws.getEnv().getBlock(block);
+
+        return canLink(b, info.type, info, w);
+	}
+
+	private boolean canLink(Block b, String type, OutputInfo info, WorkspaceWidget w){
+		boolean canLink = true;
+        if(isOutput(b)){
+        	if(b.getSocketAt(0).getKind() == "poly" || b.getSocketAt(0).getKind().equals(type) || type == null){
+        		return true;
+        	}else{
+        		return false;
+        	}
+        }
+        System.out.println();
+        Iterator i = b.getSockets().iterator();
+        do{
+            if(!i.hasNext())
+                break;
+            BlockConnector conn = (BlockConnector)i.next();
+            Block b2 = getBlock(b.getWorkspace(), conn.getBlockID());
+            if(b2 != null){
+            	canLink  &= canLink(b2, type, info, w);
+            }
+        } while(true);
+        Block b2 = getBlock(b.getWorkspace(), b.getAfterBlockID());
+        if(b2 != null)
+            canLink &= canLink(b2, type, info, w);
+
+		return canLink;
+	}
+
     private void blocksDisconnected(Workspace ws, WorkspaceWidget w, Long socket, Long plug)
     {
         Long top = SLBlockProperties.getTopBlockID(ws, socket);
@@ -153,6 +195,7 @@ public class ProcedureOutputManager {
             revertType(ws.getEnv().getBlock(top), info, false);
             BlockStub.parentPlugChanged(ws, top, null);
         }
+        System.out.println();
     }
 
     private static void examineType(boolean add, Block b, OutputInfo info)

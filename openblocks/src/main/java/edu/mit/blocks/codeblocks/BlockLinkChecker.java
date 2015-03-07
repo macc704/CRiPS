@@ -11,14 +11,14 @@ import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceListener;
 
 /**
- * <code>BlockLinkChecker</code> determines if two <code>Block</code> objects can connect.  In particular, 
+ * <code>BlockLinkChecker</code> determines if two <code>Block</code> objects can connect.  In particular,
  * <code>BlockLinkChecker</code> will report which sockets of the two <code>Block</code> objects can connect.
  * Interested <code>Block</code> objects may make a static call to canLink() to determine if it can link to another
  * <code>Block</code> object.
- * 
+ *
  * <code>BlockLinkChecker</code> uses a list of <code>LinkRule</code>s to check the <code>Connector</code>s of each
- * <code>Block</code>.  Rules may be added, inserted, and removed from the checker.  
- * 
+ * <code>Block</code>.  Rules may be added, inserted, and removed from the checker.
+ *
  * There is only one instance of the <code>BlockLinkChecker</code>.
  */
 public class BlockLinkChecker {
@@ -36,7 +36,7 @@ public class BlockLinkChecker {
 
     /**
      * Adds a rule to the end of this checker's list of rules.
-     * If the rule already exists in the rule list, the rule is removed in the original location and 
+     * If the rule already exists in the rule list, the rule is removed in the original location and
      * added to the end of the list.
      * @param rule the desired LinkRule to be added
      */
@@ -48,9 +48,9 @@ public class BlockLinkChecker {
     }
 
     /**
-     * Insert rule at the specified index in this checker's list of rules.  The original rule at the 
-     * specified index and rules after it are shifted down the list. If the index is greater 
-     * or equal to the length of the rule list, then the rule is added to the end of the list.  
+     * Insert rule at the specified index in this checker's list of rules.  The original rule at the
+     * specified index and rules after it are shifted down the list. If the index is greater
+     * or equal to the length of the rule list, then the rule is added to the end of the list.
      * If the rule already exists in the rule list, the rule is moved to the specified index.
      * @param rule the desired rule to insert
      * @param index the index to insert the rule in
@@ -69,10 +69,10 @@ public class BlockLinkChecker {
     }
 
     /**
-     * Returns a BlockLink instance if the two specified blocks can connect at the specified 
+     * Returns a BlockLink instance if the two specified blocks can connect at the specified
      * block connectors at each block; null if no link is possible.
-     * @param workspace The workspace in use  
-     * @param block1 Block instance to compare 
+     * @param workspace The workspace in use
+     * @param block1 Block instance to compare
      * @param block2 Block instance to compare
      * @param con1 the BlockConnector at block1 to compare against con2
      * @param con2 the BlockConnector at block2 to compare against con1
@@ -121,7 +121,7 @@ public class BlockLinkChecker {
 					|| (!block2.isAbstractionBlock() && rblock2.isCollapsed())) {
 				continue;
 			}
-            
+
             Point2D currentPlugPoint = null;
             Point2D currentSocketPoint = null;
             if (currentPlug != null) {
@@ -163,14 +163,14 @@ public class BlockLinkChecker {
 
     /**
      * NOTE: ALWAYS prefer BlockLinkChecker.getLink over this method.
-     * 
+     *
      * Checks to see if a <code>RenderableBlock</code>s can connect
      * to other <code>RenderableBlock</code>s, implying that rblock1
      * has at least one <code>BlockConnector</code>s that satisfies at
      * least one of the <code>LinkRule</code>s.
-     * 
+     *
      * Does not require close proximity.
-     * 
+     *
      * @param workspace The workspace in use
      * @param rblock1 one of the blocks to check
      * @param otherBlocks the other blocks to check against

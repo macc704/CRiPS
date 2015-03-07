@@ -33,6 +33,7 @@ import org.w3c.dom.NodeList;
 
 import edu.inf.shizuoka.drawingobjects.DrawingArrowManager;
 import edu.mit.blocks.codeblocks.Block;
+import edu.mit.blocks.codeblocks.PolyRule;
 import edu.mit.blocks.codeblockutil.Explorer;
 import edu.mit.blocks.codeblockutil.ExplorerEvent;
 import edu.mit.blocks.codeblockutil.ExplorerListener;
@@ -480,6 +481,15 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
             assert (!workspaceListeners.contains(listener)) : "WorkspaceListener " + listener.toString() + " has already been added.";
             workspaceListeners.add(listener);
         }
+    }
+
+    public PolyRule getPolyRule(){
+    	for(WorkspaceListener listener : workspaceListeners){
+    		if(listener instanceof PolyRule){
+    			return (PolyRule)listener;
+    		}
+    	}
+    	return null;
     }
 
     /**

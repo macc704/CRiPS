@@ -2,6 +2,7 @@ package edu.mit.blocks.renderable;
 
 import java.awt.Color;
 
+import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockLinkChecker;
 import edu.mit.blocks.codeblocks.BlockStub;
@@ -9,12 +10,21 @@ import edu.mit.blocks.codeblocks.BlockStub;
 public class BlockStubAnimetionThread extends BlockAnimationThread {
 
 	private RenderableBlock parentBlock;
-	
-	public BlockStubAnimetionThread(BlockStub targetStubBlock, String direction ) {
-		super(targetStubBlock.getWorkspace().getEnv().getRenderableBlock(targetStubBlock.getBlockID()), direction);
-		this.parentBlock = targetStubBlock.getWorkspace().getEnv().getRenderableBlock(targetStubBlock.getParent().getBlockID());
+
+	public BlockStubAnimetionThread(BlockStub targetStubBlock, String direction) {
+		super(targetStubBlock.getWorkspace().getEnv()
+				.getRenderableBlock(targetStubBlock.getBlockID()), direction);
+		this.parentBlock = targetStubBlock.getWorkspace().getEnv()
+				.getRenderableBlock(targetStubBlock.getParent().getBlockID());
 	}
-	
+
+	public BlockStubAnimetionThread(Block targetStubBlock, String direction) {
+		super(targetStubBlock.getWorkspace().getEnv()
+				.getRenderableBlock(targetStubBlock.getBlockID()), direction);
+		this.parentBlock = targetStubBlock.getWorkspace().getEnv()
+				.getRenderableBlock(targetStubBlock.getBlockID());
+	}
+
 	public void run() {
 		isRun = true;
 
@@ -24,7 +34,7 @@ public class BlockStubAnimetionThread extends BlockAnimationThread {
 		}
 		isRun = false;
 	}
-	
+
 	private void downSlideAnimation() {
 		int initY = block.getY();
 		int x = block.getX();
@@ -32,13 +42,11 @@ public class BlockStubAnimetionThread extends BlockAnimationThread {
 
 		double realWaitTime = 1.0;
 
-		for (BlockConnector socket : BlockLinkChecker
-				.getSocketEquivalents(block.getBlock())) {
+		for (BlockConnector socket : BlockLinkChecker.getSocketEquivalents(block.getBlock())) {
 			if (socket.hasBlock()) {
-				RenderableBlock rb = block.getWorkspace().getEnv().getRenderableBlock(socket
-						.getBlockID());
-				BlockAnimationThread t1 = new BlockAnimationThread(rb,
-						animationDirection);
+				RenderableBlock rb = block.getWorkspace().getEnv()
+						.getRenderableBlock(socket.getBlockID());
+				BlockAnimationThread t1 = new BlockAnimationThread(rb, animationDirection);
 				t1.start();
 			}
 		}

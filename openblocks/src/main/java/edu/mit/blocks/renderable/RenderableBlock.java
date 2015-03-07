@@ -1905,7 +1905,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			WorkspaceWidget widget) {
 		WorkspaceEnvironment env = ws.getEnv();
 
-		if (checkScope(link, env)) {
+		if (checkScope(link, env) && checkReturnBlock(link)) {
 			link.connect();
 
 			ws.notifyListeners(new WorkspaceEvent(ws, widget, link,
@@ -2491,6 +2491,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return x;
 	}
 
+	private boolean checkReturnBlock(BlockLink link){
+		return getWorkspace().getPolyRule().getProcedureOutputManager().canLinkReturnBlock(getWorkspace(), getParentWidget(), this.getBlockID(), link.getSocketBlockID());
+	}
+
+
 	private boolean checkScope(BlockLink link, WorkspaceEnvironment we) {
 		boolean scopeCheck = true;
 		// 結合するブロックのもつすべてのブロックのスコープをチェックしていく
@@ -2568,6 +2573,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		//スコープチェックで弾くブロックは必ずstubになるはず
 		if(rb.getBlock() instanceof BlockStub){
 			BlockAnimationThread th = new BlockStubAnimetionThread((BlockStub)(rb.getBlock()), direction);
+			th.start();
+		}else{
+			BlockAnimationThread th = new BlockStubAnimetionThread(rb.getBlock(), direction);
 			th.start();
 		}
 	}
