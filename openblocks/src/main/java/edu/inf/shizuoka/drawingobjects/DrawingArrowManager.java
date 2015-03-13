@@ -122,9 +122,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 		if(event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED){
 			//可視状態をトグル
 			Block sourceBlock = event.getWorkspace().getEnv().getBlock(event.getSourceBlockID());
-			if(isCaller(sourceBlock) && hasArrow(sourceBlock.getBlockID())){
-				toggleVisible(sourceBlock.getBlockID(), event.getWorkspace().getEnv().getRenderableBlock(sourceBlock.getBlockID()).isVisible());
-			}
+			toggleArrow(sourceBlock, event.getWorkspace());
 		}
 
 		if(event.getEventType() == WorkspaceEvent.BLOCK_REMOVED){
@@ -177,6 +175,20 @@ public class DrawingArrowManager implements WorkspaceListener {
 
 	public boolean hasArrow(long blockID){
 		return arrows.get(blockID) != null;
+	}
+
+	public void toggleArrow(Block block, Workspace ws){
+		while(block != null){
+			for(BlockConnector socket : block.getSockets()){
+				Block socketBlock = ws.getEnv().getBlock(socket.getBlockID());
+				toggleArrow(socketBlock, ws);
+			}
+
+			if(isCaller(block) && hasArrow(block.getBlockID())){
+				toggleVisible(block.getBlockID(), ws.getEnv().getRenderableBlock(block.getBlockID()).isVisible());
+			}
+			block = ws.getEnv().getBlock(block.getAfterBlockID());
+		}
 	}
 
 	public Page getActivePage(Workspace ws){

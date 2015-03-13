@@ -6,6 +6,7 @@ import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.workspace.Workspace;
+import edu.mit.blocks.workspace.WorkspaceEvent;
 
 /**
  * CollapseLabel is a label that can be added to a renderable block that
@@ -72,7 +73,7 @@ public class CollapseLabel extends BlockControlLabel {
 
         if (block.getAfterBlockID() != Block.NULL) {
             do {
-                block = workspace.getEnv().getBlock(block.getAfterBlockID());                
+                block = workspace.getEnv().getBlock(block.getAfterBlockID());
                 collapseBlock(block.getBlockID());
             } while (block.getAfterBlockID() != Block.NULL);
         }
@@ -90,9 +91,12 @@ public class CollapseLabel extends BlockControlLabel {
         if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
             rBlock.getComment().setVisible(!isActive());
         }
-		
+
         rBlock.getHighlightHandler().updateImage();
         rBlock.repaintBlock();
+
+		workspace.notifyListeners(new WorkspaceEvent(workspace, workspace.getEnv().getRenderableBlock(getBlockID()).getParentWidget(), getBlockID(), WorkspaceEvent.BLOCK_COLLAPSED));
+
         collapseSockets(blockID);
     }
 
@@ -121,5 +125,5 @@ public class CollapseLabel extends BlockControlLabel {
         collapseBlockAndStack();
         update();
     }
-    
+
 }

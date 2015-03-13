@@ -2,12 +2,13 @@ package edu.mit.blocks.renderable;
 
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.workspace.Workspace;
+import edu.mit.blocks.workspace.WorkspaceEvent;
 
 /**
- * ProcedureCollapseLabel is a label that can be added to a renderable block that 
- * will cause all blocks after this block to be hidden from view when 
+ * ProcedureCollapseLabel is a label that can be added to a renderable block that
+ * will cause all blocks after this block to be hidden from view when
  * the isCollapsed parameter is true.
- * 
+ *
  *
  */
 class ProcedureCollapseLabel extends CollapseLabel {
@@ -19,7 +20,7 @@ class ProcedureCollapseLabel extends CollapseLabel {
 	}
 
 	/**
-	 * setup current visual state of button 
+	 * setup current visual state of button
 	 */
 	public void update() {
 		RenderableBlock rb = workspace.getEnv().getRenderableBlock(getBlockID());
@@ -60,5 +61,6 @@ class ProcedureCollapseLabel extends CollapseLabel {
 					rb.getHighlightHandler().getParent().getParent().repaint(); //force redraw to erase highlight
 			}
 		}
+		workspace.notifyListeners(new WorkspaceEvent(workspace, workspace.getEnv().getRenderableBlock(getBlockID()).getParentWidget(), getBlockID(), WorkspaceEvent.BLOCK_COLLAPSED));
 	}
 }

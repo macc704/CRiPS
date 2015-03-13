@@ -10,13 +10,13 @@ import edu.mit.blocks.workspace.WorkspaceEvent;
 
 /**
  * created by sakai lab 2014/12/13
- * 
+ *
  * @author yasui
- * 
+ *
  *         AbstractCollapseLabel is a label that can be added to a renderable
  *         block that will cause all blocks after this block to be hidden from
  *         view when the isCollapsed parameter is true.
- * 
+ *
  *         2012.10.06 update()関数にFigure変更の処理があると，冗長でパフォーマンスに影響するので
  *         （オリジナルではそう処理しているけど）．updateCollapse()の時だけ書き換えるようにする．
  */
@@ -46,7 +46,6 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 		refreshFigure();
 		if (!init) {
 			reformRelatedBlocks();
-			workspace.notifyListeners(new WorkspaceEvent(workspace, workspace.getEnv().getRenderableBlock(getBlockID()).getParentWidget(), WorkspaceEvent.BLOCK_COLLAPSED));
 		}
 	}
 
