@@ -149,14 +149,16 @@ public class ProcedureOutputManager {
 
 	private boolean canLink(Block b, String type, OutputInfo info, WorkspaceWidget w){
 		boolean canLink = true;
-        if(isOutput(b)){
-        	if(b.getSocketAt(0).getKind() == "poly" || b.getSocketAt(0).getKind().equals(type) || type == null){
+        //引数で渡されたブロックが結合可能かチェック
+		if(isOutput(b)){
+        	if(b.getSocketAt(0).getKind().equals("poly") || b.getSocketAt(0).getKind().equals(type) || type == null){
         		return true;
         	}else{
         		return false;
         	}
         }
-        System.out.println();
+
+        //ソケットのブロックが結合可能かチェック
         Iterator i = b.getSockets().iterator();
         do{
             if(!i.hasNext())
@@ -167,6 +169,8 @@ public class ProcedureOutputManager {
             	canLink  &= canLink(b2, type, info, w);
             }
         } while(true);
+
+        //次のブロックが結合可能かチェック
         Block b2 = getBlock(b.getWorkspace(), b.getAfterBlockID());
         if(b2 != null)
             canLink &= canLink(b2, type, info, w);

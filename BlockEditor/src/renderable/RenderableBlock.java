@@ -1328,6 +1328,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		moveConnectedBlocks();
 
 		updateSocketSpace(connectedSocket, connectedBlockID, true);
+
 	}
 
 	/**

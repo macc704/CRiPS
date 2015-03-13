@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -46,7 +45,6 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import slcodeblocks.ProcedureOutputRule;
 import clib.view.app.javainfo.CJavaInfoPanels;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.codeblocks.Block;
@@ -54,18 +52,18 @@ import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.codeblocks.BlockGenus;
 import edu.mit.blocks.codeblocks.BlockLinkChecker;
-import edu.mit.blocks.codeblocks.BlockStub;
 import edu.mit.blocks.codeblocks.CommandRule;
 import edu.mit.blocks.codeblocks.Constants;
 import edu.mit.blocks.codeblocks.InfixRule;
 import edu.mit.blocks.codeblocks.ParamRule;
 import edu.mit.blocks.codeblocks.PolyRule;
 import edu.mit.blocks.codeblocks.SocketRule;
-import edu.mit.blocks.renderable.RenderableBlock;
 import edu.mit.blocks.workspace.SearchBar;
 import edu.mit.blocks.workspace.SearchableContainer;
 import edu.mit.blocks.workspace.TrashCan;
 import edu.mit.blocks.workspace.Workspace;
+import edu.mit.blocks.workspace.WorkspaceEvent;
+import edu.mit.blocks.workspace.WorkspaceListener;
 
 /**
  * Example entry point to OpenBlock application creation.
@@ -107,6 +105,8 @@ public class WorkspaceController {
 	private boolean openedFromCH = false;
 	private String user = "";
 	boolean opened = false;
+
+	private boolean dirty = false;
 
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
@@ -337,6 +337,7 @@ public class WorkspaceController {
 		}
 		workspace.loadWorkspaceFrom(null, langDefRoot);
 		workspaceLoaded = true;
+		setDirty(false);
 	}
 
 	/**
@@ -369,6 +370,7 @@ public class WorkspaceController {
 			// langDefRoot
 			workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
 			workspaceLoaded = true;
+
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		} catch (SAXException e) {
@@ -535,6 +537,7 @@ public class WorkspaceController {
 			}
 			try {
 				saveToFile(selectedFile);
+				setDirty(false);
 			} catch (IOException e) {
 				JOptionPane.showMessageDialog((Component) evt.getSource(),
 						e.getMessage());
@@ -559,6 +562,7 @@ public class WorkspaceController {
 			selectedFile = null;
 			// delegate to save action
 			saveAction.actionPerformed(e);
+			setDirty(false);
 		}
 	}
 
@@ -623,11 +627,41 @@ public class WorkspaceController {
 		SaveAction saveAction = new SaveAction();
 		buttonPanel.add(new JButton(saveAction));
 		// Save as
-		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
-		buttonPanel.add(new JButton(saveAsAction));
+//		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
+//		buttonPanel.add(new JButton(saveAsAction));
 
 //		ConvertAction convertAction = new  ConvertAction();
 //		buttonPanel.add(new JButton(convertAction));
+
+		{// create compile button
+			JButton runButton = new JButton("Compile");
+			runButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (dirty) {
+						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
+								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+//					ronproEditor.blockCompile();
+				}
+			});
+			buttonPanel.add(runButton);
+		}
+
+		{// create run button
+			JButton runButton = new JButton("Run");
+			runButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (dirty) {
+						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません",
+								"実行できません", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+//					ronproEditor.blockRun();
+				}
+			});
+			buttonPanel.add(runButton);
+		}
 
 		{// create showing method trace line bottun
 			final JToggleButton showTraceLineButton = new JToggleButton(
@@ -737,6 +771,12 @@ public class WorkspaceController {
 		if(!openedFromCH) {
 			frame.add(getButtonPanel(), BorderLayout.PAGE_START);
 		}
+
+		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
+			public void workspaceEventOccurred(WorkspaceEvent event) {
+				setDirty(true);
+			}
+		});
 
 		frame.setVisible(true);
 	}
@@ -873,6 +913,23 @@ public class WorkspaceController {
 				}
 			}
 		});
+	}
+
+	public void setDirty(boolean dirty) {
+		if (this.dirty == dirty) {
+			return;
+		}
+
+		this.dirty = dirty;
+
+		if (frame != null) {
+			String title = frame.getTitle();
+			if (!title.endsWith("*") && dirty) {
+				frame.setTitle(title + "*");
+			} else if (title.endsWith("*") && !dirty) {
+				frame.setTitle(title.substring(0, title.length() - 1));
+			}
+		}
 	}
 
 }
