@@ -20,6 +20,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -38,6 +41,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.inf.shizuoka.blocks.extent.SAbstractionBlockShape;
+import edu.inf.shizuoka.blocks.extent.SMarkupBalloon;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
@@ -179,6 +183,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private FooterLabel footerLabel;
 
 	private BlockHilighter hilighter = new BlockHilighter();
+
+	private SMarkupBalloon balloon = new SMarkupBalloon(this);
 
 
 
@@ -721,18 +727,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		for (ConnectorTag tag : socketTags) {
 			SocketLabel label = tag.getLabel();
 			if (label != null) {
-				maxSocketWidth = Math.max(maxSocketWidth,
-						label.getAbstractWidth());
+				maxSocketWidth = Math.max(maxSocketWidth,label.getAbstractWidth());
 			}
-		}
-
-		// arranged by sakai lab 2011/11/20
-		if (getBlock().hasHeaderLabel()) {
-			width += headerLabel.getAbstractWidth();
-		}
-		// arranged by sakai lab 2011/11/22
-		if (getBlock().hasFooterLabel()) {
-			width += footerLabel.getAbstractWidth();
 		}
 
 		if (getBlock().hasPageLabel()) {
@@ -745,6 +741,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			width += getControlLabelsWidth() + 4;
 		}
 
+		// arranged by sakai lab 2011/11/20
+		if (getBlock().hasHeaderLabel()) {
+			width += headerLabel.getAbstractWidth();
+		}
+		// arranged by sakai lab 2011/11/22
+		if (getBlock().hasFooterLabel()) {
+			width += footerLabel.getAbstractWidth();
+		}
 		return width;
 	}
 
@@ -1894,11 +1898,15 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				|| e.isControlDown()) {
 			// add context menu at right click location to provide functionality
 			// for adding new comments and removing comments
-			JPopupMenu popup = ContextMenu.getContextMenuFor(this);
-			add(popup);
-			popup.show(this, e.getX(), e.getY());
+			addPopupMenu(e.getX(), e.getY());
 		}
 //		workspace.getMiniMap().repaint();
+	}
+
+	public void addPopupMenu(int x, int y){
+		JPopupMenu popup = ContextMenu.getContextMenuFor(this);
+		add(popup);
+		popup.show(this, x, y);
 	}
 
 	public void connectBlocks(BlockLink link, Workspace ws,
@@ -1944,6 +1952,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 				// if this is the first call to mouseDragged
 				if (!dragging) {
+					balloon.myHide(getX() + e.getX(), getY() + e.getY());
 					Block block = getBlock();
 					BlockConnector plug = BlockLinkChecker
 							.getPlugEquivalent(block);
@@ -1981,6 +1990,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	// show the pulldown icon if hasComboPopup = true
 
 	public void mouseEntered(MouseEvent e) {
+		if(!dragging){
+			balloon.show(getX() + getBlockWidth()/2, getY() - 35 + 15);
+		}
 		dragHandler.mouseEntered(e);
 		// !dragging: don't redraw while dragging
 		// !SwingUtilities.isLeftMouseButton: dragging mouse moves into another
@@ -1994,6 +2006,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseExited(MouseEvent e) {
+		if(!dragging){
+			balloon.myHide(this.getX() + e.getX(), this.getY() + e.getY());
+		}
 		dragHandler.mouseExited(e);
 		// !dragging: don't redraw while dragging
 		// !SwingUtilities.isLeftMouseButton: dragging mouse moves into another

@@ -27,10 +27,10 @@ import codeblockutil.LabelWidget;
  * edited. The location and font of a BlockLabel is specified in BlockShape and
  * the text displayed is specified by a Block, BlockLabel is the gateway for
  * text to be rendered and modified.
- * 
+ *
  * The key nature of a BlockLabel is that it is a JLabel when being viewed, and
  * a JTextField when it is being edited.
- * 
+ *
  * During mouse move, entered and exited events a white border is toggled around
  * the label for particular blocks. This white border helps to suggest editable
  * labels for blocks that have this enabled.
@@ -106,7 +106,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 				return textValid(text);
 			}
 		};
-		
+
 		widget.setNumeric(Block.getBlock(this.blockID).getGenusName()
 				.equals("number"));
 		// arranged by sakai lab 2011/10
@@ -291,7 +291,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 	}
 
 	protected void textChanged(String text) {
-		
+
 		if ((this.labelType.equals(BlockLabel.Type.NAME_LABEL) || this.labelType
 				.equals(BlockLabel.Type.PORT_LABEL))
 				&& Block.getBlock(blockID).isLabelEditable()) {

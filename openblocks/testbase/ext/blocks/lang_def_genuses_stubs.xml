@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- Stub Genuses Do not remove unless you would like to remove the stub 
+<!-- Stub Genuses Do not remove unless you would like to remove the stub
 	feature all together -->
 <!-- 動的ブロックについて、生成したいファクトリーをここで指定する。BlockGenusタグで「factorys="○○"」と指定する。複数のファクトリーに生成したい場合は、「,」で区切る。 -->
 
@@ -73,7 +73,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="poly" position-type="single"/>
 		<BlockConnector connector-kind="socket" connector-type="object" position-type="single" label="の"/>
-		<BlockConnector connector-kind="socket" connector-type="poly" position-type="single" label=""/>
+		<BlockConnector connector-kind="socket" connector-type="poly" position-type="single" label=" "/>
 	</BlockConnectors>
 </BlockGenus>
 

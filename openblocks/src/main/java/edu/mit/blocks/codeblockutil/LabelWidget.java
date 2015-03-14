@@ -61,7 +61,7 @@ public abstract class LabelWidget extends JComponent {
 	 * certain spots
 	 */
 	private boolean isNumber = false;
-	
+
 	/**
 	 * created by sakai lab 2011/10 変数のときは、ラベルにアルファベットもしくはアンダーバーしか使えないようにする。
 	 */
@@ -75,7 +75,7 @@ public abstract class LabelWidget extends JComponent {
 	 * インスタンス生成ブロックのときは、ラベルにアルファベットもしくはアンダーバーしか使えないようにする。
 	 */
 	private boolean isNewObject = false;
-	
+
 	/** Is labelText editable by the user -- default true */
 	private boolean isEditable = false;
 	/** If focus is true, then show the combo pop up menu */
@@ -179,7 +179,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * editingText returns if BlockLable is being edited
-	 * 
+	 *
 	 * @return editingText
 	 */
 	public boolean editingText() {
@@ -188,7 +188,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * setEditable state of BlockLabel
-	 * 
+	 *
 	 * @param isEditable
 	 *            specifying editable state of BlockLabel
 	 */
@@ -198,7 +198,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * isEditable returns if BlockLable is editable
-	 * 
+	 *
 	 * @return isEditable
 	 */
 	public boolean isEditable() {
@@ -215,7 +215,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @param isVariable
 	 */
 	public void setVariable(boolean isVariable) {
@@ -227,7 +227,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @param isProcedure
 	 */
 	public void setProcedure(boolean isProcedure) {
@@ -239,7 +239,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/11/20
-	 * 
+	 *
 	 * @param isNewObject
 	 */
 	public void setNewObject(boolean isNewObject) {
@@ -248,20 +248,20 @@ public abstract class LabelWidget extends JComponent {
 			textField.setNewObject(isNewObject);
 		}
 	}
-	
+
 	/**
 	 * isEditable returns if BlockLable is editable
-	 * 
+	 *
 	 * @return isEditable
 	 */
 	public boolean isNumeric() {
 		return isNumber;
 	}
-	
+
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isVariable() {
@@ -270,7 +270,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isProcedure() {
@@ -279,13 +279,13 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isNewObject() {
 		return isNewObject;
 	}
-	
+
 
 	public void setSiblings(boolean hasSiblings, String[][] siblings) {
 		this.hasSiblings = hasSiblings;
@@ -298,7 +298,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * set up fonts
-	 * 
+	 *
 	 * @param font
 	 */
 	public void setFont(Font font) {
@@ -317,7 +317,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * getText
-	 * 
+	 *
 	 * @return String of the current BlockLabel
 	 */
 	public String getText() {
@@ -326,7 +326,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * setText to a NumberFormatted double
-	 * 
+	 *
 	 * @param value
 	 */
 	public void setText(double value) {
@@ -342,7 +342,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * setText to a String (trimmed to remove excess spaces)
-	 * 
+	 *
 	 * @param string
 	 */
 	public void setText(String string) {
@@ -354,7 +354,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * setText to a boolean
-	 * 
+	 *
 	 * @param bool
 	 */
 	public void setText(boolean bool) {
@@ -364,7 +364,7 @@ public abstract class LabelWidget extends JComponent {
 	/**
 	 * updateLabelText updates labelText and sychronizes textField and textLabel
 	 * to it
-	 * 
+	 *
 	 * @param text
 	 */
 	public void updateLabelText(String text) {
@@ -426,7 +426,7 @@ public abstract class LabelWidget extends JComponent {
 	 * is shown. For now, the visual suggestion is a simple white line boder.
 	 * Other requirements for indicator to show: - label type must be NAME -
 	 * label must be editable - block can not be a factory block
-	 * 
+	 *
 	 * @param suggest
 	 */
 	protected void suggestEditable(boolean suggest) {
@@ -499,6 +499,14 @@ public abstract class LabelWidget extends JComponent {
 		/** These Key inputs are processed by this text field */
 		private final char[] validNumbers = { '1', '2', '3', '4', '5', '6',
 				'7', '8', '9', '0', '.' };
+		/** These Key inputs are processed by variable block text field */
+		private final char[] validVariables = { '1', '2', '3', '4', '5', '6',
+				'7', '8', '9', '0', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i',
+				'o', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z',
+				'x', 'c', 'v', 'b', 'n', 'm', 'Q', 'W', 'E', 'R', 'T', 'Y',
+				'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K',
+				'L', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '$', '_' };
+
 		/**
 		 * These Key inputs are processed by this text field if NOT a number
 		 * block
@@ -545,7 +553,7 @@ public abstract class LabelWidget extends JComponent {
 
 		/**
 		 * created by sakai lab 2011/10
-		 * 
+		 *
 		 * @param isNumber
 		 */
 		public void setNumeric(boolean isNumber) {
@@ -554,7 +562,7 @@ public abstract class LabelWidget extends JComponent {
 
 		/**
 		 * created by sakai lab 2011/10
-		 * 
+		 *
 		 * @param isVariable
 		 */
 		public void setVariable(boolean isVariable) {
@@ -563,7 +571,7 @@ public abstract class LabelWidget extends JComponent {
 
 		/**
 		 * created by sakai lab 2011/10
-		 * 
+		 *
 		 * @param isProcedure
 		 */
 		public void setProcedure(boolean isProcedure) {
@@ -572,7 +580,7 @@ public abstract class LabelWidget extends JComponent {
 
 		/**
 		 * created by sakai lab 2011/11/20
-		 * 
+		 *
 		 * @param isNewObject
 		 */
 		public void setNewObject(boolean isNewObject) {
@@ -580,7 +588,7 @@ public abstract class LabelWidget extends JComponent {
 		}
 
 
-		
+
 		/**
 		 * Contructs new block label text field
 		 */
@@ -645,6 +653,7 @@ public abstract class LabelWidget extends JComponent {
 		 */
 		protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
 				int condition, boolean pressed) {
+
 			if (isNumber) {
 				if (e.getKeyChar() == '-' && canProcessNegativeSign()) {
 					return super.processKeyBinding(ks, e, condition, pressed);
@@ -658,9 +667,19 @@ public abstract class LabelWidget extends JComponent {
 								pressed);
 					}
 				}
+			} else if (isVariable || isProcedure || isNewObject) {
+				for (char c : validVariables) {
+					if (e.getKeyChar() == c) {
+						return super.processKeyBinding(ks, e, condition,
+								pressed);
+					}
+				}
 			} else {
-				if (resolveLabel(String.valueOf(e.getKeyChar()))) {
-					return super.processKeyBinding(ks, e, condition, pressed);
+				for (char c : validChar) {
+					if (e.getKeyChar() == c) {
+						return super.processKeyBinding(ks, e, condition,
+								pressed);
+					}
 				}
 			}
 			for (int i : validMasks) {
@@ -672,12 +691,37 @@ public abstract class LabelWidget extends JComponent {
 					.getMenuShortcutKeyMask()) != 0) {
 				return super.processKeyBinding(ks, e, condition, pressed);
 			}
+
+			//日本語？
+			if (!isNumber) {
+				char c = e.getKeyChar();
+				//ひらがな
+				if ('\u3040' <= c && c <= '\u309F') {
+					return super.processKeyBinding(ks, e, condition, pressed);
+				}
+				//カタカナ
+				if ('\u30A0' <= c && c <= '\u30FF') {
+					return super.processKeyBinding(ks, e, condition, pressed);
+				}
+				//漢字
+				if ('\u4E00' <= c && c <= '\u9FFF') {
+					return super.processKeyBinding(ks, e, condition, pressed);
+				}
+				//？？ 「」などの記号
+				if ('\u3000' <= c && c <= '\u301F') {//if ('\u3000' <= c && c <= '\u9FFF') {
+					return super.processKeyBinding(ks, e, condition, pressed);
+				}
+				// 2012.10.16 #matsuzawa ！？などの記号が入るようにする
+				if ('\uFF01' <= c && c <= '\uFF60') {
+					return super.processKeyBinding(ks, e, condition, pressed);
+				}
+			}
 			return false;
 		}
 
 		/**
 		 * created by sakai lab 2011/10
-		 * 
+		 *
 		 * @param editLabel
 		 * @return
 		 */

@@ -39,9 +39,9 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
     public enum Type {
         NAME_LABEL, PAGE_LABEL, PORT_LABEL, DATA_LABEL,HEADER_LABEL, FOOTER_LABEL
     }
-    
+
     private static final String fontName = "MS Gothic";// "Arial"
-    
+
     public final static Font blockFontSmall_Bold = new Font(fontName, Font.BOLD, 7);
 
     public final static Font blockFontMedium_Bold = new Font(fontName, Font.BOLD, 10);
@@ -51,7 +51,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
     public final static Font blockFontSmall_Plain = new Font(fontName, Font.PLAIN, 7);
 
     public final static Font blockFontMedium_Plain = new Font(fontName, Font.PLAIN, 10);
-    
+
     public final static Font blockFontLarge_Plain = new Font(fontName, Font.PLAIN, 12);
 
     private LabelWidget widget;
@@ -66,9 +66,9 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
     private double zoom = 1.0;
 
     protected final Workspace workspace;
-    
 
-    
+
+
     /**
      * BlockLabel Constructor
      * NOTE: A true boolean passed into the isEditable parameter does not necessarily make the label
@@ -89,7 +89,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
         }
         this.blockID = blockID;
         this.labelType = labelType;
-        
+
         widget = new LabelWidget(initLabelText, workspace.getEnv().getBlock(blockID).getColor().darker(), tooltipBackground) {
 
             private static final long serialVersionUID = 328149080424L;
@@ -110,6 +110,16 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
                 return textValid(text);
             }
         };
+
+        widget.setNumeric(workspace.getEnv().getBlock(this.blockID).getGenusName().equals("number"));
+ 		// arranged by sakai lab 2011/10
+ 		widget.setVariable(workspace.getEnv().getBlock(this.blockID).getGenusName()
+ 				.indexOf("-var-") != -1);
+ 		widget.setProcedure(workspace.getEnv().getBlock(this.blockID).getGenusName()
+ 				.equals("procedure"));
+ 		widget.setNewObject(workspace.getEnv().getBlock(this.blockID).getGenusName()
+ 				.equals("new-object"));
+
 
         // Only editable if the isEditable parameter was true, the label is either a Block's name or
         // socket label, the block can edit labels, and the block is not in the factory.
@@ -132,30 +142,48 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
 			widget.setFont(BlockLabel.blockFontLarge_Bold);
 		}
         if (workspace.getEnv().getBlock(blockID).hasSiblings()) {
-            //Map<String, String> siblings = new HashMap<String, String>();
-            List<String> siblingsNames = workspace.getEnv().getBlock(blockID).getSiblingsList();
-            String[][] siblings = new String[siblingsNames.size() + 1][2];
-            siblings[0] = new String[]{workspace.getEnv().getBlock(blockID).getGenusName(), workspace.getEnv().getBlock(blockID).getInitialLabel()};
-            for (int i = 0; i < siblingsNames.size(); i++) {
-                siblings[i + 1] = new String[]{siblingsNames.get(i), workspace.getEnv().getGenusWithName(siblingsNames.get(i)).getInitialLabel()};
-            }
-            widget.setSiblings(hasComboPopup && workspace.getEnv().getBlock(blockID).hasSiblings(), siblings);
+			// Map<String, String> siblings = new HashMap<String, String>();
+			if (labelType.equals(BlockLabel.Type.HEADER_LABEL)) {
+				List<String> siblingsNames = workspace.getEnv().getBlock(blockID)
+						.getSiblingsList();
+				String[][] siblings = new String[siblingsNames.size() + 1][2];
+				siblings[0] = new String[] {
+						workspace.getEnv().getBlock(blockID).getGenusName(),
+						workspace.getEnv().getBlock(blockID).getHeaderLabel() };
+				for (int i = 0; i < siblingsNames.size(); i++) {
+					siblings[i + 1] = new String[] {
+							siblingsNames.get(i),
+							workspace.getEnv().getGenusWithName(siblingsNames.get(i))
+									.getInitHeaderLabel() };
+				}
+				widget.setSiblings(hasComboPopup
+						&& workspace.getEnv().getBlock(blockID).hasSiblings(), siblings);
+			} else {
+				// Map<String, String> siblings = new HashMap<String, String>();
+				List<String> siblingsNames = workspace.getEnv().getBlock(blockID)
+						.getSiblingsList();
+				String[][] siblings = new String[siblingsNames.size() + 1][2];
+				siblings[0] = new String[] {
+						workspace.getEnv().getBlock(blockID).getGenusName(),
+						workspace.getEnv().getBlock(blockID).getInitialLabel() };
+				for (int i = 0; i < siblingsNames.size(); i++) {
+					siblings[i + 1] = new String[] {
+							siblingsNames.get(i),
+							workspace.getEnv().getGenusWithName(siblingsNames.get(i))
+									.getInitialLabel() };
+				}
+				widget.setSiblings(hasComboPopup
+						&& workspace.getEnv().getBlock(blockID).hasSiblings(), siblings);
+			}
         }
 
         widget.addMouseListenerToLabel(this);
         widget.addMouseMotionListenerToLabel(this);
         widget.addKeyListenerToTextField(this);
-        
-        widget.setNumeric(workspace.getEnv().getBlock(this.blockID).getGenusName().equals("number"));
-		// arranged by sakai lab 2011/10
-		widget.setVariable(workspace.getEnv().getBlock(this.blockID).getGenusName()
-				.indexOf("-var-") != -1);
-		widget.setProcedure(workspace.getEnv().getBlock(this.blockID).getGenusName()
-				.equals("procedure"));
-		widget.setNewObject(workspace.getEnv().getBlock(this.blockID).getGenusName()
-				.equals("new-object"));
-        
-        
+
+
+
+
         //set initial text
         widget.updateLabelText(initLabelText);
         //add and show the textLabel initially

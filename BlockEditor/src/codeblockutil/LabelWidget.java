@@ -100,7 +100,7 @@ public abstract class LabelWidget extends JComponent {
 	/**
 	 * BlockLabel Constructor that takes in BlockID as well. Unfortunately
 	 * BlockID is needed, so the label can redirect mouse actions.
-	 * 
+	 *
 	 * @param zoom
 	 */
 	public LabelWidget(String initLabelText, Color fieldColor,
@@ -210,7 +210,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @param editLabel
 	 * @return
 	 */
@@ -270,7 +270,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * editingText returns if BlockLable is being edited
-	 * 
+	 *
 	 * @return editingText
 	 */
 	public boolean editingText() {
@@ -279,7 +279,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * setEditable state of BlockLabel
-	 * 
+	 *
 	 * @param isEditable
 	 *            specifying editable state of BlockLabel
 	 */
@@ -289,7 +289,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * isEditable returns if BlockLable is editable
-	 * 
+	 *
 	 * @return isEditable
 	 */
 	public boolean isEditable() {
@@ -305,7 +305,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @param isVariable
 	 */
 	public void setVariable(boolean isVariable) {
@@ -317,7 +317,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @param isProcedure
 	 */
 	public void setProcedure(boolean isProcedure) {
@@ -329,7 +329,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/11/20
-	 * 
+	 *
 	 * @param isNewObject
 	 */
 	public void setNewObject(boolean isNewObject) {
@@ -341,7 +341,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * isEditable returns if BlockLable is editable
-	 * 
+	 *
 	 * @return isEditable
 	 */
 	public boolean isNumeric() {
@@ -350,7 +350,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isVariable() {
@@ -359,7 +359,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isProcedure() {
@@ -368,7 +368,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isNewObject() {
@@ -386,7 +386,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * set up fonts
-	 * 
+	 *
 	 * @param font
 	 */
 	public void setFont(Font font) {
@@ -405,7 +405,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * getText
-	 * 
+	 *
 	 * @return String of the current BlockLabel
 	 */
 	public String getText() {
@@ -415,7 +415,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * setText to a NumberFormatted double
-	 * 
+	 *
 	 * @param value
 	 */
 	public void setText(double value) {
@@ -431,7 +431,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * setText to a String (trimmed to remove excess spaces)
-	 * 
+	 *
 	 * @param string
 	 */
 	public void setText(String string) {
@@ -443,7 +443,7 @@ public abstract class LabelWidget extends JComponent {
 
 	/**
 	 * setText to a boolean
-	 * 
+	 *
 	 * @param bool
 	 */
 	public void setText(boolean bool) {
@@ -453,7 +453,7 @@ public abstract class LabelWidget extends JComponent {
 	/**
 	 * updateLabelText updates labelText and sychronizes textField and textLabel
 	 * to it
-	 * 
+	 *
 	 * @param text
 	 */
 	public void updateLabelText(String text) {
@@ -525,7 +525,7 @@ public abstract class LabelWidget extends JComponent {
 	 * is shown. For now, the visual suggestion is a simple white line boder.
 	 * Other requirements for indicator to show: - label type must be NAME -
 	 * label must be editable - block can not be a factory block
-	 * 
+	 *
 	 * @param suggest
 	 */
 	protected void suggestEditable(boolean suggest) {
@@ -652,7 +652,7 @@ public abstract class LabelWidget extends JComponent {
 
 		/**
 		 * created by sakai lab 2011/10
-		 * 
+		 *
 		 * @param isNumber
 		 */
 		public void setNumeric(boolean isNumber) {
@@ -661,7 +661,7 @@ public abstract class LabelWidget extends JComponent {
 
 		/**
 		 * created by sakai lab 2011/10
-		 * 
+		 *
 		 * @param isVariable
 		 */
 		public void setVariable(boolean isVariable) {
@@ -670,7 +670,7 @@ public abstract class LabelWidget extends JComponent {
 
 		/**
 		 * created by sakai lab 2011/10
-		 * 
+		 *
 		 * @param isProcedure
 		 */
 		public void setProcedure(boolean isProcedure) {
@@ -679,7 +679,7 @@ public abstract class LabelWidget extends JComponent {
 
 		/**
 		 * created by sakai lab 2011/11/20
-		 * 
+		 *
 		 * @param isNewObject
 		 */
 		public void setNewObject(boolean isNewObject) {
@@ -750,7 +750,7 @@ public abstract class LabelWidget extends JComponent {
 		 */
 		protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
 				int condition, boolean pressed) {
-			
+
 			if (isNumber) {
 				if (e.getKeyChar() == '-' && canProcessNegativeSign()) {
 					return super.processKeyBinding(ks, e, condition, pressed);

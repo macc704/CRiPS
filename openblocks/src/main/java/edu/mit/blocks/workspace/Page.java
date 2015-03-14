@@ -182,7 +182,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
         }
         this.pageJComponent.setFullView(inFullview);
     }
-    
+
 	public void removeArrow(Component p){
 		this.pageJComponent.remove(p);
 	}
@@ -526,7 +526,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
                 this.setPixelWidth(p.x + block.getComment().getWidth() + 1);
             }
         }
-        
+
         // Recompute page height.
         reformMinimumPixelHeight();
 
@@ -562,7 +562,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
             this.minimumPixelWidth = (int) (Page.DEFAULT_MINUMUM_WIDTH * zoom);
         }
     }
-    
+
     public void reformMinimumPixelHeight() {
         minimumPixelHeight = 0;
         for (RenderableBlock b : this.getBlocks()) {
@@ -577,7 +577,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
             this.minimumPixelHeight = (int) (Page.DEFAULT_MINIMUM_HEIGHT * zoom);
         }
     }
-    
+
     public int getMinimumPixelHeight() {
         return this.minimumPixelHeight;
     }
@@ -689,7 +689,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
         this.reformBlockPosition(block);
 
         this.pageJComponent.setComponentZOrder(block, 0);
-        
+
         block.setParentWidget(this);
     }
 
@@ -1150,19 +1150,19 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
 class PageJComponent extends JLayeredPane implements RBParent {
 
     private static final long serialVersionUID = 83982193213L;
-	private static final Integer ARROW_LAYER = new Integer(2);    
+	private static final Integer ARROW_LAYER = new Integer(2);
     private static final Integer BLOCK_LAYER = new Integer(1);
     private static final Integer HIGHLIGHT_LAYER = new Integer(0);
     private static final int IMAGE_WIDTH = 60;
     private Image image = null;
     private boolean fullview = true;
-    
-	
+
+
 	public void addToArrowLayer(Component c){
 		this.add(c, ARROW_LAYER);
 	}
 
-    
+
     public void setFullView(boolean isFullView) {
         this.fullview = isFullView;
     }
@@ -1205,7 +1205,7 @@ class PageJComponent extends JLayeredPane implements RBParent {
             g.drawImage(this.getImage(), imageX, getHeight() * 3 / 4 + 5, imageWidth, imageWidth, null);
             g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
         }
-        
+
     }
 
     //////////////////////////////////
