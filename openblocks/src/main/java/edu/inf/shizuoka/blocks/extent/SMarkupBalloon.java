@@ -1,6 +1,5 @@
 package edu.inf.shizuoka.blocks.extent;
 
-import java.awt.Component;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
@@ -24,8 +23,8 @@ public class SMarkupBalloon extends JLabel implements MouseListener{
 
 	private RenderableBlock parent;
 	private ImageIcon icon = new ImageIcon("../src/main/resources/edu/mit/blocks/codeblocks/balloon.png");
-	private static int balloonWidth = 60;
-	private static int balloonHeight = 45;
+	private static int balloonWidth = 40;
+	private static int balloonHeight = 30;
 
 	public SMarkupBalloon(RenderableBlock rb){
 		super();
@@ -42,6 +41,7 @@ public class SMarkupBalloon extends JLabel implements MouseListener{
 	public void mouseClicked(MouseEvent e) {
 		//コンテキストメニュー表示
 		parent.addPopupMenu(e.getX(), e.getY());
+		myHide();
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -59,7 +59,7 @@ public class SMarkupBalloon extends JLabel implements MouseListener{
 
 	public void show(int x, int y){
 		if(!isVisible()){
-			setBounds(x, y, balloonWidth, balloonHeight);
+			setBounds(x, y-balloonHeight, balloonWidth, balloonHeight);
 			setVisible(true);
 			if(parent.getParentWidget() instanceof Page){
 				Page page = (Page)parent.getParentWidget();
@@ -76,6 +76,12 @@ public class SMarkupBalloon extends JLabel implements MouseListener{
 			parent.getParentWidget().getJComponent().remove(this);
 			repaint();
 		}
+	}
+
+	public void myHide(){
+		setVisible(false);
+		parent.getParentWidget().getJComponent().remove(this);
+		repaint();
 	}
 
 }

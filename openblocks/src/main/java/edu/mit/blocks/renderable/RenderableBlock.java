@@ -1991,7 +1991,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 	public void mouseEntered(MouseEvent e) {
 		if(!dragging){
-			balloon.show(getX() + getBlockWidth()/2, getY() - 35 + 15);
+			balloon.show(getX() + getBlockWidth()/2, getY());
 		}
 		dragHandler.mouseEntered(e);
 		// !dragging: don't redraw while dragging
