@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import edu.mit.blocks.workspace.Workspace;
-import edu.mit.blocks.workspace.WorkspaceEnvironment;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceWidget;
 
@@ -25,8 +24,9 @@ public class ProcedureOutputManager {
             type = null;
             numTyped = 0;
         }
-
     }
+
+
 
     public ProcedureOutputManager(Workspace wworkspace)
     {
@@ -136,7 +136,6 @@ public class ProcedureOutputManager {
 	public boolean canLinkReturnBlock(Workspace ws, WorkspaceWidget w, Long block, Long socket){
 		Long top = SLBlockProperties.getTopBlockID(ws, socket);
 
-
 		if(top == null || !ws.getEnv().getBlock(top).isProcedureDeclBlock()){
 			return true;
 		}
@@ -159,7 +158,7 @@ public class ProcedureOutputManager {
         }
 
         //ソケットのブロックが結合可能かチェック
-        Iterator i = b.getSockets().iterator();
+        Iterator<BlockConnector> i = b.getSockets().iterator();
         do{
             if(!i.hasNext())
                 break;

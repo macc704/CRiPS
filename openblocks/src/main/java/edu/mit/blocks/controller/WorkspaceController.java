@@ -26,6 +26,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -46,6 +47,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import clib.view.app.javainfo.CJavaInfoPanels;
+import clib.view.windowmanager.CWindowCentraizer;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
@@ -627,8 +629,8 @@ public class WorkspaceController {
 		SaveAction saveAction = new SaveAction();
 		buttonPanel.add(new JButton(saveAction));
 		// Save as
-//		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
-//		buttonPanel.add(new JButton(saveAsAction));
+		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
+		buttonPanel.add(new JButton(saveAsAction));
 
 //		ConvertAction convertAction = new  ConvertAction();
 //		buttonPanel.add(new JButton(convertAction));
@@ -732,6 +734,15 @@ public class WorkspaceController {
 
 		JMenu help = new JMenu("help");
 		help.add(CJavaInfoPanels.createJavaInformationAction());
+		JMenuItem setting = new JMenuItem("Setting");
+		setting.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				openPreferenceFrame();
+			}
+		});
+		help.add(setting);
 
 		menu.add(debugItem);
 		menu.add(exit);
@@ -740,6 +751,17 @@ public class WorkspaceController {
 		menuBar.add(help);
 
 		return menuBar;
+	}
+
+	public void openPreferenceFrame() {
+		JFrame frame = new JFrame();
+		frame.setTitle("Preference");
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.setResizable(true);
+		frame.setBounds(100, 100, 400, 300);
+		CWindowCentraizer.centerWindow(frame);
+
+		frame.setVisible(true);
 	}
 
 	/**

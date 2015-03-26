@@ -2098,4 +2098,12 @@ public class Block implements ISupportMemento {
 		}
 		return tmpBlock;
 	}
+
+	public String getReturnType(){
+		return this.returnType;
+	}
+
+	public String getType(){
+		return this.type;
+	}
 }

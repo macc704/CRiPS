@@ -19,15 +19,15 @@ import edu.mit.blocks.workspace.Workspace;
  * socket information - socket does not have a reference to that parent block).
  */
 public class BlockConnector implements ISupportMemento {
-    
+
     //TODO need some sort of indication if there is a block in this socket, i.e. -1 value or boolean flag
-    
+
     //Connector properties
     private String kind;
     private String initKind;
     private PositionType positionType;
     private String label;
-    private Long connBlockID = Block.NULL;   
+    private Long connBlockID = Block.NULL;
     private DefArgument arg = null;
     private boolean hasDefArg = false;
     private boolean isExpandable = false;
@@ -41,26 +41,26 @@ public class BlockConnector implements ISupportMemento {
     //Bottom is a double sided enclosure within the bottom side of a block, or the next command.
     //Top is the previous command.
     public enum PositionType { SINGLE, MIRROR, BOTTOM, TOP };
-    
+
     /**
      * Constructs a new <code>BlockConnector</code>
-     * @param workspace The workspace this connector is created in 
+     * @param workspace The workspace this connector is created in
      * @param kind the kind of this socket
      * @param positionType the PositionType of connector
      * @param label the String label of this socket
 	 * @param isLabelEditable is true iff this BlockConnector can have its labels edited.
      * @param isExpandable whether this socket can expand into another connector when a block is connected
      * @param expandGroup the expand socket group of this connector
-     * @param connBlockID the ID of the block connected to this 
+     * @param connBlockID the ID of the block connected to this
      */
     public BlockConnector(Workspace workspace, String kind, PositionType positionType, String label, boolean isLabelEditable, boolean isExpandable, String expandGroup, Long connBlockID) {
         this(workspace, kind, positionType, label, isLabelEditable, isExpandable, connBlockID);
         this.expandGroup = expandGroup == null ? "" : expandGroup;
     }
-    
+
     /**
      * Constructs a new <code>BlockConnector</code>
-     * @param workspace The workspace this connector is created in 
+     * @param workspace The workspace this connector is created in
      * @param label the String label of this socket
      * @param kind the kind of this socket
 	 * @param isLabelEditable is true iff this BlockConnector can have its labels edited.
@@ -77,10 +77,10 @@ public class BlockConnector implements ISupportMemento {
         this.isExpandable = isExpandable;
         this.initKind = kind;
     }
-    
+
     /**
      * Constructs a new <code>BlockConnector</code> with a single position
-     * @param workspace The workspace this connector is created in 
+     * @param workspace The workspace this connector is created in
      * @param label the String label of this socket
      * @param kind the kind of this socket
      * @param socketBlockID the block id attached to this socket
@@ -88,11 +88,11 @@ public class BlockConnector implements ISupportMemento {
     public BlockConnector(Workspace workspace, String kind, String label, Long socketBlockID) {
         this(workspace, kind, PositionType.SINGLE, label, false, false, socketBlockID);
     }
-    
+
     /**
      * Constructs a new <code>BlockConnector</code> with the specified label and kind.
      * This new socket does not have an attached block.
-     * @param workspace The workspace this connector is created in 
+     * @param workspace The workspace this connector is created in
      * @param label the String label of this socket
 	 * @param isLabelEditable is true iff this BlockConnector can have its labels edited.
      * @param kind the kind of this socket
@@ -100,7 +100,7 @@ public class BlockConnector implements ISupportMemento {
     public BlockConnector(Workspace workspace, String label, String kind, boolean isLabelEditable, boolean isExpandable) {
         this(workspace, kind, PositionType.SINGLE, label, isLabelEditable, isExpandable, Block.NULL);
     }
-    
+
     /**
      * Constucts a new <code>BlockConnector</code> by copying the connector information
      * from the specified con.  Copies the con's connector label and kind.
@@ -113,7 +113,7 @@ public class BlockConnector implements ISupportMemento {
         this.isLabelEditable = con.isLabelEditable;
         this.expandGroup = con.expandGroup;
     }
-    
+
     /**
      * Returns the label of this
      * @return the label of this
@@ -121,7 +121,7 @@ public class BlockConnector implements ISupportMemento {
     public String getLabel() {
         return label;
     }
-    
+
     /**
      * Returns the kind of this
      * @return the kind of this
@@ -129,7 +129,7 @@ public class BlockConnector implements ISupportMemento {
     public String getKind() {
         return kind;
     }
-    
+
     /**
      * Returns the initial kind of this
      * @return the initial kind of this
@@ -137,7 +137,7 @@ public class BlockConnector implements ISupportMemento {
     public String initKind() {
         return initKind;
     }
-    
+
     /**
      * Returns the PositionType of this
      * @return the PositionType of this
@@ -163,7 +163,7 @@ public class BlockConnector implements ISupportMemento {
     }
 
     /**
-     * Returns true iff this connector is expandable, meaning if a block is connected to it, it may 
+     * Returns true iff this connector is expandable, meaning if a block is connected to it, it may
      * cause another empty connector just like this to appear.  Whether or not a block actually appears
      * depends on this connector's parent block.  Technically only sockets can expand.  Each block
      * can only have one plug (meaning return one value).
@@ -183,7 +183,7 @@ public class BlockConnector implements ISupportMemento {
 
     /**
      * Sets the socket label of this to specified label
-     * @param label the desired label 
+     * @param label the desired label
      */
     public void setLabel(String label) {
         this.label = label;
@@ -215,7 +215,7 @@ public class BlockConnector implements ISupportMemento {
 
     /**
      * Sets the position type of this connector
-     * @param pos the desired PositionType for this 
+     * @param pos the desired PositionType for this
      */
     public void setPositionType(PositionType pos) {
         this.positionType = pos;
@@ -240,7 +240,7 @@ public class BlockConnector implements ISupportMemento {
     }
 
     /**
-     * Connects this connector with its default argument, if it has any, and 
+     * Connects this connector with its default argument, if it has any, and
      * returns the block ID of the connected default argument or Block.NULL if there is none.
      * @return the block ID of the connected default argument or Block.NULL if there is none.
      */
@@ -269,9 +269,9 @@ public class BlockConnector implements ISupportMemento {
     }
 
     /**
-     * <code>DefArgument</code> is a lightweight class that stores Default Argument information of this 
-     * connector if it has any, particular the name of the argument's genus and its initial label.  
-     * Each connector has at most 1 default argument.  
+     * <code>DefArgument</code> is a lightweight class that stores Default Argument information of this
+     * connector if it has any, particular the name of the argument's genus and its initial label.
+     * Each connector has at most 1 default argument.
      */
     private class DefArgument {
 
@@ -291,12 +291,12 @@ public class BlockConnector implements ISupportMemento {
             return label;
         }
     }
-    
+
     ////////////////////////
     // SAVING AND LOADING //
     ////////////////////////
     /**
-     * Loads information for a single BlockConnector and returns an instance 
+     * Loads information for a single BlockConnector and returns an instance
      * of BlockConnector with the loaded information
      * @param workspace The workspace in use
      * @param node the Node containing the desired information
@@ -390,10 +390,10 @@ public class BlockConnector implements ISupportMemento {
 
         return con;
     }
-    
+
     /**
-     * Returns the node of this.  Node only includes 
-     * information that was modifiable and modified 
+     * Returns the node of this.  Node only includes
+     * information that was modifiable and modified
      * @param conKind String containing if this is a socket or plug
      * @return the node of this
      */
@@ -429,11 +429,11 @@ public class BlockConnector implements ISupportMemento {
 
         return connectorElement;
     }
-    
+
     /***********************************
     * State Saving Stuff for Undo/Redo *
     ***********************************/
-    
+
     private class BlockConnectorState {
 
         public String kind;

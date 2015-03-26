@@ -20,9 +20,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,6 +48,7 @@ import edu.mit.blocks.codeblocks.BlockShape;
 import edu.mit.blocks.codeblocks.BlockStub;
 import edu.mit.blocks.codeblocks.InfixBlockShape;
 import edu.mit.blocks.codeblocks.JComponentDragHandler;
+import edu.mit.blocks.codeblocks.SLBlockProperties;
 import edu.mit.blocks.codeblocks.rendering.BlockShapeUtil;
 import edu.mit.blocks.codeblockutil.CToolTip;
 import edu.mit.blocks.codeblockutil.GraphicsManager;
@@ -2507,9 +2505,53 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	private boolean checkReturnBlock(BlockLink link){
+		updateReturnType(getWorkspace(), getParentWidget(), this.getBlockID(), link.getSocketBlockID());
 		return getWorkspace().getPolyRule().getProcedureOutputManager().canLinkReturnBlock(getWorkspace(), getParentWidget(), this.getBlockID(), link.getSocketBlockID());
 	}
 
+    public void updateReturnType(Workspace ws, WorkspaceWidget w, Long block, Long socket){
+		Long top = SLBlockProperties.getTopBlockID(ws, socket);
+
+		if(top == null || !ws.getEnv().getBlock(top).isProcedureDeclBlock()){
+			return ;
+		}
+		//結合ブロックの取得
+		Block b = ws.getEnv().getBlock(block);
+		//結合ブロックより下を全てパースし，returnだけ持ってくる
+		List<Long> ids = getReturnBlocksBlocks(b, ws);
+
+		for(Long id : ids){
+			Block returnValue = ws.getEnv().getBlock(ws.getEnv().getBlock(id).getSocketAt(0).getBlockID());
+
+		}
+    }
+
+    private List<Long> getReturnBlocksBlocks(Block b, Workspace ws){
+    	List<Long> ids = new ArrayList<Long>();
+		if(b.getGenusName().equals("return")){
+			ids.add(b.getBlockID());
+			return ids;
+        }
+
+        //ソケットのブロックが結合可能かチェック
+        Iterator<BlockConnector> i = b.getSockets().iterator();
+        do{
+            if(!i.hasNext())
+                break;
+            BlockConnector conn = (BlockConnector)i.next();
+            Block b2 = ws.getEnv().getBlock(conn.getBlockID());
+            if(b2 != null){
+            	ids.addAll(getReturnBlocksBlocks(b2, ws));
+            }
+        } while(true);
+
+        //次のブロックが結合可能かチェック
+        Block b2 = ws.getEnv().getBlock(b.getAfterBlockID());
+        if(b2 != null)
+            ids.addAll(getReturnBlocksBlocks(b2, ws));
+
+		return ids;
+    }
 
 	private boolean checkScope(BlockLink link, WorkspaceEnvironment we) {
 		boolean scopeCheck = true;

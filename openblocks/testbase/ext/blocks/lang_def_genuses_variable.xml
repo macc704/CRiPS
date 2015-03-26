@@ -184,6 +184,30 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
+		<Stub stub-genus="preinc">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="predec">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="postinc">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="postdec">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -227,6 +251,30 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
+		<Stub stub-genus="preincdouble">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="predecdouble">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="postincdouble">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="postdecdouble">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -244,7 +292,7 @@
 			テキスト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
-	<Type>String</Type>	
+	<Type>String</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="string">
@@ -310,7 +358,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-  
+
 <BlockGenus name="private-var-int-number" kind="global-variable"
 	initlabel="i" header-label="int型のインスタンス変数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255">
@@ -338,13 +386,13 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getterthis">
+		<Stub stub-genus="getterthis">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="inc">
+		<Stub stub-genus="inc">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-incglobal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
@@ -479,7 +527,7 @@
 		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
-</BlockGenus>	
+</BlockGenus>
 
 
 <BlockGenus name="private-final-var-int-number" kind="global-variable"
@@ -662,7 +710,7 @@
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
-		</Stub>		
+		</Stub>
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
@@ -700,7 +748,7 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -750,7 +798,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -799,7 +847,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -848,7 +896,7 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
@@ -891,7 +939,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-    </Stubs>
+	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 		<LangSpecProperty key="type" value="number"></LangSpecProperty>
@@ -912,7 +960,7 @@
 	<BlockConnectors>
 		<BlockConnector label="値" connector-kind="socket"
 			connector-type="object">
-            <DefaultArg genus-name="new-object" label="1.0"></DefaultArg>
+			<DefaultArg genus-name="new-object" label="1.0"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -922,7 +970,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-    </Stubs>
+	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 		<LangSpecProperty key="type" value="number"></LangSpecProperty>
