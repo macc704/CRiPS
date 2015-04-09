@@ -24,7 +24,7 @@
 		<BlockGenusMember>proc-param-string</BlockGenusMember>
 		<BlockGenusMember>proc-param-int-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>proc-param-double-number-arrayobject</BlockGenusMember>
-		<BlockGenusMember>proc-param-object-arrayobject</BlockGenusMember>
+		
 		<BlockGenusMember>proc-param-string-arrayobject</BlockGenusMember>
 		<BlockGenusMember>proc-param-object-bwindow</BlockGenusMember>
 		<BlockGenusMember>proc-param-object-bcanvas</BlockGenusMember>		
