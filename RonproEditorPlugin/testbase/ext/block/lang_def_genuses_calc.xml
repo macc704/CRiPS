@@ -165,7 +165,7 @@
 </BlockGenus>
 
 <BlockGenus name="lessthanorequalto" kind="function"
-	initlabel="≤" color="15 20 220">
+	initlabel="≦" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
@@ -205,7 +205,7 @@
 </BlockGenus>
 
 <BlockGenus name="greaterthanorequalto" kind="function"
-	initlabel="≥" color="15 20 220">
+	initlabel="≧" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>

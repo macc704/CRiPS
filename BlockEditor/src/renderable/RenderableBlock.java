@@ -1790,7 +1790,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.setConstrainComment(false);
 		}
 		Component oldParent = renderable.getParent();
-		Workspace.getInstance().addToBlockLayer(renderable);
+//		Workspace.getInstance().addToBlockLayer(renderable);
 		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
 
 		for (BlockConnector socket : BlockLinkChecker

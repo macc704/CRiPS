@@ -749,7 +749,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isClick" kind="data" initlabel="クリックを調べる" color="255 0 0">
+<BlockGenus name="isClick" kind="function" initlabel="クリックを調べる" color="255 0 0">
 	<description>
 		<text>
             マウスがクリックされたかどうか調べます。
@@ -766,7 +766,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isSingleClick" kind="data" initlabel="シングルクリックか調べる" color="255 0 0">
+<BlockGenus name="isSingleClick" kind="function" initlabel="シングルクリックか調べる" color="255 0 0">
 	<description>
 		<text>
             マウスがシングルクリックされたか調べます。
@@ -783,7 +783,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isDoubleClick" kind="data" initlabel="ダブルクリックか調べる" color="255 0 0">
+<BlockGenus name="isDoubleClick" kind="function" initlabel="ダブルクリックか調べる" color="255 0 0">
 	<description>
 		<text>
             マウスがダブルクリックされたかどうか調べます。
@@ -800,7 +800,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isDragging" kind="data" initlabel="ドラッグ中か調べる" color="255 0 0">
+<BlockGenus name="isDragging" kind="function" initlabel="ドラッグ中か調べる" color="255 0 0">
 	<description>
 		<text>
             マウスがドラッグ中かどうか調べます。
@@ -817,7 +817,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isRightMouseDown" kind="data" initlabel="右クリックされたか調べる" color="255 0 0">
+<BlockGenus name="isRightMouseDown" kind="function" initlabel="右クリックされたか調べる" color="255 0 0">
 	<description>
 		<text>
             マウスが右クリックされたかどうか調べます。
@@ -834,7 +834,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isLeftMouseDown" kind="data" initlabel="左クリックされたか調べる" color="255 0 0">
+<BlockGenus name="isLeftMouseDown" kind="function" initlabel="左クリックされたか調べる" color="255 0 0">
 	<description>
 		<text>
             マウスが左クリックされたかどうか調べます。
@@ -851,7 +851,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isMouseDown" kind="data" initlabel="マウスが押されているか調べる" color="255 0 0">
+<BlockGenus name="isMouseDown" kind="function" initlabel="マウスが押されているか調べる" color="255 0 0">
 	<description>
 		<text>
             マウスが押されているかどうか調べます
@@ -868,7 +868,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getMouseX" kind="data" color="255 0 0"
+<BlockGenus name="getMouseX" kind="function" color="255 0 0"
 	initlabel="マウスの現在地のX座標を取得する">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
@@ -880,7 +880,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getMouseY" kind="data" color="255 0 0"
+<BlockGenus name="getMouseY" kind="function" color="255 0 0"
 	initlabel="マウスの現在地のY座標を取得する">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
@@ -892,12 +892,12 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isKeyPressing" kind="data" color="255 0 0"
+<BlockGenus name="isKeyPressing" kind="function" color="255 0 0"
 	initlabel="指定したキーが押されたか調べる">
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean" connector-kind="plug"
 			position-type="mirror"></BlockConnector>
-        <BlockConnector label="キーコード" connector-type="number" connector-kind="plug"></BlockConnector>
+        <BlockConnector label="キーコード" connector-type="number" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="isKeyPressing"></LangSpecProperty>
@@ -905,7 +905,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isKeyDown" kind="data" color="255 0 0"
+<BlockGenus name="isKeyDown" kind="function" color="255 0 0"
 	initlabel="なんらかのキーが押されたかどうか調べる">
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean" connector-kind="plug"
@@ -917,7 +917,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getKeyCode" kind="data" color="255 0 0"
+<BlockGenus name="getKeyCode" kind="function" color="255 0 0"
 	initlabel="押されたキーのキーコードを調べる">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
@@ -949,7 +949,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getImageWidth" kind="data" color="255 0 0"
+<BlockGenus name="getImageWidth" kind="function" color="255 0 0"
 	initlabel="画像の幅">
 	<BlockConnectors>
         <BlockConnector connector-type="number" connector-kind="plug"></BlockConnector>
@@ -961,7 +961,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getImageHeight" kind="data" color="255 0 0"
+<BlockGenus name="getImageHeight" kind="function" color="255 0 0"
 	initlabel="画像の高さ">
 	<BlockConnectors>
         <BlockConnector connector-type="number" connector-kind="plug"></BlockConnector>
@@ -1019,7 +1019,7 @@
     </LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getCanvasWidth" kind="data" color="255 0 0"
+<BlockGenus name="getCanvasWidth" kind="function" color="255 0 0"
 	initlabel="キャンバスの幅">
 	<BlockConnectors>
         <BlockConnector connector-type="number" connector-kind="plug"
@@ -1031,7 +1031,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getCanvasHeight" kind="data" color="255 0 0"
+<BlockGenus name="getCanvasHeight" kind="function" color="255 0 0"
 	initlabel="キャンバスの高さ">
 	<BlockConnectors>
         <BlockConnector connector-type="number" connector-kind="plug"
@@ -1101,7 +1101,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getCanvas" kind="data" color="255 0 0"
+<BlockGenus name="getCanvas" kind="function" color="255 0 0"
 	initlabel="書き込み可能なcanvasインスタンスを取得する">
 	<BlockConnectors>
         <BlockConnector connector-type="object" connector-kind="plug" position-type="mirror"></BlockConnector>
@@ -1112,7 +1112,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getVolume" kind="data" color="255 0 0"
+<BlockGenus name="getVolume" kind="function" color="255 0 0"
 	initlabel="ボリュームを取得します">
 	<BlockConnectors>
         <BlockConnector connector-type="number" connector-kind="plug" position-type="mirror"></BlockConnector>
@@ -1134,7 +1134,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getDefaultVolume" kind="data" color="255 0 0"
+<BlockGenus name="getDefaultVolume" kind="function" color="255 0 0"
 	initlabel="ボリュームを設定します">
 	<BlockConnectors>
         <BlockConnector connector-type="number" connector-kind="plug" position-type="mirror"></BlockConnector>
@@ -1165,4 +1165,69 @@
 		<LangSpecProperty key="vm-cmd-name" value="load"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="clear" kind="command" initlabel="中身をすべて削除する"
+	color="255 255 100">
+</BlockGenus>
+
+<BlockGenus name="size" kind="function" initlabel="リストの大きさ" color="255 255 100">
+    <BlockConnectors>
+        <BlockConnector label="" connector-kind="plug" connector-type="number" />
+    </BlockConnectors>
+</BlockGenus>
+
+
+<BlockGenus name="add[@object]" kind="command" initlabel="追加する" color="255 255 100">
+    <BlockConnectors>
+        <BlockConnector label="何を？" connector-kind="socket" connector-type="object" />
+    </BlockConnectors>
+</BlockGenus>
+
+
+<BlockGenus name="isEmpty" kind="function" initlabel="空か調べる"
+	color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" />
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="contains" kind="function" initlabel="要素があるか調べる"
+	color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" />
+		<BlockConnector label="どの？" connector-kind="socket"
+			connector-type="object" />
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="remove" kind="command" initlabel="要素を削除する"
+	color="255 255 100">
+    <JavaLabel>remove</JavaLabel>
+	<BlockConnectors>
+		<BlockConnector label="どれを？" connector-kind="socket"
+			connector-type="poly" />
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="get[@number]" kind="function" initlabel="要素を取り出す"
+	color="255 255 100">
+    <JavaLabel>get</JavaLabel>
+	<BlockConnectors>
+        <BlockConnector label="" connector-kind="plug"
+        connector-type="object" />
+        <BlockConnector label="どこの？" connector-kind="socket"
+        connector-type="number" />
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="length" kind="function" initlabel="文字数"
+	color="255 255 100">
+    <JavaLabel>length</JavaLabel>
+	<BlockConnectors>
+	    <BlockConnector label="" connector-kind="plug"
+        connector-type="number" />
+	</BlockConnectors>
 </BlockGenus>
