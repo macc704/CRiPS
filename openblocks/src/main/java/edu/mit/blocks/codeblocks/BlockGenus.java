@@ -44,7 +44,7 @@ public class BlockGenus {
 	private String labelSuffix = EMPTY_STRING;
 	private String blockDescription;
 	/** created by sakai lab 2011/10 */
-	private List<String> factorys = new ArrayList<String>();	
+	private List<String> factorys = new ArrayList<String>();
 
 	private boolean isStarter;
 	private boolean isTerminator;
@@ -108,7 +108,7 @@ public class BlockGenus {
 
 	/**
 	 * Constructs a BlockGenus copy with the specified genusName
-	 * 
+	 *
 	 * @param genusName
 	 */
 	private BlockGenus(WorkspaceEnvironment workspaceEnvironment,
@@ -157,7 +157,7 @@ public class BlockGenus {
 	 * of a sibling. Note: For a genus to have siblings, its label must be
 	 * uneditable. An editable label interferes with the drop down menu widget
 	 * that blocks with siblings have.
-	 * 
+	 *
 	 * @return the siblings of this genus.
 	 */
 	public List<String> getSiblingsList() {
@@ -168,7 +168,7 @@ public class BlockGenus {
 	 * Returns true if this genus has siblings; false otherwise. Note: For a
 	 * genus to have siblings, its label must be uneditable. An editable label
 	 * interferes with the drop down menu widget that blocks with siblings have.
-	 * 
+	 *
 	 * @return true if this genus has siblings; false otherwise.
 	 */
 	public boolean hasSiblings() {
@@ -178,7 +178,7 @@ public class BlockGenus {
 	/**
 	 * Returns a list of the stub kinds (or stub genus names) of this; if this
 	 * genus does not have any stubs, returns an empty list
-	 * 
+	 *
 	 * @return a list of the stub kinds (or stub genus names) of this; if this
 	 *         genus does not have any stubs, returns an empty list
 	 */
@@ -189,7 +189,7 @@ public class BlockGenus {
 	/**
 	 * Returns true is this genus has stubs (references such as getters,
 	 * setters, etc.); false otherwise
-	 * 
+	 *
 	 * @return true is this genus has stubs (references such as getters,
 	 *         setters, etc.); false otherwise
 	 */
@@ -200,7 +200,7 @@ public class BlockGenus {
 	/**
 	 * Returns true iff any one of the connectors for this genus has default
 	 * arguments; false otherwise
-	 * 
+	 *
 	 * @return true iff any one of the connectors for this genus has default
 	 *         arguments; false otherwise
 	 */
@@ -211,7 +211,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if this block is a command block (i.e. forward, say, etc.);
 	 * false otherwise
-	 * 
+	 *
 	 * @return true if this block is a command block (i.e. forward, say, etc.);
 	 *         false otherwise
 	 */
@@ -222,7 +222,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if this block is a data block a.k.a. a primitive (i.e.
 	 * number, string, boolean); false otherwise
-	 * 
+	 *
 	 * @return Returns true if this block is a data block a.k.a. a primitive
 	 *         (i.e. number, string, boolean); false otherwise
 	 */
@@ -234,7 +234,7 @@ public class BlockGenus {
 	 * Returns true iff this block is a function block, which takes in an input
 	 * and produces an output. (i.e. math blocks, arctan, add to list); false
 	 * otherwise.
-	 * 
+	 *
 	 * @return true iff this block is a function block, which takes in an input
 	 *         and produces an output. (i.e. math blocks, arctan, add to list);
 	 *         false otherwise.
@@ -246,7 +246,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if this block is a variable declaration block; false
 	 * otherwise
-	 * 
+	 *
 	 * @return true if this block is a variable declaration block; false
 	 *         otherwise
 	 */
@@ -257,7 +257,7 @@ public class BlockGenus {
 	/*
 	 * Returns true if this block is a global variable declaration block; false
 	 * otherwise
-	 * 
+	 *
 	 * @return true if this block is a global variable declaration block; false
 	 */
 	public boolean isGlobalVariableDeclBlock() {
@@ -267,7 +267,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if this block is a procedure declaration block; false
 	 * otherwise
-	 * 
+	 *
 	 * @return true if this block is a procedure declaration block; false
 	 *         otherwise
 	 */
@@ -294,7 +294,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if this block is a list or a list operator (determined by
 	 * whether it has at least one list connector of any type); false otherwise.
-	 * 
+	 *
 	 * @return is determined by whether it has at least one list connector of
 	 *         any type.
 	 */
@@ -311,7 +311,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns true if this genus has a "before" connector; false otherwise.
-	 * 
+	 *
 	 * @return true is this genus has a "before" connector; false otherwise.
 	 */
 	public boolean hasBeforeConnector() {
@@ -320,7 +320,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns true if this genus has a "after" connector; false otherwise.
-	 * 
+	 *
 	 * @return true if this genus has a "after" connector; false otherwise.
 	 */
 	public boolean hasAfterConnector() {
@@ -330,7 +330,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if the value of this genus is contained within the label of
 	 * this; false otherwise
-	 * 
+	 *
 	 * @return true if the value of this genus is contained within the label of
 	 *         this; false otherwise
 	 */
@@ -340,7 +340,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns true if the label of this is editable; false otherwise
-	 * 
+	 *
 	 * @return true if the label of this is editable; false otherwise
 	 */
 	public boolean isLabelEditable() {
@@ -349,7 +349,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns true iff this genus can have page label.
-	 * 
+	 *
 	 * @return true iff this genus can have page label
 	 */
 	public boolean isPageLabelSetByPage() {
@@ -358,7 +358,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns true if the label of this must be unique; false otherwise
-	 * 
+	 *
 	 * @return true if the label of this must be unique; false otherwise
 	 */
 	public boolean labelMustBeUnique() {
@@ -375,7 +375,7 @@ public class BlockGenus {
 	/**
 	 * Returns true iff this genus is an infix operator. This genus must be
 	 * supporting two bottom sockets.
-	 * 
+	 *
 	 * @return true iff this genus is an infix operator. This genus must be
 	 *         supporting two bottom sockets.
 	 */
@@ -386,7 +386,7 @@ public class BlockGenus {
 	/**
 	 * created by sakai lab 2010/11 Returns true if this block is a abstract
 	 * block; false otherwise
-	 * 
+	 *
 	 * @return true if this block is abstract block; false otherwise
 	 */
 	public boolean isAbstractionBlock() {
@@ -395,7 +395,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/21
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isCallActionMethodBlock() {
@@ -411,7 +411,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/22
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isMethodBlock() {
@@ -422,7 +422,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/21
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isBlockForSubstitute() {
@@ -432,7 +432,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the name of this genus
-	 * 
+	 *
 	 * @return the name of this genus
 	 */
 	public String getGenusName() {
@@ -441,7 +441,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial label of this
-	 * 
+	 *
 	 * @return the initial label of this
 	 */
 	public String getInitialLabel() {
@@ -458,7 +458,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the String block label prefix of this
-	 * 
+	 *
 	 * @return the String block label prefix of this
 	 */
 	public String getLabelPrefix() {
@@ -467,7 +467,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the String block label prefix of this
-	 * 
+	 *
 	 * @return the String block label prefix of this
 	 */
 	public String getLabelSuffix() {
@@ -478,7 +478,7 @@ public class BlockGenus {
 	 * Returns the String block text description of this. Also known as the
 	 * block tool tip, or block description. If no descriptions exists, return
 	 * null.
-	 * 
+	 *
 	 * @return the String block text description of this or NULL.
 	 */
 	public String getBlockDescription() {
@@ -492,7 +492,7 @@ public class BlockGenus {
 	 * if incomplete descriptions). An existing description may not have an
 	 * existing socket (in the case of expandable socket sizes). If no
 	 * descriptions exists, return null.
-	 * 
+	 *
 	 * @return the String argument descriptions of this or NULL.
 	 */
 	public Iterable<String> getInitialArgumentDescriptions() {
@@ -502,7 +502,7 @@ public class BlockGenus {
 	/**
 	 * Returns the Color of this; May return Color.Black if color was
 	 * unspecified.
-	 * 
+	 *
 	 * @return the Color of this; May return Color.Black if color was
 	 *         unspecified.
 	 */
@@ -513,7 +513,7 @@ public class BlockGenus {
 	/**
 	 * Returns the initial BlockImageIcon mapping of this. Returned Map is
 	 * unmodifiable.
-	 * 
+	 *
 	 * @return the initial and unmodifiable BlockImageIcon mapping of this
 	 */
 	public Map<ImageLocation, BlockImageIcon> getInitBlockImageMap() {
@@ -522,7 +522,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the value of the specified language dependent property
-	 * 
+	 *
 	 * @param property
 	 *            the property to look up
 	 * @return the value of the specified language dependent property; null if
@@ -534,7 +534,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial set of sockets of this
-	 * 
+	 *
 	 * @return the initial set of sockets of this
 	 */
 	public Iterable<BlockConnector> getInitSockets() {
@@ -543,7 +543,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial plug connector of this
-	 * 
+	 *
 	 * @return the initial plug connector of this
 	 */
 	public BlockConnector getInitPlug() {
@@ -552,7 +552,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial before connector of this
-	 * 
+	 *
 	 * @return the initial before connector of this
 	 */
 	public BlockConnector getInitBefore() {
@@ -561,7 +561,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial after connector of this
-	 * 
+	 *
 	 * @return the initial after connector of this
 	 */
 	public BlockConnector getInitAfter() {
@@ -638,7 +638,7 @@ public class BlockGenus {
 
 	/**
 	 * Loads the BlockConnector information of the specified genus
-	 * 
+	 *
 	 * @param workspace
 	 *            The workspace in use
 	 * @param connectors
@@ -801,7 +801,7 @@ public class BlockGenus {
 
 	/**
 	 * Loads the images to be drawn on the visible block instances of this
-	 * 
+	 *
 	 * @param images
 	 *            NodeList of image information to load from
 	 * @param genus
@@ -904,7 +904,7 @@ public class BlockGenus {
 
 	/**
 	 * Loads the language definition properties of the specified genus
-	 * 
+	 *
 	 * @param properties
 	 *            NodeList of properties to load from file
 	 * @param genus
@@ -945,7 +945,7 @@ public class BlockGenus {
 
 	/**
 	 * Loads the stub information of the specified genus
-	 * 
+	 *
 	 * @param stubs
 	 *            NodeList of stub information to load
 	 * @param genus
@@ -969,8 +969,11 @@ public class BlockGenus {
 						// this stub for this genus deviates from generic stub
 						// generate genus by copying one of generic ones
 
-						BlockGenus newStubGenus = new BlockGenus(genus.env,
-								stubGenus, stubGenus + genus.genusName);
+						BlockGenus newStubGenus = new BlockGenus(genus.env,stubGenus, stubGenus + genus.genusName);
+						if("getter".equals(stubGenus)){
+							newStubGenus.type = genus.type;
+						}
+
 						// load unique stub genus properties
 						NodeList stubChildren = stub.getChildNodes();
 						for (int n = 0; n < stubChildren.getLength(); n++) {
@@ -1027,7 +1030,7 @@ public class BlockGenus {
 		}
 		genus.methods.put(className, methods);
 	}
-	
+
 	public Map<String, List<String>> getMethods(){
 		return this.methods;
 	}
@@ -1035,7 +1038,7 @@ public class BlockGenus {
 	/**
 	 * Loads the all the initial BlockGenuses and BlockGenus families of this
 	 * language
-	 * 
+	 *
 	 * @param workspace
 	 *            The workspace in use
 	 * @param root
@@ -1415,19 +1418,19 @@ public class BlockGenus {
 		}
 		return out.toString();
 	}
-	
+
 	/**
 	 * created by sakai lab 2011/10 Return the factory size
-	 * 
+	 *
 	 * @return the factory size of this
 	 */
 	public int getFactorySize() {
 		return factorys.size();
 	}
-	
+
 	/**
 	 * created by sakai lab 2011/10 Return the factory size
-	 * 
+	 *
 	 * @return the factory size of this
 	 */
 	public String getFactory(int i) {

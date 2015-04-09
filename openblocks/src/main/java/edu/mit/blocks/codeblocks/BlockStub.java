@@ -18,19 +18,19 @@ import edu.mit.blocks.workspace.WorkspaceEvent;
 /**
  * <code>BlockStub</code> are a special form of blocks that provide a particular
  * reference to its "parent" block.  These references can set, get, or increment
- * the value of its "parent" block.  References may also get the value for a 
+ * the value of its "parent" block.  References may also get the value for a
  * particular agent.  Finally, for a procedure block, its reference is a call
- * block, which executes the procedure.  
- * 
+ * block, which executes the procedure.
+ *
  * The parent instance for a set of stubs is not permanent.  The parent intance
- * may change if the original parent it removed and then a new one with the 
- * same parent name is added to the block canvas. BlockStub manages the mapping 
+ * may change if the original parent it removed and then a new one with the
+ * same parent name is added to the block canvas. BlockStub manages the mapping
  * between stubs and their parent.
  */
 public class BlockStub extends Block {
 
     /**
-     * Temporary mapping for parent type (caller plugs). 
+     * Temporary mapping for parent type (caller plugs).
      * TODO remove once BlockUtilities cloneBlock() is finished
      */
     private static Map<String, String> parentToPlugType = new HashMap<String, String>();
@@ -56,12 +56,12 @@ public class BlockStub extends Block {
     /**
      * Constructs a new <code>BlockStub</code> instance using the specified
      * genus name of its parent block, the block id of its parent, the block name of parent
-     * and its stub genus.  The exact reference to the parent through the specified initParentID 
+     * and its stub genus.  The exact reference to the parent through the specified initParentID
      * is needed, in addition to the other specified parameters, to completely construct a new block
      * stub.
      * @param initParentID the Long block ID of its initial parent
      * @param parentGenus the BlockGenus String name of its initial parent
-     * @param parentName 
+     * @param parentName
      * @param stubGenus
      */
     public BlockStub(Workspace workspace, Long initParentID, String parentGenus, String parentName, String stubGenus) {
@@ -113,7 +113,7 @@ public class BlockStub extends Block {
             }
 
             //TODO: remove the following once BlockUtilities.cloneBlock() is finished
-            // If our parent already has a plug type, we want to update 
+            // If our parent already has a plug type, we want to update
             // Note that we don't need to call renderables, since we are still
             // in the constructor
             String kind = parentToPlugType.get(parent.getBlockLabel() + parent.getGenusName());
@@ -152,7 +152,7 @@ public class BlockStub extends Block {
                 }
             }
 
-            // If our parent already has a plug type, we want to update 
+            // If our parent already has a plug type, we want to update
             // Note that we don't need to call renderables, since we are still
             // in the constructor
             String kind = parentToPlugType.get(parent.getBlockLabel() + parent.getGenusName());
@@ -180,7 +180,7 @@ public class BlockStub extends Block {
     }
 
     /**
-     * Constructs a new BlockStub instance.  This contructor is protected as it should only be called 
+     * Constructs a new BlockStub instance.  This contructor is protected as it should only be called
      * while Block loads its information from the save String
      * @param workspace The workspace this stub should be created in
      * @param blockID the Long block ID of this
@@ -222,7 +222,7 @@ public class BlockStub extends Block {
             return new ArrayList<Long>();
         }
     }
-    
+
     public static void removeStubsOfParent(Workspace workspace, Block block){
     	workspace.getEnv().removeBlockStubs(block.getBlockLabel() + block.getGenusName());
     }
@@ -313,7 +313,7 @@ public class BlockStub extends Block {
     public static void parentConnectorsChanged(Workspace workspace, Long parentID) {
         String key = workspace.getEnv().getBlock(parentID).getBlockLabel() + workspace.getEnv().getBlock(parentID).getGenusName();
 
-        //update each stub only if stub is a caller (as callers are the only type of stubs that 
+        //update each stub only if stub is a caller (as callers are the only type of stubs that
         //can change its connectors after being created)
         ArrayList<Long> stubs = workspace.getEnv().getBlockStubs(key);
         for (Long stub : stubs) {
@@ -322,7 +322,7 @@ public class BlockStub extends Block {
                 blockStub.updateConnectors();
                 //System.out.println("updated connectors of: "+blockStub);
                 blockStub.notifyRenderable();
-                
+
 				//矢印の再描画 イベント飛ばしてもいいかも
 				workspace.getMeRVManager().updateArrowColor(blockStub);
             }
@@ -412,8 +412,8 @@ public class BlockStub extends Block {
     //////////////////////////////////////////////////
     /**
      * Updates the conenctors of this stub according to its parent.
-     * For now only caller stubs should update their connector information after 
-     * being created.  
+     * For now only caller stubs should update their connector information after
+     * being created.
      */
     private void updateConnectors() {
         Block parent = getParent();
@@ -558,42 +558,42 @@ public class BlockStub extends Block {
     ////////////////////////
     public Node getSaveNode(Document document, int x, int y, Node commentNode, boolean collapsed) {
     	Element stubElement = document.createElement("BlockStub");
-    	
+
     	Element parentNameElement = document.createElement("StubParentName");
     	parentNameElement.appendChild(document.createTextNode(parentName));
     	stubElement.appendChild(parentNameElement);
-    	
+
     	Element parentGenusElement = document.createElement("StubParentGenus");
     	parentGenusElement.appendChild(document.createTextNode(parentGenus));
     	stubElement.appendChild(parentGenusElement);
 
-    	
+
     	Node blockNode = super.getSaveNode(document, x, y, commentNode, collapsed);
     	stubElement.appendChild(blockNode);
-    	
+
     	return stubElement;
     }
-    
+
 	public void setBlockLabel(String newLabel) {
 		super.setBlockLabel(newLabel);
 		setName(newLabel);
 	}
-	
+
 	/**
 	 * set factory name of this
-	 * 
+	 *
 	 * @param factory
 	 *            name of this
 	 */
 	public void setFactoryName(String factoryName) {
 		this.factoryName = factoryName;
 	}
-	
+
 	/**
 	 * return factory name of this
 	 */
 	public String getFactoryName() {
 		return factoryName;
 	}
-	
+
 }

@@ -684,7 +684,7 @@
 		<BlockConnector connector-kind="plug" connector-type="string"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
-	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
@@ -948,7 +948,7 @@
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="object" />
-		<!-- <BlockConnector label="の" connector-kind="socket" connector-type="object" 
+		<!-- <BlockConnector label="の" connector-kind="socket" connector-type="object"
 			position-type="single"/> -->
 		<BlockConnector label="番地" connector-kind="socket"
 			connector-type="number" position-type="single">
@@ -1122,8 +1122,8 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<!-- <BlockGenus name="fontsize" kind="command" initlabel="フォントサイズを設定する" 
-	color="255 255 100"> <BlockConnectors> <BlockConnector label="pt？" connector-kind="socket" 
+<!-- <BlockGenus name="fontsize" kind="command" initlabel="フォントサイズを設定する"
+	color="255 255 100"> <BlockConnectors> <BlockConnector label="pt？" connector-kind="socket"
 	connector-type="number" position-type="single"/> </BlockConnectors> </BlockGenus> -->
 
 <!-- button turtle -->
@@ -1165,7 +1165,7 @@
 
 <BlockGenus name="InputTurtle-setActive[@boolean]" kind="command"
 	initlabel="活動状態を変える" color="255 255 100">
-	<Name>setActive</Name>	
+	<Name>setActive</Name>
 	<BlockConnectors>
 		<BlockConnector label="活動状態" connector-kind="socket"
 			connector-type="boolean">
@@ -1195,13 +1195,13 @@
 
 <BlockGenus name="InputTurtle-toEnglishMode[]" kind="command"
 	initlabel="英語モードにする" color="255 255 100">
-	<Name>toEnglishMode</Name>	
+	<Name>toEnglishMode</Name>
 </BlockGenus>
 
 <BlockGenus name="InputTurtle-getText[]" kind="function"
 	color="255 0 0" initlabel="テキストを取得する">
 	<Name>getText</Name>
-	<ReturnType>String</ReturnType>	
+	<ReturnType>String</ReturnType>
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
@@ -1209,14 +1209,14 @@
 		<BlockConnector connector-kind="plug" connector-type="string"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
-	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
 <BlockGenus name="CardTurtle-getText[]" kind="function"
 	color="255 0 0" initlabel="カードのテキストを取得する">
 	<Name>getText</Name>
-	<ReturnType>String</ReturnType>		
+	<ReturnType>String</ReturnType>
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
@@ -1224,13 +1224,13 @@
 		<BlockConnector connector-kind="plug" connector-type="string"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
-	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
 <BlockGenus name="local-var-object-Text" kind="local-variable"
 	initlabel="tt" header-label="TextTurtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">		
+	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
@@ -1242,6 +1242,7 @@
 			<DefaultArg genus-name="new-object-withtext" label="TextTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>TextTurtle</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1334,6 +1335,7 @@
 			<DefaultArg genus-name="new-object" label="Turtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>Turtle</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1421,6 +1423,7 @@
 			<DefaultArg genus-name="new-object-withtext" label="ImageTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>ImageTurtle</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1510,6 +1513,7 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>SoundTurtle</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
