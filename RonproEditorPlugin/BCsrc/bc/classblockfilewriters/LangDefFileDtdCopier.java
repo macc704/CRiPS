@@ -53,6 +53,8 @@ public class LangDefFileDtdCopier implements Copier {
 			ps.println("<!ENTITY lang_def_genuses SYSTEM \"lang_def_genuses.xml\">");
 			ps.println("<!ENTITY lang_def_genuses_project SYSTEM \"lang_def_genuses_project.xml\">");
 
+			ps.println("<!ENTITY lang_def_connectorshapes SYSTEM \"" + home
+					+ "ext/block/lang_def_connectorshapes.xml\">");
 			ps.println("<!ENTITY lang_def_genuses_stubs SYSTEM \"" + home
 					+ "ext/block/lang_def_genuses_stubs.xml\">");
 			ps.println("<!ENTITY lang_def_genuses_datatypes SYSTEM \"" + home

@@ -58,7 +58,6 @@ class ProcedureCollapseLabel extends CollapseLabel {
 						&& rb.getHighlightHandler().getParent().getParent() != null)
 					rb.getHighlightHandler().getParent().getParent().repaint(); //force redraw to erase highlight
 			}
-
 		}
 	}
 }

@@ -51,7 +51,7 @@ public class ArrowPointCalcUtil {
 	}
 
 	private Point2D.Double getPoint2or3(int hosei){
-
+		Point p = new Point();
 		if( p0.getX()<p1.getX() ){
 			double radian=calcRadian(p0,p1);
 			double kakudo=radian/(Math.PI/180);

@@ -163,7 +163,6 @@ public class BlockUtilities {
 
 		String labelWithIndex = label; // labelWithIndex will have the instance
 										// value
-
 		int value;
 		// initialize value that will be appended to the end of the label
 		if (instanceCounter.containsKey(mygenusname)) {
@@ -199,6 +198,7 @@ public class BlockUtilities {
 		} else {
 			block = new Block(myblock.getGenusName(), label);
 		}
+
 		// - djwendel - create a copy of the RB properties too, using an RB copy
 		// constructor. Don't just use the genus.
 		// RenderableBlock renderable = new

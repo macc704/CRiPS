@@ -43,14 +43,6 @@ public class StConstructorDeclarationModel extends StatementModel{
 	public void setCollapsed(boolean flag){
 		this.isCollapsed = flag;
 	}
-	
-	// /**
-	// * @param type
-	// * the type to set
-	// */
-	// public void setType(String type) {
-	// this.type = CheckJavaToBlockType(type);
-	// }
 
 	/**
 	 * @param body
@@ -67,10 +59,6 @@ public class StConstructorDeclarationModel extends StatementModel{
 
 	@Override
 	public void print(PrintStream out, int indent) {
-		// setId(idCounter++);
-		// setPosY(getPosY() + possitionY);
-		// possitionY += getBlockHeight();
-
 		// args
 		for (StLocalVariableModel arg : args) {
 			arg.printAsArgument(out, indent);
@@ -120,7 +108,7 @@ public class StConstructorDeclarationModel extends StatementModel{
 		}
 		// 空きコネクタ
 		makeIndent(out, indent + 2);
-		out.println("<BlockConnector connector-kind=\"sockets\" connector-type=\"poly\" init-type=\"poly\" label=\"\" position-type=\"single\" is-expandable=\"yes\"/>");
+		out.println("<BlockConnector connector-kind=\"socket\" connector-type=\"poly\" init-type=\"poly\" label=\"\" position-type=\"single\" is-expandable=\"yes\"/>");
 		makeIndent(out, indent + 1);
 		out.println("</Sockets>");
 		

@@ -17,7 +17,9 @@ public class LangDefGenusesCopier implements Copier {
 	private BufferedReader br;
 
 	public void print(File file) {
+		//lang_def_genuses.xmlファイルを書き換える
 		try {
+			// すべてのlang_def_genusesの行をコピーする
 			FileInputStream ldfReader = new FileInputStream(
 					System.getProperty("user.dir")+ "/ext/block/lang_def_genuses.xml");
 
@@ -26,7 +28,7 @@ public class LangDefGenusesCopier implements Copier {
 
 			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(turtleByteArray);
-			// すべての行をコピーする
+			
 			String line;
 			while ((line = br.readLine()) != null) {
 				// 一行書き込み >>lang_def.xml
@@ -36,6 +38,7 @@ public class LangDefGenusesCopier implements Copier {
 					ps.println("&lang_def_genuses_project;");
 				}
 			}
+			
 			// menu情報のコピー
 			// psに書きだしたものをすべて文字列に変換する
 			String ldfString = turtleByteArray.toString();

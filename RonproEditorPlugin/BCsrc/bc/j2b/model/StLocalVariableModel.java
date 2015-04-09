@@ -50,8 +50,6 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 			}
 
 			if (isArray()) {
-				//
-				
 				genusName += "-arrayobject";
 			}
 
@@ -67,7 +65,7 @@ public class StLocalVariableModel extends StVariableDeclarationModel {
 			convertedType = convertedType.substring(0,
 					convertedType.indexOf("["));
 			convertedType = convertBasicJavaDataTypeToBlockType(convertedType);
-
+			
 			return convertedType;
 		} else {
 			return type;

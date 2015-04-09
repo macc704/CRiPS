@@ -133,10 +133,9 @@ public class BlockLink {
 
 			// break the link between the socket block and the block in that socket
 			Block plugBlock = Block.getBlock(lastPlugBlockID);
-			BlockConnector plugBlockPlug = BlockLinkChecker
-					.getPlugEquivalent(plugBlock);
-			if (plugBlockPlug != null && plugBlockPlug.hasBlock()
-					&& !plug.getKind().contains("param")) {
+			BlockConnector plugBlockPlug = BlockLinkChecker.getPlugEquivalent(plugBlock);
+			
+			if (plugBlockPlug != null && plugBlockPlug.hasBlock() && !plug.getKind().contains("param")) {
 				if (isVariable(socket.getKind())) {
 					return;
 				}
@@ -153,14 +152,9 @@ public class BlockLink {
 						new WorkspaceEvent(RenderableBlock.getRenderableBlock(
 								socketBlock.getBlockID()).getParentWidget(),
 								link, WorkspaceEvent.BLOCKS_DISCONNECTED));
-
 			}
 		}
 		if (plug.hasBlock()) {
-			// in the case of insertion, breaking the link above will mean that
-			// the plug shouldn't be connected by the time we reach here.  This
-			// exception will only be thrown if the plug is connected even
-			// after any insertion-esq links were broken above
 			throw new RuntimeException(
 					"trying to link a plug that's already connected somewhere.");
 		}
@@ -170,10 +164,11 @@ public class BlockLink {
 		socket.setConnectorBlockID(plugBlockID);
 
 		//notify renderable block of connection so it can redraw with stretching
-		RenderableBlock socketRB = RenderableBlock
-				.getRenderableBlock(socketBlockID);
+		RenderableBlock socketRB = RenderableBlock.getRenderableBlock(socketBlockID);
 		socketRB.blockConnected(socket, plugBlockID);
-
+		
+		RenderableBlock test = RenderableBlock.getRenderableBlock(plug.getBlockID());
+		
 		if (clickSound != null) {
 			//System.out.println("playing click sound");
 			clickSound.play();

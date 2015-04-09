@@ -2,6 +2,8 @@ package renderable;
 
 import java.awt.event.MouseEvent;
 
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
 import codeblocks.Block;
 import codeblocks.BlockConnector;
 
@@ -27,6 +29,31 @@ public class CollapseLabel extends BlockControlLabel {
 	protected void collapseBlockAndStack() {
 		updateCollapse();
 	}
+	
+	public void initcallapseBlockAndStack(){
+		RenderableBlock rb = RenderableBlock.getRenderableBlock(getBlockID());
+
+		if (rb != null) {
+			initialCollapseAfterBlocks(rb.getBlockID());
+			rb.repaintBlock();
+			if (rb.getHighlightHandler() != null) {
+				rb.getHighlightHandler().updateImage();
+				if (rb.getHighlightHandler().getParent() != null
+						&& rb.getHighlightHandler().getParent().getParent() != null)
+					rb.getHighlightHandler().getParent().getParent().repaint(); //force redraw to erase highlight
+			}
+		}
+	}
+	
+	public void initialCollapseAfterBlocks(Long blockID){
+		Block block = Block.getBlock(blockID);
+		if (block.getAfterBlockID() != Block.NULL) {
+			do {
+				block = Block.getBlock(block.getAfterBlockID());
+				initialCollapseBlock(block.getBlockID());
+			} while (block.getAfterBlockID() != Block.NULL);
+		}
+	}
 
 	/**
 	 * Sets visibility of afterBlocks and sockets of a procedure block
@@ -41,7 +68,6 @@ public class CollapseLabel extends BlockControlLabel {
 	 */
 	protected void collapseAfterBlocks(long blockID) {
 		Block block = Block.getBlock(blockID);
-
 		if (block.getAfterBlockID() != Block.NULL) {
 			do {
 				block = Block.getBlock(block.getAfterBlockID());
@@ -58,19 +84,47 @@ public class CollapseLabel extends BlockControlLabel {
 	 */
 	protected void collapseBlock(long blockID) {
 		RenderableBlock rBlock;
+		
 		rBlock = RenderableBlock.getRenderableBlock(blockID);
 		rBlock.setVisible(!isActive());
-		if (rBlock.hasComment()
-				&& rBlock.getComment().getCommentLabel().isActive()) {
-			rBlock.getComment().setVisible(!isActive());
-		}
+		
+		
+//		if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
+//			rBlock.getComment().setVisible(!isActive());
+//		}
+
 		rBlock.getHighlightHandler().updateImage();
 		rBlock.repaintBlock();
+		
+		Workspace.getInstance().notifyListeners(new WorkspaceEvent(rBlock.getParentWidget(), rBlock.getBlockID(), WorkspaceEvent.BLOCK_COLLAPSED));
+		
 		if (rBlock.isCollapsed()) {
 			return;
 		}
+		
 		collapseSockets(blockID);
 	}
+	
+	public void initialCollapseBlock(long blockID){
+		RenderableBlock rBlock;
+		
+		rBlock = RenderableBlock.getRenderableBlock(blockID);
+		rBlock.setVisible(!isActive());
+		
+		if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
+			rBlock.getComment().setVisible(!isActive());
+		}
+
+		rBlock.getHighlightHandler().updateImage();
+		rBlock.repaintBlock();
+		
+		if (rBlock.isCollapsed()) {
+			return;
+		}
+		
+		collapseSockets(blockID);
+	}
+	
 
 	/**
 	 * Toggles visibility of all blocks connected to sockets NB Sockets on
@@ -96,6 +150,7 @@ public class CollapseLabel extends BlockControlLabel {
 		collapseBlockAndStack();
 		update();
 	}
+	
 
 	/**
 	 * マウスクリック以外でブロックを閉じるとき
@@ -103,6 +158,12 @@ public class CollapseLabel extends BlockControlLabel {
 	public void blockCollapse() {
 		toggle();
 		collapseBlockAndStack();
+		update();
+	}
+	
+	public void initialBlockCollapse(){
+		toggle();
+		initcallapseBlockAndStack();
 		update();
 	}
 }
