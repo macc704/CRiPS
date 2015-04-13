@@ -164,7 +164,7 @@ public class LangDefFilesRewriter {
 			}
 
 			makeIndent(ps, ++lineNum);
-			ps.println("<BlockDrawer name=\"Project-Objects\" type=\"factory\" button-color=\"255 155 64\">");
+			ps.println("<BlockDrawer name=\"自作クラス型変数の定義\" type=\"factory\" button-color=\"255 155 64\">");
 			lineNum++;
 
 			for (ObjectBlockModel selDefClass : requestObjectBlock) {
@@ -176,7 +176,7 @@ public class LangDefFilesRewriter {
 
 			makeIndent(ps, ++lineNum);
 
-			ps.println("<BlockDrawer name=\"Project-Converter\" type=\"factory\" button-color=\"255 155 64\">");
+			ps.println("<BlockDrawer name=\"変換（自作クラス型）\" type=\"factory\" button-color=\"255 155 64\">");
 
 			for (ConvertBlockModel model : requestConvertBlockModel) {
 				model.printMenuItem(ps, lineNum);
@@ -187,7 +187,7 @@ public class LangDefFilesRewriter {
 
 			makeIndent(ps, ++lineNum);
 
-			ps.println("<BlockDrawer name=\"Project-Parameter\" type=\"factory\" button-color=\"255 155 64\">");
+			ps.println("<BlockDrawer name=\"引数（自作クラス型）\" type=\"factory\" button-color=\"255 155 64\">");
 
 			for (ParameterBlockModel model : requestParameterBlockModel) {
 				model.printMenuItem(ps, lineNum);
