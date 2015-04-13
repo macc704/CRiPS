@@ -50,8 +50,8 @@ public class CommandRule implements LinkRule, WorkspaceListener {
 					return;
 				}
 
-				//System.err.println(top.getBlockLabel());
-				//System.err.println(bottom.getBlockLabel());
+				// System.err.println(top.getBlockLabel());
+				// System.err.println(bottom.getBlockLabel());
 				link = BlockLink.getBlockLink(top, bottom,
 						top.getAfterConnector(), bottom.getBeforeConnector());
 				link.connect();

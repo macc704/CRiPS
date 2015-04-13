@@ -904,7 +904,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-arrayobject-double-numberarray" kind="function"
+<BlockGenus name="new-arrayobject-doublearray" kind="function"
 	initlabel="doubleArray" editable-label="yes" header-label="新しく"
 	footer-label="を作る" color="16 240 27">
 	<description>

@@ -135,6 +135,7 @@
 		<BlockGenusMember>private-var-arraylistobject</BlockGenusMember>
 		<BlockGenusMember>private-var-linkedlistobject</BlockGenusMember>
 		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>private-var-double-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-object-arrayobject</BlockGenusMember>
 		<BlockGenusMember>new-listobject</BlockGenusMember>

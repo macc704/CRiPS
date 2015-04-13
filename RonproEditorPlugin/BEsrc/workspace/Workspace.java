@@ -1066,9 +1066,9 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * RBParent implemented methods
 	 ******************************************/
 	public void addToBlockLayer(Component c) {
-		this.add(c, DRAGGED_BLOCK_LAYER);
+		add(c, DRAGGED_BLOCK_LAYER);
 	}
-
+	
 	public void addToHighlightLayer(Component c) {
 		this.add(c, DRAGGED_BLOCK_HIGHLIGHT_LAYER);
 	}

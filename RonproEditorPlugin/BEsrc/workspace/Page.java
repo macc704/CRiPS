@@ -611,8 +611,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	public void blockDropped(RenderableBlock block) {
 		//add to view at the correct location
 		Component oldParent = block.getParent();
-		block.setLocation(SwingUtilities.convertPoint(oldParent,
-				block.getLocation(), this.pageJComponent));
+		block.setLocation(SwingUtilities.convertPoint(oldParent,block.getLocation(), this.pageJComponent));
 		addBlock(block);
 		this.pageJComponent.setComponentZOrder(block, 0);
 		this.pageJComponent.revalidate();

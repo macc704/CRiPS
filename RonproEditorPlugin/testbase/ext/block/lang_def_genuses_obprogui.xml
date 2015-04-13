@@ -858,8 +858,7 @@
 		</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="boolean">
+		<BlockConnector label="" connector-kind="plug" connector-type="boolean">
 		</BlockConnector>
     </BlockConnectors>
     <LangSpecProperties>
@@ -892,12 +891,10 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="isKeyPressing" kind="function" color="255 0 0"
-	initlabel="指定したキーが押されたか調べる">
+<BlockGenus name="isKeyPressing" kind="function" color="255 0 0" initlabel="指定したキーが押されたか調べる">
 	<BlockConnectors>
-		<BlockConnector connector-type="boolean" connector-kind="plug"
-			position-type="mirror"></BlockConnector>
-        <BlockConnector label="キーコード" connector-type="number" connector-kind="socket"></BlockConnector>
+	    <BlockConnector connector-type="boolean" connector-kind="plug"></BlockConnector>
+		<BlockConnector label="キーコード" connector-type="number" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="isKeyPressing"></LangSpecProperty>
