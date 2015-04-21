@@ -76,6 +76,7 @@ public class ArrowObject extends JComponent {
 
 
 	public void drawArrow(Graphics2D graphic) {
+		setBounds(Workspace.getInstance().getBlockCanvas().getCanvas().getBounds());
 		graphic.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		BasicStroke stroke = new BasicStroke(3.0f);
