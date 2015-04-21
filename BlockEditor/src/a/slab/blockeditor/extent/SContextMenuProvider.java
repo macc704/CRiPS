@@ -160,17 +160,17 @@ public class SContextMenuProvider {
 	//		return str;
 	//	}
 
-	//	private JMenuItem createLengthMenu() {
-	//		if (createIncrementerItem == null) {
-	//			createIncrementerItem = new JMenuItem("文字列の長さを取得する");
-	//			createIncrementerItem.addActionListener(new ActionListener() {
-	//				public void actionPerformed(ActionEvent e) {
-	//					createCallMethod("length");
-	//				}
-	//			});
-	//		}
-	//		return createIncrementerItem;
-	//	}
+	private JMenuItem createLengthMenu() {
+		if (createIncrementerItem == null) {
+			createIncrementerItem = new JMenuItem("文字列の長さを取得する");
+			createIncrementerItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					createCallMethod("length");
+				}
+			});
+		}
+		return createIncrementerItem;
+	}
 
 	//	private JMenuItem createCallActionMethodBlockMenu() {
 	//		if (createCallActionMethodBlockItem == null) {
@@ -298,10 +298,10 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 		}
 
-		//		if(rb.getBlock().isStringVariableDecBlock()){
-		//			menu.add(createLengthMenu());
-		//			menu.addSeparator();
-		//		}
+		if (rb.getBlock().isStringVariableDecBlock()) {
+			menu.add(createLengthMenu());
+			menu.addSeparator();
+		}
 
 		if (rb.getBlock().getGenusName().contains("arrayobject")) {//配列
 			final String scope = getBlockScope(rb.getBlock().getGenusName());
