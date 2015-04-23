@@ -68,8 +68,7 @@ public class LangDefFilesReWriterMain {
 				selfDefModel.printMenu(projectMenuFile, turtleMenu);
 				selfDefModel.printGenus();
 				this.addedMethods = selfDefModel.getAddedMethods();
-				this.addedMethodsJavaType = selfDefModel
-						.getAddedMethodsJavaType();
+				this.addedMethodsJavaType = selfDefModel.getAddedMethodsJavaType();
 				return;
 			}
 		}
