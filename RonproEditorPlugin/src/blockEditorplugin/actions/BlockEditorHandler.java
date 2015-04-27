@@ -9,11 +9,19 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 public class BlockEditorHandler extends AbstractHandler {
 
+	BlockEditorManager manager;
+
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		// TODO Auto-generated method stub
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		new BlockEditorManager(window);
-		
+
+		if(manager == null){
+			manager = new BlockEditorManager(window);
+		}else{
+			manager.openBlockEditor(window);
+		}
+
+
 		return null;
 	}
 

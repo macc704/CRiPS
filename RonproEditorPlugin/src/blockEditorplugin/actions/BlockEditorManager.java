@@ -39,6 +39,7 @@ import pres.core.model.PRFileLog;
 import pres.core.model.PRLog;
 import presplugin.PresPlugin;
 import presplugin.editors.PresExtendedJavaEditor;
+import ronproeditor.helpers.CFrameUtils;
 import ronproeditorplugin.Activator;
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
@@ -65,6 +66,14 @@ public class BlockEditorManager {
 	private static IWorkbenchWindow window;
 
 	public BlockEditorManager(IWorkbenchWindow window) {
+		openBlockEditor(window);
+	}
+
+	public void openBlockEditor(IWorkbenchWindow window){
+		if(isWorkspaceOpened()){
+			CFrameUtils.toFront(blockEditor.getFrame());
+			return;
+		}
 		man.start();
 		man.setPriority(Thread.currentThread().getPriority() - 1);
 
@@ -85,7 +94,6 @@ public class BlockEditorManager {
 				try {
 					createAndShowGUI();
 				} catch (CoreException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -180,7 +188,7 @@ public class BlockEditorManager {
 				writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
 				// app.doDebugRun();
 			}
-			
+
 			public void chengeInheritance(){
 				writeBlockEditingLog(BlockEditorLog.SubType.INHERITANCE_CHANGED);
 			}
