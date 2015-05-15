@@ -22,17 +22,13 @@ public class LangDefFileCopier implements Copier {
 			FileInputStream ldfReader = new FileInputStream(
 					System.getProperty("user.dir") + "/ext/block/lang_def_turtle.xml");
 
-			// FileReader ldfReader = new FileReader(
-			// "ext/block/lang_def_menu_turtle.xml");
-
 			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "SJIS");
 			br = new BufferedReader(ldfISR);
 
-			// File ldf = new File("/ext/block/lang_def.dtd");
-
 			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
 			PrintStream turtlePs = new PrintStream(turtleByteArray);
-			// すべての行をコピーする
+
+			// lang_def_turtleをすべての行をコピーする
 			String line;
 			while ((line = br.readLine()) != null) {
 				// 一行書き込み >>lang_def.xml
@@ -43,14 +39,12 @@ public class LangDefFileCopier implements Copier {
 					turtlePs.println(line);
 				}
 			}
-			// menu情報のコピー
-			// psに書きだしたものをすべて文字列に変換する
+			
 			String ldfString = turtleByteArray.toString();
 
 			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile()
 					.getPath() + "/lang_def_project.xml");
-			// FileReader ldfReader = new FileReader(
-			// "ext/block/lang_def_menu_turtle.xml");
+
 			OutputStreamWriter ldfFOS = new OutputStreamWriter(ldfOS, "SJIS");
 			BufferedWriter ldfWriter = new BufferedWriter(ldfFOS);
 

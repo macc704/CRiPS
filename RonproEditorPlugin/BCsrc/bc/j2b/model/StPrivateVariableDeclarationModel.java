@@ -1,17 +1,18 @@
 package bc.j2b.model;
 
+
 public class StPrivateVariableDeclarationModel extends
 		StVariableDeclarationModel implements Cloneable {
 
 	private final int privateVariableBlockHeight = 40;
-	private String modifer = "";
+	private String accessModifier = "private";
 
 	public StPrivateVariableDeclarationModel() {
 		setBlockHeight(privateVariableBlockHeight);
 	}
 
 	public void setModifer(String modifer) {
-		this.modifer = modifer;
+		modifiers.add(modifer);
 	}
 
 	@Override
@@ -19,11 +20,7 @@ public class StPrivateVariableDeclarationModel extends
 		String genusName;
 
 		if (isProjectObject()) {
-			String type = getType();
-			if(type.contains("[]")){
-				type = type.substring(0, type.indexOf("[]"));
-			}
-			genusName = "object-" +type;
+			genusName = calcProjectObjectType();
 		} else {
 			genusName = convertJavaTypeToBlockGenusName(super.getType());
 		}
@@ -35,8 +32,25 @@ public class StPrivateVariableDeclarationModel extends
 		if (isArray()) {
 			genusName += "-arrayobject";
 		}
-
-		return "private-" + modifer + "var-" + genusName;
+		
+		return accessModifier + "-" + getModifier() + "var-" + genusName;
+	}
+	
+	private String calcProjectObjectType(){
+		String type = getType();
+		if(type.contains("[]")){
+			type = type.substring(0, type.indexOf("[]"));
+		}
+		return "object-" +type;
+	}
+	
+	public String getModifier(){
+		for(String mod : modifiers){
+			if(mod.equals("final")){
+				return "final-";
+			}
+		}
+		return "";
 	}
 
 	@Override

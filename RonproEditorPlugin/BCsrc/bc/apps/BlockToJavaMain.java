@@ -28,8 +28,7 @@ public class BlockToJavaMain {
 
 		Document document = DomParserWrapper.parse(openBlockXmlFile.getPath());
 
-		BlockToJavaAnalyzer visitor = new BlockToJavaAnalyzer(
-				openBlockXmlFile.getName());
+		BlockToJavaAnalyzer visitor = new BlockToJavaAnalyzer(openBlockXmlFile.getName());
 		visitor.setProjectMethods(rewriter.getAddedMethods());
 		visitor.visit(document);
 
@@ -47,8 +46,7 @@ public class BlockToJavaMain {
 		writer.print(root, sourceModel);
 
 		sourceModel.save();
-		//言語定義ファイルを再度書き換える
+		//新たに追加されたメソッドなどを反映させるために，再度言語定義ファイルを書き換える
 		rewriter.rewrite();
-		
 	}
 }

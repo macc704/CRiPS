@@ -8,6 +8,8 @@ package a.slab.blockeditor.extent;
 import java.awt.event.ActionEvent;
 
 import renderable.RenderableBlock;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
 import codeblocks.Block;
 
 /**
@@ -42,36 +44,15 @@ public class SStubCreator {
 				newRB.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
 
 				newRB.setParentWidget(rb.getParentWidget());
-				//書いてあるブロックコネクターを読み込む仕組み
-				//newRB.getBlock().getSocketAt
-				/*if(stubGenus.startsWith("setter")){//#ohata とりあえず
-					if(stubGenus.endsWith("int-number")){
-						RenderableBlock initRB = SContextMenuProvider.createNewBlock(newRB.getParentWidget(), "number");
-						initRB.setLocation(rb.getX()  + newRB.getBlockWidth(),rb.getY() + 20);
-						initRB.setParentWidget(rb.getParentWidget());
-						SContextMenuProvider.connectByPlug(newRB, 0, initRB);
-					}else if(stubGenus.endsWith("string")) {
-						RenderableBlock initRB = SContextMenuProvider.createNewBlock(newRB.getParentWidget(), "string");
-						initRB.setLocation(rb.getX()  + newRB.getBlockWidth(),rb.getY() + 20);
-						initRB.setParentWidget(rb.getParentWidget());
-						SContextMenuProvider.connectByPlug(newRB, 0, initRB);
-					}else if(stubGenus.endsWith("double-number")){
-						RenderableBlock initRB = SContextMenuProvider.createNewBlock(newRB.getParentWidget(), "double-number");
-						initRB.setLocation(rb.getX()  + newRB.getBlockWidth(),rb.getY() + 20);
-						initRB.setParentWidget(rb.getParentWidget());
-						SContextMenuProvider.connectByPlug(newRB, 0, initRB);
-					}else if(stubGenus.endsWith("boolean")){
-						RenderableBlock initRB = SContextMenuProvider.createNewBlock(newRB.getParentWidget(), "true");
-						initRB.setLocation(rb.getX()  + newRB.getBlockWidth(),rb.getY() + 20);
-						initRB.setParentWidget(rb.getParentWidget());
-						SContextMenuProvider.connectByPlug(newRB, 0, initRB);
-					}
-					
-					
-				//	newRB.getNearbyLink().connect();
-				}*/
-
+				
 				rb.getParentWidget().addBlock(newRB);
+				
+//				if(stubGenus.startsWith("caller")){
+//					Workspace.getInstance().getWorkSpaceController().addTraceLine(newRB);
+//					newRB.updateEndArrowPoint();
+//				}
+				Workspace.getInstance().notifyListeners(new WorkspaceEvent(newRB.getParentWidget(), newRB.getBlockID(), WorkspaceEvent.CALLERBLOCK_CREATED));
+				
 				return newRB;
 			}
 		}

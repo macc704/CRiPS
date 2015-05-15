@@ -47,14 +47,14 @@ public class OutputSourceModel {
 	private Map<String, String> privateRequests = new LinkedHashMap<String, String>();// ohata
 																						// added
 	private String superClassName;
-	
+
 	public OutputSourceModel(File file, String enc, String[] classpaths) {
 		this.file = file;
 		this.enc = enc;
 		this.classpaths = classpaths;
 	}
-	
-	public void setSuperClassName(String superClassName){
+
+	public void setSuperClassName(String superClassName) {
 		this.superClassName = superClassName;
 	}
 
@@ -70,15 +70,17 @@ public class OutputSourceModel {
 		createNewMethods();// まず，ないメソッドは作る
 		replace();
 	}
-	
-	public void replaceSuperClass(String newSuperClassName) throws FileNotFoundException, UnsupportedEncodingException{
-		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
-		SuperClassParser parser = new SuperClassParser(newSuperClassName);
-		unit.accept(parser);
-		PrintStream ps = new PrintStream(file, enc);
-		ps.print(unit.toString());
-		ps.close();
-		
+
+	public void replaceSuperClass(String newSuperClassName)
+			throws FileNotFoundException, UnsupportedEncodingException {
+		if(!newSuperClassName.equals("null")){
+			this.unit = ASTParserWrapper.parse(file, enc, classpaths);
+			SuperClassParser parser = new SuperClassParser(newSuperClassName);
+			unit.accept(parser);
+			PrintStream ps = new PrintStream(file, enc);
+			ps.print(unit.toString());
+			ps.close();
+		}
 	}
 
 	// #ohata added
@@ -87,8 +89,6 @@ public class OutputSourceModel {
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		String src = FileReader.readFile(file, enc);
 
-		BCSystem.out.println("read file:" + src);
-
 		List<FieldDeclaration> privateValues = getPrivateValues();
 		Collections.reverse(privateValues);
 		for (FieldDeclaration privateValue : privateValues) {
@@ -96,8 +96,7 @@ public class OutputSourceModel {
 					.toString());
 			if (privateRequests.containsKey(name)) {
 				// 入替
-				String blockString = privateRequests.get(name).substring(0,
-						privateRequests.get(name).length() - 1);
+				String blockString = privateRequests.get(name).substring(0, privateRequests.get(name).length() - 1);
 				String oldString = getOldPrivateString(name, src);
 				src = src.replace(oldString, blockString);
 			} else {
@@ -239,14 +238,14 @@ public class OutputSourceModel {
 	 * private int getLastPrivateValueEndPosition() { int cursor;
 	 * List<FieldDeclaration> privateValues = getPrivateValues();
 	 * JavaCommentManager cm = new JavaCommentManager(file, enc);
-	 * 
+	 *
 	 * if (privateValues.size() <= 0) { return -1; } else { //int len =
 	 * privateValues.get(privateValues.size() - 1).getLength(); int start =
 	 * privateValues.get(privateValues.size() - 1) .getStartPosition(); cursor =
 	 * cm.getLineCommentEndPosition(start); }
-	 * 
+	 *
 	 * return cursor;
-	 * 
+	 *
 	 * }
 	 */
 	private void createNewMethods(Map<String, String> newNames)
@@ -319,17 +318,16 @@ public class OutputSourceModel {
 			start = getLastPrivateVariableEndPosition();
 			if (start == -1) {// private変数が無い
 				Pattern p = Pattern
-						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?"
-								+ System.getProperty("line.separator"));
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?[" + System.getProperty("line.separator") + "]?");
 				String src = FileReader.readFile(file, enc);
+
 				Matcher m = p.matcher(src);
 				if (m.find()) {
-					start = m.group().length();
+					start = src.indexOf(m.group()) + m.group().length() + 1;
 				} else {
 					throw new RuntimeException("Class Declaration Not Found.");
 				}
 			}
-
 		} else {
 			MethodDeclaration last = methods.get(0);
 
@@ -345,11 +343,11 @@ public class OutputSourceModel {
 			end = getLastPrivateVariableEndPosition();
 			if (end == -1) {
 				Pattern p = Pattern
-						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?");
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?[" + System.getProperty("line.separator") + "]?");
 				String src = FileReader.readFile(file, enc);
 				Matcher m = p.matcher(src);
 				if (m.find()) {
-					end = m.group().length();
+					end = m.group().length()-1;
 				} else {
 					throw new RuntimeException("Class Declaration Not Found.");
 				}
@@ -366,7 +364,7 @@ public class OutputSourceModel {
 	}
 
 	private List<String> calcNewPrivateValueNames() {
-		BCSystem.out.println("calc newPrivateNames");
+
 		List<String> newNames = new ArrayList<String>();
 
 		for (String privateRequest : privateRequests.keySet()) {
@@ -442,20 +440,19 @@ public class OutputSourceModel {
 		for (FieldDeclaration privateValue : getPrivateValues()) {
 			if (getPrivateValueName(privateValue.fragments().get(0).toString())
 					.equals(name)) {
-				BCSystem.out.println("find same private value:" + name);
 				return privateValue;
 			}
 		}
 		return null;
 	}
 
-//	private String getFragmentsValue(String fragment) {
-//		int index = fragment.indexOf("=");
-//		if (index == -1) {
-//			return null;
-//		}
-//		return fragment.substring(index + 1, fragment.length());
-//	}
+	// private String getFragmentsValue(String fragment) {
+	// int index = fragment.indexOf("=");
+	// if (index == -1) {
+	// return null;
+	// }
+	// return fragment.substring(index + 1, fragment.length());
+	// }
 
 	private String getPrivateValueName(String fragment) {
 		int index = fragment.indexOf("=");
@@ -548,35 +545,35 @@ public class OutputSourceModel {
 
 }
 
-class SuperClassParser extends ASTVisitor{
+class SuperClassParser extends ASTVisitor {
 
 	private String className;
-	
-	public SuperClassParser(String newClassName){
+
+	public SuperClassParser(String newClassName) {
 		this.className = newClassName;
 	}
-	
-	public boolean visit(TypeDeclaration node){
-		setClassName(node, className);	
+
+	public boolean visit(TypeDeclaration node) {
+		setClassName(node, className);
 		return super.visit(node);
 	}
-	
-	private void setClassName(TypeDeclaration node, String name){
-		
-		if(name == null || name.equals("") || "null".equals(name)){
-			//親クラスなしに書換
-			if(node.getSuperclassType() != null){
-				node.getSuperclassType().delete();	
+
+	private void setClassName(TypeDeclaration node, String name) {
+
+		if (name == null || name.equals("") || "null".equals(name)) {
+			// 親クラスなしに書換
+			if (node.getSuperclassType() != null) {
+				node.getSuperclassType().delete();
 			}
-		}else{
-			//指定クラスを親に書換
+		} else {
+			// 指定クラスを親に書換
 			AST ast = node.getAST();
-			if(ast != null){
+			if (ast != null) {
 				Name newName = ast.newName(name);
 				Type superClassType = ast.newSimpleType(newName);
-				node.setSuperclassType(superClassType);	
-			}		
+				node.setSuperclassType(superClassType);
+			}
 		}
 	}
-	
+
 }

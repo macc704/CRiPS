@@ -22,6 +22,7 @@ public class StReturnModel extends StatementModel {
 	public void print(PrintStream out, int indent) {
 		// Child
 		if (getReturnValue() != null) {
+			getReturnValue().setConnectorId(getId());
 			getReturnValue().print(out, indent);
 		}
 
@@ -75,7 +76,7 @@ public class StReturnModel extends StatementModel {
 				out.println("<Sockets num-sockets=\"1\">");
 				// blockConnecters
 				makeIndent(out, indent + 2);
-				out.print("<BlockConnector connector-kind=\"sockets\" connector-type=\""
+				out.print("<BlockConnector connector-kind=\"socket\" connector-type=\""
 						+ connectorType
 						+ "\""
 						+ " init-type=\""

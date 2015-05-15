@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RonproEditorPlugin
 Bundle-SymbolicName:  jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin;singleton:=true
-Bundle-Version: 2.3.0
+Bundle-Version: 2.3.5
 Bundle-Activator: ronproeditorplugin.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -19,7 +19,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.jdt.ui,
  jp.ac.shizuoka.inf.ce.cs.commonlibrary;bundle-version="3.7.4",
  org.eclipse.ui.workbench
-Bundle-RequiredExecutionEnvironment:  JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7,
+ JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Sakai Laboratory
 Bundle-ClassPath: lib/jcommon-1.0.0-rc1.jar,

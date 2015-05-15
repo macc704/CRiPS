@@ -22,8 +22,14 @@ import bc.utils.ExtensionChanger;
  */
 public class JavaToBlockMain {
 
+	private boolean isNewOpenBlocks = false;
+	
 	public JavaToBlockMain() {
 
+	}
+	
+	public JavaToBlockMain(boolean isNewOpenBlocks) {
+		this.isNewOpenBlocks = isNewOpenBlocks;
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -63,13 +69,8 @@ public class JavaToBlockMain {
 		unit.accept(visitor);
 
 		CompilationUnitModel root = visitor.getCompilationUnit();
-		root.print(out, 0);
+		root.print(out, 0, isNewOpenBlocks);
 
-		// JarFile obpro = getObpro(file);
-		//
-		// if (obpro != null) {
-		// System.out.println(obpro.get);
-		// }
 		out.close();
 	}
 

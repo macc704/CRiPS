@@ -24,10 +24,10 @@
 		<BlockGenusMember>proc-param-string</BlockGenusMember>
 		<BlockGenusMember>proc-param-int-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>proc-param-double-number-arrayobject</BlockGenusMember>
-		<BlockGenusMember>proc-param-object-arrayobject</BlockGenusMember>
+
 		<BlockGenusMember>proc-param-string-arrayobject</BlockGenusMember>
 		<BlockGenusMember>proc-param-object-bwindow</BlockGenusMember>
-		<BlockGenusMember>proc-param-object-bcanvas</BlockGenusMember>		
+		<BlockGenusMember>proc-param-object-bcanvas</BlockGenusMember>
 		<BlockGenusMember>proc-param-object-bsound</BlockGenusMember>
 		<BlockGenusMember>proc-param-object-color</BlockGenusMember>
 		<BlockGenusMember>return</BlockGenusMember>
@@ -122,26 +122,27 @@
 		<BlockGenusMember>private-final-var-int-number</BlockGenusMember>
 		<BlockGenusMember>private-final-var-string</BlockGenusMember>
 	</BlockDrawer>
-	
+
 	<BlockDrawer name="配列・リスト" type="factory" button-color="230 0 255">
 		<BlockGenusMember>local-var-listobject</BlockGenusMember>
 		<BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
 		<BlockGenusMember>local-var-int-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>local-var-double-number-arrayobject</BlockGenusMember>
-		<BlockGenusMember>local-var-object-arrayobject</BlockGenusMember>	
+		<BlockGenusMember>local-var-object-arrayobject</BlockGenusMember>
 		<BlockGenusMember>local-var-arraylistobject</BlockGenusMember>
 		<BlockGenusMember>local-var-linkedlistobject</BlockGenusMember>
-		<BlockGenusMember>private-var-listobject</BlockGenusMember>		
+		<BlockGenusMember>private-var-listobject</BlockGenusMember>
 		<BlockGenusMember>private-var-arraylistobject</BlockGenusMember>
 		<BlockGenusMember>private-var-linkedlistobject</BlockGenusMember>
-		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>		
+		<BlockGenusMember>private-var-int-number-arrayobject</BlockGenusMember>
+		<BlockGenusMember>private-var-double-number-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-string-arrayobject</BlockGenusMember>
 		<BlockGenusMember>private-var-object-arrayobject</BlockGenusMember>
 		<BlockGenusMember>new-listobject</BlockGenusMember>
 		<BlockGenusMember>new-linkedlistobject</BlockGenusMember>
-		<BlockGenusMember>type-object</BlockGenusMember>			
+		<BlockGenusMember>type-object</BlockGenusMember>
 	</BlockDrawer>
-	
+
 
 	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
 		<BlockGenusMember>toIntFromDouble</BlockGenusMember>
@@ -164,11 +165,11 @@
 	<BlockDrawer name="色" type="factory" button-color="255 155 64">
 		<BlockGenusMember>local-var-object-color</BlockGenusMember>
 		<BlockGenusMember>private-var-object-color</BlockGenusMember>
-		<BlockGenusMember>private-final-var-object-color</BlockGenusMember>		
+		<BlockGenusMember>private-final-var-object-color</BlockGenusMember>
 		<BlockGenusMember>new-object-Color</BlockGenusMember>
 	</BlockDrawer>
-  
-	<BlockDrawer name="obpro" type="factory" button-color="255 155 64">
+
+	<BlockDrawer name="オブプロ" type="factory" button-color="255 155 64">
 		<BlockGenusMember>private-var-object-bcanvas</BlockGenusMember>
 		<BlockGenusMember>local-var-object-bcanvas</BlockGenusMember>
 		<BlockGenusMember>private-var-object-bwindow</BlockGenusMember>

@@ -300,7 +300,34 @@ import controller.WorkspaceController;
  *  	・ブロックの多重登録を修正
  *  	・thisキーワードの複製の問題を修正
  *  	・superメソッドブロックの作成処理を追加
- *  
+ *  2014.10.24 3.2.1 ohata
+ *  	・コンテキストメニューの変更（タートル継承した自作クラスオブジェクトにタートルのメニューを表示する）
+ *  	・List,Image,TextTurtleなどのメソッド呼び出しブロックを隠蔽
+ *  2014.10.24 3.2.2 ohata
+ *  	・コンテキストメニューの変更（クラス型変数へのメソッド参照を，変数名へ命令するというメニューに変更）
+ *  	・ブロックファクトリを1年生用に変更（自作クラス型変数の配列，プライベート変数を作成しない）
+ *  2014.11.04 3.2.3 ohata
+ *  	・メソッド矢印再描画処理を修正
+ *  	・スコープチェッカを修正 
+ *  2014.11.04 3.2.4 ohata
+ *  	・メソッド矢印を修正　閉じた状態でBlock化した際に矢印が表示されていた問題を修正
+ *  	・島を動かした際に，島中のブロックの矢印の透明度を変更するように修正
+ *  2014.11.04 3.2.5 ohata
+ *  	・メソッド矢印を修正，テスト
+ *  	・ハイライターの修正
+ *  2014.11.04 3.2.6 ohata
+ *  	・ゴミ箱，抽象化ブロック等の処理を追加　テストパス
+ *  	・ハイライターの修正
+ *  2014.11.04 3.3.0 ohata
+ *  	・メソッド矢印正式リリース
+ *  	・その他バグシュウセイ
+ *  2014.11.04 3.3.1 ohata
+ *  	・矢印修正
+ *  	・多点矢印に変更 再帰に対応
+ *  2014.11.04 3.3.3 ohata
+ *  	・矢印修正
+ *  	・多点矢印に変更 再帰バグを修正　その他メソッド定義に関するバグを修正
+ * 
  * <TODO>
  * ・コメントにxmlのタグが入るとエラー．
  * ・引数の使用時にスコープのチェック
@@ -320,7 +347,7 @@ public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "3.2.0";
+	public final static String VERSION = "3.3.3";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;

@@ -101,6 +101,12 @@ public abstract class BlockModel {
 	 * @return
 	 */
 	public String getType() {
+		if(javaType != null){
+			if(getGenusName().equals("local-var-object-List")){
+				return typeString(type);
+			}
+			return javaType;
+		}
 		return typeString(type);
 	}
 

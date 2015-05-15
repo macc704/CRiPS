@@ -1,5 +1,6 @@
 package codeblocks;
 
+import drawingobjects.DrawingArrowManager;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceListener;
 
@@ -13,18 +14,6 @@ public class CommandRule implements LinkRule, WorkspaceListener {
 		if (!BlockConnectorShape.isCommandConnector(socket1)
 				|| !BlockConnectorShape.isCommandConnector(socket2))
 			return false;
-		// We want exactly one before connector
-
-		//		if(block1.getGenusName().startsWith("getterlocal")){
-		//			Block block = block2;
-		//			while(block != null){
-		//				if(block.getGenusName().toString().equals("procedure")){
-		//					System.out.println(block.getGenusName().toString());
-		//				}
-		//				block = Block.getBlock(block.getBeforeConnector().getBlockID());
-		//			}
-		//		}
-
 		if (socket1 == block1.getBeforeConnector()) {
 			return !socket1.hasBlock();
 		} else if (socket2 == block2.getBeforeConnector()) {
@@ -61,8 +50,8 @@ public class CommandRule implements LinkRule, WorkspaceListener {
 					return;
 				}
 
-				//System.err.println(top.getBlockLabel());
-				//System.err.println(bottom.getBlockLabel());
+				// System.err.println(top.getBlockLabel());
+				// System.err.println(bottom.getBlockLabel());
 				link = BlockLink.getBlockLink(top, bottom,
 						top.getAfterConnector(), bottom.getBeforeConnector());
 				link.connect();

@@ -203,6 +203,8 @@ public abstract class ElementModel {
 		} else if (type.equals("BCanvas") || type.equals("BWindow")
 				|| type.equals("BSound") || type.equals("Color")) {
 			return "object-" + type.toLowerCase();
+		} else if(type.equals("ListTurtle")){ 
+			return "object-" + "List";
 		} else {
 			return "object";
 		}

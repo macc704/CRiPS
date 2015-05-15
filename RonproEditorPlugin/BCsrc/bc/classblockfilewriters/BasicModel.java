@@ -118,7 +118,7 @@ public class BasicModel {
 	protected void printBlockConnector(PrintStream out, int lineNumber,
 			String connectorKind, String connectorType) {
 		makeIndent(out, ++lineNumber);
-		out.println("<BlockConnector " + "connector-kind=\"" + connectorKind
+		out.println("<BlockConnector " + "label=\"\" connector-kind=\"" + connectorKind
 				+ "\" connector-type=\"" + connectorType + "\">"
 				+ "</BlockConnector>");
 		makeIndent(out, --lineNumber);

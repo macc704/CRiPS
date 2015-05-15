@@ -1,8 +1,6 @@
 package controller;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,7 +47,6 @@ import slcodeblocks.ParamRule;
 import slcodeblocks.PolyRule;
 import util.ChangeExtension;
 import workspace.BlockCanvas;
-import workspace.Page;
 import workspace.SearchBar;
 import workspace.SearchableContainer;
 import workspace.TrashCan;
@@ -72,16 +69,15 @@ import codeblocks.BlockStub;
 import codeblocks.CommandRule;
 import codeblocks.InfixRule;
 import codeblocks.SocketRule;
-import drawingobjects.ArrowObject;
 
 /**
- * 
+ *
  * The WorkspaceController is the starting point for any program using Open
  * Blocks. It contains a Workspace (the block programming area) as well as the
  * Factories (the palettes of blocks), and is responsible for setting up and
  * laying out the overall window including loading some WorkspaceWidgets like
  * the TrashCan.
- * 
+ *
  * @author Ricarose Roque
  */
 
@@ -117,13 +113,16 @@ public class WorkspaceController {
 	public static final int PROJECT_SELECTED = 2;
 	public static final int COMPILE_ERROR = 3;
 	private int state = PROJECT_SELECTED;
-	
+
+	private String user = ""; // for CheCoPro
+
+
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
 	 * with the codeblocks.Workspace
-	 * 
+	 *
 	 */
-	
+
 	public WorkspaceController(String imagePath) {
 		workspace = Workspace.getInstance();
 		this.imagePath = imagePath;// added by macchan
@@ -140,7 +139,7 @@ public class WorkspaceController {
 
 	/**
 	 * return frame
-	 * 
+	 *
 	 * @return
 	 */
 	public JFrame getFrame() {
@@ -197,7 +196,7 @@ public class WorkspaceController {
 	/**
 	 * Sets the contents of the Lang Def File to the specified String
 	 * langDefContents
-	 * 
+	 *
 	 * @param langDefContents
 	 *            String contains the specification of a language definition
 	 *            file
@@ -227,7 +226,7 @@ public class WorkspaceController {
 
 	/**
 	 * Sets the Lang Def File to the specified File langDefFile.
-	 * 
+	 *
 	 * @param langDefFile
 	 *            File contains the specification of the a language definition
 	 *            file.
@@ -261,7 +260,7 @@ public class WorkspaceController {
 	/**
 	 * Loads all the block genuses, properties, and link rules of a language
 	 * specified in the pre-defined language def file.
-	 * 
+	 *
 	 * @param root
 	 *            Loads the language specified in the Element root
 	 */
@@ -295,11 +294,13 @@ public class WorkspaceController {
 		langDefDirty = false;
 
 		workspace.setLoadingBlockLanguage(false);
+		workspace.setWorkSpaceController(this);
+
 	}
 
 	/**
 	 * Resets the current language within the active Workspace.
-	 * 
+	 *
 	 */
 	public void resetLanguage() {
 		// clear shape mappings
@@ -317,7 +318,7 @@ public class WorkspaceController {
 	/**
 	 * Returns the save string for the entire workspace. This includes the block
 	 * workspace, any custom factories, canvas view state and position, pages
-	 * 
+	 *
 	 * @return the save string for the entire workspace.
 	 */
 	public String getSaveString() {
@@ -361,7 +362,7 @@ public class WorkspaceController {
 	 * Loads the programming project from the specified file path. This method
 	 * assumes that a Language Definition File has already been specified for
 	 * this programming project.
-	 * 
+	 *
 	 * @param path
 	 *            String file path of the programming project to load
 	 */
@@ -409,6 +410,7 @@ public class WorkspaceController {
 				setFrameTitle(path);
 
 				setDirty(false);
+
 			}
 
 		} catch (ParserConfigurationException e) {
@@ -437,6 +439,10 @@ public class WorkspaceController {
 
 		String title = defaultTitle + "-" + javaName;
 
+		if (!user.equals("")) {
+			title = user + "-" + title;
+		}
+
 		frame.setTitle(title);
 	}
 
@@ -451,7 +457,7 @@ public class WorkspaceController {
 	 * Loads the programming project specified in the projectContents. This
 	 * method assumes that a Language Definition File has already been specified
 	 * for this programming project.
-	 * 
+	 *
 	 * @param projectContents
 	 */
 	public void loadProject(String projectContents) {
@@ -494,16 +500,16 @@ public class WorkspaceController {
 	 * which is associated with the language definition file contained in the
 	 * specified langDefContents. All the blocks contained in projectContents
 	 * must have an associted block genus defined in langDefContents.
-	 * 
+	 *
 	 * If the langDefContents have any workspace settings such as pages or
 	 * drawers and projectContents has workspace settings as well, the workspace
 	 * settings within the projectContents will override the workspace settings
 	 * in langDefContents.
-	 * 
+	 *
 	 * NOTE: The language definition contained in langDefContents does not
 	 * replace the default language definition file set by: setLangDefFilePath()
 	 * or setLangDefFile().
-	 * 
+	 *
 	 * @param projectContents
 	 * @param langDefContents
 	 *            String XML that defines the language of projectContents
@@ -542,6 +548,7 @@ public class WorkspaceController {
 
 				workspaceLoaded = true;
 				frame.setTitle(createWindowTitle());
+
 			}
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -590,7 +597,7 @@ public class WorkspaceController {
 
 	/**
 	 * Returns the JComponent of the entire workspace.
-	 * 
+	 *
 	 * @return the JComponent of the entire workspace.
 	 */
 	public JComponent getWorkspacePanel() {
@@ -615,7 +622,7 @@ public class WorkspaceController {
 
 	/**
 	 * Returns an unmodifiable Iterable of SearchableContainers
-	 * 
+	 *
 	 * @return an unmodifiable Iterable of SearchableContainers
 	 */
 	public Iterable<SearchableContainer> getAllSearchableContainers() {
@@ -653,7 +660,7 @@ public class WorkspaceController {
 		JPanel topPane = new JPanel();
 
 		{// create save button
-			JButton saveButton = new JButton("Save as Java");
+			JButton saveButton = new JButton("Save as Java and Compile");
 			saveButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					wc.convertToJava(wc.getSaveString(), enc);
@@ -662,32 +669,20 @@ public class WorkspaceController {
 			topPane.add(saveButton);
 		}
 
-		// {// create run button
-		// JButton runButton = new JButton("Java出力して実行");
-		// runButton.addActionListener(new ActionListener() {
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// wc.convertToJavaAndRun(
-		// wc.getSaveString(), enc);
-		// }
-		// });
-		// topPane.add(runButton);
-		// }
-
-		{// create compile button
-			JButton runButton = new JButton("Compile");
-			runButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (dirty) {
-						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					ronproEditor.blockCompile();
-				}
-			});
-			topPane.add(runButton);
-		}
+//		{// create compile button
+//			JButton runButton = new JButton("Compile");
+//			runButton.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					if (dirty) {
+//						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
+//								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
+//						return;
+//					}
+//					ronproEditor.blockCompile();
+//				}
+//			});
+//			topPane.add(runButton);
+//		}
 
 		{// create run button
 			JButton runButton = new JButton("Run");
@@ -704,34 +699,35 @@ public class WorkspaceController {
 			topPane.add(runButton);
 		}
 
-		{// create debug run button
-			JButton runButton = new JButton("DebugRun");
-			runButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (dirty) {
-						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません",
-								"実行できません", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					ronproEditor.blockDebugRun();
-				}
-			});
-			// topPane.add(runButton);
-		}
+//		{// create debug run button
+//			JButton runButton = new JButton("DebugRun");
+//			runButton.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					if (dirty) {
+//						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません",
+//								"実行できません", JOptionPane.ERROR_MESSAGE);
+//						return;
+//					}
+//					ronproEditor.blockDebugRun();
+//				}
+//			});
+//			// topPane.add(runButton);
+//		}
 
 		{// create showing method trace line bottun
 			final JToggleButton showTraceLineButton = new JToggleButton(
-					"show trace line");
+					"Hide MeRV");
+			showTraceLineButton.setSelected(!workspace.getMeRVManager().isActive());
 			showTraceLineButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
-						// 関数呼び出しをトレースするラインを表示する
-						showTraceLine();
-					} else {
 						// 関数呼び出しをトレースするラインを非表示にする
-						workspace.getBlockCanvas().getPageNamed(calcClassName()).getDrawingArrowManager().clearPossessers();
-						workspace.getPageNamed(calcClassName()).clearArrowLayer();
-						workspace.getPageNamed(calcClassName()).getJComponent().repaint();
+						workspace.getMeRVManager().setActive(false);
+						ronproEditor.toggleTraceLines("ON");
+					} else {
+						// 関数呼び出しをトレースするラインを表示する
+						workspace.getMeRVManager().setActive(true);
+						ronproEditor.toggleTraceLines("OFF");
 					}
 				}
 			});
@@ -775,142 +771,85 @@ public class WorkspaceController {
 		frame.setVisible(true);
 	}
 
-	/*
-	 * メソッド呼び出し関係を表示するラインを描画します
-	 */
-	public void showTraceLine() {
-		for (Block block : workspace.getBlocks()) {
-			// 呼び出しブロックにラインを表示する
-			RenderableBlock rb = RenderableBlock.getRenderableBlock(block
-					.getBlockID());
-			
-			if (rb.getGenus().startsWith("caller")) {
-				BlockCanvas canvas = workspace.getBlockCanvas();
-				JComponent component = rb.getParentWidget().getJComponent();
-				//メソッド定義ブロックと，呼び出しブロックを直線で結ぶ
-				BlockStub stub = (BlockStub) (rb.getBlock());				
-				RenderableBlock parentBlock = searchMethodDefinidionBlock(stub);
-				if(parentBlock != null){
-					//呼び出しブロックの座標
-					Point p1 = new Point(rb.getLocation());
-					p1.x += rb.getWidth();
-					
-					//呼び出し関数の定義ファイル
-					Point p2 = parentBlock.getLocation();
-					ArrowObject arrow = new ArrowObject(p1, p2, calcClassName());
-					arrow.drawArrow((Graphics2D)component.getGraphics());
-					Page parentPage = (Page)rb.getParentWidget();
-					parentPage.addArrow(arrow);
-									
-					//呼び出しブロックと，メソッド定義ブロックの最後のブロックを直線で結ぶ
-					RenderableBlock lastBlock = getLastBlock(parentBlock.getBlock());
-					Point p3 = new Point(lastBlock.getLocation());
-					p3.y += lastBlock.getHeight()-7;
-					Point p4 = new Point(p1);
-					p4.y +=rb.getHeight() -7;
-					ArrowObject arrow2 = new ArrowObject(p3,p4, calcClassName());
-					arrow2.drawArrow((Graphics2D)component.getGraphics());
-					parentPage.addArrow(arrow2);
-					//定義ブロックへの矢印の追加
-					parentBlock.addStartArrow(arrow);
-					parentBlock.addEndArrow(arrow2);
-					
-					//callerブロックへの矢印の追加
-					rb.addEndArrow(arrow);
-					rb.addStartArrow(arrow2);
-					
-					//managerにブロック登録
-					String pageName = calcClassName();
-					canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(rb);
-					canvas.getPageNamed(pageName).getDrawingArrowManager().addPossesser(parentBlock);					
-				}else{
-					return ;
-				}
-			}
-		}
-	}
-	
-	
-	public String calcClassName(){
-		String className = this.selectedJavaFile.substring(0,selectedJavaFile.indexOf(".xml"));
-		while(className.indexOf("\\") != -1){
-			className = className.substring(className.indexOf("\\") + 1, className.length());
+
+
+	public String calcClassName() {
+		String className = this.selectedJavaFile.substring(0,
+				selectedJavaFile.indexOf(".xml"));
+		while (className.indexOf(System.getProperty("file.separator")) != -1) {
+			className = className
+					.substring(className.indexOf(System
+							.getProperty("file.separator")) + 1, className
+							.length());
 		}
 		return className;
 	}
 
-
 	public RenderableBlock searchMethodDefinidionBlock(BlockStub stub) {
 		String name = stub.getBlockLabel();
 		List<String> params = calcParamTypes(stub);
-		
+
 		for (Block block : workspace.getBlocks()) {
-			RenderableBlock rb = RenderableBlock.getRenderableBlock(block
-					.getBlockID());
-			if(rb.getGenus().equals("procedure") && rb.getBlock().getBlockLabel().equals(name) && checkParameterType(block, params)){
+			RenderableBlock rb = RenderableBlock.getRenderableBlock(block.getBlockID());
+			if (rb.getGenus().equals("procedure")
+					&& rb.getBlock().getBlockLabel().equals(name)
+					&& checkParameterType(block, params)) {
 				return RenderableBlock.getRenderableBlock(block.getBlockID());
 			}
 		}
 		return null;
 	}
-	
-	public boolean checkParameterType(Block block, List<String> params){
+
+	public boolean checkParameterType(Block block, List<String> params) {
 		int connectorSize = -1;//ソケットは必ず一つカウントされる
 		int counterSize = 0;
-		
-		for(BlockConnector connector : block.getSockets()){
+
+		for (BlockConnector connector : block.getSockets()) {
 			connectorSize++;
 		}
-		
+
 		//引数の数をチェック
-		if(connectorSize != params.size()){
+		if (connectorSize != params.size()) {
 			return false;
 		}
-		
+
 		//引数無し同士
-		if(params.size() == 0 && connectorSize == 0){
+		if (params.size() == 0 && connectorSize == 0) {
 			return true;
 		}
-		
-		for(int i = 0; i < counterSize; i++){
-			if(checkIllegalParameter(block, params, connectorSize, i)){
+
+		for (int i = 0; i < counterSize; i++) {
+			if (checkIllegalParameter(block, params, connectorSize, i)) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
-	public boolean checkIllegalParameter(Block block, List<String> params, int connectorSize ,int i){
+
+	public boolean checkIllegalParameter(Block block, List<String> params,
+			int connectorSize, int i) {
 		//引数の数が合わない
-		if(connectorSize < i || params.size() < i){
+		if (connectorSize < i || params.size() < i) {
 			return true;
 		}
 		//ソケットがどちらかnull
-		if(block.getSocketAt(i) == null || params.get(i) == null){
+		if (block.getSocketAt(i) == null || params.get(i) == null) {
 			return true;
 		}
 		//型が不一致
-		if(!block.getSocketAt(i).getKind().equals(params.get(i))){
+		if (!block.getSocketAt(i).getKind().equals(params.get(i))) {
 			return true;
 		}
 		return false;
 	}
-	
-	public List<String> calcParamTypes(BlockStub stub){
+
+	public List<String> calcParamTypes(BlockStub stub) {
 		List<String> params = new ArrayList<String>();
-		for(BlockConnector connector : stub.getSockets()){
+		for (BlockConnector connector : stub.getSockets()) {
 			params.add(connector.getKind());
 		}
 		return params;
-	}
-	
-	public RenderableBlock getLastBlock(Block block){
-		Block tmpBlock = block;
-		while(tmpBlock.getAfterBlockID() != -1){
-			tmpBlock = Block.getBlock(tmpBlock.getAfterBlockID());
-		}
-		return RenderableBlock.getRenderableBlock(tmpBlock.getBlockID());
 	}
 
 	public void createAndShowGUIForTesting(final WorkspaceController wc,
@@ -1181,6 +1120,10 @@ public class WorkspaceController {
 
 	public Workspace getWorkspace() {
 		return workspace;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
 	}
 
 }

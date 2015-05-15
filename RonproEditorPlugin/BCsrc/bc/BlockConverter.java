@@ -109,7 +109,7 @@ public class BlockConverter {
 			"isLeftMouseDown", "getMouseX", "getMouseY", "isKeyPressing",
 			"isKeyCode", "isKeyDown", "getKeyCode", "getImageWidth",
 			"getImageHeight", "getCanvas", "getVolume", "getDefaultVolume",
-			"size", "get", "Math.random", "Math.sqrt", "Math.sin", "Math.cos",
+			 "get", "Math.random", "Math.sqrt", "Math.sin", "Math.cos",
 			"Math.tan", "Math.log", "Math.toRadians", "getCanvasWidth",
 			"getCanvasHeight", "removeFirst", "isMouseDown", "get[@number]",
 			"hasNextInt", "hasNextDouble" , "Input.getInt", "Input.getDouble", "Input.getString", "Input.isInteger", "Input.isDouble","length" };

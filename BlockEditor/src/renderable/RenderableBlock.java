@@ -40,6 +40,7 @@ import workspace.ContextMenu;
 import workspace.FactoryManager;
 import workspace.ISupportMemento;
 import workspace.MiniMap;
+import workspace.Page;
 import workspace.RBParent;
 import workspace.SearchableElement;
 import workspace.Workspace;
@@ -837,8 +838,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 *         linking between this RenderableBlock and another.
 	 */
 	public BlockLink getNearbyLink() {
-		return BlockLinkChecker.getLink(this, Workspace.getInstance()
-				.getBlockCanvas().getBlocks());
+		return BlockLinkChecker.getLink(this, Workspace.getInstance().getBlockCanvas().getBlocks());
 	}
 
 	// /////////////////////
@@ -1791,7 +1791,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.setConstrainComment(false);
 		}
 		Component oldParent = renderable.getParent();
-		Workspace.getInstance().addToBlockLayer(renderable);
+		
+		Workspace.getInstance().addToBlockLayer(renderable);	
+
 		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
 
 		for (BlockConnector socket : BlockLinkChecker
@@ -1816,7 +1818,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			throw new RuntimeException("dropping without prior dragging?");
 		// reset hilight 応急処置
 		renderable.highlighter.resetHighlight();
-
+		
 		// notify children
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(renderable.getBlock())) {
@@ -1843,11 +1845,21 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				renderable.comment.setParent(null, renderable.getBounds());
 			}
 
-			renderable.comment.setConstrainComment(true);
-			renderable.comment.setLocation(renderable.comment.getLocation());
-			renderable.comment.getArrow().updateArrow();
+//			renderable.comment.setConstrainComment(true);
+//			renderable.comment.setLocation(renderable.comment.getLocation());
+//			renderable.comment.getArrow().updateArrow();
 		}
 
+	}
+	
+	public void addBlockLayer(RenderableBlock renderable, WorkspaceWidget widget){
+		Workspace.getInstance().addToBlockLayer(renderable);
+		for (BlockConnector socket : BlockLinkChecker
+				.getSocketEquivalents(renderable.getBlock())) {
+			if (socket.hasBlock()) {
+				stopDragging(getRenderableBlock(socket.getBlockID()), widget);
+			}
+		}
 	}
 
 	public Block getCommandBlock(Block block){
@@ -1950,7 +1962,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 			// if the block was dragged before...then
 			if (dragging) {
-
+								
 				BlockLink link = getNearbyLink(); // look for nearby link
 													// opportunities
 				WorkspaceWidget widget = null;
@@ -2113,7 +2125,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseDragged(MouseEvent e) {
-
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			if (!pickedUp) {
 				if (SBlockEditor.DEBUG) {
@@ -2151,8 +2162,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				if (plug != null && plug.hasBlock()) {
 					Block parent = Block.getBlock(plug.getBlockID());
 					BlockConnector socket = parent.getConnectorTo(blockID);
-					BlockLink link = BlockLink.getBlockLink(block, parent,
-							plug, socket);
+					BlockLink link = BlockLink.getBlockLink(block, parent,plug, socket);
 					link.disconnect();
 					// socket is removed internally from block's socket list if
 					// socket is expandable

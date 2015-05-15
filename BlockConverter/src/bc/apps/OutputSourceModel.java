@@ -73,13 +73,14 @@ public class OutputSourceModel {
 
 	public void replaceSuperClass(String newSuperClassName)
 			throws FileNotFoundException, UnsupportedEncodingException {
-		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
-		SuperClassParser parser = new SuperClassParser(newSuperClassName);
-		unit.accept(parser);
-		PrintStream ps = new PrintStream(file, enc);
-		ps.print(unit.toString());
-		ps.close();
-
+		if(!newSuperClassName.equals("null")){
+			this.unit = ASTParserWrapper.parse(file, enc, classpaths);
+			SuperClassParser parser = new SuperClassParser(newSuperClassName);
+			unit.accept(parser);
+			PrintStream ps = new PrintStream(file, enc);
+			ps.print(unit.toString());
+			ps.close();
+		}
 	}
 
 	// #ohata added
@@ -88,8 +89,6 @@ public class OutputSourceModel {
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		String src = FileReader.readFile(file, enc);
 
-		BCSystem.out.println("read file:" + src);
-
 		List<FieldDeclaration> privateValues = getPrivateValues();
 		Collections.reverse(privateValues);
 		for (FieldDeclaration privateValue : privateValues) {
@@ -97,8 +96,7 @@ public class OutputSourceModel {
 					.toString());
 			if (privateRequests.containsKey(name)) {
 				// 入替
-				String blockString = privateRequests.get(name).substring(0,
-						privateRequests.get(name).length() - 1);
+				String blockString = privateRequests.get(name).substring(0, privateRequests.get(name).length() - 1);
 				String oldString = getOldPrivateString(name, src);
 				src = src.replace(oldString, blockString);
 			} else {
@@ -240,14 +238,14 @@ public class OutputSourceModel {
 	 * private int getLastPrivateValueEndPosition() { int cursor;
 	 * List<FieldDeclaration> privateValues = getPrivateValues();
 	 * JavaCommentManager cm = new JavaCommentManager(file, enc);
-	 * 
+	 *
 	 * if (privateValues.size() <= 0) { return -1; } else { //int len =
 	 * privateValues.get(privateValues.size() - 1).getLength(); int start =
 	 * privateValues.get(privateValues.size() - 1) .getStartPosition(); cursor =
 	 * cm.getLineCommentEndPosition(start); }
-	 * 
+	 *
 	 * return cursor;
-	 * 
+	 *
 	 * }
 	 */
 	private void createNewMethods(Map<String, String> newNames)
@@ -325,7 +323,7 @@ public class OutputSourceModel {
 
 				Matcher m = p.matcher(src);
 				if (m.find()) {
-					start = src.indexOf(m.group()) + m.group().length() + 1; 
+					start = src.indexOf(m.group()) + m.group().length() + 1;
 				} else {
 					throw new RuntimeException("Class Declaration Not Found.");
 				}
@@ -366,7 +364,7 @@ public class OutputSourceModel {
 	}
 
 	private List<String> calcNewPrivateValueNames() {
-		
+
 		List<String> newNames = new ArrayList<String>();
 
 		for (String privateRequest : privateRequests.keySet()) {

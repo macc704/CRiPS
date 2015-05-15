@@ -139,7 +139,7 @@ public class StMethodDeclarationModel extends StatementModel {
 		}
 		// 空きコネクタ
 		makeIndent(out, indent + 2);
-		out.println("<BlockConnector connector-kind=\"sockets\" connector-type=\"poly\" init-type=\"poly\" label=\"\" position-type=\"single\" is-expandable=\"yes\"/>");
+		out.println("<BlockConnector connector-kind=\"socket\" connector-type=\"poly\" init-type=\"poly\" label=\"\" position-type=\"single\" is-expandable=\"yes\"/>");
 		makeIndent(out, indent + 1);
 		out.println("</Sockets>");
 

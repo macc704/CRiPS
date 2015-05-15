@@ -2,13 +2,12 @@ package renderable;
 
 import java.awt.Color;
 
-import bc.BCSystem;
 import codeblocks.Block;
 import codeblocks.BlockConnector;
 
 public class ScopeChecker {
 
-	public boolean checkScope(Block beforeBlock, Block cmpBlock) {
+	public static boolean checkScope(Block beforeBlock, Block cmpBlock) {
 		//cmpblock:チェックする変数のブロック
 		//before　結合先のブロック
 
@@ -18,13 +17,13 @@ public class ScopeChecker {
 		String compareBlockName;
 		Block compareBlock = cmpBlock;
 		//参照ブロック、private変数ブロックでない場合はスコープを確認
-		if (isCompareBlock(cmpBlock)
-				&& !cmpBlock.getGenusName().contains("private")) {
+		if (isCompareBlock(cmpBlock) && !cmpBlock.getGenusName().contains("private")) {
 			//直前のブロックがプラグを持っている場合、そちらが直前のブロックになる
 			if (Block.getBlock(beforeBlock.getPlugBlockID()) != null) {
 				beforeBlock = purcePlugBlock(beforeBlock);
 				originBlock = beforeBlock;
 			}
+			
 			//離れ小島のブロックの場合はtrueを返す
 			if (isIndependentBlock(beforeBlock)) {
 				return true;
@@ -53,9 +52,7 @@ public class ScopeChecker {
 					compareBlockName)) {
 				return true;
 			}
-			BCSystem.out.println("cant belong block:"
-					+ cmpBlock.getBlockLabel());
-
+		
 			RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
 					.setBlockHighlightColor(Color.RED);
 
@@ -65,7 +62,7 @@ public class ScopeChecker {
 		}
 	}
 
-	private Block purcePlugBlock(Block block) {
+	private static Block purcePlugBlock(Block block) {
 
 		while (Block.getBlock(block.getPlugBlockID()) != null) {
 			block = Block.getBlock(block.getPlugBlockID());
@@ -126,12 +123,12 @@ public class ScopeChecker {
 
 	//参照ブロックが所属できるかどうか確認する. 参照ブロックから上に順番にたどっていって、スコープがあっているか確認する
 	//引数　スコープを確認するブロック:cmpblock 結合先の一番前のブロック:beforelock
-	private boolean confirmCompareBlockIsBelongable(Block cmpBlock,
+	private static boolean confirmCompareBlockIsBelongable(Block cmpBlock,
 			Block beforeBlock, String originBlockName) {
 
 		Block checkBlock = cmpBlock;
 
-		if (cmpBlock.getPlugBlockID() != -1) {
+		if (cmpBlock.getPlugBlockID() != -1 ) {
 			while (cmpBlock.getPlugBlockID() != -1) {
 				cmpBlock = Block.getBlock(cmpBlock.getPlugBlockID());
 			}
@@ -290,9 +287,10 @@ public class ScopeChecker {
 	}
 
 	public static boolean isIndependentBlock(Block block) {
+		
 		while (!block.getGenusName().equals("procedure")) {
 			//次のブロックが存在シない場合は、離れ小島のブロックのためtrue
-			if (Block.getBlock(block.getBeforeBlockID()) == null) {
+			if (Block.getBlock(block.getBeforeBlockID()) == null || block.getBeforeBlockID() == -1 ) {
 				return true;
 			}
 			block = Block.getBlock(block.getBeforeBlockID());

@@ -664,8 +664,8 @@ public class Block implements ISupportMemento {
 		// stubs use this as a reference to update
 		// its own sockets
 		// if block has stubs, update its stubs as well
-		if (hasStubs())
-			BlockStub.parentConnectorsChanged(blockID);
+		if (hasStubs() && connectedSocket.getPositionType().toString().equals("SINGLE"))
+				BlockStub.parentConnectorsChanged(blockID);
 	}
 
 	/**
@@ -675,8 +675,7 @@ public class Block implements ISupportMemento {
 	 * @param disconnectedSocket
 	 */
 	public void blockDisconnected(BlockConnector disconnectedSocket) {
-		if (disconnectedSocket.isExpandable()
-				&& canRemoveSocket(disconnectedSocket)) {
+		if (disconnectedSocket.isExpandable() && canRemoveSocket(disconnectedSocket)) {
 			if (disconnectedSocket.getExpandGroup().length() > 0)
 				shrinkSocketGroup(disconnectedSocket);
 			else
@@ -687,8 +686,9 @@ public class Block implements ISupportMemento {
 		// stubs use this as a reference to update
 		// its own sockets
 		// if block has stubs, update its stubs as well
-		if (hasStubs())
-			BlockStub.parentConnectorsChanged(blockID);
+		if (hasStubs() && "BOTTOM".equals(disconnectedSocket.getPositionType())){
+				BlockStub.parentConnectorsChanged(blockID);	
+		}
 	}
 
 	// //////////////////////////////
@@ -845,8 +845,7 @@ public class Block implements ISupportMemento {
 			connectedBlock.getConnectorTo(this.blockID).setConnectorBlockID(
 					Block.NULL);
 			socket.setConnectorBlockID(Block.NULL);
-			RenderableBlock.getRenderableBlock(blockID).blockDisconnected(
-					socket);
+			RenderableBlock.getRenderableBlock(blockID).blockDisconnected(socket);
 		}
 		sockets.remove(socket);
 	}
@@ -2376,6 +2375,13 @@ public class Block implements ISupportMemento {
 	}
 
 	public Long getParentBlockID() {
+		return parentID;
+	}
+	
+	public Long getMethodDefinidionBlockID() {
+		if(this.getGenusName().equals("procedure")){
+			return this.blockID;
+		}
 		return parentID;
 	}
 }

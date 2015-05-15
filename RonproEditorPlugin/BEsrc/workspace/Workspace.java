@@ -39,6 +39,7 @@ import codeblockutil.Explorer;
 import codeblockutil.ExplorerEvent;
 import codeblockutil.ExplorerListener;
 import controller.WorkspaceController;
+import drawingobjects.DrawingArrowManager;
 
 /**
  * The Workspace is the main block area, where blocks are manipulated and
@@ -82,7 +83,6 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 					//System.out.println("comparing "+w1+" with "+w2+" result1: "+(getDrawDepth(w1.getJComponent())>getDrawDepth(w2.getJComponent())));
 					double depth1 = getDrawDepth(w1.getJComponent());
 					double depth2 = getDrawDepth(w2.getJComponent());
-
 					if (depth1 > depth2) {
 						return 1;
 					} else if (depth1 < depth2) {
@@ -127,6 +127,8 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	private FocusTraversalManager focusManager;
 
+	private DrawingArrowManager mervManager = new DrawingArrowManager();
+
 	/// RENDERING LAYERS ///
 	public final static Integer PAGE_LAYER = new Integer(0);
 	public final static Integer BLOCK_HIGHLIGHT_LAYER = new Integer(1);
@@ -144,6 +146,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 		this.factory = new FactoryManager(true, true);
 		this.addWorkspaceListener(this.factory);
+		this.addWorkspaceListener(mervManager);
 		this.blockCanvas.getHorizontalModel().addChangeListener(this);
 		List<Explorer> explorers = factory.getNavigator().getExplorers();
 		for (Explorer exp : explorers) {
@@ -174,6 +177,10 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 		this.focusManager = new FocusTraversalManager();
 	}
 
+	public DrawingArrowManager getMeRVManager(){
+		return this.mervManager;
+	}
+
 	/*
 	 * Implements explorerEventOccurred method in ExplorerListener interface
 	 * If event is of type "1" then hides the Minimize page button
@@ -200,7 +207,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Returns the one <code>Workspace</code> instance
-	 * 
+	 *
 	 * @return the one <code>Workspace</code> instance
 	 */
 	public static Workspace getInstance() {
@@ -243,7 +250,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Returns the FocusTraversalManager instance
-	 * 
+	 *
 	 * @return FocusTraversalManager instance
 	 */
 	public FocusTraversalManager getFocusManager() {
@@ -252,7 +259,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Disables the MiniMap from canvas
-	 * 
+	 *
 	 */
 	public void disableMiniMap() {
 		miniMap.hideMiniMap();
@@ -266,7 +273,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Returns the WorkspaceWidget currently at the specified point
-	 * 
+	 *
 	 * @param point
 	 *            the <code>Point2D</code> to get the widget at, given in
 	 *            Workspace (i.e. window) coordinates
@@ -302,7 +309,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * "drawDepth" of 1.9 is most likely the first child (rendered on top of,
 	 * remember) a component with z-order 2 in this container. 1.99 means the
 	 * first child of the first child, and so on.
-	 * 
+	 *
 	 * @param c
 	 *            - the Component whose draw depth is required. MUST be an
 	 *            eventual child of the Workspace.
@@ -342,7 +349,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Adds the specified widget to this Workspace
-	 * 
+	 *
 	 * @param widget
 	 *            the desired widget to add
 	 * @param floatOverCanvas
@@ -379,7 +386,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Removes the specified widget from this Workspace
-	 * 
+	 *
 	 * @param widget
 	 *            the desired widget to remove
 	 */
@@ -390,7 +397,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Returns an unmodifiable Iterable over all the WorkspaceWidgets
-	 * 
+	 *
 	 * @return an unmodifiable Iterable over all the WorkspaceWidgets
 	 */
 	public Iterable<WorkspaceWidget> getWorkspaceWidgets() {
@@ -402,7 +409,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * live blocks on all pages. Does NOT include: (1) Factory blocks, (2) dead
 	 * blocks, (3) or subset blocks. If no blocks are found, it returns an empty
 	 * set.
-	 * 
+	 *
 	 * @return all the RenderableBlocks in the Workspace or an empty set if none
 	 *         exists.
 	 */
@@ -415,7 +422,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * Returns the set of all Blocks in the Workspace. Includes all live blocks
 	 * on all pages. Does NOT include: (1) Factory blocks, (2) dead blocks, (3)
 	 * or subset blocks. If no blocks are found, it returns an empty set.
-	 * 
+	 *
 	 * @return all the Blocks in the Workspace or an empty set if none exists.
 	 */
 	public Iterable<Block> getBlocks() {
@@ -432,7 +439,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * blocks on all pages. Does NOT include: (1) all blocks of a different
 	 * genus (2) Factory blocks, (3) dead blocks, (4) or subset blocks. If no
 	 * blocks are found, it returns an empty set.
-	 * 
+	 *
 	 * @param genusName
 	 *            - the genus name of the blocks to return
 	 * @return all the RenderableBlocks of the specified genus or an empty set
@@ -455,7 +462,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * all pages. Does NOT include: (1) all blocks of a different genus (2)
 	 * Factory blocks, (3) dead blocks, (4) or subset blocks. If no blocks are
 	 * found, it returns an empty set.
-	 * 
+	 *
 	 * @param genusName
 	 *            - the genus name of the blocks to return
 	 * @return all the Blocks of the specified genus or an empty set if none
@@ -475,7 +482,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	/**
 	 * Returns the top level blocks in the Workspace (blocks that are parents of
 	 * stacks)
-	 * 
+	 *
 	 * @return the top level blocks in the Workspace
 	 */
 	public Iterable<RenderableBlock> getTopLevelBlocks() {
@@ -528,7 +535,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Removes the specified WorkspaceListener
-	 * 
+	 *
 	 * @param listener
 	 */
 	public void removeWorkspaceListener(WorkspaceListener listener) {
@@ -538,7 +545,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Notifies all Workspace listeners of the workspace event
-	 * 
+	 *
 	 * @param event
 	 */
 	public void notifyListeners(WorkspaceEvent event) {
@@ -570,7 +577,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Sets the Workspace zoom at the specified zoom level
-	 * 
+	 *
 	 * @param newZoom
 	 *            the desired zoom level
 	 */
@@ -632,7 +639,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Returns the current workspace zoom
-	 * 
+	 *
 	 * @return the current workspace zoom
 	 */
 	public double getCurrentWorkspaceZoom() {
@@ -641,7 +648,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Resets the workspace zoom to the default level
-	 * 
+	 *
 	 */
 	public void setWorkspaceZoomToDefault() {
 		this.setWorkspaceZoom(1.0);
@@ -676,7 +683,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Adds the specified page to the Workspace at the right end of the canvas
-	 * 
+	 *
 	 * @param page
 	 *            the desired page to add
 	 */
@@ -687,7 +694,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	/**
 	 * Adds the specified page to the Workspace at the specified position on the
 	 * canvas
-	 * 
+	 *
 	 * @param page
 	 *            the desired page to add
 	 */
@@ -700,7 +707,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	/**
 	 * Places the specified page at the specified index. If a page already
 	 * exists at that index, this method will replace it.
-	 * 
+	 *
 	 * @param page
 	 *            the Page to place
 	 * @param position
@@ -717,7 +724,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	/**
 	 * Adds a Page in the specified position, where position 0 is the leftmost
 	 * page
-	 * 
+	 *
 	 * @param page
 	 *            - the desired Page to add
 	 * @param index
@@ -736,7 +743,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	/**
 	 * Removes the specified page from the Workspace at the specified position,
 	 * where position 0 is the left most page
-	 * 
+	 *
 	 * @param position
 	 */
 	public void removePageAt(int position) {
@@ -745,7 +752,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Removes the specified page from the Workspace
-	 * 
+	 *
 	 * @param page
 	 *            the desired page to remove
 	 */
@@ -760,7 +767,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Renames the page with the specified oldName to the specified newName.
-	 * 
+	 *
 	 * @param oldName
 	 *            the oldName of the page to rename
 	 * @param newName
@@ -781,7 +788,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * Returns the number of pages contained within this. By default will always
 	 * have a page even if a page was not specified. The page will just be
 	 * blank.
-	 * 
+	 *
 	 * @return the number of pages contained within this
 	 */
 	public int getNumPages() {
@@ -790,7 +797,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	/**
 	 * Find the page that lies underneath this block CAN RETURN NULL
-	 * 
+	 *
 	 * @param block
 	 */
 	public Page getCurrentPage(RenderableBlock block) {
@@ -806,7 +813,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	/**
 	 * Marks the page of the specified name as being selected. The workspace
 	 * view may shift to that page.
-	 * 
+	 *
 	 * @param page
 	 *            the Page selected
 	 * @param byUser
@@ -844,7 +851,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * collection of subsets. If "usingSys" is true, the the factory and
 	 * myblocks drawers will be accessible. If "usingSubs" is true, then the
 	 * subset drawers will be accessible.
-	 * 
+	 *
 	 * @param subsets
 	 *            - collection of subsets
 	 * @param usingSys
@@ -863,7 +870,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	/**
 	 * Returns the save String of this. Currently returns the BlockCanvas save
 	 * String only.
-	 * 
+	 *
 	 * @return the save String of this.
 	 */
 	public String getSaveString() {
@@ -875,7 +882,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	/**
 	 * Loads the workspace with the following content: - RenderableBlocks and
 	 * their associated Block instances that reside within the BlockCanvas
-	 * 
+	 *
 	 * @param newRoot
 	 *            the XML Element containing the new desired content. Some of
 	 *            the content in newRoot may override the content in
@@ -916,7 +923,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * Loads the settings for this Workspace. Settings include specification of
 	 * programming environment features such as the search bar, minimap, or
 	 * zooming.
-	 * 
+	 *
 	 * @param root
 	 */
 	private void loadWorkspaceSettings(Element root) {
@@ -959,7 +966,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * references and their associated buttons - clears all RenderableBlock
 	 * instances (which clears their associated Block instances.) Note: we want
 	 * to get rid of all RendereableBlocks and their references.
-	 * 
+	 *
 	 * Want to get the Workspace ready to load another workspace
 	 */
 	public void reset() {
@@ -1059,9 +1066,9 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * RBParent implemented methods
 	 ******************************************/
 	public void addToBlockLayer(Component c) {
-		this.add(c, DRAGGED_BLOCK_LAYER);
+		add(c, DRAGGED_BLOCK_LAYER);
 	}
-
+	
 	public void addToHighlightLayer(Component c) {
 		this.add(c, DRAGGED_BLOCK_HIGHLIGHT_LAYER);
 	}
@@ -1088,7 +1095,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	//#added by hakamata
 	private ArrayList<RenderableBlock> bufrb = new ArrayList<RenderableBlock>();
 
-	public void executionPoint(int lineNumber) {	
+	public void executionPoint(int lineNumber) {
 		for (RenderableBlock rb : bufrb) {
 			if (rb != null) {
 				try {

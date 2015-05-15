@@ -10,7 +10,7 @@
       </category>
       <!--メニューカテゴリのコマンド-->
       <command
-            name="Open BlockEditor Hinoki" 
+            name="Open BlockEditor Hinoki"
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.openBlockEditor">
       </command>
@@ -19,19 +19,19 @@
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.openCocoViewer">
       </command>
-      
+
       <command
             name="Create CocoData"
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.createCocoData">
       </command>
-      
+
       <command
             name="Clear Cash"
             categoryId="RonproEditorPlugin.commands.category"
             id="RonproPlugin.commands.clearCash">
       </command>
-      
+
       <command
             name="Start CheCoPro"
             categoryId="RonproEditorPlugin.commands.category"
@@ -142,7 +142,7 @@
          </property>
       </product>
    </extension>
-   
+
    <!-- CheCoProPerspective -->
    <!-- 一時避難
    <extension
@@ -154,7 +154,7 @@
         name="CheCoPro"/>
    </extension>
    -->
-   
+
    <!-- CheCoProView -->
    <extension
          point="org.eclipse.ui.views">

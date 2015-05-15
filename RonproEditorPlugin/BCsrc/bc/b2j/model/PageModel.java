@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import bc.BCSystem;
 import bc.apps.OutputSourceModel;
 
 public class PageModel extends BlockModel {
@@ -91,19 +90,17 @@ public class PageModel extends BlockModel {
 			PrintStream ps = new PrintStream(byteArray);
 			constructor.print(ps, 0);
 			String blockString = byteArray.toString();
-			BCSystem.out.println("blockString:" + blockString);
 			String name = constructor.getKey();
-			BCSystem.out.println("name:" + name);
 			out.replace(name, blockString);
 		}
 
 		for (ProcedureBlockModel procedure : procedures) {// すべての手続きブロックをプリントする
-			BCSystem.out.println("procedure block model print");
 			ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(byteArray);
+			
 			procedure.print(ps, 0);
+			
 			String blockString = byteArray.toString();
-			BCSystem.out.println("blockString:" + blockString);
 			out.replace(procedure.getKey(), blockString);
 		}
 	}

@@ -59,7 +59,6 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 			}
 			RenderableBlock topFigure = RenderableBlock
 					.getRenderableBlock(topBlock.getBlockID());
-			//RenderableBlock.getRenderableBlock()
 			topFigure.redrawFromTop();
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -76,9 +75,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 			topBlock = beforeBlock;
 		}
 
-		if (topBlock == null) {
-			throw new RuntimeException("ari e nai!");
-		}
+
 		if (topBlock.getBlockID().equals(getBlockID())) {
 			return null;
 		}
@@ -149,8 +146,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 			rb.repaintBlock();
 			if (rb.getHighlightHandler() != null) {
 				rb.getHighlightHandler().updateImage();
-				if (rb.getHighlightHandler().getParent() != null
-						&& rb.getHighlightHandler().getParent().getParent() != null)
+				if (rb.getHighlightHandler().getParent() != null && rb.getHighlightHandler().getParent().getParent() != null)
 					// force redraw to erase highlight
 					rb.getHighlightHandler().getParent().getParent().repaint();
 			}

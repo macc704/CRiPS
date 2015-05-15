@@ -5,15 +5,8 @@
  */
 package a.slab.blockeditor.extent;
 
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -118,66 +111,66 @@ public class SContextMenuProvider {
 		}
 		return createIncrementerItem;
 	}
-	
-	// TODO ドラッグ＆ドロップで実装
-	private JMenuItem createImportMenu() {
-		JMenuItem item = new JMenuItem("コピー");
-		item.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				RenderableBlock importBlock = BlockUtilities.cloneBlock(rb.getBlock());
-				copyToClipboard(importBlock.getBlock().getGenusName());
-			}
-		});
-		return item;
-	}
-	
-	// TODO for CheCoPro(temp)
-	private void copyToClipboard(String str) {
-		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-	    StringSelection selection = new StringSelection(str);
-	    clipboard.setContents(selection, selection);
-	}
-	
-	private JMenuItem createPasteMenu() {
-		JMenuItem item = new JMenuItem("ペースト");
-		item.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				
-				String genusName = getStringFromClipboard();
-				createNewBlock(rb.getParentWidget(), genusName);
-			}
-		});
-		
-		return item;
-	}
-	
-	private String getStringFromClipboard() {
-		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		Transferable object = clipboard.getContents(null);
-		String str = "";
-		try {
-			str = (String)object.getTransferData(DataFlavor.stringFlavor);
-		} catch(UnsupportedFlavorException e){
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return str;
-	}
 
-	//	private JMenuItem createLengthMenu() {
-	//		if (createIncrementerItem == null) {
-	//			createIncrementerItem = new JMenuItem("文字列の長さを取得する");
-	//			createIncrementerItem.addActionListener(new ActionListener() {
-	//				public void actionPerformed(ActionEvent e) {
-	//					createCallMethod("length");
-	//				}
-	//			});
-	//		}
-	//		return createIncrementerItem;
+	// TODO ドラッグ＆ドロップで実装
+	//	private JMenuItem createImportMenu() {
+	//		JMenuItem item = new JMenuItem("コピー");
+	//		item.addActionListener(new ActionListener() {
+	//			
+	//			public void actionPerformed(ActionEvent e) {
+	//				RenderableBlock importBlock = BlockUtilities.cloneBlock(rb.getBlock());
+	//				copyToClipboard(importBlock.getBlock().getGenusName());
+	//			}
+	//		});
+	//		return item;
 	//	}
+
+	// TODO for CheCoPro(temp)
+	//	private void copyToClipboard(String str) {
+	//		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	//		StringSelection selection = new StringSelection(str);
+	//		clipboard.setContents(selection, selection);
+	//	}
+
+	//	private JMenuItem createPasteMenu() {
+	//		JMenuItem item = new JMenuItem("ペースト");
+	//		item.addActionListener(new ActionListener() {
+	//
+	//			public void actionPerformed(ActionEvent e) {
+	//
+	//				String genusName = getStringFromClipboard();
+	//				createNewBlock(rb.getParentWidget(), genusName);
+	//			}
+	//		});
+	//
+	//		return item;
+	//	}
+
+	//	private String getStringFromClipboard() {
+	//		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	//		Transferable object = clipboard.getContents(null);
+	//		String str = "";
+	//		try {
+	//			str = (String) object.getTransferData(DataFlavor.stringFlavor);
+	//		} catch (UnsupportedFlavorException e) {
+	//			e.printStackTrace();
+	//		} catch (IOException e) {
+	//			e.printStackTrace();
+	//		}
+	//		return str;
+	//	}
+
+	private JMenuItem createLengthMenu() {
+		if (createIncrementerItem == null) {
+			createIncrementerItem = new JMenuItem("文字列の長さを取得する");
+			createIncrementerItem.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					createCallMethod("length");
+				}
+			});
+		}
+		return createIncrementerItem;
+	}
 
 	//	private JMenuItem createCallActionMethodBlockMenu() {
 	//		if (createCallActionMethodBlockItem == null) {
@@ -305,10 +298,10 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 		}
 
-		//		if(rb.getBlock().isStringVariableDecBlock()){
-		//			menu.add(createLengthMenu());
-		//			menu.addSeparator();
-		//		}
+		if (rb.getBlock().isStringVariableDecBlock()) {
+			menu.add(createLengthMenu());
+			menu.addSeparator();
+		}
 
 		if (rb.getBlock().getGenusName().contains("arrayobject")) {//配列
 			final String scope = getBlockScope(rb.getBlock().getGenusName());
@@ -614,13 +607,13 @@ public class SContextMenuProvider {
 			menu.add(createBlockCopyMenu());
 			menu.addSeparator();
 		}
-		
-		if (!rb.getBlock().isProcedureDeclBlock()) {
-			menu.add(createImportMenu());
-			menu.add(createPasteMenu());
-			menu.addSeparator();
-		}
-		
+
+		//		if (!rb.getBlock().isProcedureDeclBlock()) {
+		//			menu.add(createImportMenu());
+		//			menu.add(createPasteMenu());
+		//			menu.addSeparator();
+		//		}
+
 		//
 		//		//古いオブジェクト実行ブロックの互換性のために残してあります．
 		//		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
