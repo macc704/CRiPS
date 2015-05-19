@@ -203,12 +203,18 @@ public class REFrame extends JFrame {
 	private Action actionClearCash; // add hirao
 	private Action actionBytecode;
 	private Action actionStartCheCoPro; // CheCoPro(kato)
-	
+
 
 	// 「Help」
 	private JMenu menuHelp;
 	private Action actionOpenPreference;
 	private Action actionAbout;
+
+	//「UNICOEN」
+	private JMenu menuUNICOEN;
+	private Action actionRunUNIProgram;
+	private Action actionOpenBlockEditorFromUNI;
+
 
 	// private Action actionMakeLog;
 
@@ -223,6 +229,7 @@ public class REFrame extends JFrame {
 		initializeFileMenu();
 		initializeEditMenu();
 		initializeJavaMenu();
+		initializeUNICOENMenu();
 		initializeToolsMenu();
 		initializeHelpMenu();
 	}
@@ -251,6 +258,17 @@ public class REFrame extends JFrame {
 		menuFile.add(actionRefresh);
 		menuFile.addSeparator();
 		menuFile.add(actionExit);
+	}
+
+	/**
+	 * UNICOEN用のメニュー
+	 */
+	private void initializeUNICOENMenu(){
+		menuUNICOEN = new JMenu("UNICOEN");
+		menuBar.add(menuUNICOEN);
+
+		menuUNICOEN.add(actionRunUNIProgram);
+		menuUNICOEN.add(actionOpenBlockEditorFromUNI);
 	}
 
 	/**
@@ -333,8 +351,26 @@ public class REFrame extends JFrame {
 		initializeFileAction();
 		initializeEditAction();
 		initializeJavaAction();
+		initializeUNICOENAction();
 		initializeToolsAction();
 		initializeHelpAction();
+	}
+
+	private void initializeUNICOENAction(){
+		actionOpenBlockEditorFromUNI = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				application.doOpenBlockEdtorFromUni(application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
+			}
+		};
+		actionOpenBlockEditorFromUNI.putValue(Action.NAME, "Open BlockEditor");
+
+		actionRunUNIProgram = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		};
+		actionRunUNIProgram.putValue(Action.NAME, "Run");
+
 	}
 
 	/**
@@ -666,7 +702,7 @@ public class REFrame extends JFrame {
 		actionBytecode.putValue(Action.ACCELERATOR_KEY,
 				KeyStroke.getKeyStroke(KeyEvent.VK_J, CTRL_MASK));
 		actionBytecode.setEnabled(false);
-		
+
 		// --CheCoPro
 		actionStartCheCoPro = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {

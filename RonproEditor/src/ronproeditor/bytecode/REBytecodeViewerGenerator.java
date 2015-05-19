@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 
 import ronproeditor.REApplication;
-import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.helpers.FileSystemUtil;
+import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.views.REFrame;
 
 /**

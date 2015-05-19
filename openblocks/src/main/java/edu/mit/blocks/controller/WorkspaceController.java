@@ -8,11 +8,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -26,7 +29,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -39,6 +41,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import net.unicoen.generator.JavaGenerator;
+import net.unicoen.interpreter.Engine;
+import net.unicoen.interpreter.ExecutionListener;
+import net.unicoen.node.UniClassDec;
+import net.unicoen.parser.blockeditor.ToBlockEditorParser;
+import net.unicoen.parser.blockeditor.UniToBlockParser;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -568,27 +577,37 @@ public class WorkspaceController {
 		}
 	}
 
-//	/**
-//	 * Action bound to "Save As..." button.
-//	 */
-//	private class ConvertAction extends AbstractAction {
-//
-//		private static final long serialVersionUID = 4649159219713654455L;
-//
-//		ConvertAction() {
-//			super("Convert");
-//		}
-//
-//		@Override
-//		public void actionPerformed(ActionEvent e) {
-//			try {
-//				BlockToJavaMain.convert(selectedFile, enc , new String[] {});
-//			} catch (Exception e1) {
-//				// TODO Auto-generated catch block
-//				e1.printStackTrace();
-//			}
-//		}
-//	}
+	/**
+	 * Action bound to "Save As..." button.
+	 */
+	private class ConvertAction extends AbstractAction {
+
+		private static final long serialVersionUID = 4649159219713654455L;
+
+		ConvertAction() {
+			super("Save As Java");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				saveToFile(selectedFile);
+				setDirty(false);
+
+				UniClassDec classDec = (UniClassDec) ToBlockEditorParser.parse(selectedFile);
+
+				File javaFile = new File(selectedFile.getParentFile().getPath()+ "/" + classDec.className + ".java");
+				PrintStream ps = new PrintStream(javaFile);
+
+				String source = JavaGenerator.generate(classDec);
+
+				ps.println(source);
+				ps.close();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
 
 
 	/**
@@ -600,9 +619,9 @@ public class WorkspaceController {
 	 *             If save failed
 	 */
 	private void saveToFile(File file) throws IOException {
-		FileWriter fileWriter = null;
+		OutputStreamWriter fileWriter = null;
 		try {
-			fileWriter = new FileWriter(file);
+			fileWriter = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
 			fileWriter.write(getSaveString());
 		} finally {
 			if (fileWriter != null) {
@@ -632,23 +651,23 @@ public class WorkspaceController {
 		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
 		buttonPanel.add(new JButton(saveAsAction));
 
-//		ConvertAction convertAction = new  ConvertAction();
-//		buttonPanel.add(new JButton(convertAction));
+		ConvertAction convertAction = new  ConvertAction();
+		buttonPanel.add(new JButton(convertAction));
 
-		{// create compile button
-			JButton runButton = new JButton("Compile");
-			runButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (dirty) {
-						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-//					ronproEditor.blockCompile();
-				}
-			});
-			buttonPanel.add(runButton);
-		}
+//		{// create compile button
+//			JButton runButton = new JButton("Compile");
+//			runButton.addActionListener(new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					if (dirty) {
+//						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
+//								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
+//						return;
+//					}
+////					ronproEditor.blockCompile();
+//				}
+//			});
+//			buttonPanel.add(runButton);
+//		}
 
 		{// create run button
 			JButton runButton = new JButton("Run");
@@ -659,7 +678,14 @@ public class WorkspaceController {
 								"実行できません", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
-//					ronproEditor.blockRun();
+
+					Engine engine = new Engine();
+					engine.listeners = new ArrayList<ExecutionListener>();
+
+					UniClassDec classDec = ToBlockEditorParser.parse(selectedFile);
+
+					engine.execute(classDec);
+
 				}
 			});
 			buttonPanel.add(runButton);
@@ -954,5 +980,7 @@ public class WorkspaceController {
 			}
 		}
 	}
+
+
 
 }

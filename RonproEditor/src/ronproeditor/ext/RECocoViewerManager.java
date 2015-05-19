@@ -1,13 +1,13 @@
 package ronproeditor.ext;
 
+import ppv.app.datamanager.PPProjectSet;
+import ronproeditor.REApplication;
+import clib.common.filesystem.CDirectory;
 import coco.controller.CCCompileErrorKindLoader;
 import coco.controller.CCCompileErrorLoader;
 import coco.controller.CCMetricsLoader;
 import coco.model.CCCompileErrorManager;
 import coco.view.CCMainFrame2;
-import ppv.app.datamanager.PPProjectSet;
-import ronproeditor.REApplication;
-import clib.common.filesystem.CDirectory;
 
 public class RECocoViewerManager {
 	private REApplication application;
