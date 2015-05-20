@@ -25,66 +25,62 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 	private File selectedFile;
 	// Reference kept to be able to update frame title with current loaded file
 	private JFrame frame;
-	
+
 	public DebuggerWorkspaceController(String langDefRootPath, File selectedFile) throws IOException{
-		
+
 		setLangDefFilePath(langDefRootPath);
 		loadFreshWorkspace();
 		this.selectedFile = selectedFile;
-		
+
 		UniClassDec exeClass = parse();
 
 		loadProjectFromPath(selectedFile.getPath());
-		
+
 		createDebugGUI();
 		runProgram(exeClass);
 	}
-	
+
 	public UniClassDec parse() throws IOException{
-		List<UniNode> list = ToBlockEditorParser.parse(selectedFile);
-		UniClassDec dec = new UniClassDec();
+		UniClassDec dec = ToBlockEditorParser.parse(selectedFile);
 		dec.members = new ArrayList<UniMemberDec>();
 		dec.className = selectedFile.getName().substring(0, selectedFile.getName().indexOf(".xml"));
-		for (UniNode node : list) {
-//			dec.members.add((UniFuncDec) node);
-		}
-		
+
 		UniToBlockParser parser = new UniToBlockParser();
-		
+
 		parser.parse(dec);
-		
+
 		return dec;
 	}
-	
+
 	private void createDebugGUI() {
 
 		frame = new JFrame("BlockEditor Debugger");
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setBounds(100, 100, 800, 600);
-		
+
 		frame.add(getWorkspacePanel(), BorderLayout.CENTER);
 
 		frame.add(getDebugButtonPanel(), BorderLayout.PAGE_START);
-		
+
 		frame.setVisible(true);
 	}
-	
+
 	protected JComponent getDebugButtonPanel() {
 		JPanel buttonPanel = new JPanel();
-		
+
 		JButton button = new JButton("|▶");
 		button.addActionListener(new NextAction());
-		
+
 		buttonPanel.add(button);
 		return buttonPanel;
 	}
 
-	
+
 	public void runProgram(UniClassDec exeClass){
 		ProgramRunnner runnner = new ProgramRunnner(exeClass, this);
 		runnner.start();
 	}
-	
+
 }
 
 class NextAction implements ActionListener{
@@ -94,5 +90,5 @@ class NextAction implements ActionListener{
 		// TODO Auto-generated method stub
 		BlockEditorDebbugger.setFlag(true);
 	}
-	
+
 }

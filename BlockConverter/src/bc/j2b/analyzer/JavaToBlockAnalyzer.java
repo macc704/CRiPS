@@ -208,7 +208,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * Classの解析
-	 * 
+	 *
 	 * @param node
 	 *            :TypeDeclarationノード
 	 */
@@ -655,7 +655,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private StMethodDeclarationModel analyzeMethod(MethodDeclaration node) {
 		if ("main".equals(node.getName().toString())
 				&& !node.parameters().isEmpty()
-				&& node.parameters().get(0).toString().equals("String[] args")) {
+				&& (node.parameters().get(0).toString().equals("String[] args") || node.parameters().get(0).toString().equals("String args[]"))) {
 			// return false;
 			return null;
 		}
@@ -708,7 +708,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * 各Statementへの経由関数
-	 * 
+	 *
 	 * @param stmt
 	 *            ：Statementノード
 	 * @return 各Statementの解析結果
@@ -998,7 +998,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * ブロックの中身の解析（"{" と "}"で囲まれたStatement）
-	 * 
+	 *
 	 * @param block
 	 *            ：Blockノード
 	 * @return Blockの解析結果
@@ -1017,7 +1017,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * 抽象化ブロックの解析
-	 * 
+	 *
 	 * @param block
 	 * @return
 	 */
@@ -1052,7 +1052,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * If文の解析
-	 * 
+	 *
 	 * @param node
 	 *            ：IfStatementノード
 	 * @return IfStatementの解析結果
@@ -1150,7 +1150,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * For文の解析
-	 * 
+	 *
 	 * @param stmt
 	 *            :ForStatement
 	 * @return ForStatementの解析結果
@@ -1268,7 +1268,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * 式（文として）の解析
-	 * 
+	 *
 	 * @param stmt
 	 *            ：Expressionノード
 	 * @return ExpressionStatementの解析結果
@@ -1279,7 +1279,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * 変数宣言の解析
-	 * 
+	 *
 	 * @param node
 	 *            ：VariableDeclarationStatementノード
 	 * @return j2b.model:VariableDeclarationStatementの解析結果
@@ -1461,7 +1461,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	 ************************************************************/
 	/**
 	 * 各Expressionへの経由関数
-	 * 
+	 *
 	 * @param node
 	 *            ：Expressionノード
 	 * @return 各Expressionの解析結果
@@ -1552,7 +1552,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * 代入式の解析
-	 * 
+	 *
 	 * @param node
 	 *            :Assignmentノード
 	 * @return Assignmentの解析結果
@@ -1746,7 +1746,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * インクリメント、デクリメントを解析
-	 * 
+	 *
 	 * @param node
 	 *            :PostfixExpressionノード
 	 * @return PostfixExpressionの解析結果
@@ -1776,7 +1776,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * マイナスの数値の解析
-	 * 
+	 *
 	 * @param node
 	 * @return
 	 */
@@ -2007,7 +2007,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setRightExpression(parseExpression(arg));
 			return model;
 		}
-		
+
 		//methodResolverに登録されているメソッドは，対応するブロックが存在するため解析する
 		if (methodResolver.isRegistered(node)) {
 			// System.out.println("methodinvoke: " + node.toString());
@@ -2103,7 +2103,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param node
 	 *            :MethodInvocationノード
 	 * @return MethodInvocationの解析結果
@@ -2171,7 +2171,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		return name;
 	}
-	
+
 	private boolean isThisClassCaller(Expression caller,
 			String analyzingSourceName) {
 		return variableResolver.resolve(caller.toString()) != null
@@ -2236,7 +2236,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param node
 	 * @return
 	 */
@@ -2302,7 +2302,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param node
 	 * @return
 	 */
@@ -2342,7 +2342,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * 定数の解析
-	 * 
+	 *
 	 * @param node
 	 *            :Expressionノード
 	 * @return Expressionの解析結果
@@ -2367,7 +2367,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * 定数の型の解析
-	 * 
+	 *
 	 * @param leteral
 	 *            :Experssionノード
 	 * @return 解析した定数の型
@@ -2391,7 +2391,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * 計算式の解析
-	 * 
+	 *
 	 * @param node
 	 *            :InfixExpressionノード
 	 * @return InfixExpressionの解析結果
@@ -2519,7 +2519,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * 丸括弧の解析
-	 * 
+	 *
 	 * @param node
 	 * @return
 	 */
@@ -2530,7 +2530,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	/**
 	 * 変数呼び出しの解析
-	 * 
+	 *
 	 * @param node
 	 *            :SimpleNameノード
 	 * @return SimpleNameノードの解析
@@ -2585,7 +2585,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param node
 	 * @return
 	 */
@@ -2640,7 +2640,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			}
 
 			return model;
-		
+
 	}
 
 	// ohata
@@ -2666,7 +2666,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param node
 	 * @return
 	 */
