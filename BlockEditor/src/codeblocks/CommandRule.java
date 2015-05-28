@@ -1,6 +1,5 @@
 package codeblocks;
 
-import drawingobjects.DrawingArrowManager;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceListener;
 

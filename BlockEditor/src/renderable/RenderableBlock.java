@@ -40,7 +40,6 @@ import workspace.ContextMenu;
 import workspace.FactoryManager;
 import workspace.ISupportMemento;
 import workspace.MiniMap;
-import workspace.Page;
 import workspace.RBParent;
 import workspace.SearchableElement;
 import workspace.Workspace;
@@ -1861,7 +1860,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
-	public Block getCommandBlock(Block block){
+	public static Block getCommandBlock(Block block){
 		if(block != null){
 			while(block.getPlug() != null && block.getPlug().getBlockID() != Block.NULL){
 				block = Block.getBlock(block.getPlug().getBlockID());
