@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import renderable.FactoryRenderableBlock;
 import renderable.RenderableBlock;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
@@ -110,10 +111,13 @@ public class DrawingArrowManager implements WorkspaceListener {
 			//callerかつ表示状態ならcalleeとの矢印を作成
 			RenderableBlock sourceBlock = RenderableBlock
 					.getRenderableBlock(event.getSourceBlockID());
-			if (sourceBlock.getBlock().getGenusName().equals("callerprocedure")) {
+
+			if (sourceBlock.getBlock().getGenusName().equals("callerprocedure")
+					&& !(sourceBlock instanceof FactoryRenderableBlock)) {
 				RenderableBlock calleeBlock = RenderableBlock
 						.getRenderableBlock(((BlockStub) sourceBlock.getBlock())
 								.getParent().getBlockID());
+
 				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock,
 						sourceBlock.isVisible(), isActive());
 				arrows.put(sourceBlock.getBlockID(), arrow);
@@ -178,14 +182,18 @@ public class DrawingArrowManager implements WorkspaceListener {
 				changeColor(Block.getBlock(id));
 			}
 		}
+
 	}
 
 	public void changeColor(Block block) {
-		if (!hasEmptySocket(block) && !isCallerBlockIsIndependent(block)) {
-			arrows.get(block.getBlockID()).changeColor(false);
-		} else {
-			arrows.get(block.getBlockID()).changeColor(true);
+		if(block != null){
+			if (!hasEmptySocket(block) && !isCallerBlockIsIndependent(block)) {
+				arrows.get(block.getBlockID()).changeColor(false);
+			} else {
+				arrows.get(block.getBlockID()).changeColor(true);
+			}
 		}
+
 	}
 
 	public boolean isCallerBlockIsIndependent(Block block) {
@@ -201,5 +209,10 @@ public class DrawingArrowManager implements WorkspaceListener {
 	public boolean hasArrow(long blockID) {
 		return arrows.get(blockID) != null;
 	}
+
+	public void reset(){
+		arrows.clear();
+	}
+
 
 }

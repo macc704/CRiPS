@@ -1350,8 +1350,7 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	}
 
 	public void addToArrowLayer(Component c) {
-		this.add(c);
-		this.setLayer(c, ARROW_LAYER);
+		this.add(c, ARROW_LAYER);
 	}
 
 	/** @override RBParent.addToHighlightLayer() */
