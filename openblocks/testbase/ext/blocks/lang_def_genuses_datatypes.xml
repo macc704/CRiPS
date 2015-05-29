@@ -9,6 +9,7 @@
 			記述した値を使用します。
 		</text>
 	</description>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -25,6 +26,7 @@
 		<BlockConnector connector-kind="plug" connector-type="double-number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>double</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -38,6 +40,7 @@
 			記述したテキストを使用します。
 		</text>
 	</description>
+	<Type>String</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"
 			position-type="mirror"></BlockConnector>
@@ -54,6 +57,7 @@
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>boolean</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="true"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -66,6 +70,7 @@
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>boolean</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="false"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -79,6 +84,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="15"></LangSpecProperty>
@@ -90,6 +96,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="0"></LangSpecProperty>
@@ -101,6 +108,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="9"></LangSpecProperty>
@@ -112,6 +120,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="5"></LangSpecProperty>
@@ -124,6 +133,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="5"></LangSpecProperty>
@@ -136,6 +146,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="5"></LangSpecProperty>
@@ -147,6 +158,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="25"></LangSpecProperty>
@@ -158,6 +170,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="35"></LangSpecProperty>
@@ -169,6 +182,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="45"></LangSpecProperty>
@@ -180,6 +194,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="55"></LangSpecProperty>
@@ -191,6 +206,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="65"></LangSpecProperty>
@@ -203,6 +219,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="75"></LangSpecProperty>
@@ -214,6 +231,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="85"></LangSpecProperty>
@@ -225,6 +243,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="115"></LangSpecProperty>
@@ -237,6 +256,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="125"></LangSpecProperty>
@@ -248,6 +268,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="95"></LangSpecProperty>
@@ -259,6 +280,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="105"></LangSpecProperty>
@@ -270,6 +292,7 @@
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
 		<LangSpecProperty key="special-value" value="135"></LangSpecProperty>
@@ -285,6 +308,7 @@
 		<BlockConnector connector-kind="socket" connector-type="poly">
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>int</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="number"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -297,18 +321,20 @@
 		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="poly"></BlockConnector>
 	</BlockConnectors>
+	<Type>double</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="double-number"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="toBoolean" kind="function" initlabel="真偽値型に変換する"
+<BlockGenus name="toboolean" kind="function" initlabel="真偽値型に変換する"
 	color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="poly"></BlockConnector>
 	</BlockConnectors>
+	<Type>boolean</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="boolean"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -321,6 +347,7 @@
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="poly"></BlockConnector>
 	</BlockConnectors>
+	<Type>String</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="string"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -334,6 +361,7 @@
 		<BlockConnector connector-kind="socket" connector-type="double-number">
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>int</Type>
 </BlockGenus>
 
 <BlockGenus name="toIntFromString" kind="function" initlabel="int型に変換する"
@@ -352,6 +380,7 @@
 		<BlockConnector connector-kind="socket" connector-type="number">
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>double</Type>
 </BlockGenus>
 
 <BlockGenus name="toDoubleFromString" kind="function"
@@ -361,6 +390,7 @@
 		<BlockConnector connector-kind="socket" connector-type="string">
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>double</Type>
 </BlockGenus>
 
 <BlockGenus name="toStringFromInt" kind="function" initlabel="文字列型に変換する"
@@ -369,6 +399,7 @@
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="number"></BlockConnector>
 	</BlockConnectors>
+	<Type>String</Type>
 </BlockGenus>
 
 <BlockGenus name="toStringFromDouble" kind="function"
@@ -377,6 +408,7 @@
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="double-number"></BlockConnector>
 	</BlockConnectors>
+	<Type>String</Type>
 </BlockGenus>
 
 <BlockGenus name="toStringFromObject" kind="function"
@@ -385,6 +417,7 @@
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="object"></BlockConnector>
 	</BlockConnectors>
+	<Type>String</Type>
 </BlockGenus>
 
 <BlockGenus name="toStringFromString" kind="function"
@@ -393,6 +426,7 @@
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="string"></BlockConnector>
 	</BlockConnectors>
+	<Type>String</Type>
 </BlockGenus>
 
 <BlockGenus name="null" kind="data" initlabel="null"
@@ -406,4 +440,5 @@
 		<LangSpecProperty key="vm-cmd-name" value="eval-null"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
+	<Type>Null</Type>
 </BlockGenus>

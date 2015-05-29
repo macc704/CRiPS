@@ -179,7 +179,7 @@
 		<text>コンソールから文字を入力します。</text>
 	</description>
 	<Name>input</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
 	</BlockConnectors>
@@ -288,7 +288,7 @@
 		</text>
 	</description>
 	<Name>getX</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
 	</BlockConnectors>
@@ -306,7 +306,7 @@
 		</text>
 	</description>
 	<Name>getY</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
 	</BlockConnectors>
@@ -361,7 +361,7 @@
 		</text>
 	</description>
 	<Name>getWidth</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
 	</BlockConnectors>
@@ -379,7 +379,7 @@
 		</text>
 	</description>
 	<Name>getHeight</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
 	</BlockConnectors>
@@ -628,7 +628,7 @@
 		</text>
 	</description>
 	<Name>isShow</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
@@ -684,7 +684,7 @@
 		<BlockConnector connector-kind="plug" connector-type="string"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
-	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
@@ -718,7 +718,7 @@
 <BlockGenus name="Turtle-mouseX[]" kind="function" color="255 0 0"
 	initlabel="マウスの現在地のX座標を取得する">
 	<Name>mouseX</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
 			position-type="mirror"></BlockConnector>
@@ -732,7 +732,7 @@
 <BlockGenus name="Turtle-mouseY[]" kind="function" color="255 0 0"
 	initlabel="マウスの現在地のY座標を取得する">
 	<Name>mouseX</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
 			position-type="mirror"></BlockConnector>
@@ -746,7 +746,7 @@
 <BlockGenus name="Turtle-mouseClicked[]" kind="function"
 	initlabel="マウスがクリックされたか調べる" color="255 0 0">
 	<Name>mouseClicked</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
@@ -760,7 +760,7 @@
 <BlockGenus name="Turtle-leftMouseClicked[]" kind="function"
 	initlabel="マウスが左クリックされたか調べる" color="255 0 0">
 	<Name>leftMouseClicked</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
@@ -774,7 +774,7 @@
 <BlockGenus name="Turtle-rightMouseClicked[]" kind="function"
 	initlabel="マウスが右クリックされたか調べる" color="255 0 0">
 	<Name>rightMouseClicked</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
@@ -788,7 +788,7 @@
 <BlockGenus name="Turtle-doubleClick[]" kind="function"
 	initlabel="マウスがダブルクリックされたか調べる" color="255 0 0">
 	<Name>doubleClick</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
@@ -802,7 +802,7 @@
 <BlockGenus name="Turtle-mouseDown[]" kind="function"
 	initlabel="マウスが押されたか調べる" color="255 0 0">
 	<Name>mouseDown</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
@@ -816,7 +816,7 @@
 <BlockGenus name="Turtle-leftMouseDown[]" kind="function"
 	initlabel="マウスの左ボタンが押されたか調べる" color="255 0 0">
 	<Name>leftMouseDonw</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
@@ -830,7 +830,7 @@
 <BlockGenus name="Turtle-rightMouseDown[]" kind="function"
 	initlabel="マウスの右ボタンが押されたか調べる" color="255 0 0">
 	<Name>rightMouseDown</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
@@ -844,7 +844,7 @@
 <BlockGenus name="Turtle-intersects[]" kind="function"
 	initlabel="オブジェクトが重なっているかどうか調べる" color="255 0 0">
 	<Name>intersects</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean"
 			connector-kind="plug"></BlockConnector>
@@ -860,7 +860,7 @@
 <BlockGenus name="Turtle-contains[@int@int]" kind="function"
 	initlabel="オブジェクトが指定した座標を含む位置にいるか調べる" color="255 0 0">
 	<Name>contains</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean"
 			connector-kind="plug"></BlockConnector>
@@ -908,7 +908,7 @@
 <BlockGenus name="SoundTurtle-isPlaying[]" kind="function"
 	initlabel="再生しているかどうか" color="30 30 200">
 	<Name>isPlaying</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean"
 			connector-kind="plug">
@@ -919,7 +919,7 @@
 <BlockGenus name="SoundTurtle-getVolume[]" kind="function"
 	initlabel="音量の値" color="30 30 200">
 	<Name>getVolume</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug">
 		</BlockConnector>
@@ -944,11 +944,11 @@
 <BlockGenus name="ListTurtle-get[@int]" kind="function"
 	initlabel="要素" color="255 255 100">
 	<Name>get</Name>
-	<ReturnType>Turtle</ReturnType>
+	<Type>Turtle</Type>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="object" />
-		<!-- <BlockConnector label="の" connector-kind="socket" connector-type="object" 
+		<!-- <BlockConnector label="の" connector-kind="socket" connector-type="object"
 			position-type="single"/> -->
 		<BlockConnector label="番地" connector-kind="socket"
 			connector-type="number" position-type="single">
@@ -960,7 +960,7 @@
 <BlockGenus name="ListTurtle-getSize[]" kind="function"
 	initlabel="要素数" color="255 255 100">
 	<Name>getSize</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="number" />
@@ -1015,7 +1015,7 @@
 <BlockGenus name="ListTurtle-removeFirst[]" kind="function"
 	initlabel="最初の要素を削除して取り出す" color="255 255 100">
 	<Name>remveFirst</Name>
-	<ReturnType>Turtle</ReturnType>
+	<Type>Turtle</Type>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="object" position-type="single" />
@@ -1066,7 +1066,7 @@
 <BlockGenus name="ListTurtle-getObjectAtCursor[]" kind="function"
 	initlabel="カーソル位置の要素" color="255 255 100">
 	<Name>getObjectAtCursor</Name>
-	<ReturnType>Turtle</ReturnType>
+	<Type>Turtle</Type>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="object" />
@@ -1115,22 +1115,22 @@
 <BlockGenus name="CardTurtle-getNumber[]" kind="function"
 	initlabel="番号" color="255 255 100">
 	<Name>getNumber</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="number" />
 	</BlockConnectors>
 </BlockGenus>
 
-<!-- <BlockGenus name="fontsize" kind="command" initlabel="フォントサイズを設定する" 
-	color="255 255 100"> <BlockConnectors> <BlockConnector label="pt？" connector-kind="socket" 
+<!-- <BlockGenus name="fontsize" kind="command" initlabel="フォントサイズを設定する"
+	color="255 255 100"> <BlockConnectors> <BlockConnector label="pt？" connector-kind="socket"
 	connector-type="number" position-type="single"/> </BlockConnectors> </BlockGenus> -->
 
 <!-- button turtle -->
 <BlockGenus name="ButtonTurtle-isClicked[]" kind="function"
 	initlabel="クリックされた" color="255 255 100">
 	<Name>isClicked</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" />
@@ -1165,7 +1165,7 @@
 
 <BlockGenus name="InputTurtle-setActive[@boolean]" kind="command"
 	initlabel="活動状態を変える" color="255 255 100">
-	<Name>setActive</Name>	
+	<Name>setActive</Name>
 	<BlockConnectors>
 		<BlockConnector label="活動状態" connector-kind="socket"
 			connector-type="boolean">
@@ -1181,7 +1181,7 @@
 <BlockGenus name="InputTurtle-isActive[]" kind="function"
 	initlabel="活動中か" color="255 255 100">
 	<Name>isActive</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" />
@@ -1195,13 +1195,13 @@
 
 <BlockGenus name="InputTurtle-toEnglishMode[]" kind="command"
 	initlabel="英語モードにする" color="255 255 100">
-	<Name>toEnglishMode</Name>	
+	<Name>toEnglishMode</Name>
 </BlockGenus>
 
 <BlockGenus name="InputTurtle-getText[]" kind="function"
 	color="255 0 0" initlabel="テキストを取得する">
 	<Name>getText</Name>
-	<ReturnType>String</ReturnType>	
+	<Type>String</Type>
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
@@ -1209,14 +1209,14 @@
 		<BlockConnector connector-kind="plug" connector-type="string"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
-	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
 <BlockGenus name="CardTurtle-getText[]" kind="function"
 	color="255 0 0" initlabel="カードのテキストを取得する">
 	<Name>getText</Name>
-	<ReturnType>String</ReturnType>		
+	<Type>String</Type>
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
@@ -1224,13 +1224,13 @@
 		<BlockConnector connector-kind="plug" connector-type="string"
 			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
-	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
 <BlockGenus name="local-var-object-Text" kind="local-variable"
 	initlabel="tt" header-label="TextTurtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">		
+	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。

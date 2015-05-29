@@ -84,6 +84,7 @@ public class Block implements ISupportMemento {
 	private String name;
 	private String returnType;
 
+
 	/**
 	 * Constructs a new Block from the specified information. This class
 	 * constructor is protected as block loading from XML content or the
@@ -148,10 +149,6 @@ public class Block implements ISupportMemento {
 
 		if (genus.getType() != null) {
 			this.type = genus.getType();
-		}
-
-		if (genus.getReturnType() != null) {
-			this.returnType = genus.getReturnType();
 		}
 
 		if (genus.getName() != null) {
@@ -1639,13 +1636,11 @@ public class Block implements ISupportMemento {
 			blockElement.appendChild(nameElement);
 		}
 
-		if (this.returnType != null) {
-			Element returnTypeElement = document.createElement("ReturnType");
-			returnTypeElement.appendChild(document
-					.createTextNode(this.returnType));
-			blockElement.appendChild(returnTypeElement);
+		if("return".equals(getGenusName())){
+			Element nameElement = document.createElement("ParentMethod");
+			nameElement.appendChild(document.createTextNode(getTopBlock(this).getBlockID().toString()));
+			blockElement.appendChild(nameElement);
 		}
-
 
 		// Location
 		Element locationElement = document.createElement("Location");
