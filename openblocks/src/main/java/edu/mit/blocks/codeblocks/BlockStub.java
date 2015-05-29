@@ -112,21 +112,11 @@ public class BlockStub extends Block {
                 }
             }
 
-            //TODO: remove the following once BlockUtilities.cloneBlock() is finished
-            // If our parent already has a plug type, we want to update
-            // Note that we don't need to call renderables, since we are still
-            // in the constructor
             String kind = parentToPlugType.get(parent.getBlockLabel() + parent.getGenusName());
             if (kind != null) {
                 removeBeforeAndAfter();
-                //TODO ria commented code relates to creating mirror plugs for caller stubs that have no sockets
-                //if(this.getNumSockets() == 0){
-                //	setPlug(kind, PositionType.MIRROR, "", false, Block.NULL);
-                //} else {
                 setPlug(kind, PositionType.SINGLE, "", false, Block.NULL);
-                //}
             }
-
         } else if (stubGenus.startsWith(AGENT_STUB)) {
             //getter for specific who
             //set plug to be parent single socket kind or plug kind if parent has no sockets

@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -15,9 +15,8 @@ import javax.swing.JPanel;
 
 import net.unicoen.node.UniClassDec;
 import net.unicoen.node.UniMemberDec;
-import net.unicoen.node.UniNode;
-import net.unicoen.parser.blockeditor.ToBlockEditorParser;
-import net.unicoen.parser.blockeditor.UniToBlockParser;
+import net.unicoen.parser.blockeditor.BlockGenerator;
+import net.unicoen.parser.blockeditor.BlockMapper;
 import edu.mit.blocks.controller.WorkspaceController;
 
 public class DebuggerWorkspaceController extends WorkspaceController{
@@ -41,17 +40,19 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 	}
 
 	public UniClassDec parse() throws IOException{
-//		List<UniNode> list = ToBlockEditorParser.parse(selectedFile);
-		UniClassDec dec = new UniClassDec();
+		BlockMapper mapper = new BlockMapper();
+		UniClassDec dec = mapper.parse(selectedFile);
 		dec.members = new ArrayList<UniMemberDec>();
 		dec.className = selectedFile.getName().substring(0, selectedFile.getName().indexOf(".xml"));
-//		for (UniNode node : list) {
-//			dec.members.add((UniFuncDec) node);
-//		}
 
-		UniToBlockParser parser = new UniToBlockParser();
+
+		PrintStream out = new PrintStream(selectedFile);
+
+		BlockGenerator parser = new BlockGenerator(out);
 
 		parser.parse(dec);
+
+		out.close();
 
 		return dec;
 	}

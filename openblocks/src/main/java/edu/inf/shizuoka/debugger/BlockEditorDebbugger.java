@@ -5,7 +5,7 @@ import java.awt.Color;
 import net.unicoen.interpreter.ExecutionListener;
 import net.unicoen.interpreter.Scope;
 import net.unicoen.node.UniNode;
-import net.unicoen.parser.blockeditor.UniToBlockParser;
+import net.unicoen.parser.blockeditor.BlockGenerator;
 
 import org.w3c.dom.Element;
 
@@ -29,7 +29,7 @@ public class BlockEditorDebbugger implements ExecutionListener {
 	@Override
 	public void preExecute(UniNode node, Scope scope) {
 		// nodeに対応したRenderableBlockをハイライトする
-		Element element = UniToBlockParser.getAddedModels().get(Integer.toString(node.hashCode()));
+		Element element = BlockGenerator.getAddedModels().get(Integer.toString(node.hashCode()));
 		
 		if (element != null) {
 			Long value = Long.valueOf(element.getAttributes().getNamedItem("id").getNodeValue());
