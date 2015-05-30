@@ -154,6 +154,11 @@ public class Block implements ISupportMemento {
 		if (genus.getName() != null) {
 			this.name = genus.getName();
 		}
+
+		if(genus.getReturnType() != null){
+			this.returnType = genus.getReturnType();
+		}
+
 		// 変数，パラメータの場合は，ラベルが名前
 		if (isVariableDeclBlock() || isProcedureParamBlock()) {
 			this.name = label;
@@ -1904,6 +1909,7 @@ public class Block implements ISupportMemento {
 				block.before.setConnectorBlockID(beforeID);
 			}
 			if (afterID != null) {
+				System.out.println(block);
 				block.after.setConnectorBlockID(afterID);
 			}
 			if (pagelabel != null) {
@@ -1950,6 +1956,10 @@ public class Block implements ISupportMemento {
 
 	public void setName(String name){
 		this.name = name;
+	}
+
+	public void setType(String type){
+		this.type = type;
 	}
 
 	/***********************************
@@ -2096,6 +2106,10 @@ public class Block implements ISupportMemento {
 
 	public String getReturnType(){
 		return this.returnType;
+	}
+
+	public void setReturnType(String type){
+		this.returnType = type;
 	}
 
 	public String getType(){

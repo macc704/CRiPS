@@ -94,7 +94,7 @@ public class BlockGenus {
 	private HashMap<String, List<String>> methods = new HashMap<String, List<String>>();
 
 	private String type;// variable type
-	private String returnType;// variable type
+	private String returnType;// only mehtod
 	private String name;// variable type
 
 	/**

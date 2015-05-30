@@ -5,12 +5,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import edu.mit.blocks.controller.WorkspaceController;
 import net.unicoen.mapper.ExtendedExpressionMapper;
-import net.unicoen.mapper.JavaMapper;
 import net.unicoen.node.UniClassDec;
-import net.unicoen.node.UniNode;
-import net.unicoen.parser.blockeditor.UniToBlockParser;
+import net.unicoen.parser.blockeditor.BlockGenerator;
+import edu.mit.blocks.controller.WorkspaceController;
 
 public class UnicoenConvertTest {
 
@@ -35,10 +33,10 @@ public class UnicoenConvertTest {
 		if(node instanceof UniClassDec){
 			// javaファイルからunicoenモデルを作成
 			UniClassDec classDec = (UniClassDec)node;
-			UniToBlockParser parser = new UniToBlockParser();
+			BlockGenerator generator = new BlockGenerator(false);
 
 			// unicoenモデルからBlockのXmlを作成
-			parser.parse(classDec);
+			generator.parse(classDec);
 
 			// BlockEditor起動
 			WorkspaceController controller = new WorkspaceController();

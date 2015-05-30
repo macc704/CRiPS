@@ -162,8 +162,6 @@ public class DrawingArrowManager implements WorkspaceListener {
 				}
 			}
 		}
-
-
 	}
 
 	public boolean isCaller(Block block){
@@ -198,6 +196,10 @@ public class DrawingArrowManager implements WorkspaceListener {
 			}
 		}
 		return null;
+	}
+
+	public void reset(){
+		arrows.clear();
 	}
 
 }

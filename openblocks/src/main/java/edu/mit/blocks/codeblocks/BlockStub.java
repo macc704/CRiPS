@@ -82,6 +82,7 @@ public class BlockStub extends Block {
         //note: instead of modifying the stub blocks currect sockets, we replace them with whole new ones
         //such that the initkind of the stub blocks connectors are the same as their parents
         if (stubGenus.startsWith(GETTER_STUB)) {
+        	setType(getParent().getType());
             //set plug to be the single socket of parent or plug if parent has no sockets
             if (parent.getNumSockets() > 0) {
                 this.setPlug(parent.getSocketAt(0).getKind(), this.getPlug().getPositionType(), this.getPlugLabel(), this.getPlug().isLabelEditable(), Block.NULL);

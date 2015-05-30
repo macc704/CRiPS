@@ -46,8 +46,7 @@ import net.unicoen.generator.JavaGenerator;
 import net.unicoen.interpreter.Engine;
 import net.unicoen.interpreter.ExecutionListener;
 import net.unicoen.node.UniClassDec;
-import net.unicoen.parser.blockeditor.ToBlockEditorParser;
-import net.unicoen.parser.blockeditor.UniToBlockParser;
+import net.unicoen.parser.blockeditor.BlockMapper;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -382,6 +381,8 @@ public class WorkspaceController {
 			workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
 			workspaceLoaded = true;
 
+			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(), getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
+
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		} catch (SAXException e) {
@@ -449,6 +450,8 @@ public class WorkspaceController {
 			workspaceLoaded = true;
 
 			showAllTraceLine(workspace);
+
+			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(), getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
 
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
@@ -594,7 +597,9 @@ public class WorkspaceController {
 				saveToFile(selectedFile);
 				setDirty(false);
 
-				UniClassDec classDec = (UniClassDec) ToBlockEditorParser.parse(selectedFile);
+				BlockMapper mapper = new BlockMapper();
+
+				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
 
 				File javaFile = new File(selectedFile.getParentFile().getPath()+ "/" + classDec.className + ".java");
 				PrintStream ps = new PrintStream(javaFile);
@@ -682,9 +687,9 @@ public class WorkspaceController {
 					Engine engine = new Engine();
 					engine.listeners = new ArrayList<ExecutionListener>();
 
-					UniClassDec classDec = ToBlockEditorParser.parse(selectedFile);
-
-					engine.execute(classDec);
+//					UniClassDec classDec = ToBlockEditorParser.parse(selectedFile);
+//
+//					engine.execute(classDec);
 
 				}
 			});

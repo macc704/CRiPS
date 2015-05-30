@@ -1911,7 +1911,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			WorkspaceWidget widget) {
 		WorkspaceEnvironment env = ws.getEnv();
 
-		if (checkScope(link, env) && checkReturnBlock(link)) {
+		if (checkScope(link, env)) {
 			link.connect();
 
 			ws.notifyListeners(new WorkspaceEvent(ws, widget, link,
@@ -2504,54 +2504,53 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return x;
 	}
 
-	private boolean checkReturnBlock(BlockLink link){
-		updateReturnType(getWorkspace(), getParentWidget(), this.getBlockID(), link.getSocketBlockID());
-		return getWorkspace().getPolyRule().getProcedureOutputManager().canLinkReturnBlock(getWorkspace(), getParentWidget(), this.getBlockID(), link.getSocketBlockID());
-	}
+//	private boolean checkReturnBlock(BlockLink link){
+//		updateReturnType(getWorkspace(), getParentWidget(), this.getBlockID(), link.getSocketBlockID());
+//		return getWorkspace().getPolyRule().getProcedureOutputManager().canLinkReturnBlock(getWorkspace(), getParentWidget(), this.getBlockID(), link.getSocketBlockID());
+//	}
 
-    public void updateReturnType(Workspace ws, WorkspaceWidget w, Long block, Long socket){
-		Long top = SLBlockProperties.getTopBlockID(ws, socket);
+//    public void updateReturnType(Workspace ws, WorkspaceWidget w, Long block, Long socket){
+//		Long top = SLBlockProperties.getTopBlockID(ws, socket);
+//
+//		if(top == null || !ws.getEnv().getBlock(top).isProcedureDeclBlock()){
+//			return ;
+//		}
+//		//結合ブロックの取得
+//		Block b = ws.getEnv().getBlock(block);
+//		//結合ブロックより下を全てパースし，returnだけ持ってくる
+//		List<Long> ids = getReturnBlocksBlocks(b, ws);
+//
+//		for(Long id : ids){
+//			Block returnValue = ws.getEnv().getBlock(ws.getEnv().getBlock(id).getSocketAt(0).getBlockID());
+//		}
+//    }
 
-		if(top == null || !ws.getEnv().getBlock(top).isProcedureDeclBlock()){
-			return ;
-		}
-		//結合ブロックの取得
-		Block b = ws.getEnv().getBlock(block);
-		//結合ブロックより下を全てパースし，returnだけ持ってくる
-		List<Long> ids = getReturnBlocksBlocks(b, ws);
-
-		for(Long id : ids){
-			Block returnValue = ws.getEnv().getBlock(ws.getEnv().getBlock(id).getSocketAt(0).getBlockID());
-
-		}
-    }
-
-    private List<Long> getReturnBlocksBlocks(Block b, Workspace ws){
-    	List<Long> ids = new ArrayList<Long>();
-		if(b.getGenusName().equals("return")){
-			ids.add(b.getBlockID());
-			return ids;
-        }
-
-        //ソケットのブロックが結合可能かチェック
-        Iterator<BlockConnector> i = b.getSockets().iterator();
-        do{
-            if(!i.hasNext())
-                break;
-            BlockConnector conn = (BlockConnector)i.next();
-            Block b2 = ws.getEnv().getBlock(conn.getBlockID());
-            if(b2 != null){
-            	ids.addAll(getReturnBlocksBlocks(b2, ws));
-            }
-        } while(true);
-
-        //次のブロックが結合可能かチェック
-        Block b2 = ws.getEnv().getBlock(b.getAfterBlockID());
-        if(b2 != null)
-            ids.addAll(getReturnBlocksBlocks(b2, ws));
-
-		return ids;
-    }
+//    private List<Long> getReturnBlocksBlocks(Block b, Workspace ws){
+//    	List<Long> ids = new ArrayList<Long>();
+//		if(b.getGenusName().equals("return")){
+//			ids.add(b.getBlockID());
+//			return ids;
+//        }
+//
+//        //ソケットのブロックが結合可能かチェック
+//        Iterator<BlockConnector> i = b.getSockets().iterator();
+//        do{
+//            if(!i.hasNext())
+//                break;
+//            BlockConnector conn = (BlockConnector)i.next();
+//            Block b2 = ws.getEnv().getBlock(conn.getBlockID());
+//            if(b2 != null){
+//            	ids.addAll(getReturnBlocksBlocks(b2, ws));
+//            }
+//        } while(true);
+//
+//        //次のブロックが結合可能かチェック
+//        Block b2 = ws.getEnv().getBlock(b.getAfterBlockID());
+//        if(b2 != null)
+//            ids.addAll(getReturnBlocksBlocks(b2, ws));
+//
+//		return ids;
+//    }
 
 	private boolean checkScope(BlockLink link, WorkspaceEnvironment we) {
 		boolean scopeCheck = true;
