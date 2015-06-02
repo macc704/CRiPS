@@ -174,10 +174,6 @@ public class DrawingArrowManager implements WorkspaceListener {
 		if (event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED
 				|| event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED) {
 			//矢印の濃度を変更
-			Block socketBlock = Block.getBlock(event.getSourceLink()
-					.getSocketBlockID());
-			Block plugBlock = Block.getBlock(event.getSourceLink()
-					.getPlugBlockID());
 			for (long id : arrows.keySet()) {
 				changeColor(Block.getBlock(id));
 			}

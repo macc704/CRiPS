@@ -35,7 +35,6 @@ import codeblocks.Block;
 import codeblocks.BlockConnector;
 import codeblockutil.CToolTip;
 import drawingobjects.ArrowObject;
-import drawingobjects.DrawingArrowManager;
 
 /**
  * A Page serves as both an abstract container of blocks and also a graphical
@@ -43,19 +42,19 @@ import drawingobjects.DrawingArrowManager;
  * abstract fields: a color, a name, a font, a drawer, width, a height, and a
  * set of blocks. How it renders these abstract fields depends on the state of
  * the page, including: zoom level, and minimumPixelWidth.
- * 
+ *
  * A Page exists as a WorkspaceWidget, a SearchableContainer, ISupportMemento,
  * an RBParent, a Zoomable object, and a JPanel. As a WorkspaceWidget, it can
  * add, remove, blocks and manage block manipulations within itself. As a
  * searchableContainer, it can notify users that certain blocks have been
  * queried. As an ISupportMomento, it can undo the current values of abstract
  * fields. As an RBParent, it can highlight blocks.
- * 
+ *
  * Since a Page is both a Zoomable object and JPanel, Pages separate its
  * abstract b2j.model and view by allowing clients to mutate its abstract fields
  * directly. But clients must remember to reform the pages in order to
  * synchronize the data between the b2j.model and view.
- * 
+ *
  * A page?ｽ?ｽs abstract color is rendered the same no matter what state the page
  * is in. A page?ｽ?ｽs abstract name is rendered thrice centered at every fourth
  * of the page. The name is rendered with a size depending on the zoom level of
@@ -68,14 +67,14 @@ import drawingobjects.DrawingArrowManager;
  * abstract width to be. Finally the set of blocks are rendered directly onto
  * the page with the same transformation as the ones imposed on the width and
  * height of the page.
- * 
+ *
  * As an implementation detail, a page tries to maintain a separation between
  * its abstract states and its view. Clients of Pages should use reform*()
  * methods to validate information between the abstract states and view. Clients
  * of Pages are warned against accessing Page.getJComponent(), as the method
  * provides clients a way to unintentionally mutate an implementation specific
  * detail of Pages.
- * 
+ *
  * A Page implements ExplorerListener i.e. it listens for possible changes in an
  * explorer that affects the display of the page. When an explorer event happens
  * the page changes its display accordingly
@@ -134,7 +133,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 	/**
 	 * Constructs a new Page
-	 * 
+	 *
 	 * @param name
 	 *            - name of this page (this.name)
 	 * @param pageWidth
@@ -143,7 +142,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	 *            - the abstract height of this page (this.height)
 	 * @param pageDrawer
 	 *            - the name of the page drawer that this page refers to
-	 * 
+	 *
 	 * @requires name != null && pageDrawer != null
 	 * @effects constructs a new Page such that: 1) The name of this page equals
 	 *          the argument "name". 2) The abstract width of this page equals
@@ -198,10 +197,10 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 	/**
 	 * Constructs a new Page
-	 * 
+	 *
 	 * @param name
 	 *            - name of this page (this.name)
-	 * 
+	 *
 	 * @requires name != null
 	 * @effects constructs a new Page such that: 1) The name of this page equals
 	 *          the argument "name". 2) The abstract width of this page equals
@@ -216,7 +215,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 	/**
 	 * Constructs a new Page
-	 * 
+	 *
 	 * @requires none
 	 * @effects constructs a new Page such that: 1) The name of this page equals
 	 *          the argument "". 2) The abstract width of this page equals
@@ -375,7 +374,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	/**
 	 * @param newName
 	 *            - the new name of this page.
-	 * 
+	 *
 	 * @requries newName != null
 	 * @modifies this.name
 	 * @effects sets the name of this page to be newName.
@@ -402,7 +401,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	/**
 	 * @param image
 	 *            - the new icon of this. May be null
-	 * 
+	 *
 	 * @requires NONE
 	 * @modifies this.icon
 	 * @effects change this.icon to specified icon. The new icon may be null
@@ -414,7 +413,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	/**
 	 * @param newColor
 	 *            - the new color of this page
-	 * 
+	 *
 	 * @requires none
 	 * @modifies this.color
 	 * @effects Set the color of this page tobe newColor. If newColor is null,
@@ -426,7 +425,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 	/**
 	 * @param deltaPixelWidth
-	 * 
+	 *
 	 * @requires Integer.MIN_VAL <= deltaPixelWidth <= Integer.MAX_VAL
 	 * @modifies this.width
 	 * @effects Adds deltaPixelWidth to the abstract width taking into account
@@ -490,7 +489,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	/**
 	 * @param block
 	 *            - the new block being added whose position must be revalidated
-	 * 
+	 *
 	 * @requires block != null
 	 * @modifies block.location or this page's abstract width
 	 * @effects shifts this block into the page or increases the width of this
@@ -588,7 +587,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	/**
 	 * @param newZoom
 	 *            - the new zoom level
-	 * 
+	 *
 	 * @requires zoom != 0
 	 * @modifies zoom level
 	 * @effects Sets all the Zoomable Pages in contained in this BlockCanvas and
@@ -643,7 +642,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		this.pageJComponent.addToArrowLayer(p);
 		this.pageJComponent.revalidate();
 	}
-	
+
 	public void removeArrow(Component p) {
 		this.pageJComponent.remove(p);
 		this.pageJComponent.revalidate();
@@ -697,7 +696,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	/**
 	 * @param blocks
 	 *            the Collection of RenderableBlocks to add
-	 * 
+	 *
 	 * @requires blocks != null
 	 * @modifies this page's set of blocks
 	 * @effects Add the collection of blocks internally and graphically,
@@ -709,7 +708,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		for (RenderableBlock block : blocks) {
 			this.addBlock(block);
 		}
-		//since new components added, need to validate 
+		//since new components added, need to validate
 		this.pageJComponent.revalidate();
 	}
 
@@ -822,9 +821,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 										}
 									}
 								}
-								
-								//now we need to redraw all the blocks now that all renderable blocks 
-								//within this page have been loaded, to update the socket dimensions of 
+
+								//now we need to redraw all the blocks now that all renderable blocks
+								//within this page have been loaded, to update the socket dimensions of
 								//blocks, etc.
 								for (RenderableBlock rb : this.getTopLevelBlocks()) {
 									rb.redrawFromTop();
@@ -867,8 +866,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 			}
 		}
 
-		//now we need to redraw all the blocks now that all renderable blocks 
-		//within this page have been loaded, to update the socket dimensions of 
+		//now we need to redraw all the blocks now that all renderable blocks
+		//within this page have been loaded, to update the socket dimensions of
 		//blocks, etc.
 //		for (RenderableBlock rb : this.getTopLevelBlocks()) {
 //			if (rb.isCollapsed()) {
@@ -880,7 +879,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 //			}
 //			rb.redrawFromTop();
 //		}
-		
+
 		//上の処理を同様に抽象化ブロックでも行う
 		for (RenderableBlock rb : getBlocks()) {
 			if (rb.isCollapsed()) {
@@ -892,7 +891,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 			}
 			rb.redrawFromTop();
 		}
-		
+
 		this.pageJComponent.revalidate();
 		this.pageJComponent.repaint();
 	}
@@ -1351,8 +1350,7 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	}
 
 	public void addToArrowLayer(Component c) {
-		this.add(c);
-		this.setLayer(c, ARROW_LAYER);
+		this.add(c, ARROW_LAYER);
 	}
 
 	/** @override RBParent.addToHighlightLayer() */
@@ -1400,10 +1398,10 @@ class BlockStackSorterUtil {
 	/**
 	 * This method serves to help clients sort blocks within a page in some
 	 * manner.
-	 * 
+	 *
 	 * @param page
 	 * @param topLevelBlocks
-	 * 
+	 *
 	 * @requires page != null && topLevelBlocks != null
 	 * @modifies the location of all topLevelBlocks
 	 * @effects sort the topLevelBlocks and move them to an order location on
@@ -1422,7 +1420,7 @@ class BlockStackSorterUtil {
 			Rectangle bounds = block.getStackBounds();
 			if (positioningBounds.height + bounds.height > page.getJComponent()
 					.getHeight()) {
-				//need to go to next column 
+				//need to go to next column
 				positioningBounds.x = positioningBounds.x
 						+ positioningBounds.width + BUFFER_BETWEEN_BLOCKS;
 				positioningBounds.width = 0;

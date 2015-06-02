@@ -40,7 +40,6 @@ import workspace.ContextMenu;
 import workspace.FactoryManager;
 import workspace.ISupportMemento;
 import workspace.MiniMap;
-import workspace.Page;
 import workspace.RBParent;
 import workspace.SearchableElement;
 import workspace.Workspace;
@@ -1790,8 +1789,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.setConstrainComment(false);
 		}
 		Component oldParent = renderable.getParent();
-		
-		Workspace.getInstance().addToBlockLayer(renderable);	
+
+		Workspace.getInstance().addToBlockLayer(renderable);
 
 		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
 
@@ -1817,7 +1816,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			throw new RuntimeException("dropping without prior dragging?");
 		// reset hilight 応急処置
 		renderable.highlighter.resetHighlight();
-		
+
 		// notify children
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(renderable.getBlock())) {
@@ -1850,7 +1849,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 
 	}
-	
+
 	public void addBlockLayer(RenderableBlock renderable, WorkspaceWidget widget){
 		Workspace.getInstance().addToBlockLayer(renderable);
 		for (BlockConnector socket : BlockLinkChecker
@@ -1861,7 +1860,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
-	public Block getCommandBlock(Block block){
+	public static Block getCommandBlock(Block block){
 		if(block != null){
 			while(block.getPlug() != null && block.getPlug().getBlockID() != Block.NULL){
 				block = Block.getBlock(block.getPlug().getBlockID());
@@ -1961,7 +1960,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 			// if the block was dragged before...then
 			if (dragging) {
-								
+
 				BlockLink link = getNearbyLink(); // look for nearby link
 													// opportunities
 				WorkspaceWidget widget = null;

@@ -140,7 +140,7 @@ public class MethodResolver {
 		userConstructor.add(signature);
 		putArgumentLabels(signature, arguments);
 	}
-	
+
 	public boolean registeredAsUserConstructor(String name){
 		if(userConstructor.contains(name)){
 			return true;
@@ -193,46 +193,4 @@ public class MethodResolver {
 	public void addArgumentLabels(String signature, List<String> arguments) {
 		argumentLabels.put(signature, arguments);
 	}
-
-	// private String getReturnType(MethodInvocation node) {
-	// System.out.println(node.getClass().toString());
-	// System.out.println("pa:" + node.getParent().getClass().toString());
-	// if (node.getParent() instanceof Assignment) {
-	// Assignment assign = ((Assignment) node.getParent());
-	// String name = assign.getLeftHandSide().toString();
-	// return resolver.resolve(name).getType();
-	// } else if (node.getParent() instanceof IfStatement) {
-	// return "boolean";
-	// } else if (node.getParent() instanceof WhileStatement) {
-	// return "boolean";
-	// } else if (node.getParent() instanceof VariableDeclarationFragment) {
-	// System.out.println("aa");
-	// if (node.getParent().getParent() instanceof VariableDeclarationStatement)
-	// {
-	// VariableDeclarationStatement dec = ((VariableDeclarationStatement) node
-	// .getParent().getParent());
-	// return dec.getType().toString();
-	// } else if (node.getParent().getParent() instanceof
-	// VariableDeclarationStatement) {
-	// VariableDeclarationExpression dec = ((VariableDeclarationExpression) node
-	// .getParent().getParent());
-	// System.out.println(dec.getType().toString());
-	// return dec.getType().toString();
-	// } else {
-	// throw new RuntimeException(
-	// "unknown variable declaration fragment");
-	// }
-	// } else if (node.getParent() instanceof MethodInvocation) {
-	// MethodInvocation parent = ((MethodInvocation) node.getParent());
-	// int index = parent.arguments().indexOf(node);
-	// parent.arguments
-	// }
-	//
-	// if (node.getParent() instanceof ExpressionStatement) {
-	// return ExpressionModel.VOID;
-	// }
-	//
-	// throw new RuntimeException("not supported method call:"
-	// + node.getName());
-	// }
 }

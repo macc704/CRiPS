@@ -2113,8 +2113,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		String analyzingSourceName = this.commentGetter.getSourceName();
 
 		if (methodResolver.isRegisteredAsUserMethod(node)
-				&& (caller == null || caller.toString().equals("this") || isThisClassCaller(
-						caller, analyzingSourceName))) {
+				&& (caller == null || caller.toString().equals("this") || isThisClassCaller(caller, analyzingSourceName))) {
 			model = new ExCallUserMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
 			name = calcMethodName(node);
