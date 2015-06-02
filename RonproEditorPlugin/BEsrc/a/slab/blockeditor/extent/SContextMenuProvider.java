@@ -116,7 +116,7 @@ public class SContextMenuProvider {
 	//	private JMenuItem createImportMenu() {
 	//		JMenuItem item = new JMenuItem("コピー");
 	//		item.addActionListener(new ActionListener() {
-	//			
+	//
 	//			public void actionPerformed(ActionEvent e) {
 	//				RenderableBlock importBlock = BlockUtilities.cloneBlock(rb.getBlock());
 	//				copyToClipboard(importBlock.getBlock().getGenusName());
@@ -397,10 +397,7 @@ public class SContextMenuProvider {
 
 		if (rb.getBlock().isObjectTypeVariableDeclBlock()
 				|| rb.getBlock().getGenusName().contains("listobject")) {
-			//			menu.add(createActionBlockMenu());
-			//			menu.add(createGetterBlockMenu());
 
-			//TODO menuにクラスメソッドを追加
 			for (String key : rb.getMethods().keySet()) {
 				methodMenu.add(createClassMethodsCategory(key + "のメソッド", rb
 						.getMethods().get(key)));
@@ -648,8 +645,7 @@ public class SContextMenuProvider {
 	//		return item;
 	//	}
 
-	private JMenuItem createCallClassMethodMenu(
-			final Map<String, List<String>> method) {
+	private JMenuItem createCallClassMethodMenu(final Map<String, List<String>> method) {
 		String blockParam = "[";
 		String param = "(";
 		for (int i = 0; i < method.get("parameters").size(); i++) {
@@ -682,7 +678,9 @@ public class SContextMenuProvider {
 	}
 
 	private String getBlockType(String type) {
-		if (type.startsWith("int") || type.startsWith("double")) {
+		if(type.contains("[]")){
+			return "object";
+		}else if (type.startsWith("int") || type.startsWith("double")) {
 			return "number";
 		} else if (type.startsWith("String")) {
 			return "string";
@@ -734,8 +732,7 @@ public class SContextMenuProvider {
 	private void createCallMethod(String name) {
 		//RenderableBlock createRb = BlockUtilities.getBlock("get","hoge");//does not work !!
 
-		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
-				name);
+		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),name);
 
 		boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
 		if (cmd) {
