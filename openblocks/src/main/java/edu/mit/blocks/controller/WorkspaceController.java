@@ -910,11 +910,11 @@ public class WorkspaceController {
 //	}
 
 	private void runDebbuger(){
-		try {
-			debugger = new DebuggerWorkspaceController(langDefRootPath,selectedFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			debugger = new DebuggerWorkspaceController(langDefRootPath,selectedFile);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	private static String langDefRootPath = "ext/blocks/lang_def.xml";

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import net.unicoen.mapper.ExtendedExpressionMapper;
 import net.unicoen.node.UniClassDec;
@@ -33,8 +34,12 @@ public class UnicoenConvertTest {
 		if(node instanceof UniClassDec){
 			// javaファイルからunicoenモデルを作成
 			UniClassDec classDec = (UniClassDec)node;
-			BlockGenerator generator = new BlockGenerator(false);
 
+			File outputFile = new File("unicoen/"+ classDec.className + ".xml");
+			outputFile.createNewFile();
+			PrintStream out = new PrintStream(outputFile);
+
+			BlockGenerator generator = new BlockGenerator(out, "ext/blocks/lang_def.xml");
 			// unicoenモデルからBlockのXmlを作成
 			generator.parse(classDec);
 

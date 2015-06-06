@@ -1,11 +1,11 @@
 package edu.inf.shizuoka.debugger;
 
 import java.awt.Color;
+import java.util.Map;
 
 import net.unicoen.interpreter.ExecutionListener;
 import net.unicoen.interpreter.Scope;
 import net.unicoen.node.UniNode;
-import net.unicoen.parser.blockeditor.BlockGenerator;
 
 import org.w3c.dom.Element;
 
@@ -17,35 +17,41 @@ public class BlockEditorDebbugger implements ExecutionListener {
 	private static boolean flag = false;
 	private RenderableBlock executingBlock;
 	private Workspace ws;
+	private Map<String, Element> blocks;
 
-	public BlockEditorDebbugger(Workspace ws) {
+	public BlockEditorDebbugger(Workspace ws, Map<String, Element> blocks) {
 		this.ws = ws;
+		this.blocks = blocks;
 	}
 
 	public void setExeCutingBlock(RenderableBlock block) {
 		executingBlock = block;
 	}
 
-	@Override
 	public void preExecute(UniNode node, Scope scope) {
-		// nodeに対応したRenderableBlockをハイライトする
-		Element element = BlockGenerator.getAddedModels().get(Integer.toString(node.hashCode()));
-		
-		if (element != null) {
-			Long value = Long.valueOf(element.getAttributes().getNamedItem("id").getNodeValue());
-			executingBlock = ws.getEnv().getRenderableBlock(value);
-			executingBlock.getHilightHandler().setHighlightColor(Color.YELLOW);
-		}
+		if (node != null) {
+			// nodeに対応したRenderableBlockをハイライトする
+			Element element = blocks.get(Integer.toString(node.hashCode()));
 
-		while (!flag) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			if (element != null) {
+				Long value = Long.valueOf(element.getAttributes().getNamedItem("id").getNodeValue());
+//				String kind = element.getAttributes().getNamedItem("kind").getNodeValue();
+				executingBlock = ws.getEnv().getRenderableBlock(value);
+				executingBlock.getHilightHandler().setHighlightColor(Color.YELLOW);
 			}
+
+			while (!flag) {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			if (executingBlock != null) {
+				executingBlock.getHilightHandler().resetHighlight();
+			}
+			flag = false;
 		}
-		executingBlock.getHilightHandler().resetHighlight();
-		flag = false;
 	}
 
 	public static void setFlag(boolean state) {
@@ -58,13 +64,11 @@ public class BlockEditorDebbugger implements ExecutionListener {
 
 	@Override
 	public void preExecuteAll(Scope global) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void postExecuteAll(Scope global) {
-		// TODO Auto-generated method stub
 
 	}
 
