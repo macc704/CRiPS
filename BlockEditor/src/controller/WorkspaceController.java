@@ -638,8 +638,7 @@ public class WorkspaceController {
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
 	 */
-	public void createAndShowGUI(final WorkspaceController wc,
-			final SBlockEditorListener ronproEditor, final String enc) {
+	public void createAndShowGUI(final WorkspaceController wc, final SBlockEditorListener ronproEditor, final String enc) {
 		this.ronproEditor = ronproEditor;
 
 		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {

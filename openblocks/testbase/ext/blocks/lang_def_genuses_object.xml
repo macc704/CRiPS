@@ -51,6 +51,7 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>Object</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -179,6 +180,7 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>Object</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -420,10 +422,11 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>List</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>	
+			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -492,10 +495,11 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>LinkedList</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-linkedlistobject" label="LinkedList"></DefaultArg>	
+			<DefaultArg genus-name="new-linkedlistobject" label="LinkedList"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -564,10 +568,11 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>ArrayList</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>	
+			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -636,6 +641,7 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>List</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -708,6 +714,7 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>ArrayList</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -780,10 +787,11 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>LinkedList</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-linkedlistobject" label="LinkedList"></DefaultArg>	
+			<DefaultArg genus-name="new-linkedlistobject" label="LinkedList"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -862,6 +870,7 @@
 			int型の配列を作ります
 		</text>
 	</description>
+	<Type>int[]</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -911,6 +920,7 @@
 			Color型のインスタンス変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>Color</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -982,6 +992,7 @@
 			Color型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>Color</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -1054,6 +1065,7 @@
 			Color型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>Color</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -1138,7 +1150,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<!--  
+<!--
 <BlockGenus name="remove[@object]" kind="command" initlabel="要素を削除する"
 	color="255 255 100">
     <JavaLabel>remove</JavaLabel>
@@ -1157,79 +1169,4 @@
         connector-type="number" />
 	</BlockConnectors>
 </BlockGenus>
-
-<BlockGenus name="local-var-extentobject" kind="local-variable"
-	initlabel="t" header-label="ListからObject型の要素を取り出し、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">
-	<description>
-		<text>
-			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
-		</text>
-	</description>
-	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
-			<DefaultArg genus-name="new-object" label="Turtle"></DefaultArg>
-		</BlockConnector>
-	</BlockConnectors>
-	<Stubs>
-		<Stub stub-genus="callActionMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callGetterMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callBooleanMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callDoubleMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callStringMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="callObjectMethod">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="getter">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-		<Stub stub-genus="setter">
-			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-			</LangSpecProperties>
-		</Stub>
-	</Stubs>
-	<LangSpecProperties>
-		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
-		<LangSpecProperty key="type" value="object"></LangSpecProperty>
-		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>
-
-
-
-
+å

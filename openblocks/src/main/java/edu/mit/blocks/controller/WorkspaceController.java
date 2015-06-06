@@ -602,6 +602,9 @@ public class WorkspaceController {
 				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
 
 				File javaFile = new File(selectedFile.getParentFile().getPath()+ "/" + classDec.className + ".java");
+				PrintStream out = new PrintStream(javaFile);
+				JavaGenerator.generate(classDec, out);
+
 				PrintStream ps = new PrintStream(javaFile);
 
 				String source = JavaGenerator.generate(classDec);
@@ -756,7 +759,6 @@ public class WorkspaceController {
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
 				frame.dispose();
@@ -767,8 +769,6 @@ public class WorkspaceController {
 		help.add(CJavaInfoPanels.createJavaInformationAction());
 		JMenuItem setting = new JMenuItem("Setting");
 		setting.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				openPreferenceFrame();
 			}

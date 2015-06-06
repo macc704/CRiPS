@@ -595,6 +595,7 @@
 			BCanvas型のプライベート変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>BCanvas</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -767,6 +768,7 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>BCanvas</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -939,6 +941,7 @@
 			BCanvas型のプライベート変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>BWindow</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -1003,6 +1006,7 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>BWindow</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -1067,6 +1071,7 @@
 			BSound型のプライベート変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>BSound</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -1155,6 +1160,7 @@
 			BSound型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>BSound</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -1174,7 +1180,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<MethodStubs>		
+		<MethodStubs>
 			<ClassName name="BSoundクラスのメソッド">
 				<Stub stub-genus="BSound-getVolume[]">
 					<LangSpecProperties>
@@ -1243,6 +1249,7 @@
 			BCanvas型のプライベート変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>Color</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -1279,6 +1286,7 @@
 			BCanvas型のプライベート変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>Color</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
@@ -1315,6 +1323,7 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<Type>Color</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">

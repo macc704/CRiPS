@@ -35,7 +35,7 @@
 <BlockGenus name="nextInt[]" kind="function" initlabel="入力を受け取る(int型)"
 	color="255 0 0">
 	<Name>nextInt</Name>
-	<Type>int</Type>	
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number">
 		</BlockConnector>
@@ -45,7 +45,7 @@
 <BlockGenus name="nextDouble[]" kind="function" initlabel="入力を受け取る(double型)"
 	color="255 0 0">
 	<Name>nextDouble</Name>
-	<Type>double</Type>	
+	<Type>double</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number">
 		</BlockConnector>
@@ -55,7 +55,7 @@
 <BlockGenus name="hasNextDouble[]" kind="data" initlabel="入力がdouble型か調べる"
 	color="255 0 0">
 	<Name>hasNextDouble</Name>
-	<Type>boolean</Type>	
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean">
 		</BlockConnector>
@@ -66,7 +66,7 @@
 <BlockGenus name="hasNextInt[]" kind="data" initlabel="入力がint型か調べる"
 	color="255 0 0">
 	<Name>hasNextInt</Name>
-	<Type>boolean</Type>	
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean">
 		</BlockConnector>
@@ -82,6 +82,7 @@
 			<DefaultArg genus-name="new-object-withobject" label="Scanner"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>Scanner</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -120,13 +121,13 @@
 						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 					</LangSpecProperties>
-				</Stub>				
+				</Stub>
 				<Stub stub-genus="hasNextDouble[]">
 					<LangSpecProperties>
 						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 					</LangSpecProperties>
-				</Stub>																
+				</Stub>
 			</ClassName>
 		</MethodStubs>
 	</Stubs>
@@ -138,7 +139,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<!-- 
+<!--
 <BlockGenus name="next" kind="function" initlabel="入力を受け取る(文字列型)"
 	color="255 0 0">
 	<Name>next</Name>

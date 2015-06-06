@@ -47,13 +47,13 @@
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
-		</Stub>	
+		</Stub>
 		<Stub stub-genus="inc">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-inclocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
-		</Stub>			
+		</Stub>
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="type" value="number"></LangSpecProperty>
@@ -81,7 +81,7 @@
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
-		</Stub>		
+		</Stub>
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="type" value="double-number"></LangSpecProperty>
@@ -109,7 +109,7 @@
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
-		</Stub>				
+		</Stub>
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="type" value="boolean"></LangSpecProperty>
@@ -123,7 +123,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 	</BlockConnectors>
-	<Type>String</Type>	
+	<Type>String</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -137,7 +137,7 @@
 				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
-		</Stub>				
+		</Stub>
 	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="type" value="string"></LangSpecProperty>
@@ -151,7 +151,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>Object</Type>	
+	<Type>Object</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -192,7 +192,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>int-array</Type>
+	<Type>int[]</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -233,7 +233,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>Object-array</Type>
+	<Type>Object[]</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -274,7 +274,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>double-array</Type>
+	<Type>double[]</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -315,7 +315,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>String-array</Type>
+	<Type>String[]</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -381,7 +381,7 @@
 <BlockGenus name="proc-param-object-bwindow" kind="param" initlabel="BWindow型引数"
 	editable-label="yes" header-label="BWindow型の仮引数を作り、" footer-label="と名付ける" label-unique="yes" is-starter="yes" is-terminator="yes"
 	color="200 200 200">
-	<Type>obpro.BWindow</Type>
+	<Type>BWindow</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
@@ -412,7 +412,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>obpro.BSound</Type>
+	<Type>BSound</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -440,7 +440,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>util.Color</Type>
+	<Type>Color</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -463,38 +463,38 @@
 </BlockGenus>
 
 
-<!-- <BlockGenus name="proc-param-list-number" kind="param" initlabel="number_list" 
-	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes" 
-	color="177 10 255"> <description> <text> Adds a list parameter to a procedure. 
-	</text> </description> <BlockConnectors> <BlockConnector connector-kind="plug" 
-	connector-type="number-list"></BlockConnector> </BlockConnectors> <Stubs> 
-	<Stub stub-genus="getter"> <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" 
-	value="eval-local"></LangSpecProperty> <LangSpecProperty key="scope" value="local"></LangSpecProperty> 
-	<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty> 
-	</LangSpecProperties> </Stub> </Stubs> <LangSpecProperties> <LangSpecProperty 
-	key="type" value="list"></LangSpecProperty> <LangSpecProperty key="stack-type" 
-	value="breed-procedure"></LangSpecProperty> </LangSpecProperties> </BlockGenus> 
-	<BlockGenus name="proc-param-list-string" kind="param" initlabel="string_number" 
-	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes" 
-	color="177 10 255"> <description> <text> Adds a list parameter to a procedure. 
-	</text> </description> <BlockConnectors> <BlockConnector connector-kind="plug" 
-	connector-type="string-list"></BlockConnector> </BlockConnectors> <Stubs> 
-	<Stub stub-genus="getter"> <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" 
-	value="eval-local"></LangSpecProperty> <LangSpecProperty key="scope" value="local"></LangSpecProperty> 
-	<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty> 
-	</LangSpecProperties> </Stub> </Stubs> <LangSpecProperties> <LangSpecProperty 
-	key="type" value="list"></LangSpecProperty> <LangSpecProperty key="stack-type" 
-	value="breed-procedure"></LangSpecProperty> </LangSpecProperties> </BlockGenus> 
-	<BlockGenus name="proc-param-list-boolean" kind="param" initlabel="boolean_list" 
-	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes" 
-	color="177 10 255"> <description> <text> Adds a list parameter to a procedure. 
-	</text> </description> <BlockConnectors> <BlockConnector connector-kind="plug" 
-	connector-type="boolean-list"></BlockConnector> </BlockConnectors> <Stubs> 
-	<Stub stub-genus="getter"> <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" 
-	value="eval-local"></LangSpecProperty> <LangSpecProperty key="scope" value="local"></LangSpecProperty> 
-	<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty> 
-	</LangSpecProperties> </Stub> </Stubs> <LangSpecProperties> <LangSpecProperty 
-	key="type" value="list"></LangSpecProperty> <LangSpecProperty key="stack-type" 
+<!-- <BlockGenus name="proc-param-list-number" kind="param" initlabel="number_list"
+	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="177 10 255"> <description> <text> Adds a list parameter to a procedure.
+	</text> </description> <BlockConnectors> <BlockConnector connector-kind="plug"
+	connector-type="number-list"></BlockConnector> </BlockConnectors> <Stubs>
+	<Stub stub-genus="getter"> <LangSpecProperties> <LangSpecProperty key="vm-cmd-name"
+	value="eval-local"></LangSpecProperty> <LangSpecProperty key="scope" value="local"></LangSpecProperty>
+	<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties> </Stub> </Stubs> <LangSpecProperties> <LangSpecProperty
+	key="type" value="list"></LangSpecProperty> <LangSpecProperty key="stack-type"
+	value="breed-procedure"></LangSpecProperty> </LangSpecProperties> </BlockGenus>
+	<BlockGenus name="proc-param-list-string" kind="param" initlabel="string_number"
+	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="177 10 255"> <description> <text> Adds a list parameter to a procedure.
+	</text> </description> <BlockConnectors> <BlockConnector connector-kind="plug"
+	connector-type="string-list"></BlockConnector> </BlockConnectors> <Stubs>
+	<Stub stub-genus="getter"> <LangSpecProperties> <LangSpecProperty key="vm-cmd-name"
+	value="eval-local"></LangSpecProperty> <LangSpecProperty key="scope" value="local"></LangSpecProperty>
+	<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties> </Stub> </Stubs> <LangSpecProperties> <LangSpecProperty
+	key="type" value="list"></LangSpecProperty> <LangSpecProperty key="stack-type"
+	value="breed-procedure"></LangSpecProperty> </LangSpecProperties> </BlockGenus>
+	<BlockGenus name="proc-param-list-boolean" kind="param" initlabel="boolean_list"
+	editable-label="yes" label-unique="yes" is-starter="yes" is-terminator="yes"
+	color="177 10 255"> <description> <text> Adds a list parameter to a procedure.
+	</text> </description> <BlockConnectors> <BlockConnector connector-kind="plug"
+	connector-type="boolean-list"></BlockConnector> </BlockConnectors> <Stubs>
+	<Stub stub-genus="getter"> <LangSpecProperties> <LangSpecProperty key="vm-cmd-name"
+	value="eval-local"></LangSpecProperty> <LangSpecProperty key="scope" value="local"></LangSpecProperty>
+	<LangSpecProperty key="stack-type" value="breed-procedure"></LangSpecProperty>
+	</LangSpecProperties> </Stub> </Stubs> <LangSpecProperties> <LangSpecProperty
+	key="type" value="list"></LangSpecProperty> <LangSpecProperty key="stack-type"
 	value="breed-procedure"></LangSpecProperty> </LangSpecProperties> </BlockGenus> -->
 
 <BlockGenus name="return" kind="command" initlabel="return"

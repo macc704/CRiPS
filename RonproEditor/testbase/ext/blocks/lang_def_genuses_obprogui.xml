@@ -601,6 +601,7 @@
 			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>BCanvas</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -773,6 +774,7 @@
 			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>BCanvas</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -945,6 +947,7 @@
 			<DefaultArg genus-name="new-object" label="BWindow"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>BWindow</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1009,6 +1012,7 @@
 			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>BWindow</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1073,6 +1077,7 @@
 			<DefaultArg genus-name="new-object-withtext" label="BSound"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>BSound</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1161,6 +1166,7 @@
 			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>BSound</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1174,7 +1180,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-		<MethodStubs>		
+		<MethodStubs>
 			<ClassName name="BSoundクラスのメソッド">
 				<Stub stub-genus="BSound-getVolume[]">
 					<LangSpecProperties>
@@ -1249,6 +1255,7 @@
 			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1285,6 +1292,7 @@
 			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1321,6 +1329,7 @@
 			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>Color</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>

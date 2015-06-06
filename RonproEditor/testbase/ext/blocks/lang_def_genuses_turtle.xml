@@ -1617,6 +1617,7 @@
 			<DefaultArg genus-name="new-object" label="ListTurtle＜Turtle＞"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type></Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1726,6 +1727,7 @@
 			<DefaultArg genus-name="new-object" label="InputTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>InputTurtle</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1822,6 +1824,7 @@
 			<DefaultArg genus-name="new-object" label="CardTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>CardTurtle</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -1914,6 +1917,7 @@
 			<DefaultArg genus-name="new-object" label="ButtonTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>ButtonTurtle</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -2011,6 +2015,7 @@
 			<DefaultArg genus-name="new-object-withtext" label="TextTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>TextTurtle</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -2042,6 +2047,7 @@
 			<DefaultArg genus-name="new-object-withtext" label="ImageTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>ImageTurtle</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -2078,6 +2084,7 @@
 			<DefaultArg genus-name="new-object-withtext" label="SoundTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>SoundTurtle</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -2109,6 +2116,7 @@
 			<DefaultArg genus-name="new-object" label="ListTurtle＜Turtle＞"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>ListTurtle&lt;Turtle&gt;</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>

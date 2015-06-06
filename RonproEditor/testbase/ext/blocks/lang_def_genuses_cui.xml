@@ -35,7 +35,7 @@
 <BlockGenus name="nextInt[]" kind="function" initlabel="入力を受け取る(int型)"
 	color="255 0 0">
 	<Name>nextInt</Name>
-	<ReturnType>int</ReturnType>	
+	<ReturnType>int</ReturnType>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number">
 		</BlockConnector>
@@ -45,7 +45,7 @@
 <BlockGenus name="nextDouble[]" kind="function" initlabel="入力を受け取る(double型)"
 	color="255 0 0">
 	<Name>nextDouble</Name>
-	<ReturnType>double</ReturnType>	
+	<ReturnType>double</ReturnType>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number">
 		</BlockConnector>
@@ -55,7 +55,7 @@
 <BlockGenus name="hasNextDouble[]" kind="data" initlabel="入力がdouble型か調べる"
 	color="255 0 0">
 	<Name>hasNextDouble</Name>
-	<ReturnType>boolean</ReturnType>	
+	<ReturnType>boolean</ReturnType>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean">
 		</BlockConnector>
@@ -66,7 +66,7 @@
 <BlockGenus name="hasNextInt[]" kind="data" initlabel="入力がint型か調べる"
 	color="255 0 0">
 	<Name>hasNextInt</Name>
-	<ReturnType>boolean</ReturnType>	
+	<ReturnType>boolean</ReturnType>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean">
 		</BlockConnector>
@@ -77,6 +77,7 @@
 <BlockGenus name="local-var-object-Scanner" kind="local-variable"
 	initlabel="scanner" header-label="Scanner型の変数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
+	<Type>Scanner</Type>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
 			<DefaultArg genus-name="new-object-withobject" label="Scanner"></DefaultArg>
@@ -120,13 +121,13 @@
 						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 					</LangSpecProperties>
-				</Stub>				
+				</Stub>
 				<Stub stub-genus="hasNextDouble[]">
 					<LangSpecProperties>
 						<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 						<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 					</LangSpecProperties>
-				</Stub>																
+				</Stub>
 			</ClassName>
 		</MethodStubs>
 	</Stubs>
@@ -138,7 +139,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<!-- 
+<!--
 <BlockGenus name="next" kind="function" initlabel="入力を受け取る(文字列型)"
 	color="255 0 0">
 	<Name>next</Name>

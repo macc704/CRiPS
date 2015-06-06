@@ -21,7 +21,6 @@ import nd.com.sun.tools.example.debug.gui.GUI;
 import nd.novicedebugger.NDebuggerListener;
 import nd.novicedebugger.NDebuggerManager;
 import net.unicoen.mapper.ExtendedExpressionMapper;
-import net.unicoen.mapper.JavaMapper;
 import net.unicoen.node.UniClassDec;
 import pres.core.model.PRCommandLog;
 import pres.core.model.PRLog;
@@ -924,9 +923,8 @@ public class REApplication implements ICFwApplication {
 		commands.add(cp);
 		commands.add(env.runnable);
 
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole()
-				.getFontMetrics(frame.getConsole().getFont()));
-		writePresLog(PRCommandLog.SubType.START_RUN);// TODO
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
+		writePresLog(PRCommandLog.SubType.START_RUN);
 	}
 
 	public void doDebugRun() {
@@ -1222,6 +1220,7 @@ public class REApplication implements ICFwApplication {
 	 * Java‚ðUnicoenƒ‚ƒfƒ‹‚Ö•ÏŠ·‚µ‚Ä•Ô‚·
 	 */
 	public UniClassDec convertJavaToUni(File file){
+//		Java8Mapper mapper = new Java8Mapper(true);
 		ExtendedExpressionMapper mapper = new ExtendedExpressionMapper(false);
 		Object node = mapper.parseFile(file.getPath());
 
@@ -1233,13 +1232,21 @@ public class REApplication implements ICFwApplication {
 		}
 	}
 
-
 	/*
 	 * Uniƒ‚ƒfƒ‹‚©‚çBlockEditor‚ð‹N“®‚·‚é
 	 */
 	public void doOpenBlockEdtorFromUni(UniClassDec classDec) {
 		blockManager.doOpenBlockEditorFromUni(classDec, getSourceManager().getCurrentFile().getParentFile().getPath()+"/");
 	}
+
+	public void doOpenBlockEditorKeyaki(){
+		blockManager.doOpenBlockEditorKeyaki();
+	}
+
+	public void doOpenDebuggerBlockEditor(UniClassDec classDec){
+		blockManager.doOpenDebuggerBlockEditor(classDec, getSourceManager().getCurrentFile().getParentFile().getPath()+"/");
+	}
+
 
 	public void runUnicoenProgram(UniClassDec dec){
 

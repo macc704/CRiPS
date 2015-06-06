@@ -7,11 +7,14 @@ package ronproeditor.ext;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import net.unicoen.node.UniClassDec;
-import net.unicoen.parser.blockeditor.UniToBlockParser;
+import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRFileLog;
 import pres.core.model.PRLog;
 import ronproeditor.ICFwResourceRepository;
@@ -23,6 +26,7 @@ import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
 import clib.view.dialogs.CErrorDialog;
+import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.controller.WorkspaceController;
 
 
@@ -38,6 +42,7 @@ public class REBlockEditorManager {
 	private static final String IMAGES_PATH = "ext/block/images/";
 	private REApplication app;
 	private WorkspaceController blockEditor;
+	private DebuggerWorkspaceController debugger;
 
 	public REBlockEditorManager(REApplication app) {
 		this.app = app;
@@ -81,19 +86,57 @@ public class REBlockEditorManager {
 		initBlockEditor();
 
 		doCompileBlockFromUni(classDec, sourcePath);
+
 	}
 
-	public void doCompileBlockFromUni(UniClassDec classDec, String sourcePath) {
-		UniToBlockParser blockParser = new UniToBlockParser();
-		blockParser.setProjectPath(sourcePath);
-		try {
-			File blockSource  = blockParser.parse(classDec);
-			// OpenBlock
-//			blockEditor.setLangDefFilePath(blockSource.getParentFile().getPath() + "/lang_def_project.xml");
-//			blockEditor.resetWorkspace();
-//			blockEditor.loadProjectFromPath(blockSource.getPath());
+	public void doOpenBlockEditorKeyaki() {
+		initBlockEditor();
 
-			blockEditor.openBlockEditor(blockSource.getPath());
+		blockEditor.setLangDefFilePath("ext/blocks/lang_def.xml");
+		blockEditor.resetWorkspace();
+
+		blockEditor.openBlockEditor();
+	}
+
+	public void doOpenDebuggerBlockEditor(UniClassDec classDec, String sourcePath) {
+		initBlockEditor();
+
+		initDebuggerBlockEditor(classDec, sourcePath);
+	}
+
+
+	public void doCompileBlockFromUni(UniClassDec classDec, String sourcePath) {
+		try {
+			File file = new File(sourcePath + classDec.className + ".xml");
+			file.createNewFile();
+			PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)), false, "UTF-8");
+
+
+			BlockGenerator blockParser = new BlockGenerator(out, "ext/blocks/");
+			blockParser.parse(classDec);
+
+			// OpenBlock
+			blockEditor.setLangDefFilePath("ext/blocks/lang_def.xml");
+			blockEditor.resetWorkspace();
+			//SBlockEditorListenerを追加する
+
+
+			blockEditor.openBlockEditor(file.getPath());
+
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void initDebuggerBlockEditor(UniClassDec classDec, String sourcePath) {
+		if (isDebuggerBlockEditorOpened()) { // already opened
+			CFrameUtils.toFront(debugger.getFrame());
+			return;
+		}
+
+		try {
+			debugger = new DebuggerWorkspaceController(classDec, "ext/blocks/lang_def.xml", new File(sourcePath + classDec.className + ".xml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -181,8 +224,11 @@ public class REBlockEditorManager {
 	// }
 
 	private boolean isWorkspaceOpened() {
-		return blockEditor != null && blockEditor.getFrame() != null
-				&& blockEditor.getFrame().isVisible();
+		return blockEditor != null && blockEditor.getFrame() != null && blockEditor.getFrame().isVisible();
+	}
+
+	private boolean isDebuggerBlockEditorOpened(){
+		return debugger != null && debugger.getFrame() != null && debugger.getFrame().isVisible();
 	}
 
 	private CTaskManager man = new CTaskManager();
@@ -263,17 +309,6 @@ public class REBlockEditorManager {
 					String xmlFilePath = new JavaToBlockMain().run(javaFile,
 							REApplication.SRC_ENCODING, libs);
 
-					// BlockEditorに反映
-					// lang def ファイル
-					/*
-					 * if (isTurtle()) { // lang_def.dtdの書き換え // 最後尾に要素を追加
-					 *
-					 * // menuの書き換え
-					 * blockEditor.setLangDefFilePath(LANG_DEF_TURTLE_PATH); }
-					 * else { // lang_def.dtdの書き換え // menuの書き換え
-					 * blockEditor.setLangDefFilePath(LANG_DEF_PATH); }
-					 */
-
 					blockEditor.setLangDefFilePath(javaFile.getParentFile().getPath()
 							+ "/lang_def_project.xml");
 
@@ -300,11 +335,7 @@ public class REBlockEditorManager {
 		if (!isWorkspaceOpened()) {
 			return;
 		}
-//		blockEditor.setState(WorkspaceController.PROJECT_SELECTED);
-		// Thread thread = new Thread() {
-		//
-		// @Override
-		// public void run() {
+
 		man.addTask(new ICTask() {
 
 			public void doTask() {

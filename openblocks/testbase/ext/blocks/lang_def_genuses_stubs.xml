@@ -31,87 +31,8 @@
 <BlockGenus name="getter" kind="data" initlabel="" color="0 0 0"
 	label-suffix="の値">
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="poly" position-type="mirror"></BlockConnector>
-	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>
-
-<BlockGenus name="preinc" kind="data" initlabel="" color="0 0 0"
-	label-suffix="の値を1増やして，その値">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="number" position-type="mirror"></BlockConnector>
-	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>
-
-<BlockGenus name="predec" kind="data" initlabel="" color="0 0 0"
-	label-suffix="の値を1減らして，その値">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="number" position-type="mirror"></BlockConnector>
-	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>
-
-<BlockGenus name="postinc" kind="data" initlabel="" color="0 0 0"
-	label-suffix="の値を参照してから1増やす">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="number" position-type="mirror"></BlockConnector>
-	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>
-
-<BlockGenus name="postdec" kind="data" initlabel="" color="0 0 0"
-	label-suffix="の値を参照してから1減らす">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="number" position-type="mirror"></BlockConnector>
-	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>
-
-<BlockGenus name="preincdouble" kind="data" initlabel="" color="0 0 0"
-	label-suffix="の値を1増やして，その値">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="double-number" position-type="mirror"></BlockConnector>
-	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>
-
-<BlockGenus name="predecdouble" kind="data" initlabel="" color="0 0 0"
-	label-suffix="の値を1減らして，その値">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="double-number" position-type="mirror"></BlockConnector>
-	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>
-
-<BlockGenus name="postincdouble" kind="data" initlabel="" color="0 0 0"
-	label-suffix="の値を参照してから1増やす">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="double-number" position-type="mirror"></BlockConnector>
-	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>
-
-<BlockGenus name="postdecdouble" kind="data" initlabel="" color="0 0 0"
-	label-suffix="の値を参照してから1減らす">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="double-number" position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="poly"
+			position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -148,11 +69,11 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="callGetterMethod2" kind="function" initlabel="" color="20 20 20" label-suffix="">
+<BlockGenus name="callGetterMethod2" kind="data" initlabel="" color="20 20 20" label-suffix="">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="poly" position-type="single"/>
 		<BlockConnector connector-kind="socket" connector-type="object" position-type="single" label="の"/>
-		<BlockConnector connector-kind="socket" connector-type="poly" position-type="single" label=" "/>
+		<BlockConnector connector-kind="socket" connector-type="poly" position-type="single" label=""/>
 	</BlockConnectors>
 </BlockGenus>
 
@@ -233,6 +154,47 @@
         <BlockConnector label="なにを？" connector-kind="socket" connector-type="poly"/>
 	</BlockConnectors>
 </BlockGenus>
+
+<BlockGenus name="preinc" kind="data" initlabel="" color="0 0 0" label-suffix="の値を1増やして，その値">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="predec" kind="data" initlabel="" color="0 0 0" label-suffix="の値を1減らして，その値">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="postinc" kind="data" initlabel="" color="0 0 0" label-suffix="の値を参照してから1増やす">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="postdec" kind="data" initlabel="" color="0 0 0" label-suffix="の値を参照してから1減らす">
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number"
+			position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
 
 
 <!--  以下，必要かどうか不明 -->

@@ -14,6 +14,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 
 import javax.swing.AbstractAction;
@@ -33,6 +36,8 @@ import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 import javax.swing.text.DefaultEditorKit;
 
+import net.unicoen.interpreter.Engine;
+import net.unicoen.node.UniClassDec;
 import ronproeditor.REApplication;
 import ronproeditor.RESourceManager;
 import ronproeditor.helpers.ConsoleTextPane;
@@ -214,6 +219,8 @@ public class REFrame extends JFrame {
 	private JMenu menuUNICOEN;
 	private Action actionRunUNIProgram;
 	private Action actionOpenBlockEditorFromUNI;
+	private Action actionOpenBlockEditorKeyaki;
+	private Action actionOpenDebuggerBlockEditor;
 
 
 	// private Action actionMakeLog;
@@ -269,6 +276,8 @@ public class REFrame extends JFrame {
 
 		menuUNICOEN.add(actionRunUNIProgram);
 		menuUNICOEN.add(actionOpenBlockEditorFromUNI);
+		menuUNICOEN.add(actionOpenBlockEditorKeyaki);
+		menuUNICOEN.add(actionOpenDebuggerBlockEditor);
 	}
 
 	/**
@@ -362,14 +371,41 @@ public class REFrame extends JFrame {
 				application.doOpenBlockEdtorFromUni(application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
 			}
 		};
-		actionOpenBlockEditorFromUNI.putValue(Action.NAME, "Open BlockEditor");
+		actionOpenBlockEditorFromUNI.putValue(Action.NAME, "Open BlockEditorFromUni");
 
 		actionRunUNIProgram = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
+				Engine engine = new Engine();
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				engine.out = new PrintStream(baos);
 
+				UniClassDec dec = application.convertJavaToUni(application.getSourceManager().getCurrentFile());
+
+				engine.execute(dec);
+				try {
+					getConsole().setText(baos.toString("UTF-8"));
+				} catch (UnsupportedEncodingException e1) {
+					e1.printStackTrace();
+				}
 			}
 		};
 		actionRunUNIProgram.putValue(Action.NAME, "Run");
+
+		actionOpenBlockEditorKeyaki = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				//ファイルが選択されていない>>
+				application.doOpenBlockEditorKeyaki();
+			}
+		};
+		actionOpenBlockEditorKeyaki.putValue(Action.NAME, "Open EmptyBlockEditor");
+
+		actionOpenDebuggerBlockEditor = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				//ファイルが選択されていない>>
+				application.doOpenDebuggerBlockEditor(application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
+			}
+		};
+		actionOpenDebuggerBlockEditor.putValue(Action.NAME, "Open DebuggerBlockEditor");
 
 	}
 

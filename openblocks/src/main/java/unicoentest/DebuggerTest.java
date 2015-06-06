@@ -13,7 +13,7 @@ import net.unicoen.node.UniIntLiteral;
 import net.unicoen.node.UniMethodCall;
 import net.unicoen.node.UniMethodDec;
 import net.unicoen.node.UniStringLiteral;
-import net.unicoen.node.UniVariableDecWithValue;
+import net.unicoen.node.UniVariableDec;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 
 public class DebuggerTest {
@@ -31,7 +31,7 @@ public class DebuggerTest {
 		startMethod.block.body = new ArrayList<>();
 		dec.members.add(startMethod);
 
-		UniVariableDecWithValue value = new UniVariableDecWithValue(new ArrayList<>(), "int", "i", new UniIntLiteral(1));
+		UniVariableDec value = new UniVariableDec(new ArrayList<>(), "int", "i", new UniIntLiteral(1));
 		startMethod.block.body.add(value);
 
 		List<UniExpr> args = new ArrayList<>();
