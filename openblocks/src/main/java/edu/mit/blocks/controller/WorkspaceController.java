@@ -56,6 +56,7 @@ import org.xml.sax.SAXException;
 
 import clib.view.app.javainfo.CJavaInfoPanels;
 import clib.view.windowmanager.CWindowCentraizer;
+import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
@@ -87,7 +88,7 @@ public class WorkspaceController {
 	protected JPanel workspacePanel;
 	protected final Workspace workspace;
 	protected SearchBar searchBar;
-//	private static String LANG_DEF_PATH;
+	// private static String LANG_DEF_PATH;
 
 	private String enc = "SJIS";
 
@@ -117,6 +118,8 @@ public class WorkspaceController {
 	boolean opened = false;
 
 	private boolean dirty = false;
+
+	private SBlockEditorListener listener;
 
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
@@ -163,8 +166,7 @@ public class WorkspaceController {
 	 *            input stream to read
 	 */
 	public void setLangDefStream(InputStream in) {
-		final DocumentBuilderFactory factory = DocumentBuilderFactory
-				.newInstance();
+		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		final DocumentBuilder builder;
 		final Document doc;
 		try {
@@ -207,7 +209,6 @@ public class WorkspaceController {
 		BlockLinkChecker.addRule(workspace, new ParamRule());
 		BlockLinkChecker.addRule(workspace, new InfixRule());
 
-
 		// set the dirty flag for the language definition file
 		// to false now that the lang file has been loaded
 		langDefDirty = false;
@@ -238,12 +239,10 @@ public class WorkspaceController {
 			Node node = getSaveNode();
 
 			StringWriter writer = new StringWriter();
-			TransformerFactory transformerFactory = TransformerFactory
-					.newInstance();
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-			transformer
-					.transform(new DOMSource(node), new StreamResult(writer));
+			transformer.transform(new DOMSource(node), new StreamResult(writer));
 			return writer.toString();
 		} catch (TransformerConfigurationException e) {
 			throw new RuntimeException(e);
@@ -273,21 +272,16 @@ public class WorkspaceController {
 	 */
 	public Node getSaveNode(final boolean validate) {
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			factory.setNamespaceAware(true);
 
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			Document document = builder.newDocument();
 
-			Element documentElement = document.createElementNS(
-					Constants.XML_CODEBLOCKS_NS, "cb:CODEBLOCKS");
+			Element documentElement = document.createElementNS(Constants.XML_CODEBLOCKS_NS, "cb:CODEBLOCKS");
 
 			// schema reference
-			documentElement.setAttributeNS(
-					XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI,
-					"xsi:schemaLocation", Constants.XML_CODEBLOCKS_NS + " "
-							+ Constants.XML_CODEBLOCKS_SCHEMA_URI);
+			documentElement.setAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi:schemaLocation", Constants.XML_CODEBLOCKS_NS + " " + Constants.XML_CODEBLOCKS_SCHEMA_URI);
 
 			Node workspaceNode = workspace.getSaveNode(document);
 			if (workspaceNode != null) {
@@ -314,25 +308,25 @@ public class WorkspaceController {
 	 * @throws RuntimeException
 	 *             If the validation failed
 	 */
-//	private void validate(Document document) {
-//		try {
-//
-//			SchemaFactory schemaFactory = SchemaFactory
-//					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-//			URL schemaUrl = ClassLoader
-//					.getSystemResource("edu/mit/blocks/codeblocks/codeblocks.xsd");
-//			File file = new File(schemaUrl.getPath());
-//			Schema schema = schemaFactory.newSchema(schemaUrl);
-//			Validator validator = schema.newValidator();
-//			validator.validate(new DOMSource(document));
-//		} catch (MalformedURLException e) {
-//			throw new RuntimeException(e);
-//		} catch (SAXException e) {
-//			throw new RuntimeException(e);
-//		} catch (IOException e) {
-//			throw new RuntimeException(e);
-//		}
-//	}
+	// private void validate(Document document) {
+	// try {
+	//
+	// SchemaFactory schemaFactory = SchemaFactory
+	// .newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+	// URL schemaUrl = ClassLoader
+	// .getSystemResource("edu/mit/blocks/codeblocks/codeblocks.xsd");
+	// File file = new File(schemaUrl.getPath());
+	// Schema schema = schemaFactory.newSchema(schemaUrl);
+	// Validator validator = schema.newValidator();
+	// validator.validate(new DOMSource(document));
+	// } catch (MalformedURLException e) {
+	// throw new RuntimeException(e);
+	// } catch (SAXException e) {
+	// throw new RuntimeException(e);
+	// } catch (IOException e) {
+	// throw new RuntimeException(e);
+	// }
+	// }
 
 	/**
 	 * Loads a fresh workspace based on the default specifications in the
@@ -359,8 +353,7 @@ public class WorkspaceController {
 	 *            String file path of the programming project to load
 	 */
 	public void loadProjectFromPath(final String path) {
-		final DocumentBuilderFactory factory = DocumentBuilderFactory
-				.newInstance();
+		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
 		final DocumentBuilder builder;
 		final Document doc;
@@ -425,18 +418,15 @@ public class WorkspaceController {
 	 *            String XML that defines the language of projectContents
 	 */
 	public void loadProject(String projectContents, String langDefContents) {
-		final DocumentBuilderFactory factory = DocumentBuilderFactory
-				.newInstance();
+		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		final DocumentBuilder builder;
 		final Document projectDoc;
 		final Document langDoc;
 		try {
 			builder = factory.newDocumentBuilder();
-			projectDoc = builder.parse(new InputSource(new StringReader(
-					projectContents)));
+			projectDoc = builder.parse(new InputSource(new StringReader(projectContents)));
 			final Element projectRoot = projectDoc.getDocumentElement();
-			langDoc = builder.parse(new InputSource(new StringReader(
-					projectContents)));
+			langDoc = builder.parse(new InputSource(new StringReader(projectContents)));
 			final Element langRoot = langDoc.getDocumentElement();
 			if (workspaceLoaded) {
 				resetWorkspace();
@@ -480,7 +470,7 @@ public class WorkspaceController {
 	 * function. Should be call only once at application startup.
 	 */
 	private void initWorkspacePanel() {
-		//refactor
+		// refactor
 		ImageIcon tc = new ImageIcon(imagePath + "trash.png");
 		ImageIcon openedtc = new ImageIcon(imagePath + "trash_open.png");
 		TrashCan trash = new TrashCan(workspace, tc.getImage(), openedtc.getImage());
@@ -553,8 +543,7 @@ public class WorkspaceController {
 				saveToFile(selectedFile);
 				setDirty(false);
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog((Component) evt.getSource(),
-						e.getMessage());
+				JOptionPane.showMessageDialog((Component) evt.getSource(), e.getMessage());
 			}
 		}
 	}
@@ -601,7 +590,7 @@ public class WorkspaceController {
 
 				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
 
-				File javaFile = new File(selectedFile.getParentFile().getPath()+ "/" + classDec.className + ".java");
+				File javaFile = new File(selectedFile.getParentFile().getPath() + "/" + classDec.className + ".java");
 				PrintStream out = new PrintStream(javaFile);
 				JavaGenerator.generate(classDec, out);
 
@@ -610,13 +599,15 @@ public class WorkspaceController {
 				String source = JavaGenerator.generate(classDec);
 
 				ps.println(source);
+
+				listener.blockConverted(javaFile);
+
 				ps.close();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
 	}
-
 
 	/**
 	 * Saves the content of the workspace to the given file
@@ -638,7 +629,6 @@ public class WorkspaceController {
 		}
 	}
 
-
 	public void setSelectedFile(File selectedFile) {
 		this.selectedFile = selectedFile;
 		frame.setTitle("BlockEditor - " + selectedFile.getPath() + " - " + user);
@@ -659,40 +649,40 @@ public class WorkspaceController {
 		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
 		buttonPanel.add(new JButton(saveAsAction));
 
-		ConvertAction convertAction = new  ConvertAction();
+		ConvertAction convertAction = new ConvertAction();
 		buttonPanel.add(new JButton(convertAction));
 
-//		{// create compile button
-//			JButton runButton = new JButton("Compile");
-//			runButton.addActionListener(new ActionListener() {
-//				public void actionPerformed(ActionEvent e) {
-//					if (dirty) {
-//						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-//								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
-//						return;
-//					}
-////					ronproEditor.blockCompile();
-//				}
-//			});
-//			buttonPanel.add(runButton);
-//		}
+		// {// create compile button
+		// JButton runButton = new JButton("Compile");
+		// runButton.addActionListener(new ActionListener() {
+		// public void actionPerformed(ActionEvent e) {
+		// if (dirty) {
+		// JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
+		// "コンパイルできません", JOptionPane.ERROR_MESSAGE);
+		// return;
+		// }
+		// // ronproEditor.blockCompile();
+		// }
+		// });
+		// buttonPanel.add(runButton);
+		// }
 
 		{// create run button
 			JButton runButton = new JButton("Run");
 			runButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if (dirty) {
-						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません",
-								"実行できません", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません", "実行できません", JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 
 					Engine engine = new Engine();
 					engine.listeners = new ArrayList<ExecutionListener>();
 
-//					UniClassDec classDec = ToBlockEditorParser.parse(selectedFile);
-//
-//					engine.execute(classDec);
+					// UniClassDec classDec =
+					// ToBlockEditorParser.parse(selectedFile);
+					//
+					// engine.execute(classDec);
 
 				}
 			});
@@ -700,8 +690,7 @@ public class WorkspaceController {
 		}
 
 		{// create showing method trace line bottun
-			final JToggleButton showTraceLineButton = new JToggleButton(
-					"Hide MeRV");
+			final JToggleButton showTraceLineButton = new JToggleButton("Hide MeRV");
 			showTraceLineButton.setSelected(!workspace.getMeRVManager().isActive());
 			showTraceLineButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -717,7 +706,6 @@ public class WorkspaceController {
 			buttonPanel.add(showTraceLineButton);
 		}
 
-
 		return buttonPanel;
 	}
 
@@ -726,8 +714,7 @@ public class WorkspaceController {
 	 * BlockCanvas and block drawers
 	 */
 	public JComponent getSearchBar() {
-		final SearchBar sb = new SearchBar("Search blocks",
-				"Search for blocks in the drawers and workspace", workspace);
+		final SearchBar sb = new SearchBar("Search blocks", "Search for blocks in the drawers and workspace", workspace);
 		for (SearchableContainer con : getAllSearchableContainers()) {
 			sb.addSearchableContainer(con);
 		}
@@ -743,10 +730,10 @@ public class WorkspaceController {
 		return workspace.getAllSearchableContainers();
 	}
 
-	protected JMenuBar getMenuBar(){
+	protected JMenuBar getMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 
-		//open other blockeditor
+		// open other blockeditor
 		JMenu menu = new JMenu("Tools");
 		JMenuItem debugItem = new JMenuItem("Open other BlockEditor");
 		debugItem.addActionListener(new ActionListener() {
@@ -795,17 +782,28 @@ public class WorkspaceController {
 		frame.setVisible(true);
 	}
 
+	public void addBlockEditorListener(SBlockEditorListener listener) {
+		this.listener = listener;
+	}
+
 	/**
 	 * Create the GUI and show it. For thread safety, this method should be
 	 * invoked from the event-dispatching thread.
 	 */
-	private void createAndShowGUI() {
+	public void createAndShowGUI() {
 		frame = new JFrame("BlockEditor");
-		if(openedFromCH) {
+		if (openedFromCH) {
 			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		} else {
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
+		// ダーティ状態付与するリスナを追加
+		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
+			public void workspaceEventOccurred(WorkspaceEvent event) {
+				setDirty(true);
+			}
+		});
+
 		frame.setBounds(100, 100, 800, 600);
 		// // final SearchBar sb = new SearchBar("Search blocks",
 		// // "Search for blocks in the drawers and workspace", workspace);
@@ -821,15 +819,9 @@ public class WorkspaceController {
 
 		frame.add(getWorkspacePanel(), BorderLayout.CENTER);
 
-		if(!openedFromCH) {
+		if (!openedFromCH) {
 			frame.add(getButtonPanel(), BorderLayout.PAGE_START);
 		}
-
-		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
-			public void workspaceEventOccurred(WorkspaceEvent event) {
-				setDirty(true);
-			}
-		});
 
 		frame.setVisible(true);
 	}
@@ -841,29 +833,27 @@ public class WorkspaceController {
 
 	}
 
-
-
-
-	public static boolean checkParameterType(Block block, List<String> params){
-		int connectorSize = -1;//ソケットは必ず一つカウントされる
+	public static boolean checkParameterType(Block block, List<String> params) {
+		int connectorSize = -1;// ソケットは必ず一つカウントされる
 		int counterSize = 0;
 
-		for(@SuppressWarnings("unused") BlockConnector connector : block.getSockets()){
+		for (@SuppressWarnings("unused")
+		BlockConnector connector : block.getSockets()) {
 			connectorSize++;
 		}
 
-		//引数の数をチェック
-		if(connectorSize != params.size()){
+		// 引数の数をチェック
+		if (connectorSize != params.size()) {
 			return false;
 		}
 
-		//引数無し同士
-		if(params.size() == 0 && connectorSize == 0){
+		// 引数無し同士
+		if (params.size() == 0 && connectorSize == 0) {
 			return true;
 		}
 
-		for(int i = 0; i < counterSize; i++){
-			if(checkIllegalParameter(block, params, connectorSize, i)){
+		for (int i = 0; i < counterSize; i++) {
+			if (checkIllegalParameter(block, params, connectorSize, i)) {
 				return false;
 			}
 		}
@@ -871,50 +861,55 @@ public class WorkspaceController {
 		return true;
 	}
 
-	private static boolean checkIllegalParameter(Block block, List<String> params, int connectorSize ,int i){
-		//引数の数が合わない
-		if(connectorSize < i || params.size() < i){
+	private static boolean checkIllegalParameter(Block block, List<String> params, int connectorSize, int i) {
+		// 引数の数が合わない
+		if (connectorSize < i || params.size() < i) {
 			return true;
 		}
-		//ソケットがどちらかnull
-		if(block.getSocketAt(i) == null || params.get(i) == null){
+		// ソケットがどちらかnull
+		if (block.getSocketAt(i) == null || params.get(i) == null) {
 			return true;
 		}
-		//型が不一致
-		if(!block.getSocketAt(i).getKind().equals(params.get(i))){
+		// 型が不一致
+		if (!block.getSocketAt(i).getKind().equals(params.get(i))) {
 			return true;
 		}
 		return false;
 	}
 
-//	private static  List<String> calcParamTypes(BlockStub stub){
-//		List<String> params = new ArrayList<String>();
-//		for(BlockConnector connector : stub.getSockets()){
-//			params.add(connector.getKind());
-//		}
-//		return params;
-//	}
+	// private static List<String> calcParamTypes(BlockStub stub){
+	// List<String> params = new ArrayList<String>();
+	// for(BlockConnector connector : stub.getSockets()){
+	// params.add(connector.getKind());
+	// }
+	// return params;
+	// }
 
-//	private static  RenderableBlock searchMethodDefinidionBlock(BlockStub stub, Workspace workspace) {
-//		String name = stub.getBlockLabel();
-//		List<String> params = calcParamTypes(stub);
-//
-//		for (Block block : workspace.getBlocks()) {
-//			RenderableBlock rb = workspace.getEnv().getRenderableBlock(block.getBlockID());
-//
-//			if(rb.getGenus().equals("procedure") && rb.getBlock().getBlockLabel().equals(name) && checkParameterType(block, params)){
-//				return workspace.getEnv().getRenderableBlock(block.getBlockID());
-//			}
-//		}
-//		return null;
-//	}
+	// private static RenderableBlock searchMethodDefinidionBlock(BlockStub
+	// stub, Workspace workspace) {
+	// String name = stub.getBlockLabel();
+	// List<String> params = calcParamTypes(stub);
+	//
+	// for (Block block : workspace.getBlocks()) {
+	// RenderableBlock rb =
+	// workspace.getEnv().getRenderableBlock(block.getBlockID());
+	//
+	// if(rb.getGenus().equals("procedure") &&
+	// rb.getBlock().getBlockLabel().equals(name) && checkParameterType(block,
+	// params)){
+	// return workspace.getEnv().getRenderableBlock(block.getBlockID());
+	// }
+	// }
+	// return null;
+	// }
 
-	private void runDebbuger(){
-//		try {
-//			debugger = new DebuggerWorkspaceController(langDefRootPath,selectedFile);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+	private void runDebbuger() {
+		// try {
+		// debugger = new
+		// DebuggerWorkspaceController(langDefRootPath,selectedFile);
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
 	}
 
 	private static String langDefRootPath = "ext/blocks/lang_def.xml";
@@ -985,7 +980,4 @@ public class WorkspaceController {
 			}
 		}
 	}
-
-
-
 }

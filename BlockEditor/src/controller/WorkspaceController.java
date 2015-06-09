@@ -639,8 +639,10 @@ public class WorkspaceController {
 	 * invoked from the event-dispatching thread.
 	 */
 	public void createAndShowGUI(final WorkspaceController wc, final SBlockEditorListener ronproEditor, final String enc) {
+		//SBlockEditorリスナの更新
 		this.ronproEditor = ronproEditor;
 
+		//Block上でイベントが起こった時ダーティ状態を付与するリスナを追加
 		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
 			public void workspaceEventOccurred(WorkspaceEvent event) {
 				// System.out.println(event);

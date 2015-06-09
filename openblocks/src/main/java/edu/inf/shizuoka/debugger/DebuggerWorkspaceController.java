@@ -3,8 +3,11 @@ package edu.inf.shizuoka.debugger;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Map;
 
@@ -32,8 +35,8 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 		loadFreshWorkspace();
 		this.selectedFile = selectedFile;
 
-		PrintStream out = new PrintStream(selectedFile);
-		BlockGenerator generator = new BlockGenerator(out, "unicoen/blocks/");
+		PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(selectedFile)), false, "UTF-8");
+		BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
 		generator.parse(dec);
 		out.close();
 

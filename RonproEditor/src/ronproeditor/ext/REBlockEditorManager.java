@@ -5,6 +5,9 @@
  */
 package ronproeditor.ext;
 
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
+import java.awt.event.WindowStateListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedOutputStream;
@@ -26,6 +29,7 @@ import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
 import clib.view.dialogs.CErrorDialog;
+import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.controller.WorkspaceController;
 
@@ -86,7 +90,6 @@ public class REBlockEditorManager {
 		initBlockEditor();
 
 		doCompileBlockFromUni(classDec, sourcePath);
-
 	}
 
 	public void doOpenBlockEditorKeyaki() {
@@ -111,19 +114,14 @@ public class REBlockEditorManager {
 			file.createNewFile();
 			PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)), false, "UTF-8");
 
-
 			BlockGenerator blockParser = new BlockGenerator(out, "ext/blocks/");
 			blockParser.parse(classDec);
 
 			// OpenBlock
 			blockEditor.setLangDefFilePath("ext/blocks/lang_def.xml");
 			blockEditor.resetWorkspace();
-			//SBlockEditorListener‚ð’Ç‰Á‚·‚é
-
 
 			blockEditor.openBlockEditor(file.getPath());
-
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -153,8 +151,42 @@ public class REBlockEditorManager {
 //		blockEditor = new WorkspaceController();
 //		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 //		blockEditor.loadFreshWorkspace();
-//		blockEditor.createAndShowGUI(blockEditor, new SBlockEditorListener() {
-//
+
+		blockEditor.addBlockEditorListener(new SBlockEditorListener() {
+			public void blockConverted(File file) {
+				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
+				app.doRefreshCurrentEditor();
+				app.doFormat();
+				app.doBlockToJavaSave();
+				// app.doCompileBlocking(true);
+				// successMessageDialog();// TODO
+				// dirty = false;
+			}
+
+			public void blockDebugRun() {
+				writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
+				app.doDebugRun();
+			}
+
+			public void blockRun() {
+				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
+				app.doRun();
+			}
+
+			public void blockCompile() {
+				writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
+				app.doCompile();
+			}
+
+			public void chengeInheritance() {
+			}
+
+			public void toggleTraceLines(String state) {
+				writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
+			}
+
+		});
+//		blockEditor.createAndShowGUI(new SBlockEditorListener() {
 //			public void blockConverted(File file) {
 //				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
 //				app.doRefreshCurrentEditor();
@@ -187,7 +219,7 @@ public class REBlockEditorManager {
 //				writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
 //			}
 //
-//		}, REApplication.SRC_ENCODING);
+//		});
 //		blockEditor.getFrame().addWindowFocusListener(new WindowFocusListener() {
 //			public void windowLostFocus(WindowEvent e) {
 //				writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
@@ -197,7 +229,7 @@ public class REBlockEditorManager {
 //				writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
 //			}
 //		});
-//		writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
+		writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
 //		blockEditor.getFrame().addWindowStateListener(new WindowStateListener() {
 //			public void windowStateChanged(WindowEvent e) {
 //				if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
