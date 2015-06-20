@@ -285,8 +285,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			privateVariableModel.setPosX(getX(position, x));
 			privateVariableModel.setPosY(getY(position, y));
 			// コメントの追加
-			privateVariableModel.setComment(lineComment.substring(0,
-					getCommentEndIndex(lineComment)));
+			privateVariableModel.setComment(lineComment.substring(0,getCommentEndIndex(lineComment)));
 			model.addPrivateVariable(privateVariableModel);
 			return true;
 		}
@@ -572,9 +571,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					compilationUnit.getLineNumber(node.getStartPosition()),
 					fragment, isArray, isFinal);
 		}
+		
 		model.setJavaVariableType(node.getType().toString());
 		variableResolver.addGlobalVariable(model);
-
+		
 		return model;
 
 	}
