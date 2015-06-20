@@ -168,8 +168,8 @@ public class Block implements ISupportMemento {
 			javaLabel = (BlockGenus.getGenusWithName(genusName).getJavaLabel());
 			javaType = (BlockGenus.getGenusWithName(genusName).getJavaType());
 
-			Iterable<String> arguumentIter = genus
-					.getInitialArgumentDescriptions();
+			Iterable<String> arguumentIter = genus.getInitialArgumentDescriptions();
+
 			for (String arg : arguumentIter) {
 				argumentDescriptions.add(arg.trim());
 			}

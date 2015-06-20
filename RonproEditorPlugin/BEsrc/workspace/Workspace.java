@@ -129,6 +129,8 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	private DrawingArrowManager mervManager;
 
+//	private BlockTypeSupporter supporter;
+
 	/// RENDERING LAYERS ///
 	public final static Integer PAGE_LAYER = new Integer(0);
 	public final static Integer BLOCK_HIGHLIGHT_LAYER = new Integer(1);
@@ -145,7 +147,8 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 		setPreferredSize(new Dimension(1000, 600));
 
 		this.mervManager = new DrawingArrowManager();
-
+//		this.supporter = new BlockTypeSupporter();
+//		this.addWorkspaceListener(this.supporter);
 		this.factory = new FactoryManager(true, true);
 		this.addWorkspaceListener(this.factory);
 		this.addWorkspaceListener(mervManager);
@@ -896,7 +899,6 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * @requires originalLangRoot != null
 	 */
 	public void loadWorkspaceFrom(Element newRoot, Element originalLangRoot) {
-
 		if (newRoot != null) {
 			//load the block drawers specified in the file (may contain
 			//custom drawers) and/or the lang def file if the contents specify

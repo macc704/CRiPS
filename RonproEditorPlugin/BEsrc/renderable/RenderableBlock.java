@@ -1781,8 +1781,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
-	private static void startDragging(RenderableBlock renderable,
-			WorkspaceWidget widget) {
+	private static void startDragging(RenderableBlock renderable, WorkspaceWidget widget) {
 		renderable.pickedUp = true;
 		renderable.lastDragWidget = widget;
 		if (renderable.hasComment()) {
@@ -1794,12 +1793,12 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
 
-		for (BlockConnector socket : BlockLinkChecker
-				.getSocketEquivalents(Block.getBlock(renderable.blockID))) {
+		for (BlockConnector socket : BlockLinkChecker.getSocketEquivalents(Block.getBlock(renderable.blockID))) {
 			if (socket.hasBlock()) {
 				startDragging(getRenderableBlock(socket.getBlockID()), widget);
 			}
 		}
+
 	}
 
 	/**
@@ -1888,8 +1887,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return RenderableBlock.getRenderableBlock(tmpBlock.getBlockID());
 	}
 
-	private static void drag(RenderableBlock renderable, int dx, int dy,
-			WorkspaceWidget widget, boolean isTopLevelBlock) {
+	private static void drag(RenderableBlock renderable, int dx, int dy, WorkspaceWidget widget, boolean isTopLevelBlock) {
 		if (!renderable.pickedUp)
 			throw new RuntimeException("dragging without prior pickup");
 		// mark this as being dragged
@@ -2006,9 +2004,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				this.unzoomedX = this.calculateUnzoomedX(this.getX());
 				this.unzoomedY = this.calculateUnzoomedY(this.getY());
 
-				Workspace.getInstance().notifyListeners(
-						new WorkspaceEvent(widget, link,
-								WorkspaceEvent.BLOCK_MOVED, true));
+				Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, link,WorkspaceEvent.BLOCK_MOVED, true));
 
 				if (widget instanceof MiniMap) {
 					Workspace.getInstance().getMiniMap()
@@ -2031,20 +2027,30 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	private void connectBlocks(BlockLink link, WorkspaceWidget widget) {
-		if (checkScope(link)) {
-			getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
-			link.connect();
-
-			Workspace.getInstance().notifyListeners(
-					new WorkspaceEvent(widget, link,
-							WorkspaceEvent.BLOCKS_CONNECTED));
-		} else {
-			// moveSocketBlocks(this);
-			blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID)
-					.getY()
-					+ RenderableBlock.getRenderableBlock(blockID).getWidth(),
-					"down");
+		if (!checkScope(link)) {
+			blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID).getY()+ RenderableBlock.getRenderableBlock(blockID).getWidth(), "down");
+			return;
 		}
+//		else if(link.getPlug().getKind().equals("object") && link.getSocket().getKind().equals("object")){
+//			//型チェック
+//			String plugType = link.getPlug().getConnectorJavaType();
+//			String socketType = link.getSocket().getConnectorJavaType();
+//			if(plugType == null){
+//				System.out.println(Block.getBlock(link.getPlugBlockID()) + "is null");
+//			}
+//			if(socketType == null){
+//				System.out.println(Block.getBlock(link.getSocketBlockID()) + "is null");
+//			}
+//			if(plugType !=null &&  socketType!= null && !plugType.equals(socketType)){
+//				blockSlideMoveAnimetion(RenderableBlock.getRenderableBlock(blockID).getY()+ RenderableBlock.getRenderableBlock(blockID).getWidth(), "right");
+//				return;
+//			}
+//		}
+
+		getRenderableBlock(link.getSocketBlockID()).moveConnectedBlocks();
+		link.connect();
+
+		Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, link, WorkspaceEvent.BLOCKS_CONNECTED));
 	}
 
 	private boolean checkScope(BlockLink link) {
@@ -2134,23 +2140,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				return;
 			}
 
-			//			Point pp = SwingUtilities.convertPoint(this, e.getPoint(),
-			//					Workspace.getInstance().getMiniMap());
-			//			if (Workspace.getInstance().getMiniMap().contains(pp)) {
-			//				Workspace.getInstance().getMiniMap()
-			//						.blockDragged(this, e.getPoint());
-			//				lastDragWidget = Workspace.getInstance().getMiniMap();
-			//				return;
-			//			}
-
 			// drag this block if appropriate (checks bounds first)
 			dragHandler.mouseDragged(e);
 
 			// Find the widget under the mouse
-			dragHandler.myLoc.move(getX() + dragHandler.mPressedX, getY()
-					+ dragHandler.mPressedY);
-			Point p = SwingUtilities.convertPoint(this.getParent(),
-					dragHandler.myLoc, Workspace.getInstance());
+			dragHandler.myLoc.move(getX() + dragHandler.mPressedX, getY() + dragHandler.mPressedY);
+			Point p = SwingUtilities.convertPoint(this.getParent(), dragHandler.myLoc, Workspace.getInstance());
+
 			WorkspaceWidget widget = Workspace.getInstance().getWidgetAt(p);
 
 			// if this is the first call to mouseDragged
@@ -2174,6 +2170,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				}
 				BlockHIlighter.catchBlockSetHighlight(this, widget);
 				startDragging(this, widget);
+				//イベントを飛ばす
+//				Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, getBlockID(), WorkspaceEvent.BLOCKS_PICKED_UP));
 			}
 
 			// drag this block and all attached to it

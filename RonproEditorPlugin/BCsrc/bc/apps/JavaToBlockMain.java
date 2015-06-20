@@ -23,11 +23,11 @@ import bc.utils.ExtensionChanger;
 public class JavaToBlockMain {
 
 	private boolean isNewOpenBlocks = false;
-	
+
 	public JavaToBlockMain() {
 
 	}
-	
+
 	public JavaToBlockMain(boolean isNewOpenBlocks) {
 		this.isNewOpenBlocks = isNewOpenBlocks;
 	}
@@ -49,23 +49,19 @@ public class JavaToBlockMain {
 
 		File xml = new File(filePath);
 
-		PrintStream hoge = new PrintStream(xml,BlockConverter.ENCODING_BLOCK_XML); 
+		PrintStream hoge = new PrintStream(xml,BlockConverter.ENCODING_BLOCK_XML);
 		process(file, enc, hoge, classpaths);
 		return filePath;
 	}
 
-	public void process(File file, String enc, PrintStream out,
-			String[] classpaths) throws Exception {
+	public void process(File file, String enc, PrintStream out, String[] classpaths) throws Exception {
 		// 言語定義ファイルの上書き
-		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(file,
-				enc, classpaths);
+		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(file,enc, classpaths);
 		rewriter.rewrite();
 
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
-		JavaToBlockAnalyzer visitor = new JavaToBlockAnalyzer(file, enc,
-				rewriter.getAddedMethods(), rewriter.getAddedMethodsJavaType(),
-				rewriter.getAddedClasses());
 
+		JavaToBlockAnalyzer visitor = new JavaToBlockAnalyzer(file, enc, rewriter.getAddedMethods(), rewriter.getAddedMethodsJavaType(), rewriter.getAddedClasses());
 		unit.accept(visitor);
 
 		CompilationUnitModel root = visitor.getCompilationUnit();
@@ -73,6 +69,8 @@ public class JavaToBlockMain {
 
 		out.close();
 	}
+
+
 
 	// private JarFile getObpro(File file) {
 	// File dir = file.getParentFile();

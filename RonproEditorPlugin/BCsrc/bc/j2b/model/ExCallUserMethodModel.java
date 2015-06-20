@@ -117,8 +117,7 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 			}
 		}
 
-		ExCallMethodModel.printArguments(getArguments(), out, indent, this,
-				getArgumentLabels());
+		ExCallMethodModel.printArguments(getArguments(), out, indent, this, getArgumentLabels());
 
 		// end Block
 		makeIndent(out, indent);

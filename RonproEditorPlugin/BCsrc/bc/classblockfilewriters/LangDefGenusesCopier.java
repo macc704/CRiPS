@@ -17,18 +17,17 @@ public class LangDefGenusesCopier implements Copier {
 	private BufferedReader br;
 
 	public void print(File file) {
-		//lang_def_genuses.xmlファイルを書き換える
+		// lang_def_genuses.xmlファイルを書き換える
 		try {
 			// すべてのlang_def_genusesの行をコピーする
-			FileInputStream ldfReader = new FileInputStream(
-					System.getProperty("user.dir")+ "/ext/block/lang_def_genuses.xml");
+			FileInputStream ldfReader = new FileInputStream(System.getProperty("user.dir") + "/ext/block/lang_def_genuses.xml");
 
 			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "UTF-8");
 			br = new BufferedReader(ldfISR);
 
 			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(turtleByteArray);
-			
+
 			String line;
 			while ((line = br.readLine()) != null) {
 				// 一行書き込み >>lang_def.xml
@@ -38,13 +37,12 @@ public class LangDefGenusesCopier implements Copier {
 					ps.println("&lang_def_genuses_project;");
 				}
 			}
-			
+
 			// menu情報のコピー
 			// psに書きだしたものをすべて文字列に変換する
 			String ldfString = turtleByteArray.toString();
 
-			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile()
-					.getPath() + "/lang_def_genuses.xml");
+			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile().getPath() + "/lang_def_genuses.xml");
 
 			OutputStreamWriter ldfFOS = new OutputStreamWriter(ldfOS, "UTF-8");
 			BufferedWriter ldfWriter = new BufferedWriter(ldfFOS);
@@ -53,10 +51,8 @@ public class LangDefGenusesCopier implements Copier {
 			ldfWriter.flush();
 			ldfWriter.close();
 		} catch (Exception e) {
-			int res = JOptionPane.showConfirmDialog(null,
-					"Blockへの変換中にエラーが発生しました：lang_def_genuses message:" + e.getStackTrace().toString(), "警告",
-					JOptionPane.DEFAULT_OPTION);
-			if(res == 1){
+			int res = JOptionPane.showConfirmDialog(null, "Blockへの変換中にエラーが発生しました：lang_def_genuses message:" + e.getStackTrace().toString(), "警告", JOptionPane.DEFAULT_OPTION);
+			if (res == 1) {
 				e.printStackTrace();
 				throw new RuntimeException("言語定義ファイル出力時にエラーが発生しました：lang_def_genuses");
 			}
