@@ -120,33 +120,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		createThisModel();
 	}
 
-	public JavaToBlockAnalyzer(File file, String enc,
-			Map<String, String> addedMethods) {
-		this.commentGetter = new JavaCommentManager(file, enc);
-		createThisModel();
-		createSuperModel();
-		for (String method : addedMethods.keySet()) {
-			methodResolver
-					.addMethodReturnType(method, addedMethods.get(method));
-		}
-
-		for (String name : file.getParentFile().list()) {
-			if (name.endsWith(".java")) {
-				projectClasses.add(name.substring(0, name.indexOf(".java")));
-			}
-		}
-
-		// arranged by sakai lab 2011/11/22
-		// abstParser = new AbstractionBlockByTagParser(file);
-		// StGlobalVariableModel variable = new StGlobalVariableModel();
-		// variable.setName("window");
-		// variable.setType("TurtleFrame");
-		// variableResolver.addGlobalVariable(variable);
-	}
-
-	public JavaToBlockAnalyzer(File file, String enc,
-			Map<String, String> addedMethods,
-			Map<String, String> addedMethodsJavaType, List<String> addedClasses) {
+	public JavaToBlockAnalyzer(File file, String enc, Map<String, String> addedMethods, Map<String, String> addedMethodsJavaType, List<String> addedClasses) {
 		this.commentGetter = new JavaCommentManager(file, enc);
 		createThisModel();
 		createSuperModel();

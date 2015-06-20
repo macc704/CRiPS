@@ -18,7 +18,7 @@ import codeblocks.BlockConnector.PositionType;
  * the value of its "parent" block. References may also get the value for a
  * particular agent. Finally, for a procedure block, its reference is a call
  * block, which executes the procedure.
- * 
+ *
  * The parent instance for a set of stubs is not permanent. The parent intance
  * may change if the original parent it removed and then a new one with the same
  * parent name is added to the block canvas. BlockStub manages the mapping
@@ -28,7 +28,7 @@ public class BlockStub extends Block {
 
 	/**
 	 * STUB HASH MAPS key: parentName + parentGenus
-	 * 
+	 *
 	 * Key includes both parentName and parentGenus because the names of two
 	 * parents may be the same if they are of different genii blockids of
 	 * parents are not used as a reference because parents and stubs are
@@ -76,7 +76,7 @@ public class BlockStub extends Block {
 	 * name of parent and its stub genus. The exact reference to the parent
 	 * through the specified initParentID is needed, in addition to the other
 	 * specified parameters, to completely construct a new block stub.
-	 * 
+	 *
 	 * @param initParentID
 	 *            the Long block ID of its initial parent
 	 * @param parentGenus
@@ -241,7 +241,7 @@ public class BlockStub extends Block {
 	 * Constructs a new BlockStub instance. This contructor is protected as it
 	 * should only be called while Block loads its information from the save
 	 * String
-	 * 
+	 *
 	 * @param blockID
 	 *            the Long block ID of this
 	 * @param stubGenus
@@ -279,7 +279,7 @@ public class BlockStub extends Block {
 
 	/**
 	 * set factory name of this
-	 * 
+	 *
 	 * @param factory
 	 *            name of this
 	 */
@@ -304,7 +304,7 @@ public class BlockStub extends Block {
 
 	/**
 	 * Returns a list of the block ids of the specified parent's stubs
-	 * 
+	 *
 	 * @param blockID
 	 */
 	public static Iterable<Long> getStubsOfParent(Long blockID) {
@@ -320,7 +320,7 @@ public class BlockStub extends Block {
 	/**
 	 * Saves the parent block information with the specified blockID in the Stub
 	 * Map
-	 * 
+	 *
 	 * @param blockID
 	 */
 	public static void putNewParentInStubMap(Long blockID) {
@@ -344,7 +344,7 @@ public class BlockStub extends Block {
 	/**
 	 * Updates BlockStub hashmaps and the BlockStubs of the parent of its new
 	 * name
-	 * 
+	 *
 	 * @param oldParentName
 	 * @param newParentName
 	 * @param parentID
@@ -385,7 +385,7 @@ public class BlockStub extends Block {
 
 	/**
 	 * Updates the BlockStubs associated with the parent of its new page label
-	 * 
+	 *
 	 * @param newPageLabel
 	 * @param parentID
 	 */
@@ -405,7 +405,7 @@ public class BlockStub extends Block {
 
 	/**
 	 * Updates the BlocksStubs associated with the parent of its new page label
-	 * 
+	 *
 	 * @param parentID
 	 */
 	public static void parentConnectorsChanged(Long parentID) {
@@ -432,7 +432,7 @@ public class BlockStub extends Block {
 
 	/**
 	 * Updates the plug on caller stubs associated with the given parent.
-	 * 
+	 *
 	 * @param kind
 	 *            the new plug kind that callers should set
 	 */
@@ -447,7 +447,7 @@ public class BlockStub extends Block {
 			parentToPlugType.put(key, kind);
 		}
 
-		// update each stub only if stub is a caller		
+		// update each stub only if stub is a caller
 		ArrayList<Long> stubs = parentNameToBlockStubs.get(key);
 		if (stubs == null) {
 			return;//macchan 2012/09/25
@@ -463,7 +463,7 @@ public class BlockStub extends Block {
 				}
 			}
 		}
-	
+
 		//返り値再計算
 //		String plugType = getReturnType(Block.getBlock(parentID));
 //		// Update our type mapping.
@@ -484,12 +484,12 @@ public class BlockStub extends Block {
 //			}
 //		}
 	}
-	
+
 
 	public static String getReturnType(Block procedureBlock) {
 		return calcReturnType(searchBlocks(procedureBlock, "return"));
 	}
-	
+
 	private static String calcReturnType(List<RenderableBlock> blocks){
 		if(blocks.size()> 0){
 			boolean isSame = true;
@@ -523,7 +523,7 @@ public class BlockStub extends Block {
 		return results;
 	}
 
-	
+
 
 	// //////////////////////////////////
 	// PARENT INFORMATION AND METHODS //
@@ -531,7 +531,7 @@ public class BlockStub extends Block {
 
 	/**
 	 * Returns the parent name of this stub
-	 * 
+	 *
 	 * @return the parent name of this stub
 	 */
 	public String getParentName() {
@@ -540,7 +540,7 @@ public class BlockStub extends Block {
 
 	/**
 	 * Returns the parent block of this stub
-	 * 
+	 *
 	 * @return the parent block of this stub
 	 */
 	public Block getParent() {
@@ -552,7 +552,7 @@ public class BlockStub extends Block {
 
 	/**
 	 * Returns the parent block genus of this stub
-	 * 
+	 *
 	 * @return the parent block genus of this stub
 	 */
 	public String getParentGenus() {
@@ -597,10 +597,10 @@ public class BlockStub extends Block {
 			int i; // socket index
 			// clear all sockets temporary solution
 			RenderableBlock.getRenderableBlock(getBlockID()).clearSocketLabels();
-			
+
 			for (BlockConnector socket : getSockets())
 				removeSocket(socket);
-			
+
 			// add parent sockets
 			for (i = 0; parentSockets.hasNext(); i++) {
 				BlockConnector parentSocket = parentSockets.next();
@@ -661,7 +661,7 @@ public class BlockStub extends Block {
 	/**
 	 * Updates the plug type. Disconnects any invalid blocks. Only caller stubs
 	 * should use this method.
-	 * 
+	 *
 	 * @param kind
 	 *            must not be null
 	 */
@@ -723,7 +723,7 @@ public class BlockStub extends Block {
 	/**
 	 * Returns the Color of this; May return Color.Black if color was
 	 * unspecified.
-	 * 
+	 *
 	 * @return the Color of this; May return Color.Black if color was
 	 *         unspecified.
 	 */
@@ -803,11 +803,11 @@ public class BlockStub extends Block {
 	public static void putParentToPlugType(String methodName, String returnType){
 		parentToPlugType.put(methodName, returnType);
 	}
-	
+
 	public static void printPlugtype(){
 		for(String key : parentToPlugType.keySet()){
 			System.out.println(parentToPlugType.get(key));
 		}
 	}
-	
+
 }

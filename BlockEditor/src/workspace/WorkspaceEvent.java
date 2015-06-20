@@ -14,11 +14,11 @@ public class WorkspaceEvent {
     public final static int BLOCKS_CONNECTED = 5;
     public final static int BLOCKS_DISCONNECTED = 6;
     public final static int BLOCK_STACK_COMPILED = 7;
-    
+
     //page specific events
     public final static int PAGE_RENAMED = 8;
     public final static int PAGE_RESIZED = 9;
-    
+
     //block specific events
     public final static int BLOCK_RENAMED = 10;
     public final static int BLOCK_MOVED = 11;
@@ -30,24 +30,28 @@ public class WorkspaceEvent {
     public final static int BLOCK_COMMENT_RESIZED= 16;
     public final static int BLOCK_COMMENT_VISBILITY_CHANGE = 17;
     public final static int BLOCK_COMMENT_CHANGED= 18;
-    
+
     public final static int BLOCK_COLLAPSED = 19;
-    
+
     //caller created
     public final static int CALLERBLOCK_CREATED = 20;
-    
+
+    //caller created
+    public final static int BLOCKS_PICKED_UP = 21;
+
+
     //workspace specific event
     public final static int WORKSPACE_FINISHED_LOADING = 100;
-    
+
     private Long blockID = Block.NULL;
     private int eventType;
     private WorkspaceWidget widget = null;
     private BlockLink link = null;
     private String oldWidgetName = null;
-    
+
     //If this is a user spawned event or not
     private boolean userSpawned = false;
-    
+
     /**
      * Constructs a new WorkspaceEvent.  This constructor should be used to report
      * page added, removed events.  The WorkspaceWidget page parameter should
@@ -60,14 +64,14 @@ public class WorkspaceEvent {
         this.eventType = eventType;
         this.blockID = Block.NULL;
     }
-    
+
     public WorkspaceEvent(WorkspaceWidget page,int eventType, boolean userSpawned){
     	this.widget = page;
         this.eventType = eventType;
         this.blockID = Block.NULL;
-        this.userSpawned = userSpawned;        
+        this.userSpawned = userSpawned;
     }
-    
+
     /**
      * Constructs a new WorkspaceEvent.  This constructor should be used to report
      * page renamed events.  The WorkspaceWidget page parameter should
@@ -82,7 +86,7 @@ public class WorkspaceEvent {
         this.blockID = Block.NULL;
         this.oldWidgetName = oldName;
     }
-    
+
     public WorkspaceEvent(WorkspaceWidget page, String oldName, int eventType, boolean userSpawned){
         this.widget = page;
         this.eventType = eventType;
@@ -90,7 +94,7 @@ public class WorkspaceEvent {
         this.oldWidgetName = oldName;
         this.userSpawned = userSpawned;
     }
-    
+
     /**
      * Constructs a new WorkspaceEvent.  This constructor should be used to report
      * the following: block added, removed, renamed, compiled, moved.
@@ -103,17 +107,17 @@ public class WorkspaceEvent {
         this.eventType = eventType;
         this.blockID = blockID;
     }
-    
+
     public WorkspaceEvent(WorkspaceWidget widget, Long blockID, int eventType, boolean userSpawned){
         this.widget = widget;
         this.eventType = eventType;
         this.blockID = blockID;
         this.userSpawned = userSpawned;
     }
-    
+
     /**
      * Constructs a new WorkspaceEvent.  This constructor should be used to report
-     * block connected/disconnected events.  The specified link contains the connection 
+     * block connected/disconnected events.  The specified link contains the connection
      * information.
      * @param widget
      * @param link
@@ -125,14 +129,14 @@ public class WorkspaceEvent {
         this.eventType = eventType;
         this.blockID = Block.NULL;
     }
-    
+
     public WorkspaceEvent(WorkspaceWidget widget, BlockLink link, int eventType, boolean userSpawned){
         this.widget = widget;
         this.link = link;
         this.eventType = eventType;
         this.userSpawned = userSpawned;
     }
-       
+
     /**
      * Tells if this event is a user spawned event or not
      * @return true if this event was spawned by a user
@@ -141,16 +145,16 @@ public class WorkspaceEvent {
     {
     	return userSpawned;
     }
-    
+
     /**
-     * Returns the WorkspaceWidget where this event occured. 
+     * Returns the WorkspaceWidget where this event occured.
      * @return the WorkspaceWidget where this event occured.
      */
     public WorkspaceWidget getSourceWidget(){
         return widget;
     }
     /**
-     * Returns the Long ID of the Block where this event occured.  For 
+     * Returns the Long ID of the Block where this event occured.  For
      * block connection events, this id is Block.NULL since the event occurred
      * from two blocks.
      */
@@ -164,7 +168,7 @@ public class WorkspaceEvent {
     public int getEventType(){
         return eventType;
     }
-    
+
     /**
      * Returns the BlockLink where this event originated, or null if the event type
      * of this is not block connected or disconnected.
@@ -174,17 +178,17 @@ public class WorkspaceEvent {
     public BlockLink getSourceLink(){
         return link;
     }
-    
+
     /**
-     * Returns the original name of the source widget; null if the source widget's 
+     * Returns the original name of the source widget; null if the source widget's
      * name did not change.
-     * @return the original name of the source widget; null if the source widget's 
+     * @return the original name of the source widget; null if the source widget's
      * name did not change.
      */
     public String getOldNameOfSourceWidget(){
         return oldWidgetName;
     }
-    
+
     public String toString() {
         switch (eventType) {
         case PAGE_ADDED:
@@ -217,8 +221,8 @@ public class WorkspaceEvent {
         case WORKSPACE_FINISHED_LOADING:
             return "WorkspaceEvent(WORKSPACE_FINISHED_LOADING)";
         default:
-            return "WorkspaceEvent(" + eventType + ")";    
+            return "WorkspaceEvent(" + eventType + ")";
         }
     }
-    
+
 }

@@ -12,19 +12,7 @@ public class PublicMethodInfo extends BasicModel {
 	private String fullName;
 	private List<String> parameters = new ArrayList<String>();
 	private String javaType;// こちらをメソッドの素の返り値の型とする
-
-	public PublicMethodInfo(String name, String kind, String initialLabel,
-			String headerLabel, String footerLabel, String color) {
-		super(name, kind, initialLabel, headerLabel, footerLabel, color);
-	}
-
-	public PublicMethodInfo(String name, String modifier, String returnType,
-			List<String> parameters) {
-		this.methodName = name;
-		this.modifier = modifier;
-		this.parameters = parameters;
-		this.returnType = returnType;
-	}
+	private List<String> parameterJavaTypes = new ArrayList<String>();
 
 	public PublicMethodInfo() {
 		setColor("255 0 0");
@@ -32,6 +20,16 @@ public class PublicMethodInfo extends BasicModel {
 
 	public void setJavaType(String returnType) {
 		this.javaType = returnType;
+	}
+
+	public void setParameterJavaType(List<String> paramTypes) {
+		for (String param : paramTypes) {
+			this.parameterJavaTypes.add(param.substring(0, param.indexOf(" ")));
+		}
+	}
+
+	public List<String> getParameterJavaTypes() {
+		return parameterJavaTypes;
 	}
 
 	public String getJavaType() {
@@ -89,13 +87,11 @@ public class PublicMethodInfo extends BasicModel {
 
 	private void printMethods(PrintStream out, int lineNum) {
 		makeIndent(out, ++lineNum);
-		out.println("<MethodProperty name=\"" + methodName + "\" modifer=\""
-				+ modifier + "\" returnType=\"" + returnType + "\">");
+		out.println("<MethodProperty name=\"" + methodName + "\" modifer=\"" + modifier + "\" returnType=\"" + returnType + "\" returnJavaType=\"" + javaType + "\">");
 		lineNum++;
 		for (String parameter : parameters) {
 			makeIndent(out, lineNum);
-			out.println("<Parameter>" + addEscapeSequence(parameter)
-					+ "</Parameter>");
+			out.println("<Parameter>" + addEscapeSequence(parameter) + "</Parameter>");
 		}
 		makeIndent(out, --lineNum);
 		out.println("</MethodProperty>");

@@ -47,6 +47,7 @@ import slcodeblocks.ParamRule;
 import slcodeblocks.PolyRule;
 import util.ChangeExtension;
 import workspace.BlockCanvas;
+import workspace.ClassRelationMap;
 import workspace.SearchBar;
 import workspace.SearchableContainer;
 import workspace.TrashCan;
@@ -116,6 +117,8 @@ public class WorkspaceController {
 
 	private String user = ""; // for CheCoPro
 
+	private ClassRelationMap map;
+
 
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
@@ -148,6 +151,14 @@ public class WorkspaceController {
 
 	public String getSelectedJavaFile() {
 		return selectedJavaFile;
+	}
+
+	public void setClassRelationMap(ClassRelationMap map){
+		this.map = map;
+	}
+
+	public ClassRelationMap getClassRelationMap(){
+		return this.map;
 	}
 
 	// //////////////////
@@ -769,9 +780,8 @@ public class WorkspaceController {
 		frame.add(wc.getWorkspacePanel(), BorderLayout.CENTER);
 		frame.addWindowListener(closeManagement);
 		frame.setVisible(true);
+
 	}
-
-
 
 	public String calcClassName() {
 		String className = this.selectedJavaFile.substring(0,
@@ -924,8 +934,7 @@ public class WorkspaceController {
 
 					// compile
 					JavaToBlockMain javaToBlock = new JavaToBlockMain();
-					javaToBlock.process(javaFile, enc,
-							new PrintStream(xmlFile), new String[] {});
+					javaToBlock.process(javaFile, enc, new PrintStream(xmlFile), new String[] {});
 
 					// load
 					wc.loadProjectFromPath(xmlFile.getPath());

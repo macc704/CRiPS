@@ -69,8 +69,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 
 	public static boolean hasEmptySocket(Block block) {
-		for (Iterator<BlockConnector> itarator = block.getSockets().iterator(); itarator
-				.hasNext();) {
+		for (Iterator<BlockConnector> itarator = block.getSockets().iterator(); itarator.hasNext();) {
 			if (!itarator.next().hasBlock()) {
 				return true;
 			}
@@ -80,8 +79,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 
 	public static boolean hasNoAfterBlock(Block block) {
 		if (block != null) {
-			if (block.getAfterBlockID() != -1
-					|| block.getAfterBlockID() != null) {
+			if (block.getAfterBlockID() != -1|| block.getAfterBlockID() != null) {
 				return true;
 			}
 		}
@@ -106,8 +104,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 
 	public void workspaceEventOccurred(WorkspaceEvent event) {
-		if (event.getEventType() == WorkspaceEvent.CALLERBLOCK_CREATED
-				|| event.getEventType() == WorkspaceEvent.BLOCK_ADDED) {
+		if (event.getEventType() == WorkspaceEvent.CALLERBLOCK_CREATED || event.getEventType() == WorkspaceEvent.BLOCK_ADDED) {
 			//callerかつ表示状態ならcalleeとの矢印を作成
 			RenderableBlock sourceBlock = RenderableBlock
 					.getRenderableBlock(event.getSourceBlockID());
@@ -145,13 +142,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 			//矢印削除
 			Block sourceBlock = Block.getBlock(event.getSourceBlockID());
 			if (isCaller(sourceBlock) && hasArrow(sourceBlock.getBlockID())) {
-				Workspace
-						.getInstance()
-						.getPageNamed(
-								Workspace.getInstance()
-										.getWorkSpaceController()
-										.calcClassName())
-						.removeArrow(arrows.get(event.getSourceBlockID()));
+				Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).removeArrow(arrows.get(event.getSourceBlockID()));
 				arrows.remove(event.getSourceBlockID());
 			} else if (sourceBlock.isProcedureDeclBlock()) {
 				//子のarrowを全て削除
@@ -182,7 +173,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 	}
 
 	public void changeColor(Block block) {
-		if(block != null){
+		if (block != null) {
 			if (!hasEmptySocket(block) && !isCallerBlockIsIndependent(block)) {
 				arrows.get(block.getBlockID()).changeColor(false);
 			} else {
@@ -206,9 +197,8 @@ public class DrawingArrowManager implements WorkspaceListener {
 		return arrows.get(blockID) != null;
 	}
 
-	public void reset(){
+	public void reset() {
 		arrows.clear();
 	}
-
 
 }

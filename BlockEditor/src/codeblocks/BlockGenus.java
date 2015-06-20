@@ -99,7 +99,7 @@ public class BlockGenus {
 
 	private String javaType;
 	private String javaLabel;
-	
+
 	private String superClassName = "";
 
 	public Map<String, List<Map<String, List<String>>>> getMethods() {
@@ -116,7 +116,7 @@ public class BlockGenus {
 
 	/**
 	 * Constructs a BlockGenus copy with the specified genusName
-	 * 
+	 *
 	 * @param genusName
 	 */
 	private BlockGenus(String genusName, String newGenusName) {
@@ -159,7 +159,7 @@ public class BlockGenus {
 
 	/**
 	 * Resets all the Block Genuses of current language.
-	 * 
+	 *
 	 */
 	public static void resetAllGenuses() {
 		nameToGenus.clear();
@@ -168,7 +168,7 @@ public class BlockGenus {
 	/**
 	 * Returns the BlockGenus with the specified name; null if this name does
 	 * not exist
-	 * 
+	 *
 	 * @param name
 	 *            the name of the desired BlockGenus
 	 * @return the BlockGenus with the specified name; null if this name does
@@ -184,7 +184,7 @@ public class BlockGenus {
 	 * of a sibling. Note: For a genus to have siblings, its label must be
 	 * uneditable. An editable label interferes with the drop down menu widget
 	 * that blocks with siblings have.
-	 * 
+	 *
 	 * @return the siblings of this genus.
 	 */
 	public List<String> getSiblingsList() {
@@ -195,7 +195,7 @@ public class BlockGenus {
 	 * Returns true if this genus has siblings; false otherwise. Note: For a
 	 * genus to have siblings, its label must be uneditable. An editable label
 	 * interferes with the drop down menu widget that blocks with siblings have.
-	 * 
+	 *
 	 * @return true if this genus has siblings; false otherwise.
 	 */
 	public boolean hasSiblings() {
@@ -205,7 +205,7 @@ public class BlockGenus {
 	/**
 	 * Returns a list of the stub kinds (or stub genus names) of this; if this
 	 * genus does not have any stubs, returns an empty list
-	 * 
+	 *
 	 * @return a list of the stub kinds (or stub genus names) of this; if this
 	 *         genus does not have any stubs, returns an empty list
 	 */
@@ -216,7 +216,7 @@ public class BlockGenus {
 	/**
 	 * Returns true is this genus has stubs (references such as getters,
 	 * setters, etc.); false otherwise
-	 * 
+	 *
 	 * @return true is this genus has stubs (references such as getters,
 	 *         setters, etc.); false otherwise
 	 */
@@ -227,7 +227,7 @@ public class BlockGenus {
 	/**
 	 * Returns true iff any one of the connectors for this genus has default
 	 * arguments; false otherwise
-	 * 
+	 *
 	 * @return true iff any one of the connectors for this genus has default
 	 *         arguments; false otherwise
 	 */
@@ -238,7 +238,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if this block is a command block (i.e. forward, say, etc.);
 	 * false otherwise
-	 * 
+	 *
 	 * @return true if this block is a command block (i.e. forward, say, etc.);
 	 *         false otherwise
 	 */
@@ -249,7 +249,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if this block is a data block a.k.a. a primitive (i.e.
 	 * number, string, boolean); false otherwise
-	 * 
+	 *
 	 * @return Returns true if this block is a data block a.k.a. a primitive
 	 *         (i.e. number, string, boolean); false otherwise
 	 */
@@ -261,7 +261,7 @@ public class BlockGenus {
 	 * Returns true iff this block is a function block, which takes in an input
 	 * and produces an output. (i.e. math blocks, arctan, add to list); false
 	 * otherwise.
-	 * 
+	 *
 	 * @return true iff this block is a function block, which takes in an input
 	 *         and produces an output. (i.e. math blocks, arctan, add to list);
 	 *         false otherwise.
@@ -273,7 +273,7 @@ public class BlockGenus {
 	/**
 	 * arranged by sakai lab 2011/10/29 Returns true if this block is a variable
 	 * declaration block; false otherwise
-	 * 
+	 *
 	 * @return true if this block is a variable declaration block; false
 	 *         otherwise
 	 */
@@ -286,7 +286,7 @@ public class BlockGenus {
 	/**
 	 * arranged by sakai lab 2011/10/29 Returns true if this block is a variable
 	 * declaration block; false otherwise
-	 * 
+	 *
 	 * @return true if this block is a variable declaration block; false
 	 *         otherwise
 	 */
@@ -296,7 +296,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/10/29
-	 * 
+	 *
 	 * @return true if this block is a global variable declaration block; false
 	 *         otherwise
 	 */
@@ -306,7 +306,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/10/29
-	 * 
+	 *
 	 * @return true if this block is a local variable declaration block; false
 	 *         otherwise
 	 */
@@ -316,7 +316,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/20
-	 * 
+	 *
 	 * @return true if this block is a local variable of object type declaration
 	 *         block; false otherwise
 	 */
@@ -334,7 +334,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if this block is a procedure declaration block; false
 	 * otherwise
-	 * 
+	 *
 	 * @return true if this block is a procedure declaration block; false
 	 *         otherwise
 	 */
@@ -345,7 +345,7 @@ public class BlockGenus {
 	/**
 	 * created by sakai lab 2010/11 Returns true if this block is a abstract
 	 * block; false otherwise
-	 * 
+	 *
 	 * @return true if this block is abstract block; false otherwise
 	 */
 	public boolean isAbstractionBlock() {
@@ -362,7 +362,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/21
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isCallActionMethodBlock() {
@@ -378,7 +378,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/22
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isMethodBlock() {
@@ -398,7 +398,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/21
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isBlockForSubstitute() {
@@ -408,7 +408,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/29
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isNumberVariableDecBlock() {
@@ -419,7 +419,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2014/05/15
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean isStringVariableDecBlock() {
@@ -430,7 +430,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if this block is a list or a list operator (determined by
 	 * whether it has at least one list connector of any type); false otherwise.
-	 * 
+	 *
 	 * @return is determined by whether it has at least one list connector of
 	 *         any type.
 	 */
@@ -445,7 +445,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns true if this genus has a "before" connector; false otherwise.
-	 * 
+	 *
 	 * @return true is this genus has a "before" connector; false otherwise.
 	 */
 	public boolean hasBeforeConnector() {
@@ -454,7 +454,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns true if this genus has a "after" connector; false otherwise.
-	 * 
+	 *
 	 * @return true if this genus has a "after" connector; false otherwise.
 	 */
 	public boolean hasAfterConnector() {
@@ -464,7 +464,7 @@ public class BlockGenus {
 	/**
 	 * Returns true if the value of this genus is contained within the label of
 	 * this; false otherwise
-	 * 
+	 *
 	 * @return true if the value of this genus is contained within the label of
 	 *         this; false otherwise
 	 */
@@ -474,7 +474,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns true if the label of this is editable; false otherwise
-	 * 
+	 *
 	 * @return true if the label of this is editable; false otherwise
 	 */
 	public boolean isLabelEditable() {
@@ -483,7 +483,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns true iff this genus can have page label.
-	 * 
+	 *
 	 * @return true iff this genus can have page label
 	 */
 	public boolean isPageLabelSetByPage() {
@@ -492,7 +492,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns true if the label of this must be unique; false otherwise
-	 * 
+	 *
 	 * @return true if the label of this must be unique; false otherwise
 	 */
 	public boolean labelMustBeUnique() {
@@ -509,7 +509,7 @@ public class BlockGenus {
 	/**
 	 * Returns true iff this genus is an infix operator. This genus must be
 	 * supporting two bottom sockets.
-	 * 
+	 *
 	 * @return true iff this genus is an infix operator. This genus must be
 	 *         supporting two bottom sockets.
 	 */
@@ -519,7 +519,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the name of this genus
-	 * 
+	 *
 	 * @return the name of this genus
 	 */
 	public String getGenusName() {
@@ -528,7 +528,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial label of this
-	 * 
+	 *
 	 * @return the initial label of this
 	 */
 	public String getInitialLabel() {
@@ -537,7 +537,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the String block label prefix of this
-	 * 
+	 *
 	 * @return the String block label prefix of this
 	 */
 	public String getLabelPrefix() {
@@ -546,7 +546,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the String block label prefix of this
-	 * 
+	 *
 	 * @return the String block label prefix of this
 	 */
 	public String getLabelSuffix() {
@@ -555,7 +555,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/20 Returns the initial header label of this
-	 * 
+	 *
 	 * @return the initial header label of this
 	 */
 	public String getInitHeaderLabel() {
@@ -564,7 +564,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/22 Returns the initial footer label of this
-	 * 
+	 *
 	 * @return the initial footer label of this
 	 */
 	public String getInitFooterLabel() {
@@ -573,7 +573,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/10 Returns the String factory of this
-	 * 
+	 *
 	 * @return the String factory of this
 	 */
 	public Iterable<String> getFactory() {
@@ -582,7 +582,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/10
-	 * 
+	 *
 	 * @param number
 	 * @return factory name
 	 */
@@ -592,7 +592,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/10 Return the factory size
-	 * 
+	 *
 	 * @return the factory size of this
 	 */
 	public int getFactorySize() {
@@ -603,7 +603,7 @@ public class BlockGenus {
 	 * Returns the String block text description of this. Also known as the
 	 * block tool tip, or block description. If no descriptions exists, return
 	 * null.
-	 * 
+	 *
 	 * @returns the String block text description of this or NULL.
 	 */
 	public String getBlockDescription() {
@@ -617,7 +617,7 @@ public class BlockGenus {
 	 * if incomplete descriptions). An existing description may not have an
 	 * existing socket (in the case of expandable socket sizes). If no
 	 * descriptions exists, return null.
-	 * 
+	 *
 	 * @returns the String argument descriptions of this or NULL.
 	 */
 	public Iterable<String> getInitialArgumentDescriptions() {
@@ -627,7 +627,7 @@ public class BlockGenus {
 	/**
 	 * Returns the Color of this; May return Color.Black if color was
 	 * unspecified.
-	 * 
+	 *
 	 * @return the Color of this; May return Color.Black if color was
 	 *         unspecified.
 	 */
@@ -637,7 +637,7 @@ public class BlockGenus {
 
 	/**
 	 * created by sakai lab 2011/11/25
-	 * 
+	 *
 	 * @return
 	 */
 	public String getKind() {
@@ -647,7 +647,7 @@ public class BlockGenus {
 	/**
 	 * Returns the initial BlockImageIcon mapping of this. Returned Map is
 	 * unmodifiable.
-	 * 
+	 *
 	 * @return the initial and unmodifiable BlockImageIcon mapping of this
 	 */
 	public Map<ImageLocation, BlockImageIcon> getInitBlockImageMap() {
@@ -656,7 +656,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial is investigated whether it is possible.
-	 * 
+	 *
 	 * @return isLabelEditalbe
 	 */
 	public boolean getIsLabelEditable() {
@@ -665,7 +665,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the value of the specified language dependent property
-	 * 
+	 *
 	 * @param property
 	 *            the property to look up
 	 * @return the value of the specified language dependent property; null if
@@ -677,7 +677,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial set of sockets of this
-	 * 
+	 *
 	 * @return the initial set of sockets of this
 	 */
 	public Iterable<BlockConnector> getInitSockets() {
@@ -693,7 +693,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial plug connector of this
-	 * 
+	 *
 	 * @return the initial plug connector of this
 	 */
 	public BlockConnector getInitPlug() {
@@ -702,7 +702,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial before connector of this
-	 * 
+	 *
 	 * @return the initial before connector of this
 	 */
 	public BlockConnector getInitBefore() {
@@ -711,7 +711,7 @@ public class BlockGenus {
 
 	/**
 	 * Returns the initial after connector of this
-	 * 
+	 *
 	 * @return the initial after connector of this
 	 */
 	public BlockConnector getInitAfter() {
@@ -735,8 +735,8 @@ public class BlockGenus {
 
 	public String getSuperClassName() {
 		return superClassName;
-	}	
-	
+	}
+
 	/**
 	 * Return the expand-group for the given group. Can be null if group doesn't
 	 * exist.
@@ -774,17 +774,6 @@ public class BlockGenus {
 			if (description.getNodeName().equals("text")) {
 				genus.blockDescription = description.getTextContent();
 			} else if (description.getNodeName().equals("arg-description")) {
-				/*            	int argumentIndex = 0;
-				                String argumentDescription = "";
-				            	nameMatcher=attrExtractor.matcher(description.getAttributes().getNamedItem("n").toString());
-				                if (nameMatcher.find()){
-				                	argumentIndex = Integer.parseInt(nameMatcher.group(1));
-				                }
-				                System.out.println(description);
-				                nameMatcher=attrExtractor.matcher(description.getAttributes().getNamedItem("doc-name").toString());
-				                if (nameMatcher.find()){
-				                	argumentDescription = nameMatcher.group(1);
-				                }*/
 				String argumentDescription = description.getTextContent();
 				if (argumentDescription != null) {
 					genus.argumentDescriptions.add(argumentDescription);
@@ -795,14 +784,13 @@ public class BlockGenus {
 
 	/**
 	 * Loads the BlockConnector information of the specified genus
-	 * 
+	 *
 	 * @param connectors
 	 *            NodeList of connector information to load from
 	 * @param genus
 	 *            BlockGenus to load block connector information onto
 	 */
-	private static void loadBlockConnectorInformation(NodeList connectors,
-			BlockGenus genus) {
+	private static void loadBlockConnectorInformation(NodeList connectors, BlockGenus genus) {
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
 		Node opt_item;
@@ -819,17 +807,14 @@ public class BlockGenus {
 				String expandGroup = "";
 				String defargname = null;
 				String defarglabel = null;
+				String connectorJavaType = null;
 
 				if (connector.getAttributes().getLength() > 0) {
-					nameMatcher = attrExtractor.matcher(connector
-							.getAttributes().getNamedItem("connector-kind")
-							.toString());
+					nameMatcher = attrExtractor.matcher(connector.getAttributes().getNamedItem("connector-kind").toString());
 					if (nameMatcher.find()) // will be true
 						connectorKind = nameMatcher.group(1).equals("socket") ? 0
 								: 1;
-					nameMatcher = attrExtractor.matcher(connector
-							.getAttributes().getNamedItem("connector-type")
-							.toString());
+					nameMatcher = attrExtractor.matcher(connector.getAttributes().getNamedItem("connector-type").toString());
 					if (nameMatcher.find()) { // will be true
 						connectorType = nameMatcher.group(1);
 					}
@@ -858,17 +843,24 @@ public class BlockGenus {
 						if (nameMatcher.find()) // will be true
 							label = nameMatcher.group(1);
 					}
-					opt_item = connector.getAttributes().getNamedItem(
-							"expand-group");
+					opt_item = connector.getAttributes().getNamedItem("expand-group");
 					if (opt_item != null) {
 						nameMatcher = attrExtractor
 								.matcher(opt_item.toString());
 						if (nameMatcher.find()) // will be true
 							expandGroup = nameMatcher.group(1);
 					}
+
+					opt_item = connector.getAttributes().getNamedItem("connector-javatype");
+					if (opt_item != null) {
+						nameMatcher = attrExtractor
+								.matcher(opt_item.toString());
+						if (nameMatcher.find()) // will be true
+							connectorJavaType = nameMatcher.group(1);
+					}
 				}
 
-				// TODO DefaultArgmentを解析する
+				// DefaultArgmentを解析する
 				if (connector.hasChildNodes()) {
 					// load default arguments
 					NodeList defargs = connector.getChildNodes(); // should really only be one
@@ -938,6 +930,11 @@ public class BlockGenus {
 
 				if (expandGroup.length() > 0)
 					addToExpandGroup(genus.expandGroups, socket);
+
+				if(connectorJavaType!=null){
+					socket.setCnnectorJavaType(connectorJavaType);
+				}
+
 			}
 		}
 	}
@@ -959,7 +956,7 @@ public class BlockGenus {
 
 	/**
 	 * Loads the images to be drawn on the visible block instances of this
-	 * 
+	 *
 	 * @param images
 	 *            NodeList of image information to load from
 	 * @param genus
@@ -1058,7 +1055,7 @@ public class BlockGenus {
 
 	/**
 	 * Loads the language definition properties of the specified genus
-	 * 
+	 *
 	 * @param properties
 	 *            NodeList of properties to load from file
 	 * @param genus
@@ -1074,8 +1071,7 @@ public class BlockGenus {
 			prop = properties.item(l);
 			if (prop.getNodeName().equals("LangSpecProperty")) {
 				if (prop.getAttributes().getLength() > 0) {
-					nameMatcher = attrExtractor.matcher(prop.getAttributes()
-							.getNamedItem("key").toString());
+					nameMatcher = attrExtractor.matcher(prop.getAttributes().getNamedItem("key").toString());
 					if (nameMatcher.find()) // will be true
 						key = nameMatcher.group(1);
 					Node opt_item = prop.getAttributes().getNamedItem("value");
@@ -1096,7 +1092,7 @@ public class BlockGenus {
 
 	/**
 	 * Loads the stub information of the specified genus
-	 * 
+	 *
 	 * @param stubs
 	 *            NodeList of stub information to load
 	 * @param genus
@@ -1121,18 +1117,14 @@ public class BlockGenus {
 							// this stub for this genus deviates from generic stub
 							// generate genus by copying one of generic ones
 
-							BlockGenus newStubGenus = new BlockGenus(stubGenus,
-									stubGenus + genus.genusName);
+							BlockGenus newStubGenus = new BlockGenus(stubGenus, stubGenus + genus.genusName);
 
-							// load unique stub genus properties
 							NodeList stubChildren = stub.getChildNodes();
 							for (int n = 0; n < stubChildren.getLength(); n++) {
 								Node stubChild = stubChildren.item(n);
 								if (stubChild.getNodeName().equals(
 										"LangSpecProperties")) {
-									loadLangDefProperties(
-											stubChild.getChildNodes(),
-											newStubGenus);
+									loadLangDefProperties(stubChild.getChildNodes(),newStubGenus);
 								}
 							}
 							nameToGenus.put(newStubGenus.genusName,
@@ -1160,7 +1152,6 @@ public class BlockGenus {
 
 		String className = "";
 
-		
 		for (int i = 0; i < classMethods.getLength(); i++) {
 
 			Node parent = classMethods.item(i);
@@ -1183,28 +1174,21 @@ public class BlockGenus {
 							prop = tmp.item(m);
 							if (prop.getNodeName().equals("MethodProperty")) {
 								if (prop.getAttributes().getLength() > 0) {
-									nameMatcher = attrExtractor.matcher(prop
-											.getAttributes()
-											.getNamedItem("name").toString());
+									nameMatcher = attrExtractor.matcher(prop.getAttributes().getNamedItem("name").toString());
 									if (nameMatcher.find()) {// will be true
 										List<String> temp = new ArrayList<String>();
-										temp.add(nameMatcher.group(1)
-												.toString());
+										temp.add(nameMatcher.group(1).toString());
 										method.put("name", temp);
 									}
 
-									Node opt_item = prop.getAttributes()
-											.getNamedItem("modifer");
-									Node return_type = prop.getAttributes()
-											.getNamedItem("returnType");
-
+									Node opt_item = prop.getAttributes().getNamedItem("modifer");
+									Node return_type = prop.getAttributes().getNamedItem("returnType");
+									Node return_javaType = prop.getAttributes().getNamedItem("returnJavaType");
 									if (opt_item != null) {
-										nameMatcher = attrExtractor
-												.matcher(opt_item.toString());
+										nameMatcher = attrExtractor.matcher(opt_item.toString());
 										if (nameMatcher.find()) {
 											List<String> temp = new ArrayList<String>();
-											temp.add(nameMatcher.group(1)
-													.toString());
+											temp.add(nameMatcher.group(1).toString());
 											method.put("modifer", temp);
 										}
 									} else {
@@ -1212,21 +1196,26 @@ public class BlockGenus {
 									}
 
 									if (return_type != null) {
-										nameMatcher = attrExtractor
-												.matcher(return_type.toString());
+										nameMatcher = attrExtractor.matcher(return_type.toString());
 										if (nameMatcher.find()) {
 											List<String> temp = new ArrayList<String>();
-											temp.add(nameMatcher.group(1)
-													.toString());
+											temp.add(nameMatcher.group(1).toString());
 											method.put("returnType", temp);
-
 										}
 									} else {
 										method.put("returnType", null);
 									}
 
-									NodeList parameter_item = prop
-											.getChildNodes();
+									if (return_javaType != null) {
+										nameMatcher = attrExtractor.matcher(return_javaType.toString());
+										if (nameMatcher.find()) {
+											List<String> temp = new ArrayList<String>();
+											temp.add(nameMatcher.group(1).toString());
+											method.put("returnJavaType", temp);
+										}
+									}
+
+									NodeList parameter_item = prop.getChildNodes();
 									Node parameter;
 									List<String> parameters = new ArrayList<String>();
 									for (int j = 0; j < parameter_item
@@ -1254,7 +1243,7 @@ public class BlockGenus {
 	/**
 	 * Loads the all the initial BlockGenuses and BlockGenus families of this
 	 * language
-	 * 
+	 *
 	 * @param root
 	 *            the Element carrying the specifications of the BlockGenuses
 	 */
@@ -1451,15 +1440,15 @@ public class BlockGenus {
 						loadStubs(genusChild.getChildNodes(), newGenus);
 					} else if (genusChild.getNodeName().equals("ClassMethods")) {
 						//メソッドの読み込み
-						
-						
+
 						loadClassMethods(genusChild.getChildNodes(), newGenus);
 
 					} else if (genusChild.getNodeName().equals("JavaLabel")) {
 						newGenus.javaLabel = genusChild.getTextContent();
 					} else if (genusChild.getNodeName().equals("JavaType")) {
 						newGenus.javaType = genusChild.getTextContent();
-					}else if(genusChild.getNodeName().equals("SuperClassName")){
+					} else if (genusChild.getNodeName()
+							.equals("SuperClassName")) {
 						newGenus.superClassName = genusChild.getTextContent();
 					}
 

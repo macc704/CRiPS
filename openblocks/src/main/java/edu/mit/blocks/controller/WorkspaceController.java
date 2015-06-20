@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -46,22 +45,18 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import slcodeblocks.ProcedureOutputRule;
 import clib.view.app.javainfo.CJavaInfoPanels;
-import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.codeblocks.BlockGenus;
 import edu.mit.blocks.codeblocks.BlockLinkChecker;
-import edu.mit.blocks.codeblocks.BlockStub;
 import edu.mit.blocks.codeblocks.CommandRule;
 import edu.mit.blocks.codeblocks.Constants;
 import edu.mit.blocks.codeblocks.InfixRule;
 import edu.mit.blocks.codeblocks.ParamRule;
 import edu.mit.blocks.codeblocks.PolyRule;
 import edu.mit.blocks.codeblocks.SocketRule;
-import edu.mit.blocks.renderable.RenderableBlock;
 import edu.mit.blocks.workspace.SearchBar;
 import edu.mit.blocks.workspace.SearchableContainer;
 import edu.mit.blocks.workspace.TrashCan;
@@ -101,7 +96,7 @@ public class WorkspaceController {
 	// Reference kept to be able to update frame title with current loaded file
 	private JFrame frame;
 
-	private DebuggerWorkspaceController debugger;
+//	private DebuggerWorkspaceController debugger;
 
 	// for CheCoPro
 	private boolean openedFromCH = false;
@@ -817,11 +812,11 @@ public class WorkspaceController {
 //	}
 
 	private void runDebbuger(){
-		try {
-			debugger = new DebuggerWorkspaceController(langDefRootPath,selectedFile);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			debugger = new DebuggerWorkspaceController(langDefRootPath,selectedFile);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	private static String langDefRootPath = "ext/blocks/lang_def.xml";

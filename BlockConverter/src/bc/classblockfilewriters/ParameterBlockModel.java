@@ -12,9 +12,7 @@ public class ParameterBlockModel extends BasicModel {
 	private Map<String, String> langSpecProperties = new HashMap<String, String>();
 	private Map<String, List<PublicMethodInfo>> methods;
 
-	public ParameterBlockModel(String name, String kind, String initialLabel,
-			String headerLabel, String footerLabel, String color,
-			String javaType) {
+	public ParameterBlockModel(String name, String kind, String initialLabel, String headerLabel, String footerLabel, String color, String javaType) {
 		super(name, kind, initialLabel, headerLabel, footerLabel, color);
 		HashSet<String> connector = new HashSet<String>();
 		connector.add("object");
@@ -31,13 +29,7 @@ public class ParameterBlockModel extends BasicModel {
 
 	public void print(PrintStream out, int lineNumber) throws Exception {
 
-		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" "
-				+ "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\""
-				+ getInitialLabel() + "\"" + " header-label=\""
-				+ getHeaderLabel() + "\"" + " footer-label=\""
-				+ getFooterLabel() + "\"" + " editable-label=\"yes\" "
-				+ "is-starter=\"yes\" is-terminator=\"yes\"" + " color=\""
-				+ getColor() + "\">");
+		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"" + " header-label=\"" + getHeaderLabel() + "\"" + " footer-label=\"" + getFooterLabel() + "\"" + " editable-label=\"yes\" " + "is-starter=\"yes\" is-terminator=\"yes\"" + " color=\"" + getColor() + "\">");
 		lineNumber++;
 		printBlockConnectors(out, lineNumber);
 		makeIndent(out, lineNumber);
@@ -48,8 +40,7 @@ public class ParameterBlockModel extends BasicModel {
 		out.println("<LangSpecProperties>");
 
 		for (String langSpecProperty : langSpecProperties.keySet()) {
-			printLangSpecProperty(out, lineNumber + 1, langSpecProperty,
-					langSpecProperties.get(langSpecProperty));
+			printLangSpecProperty(out, lineNumber + 1, langSpecProperty, langSpecProperties.get(langSpecProperty));
 		}
 
 		makeIndent(out, lineNumber);
@@ -61,14 +52,13 @@ public class ParameterBlockModel extends BasicModel {
 			for (String key : methods.keySet()) {
 				makeIndent(out, lineNumber++);
 				out.println("<ClassName name=\"" + key + "\">");
-				
+
 				for (PublicMethodInfo method : methods.get(key)) {
 					method.print(out, lineNumber);
 				}
 				makeIndent(out, --lineNumber);
 				out.println("</ClassName>");
-				
-				
+
 			}
 			makeIndent(out, --lineNumber);
 			out.println("</ClassMethods>");
@@ -76,7 +66,7 @@ public class ParameterBlockModel extends BasicModel {
 
 		makeIndent(out, lineNumber);
 		out.println("<JavaType>" + javaType + "</JavaType>");
-		
+
 		out.println("</BlockGenus>");
 	}
 
@@ -86,38 +76,14 @@ public class ParameterBlockModel extends BasicModel {
 		makeIndent(out, lineNumber);
 		out.println("<Stubs>");
 
-		printStubs("<Stub stub-genus=\"getter\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + scope
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\"" + scope
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"stack-type\" value=\""
-						+ "breed-procedure" + "\"></LangSpecProperty>", out,
-				lineNumber);
-
-		printStub("<Stub stub-genus=\"setter\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
-						+ scope + "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\"" + scope
-						+ "\"></LangSpecProperty>", out, lineNumber);
+		printStubs("<Stub stub-genus=\"getter\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + scope + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + scope + "\"></LangSpecProperty>", "<LangSpecProperty key=\"stack-type\" value=\"" + "breed-procedure" + "\"></LangSpecProperty>", out, lineNumber);
+		printStub("<Stub stub-genus=\"setter\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set" + scope + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + scope + "\"></LangSpecProperty>", out, lineNumber);
 
 		if (getName().contains("arrayobject")) {
-			printStub("<Stub stub-genus=\"setter-arrayelement\">",
-					"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
-							+ langSpecProperties.get("scope")
-							+ "\"></LangSpecProperty>",
-					"<LangSpecProperty key=\"scope\" value=\""
-							+ langSpecProperties.get("scope")
-							+ "\"></LangSpecProperty>", out, lineNumber);
-			printStub("<Stub stub-genus=\"getter-arrayelement\">",
-					"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
-							+ langSpecProperties.get("scope")
-							+ "\"></LangSpecProperty>",
-					"<LangSpecProperty key=\"scope\" value=\""
-							+ langSpecProperties.get("scope")
-							+ "\"></LangSpecProperty>", out, lineNumber);
+			printStub("<Stub stub-genus=\"setter-arrayelement\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
+			printStub("<Stub stub-genus=\"getter-arrayelement\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
 		}
-		
+
 		makeIndent(out, lineNumber);
 		out.println("</Stubs>");
 	}

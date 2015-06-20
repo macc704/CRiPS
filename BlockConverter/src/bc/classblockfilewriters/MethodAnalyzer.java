@@ -13,7 +13,7 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 public class MethodAnalyzer extends ASTVisitor {
 
 	private List<PublicMethodInfo> methods = new ArrayList<PublicMethodInfo>();
-	private String superClassName;
+	private String superClassName = "Object";
 	private List<String> interfacesNames = new LinkedList<String>();
 	private List<String> classes = new LinkedList<String>();
 
@@ -29,38 +29,36 @@ public class MethodAnalyzer extends ASTVisitor {
 		return this.classes;
 	}
 
-	@Override
 	public boolean visit(TypeDeclaration node) {
 		classes.add(node.getName().toString());
-		// TODO Auto-generated method stub
 		if (node.getSuperclassType() != null) {
 			this.superClassName = node.getSuperclassType().toString();
 			for (int i = 0; i < node.superInterfaceTypes().size(); i++) {
-				interfacesNames.add(node.superInterfaceTypes().get(i)
-						.toString());
+				interfacesNames.add(node.superInterfaceTypes().get(i).toString());
 			}
 		}
+
 		return super.visit(node);
 	}
 
 	public boolean visit(MethodDeclaration node) {
 
-		//publicメソッドをmethodsに登録する
-		if (!node.getName().toString().equals("main")
-				&& !(node.getModifiers() == Modifier.PRIVATE)) {
-			//メソッドのモデルに情報を登録する
+		// publicメソッドをmethodsに登録する
+		if (!node.getName().toString().equals("main") && !(node.getModifiers() == Modifier.PRIVATE)) {
+			// メソッドのモデルに情報を登録する
 			PublicMethodInfo model = new PublicMethodInfo();
-			//メソッド名をセットする
+			// メソッド名をセットする
 			setMethodName(model, node);
-			//メソッドのパラメータ情報をも出るに登録する
+			// メソッドのパラメータ情報をも出るに登録する
 			setMethodParameterInfo(model, node);
-			
+
 			setMethod(model);
+
 		}
 		return super.visit(node);
 	}
 
-	public void setMethodName(PublicMethodInfo model, MethodDeclaration node){
+	public void setMethodName(PublicMethodInfo model, MethodDeclaration node) {
 		if (node.isConstructor()) {
 			model.setName("new-" + node.getName().toString().toLowerCase());
 			model.setInitialLabel(node.getName().toString());
@@ -69,23 +67,21 @@ public class MethodAnalyzer extends ASTVisitor {
 		} else {
 			model.setName(node.getName().toString());
 		}
-		
+
 		// オーバーロード対応版のメソッドの名前をセット
 		model.setModifier("public");
 		if (node.getReturnType2() != null) {
-			model.setReturnType(convertBlockConnectorType(node
-					.getReturnType2().toString()));
+			model.setReturnType(convertBlockConnectorType(node.getReturnType2().toString()));
 			model.setJavaType(node.getReturnType2().toString());
 		}
 	}
-	
-	public void setMethodParameterInfo(PublicMethodInfo model, MethodDeclaration node){
+
+	public void setMethodParameterInfo(PublicMethodInfo model, MethodDeclaration node) {
 		List<String> parameters = new ArrayList<String>();
 		String fullName = model.getName() + "[";
 		for (int i = 0; i < node.parameters().size(); i++) {
 			parameters.add(node.parameters().get(i).toString());
-			SingleVariableDeclaration param = (SingleVariableDeclaration) node
-					.parameters().get(i);
+			SingleVariableDeclaration param = (SingleVariableDeclaration) node.parameters().get(i);
 			String paramType = param.getType().toString();
 			if (paramType.equals("double")) {
 				paramType = "int";
@@ -97,8 +93,10 @@ public class MethodAnalyzer extends ASTVisitor {
 		model.setFullName(fullName);
 
 		model.setParameters(parameters);
+
+		model.setParameterJavaType(parameters);
 	}
-	
+
 	public static String convertBlockConnectorType(String s) {
 		if ("int".equals(s)) {
 			return "number";

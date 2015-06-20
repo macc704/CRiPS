@@ -253,8 +253,7 @@ public class SContextMenuProvider {
 		return createCallerItem;
 	}
 
-	public JMenu createClassMethodsCategory(String className,
-			List<Map<String, List<String>>> methods) {
+	public JMenu createClassMethodsCategory(String className, List<Map<String, List<String>>> methods) {
 		JMenu category = new JMenu(className);
 		for (Map<String, List<String>> method : methods) {
 			category.add(createCallClassMethodMenu(method));
@@ -399,8 +398,7 @@ public class SContextMenuProvider {
 				|| rb.getBlock().getGenusName().contains("listobject")) {
 
 			for (String key : rb.getMethods().keySet()) {
-				methodMenu.add(createClassMethodsCategory(key + "のメソッド", rb
-						.getMethods().get(key)));
+				methodMenu.add(createClassMethodsCategory(key + "のメソッド", rb.getMethods().get(key)));
 			}
 
 			if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
@@ -659,7 +657,7 @@ public class SContextMenuProvider {
 		blockParam += "]";
 		final String paramName = blockParam;
 		if (method.get("name").get(0).startsWith("new-")) {
-			JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
+			JMenuItem item = new JMenuItem(method.get("returnJavaType").get(0) + ":" + param);
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					createConstructor(method.get("name").get(0) + paramName);
@@ -667,7 +665,7 @@ public class SContextMenuProvider {
 			});
 			return item;
 		} else {
-			JMenuItem item = new JMenuItem(method.get("name").get(0) + param);
+			JMenuItem item = new JMenuItem(method.get("returnJavaType").get(0) + ":" + param);
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					createCallMethod(method.get("name").get(0) + paramName);
@@ -678,9 +676,9 @@ public class SContextMenuProvider {
 	}
 
 	private String getBlockType(String type) {
-		if(type.contains("[]")){
+		if (type.contains("[]")) {
 			return "object";
-		}else if (type.startsWith("int") || type.startsWith("double")) {
+		} else if (type.startsWith("int") || type.startsWith("double")) {
 			return "number";
 		} else if (type.startsWith("String")) {
 			return "string";
@@ -732,7 +730,8 @@ public class SContextMenuProvider {
 	private void createCallMethod(String name) {
 		//RenderableBlock createRb = BlockUtilities.getBlock("get","hoge");//does not work !!
 
-		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),name);
+		RenderableBlock newCommandRBlock = createNewBlock(rb.getParentWidget(),
+				name);
 
 		boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
 		if (cmd) {
@@ -982,19 +981,15 @@ public class SContextMenuProvider {
 	}
 
 	private String getBlockVariableType(String name) {
-		if (name.contains("number") || name.contains("int")) {
-			return "int-number";
-		}
-
-		if (name.contains("String") || name.contains("string")) {
-			return "string";
-		}
-
 		if (name.contains("double")) {
-			return "double";
+			return "double-number";
+		} else if (name.contains("number") || name.contains("int")) {
+			return "int-number";
+		} else if (name.contains("String") || name.contains("string")) {
+			return "string";
+		} else {
+			return "object";
 		}
-
-		return "object";
 	}
 
 }

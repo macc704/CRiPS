@@ -163,6 +163,7 @@ public class MethodResolver {
 
 	public List<String> getArgumentLabels(SuperMethodInvocation node) {
 		String signature = toSignature(node);
+		System.out.println(node.arguments().get(0).toString() + node.toString());
 		return argumentLabels.get(signature);
 	}
 

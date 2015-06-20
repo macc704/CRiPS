@@ -12,14 +12,20 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 
+import org.eclipse.jdt.core.dom.CompilationUnit;
+
 import pres.core.model.PRFileLog;
 import pres.core.model.PRLog;
 import ronproeditor.ICFwResourceRepository;
 import ronproeditor.REApplication;
 import ronproeditor.helpers.CFrameUtils;
+import workspace.ClassInheritanceRelation;
+import workspace.ClassRelationCaluculator;
+import workspace.ClassRelationMap;
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
+import bc.utils.ASTParserWrapper;
 import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
@@ -28,7 +34,7 @@ import controller.WorkspaceController;
 
 /**
  * @author macchan
- * 
+ *
  */
 public class REBlockEditorManager {
 
@@ -71,7 +77,7 @@ public class REBlockEditorManager {
 					}
 				});
 	}
-	
+
 	public void doOpenBlockEditor() {
 		if (isWorkspaceOpened()) { // already opened
 			CFrameUtils.toFront(blockEditor.getFrame());
@@ -110,11 +116,11 @@ public class REBlockEditorManager {
 
 			public void chengeInheritance() {
 				// TODO Auto-generated method stub
-			}	
+			}
 
 			public void toggleTraceLines(String state) {
 					writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
-			}			
+			}
 
 		}, REApplication.SRC_ENCODING);
 		blockEditor.getFrame().addWindowFocusListener(
@@ -248,22 +254,12 @@ public class REBlockEditorManager {
 					String[] libs = app.getLibraryManager().getLibsAsArray();
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 					// File javaFile = app.getSourceManager().getCurrentFile();
-					String xmlFilePath = new JavaToBlockMain().run(javaFile,
-							REApplication.SRC_ENCODING, libs);
+					String xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
 
-					// BlockEditorに反映
-					// lang def ファイル
-					/*
-					 * if (isTurtle()) { // lang_def.dtdの書き換え // 最後尾に要素を追加
-					 * 
-					 * // menuの書き換え
-					 * blockEditor.setLangDefFilePath(LANG_DEF_TURTLE_PATH); }
-					 * else { // lang_def.dtdの書き換え // menuの書き換え
-					 * blockEditor.setLangDefFilePath(LANG_DEF_PATH); }
-					 */
+					ClassRelationMap map = createClassRelationMap(javaFile, REApplication.SRC_ENCODING, libs);
 
-					blockEditor.setLangDefFilePath(javaFile.getParentFile()
-							.getPath() + "/lang_def_project.xml");
+					blockEditor.setLangDefFilePath(javaFile.getParentFile().getPath() + "/lang_def_project.xml");
+					blockEditor.setClassRelationMap(map);
 
 					// blockEditor.resetLanguage();
 					// blockEditor.setLangDefDirty(true);
@@ -280,6 +276,27 @@ public class REBlockEditorManager {
 		// thread.setPriority(Thread.currentThread().getPriority() - 1);
 		// thread.start();
 	}
+
+	public ClassRelationMap createClassRelationMap(File file, String enc, String[] classpaths){
+		File parentFile = file.getParentFile();
+		ClassRelationMap map = new ClassRelationMap();
+
+		for(File f : parentFile.listFiles()){
+			//Javaファイル解析
+			if(f.getName().endsWith(".java")){
+				CompilationUnit uni = ASTParserWrapper.parse(f, enc, classpaths);
+				ClassRelationCaluculator calc = new ClassRelationCaluculator();
+				uni.accept(calc);
+				for(ClassInheritanceRelation relation : calc.getClassRelations()){
+					map.addClasses(relation);
+				}
+			}
+		}
+		map.showAllRelation();
+
+		return map;
+	}
+
 
 	protected boolean isTurtle() {
 		return app.getSourceManager().getCCurrentFile().loadText()
