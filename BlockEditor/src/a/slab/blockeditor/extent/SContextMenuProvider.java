@@ -739,18 +739,16 @@ public class SContextMenuProvider {
 					"callActionMethod2");
 			connectByBefore(newActionRBlock, 1, newCommandRBlock);
 		} else {
-			RenderableBlock newGetterRBlock = createActionGetterBlock(rb,
-					"callGetterMethod2");
+			RenderableBlock newGetterRBlock = createActionGetterBlock(rb,"callGetterMethod2");
 			connectByPlug(newGetterRBlock, 1, newCommandRBlock);
 
-			boolean returnObject = newCommandRBlock.getBlock().getPlug()
-					.getKind().equals("object");
-			if (returnObject) {
-				RenderableBlock newActionRBlock = createNewBlock(
-						rb.getParentWidget(), "callActionMethod2");
-				newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
-				connectByPlug(newActionRBlock, 0, newGetterRBlock);
-			}
+			boolean returnObject = newCommandRBlock.getBlock().getPlug().getKind().equals("object");
+//			if (returnObject) {
+//				RenderableBlock newActionRBlock = createNewBlock(
+//						rb.getParentWidget(), "callActionMethod2");
+//				newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
+//				connectByPlug(newActionRBlock, 0, newGetterRBlock);
+//			}
 		}
 	}
 

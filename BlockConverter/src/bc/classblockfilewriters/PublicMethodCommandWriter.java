@@ -51,8 +51,11 @@ public class PublicMethodCommandWriter extends BasicModel {
 				String parameterType = convertParameterType(parameter.substring(0, parameter.indexOf(" ")));
 				String parameterName = parameter.substring(parameter.substring(0, parameter.indexOf(" ")).length() + 1, parameter.length());
 				makeIndent(out, lineNum);
-
-				out.println("<BlockConnector label=\"" + parameterName + "(" + paramType + "型)"+ "\" connector-kind=\"socket\" connector-type=\"" + parameterType + "\" connector-javatype=\"" + parameter.substring(0, parameter.indexOf(" ")) + "\">");
+				if("object".equals(parameterType)){
+					out.println("<BlockConnector label=\"" + parameterName + "(" + paramType + "型)"+ "\" connector-kind=\"socket\" connector-type=\"" + parameterType + "\" connector-javatype=\"" + parameter.substring(0, parameter.indexOf(" ")) + "\">");
+				}else{
+					out.println("<BlockConnector label=\"" + parameterName +  "\" connector-kind=\"socket\" connector-type=\"" + parameterType + "\" connector-javatype=\"" + parameter.substring(0, parameter.indexOf(" ")) + "\">");
+				}
 
 				makeIndent(out, lineNum);
 				out.println("</BlockConnector>");
