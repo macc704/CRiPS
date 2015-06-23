@@ -256,10 +256,10 @@ public class REBlockEditorManager {
 					// File javaFile = app.getSourceManager().getCurrentFile();
 					String xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
 
-					ClassRelationMap map = createClassRelationMap(javaFile, REApplication.SRC_ENCODING, libs);
+//					ClassRelationMap map = createClassRelationMap(javaFile, REApplication.SRC_ENCODING, libs);
 
 					blockEditor.setLangDefFilePath(javaFile.getParentFile().getPath() + "/lang_def_project.xml");
-					blockEditor.setClassRelationMap(map);
+//					blockEditor.setClassRelationMap(map);
 
 					// blockEditor.resetLanguage();
 					// blockEditor.setLangDefDirty(true);
@@ -292,8 +292,6 @@ public class REBlockEditorManager {
 				}
 			}
 		}
-		map.showAllRelation();
-
 		return map;
 	}
 

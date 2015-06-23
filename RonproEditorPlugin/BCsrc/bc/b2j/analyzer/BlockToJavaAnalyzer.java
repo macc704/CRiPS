@@ -457,7 +457,6 @@ public class BlockToJavaAnalyzer {
 
 		for(int i = 0; i < node.getChildNodes().getLength(); i++){
 			blockInfo = node.getChildNodes().item(i);
-			System.out.println(blockInfo.getNodeName());
 			if ("JavaLabel".equals(blockInfo.getNodeName())) {
 				return blockInfo.getTextContent();
 			}

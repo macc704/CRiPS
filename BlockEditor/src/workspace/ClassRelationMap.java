@@ -26,7 +26,6 @@ public class ClassRelationMap {
 	public void showAllRelation(){
 		for(String key : classes.keySet()){
 			ClassInheritanceRelation relation = classes.get(key);
-			System.out.println("class name:" + relation.getClassName() + " parent:" + relation.getParentClass());
 		}
 	}
 

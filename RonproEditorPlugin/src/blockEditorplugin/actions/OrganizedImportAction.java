@@ -16,11 +16,11 @@ import org.eclipse.ui.texteditor.ITextEditor;
 public class OrganizedImportAction implements Runnable{
 
 	private IWorkbenchWindow window;
-	
+
 	public OrganizedImportAction(IWorkbenchWindow window){
 		this.window = window;
 	}
-	
+
 	public void run(){
 		OrganizeImportsAction org = new OrganizeImportsAction(window.getActivePage().getActiveEditor().getEditorSite());
 		try {
@@ -39,11 +39,10 @@ public class OrganizedImportAction implements Runnable{
 					prj);
 			org.run(selection);
 			//save
-			IEditorPart editorPart = window.getActivePage()
-					.getActiveEditor();
+			IEditorPart editorPart = window.getActivePage().getActiveEditor();
 			ITextEditor textEditor = (ITextEditor) editorPart;
 			textEditor.doSave(null);
-			
+
 		} catch (CoreException ce) {
 			ce.printStackTrace();
 		}

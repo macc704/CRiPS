@@ -1,6 +1,8 @@
 package controller;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +24,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -48,6 +51,7 @@ import slcodeblocks.PolyRule;
 import util.ChangeExtension;
 import workspace.BlockCanvas;
 import workspace.ClassRelationMap;
+import workspace.Page;
 import workspace.SearchBar;
 import workspace.SearchableContainer;
 import workspace.TrashCan;
@@ -118,6 +122,8 @@ public class WorkspaceController {
 	private String user = ""; // for CheCoPro
 
 	private ClassRelationMap map;
+
+	private String encoding;
 
 
 	/**
@@ -420,6 +426,8 @@ public class WorkspaceController {
 
 				setFrameTitle(path);
 
+				changeInheritanceList();
+
 				setDirty(false);
 
 			}
@@ -651,6 +659,7 @@ public class WorkspaceController {
 	 */
 	public void createAndShowGUI(final WorkspaceController wc,
 			final SBlockEditorListener ronproEditor, final String enc) {
+		this.encoding = enc;
 		this.ronproEditor = ronproEditor;
 
 		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
@@ -671,6 +680,12 @@ public class WorkspaceController {
 		JPanel topPane = new JPanel();
 
 		{// create save button
+			final JComboBox<String> inheritanceList = new JComboBox<String>();
+			inheritanceList.setEditable(true);
+			topPane.add(inheritanceList);
+		}
+
+		{// create save button
 			JButton saveButton = new JButton("Save as Java and Compile");
 			saveButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -679,6 +694,7 @@ public class WorkspaceController {
 			});
 			topPane.add(saveButton);
 		}
+
 
 //		{// create compile button
 //			JButton runButton = new JButton("Compile");
@@ -862,9 +878,8 @@ public class WorkspaceController {
 		return params;
 	}
 
-	public void createAndShowGUIForTesting(final WorkspaceController wc,
-			final String enc) {
-
+	public void createAndShowGUIForTesting(final WorkspaceController wc, final String enc) {
+		this.encoding = enc;
 		// Create and set up the window.
 		frame = new JFrame(createWindowTitle());
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -1037,6 +1052,22 @@ public class WorkspaceController {
 		}
 	}
 
+	public List<Long> checkVariable(){
+		Workspace ws = Workspace.getInstance();
+		List<Long> illegalBlock = new ArrayList<Long>();
+		for(RenderableBlock rb : ws.getBlockCanvas().getBlocks()){
+			if(rb.getBlock() instanceof BlockStub){
+				BlockStub stub = (BlockStub)rb.getBlock();
+				RenderableBlock block = RenderableBlock.getRenderableBlock(stub.getParent().getBlockID());
+				if(block.getParentWidget() == null){
+					illegalBlock.add(stub.getBlockID());
+					rb.getHighlightHandler().setHighlightColor(Color.RED);
+				}
+			}
+		}
+		return illegalBlock;
+	}
+
 	private void convertToJava0(String saveString, String enc) throws Exception {
 
 		if (state == COMPILE_ERROR) {
@@ -1045,8 +1076,21 @@ public class WorkspaceController {
 		if (state == PROJECT_SELECTED) {
 			throw new RuntimeException("論プロエディタで、Javaファイルが選択されていません。");
 		}
-		String xmlFileName = ChangeExtension
-				.changeToXmlExtension(selectedJavaFile);
+
+		List<Long> illegalBlocks = checkVariable();
+
+		if(illegalBlocks.size()>0){
+			String errorBlocksLabel = "";
+			for(Long id : illegalBlocks){
+				errorBlocksLabel +=Block.getBlock(id).getBlockLabel();
+				errorBlocksLabel += ", ";
+			}
+
+			throw new RuntimeException("変数宣言されていない変数を参照しています。" + errorBlocksLabel);
+		}
+
+
+		String xmlFileName = ChangeExtension.changeToXmlExtension(selectedJavaFile);
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
 				new FileOutputStream(xmlFileName),
 				SBlockEditor.ENCODING_BLOCK_XML));
@@ -1133,6 +1177,125 @@ public class WorkspaceController {
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+
+	public JComboBox<String> getInheritanceListBox(){
+		Container cont = frame.getContentPane();
+		JPanel cmp = (JPanel)cont.getComponent(0);
+		return (JComboBox<String>)cmp.getComponent(0);
+	}
+
+	public void changeInheritanceList(){
+		final JComboBox<String> inheritanceList = getInheritanceListBox();
+		String[] projectJavaFiles = getProjectJavaFiles();
+		//リスナーの削除
+		if(inheritanceList.getActionListeners() != null){
+			for(ActionListener listener : inheritanceList.getActionListeners()){
+				inheritanceList.removeActionListener(listener);
+			}
+		}
+
+		//コンボボックスの初期化
+		inheritanceList.removeAllItems();
+
+		inheritanceList.addItem("親クラスの指定");
+		inheritanceList.setSelectedIndex(0);
+
+		for(String item : projectJavaFiles){
+			if(item == null){
+				break;
+			}
+			inheritanceList.addItem(item.substring(0,item.indexOf(".java")));
+		}
+
+		File file = new File(selectedJavaFile);
+		Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
+		String superClassName = openedPage.getSuperClassName();
+
+		if(superClassName == null){
+			superClassName ="";
+		}
+
+		//継承クラスの初期設定
+		for(int i = 0;i<inheritanceList.getItemCount();i++){
+			if(inheritanceList.getItemAt(i).equals(superClassName)){
+				inheritanceList.setSelectedIndex(i);
+			}
+		}
+
+		inheritanceList.removeItem(file.getName().substring(0, file.getName().indexOf(".xml")));
+
+		if(inheritanceList.getSelectedItem() == ""){
+			//該当する親クラスがなかったので、親クラスを登録して初期値に設定
+			inheritanceList.addItem(superClassName);
+			inheritanceList.setSelectedIndex(inheritanceList.getItemCount()-1);
+		}
+		//リスナ登録
+		inheritanceList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//親クラスを書き換える
+				File file = new File(selectedJavaFile);
+				Page openedPage = workspace.getPageNamed(file.getName().substring(0, file.getName().indexOf(".xml")));
+
+				String superClassName;
+				if(inheritanceList.getSelectedItem() == null || inheritanceList.getSelectedIndex() == 0){
+					superClassName = "";
+				}else{
+					superClassName = inheritanceList.getSelectedItem().toString();
+				}
+				openedPage.setSuperClassName(superClassName);
+
+				convertToJava(getSaveString(), encoding);
+
+				//再読み込みする
+				Document doc;
+				Document langDefDoc;
+
+				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder builder;
+
+				try {
+					builder = factory.newDocumentBuilder();
+					doc = builder.parse(file);
+
+					File langdefFile = new File(LANG_DEF_FILEPATH);
+					langDefDoc = builder.parse(langdefFile);
+
+					Element langDefRoot = langDefDoc.getDocumentElement();
+					Element projectRoot = doc.getDocumentElement();
+
+					workspace.getFactoryManager().reset();
+					workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
+					ronproEditor.chengeInheritance();
+				} catch (ParserConfigurationException e1) {
+					e1.printStackTrace();
+				} catch (SAXException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+
+	}
+
+	public String[] getProjectJavaFiles(){
+		if(selectedJavaFile != null){
+			String[] fileList = new File(selectedJavaFile).getParentFile().list();
+			String[] javaFileList = new String[fileList.length];
+
+			int javaFileListIndex = 0;
+			//同一フォルダ内のjavaファイルリストを作成する
+			for(int i=0;i<javaFileList.length;i++){
+				if(fileList[i].endsWith(".java")){
+					javaFileList[javaFileListIndex++] = fileList[i];
+				}
+			}
+
+			return javaFileList;
+		}else{
+			return (new String[20]);
+		}
 	}
 
 }
