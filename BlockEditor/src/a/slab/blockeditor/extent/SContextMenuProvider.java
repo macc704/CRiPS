@@ -448,8 +448,7 @@ public class SContextMenuProvider {
 				|| rb.getBlock().getGenusName().contains("listobject")) {
 
 			for (String key : rb.getMethods().keySet()) {
-				methodMenu.add(createClassMethodsCategory(key + "のメソッド", rb
-						.getMethods().get(key)));
+				methodMenu.add(createClassMethodsCategory(key + "のメソッド", rb.getMethods().get(key)));
 			}
 
 			if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
@@ -722,8 +721,7 @@ public class SContextMenuProvider {
 			});
 			return item;
 		} else {
-			JMenuItem item = new JMenuItem(method.get("returnJavaType").get(0)
-					+ ":" + method.get("name").get(0) + param);
+			JMenuItem item = new JMenuItem("返り値の型:" + method.get("returnJavaType").get(0) + ", メソッド名:" + method.get("name").get(0) + param);
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					createCallMethod(method.get("name").get(0) + paramName);
@@ -757,8 +755,8 @@ public class SContextMenuProvider {
 			});
 			return item;
 		} else {
-			JMenuItem item = new JMenuItem(method.get("returnJavaType").get(0)
-					+ ":" + method.get("name").get(0) + param);
+			JMenuItem item = new JMenuItem("返り値の型:" + method.get("returnJavaType").get(0)
+					+ "," + "メソッド名:" +method.get("name").get(0) + param);
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					createCallElementMethod(method.get("name").get(0)

@@ -125,13 +125,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		createThisModel();
 		createSuperModel();
 		for (String method : addedMethods.keySet()) {
-			methodResolver
-					.addMethodReturnType(method, addedMethods.get(method));
+			methodResolver.addMethodReturnType(method, addedMethods.get(method));
 		}
 
 		for (String method : addedMethodsJavaType.keySet()) {
-			methodResolver.addMethodJavaReturnType(method,
-					addedMethodsJavaType.get(method));
+			methodResolver.addMethodJavaReturnType(method,  addedMethodsJavaType.get(method));
 		}
 
 		for (String name : addedClasses) {
@@ -536,8 +534,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 						.setParameterizedType(parameterizedType.toString());
 			}
 		} else {
-			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
-					.fragments().get(0);
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node.fragments().get(0);
 			String variableType = node.getType().toString();
 			String variableName = fragment.getName().toString();
 
@@ -545,10 +542,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					compilationUnit.getLineNumber(node.getStartPosition()),
 					fragment, isArray, isFinal);
 		}
-		
+
 		model.setJavaVariableType(node.getType().toString());
 		variableResolver.addGlobalVariable(model);
-		
+
 		return model;
 
 	}

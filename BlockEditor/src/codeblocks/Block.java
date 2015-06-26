@@ -264,8 +264,7 @@ public class Block implements ISupportMemento {
 	 *        be linked to stubs
 	 */
 	public Block(String genusName, boolean linkToStubs) {
-		this(genusName, BlockGenus.getGenusWithName(genusName)
-				.getInitialLabel(), linkToStubs);
+		this(genusName, BlockGenus.getGenusWithName(genusName).getInitialLabel(), linkToStubs);
 	}
 
 	/**

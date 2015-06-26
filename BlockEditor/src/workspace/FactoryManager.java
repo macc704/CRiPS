@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import renderable.BlockHIlighter;
 import renderable.FactoryRenderableBlock;
 import renderable.RenderableBlock;
+import renderable.ScopeChecker;
 import codeblocks.Block;
 import codeblocks.BlockStub;
 import codeblockutil.CBorderlessButton;
@@ -788,6 +789,24 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 		WorkspaceWidget oldParent = block.getParentWidget();
 		if (oldParent != null)
 			oldParent.removeBlock(block);
+
+		//変数の場合は、参照ブロックは赤くハイライト
+		if(block.getBlock().isVariableDeclBlock()){
+			for(RenderableBlock rb : Workspace.getInstance().getBlockCanvas().getBlocks()){
+				if(rb.getBlock() instanceof BlockStub){
+					BlockStub stub = (BlockStub)rb.getBlock();
+					if(stub.getParent() != null && stub.getParent().getBlockID().equals(block.getBlock().getBlockID())){
+						RenderableBlock.getRenderableBlock(stub.getBlockID()).getHighlightHandler().setHighlightColor(Color.RED);
+						stub.setParentBlockID(Block.NULL);
+						if(stub.getPlugBlockID() != BlockStub.NULL){
+							RenderableBlock.getTopBlock(ScopeChecker.purcePlugBlock(stub)).getHighlightHandler().setHighlightColor(Color.RED);
+						}else{
+							RenderableBlock.getTopBlock(stub).getHighlightHandler().setHighlightColor(Color.RED);
+						}
+					}
+				}
+			}
+		}
 
 		Container parent = block.getParent();
 		if (parent != null) {
