@@ -433,6 +433,7 @@ public class CHMemberSelectorFrame extends JFrame {
 						System.out.println(openedCHEditors.get(sender)
 								.getFrame().getEditor().getViewer().getScroll()
 								.getVerticalScrollBar().getValue());
+						openedCHEditors.get(sender).doSave();
 					}
 				});
 			}

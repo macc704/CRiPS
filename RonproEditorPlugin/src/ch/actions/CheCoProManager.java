@@ -150,12 +150,18 @@ public class CheCoProManager {
 
 		}
 
+		@SuppressWarnings("restriction")
 		@Override
 		public void postExecuteSuccess(String commandId, Object returnValue) {
 			System.out.println(commandId);
 			if (commandId.endsWith("org.eclipse.ui.file.save")
 					|| commandId.endsWith("org.eclipse.ui.file.refresh")
 					|| commandId.endsWith("org.eclipse.ui.edit.delete")) {
+				if (commandId.endsWith("org.eclipse.ui.file.save")) {
+					sourceChanged(getActivePresEditor().getDoc().get(),
+							getActivePresEditor().getViewer().getTextWidget()
+									.getTopPixel());
+				}
 				conn.write(new CHFilelistResponse(user, CHFileSystem
 						.getEclipseProjectFileList()));
 			} else if (commandId.endsWith("org.eclipse.ui.edit.paste")) {
@@ -189,11 +195,11 @@ public class CheCoProManager {
 
 	private IDocumentListener documentListner = new IDocumentListener() {
 
-		@SuppressWarnings("restriction")
+		// @SuppressWarnings("restriction")
 		@Override
 		public void documentChanged(DocumentEvent event) {
-			sourceChanged(event.getDocument().get(), getActivePresEditor()
-					.getViewer().getTextWidget().getTopPixel());
+			// sourceChanged(event.getDocument().get(), getActivePresEditor()
+			// .getViewer().getTextWidget().getTopPixel());
 		}
 
 		@Override
