@@ -51,10 +51,14 @@ public class CHUserLogWriter {
 		CFile file = getCHDir().findFile(user + LOGFILE);
 		if (file != null) {
 			table = CCSVFileIO.loadAsListList(file);
+			if (file.getNameByString().equals("CHLog.csv") && !user.equals("")) {
+				file.renameTo(user + "_CHLog.csv");
+			}
 		} else {
 			table.add(getHeaderList());
 			saveTableToFile();
 		}
+
 		initRow();
 	}
 
