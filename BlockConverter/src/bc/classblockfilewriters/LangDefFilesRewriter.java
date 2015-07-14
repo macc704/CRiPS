@@ -49,15 +49,12 @@ public class LangDefFilesRewriter {
 		classObjectModel.setSuperClassName(superClassName);
 
 		// // 配列の追加
-		// ObjectBlockModel classObjectArrayModel = new ObjectBlockModel(
-		// "local-var-object-" + fileName + "-arrayobject",
-		// "local-variable", "initname", fileName + "[]" + "型の変数をつくり",
-		// "と名付ける", "230 0 255");
-		// // 定義クラスブロックのプロパティをセットする
-		// classObjectArrayModel.setMethods(methods);
-		// classObjectArrayModel.setClassName(fileName + "[]");
-		// requestObjectBlock.add(classObjectArrayModel);
-		// classObjectArrayModel.setSuperClassName(superClassName);
+		ObjectBlockModel classObjectArrayModel = new ObjectArrayBlockModel("local-var-object-" + fileName + "-arrayobject", "local-variable", "initname", fileName + "[]" + "型の変数をつくり", "と名付ける", "230 0 255");
+		classObjectArrayModel.setSuperClassName(superClassName);
+		// 定義クラスブロックのプロパティをセットする
+		classObjectArrayModel.setMethods(methods);
+		classObjectArrayModel.setClassName(fileName + "[]");
+		requestObjectBlock.add(classObjectArrayModel);
 
 	}
 
