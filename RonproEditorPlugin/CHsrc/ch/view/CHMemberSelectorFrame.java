@@ -2,6 +2,7 @@ package ch.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -163,7 +164,7 @@ public class CHMemberSelectorFrame extends JFrame {
 			} else {
 				conn.write(new CHFilelistRequest(pushed));
 
-				// TODO デフォルトフォントおかしい
+				// TODO デフォルトフォントおかしい（無理やり対処中）
 				REApplication chApplication = application
 						.doOpenNewRE(CH_DIR_PATH + "/" + pushed);
 				openedCHEditors.put(pushed, chApplication);
@@ -182,6 +183,14 @@ public class CHMemberSelectorFrame extends JFrame {
 	private void initCHEMenubar(final REApplication application) {
 
 		JMenuBar menuBar = application.getFrame().getJMenuBar();
+
+		// Fileメニューのsaveとrefresh以外削除
+		for (int i = 14; i >= 0; i--) {
+			if (i != 8 && i != 12) {
+				menuBar.getMenu(0).remove(i);
+			}
+		}
+
 		menuBar.getMenu(2).setEnabled(false);
 		menuBar.getMenu(3).setEnabled(false);
 		menuBar.add(initSyncButton(application));
@@ -371,6 +380,9 @@ public class CHMemberSelectorFrame extends JFrame {
 							.getTextPane().removeKeyListener(keyListner);
 				}
 				if (evt.getPropertyName().equals("documentOpened")) {
+					// フォント無理やり
+					application.getFrame().getEditor().getViewer()
+							.changeFont(new Font("Osaka-Mono", Font.PLAIN, 12));
 					addCHKeyListner(application);
 					application.getFrame().getEditor().getViewer()
 							.getTextPane()
