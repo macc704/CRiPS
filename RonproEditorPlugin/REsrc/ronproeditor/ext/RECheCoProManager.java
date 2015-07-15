@@ -154,11 +154,11 @@ public class RECheCoProManager {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				conn.write(new CHSourceChanged(user, application.getFrame()
-						.getEditor().getViewer().getText(), application
-						.getSourceManager().getCurrentFile().getName(),
-						application.getFrame().getEditor().getViewer()
-								.getScroll().getVerticalScrollBar().getValue()));
+				// conn.write(new CHSourceChanged(user, application.getFrame()
+				// .getEditor().getViewer().getText(), application
+				// .getSourceManager().getCurrentFile().getName(),
+				// application.getFrame().getEditor().getViewer()
+				// .getScroll().getVerticalScrollBar().getValue()));
 				if (e.getKeyCode() == KeyEvent.VK_S) {
 					if ((mod & CTRL_MASK) != 0) {
 						processFilelistRequest(new CHFilelistRequest(user));

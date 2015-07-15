@@ -1,6 +1,7 @@
 package ch.actions;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -153,7 +154,7 @@ public class CheCoProManager {
 		@SuppressWarnings("restriction")
 		@Override
 		public void postExecuteSuccess(String commandId, Object returnValue) {
-			System.out.println(commandId);
+			// System.out.println(commandId);
 			if (commandId.endsWith("org.eclipse.ui.file.save")
 					|| commandId.endsWith("org.eclipse.ui.file.refresh")
 					|| commandId.endsWith("org.eclipse.ui.edit.delete")) {
@@ -425,7 +426,7 @@ public class CheCoProManager {
 		if (memberSelector.cheackCHEditor(responce.getUser(),
 				responce.getCurrentFileName())) {
 			memberSelector.showSource(responce.getUser(), responce.getSource(),
-					responce.getTopPixel());
+					responce.getPoint().y);
 		}
 	}
 
@@ -509,7 +510,7 @@ public class CheCoProManager {
 
 	private void sourceChanged(String source, int topPixel) {
 		conn.write(new CHSourceChanged(user, source, getCurrentFileName(),
-				topPixel));
+				new Point(0, topPixel)));
 	}
 
 	public CHConnection getConn() {

@@ -1,5 +1,6 @@
 package ch.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
@@ -101,23 +104,47 @@ public class CHMemberSelectorFrame extends JFrame {
 	public void setMembers(List<CHUserState> userStates) {
 
 		this.getContentPane().removeAll();
-		JPanel buttonPanel = new JPanel();
-		this.getContentPane().add(buttonPanel);
+		List<JPanel> panels = new ArrayList<JPanel>();
+		JPanel basePanel = new JPanel();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+
+		this.getContentPane().add(basePanel);
 
 		for (final CHUserState aUserState : userStates) {
+
+			JPanel panel = new JPanel();
+
 			JButton button = new JButton(aUserState.getUser());
 			button.setBackground(aUserState.getColor());
 
-			buttonPanel.add(button);
+			JLabel lastLoginTime = new JLabel("online");
+			lastLoginTime.setForeground(Color.GREEN);
+
+			panel.setLayout(new BorderLayout());
+			panel.add(button, BorderLayout.NORTH);
+			panel.add(lastLoginTime, BorderLayout.CENTER);
+			panels.add(panel);
 
 			if (!aUserState.isLogin()) {
 				button.setForeground(Color.RED);
+				if (aUserState.getLastLogin() != null) {
+					lastLoginTime.setText(formatter.format(aUserState
+							.getLastLogin()));
+				} else {
+					lastLoginTime.setText("offline");
+				}
+				lastLoginTime.setForeground(Color.RED);
 			}
 
 			button.addActionListener(buttonAction);
 
 			buttons.add(button);
 		}
+
+		for (JPanel aPanel : panels) {
+			basePanel.add(aPanel);
+		}
+
 		this.getContentPane().validate();
 
 	}
@@ -426,13 +453,13 @@ public class CHMemberSelectorFrame extends JFrame {
 					@Override
 					public void run() {
 
-						System.out.println(topPixel);
+						// System.out.println(topPixel);
 						openedCHEditors.get(sender).getFrame().getEditor()
 								.getViewer().getScroll().getVerticalScrollBar()
 								.setValue(topPixel);
-						System.out.println(openedCHEditors.get(sender)
-								.getFrame().getEditor().getViewer().getScroll()
-								.getVerticalScrollBar().getValue());
+						// System.out.println(openedCHEditors.get(sender)
+						// .getFrame().getEditor().getViewer().getScroll()
+						// .getVerticalScrollBar().getValue());
 						openedCHEditors.get(sender).doSave();
 					}
 				});
@@ -508,12 +535,12 @@ public class CHMemberSelectorFrame extends JFrame {
 	public static void main(String[] args) {
 		CHMemberSelectorFrame frame = new CHMemberSelectorFrame("name");
 		List<CHUserState> userStates = new ArrayList<CHUserState>();
-		userStates.add(new CHUserState("user1", true, Color.CYAN));
-		userStates.add(new CHUserState("name", true, Color.LIGHT_GRAY));
-		userStates.add(new CHUserState("user2", false, Color.MAGENTA));
+		// userStates.add(new CHUserState("user1", true, Color.CYAN));
+		// userStates.add(new CHUserState("name", true, Color.LIGHT_GRAY));
+		// userStates.add(new CHUserState("user2", false, Color.MAGENTA));
 		frame.open();
 		frame.setMembers(userStates);
-		userStates.add(new CHUserState("user3", true, Color.YELLOW));
+		// userStates.add(new CHUserState("user3", true, Color.YELLOW));
 		frame.setMembers(userStates);
 
 	}
