@@ -191,7 +191,7 @@ public class CHMemberSelectorFrame extends JFrame {
 			}
 		}
 
-		menuBar.getMenu(2).setEnabled(false);
+		// menuBar.getMenu(2).setEnabled(false);
 		menuBar.getMenu(3).setEnabled(false);
 		menuBar.add(initSyncButton(application));
 		menuBar.add(initPullButton(application));

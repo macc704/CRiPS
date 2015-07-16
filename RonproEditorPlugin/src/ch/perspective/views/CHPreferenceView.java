@@ -216,6 +216,9 @@ public class CHPreferenceView extends ViewPart {
 			connectButton.setText("Logout");
 		} else {
 			connectButton.setText("Login");
+			userNameArea.setEditable(true);
+			passArea.setEditable(true);
+			groupNumArea.setEnabled(true);
 		}
 	}
 
