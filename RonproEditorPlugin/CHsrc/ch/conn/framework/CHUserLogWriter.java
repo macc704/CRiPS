@@ -27,6 +27,7 @@ public class CHUserLogWriter {
 	public static final String PULL_ALL = "PULL_ALL";
 	public static final String PULL_JAVA = "PULL_JAVA";
 	public static final String PULL_MATERIAL = "PULL_MATERIAL";
+	public static final String PULL_CURRENT_FILE = "PULL_CURRENT_FILE";
 	public static final String COPY = "COPY";
 	public static final String PASTE = "PASTE";
 	public static final String OPEN_CHEDITOR = "open cheditor";
@@ -174,9 +175,10 @@ public class CHUserLogWriter {
 		saveTableToFile();
 	}
 
-	public void pull(String user, String type) {
+	public void pull(String user, String type, String fileName) {
 		writeCommand(type);
 		writeFrom(user);
+		writeCode(fileName);
 		addRowToTable();
 		saveTableToFile();
 	}
@@ -202,9 +204,9 @@ public class CHUserLogWriter {
 		CHUserLogWriter log = new CHUserLogWriter("hoge");
 		log.eclipseOpen();
 		log.login();
-		log.pull("fuge", PULL_JAVA);
-		log.pull("abc", PULL_ALL);
-		log.pull("fda", PULL_MATERIAL);
+		log.pull("fuge", PULL_JAVA, "");
+		log.pull("abc", PULL_ALL, "");
+		log.pull("fda", PULL_MATERIAL, "");
 		log.logout();
 		log.eclipseClose();
 	}

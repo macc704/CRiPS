@@ -37,6 +37,7 @@ import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.library.CHFileSystem;
 import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileFilter;
 import clib.common.filesystem.CFileSystem;
 
@@ -274,19 +275,37 @@ public class CHMemberSelectorFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CHPullDialog pullDialog = new CHPullDialog(openedUsers
-						.get(application));
+				CHPullDialog pullDialog;
+				if (application.getSourceManager().getCurrentFile() != null) {
+					pullDialog = new CHPullDialog(openedUsers.get(application),
+							true);
+				} else {
+					pullDialog = new CHPullDialog(openedUsers.get(application),
+							false);
+				}
 				pullDialog.open();
 
 				boolean java = pullDialog.isJavaChecked();
-				boolean material = pullDialog.isMaterialCecked();
+				boolean material = pullDialog.isMaterialChecked();
+				boolean current = pullDialog.isCurrentChecked();
 				if (material) {
 					doPull(openedUsers.get(application),
 							makeCFileFilter(java, material));
-					writePullLog(java, material, openedUsers.get(application));
+					writePullLog(java, material, current,
+							openedUsers.get(application), "");
 				} else if (java && !material) {
 					doPullForJava(openedUsers.get(application), CHFileSystem
 							.getEclipseMemberDir(openedUsers.get(application)));
+					writePullLog(java, material, current,
+							openedUsers.get(application), "");
+				} else if (current) {
+					doPullForCurrent(openedUsers.get(application), CHFileSystem
+							.getEclipseMemberDir(openedUsers.get(application)),
+							application.getSourceManager().getCCurrentFile());
+					writePullLog(java, material, current,
+							openedUsers.get(application), application
+									.getSourceManager().getCurrentFile()
+									.getName());
 				}
 			}
 		});
@@ -294,13 +313,18 @@ public class CHMemberSelectorFrame extends JFrame {
 		return pullButton;
 	}
 
-	private void writePullLog(boolean java, boolean material, String user) {
+	private void writePullLog(boolean java, boolean material, boolean current,
+			String user, String fileName) {
 		if (java && material) {
-			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_ALL);
+			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_ALL, "");
 		} else if (java && !material) {
-			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_JAVA);
+			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_JAVA, "");
 		} else if (!java && material) {
-			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_MATERIAL);
+			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_MATERIAL,
+					"");
+		} else if (current) {
+			CheCoProManager.getLog().pull(user,
+					CHUserLogWriter.PULL_CURRENT_FILE, fileName);
 		}
 	}
 
@@ -331,6 +355,22 @@ public class CHMemberSelectorFrame extends JFrame {
 				.findOrCreateDirectory(toPath);
 		CHFileSystem.pull(dir, toDir,
 				CFileFilter.ACCEPT_BY_EXTENSION_FILTER("java"));
+	}
+
+	private void doPullForCurrent(String user, CDirectory dir, CFile file) {
+		List<CDirectory> children = dir.getDirectoryChildren(CFileFilter
+				.IGNORE_BY_NAME_FILTER(".*"));
+		if (!children.isEmpty()) {
+			for (CDirectory childe : children) {
+				doPullForCurrent(user, childe, file);
+			}
+		}
+		String toPath = CHFileSystem.PROJECTPATH + "/"
+				+ dir.getRelativePath(CHFileSystem.getEclipseMemberDir(user));
+		CDirectory toDir = CFileSystem.getExecuteDirectory()
+				.findOrCreateDirectory(toPath);
+		CHFileSystem.pull(dir, toDir,
+				CFileFilter.ACCEPT_BY_NAME_FILTER(file.getNameByString()));
 	}
 
 	private void doPull(String user, CFileFilter filter) {

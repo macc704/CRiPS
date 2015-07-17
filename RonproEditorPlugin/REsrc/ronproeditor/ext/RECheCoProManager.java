@@ -378,9 +378,9 @@ public class RECheCoProManager {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CHPullDialog pullDialog = new CHPullDialog(user);
+				CHPullDialog pullDialog = new CHPullDialog(user, false);
 				boolean java = pullDialog.isJavaChecked();
-				boolean material = pullDialog.isMaterialCecked();
+				boolean material = pullDialog.isMaterialChecked();
 				if (java || material) {
 					doPull(user, createCFileFilter(java, material));
 				}
