@@ -36,7 +36,7 @@ public class CHPullDialog extends JDialog implements ActionListener {
 		this.setTitle("PULL(取り込み)");
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setModal(true);
-		this.setBounds(100, 100, 300, 200);
+		this.setBounds(100, 100, 350, 200);
 		this.setResizable(false);
 
 		JLabel label = new JLabel(user + "さんのプロジェクトをfinalに取り込みます．");
@@ -145,7 +145,7 @@ public class CHPullDialog extends JDialog implements ActionListener {
 	}
 
 	public static void main(String[] args) {
-		new CHPullDialog("user", true).open();
+		new CHPullDialog("70002222", true).open();
 	}
 
 }
