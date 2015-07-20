@@ -46,16 +46,16 @@ public class PublicMethodCommandWriter extends BasicModel {
 
 			for (int i = 0; i < method.getParameters().size(); i++) {
 				String parameter = method.getParameters().get(i);
-				String paramType = method.getParameterJavaTypes().get(i);
+//				String paramType = method.getParameterJavaTypes().get(i);
 				// xxのような型＋変数名の形で保持されていることに注意
 				String parameterType = convertParameterType(parameter.substring(0, parameter.indexOf(" ")));
 				String parameterName = parameter.substring(parameter.substring(0, parameter.indexOf(" ")).length() + 1, parameter.length());
 				makeIndent(out, lineNum);
-				if("object".equals(parameterType)){
-					out.println("<BlockConnector label=\"" + parameterName + "(" + paramType + "型)"+ "\" connector-kind=\"socket\" connector-type=\"" + parameterType + "\" connector-javatype=\"" + parameter.substring(0, parameter.indexOf(" ")) + "\">");
-				}else{
+//				if("object".equals(parameterType)){
+//					out.println("<BlockConnector label=\"" + parameterName + "(" + paramType + "型)"+ "\" connector-kind=\"socket\" connector-type=\"" + parameterType + "\" connector-javatype=\"" + parameter.substring(0, parameter.indexOf(" ")) + "\">");
+//				}else{
 					out.println("<BlockConnector label=\"" + parameterName +  "\" connector-kind=\"socket\" connector-type=\"" + parameterType + "\" connector-javatype=\"" + parameter.substring(0, parameter.indexOf(" ")) + "\">");
-				}
+//				}
 
 				makeIndent(out, lineNum);
 				out.println("</BlockConnector>");

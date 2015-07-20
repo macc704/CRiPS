@@ -35,16 +35,13 @@ public class PrivateVariableBlockModel extends VariableBlockModel {
 		if (getName().contains("listobject")) {
 			makeIndent(out, indent);
 			ArrayList<Integer> connectorIDs = getConnectorIDs();
-			BlockModel newDecl = BlockToJavaAnalyzer.getBlock(connectorIDs
-					.get(0));
+			BlockModel newDecl = BlockToJavaAnalyzer.getBlock(connectorIDs.get(0));
 			// newキーワード変換
 			if (newDecl != null) {
 				ArrayList<Integer> newDeclConnectorIDs = newDecl
 						.getConnectorIDs();
-				BlockModel typeDecl = BlockToJavaAnalyzer
-						.getBlock(newDeclConnectorIDs.get(0));
-				out.print("private " + getType() + "<" + typeDecl.getLabel()
-						+ "> " + getLabel());
+				BlockModel typeDecl = BlockToJavaAnalyzer.getBlock(newDeclConnectorIDs.get(0));
+				out.print("private " + getType() + "<" + typeDecl.getLabel()+ "> " + getLabel());
 			} else {
 				out.print("private " + getType() + "<");
 				ArrayList<String> parameterizedTypes = getParameterizedType();
@@ -65,8 +62,7 @@ public class PrivateVariableBlockModel extends VariableBlockModel {
 							.print(out, indent);
 				}
 			}
-			out.println(";" + "//" + getComment() + "@(" + getX() + ", "
-					+ getY() + ")");
+			out.println(";" + "//" + getComment() + "@(" + getX() + ", " + getY() + ")");
 			if (getAfterID() != BlockModel.NULL) {
 				BlockToJavaAnalyzer.getBlock(getAfterID()).print(out, indent);
 			}

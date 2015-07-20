@@ -17,7 +17,6 @@ public class LangDefFileCopier implements Copier {
 	private BufferedReader br;
 
 	public void print(File file) {
-		// TODO Auto-generated method stub
 		try {
 			FileInputStream ldfReader = new FileInputStream(
 					System.getProperty("user.dir") + "/ext/block/lang_def_turtle.xml");
@@ -39,11 +38,10 @@ public class LangDefFileCopier implements Copier {
 					turtlePs.println(line);
 				}
 			}
-			
+
 			String ldfString = turtleByteArray.toString();
 
-			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile()
-					.getPath() + "/lang_def_project.xml");
+			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile().getPath() + "/lang_def_project.xml");
 
 			OutputStreamWriter ldfFOS = new OutputStreamWriter(ldfOS, "SJIS");
 			BufferedWriter ldfWriter = new BufferedWriter(ldfFOS);

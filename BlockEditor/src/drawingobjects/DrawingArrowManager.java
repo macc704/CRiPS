@@ -109,21 +109,12 @@ public class DrawingArrowManager implements WorkspaceListener {
 			RenderableBlock sourceBlock = RenderableBlock
 					.getRenderableBlock(event.getSourceBlockID());
 
-			if (sourceBlock.getBlock().getGenusName().equals("callerprocedure")
-					&& !(sourceBlock instanceof FactoryRenderableBlock)) {
-				RenderableBlock calleeBlock = RenderableBlock
-						.getRenderableBlock(((BlockStub) sourceBlock.getBlock())
-								.getParent().getBlockID());
+			if (sourceBlock.getBlock().getGenusName().equals("callerprocedure")&& !(sourceBlock instanceof FactoryRenderableBlock)) {
+				RenderableBlock calleeBlock = RenderableBlock.getRenderableBlock(((BlockStub) sourceBlock.getBlock()).getParent().getBlockID());
 
-				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock,
-						sourceBlock.isVisible(), isActive());
+				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock,sourceBlock.isVisible(), isActive());
 				arrows.put(sourceBlock.getBlockID(), arrow);
-				Workspace
-						.getInstance()
-						.getPageNamed(
-								Workspace.getInstance()
-										.getWorkSpaceController()
-										.calcClassName()).addArrow(arrow);
+				Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).addArrow(arrow);
 				changeColor(sourceBlock.getBlock());
 			}
 		}
@@ -149,13 +140,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 				for (long stubID : BlockStub.getStubsOfParent(sourceBlock
 						.getBlockID())) {
 					if (hasArrow(stubID)) {
-						Workspace
-								.getInstance()
-								.getPageNamed(
-										Workspace.getInstance()
-												.getWorkSpaceController()
-												.calcClassName())
-								.removeArrow(arrows.get(stubID));
+						Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).removeArrow(arrows.get(stubID));
 						arrows.remove(stubID);
 					}
 				}

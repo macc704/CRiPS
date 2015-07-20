@@ -5,10 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 public class MethodAnalyzer extends ASTVisitor {
 
@@ -16,6 +18,7 @@ public class MethodAnalyzer extends ASTVisitor {
 	private String superClassName = "Object";
 	private List<String> interfacesNames = new LinkedList<String>();
 	private List<String> classes = new LinkedList<String>();
+	private List<ClassVariable> instanceVariables = new ArrayList<ClassVariable>();
 
 	public String getSuperClassName() {
 		return this.superClassName;
@@ -29,6 +32,10 @@ public class MethodAnalyzer extends ASTVisitor {
 		return this.classes;
 	}
 
+	public List<ClassVariable> getinstanceVariables(){
+		return this.instanceVariables;
+	}
+
 	public boolean visit(TypeDeclaration node) {
 		classes.add(node.getName().toString());
 		if (node.getSuperclassType() != null) {
@@ -38,14 +45,34 @@ public class MethodAnalyzer extends ASTVisitor {
 			}
 		}
 
+		parseFieldVariable(node.getFields());
+
 		return super.visit(node);
 	}
+
+	public void parseFieldVariable(FieldDeclaration[] fields){
+		for(FieldDeclaration field : fields){
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) field.fragments().get(0);
+			String variableType = field.getType().toString();
+			String variableName = fragment.getName().toString();
+			List<String> modifers = new ArrayList<String>();
+			for (Object modifer : field.modifiers()) {
+				modifers.add(modifer.toString());
+			}
+
+			ClassVariable instancevariable = new ClassVariable(variableType, variableName, modifers);
+			instanceVariables.add(instancevariable);
+		}
+	}
+
+
 
 	public boolean visit(MethodDeclaration node) {
 
 		// publicメソッドをmethodsに登録する
 		if (!node.getName().toString().equals("main") && !(node.getModifiers() == Modifier.PRIVATE)) {
 			// メソッドのモデルに情報を登録する
+
 			PublicMethodInfo model = new PublicMethodInfo();
 			// メソッド名をセットする
 			setMethodName(model, node);
@@ -120,3 +147,4 @@ public class MethodAnalyzer extends ASTVisitor {
 		methods.add(method);
 	}
 }
+

@@ -69,8 +69,8 @@ public class BlockEditorManager {
 		openBlockEditor(window);
 	}
 
-	public void openBlockEditor(IWorkbenchWindow window){
-		if(isWorkspaceOpened()){
+	public void openBlockEditor(IWorkbenchWindow window) {
+		if (isWorkspaceOpened()) {
 			CFrameUtils.toFront(blockEditor.getFrame());
 			return;
 		}
@@ -81,12 +81,9 @@ public class BlockEditorManager {
 		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
 		blockEditor.loadFreshWorkspace();
 		BlockEditorManager.window = window;
-		window.getActivePage().getActiveEditor().getEditorSite()
-				.getWorkbenchWindow().getPartService()
-				.addPartListener(partListener);
+		window.getActivePage().getActiveEditor().getEditorSite().getWorkbenchWindow().getPartService().addPartListener(partListener);
 		// エディタのテキストが保存されたら再読み込み
-		ICommandService service = (ICommandService) Activator.getDefault()
-				.getWorkbench().getService(ICommandService.class);
+		ICommandService service = (ICommandService) Activator.getDefault().getWorkbench().getService(ICommandService.class);
 		service.addExecutionListener(saveListener);
 		// タブの切り替えのリスナー登録
 		SwingUtilities.invokeLater(new Runnable() {
@@ -127,8 +124,7 @@ public class BlockEditorManager {
 
 		}
 
-		public void postExecuteFailure(String commandId,
-				org.eclipse.core.commands.ExecutionException exception) {
+		public void postExecuteFailure(String commandId, org.eclipse.core.commands.ExecutionException exception) {
 			// TODO Auto-generated method stub
 
 		}
@@ -170,8 +166,7 @@ public class BlockEditorManager {
 			public void blockConverted(File file) {
 				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
 				Display.getDefault().asyncExec(new TextFormatAction(window));
-				Display.getDefault().asyncExec(
-						new OrganizedImportAction(window));
+				Display.getDefault().asyncExec(new OrganizedImportAction(window));
 
 				// app.doRefreshCurrentEditor();
 				// app.doFormat();
@@ -189,24 +184,21 @@ public class BlockEditorManager {
 				// app.doDebugRun();
 			}
 
-			public void chengeInheritance(){
+			public void chengeInheritance() {
 				writeBlockEditingLog(BlockEditorLog.SubType.INHERITANCE_CHANGED);
 			}
 
 			public void blockRun() {
 
 				// エディタで開いているファイルを獲得する
-				IFileEditorInput fileEditorInput = (IFileEditorInput) window
-						.getActivePage().getActiveEditor().getEditorInput();
+				IFileEditorInput fileEditorInput = (IFileEditorInput) window.getActivePage().getActiveEditor().getEditorInput();
 				IFile file = fileEditorInput.getFile();
 				// Ruする
 
 				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
 
-				IEditorInput editorInput = window.getActivePage()
-						.getActiveEditor().getEditorInput();
-				ITypeRoot root = (ITypeRoot) JavaUI
-						.getEditorInputJavaElement(editorInput);
+				IEditorInput editorInput = window.getActivePage().getActiveEditor().getEditorInput();
+				ITypeRoot root = (ITypeRoot) JavaUI.getEditorInputJavaElement(editorInput);
 
 				IJavaElement elt;
 
@@ -218,29 +210,20 @@ public class BlockEditorManager {
 					DebugPlugin plugin = DebugPlugin.getDefault();
 					ILaunchManager lm = plugin.getLaunchManager();
 
-					ILaunchConfigurationType configType = lm
-							.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
+					ILaunchConfigurationType configType = lm.getLaunchConfigurationType(IJavaLaunchConfigurationConstants.ID_JAVA_APPLICATION);
 
 					wc = configType.newInstance(null, Activator.PLUGIN_ID);
 
 					// プログラム実行時の設定を記述する
-					wc.setAttribute(
-							IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME,
-							proj.getElementName());
+					wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_PROJECT_NAME, proj.getElementName());
 
 					// パッケージ名取得
 
-					wc.setAttribute(
-							IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME,
-							getPackageName(file)
-									+ file.getName().substring(0,
-											file.getName().indexOf(".")));
+					wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_MAIN_TYPE_NAME, getPackageName(file) + file.getName().substring(0, file.getName().indexOf(".")));
 
-					wc.setAttribute(
-							IJavaLaunchConfigurationConstants.ATTR_ALLOW_TERMINATE,
-							true);
+					wc.setAttribute(IJavaLaunchConfigurationConstants.ATTR_ALLOW_TERMINATE, true);
 
-					//wc.setAttribute(IJavaLaunchConfigurationConstants.);
+					// wc.setAttribute(IJavaLaunchConfigurationConstants.);
 
 					//
 					// IResource bin = null;
@@ -261,7 +244,7 @@ public class BlockEditorManager {
 					// }
 					// }
 					//
-					//wc.setMappedResources(null);
+					// wc.setMappedResources(null);
 					// // binフォルダ一覧表示
 					// for (IResource resource : binFile.members()) {
 					// System.out.println("file:" + resource.toString());
@@ -297,40 +280,34 @@ public class BlockEditorManager {
 			}
 
 		}, ENCODING);
-		blockEditor.getFrame().addWindowFocusListener(
-				new WindowFocusListener() {
-					public void windowLostFocus(WindowEvent e) {
-						writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
-					}
+		blockEditor.getFrame().addWindowFocusListener(new WindowFocusListener() {
+			public void windowLostFocus(WindowEvent e) {
+				writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
+			}
 
-					public void windowGainedFocus(WindowEvent e) {
-						writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
-					}
-				});
+			public void windowGainedFocus(WindowEvent e) {
+				writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
+			}
+		});
 		writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
-		blockEditor.getFrame().addWindowStateListener(
-				new WindowStateListener() {
-					public void windowStateChanged(WindowEvent e) {
-						if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
-							writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
-							ICommandService service = (ICommandService) Activator
-									.getDefault().getWorkbench()
-									.getService(ICommandService.class);
-							service.removeExecutionListener(saveListener);
-						} else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
-							// do nothing
-						}
-					}
-				});
+		blockEditor.getFrame().addWindowStateListener(new WindowStateListener() {
+			public void windowStateChanged(WindowEvent e) {
+				if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
+					writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
+					ICommandService service = (ICommandService) Activator.getDefault().getWorkbench().getService(ICommandService.class);
+					service.removeExecutionListener(saveListener);
+				} else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
+					// do nothing
+				}
+			}
+		});
 		doCompileBlock();
 	}
 
 	private String getPackageName(IFile file) {
 		String parentFolderName = file.getParent().getName();
-		IEditorInput editorInput = window.getActivePage().getActiveEditor()
-				.getEditorInput();
-		ITypeRoot root = (ITypeRoot) JavaUI
-				.getEditorInputJavaElement(editorInput);
+		IEditorInput editorInput = window.getActivePage().getActiveEditor().getEditorInput();
+		ITypeRoot root = (ITypeRoot) JavaUI.getEditorInputJavaElement(editorInput);
 		try {
 			IJavaElement element = root.getElementAt(ITypeRoot.JAVA_PROJECT);
 			IJavaProject project = element.getJavaProject();
@@ -351,8 +328,7 @@ public class BlockEditorManager {
 	}
 
 	private boolean isWorkspaceOpened() {
-		return blockEditor != null && blockEditor.getFrame() != null
-				&& blockEditor.getFrame().isVisible();
+		return blockEditor != null && blockEditor.getFrame() != null && blockEditor.getFrame().isVisible();
 	}
 
 	public void setWindow(IWorkbenchWindow window) {
@@ -361,15 +337,13 @@ public class BlockEditorManager {
 
 	public void doCompileBlock() throws CoreException {
 		IEditorPart editorPart = window.getActivePage().getActiveEditor();
-		final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart
-				.getEditorInput();
+		final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart.getEditorInput();
 		IFile file = fileEditorInput.getFile();
 		final File target = file.getLocation().toFile();
 
 		IResource resource = file;
 
-		int max = resource.findMaxProblemSeverity(IMarker.PROBLEM, true,
-				IResource.DEPTH_INFINITE);
+		int max = resource.findMaxProblemSeverity(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
 		if (max != 2) {
 			man.addTask(new ICTask() {
 
@@ -439,15 +413,12 @@ public class BlockEditorManager {
 					String[] libs = { "lib/blib.jar" };
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 					// File javaFile = app.getSourceManager().getCurrentFile();
-					String xmlFilePath = new JavaToBlockMain().run(javaFile,
-							"SJIS", libs);
+					String xmlFilePath = new JavaToBlockMain().run(javaFile, "SJIS", libs);
 
-					blockEditor.setLangDefFilePath(javaFile.getParentFile()
-							.getPath() + "/lang_def_project.xml");
+					blockEditor.setLangDefFilePath(javaFile.getParentFile().getPath() + "/lang_def_project.xml");
 
 					blockEditor.resetWorkspace();
-					blockEditor.loadProjectFromPath(new File(xmlFilePath)
-							.getPath());
+					blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -486,45 +457,35 @@ public class BlockEditorManager {
 
 	private String emptyBEWorkSpacePrint() {
 		StringBuffer blockEditorFile = new StringBuffer();
-		blockEditorFile.append("<?xml version=\"1.0\" encoding=\""
-				+ BlockConverter.ENCODING_BLOCK_XML + "\"?>");
+		blockEditorFile.append("<?xml version=\"1.0\" encoding=\"" + BlockConverter.ENCODING_BLOCK_XML + "\"?>");
 		blockEditorFile.append("<CODEBLOCKS><Pages>");
-		blockEditorFile.append("<Page page-name=\"BlockEditor\""
-				+ " page-color=\" 40 40 40\" page-width=\"4000\""
-				+ " page-infullview=\"yes\" page-drawer=\"NewClass\">");
-		blockEditorFile
-				.append("<PageBlocks></PageBlocks></Page></Pages></CODEBLOCKS>");
+		blockEditorFile.append("<Page page-name=\"BlockEditor\"" + " page-color=\" 40 40 40\" page-width=\"4000\"" + " page-infullview=\"yes\" page-drawer=\"NewClass\">");
+		blockEditorFile.append("<PageBlocks></PageBlocks></Page></Pages></CODEBLOCKS>");
 		return blockEditorFile.toString();
 	}
 
 	private String emptyBEFactoryPrint() {
 		StringBuffer blockEditorFile = new StringBuffer();
-		blockEditorFile.append("<?xml version=\"1.0\" encoding=\""
-				+ BlockConverter.ENCODING_BLOCK_XML + "\"?>");
+		blockEditorFile.append("<?xml version=\"1.0\" encoding=\"" + BlockConverter.ENCODING_BLOCK_XML + "\"?>");
 		blockEditorFile.append("<BlockLangDef>");
 		blockEditorFile.append("<Pages drawer-with-page=\"yes\">");
-		blockEditorFile
-				.append("<Page page-name=\"BlockEditor\" page-width=\"400\"></Page>");
+		blockEditorFile.append("<Page page-name=\"BlockEditor\" page-width=\"400\"></Page>");
 		blockEditorFile.append("</Pages>");
 		blockEditorFile.append("</BlockLangDef>");
 		return blockEditorFile.toString();
 	}
 
-	private void writeBlockEditingLog(BlockEditorLog.SubType subType,
-			String... texts) {
+	private void writeBlockEditingLog(BlockEditorLog.SubType subType, String... texts) {
 		try {
 			// if (!app.getSourceManager().hasCurrentFile()) {
 			// return;
 			// }
 
 			IEditorPart editorPart = window.getActivePage().getActiveEditor();
-			final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart
-					.getEditorInput();
+			final IFileEditorInput fileEditorInput = (IFileEditorInput) editorPart.getEditorInput();
 			IFile file = fileEditorInput.getFile();
-			CFile target = (CFile) CFileSystem.convertToCFile(file
-					.getLocation().toFile());
-			CDirectory project = new CDirectory(new CPath(file.getProject()
-					.getProject().getLocation().toFile()));
+			CFile target = (CFile) CFileSystem.convertToCFile(file.getLocation().toFile());
+			CDirectory project = new CDirectory(new CPath(file.getProject().getProject().getLocation().toFile()));
 
 			CPath path = target.getRelativePath(project);
 
@@ -537,8 +498,7 @@ public class BlockEditorManager {
 	}
 
 	private void writePresLog(PRLog log, IFile file) {
-		PresPlugin.getDefault().getPres().getManager()
-				.getRecordingProject(file).record(log);
+		PresPlugin.getDefault().getPres().getManager().getRecordingProject(file).record(log);
 	}
 }
 
@@ -548,7 +508,7 @@ class BlockEditorLog extends PRFileLog {
 	};
 
 	public static enum SubType implements PRLogSubType {
-		ANY, BLOCK_TO_JAVA, BLOCK_TO_JAVA_ERROR, JAVA_TO_BLOCK, JAVA_TO_BLOCK_ERROR, COMPILE, RUN, DEBUGRUN, OPENED, CLOSEED, FOCUS_GAINED, FOCUS_LOST, LOADING_START, LOADING_END,INHERITANCE_CHANGED, TOGGLE_TRACELINES
+		ANY, BLOCK_TO_JAVA, BLOCK_TO_JAVA_ERROR, JAVA_TO_BLOCK, JAVA_TO_BLOCK_ERROR, COMPILE, RUN, DEBUGRUN, OPENED, CLOSEED, FOCUS_GAINED, FOCUS_LOST, LOADING_START, LOADING_END, INHERITANCE_CHANGED, TOGGLE_TRACELINES
 	};
 
 	/**

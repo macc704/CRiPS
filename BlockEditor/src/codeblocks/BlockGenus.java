@@ -1148,7 +1148,6 @@ public class BlockGenus {
 		Matcher nameMatcher;
 		Node prop;
 		//		String methodDecralation;
-		List<Map<String, List<String>>> methodList = new ArrayList<Map<String, List<String>>>();
 
 		String className = "";
 
@@ -1157,6 +1156,7 @@ public class BlockGenus {
 			Node parent = classMethods.item(i);
 
 			if (parent.getNodeName().equals("ClassName")) {
+				List<Map<String, List<String>>> methodList = new ArrayList<Map<String, List<String>>>();
 				nameMatcher = attrExtractor.matcher(parent.getAttributes()
 						.getNamedItem("name").toString());
 

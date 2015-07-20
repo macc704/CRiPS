@@ -23,7 +23,7 @@ public class ScopeChecker {
 				beforeBlock = purcePlugBlock(beforeBlock);
 				originBlock = beforeBlock;
 			}
-			
+
 			//離れ小島のブロックの場合はtrueを返す
 			if (isIndependentBlock(beforeBlock)) {
 				return true;
@@ -52,7 +52,7 @@ public class ScopeChecker {
 					compareBlockName)) {
 				return true;
 			}
-		
+
 			RenderableBlock.getRenderableBlock(cmpBlock.getBlockID())
 					.setBlockHighlightColor(Color.RED);
 
@@ -62,7 +62,7 @@ public class ScopeChecker {
 		}
 	}
 
-	private static Block purcePlugBlock(Block block) {
+	public static Block purcePlugBlock(Block block) {
 
 		while (Block.getBlock(block.getPlugBlockID()) != null) {
 			block = Block.getBlock(block.getPlugBlockID());
@@ -133,8 +133,8 @@ public class ScopeChecker {
 				cmpBlock = Block.getBlock(cmpBlock.getPlugBlockID());
 			}
 		}
-		
-		
+
+
 		Block lastBlock = null;
 		//持ってるブロックから前のブロックをすべてチェックする
 		while (cmpBlock != null) {
@@ -156,7 +156,7 @@ public class ScopeChecker {
 			lastBlock = cmpBlock;
 			cmpBlock = Block.getBlock(cmpBlock.getBeforeBlockID());
 		}
-		
+
 		//結合先のブロック郡をチェック
 		cmpBlock = beforeBlock;
 		while (cmpBlock != null) {
@@ -175,12 +175,12 @@ public class ScopeChecker {
 					}
 				}
 			}
-			
+
 			lastBlock = cmpBlock;
 			cmpBlock = Block.getBlock(cmpBlock.getBeforeBlockID());
 		}
-		
-		
+
+
 		return false;
 	}
 
@@ -232,7 +232,7 @@ public class ScopeChecker {
 							return true;
 						}
 					}
-				}//abstructionブロック内のすべてのブロックを探索し終えた			
+				}//abstructionブロック内のすべてのブロックを探索し終えた
 			}
 			return false;
 		}
@@ -287,7 +287,7 @@ public class ScopeChecker {
 	}
 
 	public static boolean isIndependentBlock(Block block) {
-		
+
 		while (!block.getGenusName().equals("procedure")) {
 			//次のブロックが存在シない場合は、離れ小島のブロックのためtrue
 			if (Block.getBlock(block.getBeforeBlockID()) == null || block.getBeforeBlockID() == -1 ) {
