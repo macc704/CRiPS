@@ -38,6 +38,7 @@ public class CHUserLogWriter {
 	private List<String> row = new ArrayList<String>();
 	private DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	private String user = "";
+	private String prevCopy = "";
 
 	public CHUserLogWriter(String user) {
 		this.user = user;
@@ -189,14 +190,17 @@ public class CHUserLogWriter {
 		writeCode(code);
 		addRowToTable();
 		saveTableToFile();
+		prevCopy = code;
 	}
 
 	public void paste(String fileName, String code) {
-		writeCommand(PASTE);
-		writeTo(fileName);
-		writeCode(code);
-		addRowToTable();
-		saveTableToFile();
+		if (prevCopy.equals(code)) {
+			writeCommand(PASTE);
+			writeTo(fileName);
+			writeCode(code);
+			addRowToTable();
+			saveTableToFile();
+		}
 	}
 
 	public static void main(String[] args) {
