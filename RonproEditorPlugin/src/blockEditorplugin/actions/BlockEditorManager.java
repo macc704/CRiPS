@@ -41,6 +41,9 @@ import presplugin.PresPlugin;
 import presplugin.editors.PresExtendedJavaEditor;
 import ronproeditor.helpers.CFrameUtils;
 import ronproeditorplugin.Activator;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
+import workspace.WorkspaceListener;
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
@@ -67,6 +70,14 @@ public class BlockEditorManager {
 
 	public BlockEditorManager(IWorkbenchWindow window) {
 		openBlockEditor(window);
+
+		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
+			public void workspaceEventOccurred(WorkspaceEvent event) {
+				writeBlockEditingLog(BlockEditorLog.SubType.ANY,
+						event.toString());
+			}
+		});
+
 	}
 
 	public void openBlockEditor(IWorkbenchWindow window) {

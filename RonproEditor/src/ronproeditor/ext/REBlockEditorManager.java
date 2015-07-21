@@ -22,6 +22,9 @@ import ronproeditor.helpers.CFrameUtils;
 import workspace.ClassInheritanceRelation;
 import workspace.ClassRelationCaluculator;
 import workspace.ClassRelationMap;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
+import workspace.WorkspaceListener;
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
@@ -50,13 +53,13 @@ public class REBlockEditorManager {
 
 		man.start();
 		man.setPriority(Thread.currentThread().getPriority() - 1);
-//		“€Œ‹
-//		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
-//			public void workspaceEventOccurred(WorkspaceEvent event) {
-//				writeBlockEditingLog(BlockEditorLog.SubType.ANY,
-//						event.toString());
-//			}
-//		});
+
+		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
+			public void workspaceEventOccurred(WorkspaceEvent event) {
+				writeBlockEditingLog(BlockEditorLog.SubType.ANY,
+						event.toString());
+			}
+		});
 
 		app.getSourceManager().addPropertyChangeListener(
 				new PropertyChangeListener() {
