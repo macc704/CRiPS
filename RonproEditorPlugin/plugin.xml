@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension point="org.eclipse.ui.commands">
+      <!--メニューカテゴリ-->
+      <category
+            name="Ronpro Plugins"
+            id="RonproEditorPlugin.commands.category">
+      </category>
+      <!--メニューカテゴリのコマンド-->
+      <command
+            name="Open BlockEditor Hinoki"
+            categoryId="RonproEditorPlugin.commands.category"
+            id="RonproPlugin.commands.openBlockEditor">
+      </command>
+      <command
+            name="Open CocoViewer"
+            categoryId="RonproEditorPlugin.commands.category"
+            id="RonproPlugin.commands.openCocoViewer">
+      </command>
+
+      <command
+            name="Create CocoData"
+            categoryId="RonproEditorPlugin.commands.category"
+            id="RonproPlugin.commands.createCocoData">
+      </command>
+
+      <command
+            name="Clear Cash"
+            categoryId="RonproEditorPlugin.commands.category"
+            id="RonproPlugin.commands.clearCash">
+      </command>
+
+      <command
+            name="Start CheCoPro"
+            categoryId="RonproEditorPlugin.commands.category"
+            id="RonproPlugin.commands.startCheCoPro">
+      </command>
+
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+         <!--メニューカテゴリのコマンドクリック時のハンドラー-->
+      <handler
+            commandId="RonproPlugin.commands.openBlockEditor"
+            class="blockEditorplugin.actions.BlockEditorHandler">
+      </handler>
+
+	  <handler
+            commandId="RonproPlugin.commands.openCocoViewer"
+            class="cocoviewer.actions.CocoviewerHandler">
+      </handler>
+
+	  <handler
+            commandId="RonproPlugin.commands.createCocoData"
+            class="createcocodata.actions.CreateCocodataHandler">
+      </handler>
+
+	  <handler
+            commandId="RonproPlugin.commands.clearCash"
+            class="clearcash.actions.ClearCashHandler">
+      </handler>
+      <!--一時避難
+      	  <handler
+            commandId="RonproPlugin.commands.startCheCoPro"
+            class="ch.actions.CheCoProHandler">
+      </handler>
+      -->
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+         <!--ショートカットの登録 したければどうぞ-->
+<!--      <key
+            commandId="RonproPlugin.commands.openBlockEditor"
+            contextId="org.eclipse.ui.contexts.window"
+            sequence="M1+O"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>-->
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="RonproPlugins"
+               mnemonic="M"
+               id="RonproPlugin.menus.openBlockEditorMenu">
+            <command
+                  commandId="RonproPlugin.commands.openBlockEditor"
+                  mnemonic="S"
+                  id="RonproPlugins.menus.openBlockEditor">
+            </command>
+            <command
+                  commandId="RonproPlugin.commands.openCocoViewer"
+                  mnemonic="S"
+                  id="RonproPlugins.menus.openCocoViewer">
+            </command>
+            <command
+                  commandId="RonproPlugin.commands.createCocoData"
+                  mnemonic="S"
+                  id="RonproPlugins.menus.createCocoData">
+            </command>
+            <command
+                  commandId="RonproPlugin.commands.clearCash"
+                  mnemonic="S"
+                  id="RonproPlugins.menus.clearCash">
+            </command>
+            <command
+                  commandId="RonproPlugin.commands.startCheCoPro"
+                  mnemonic="S"
+                  id="RonproPlugins.menus.startCheCoPro">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="RonproPlugins.toolbars.sampleToolbar">
+            <command
+                  commandId="RonproPlugin.commands.openBlockEditor"
+                  icon="icons/sample.gif"
+                  id="RonproPlugin.toolbars.openBlockEditorCommand">
+            </command>
+<!--            <command
+                  commandId="RonproPlugin.commands.openCocoViewer"
+                  icon="icons/sample.gif"
+                  id="RonproPlugin.toolbars.openBlockEditorCommand">
+            </command>-->
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.eclipse.ant.core.antRunner"
+            name="Ronpro">
+         <property
+               name="appName"
+               value="Ronpro">
+         </property>
+      </product>
+   </extension>
+
+   <!-- CheCoProPerspective -->
+   <!-- 一時避難
+   <extension
+    point="org.eclipse.ui.perspectives">
+    <perspective
+        class="ch.perspective.CHPerspective"
+        icon="icons/sample.gif"
+        id="ch.perspective"
+        name="CheCoPro"/>
+   </extension>
+   -->
+
+   <!-- CheCoProView -->
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="ch.perspective.views.CHPreferenceView"
+            icon="icons/sample.gif"
+            id="ch.preferenceView"
+            name="Preference"
+            restorable="true">
+      </view>
+      <!-- 一時避難
+      <view
+      		class="ch.perspective.views.CHMemberDirectoryView"
+      		icon="icons/sample.gif"
+      		id="ch.memberDirectoryView"
+      		name="Members'Projects"
+      		restorable="true">
+      </view>
+      <view
+      		class="ch.perspective.views.CHMemberStateView"
+      		icon="icons/sample.gif"
+      		id="ch.memberStateView"
+      		name="Member State"
+      		restorable="true">
+      </view>
+      <view
+      		class="ch.perspective.views.CHMemberSourceView"
+      		icon="icons/sample.gif"
+      		id="ch.memberSourceView"
+      		name="Member Source"
+      		restorable="true">
+      </view>
+      -->
+   </extension>
+
+<!--
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            label="Sample Action Set"
+            visible="true"
+            id="RonproEditorPlugin.actionSet">
+         <menu
+               label="Ronpro &amp;Plugins"
+               id="sampleMenu">
+            <separator
+                  name="RonproEditor Plugins">
+            </separator>
+         </menu>
+         <action
+               label="&amp;Open BlockEditor"
+               icon="icons/sample.gif"
+               class="blockEditorplugin.actions.BlockEditorAction"
+               tooltip="Hello, Eclipse world"
+               menubarPath="sampleMenu/sampleGroup"
+               toolbarPath="sampleGroup"
+               id="ronproeditorplugin.actions.SampleAction">
+         </action>
+         <action
+               class="cocoviewer.actions.CocoviewerAction"
+               icon="icons/sample.gif"
+               id="ronproeditorplugin.actions.SampleAction"
+               label="&amp;CocoViewer"
+               menubarPath="sampleMenu/sampleGroup"
+               style="push"
+               toolbarPath="sampleGroup">
+         </action>
+      </actionSet>
+   </extension>
+   -->
+</plugin>
