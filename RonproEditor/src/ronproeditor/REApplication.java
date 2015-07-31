@@ -1220,8 +1220,8 @@ public class REApplication implements ICFwApplication {
 	 * Java‚ðUnicoenƒ‚ƒfƒ‹‚Ö•ÏŠ·‚µ‚Ä•Ô‚·
 	 */
 	public UniClassDec convertJavaToUni(File file){
-//		Java8Mapper mapper = new Java8Mapper(true);
-		ExtendedExpressionMapper mapper = new ExtendedExpressionMapper(false);
+//		JavaMapper mapper = new JavaMapper();
+		ExtendedExpressionMapper mapper = new ExtendedExpressionMapper(true);
 		Object node = mapper.parseFile(file.getPath());
 
 		if(node instanceof UniClassDec){

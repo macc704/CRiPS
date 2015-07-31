@@ -24,7 +24,6 @@ import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JToolTip;
-import javax.swing.RepaintManager;
 import javax.swing.SwingUtilities;
 
 import org.w3c.dom.Document;
@@ -32,7 +31,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.inf.shizuoka.drawingobjects.ArrowObject;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblockutil.CToolTip;
 import edu.mit.blocks.renderable.RenderableBlock;

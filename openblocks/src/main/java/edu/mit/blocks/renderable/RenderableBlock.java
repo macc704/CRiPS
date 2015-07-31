@@ -48,7 +48,6 @@ import edu.mit.blocks.codeblocks.BlockShape;
 import edu.mit.blocks.codeblocks.BlockStub;
 import edu.mit.blocks.codeblocks.InfixBlockShape;
 import edu.mit.blocks.codeblocks.JComponentDragHandler;
-import edu.mit.blocks.codeblocks.SLBlockProperties;
 import edu.mit.blocks.codeblocks.rendering.BlockShapeUtil;
 import edu.mit.blocks.codeblockutil.CToolTip;
 import edu.mit.blocks.codeblockutil.GraphicsManager;

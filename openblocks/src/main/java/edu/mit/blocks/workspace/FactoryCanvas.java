@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import edu.mit.blocks.renderable.RenderableBlock;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblockutil.CGraphite;
 import edu.mit.blocks.codeblockutil.Canvas;
+import edu.mit.blocks.renderable.RenderableBlock;
 
 /**
  * A Canvas that acts as the parent of all blocks.

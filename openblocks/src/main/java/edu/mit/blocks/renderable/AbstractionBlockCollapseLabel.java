@@ -5,7 +5,6 @@ import java.awt.Color;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.workspace.Workspace;
-import edu.mit.blocks.workspace.WorkspaceEvent;
 
 
 /**

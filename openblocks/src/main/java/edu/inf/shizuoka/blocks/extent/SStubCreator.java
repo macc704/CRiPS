@@ -8,7 +8,6 @@ package edu.inf.shizuoka.blocks.extent;
 import java.awt.event.ActionEvent;
 
 import edu.mit.blocks.codeblocks.Block;
-import edu.mit.blocks.controller.WorkspaceController;
 import edu.mit.blocks.renderable.RenderableBlock;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 

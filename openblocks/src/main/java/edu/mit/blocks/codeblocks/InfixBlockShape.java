@@ -6,9 +6,8 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.mit.blocks.renderable.RenderableBlock;
-
 import edu.mit.blocks.codeblocks.rendering.BlockShapeUtil;
+import edu.mit.blocks.renderable.RenderableBlock;
 
 /**
  * Specifies the BlockShape of infix blocks.  Infix blocks have two bottom sockets.  

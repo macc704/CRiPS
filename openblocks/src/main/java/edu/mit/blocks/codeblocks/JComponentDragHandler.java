@@ -16,8 +16,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
-import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.codeblockutil.GraphicsManager;
+import edu.mit.blocks.workspace.Workspace;
 
 /**
  * This class can be used to add dragging capability to any JComponents.

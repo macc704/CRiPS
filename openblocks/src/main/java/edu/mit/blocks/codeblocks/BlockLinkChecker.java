@@ -2,11 +2,10 @@ package edu.mit.blocks.codeblocks;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Collections;
+import java.util.Iterator;
 
 import edu.mit.blocks.renderable.RenderableBlock;
-
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceListener;
 

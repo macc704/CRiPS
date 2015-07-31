@@ -1,6 +1,7 @@
 package edu.mit.blocks.codeblockutil;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * This class implements a Least Recently Used cache that stores arbitrary key/value pairs.

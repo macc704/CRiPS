@@ -19,9 +19,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
-
-import edu.mit.blocks.workspace.RBParent;
 import edu.mit.blocks.codeblockutil.GraphicsManager;
+import edu.mit.blocks.workspace.RBParent;
 
 /**
  * The RBHighlightHandler class is responsible for maintaining the

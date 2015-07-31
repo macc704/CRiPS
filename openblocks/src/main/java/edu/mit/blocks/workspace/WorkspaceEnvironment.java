@@ -6,6 +6,7 @@ import java.util.Map;
 
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockGenus;
+import edu.mit.blocks.codeblocks.BlockStub;
 import edu.mit.blocks.renderable.RenderableBlock;
 
 /**
