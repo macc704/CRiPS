@@ -15,6 +15,8 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -36,8 +38,11 @@ import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 import javax.swing.text.DefaultEditorKit;
 
+import net.unicoen.generator.JavaScriptGenerator;
+import net.unicoen.generator.JavaScriptGeneratorTest;
 import net.unicoen.interpreter.Engine;
 import net.unicoen.node.UniClassDec;
+import net.unicoen.turtleexecuter.TurtleMain;
 import ronproeditor.REApplication;
 import ronproeditor.RESourceManager;
 import ronproeditor.helpers.ConsoleTextPane;
@@ -221,7 +226,7 @@ public class REFrame extends JFrame {
 	private Action actionOpenBlockEditorFromUNI;
 	private Action actionOpenBlockEditorKeyaki;
 	private Action actionOpenDebuggerBlockEditor;
-
+	private Action actionGemerateJSCode;
 
 	// private Action actionMakeLog;
 
@@ -278,6 +283,7 @@ public class REFrame extends JFrame {
 		menuUNICOEN.add(actionOpenBlockEditorFromUNI);
 		menuUNICOEN.add(actionOpenBlockEditorKeyaki);
 		menuUNICOEN.add(actionOpenDebuggerBlockEditor);
+		menuUNICOEN.add(actionGemerateJSCode);
 	}
 
 	/**
@@ -366,6 +372,7 @@ public class REFrame extends JFrame {
 	}
 
 	private void initializeUNICOENAction(){
+		//Block->Uni action
 		actionOpenBlockEditorFromUNI = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				application.doOpenBlockEdtorFromUni(application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
@@ -373,6 +380,7 @@ public class REFrame extends JFrame {
 		};
 		actionOpenBlockEditorFromUNI.putValue(Action.NAME, "Open BlockEditorFromUni");
 
+		//Run
 		actionRunUNIProgram = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				Engine engine = new Engine();
@@ -380,7 +388,7 @@ public class REFrame extends JFrame {
 				engine.out = new PrintStream(baos);
 
 				UniClassDec dec = application.convertJavaToUni(application.getSourceManager().getCurrentFile());
-
+				engine.addListener(TurtleMain.libOverrider);
 				engine.execute(dec);
 				try {
 					getConsole().setText(baos.toString("UTF-8"));
@@ -391,6 +399,7 @@ public class REFrame extends JFrame {
 		};
 		actionRunUNIProgram.putValue(Action.NAME, "Run");
 
+		//open block
 		actionOpenBlockEditorKeyaki = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				//ファイルが選択されていない>>
@@ -399,6 +408,7 @@ public class REFrame extends JFrame {
 		};
 		actionOpenBlockEditorKeyaki.putValue(Action.NAME, "Open EmptyBlockEditor");
 
+		//open debugger
 		actionOpenDebuggerBlockEditor = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				//ファイルが選択されていない>>
@@ -406,6 +416,22 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionOpenDebuggerBlockEditor.putValue(Action.NAME, "Open DebuggerBlockEditor");
+
+		//gen js
+		actionGemerateJSCode = new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				File currentFile = application.getSourceManager().getCurrentFile();
+				UniClassDec dec = application.convertJavaToUni(currentFile);
+				try {
+					PrintStream out = new PrintStream(new File(currentFile.getPath().substring(0, currentFile.getPath().indexOf(".")) + ".js"));
+					JavaScriptGenerator.generate(dec, out);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+			}
+		};
+		actionGemerateJSCode.putValue(Action.NAME, "Convert to JavaScript");
 
 	}
 

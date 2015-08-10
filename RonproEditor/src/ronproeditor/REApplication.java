@@ -398,7 +398,7 @@ public class REApplication implements ICFwApplication {
 
 		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER("*.java", "*.hcp",
 				"*.c", "*.cpp", "Makefile", "*.oil", "*.rb", "*.bat", "*.tex", "*.jpg", "*.gif",
-				"*.png", "*.wav", "*.mp3", "*.csv"));
+				"*.png", "*.wav", "*.mp3", "*.csv","*.js"));
 		// this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*",
 		// "CVS", "bin"));
 		// @TODO ‚«‚¿‚ñ‚ÆŽÀ‘•‚·‚é‚±‚Æ 2011/11/22
@@ -522,7 +522,7 @@ public class REApplication implements ICFwApplication {
 	public void doOpen(File file) {
 		doClose();
 
-		if (file.getName().endsWith("java")) {// @TODO ‚«‚¿‚ñ‚ÆŽÀ‘•‚·‚é‚±‚Æ 2011/11/22
+		if (file.getName().endsWith("java") || file.getName().endsWith("js")) {// @TODO ‚«‚¿‚ñ‚ÆŽÀ‘•‚·‚é‚±‚Æ 2011/11/22
 			getSourceManager().open(file);
 		}
 	}

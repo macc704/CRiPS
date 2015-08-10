@@ -47,6 +47,7 @@ import net.unicoen.interpreter.Engine;
 import net.unicoen.interpreter.ExecutionListener;
 import net.unicoen.node.UniClassDec;
 import net.unicoen.parser.blockeditor.BlockMapper;
+import net.unicoen.turtleexecuter.TurtleMain;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -671,19 +672,19 @@ public class WorkspaceController {
 			JButton runButton = new JButton("Run");
 			runButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if (dirty) {
-						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません", "実行できません", JOptionPane.ERROR_MESSAGE);
-						return;
+					try {
+						saveToFile(selectedFile);
+						setDirty(false);
+
+						BlockMapper mapper = new BlockMapper();
+						UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
+
+						Engine engine = new Engine();
+						engine.addListener(TurtleMain.libOverrider);
+						engine.execute(classDec);
+					} catch (IOException e1) {
+						e1.printStackTrace();
 					}
-
-					Engine engine = new Engine();
-					engine.listeners = new ArrayList<ExecutionListener>();
-
-					// UniClassDec classDec =
-					// ToBlockEditorParser.parse(selectedFile);
-					//
-					// engine.execute(classDec);
-
 				}
 			});
 			buttonPanel.add(runButton);
