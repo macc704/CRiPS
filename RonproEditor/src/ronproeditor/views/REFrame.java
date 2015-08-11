@@ -38,11 +38,8 @@ import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 import javax.swing.text.DefaultEditorKit;
 
-import net.unicoen.generator.JavaScriptGenerator;
-import net.unicoen.generator.JavaScriptGeneratorTest;
 import net.unicoen.interpreter.Engine;
 import net.unicoen.node.UniClassDec;
-import net.unicoen.turtleexecuter.TurtleMain;
 import ronproeditor.REApplication;
 import ronproeditor.RESourceManager;
 import ronproeditor.helpers.ConsoleTextPane;
@@ -388,7 +385,7 @@ public class REFrame extends JFrame {
 				engine.out = new PrintStream(baos);
 
 				UniClassDec dec = application.convertJavaToUni(application.getSourceManager().getCurrentFile());
-				engine.addListener(TurtleMain.libOverrider);
+//				engine.addListener(TurtleMain.libOverrider);
 				engine.execute(dec);
 				try {
 					getConsole().setText(baos.toString("UTF-8"));
@@ -425,7 +422,7 @@ public class REFrame extends JFrame {
 				UniClassDec dec = application.convertJavaToUni(currentFile);
 				try {
 					PrintStream out = new PrintStream(new File(currentFile.getPath().substring(0, currentFile.getPath().indexOf(".")) + ".js"));
-					JavaScriptGenerator.generate(dec, out);
+//					JavaScriptGenerator.generate(dec, out);
 				} catch (FileNotFoundException e1) {
 					e1.printStackTrace();
 				}
@@ -760,6 +757,7 @@ public class REFrame extends JFrame {
 				application.doShowBytecode();
 			}
 		};
+
 		actionBytecode.putValue(Action.NAME, "Lesson Bytecode");
 		actionBytecode.putValue(Action.ACCELERATOR_KEY,
 				KeyStroke.getKeyStroke(KeyEvent.VK_J, CTRL_MASK));

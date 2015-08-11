@@ -20,7 +20,7 @@ import nd.com.sun.tools.example.debug.gui.CommandInterpreter;
 import nd.com.sun.tools.example.debug.gui.GUI;
 import nd.novicedebugger.NDebuggerListener;
 import nd.novicedebugger.NDebuggerManager;
-import net.unicoen.mapper.ExtendedExpressionMapper;
+import net.unicoen.mapper.JavaMapper;
 import net.unicoen.node.UniClassDec;
 import pres.core.model.PRCommandLog;
 import pres.core.model.PRLog;
@@ -1220,8 +1220,8 @@ public class REApplication implements ICFwApplication {
 	 * Java‚ðUnicoenƒ‚ƒfƒ‹‚Ö•ÏŠ·‚µ‚Ä•Ô‚·
 	 */
 	public UniClassDec convertJavaToUni(File file){
-//		JavaMapper mapper = new JavaMapper();
-		ExtendedExpressionMapper mapper = new ExtendedExpressionMapper(true);
+		JavaMapper mapper = new JavaMapper();
+//		ExtendedExpressionMapper mapper = new ExtendedExpressionMapper(true);
 		Object node = mapper.parseFile(file.getPath());
 
 		if(node instanceof UniClassDec){
