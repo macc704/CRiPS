@@ -8,6 +8,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +16,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -43,11 +43,8 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import net.unicoen.generator.JavaGenerator;
-import net.unicoen.interpreter.Engine;
-import net.unicoen.interpreter.ExecutionListener;
 import net.unicoen.node.UniClassDec;
 import net.unicoen.parser.blockeditor.BlockMapper;
-import net.unicoen.turtleexecuter.TurtleMain;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -578,7 +575,7 @@ public class WorkspaceController {
 		private static final long serialVersionUID = 4649159219713654455L;
 
 		ConvertAction() {
-			super("Save As Java");
+			super("Save As Java and JS");
 		}
 
 		@Override
@@ -588,26 +585,28 @@ public class WorkspaceController {
 				setDirty(false);
 
 				BlockMapper mapper = new BlockMapper();
-
 				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
 
-				File javaFile = new File(selectedFile.getParentFile().getPath() + "/" + classDec.className + ".java");
-				PrintStream out = new PrintStream(javaFile);
-				JavaGenerator.generate(classDec, out);
+				outputFileFromUni(classDec);
 
-				PrintStream ps = new PrintStream(javaFile);
-
-				String source = JavaGenerator.generate(classDec);
-
-				ps.println(source);
-
-				listener.blockConverted(javaFile);
-
-				ps.close();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 		}
+	}
+
+	public void outputFileFromUni(UniClassDec dec) throws FileNotFoundException{
+		File javaFile = new File(selectedFile.getParentFile().getPath() + "/" + dec.className + ".java");
+		PrintStream out = new PrintStream(javaFile);
+		JavaGenerator.generate(dec, out);
+		out.close();
+		listener.blockConverted(javaFile);
+
+//		File jsFile = new File(selectedFile.getParentFile().getPath() + "/" + dec.className + ".js");
+//		out = new PrintStream(jsFile);
+//		JavaScriptGenerator.generate(dec, out);
+//		out.close();
+//		listener.blockConverted(jsFile);
 	}
 
 	/**
@@ -679,9 +678,9 @@ public class WorkspaceController {
 						BlockMapper mapper = new BlockMapper();
 						UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
 
-						Engine engine = new Engine();
-						engine.addListener(TurtleMain.libOverrider);
-						engine.execute(classDec);
+//						Engine engine = new Engine();
+//						engine.addListener(TurtleMain.libOverrider);
+//						engine.execute(classDec);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
