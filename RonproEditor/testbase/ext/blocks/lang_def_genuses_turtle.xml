@@ -878,6 +878,16 @@
 		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
+
+
+<BlockGenus name="Turtle-createTurtle[]" kind="function" initlabel="新しくタートルを作る" color="255 0 0">
+	<Name>rightMouseDown</Name>
+	<ReturnType>boolean</ReturnType>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="object" position-type="mirror"></BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
 <!-- SoundTurtle -->
 
 <BlockGenus name="SoundTurtle-file[@string]" kind="command"
