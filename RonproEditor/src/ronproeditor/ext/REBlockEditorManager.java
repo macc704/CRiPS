@@ -22,6 +22,7 @@ import clib.view.dialogs.CErrorDialog;
 import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.controller.WorkspaceController;
+import net.unicoen.mapper.JavaMapper;
 import net.unicoen.node.UniClassDec;
 import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRFileLog;
@@ -280,6 +281,7 @@ public class REBlockEditorManager {
 
 				writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK);
 
+				@SuppressWarnings("unused")
 				String message = "default";
 				try {
 					message = app.doCompile2(false);
@@ -287,17 +289,12 @@ public class REBlockEditorManager {
 					e.printStackTrace();
 				}
 
-				if (message.length() != 0) {// has compile error
-					writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
-					doCompileErrorBlockEditor(target);
-					return;
-				}
-
 				doRefleshBlock(target);
 			}
 		});
 	}
 
+	@SuppressWarnings("unused")
 	private void doCompileErrorBlockEditor(final File target) {
 		// blockEditor.setState(WorkspaceController.COMPILE_ERROR);
 		// Thread thread = new Thread() {
@@ -336,14 +333,22 @@ public class REBlockEditorManager {
 					// xmlÉtÉ@ÉCÉãê∂ê¨
 					String[] libs = app.getLibraryManager().getLibsAsArray();
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
-					// File javaFile = app.getSourceManager().getCurrentFile();
-					String xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
 
-					blockEditor.setLangDefFilePath(javaFile.getParentFile().getPath() + "/lang_def_project.xml");
+					String xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
 
 					// blockEditor.resetLanguage();
 					// blockEditor.setLangDefDirty(true);
 					blockEditor.resetWorkspace();
+
+					File javaFile = app.getSourceManager().getCurrentFile();
+					File xmlFile = new File(xmlFilePath);
+					
+					JavaMapper mapper = new JavaMapper();
+					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false, "UTF-8");
+					BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
+					generator.parse((UniClassDec)mapper.parseFile(javaFile.getPath()));
+					out.close();
+					
 					blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
 				} catch (Exception ex) {
