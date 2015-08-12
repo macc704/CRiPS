@@ -66,7 +66,6 @@ import edu.mit.blocks.workspace.TrashCan;
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceListener;
-import net.unicoen.generator.JavaGenerator;
 import net.unicoen.generator.JavaScriptGenerator;
 import net.unicoen.node.UniClassDec;
 import net.unicoen.parser.blockeditor.BlockMapper;
@@ -371,7 +370,6 @@ public class WorkspaceController {
 			workspaceLoaded = true;
 
 			setDirty(false);
-			
 			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(),
 					getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
 
@@ -601,16 +599,19 @@ public class WorkspaceController {
 	}
 
 	public void outputFileFromUni(UniClassDec dec) throws FileNotFoundException {
-		File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
-		PrintStream out = new PrintStream(javaFile);
-		JavaGenerator.generate(dec, out);
-		out.close();
-		listener.blockConverted(javaFile);
+
+		// File javaFile = new File(selectedFile.getParentFile().getPath() +
+		// File.separator + dec.className + ".java");
+		// PrintStream out = new PrintStream(javaFile);
+		// JavaGenerator.generate(dec, out);
+		// out.close();
+		// listener.blockConverted(javaFile);
 
 		File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
-		out = new PrintStream(jsFile);
+		PrintStream out = new PrintStream(jsFile);
 		JavaScriptGenerator.generate(dec, out);
 		out.close();
+
 		listener.blockConverted(jsFile);
 	}
 
@@ -675,10 +676,12 @@ public class WorkspaceController {
 		{// create run button
 			JButton runButton = new JButton("Run");
 			runButton.addActionListener(new ActionListener() {
+
 				public void actionPerformed(ActionEvent e) {
 					if (dirty) {
 						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません", "実行できません", JOptionPane.ERROR_MESSAGE);
 						return;
+
 					}
 					listener.blockRun();
 				}
@@ -704,6 +707,7 @@ public class WorkspaceController {
 		}
 
 		return buttonPanel;
+
 	}
 
 	/**

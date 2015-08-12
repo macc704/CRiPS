@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import bc.BlockConverter;
+import clib.common.filesystem.CFile;
 import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
@@ -50,7 +51,7 @@ public class REBlockEditorManager {
 
 		man.start();
 		man.setPriority(Thread.currentThread().getPriority() - 1);
-		// “€Œ‹
+		// å‡çµ
 		// Workspace.getInstance().addWorkspaceListener(new WorkspaceListener()
 		// {
 		// public void workspaceEventOccurred(WorkspaceEvent event) {
@@ -83,10 +84,10 @@ public class REBlockEditorManager {
 		doCompileBlock();
 	}
 
-	public void doOpenBlockEditorFromUni(UniClassDec classDec, String sourcePath) {
+	public void doOpenBlockEditorFromUni() {
 		initBlockEditor();
 
-		doCompileBlockFromUni(classDec, sourcePath);
+		doCompileBlockFromUni();
 	}
 
 	public void doOpenBlockEditorKeyaki() {
@@ -104,14 +105,22 @@ public class REBlockEditorManager {
 		initDebuggerBlockEditor(classDec, sourcePath);
 	}
 
-	public void doCompileBlockFromUni(UniClassDec classDec, String sourcePath) {
+	public void doCompileBlockFromUni() {
+		CFile cfile = app.getSourceManager().getCCurrentFile();
+		String filename = cfile.getName().getName();
 		try {
-			File file = new File(sourcePath + classDec.className + ".xml");
+			File file = new File(cfile.getParentDirectory().getAbsolutePath().toString() + "/" + filename + ".xml");
 			file.createNewFile();
 			PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)), false, "UTF-8");
 
-			BlockGenerator blockParser = new BlockGenerator(out, "ext/blocks/");
-			blockParser.parse(classDec);
+			try {
+				UniClassDec classDec = app.convertJavaToUni();
+
+				BlockGenerator blockParser = new BlockGenerator(out, "ext/blocks/");
+				blockParser.parse(classDec);
+			} catch (Exception ex) {
+				System.err.println(ex.getMessage());
+			}
 
 			// OpenBlock
 			blockEditor.setLangDefFilePath("ext/blocks/lang_def.xml");
@@ -245,8 +254,8 @@ public class REBlockEditorManager {
 	// // String selectButton[] = { "OK", "Java" };
 	// //
 	// // int select = JOptionPane.showOptionDialog(null,
-	// // "Block‚©‚çJava‚É•ÏŠ·‚µ‚Ü‚µ‚½B",
-	// // "¬Œ÷‚µ‚Ü‚µ‚½II", JOptionPane.YES_NO_OPTION,
+	// // "Blockã‹ã‚‰Javaã«å¤‰æ›ã—ã¾ã—ãŸã€‚",
+	// // "æˆåŠŸã—ã¾ã—ãŸï¼ï¼", JOptionPane.YES_NO_OPTION,
 	// // JOptionPane.INFORMATION_MESSAGE, null, selectButton,
 	// // selectButton[0]);
 	// //
@@ -305,11 +314,11 @@ public class REBlockEditorManager {
 
 			public void doTask() {
 				try {
-					// xmlƒtƒ@ƒCƒ‹¶¬
+					// xmlãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆ
 					String emptyWorkSpace = emptyBEWorkSpacePrint();
 					String emptyFactory = emptyBEFactoryPrint();
 
-					// BlockEditor‚É”½‰f
+					// BlockEditorã«åæ˜ 
 					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
 					// blockEditor.setCompileErrorTitle(target.getName());
 				} catch (Exception ex) {
@@ -330,35 +339,36 @@ public class REBlockEditorManager {
 
 			public void doTask() {
 				try {
-					// xmlƒtƒ@ƒCƒ‹¶¬
+					// xmlãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆ
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 					String filePath = app.getSourceManager().getCurrentFile().getPath();
 					String xmlFilePath = filePath.substring(0, filePath.lastIndexOf(".")) + ".xml";
 
 					blockEditor.loadFreshWorkspace();
 
-					//file change
+					// file change
 					File file = app.getSourceManager().getCurrentFile();
 					File xmlFile = new File(xmlFilePath);
-					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false, "UTF-8");
+					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false,
+							"UTF-8");
 					BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
 
-					//Šg’£q‚É‰‚¶‚Ä•ÏŠ·‚·‚é
-					if(file.getPath().endsWith(".java")){
+					// æ‹¡å¼µå­ã«å¿œã˜ã¦å¤‰æ›ã™ã‚‹
+					if (file.getPath().endsWith(".java")) {
 						JavaMapper mapper = new JavaMapper();
-						generator.parse((UniClassDec)mapper.parseFile(javaFile.getPath()));
-					}else if(file.getPath().endsWith(".js")){
+						generator.parse((UniClassDec) mapper.parseFile(javaFile.getPath()));
+					} else if (file.getPath().endsWith(".js")) {
 						JavaScriptMapper mapper = new JavaScriptMapper();
-						generator.parse((UniClassDec)mapper.parseFile(javaFile.getPath()));
+						generator.parse((UniClassDec) mapper.parseFile(javaFile.getPath()));
 					}
-					
+
 					out.close();
-					blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());	
-					
+					blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());
+
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
 				} catch (Exception ex) {
 					ex.printStackTrace();
-					CErrorDialog.show(app.getFrame(), "Block•ÏŠ·‚ÌƒGƒ‰[", ex);
+					CErrorDialog.show(app.getFrame(), "Blockå¤‰æ›æ™‚ã®ã‚¨ãƒ©ãƒ¼", ex);
 				}
 			}
 		});
@@ -379,11 +389,11 @@ public class REBlockEditorManager {
 
 			public void doTask() {
 				try {
-					// xmlƒtƒ@ƒCƒ‹¶¬
+					// xmlãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆ
 					String emptyWorkSpace = emptyBEWorkSpacePrint();
 					String emptyFactory = emptyBEFactoryPrint();
 
-					// BlockEditor‚É”½‰f
+					// BlockEditorã«åæ˜ 
 					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
 				} catch (Exception ex) {
 				}
@@ -430,7 +440,7 @@ public class REBlockEditorManager {
 		}
 	}
 
-	// 20130926 DENO‚ªBlockEditor‚ğ’¼ÚQÆ‚·‚éİŒv‚Íb’è
+	// 20130926 DENOãŒBlockEditorã‚’ç›´æ¥å‚ç…§ã™ã‚‹è¨­è¨ˆã¯æš«å®š
 	public WorkspaceController getBlockEditor() {
 		if (isWorkspaceOpened()) {
 			return blockEditor;

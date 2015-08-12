@@ -369,8 +369,7 @@ public class REFrame extends JFrame {
 		// Block->Uni action
 		actionOpenBlockEditorFromUNI = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				application.doOpenBlockEdtorFromUni(
-						application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
+				application.doOpenBlockEdtorFromUni();
 			}
 		};
 		actionOpenBlockEditorFromUNI.putValue(Action.NAME, "Open BlockEditorFromUni");
@@ -382,7 +381,7 @@ public class REFrame extends JFrame {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				engine.out = new PrintStream(baos);
 
-				UniClassDec dec = application.convertJavaToUni(application.getSourceManager().getCurrentFile());
+				UniClassDec dec = application.convertJavaToUni();
 				// engine.addListener(TurtleMain.libOverrider);
 				engine.execute(dec);
 				try {
@@ -407,8 +406,7 @@ public class REFrame extends JFrame {
 		actionOpenDebuggerBlockEditor = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				// ファイルが選択されていない>>
-				application.doOpenDebuggerBlockEditor(
-						application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
+				application.doOpenDebuggerBlockEditor(application.convertJavaToUni());
 			}
 		};
 		actionOpenDebuggerBlockEditor.putValue(Action.NAME, "Open DebuggerBlockEditor");
@@ -418,7 +416,8 @@ public class REFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				File currentFile = application.getSourceManager().getCurrentFile();
-				UniClassDec dec = application.convertJavaToUni(currentFile);
+				UniClassDec dec = application.convertJavaToUni();
+
 				try {
 					PrintStream out = new PrintStream(
 							new File(currentFile.getPath().substring(0, currentFile.getPath().indexOf(".")) + ".js"));
