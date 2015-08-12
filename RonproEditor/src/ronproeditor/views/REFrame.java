@@ -15,6 +15,8 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -39,6 +41,7 @@ import javax.swing.text.DefaultEditorKit;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
 import clib.view.app.javainfo.CJavaInfoPanels;
+import net.unicoen.generator.JavaScriptGenerator;
 import net.unicoen.interpreter.Engine;
 import net.unicoen.node.UniClassDec;
 import ronproeditor.REApplication;
@@ -414,17 +417,15 @@ public class REFrame extends JFrame {
 		actionGemerateJSCode = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// File currentFile =
-				// application.getSourceManager().getCurrentFile();
-				// UniClassDec dec = application.convertJavaToUni(currentFile);
-				// try {
-				// PrintStream out = new PrintStream(
-				// new File(currentFile.getPath().substring(0,
-				// currentFile.getPath().indexOf(".")) + ".js"));
-				// JavaScriptGenerator.generate(dec, out);
-				// } catch (FileNotFoundException e1) {
-				// e1.printStackTrace();
-				// }
+				File currentFile = application.getSourceManager().getCurrentFile();
+				UniClassDec dec = application.convertJavaToUni(currentFile);
+				try {
+					PrintStream out = new PrintStream(
+							new File(currentFile.getPath().substring(0, currentFile.getPath().indexOf(".")) + ".js"));
+					JavaScriptGenerator.generate(dec, out);
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
 			}
 		};
 		actionGemerateJSCode.putValue(Action.NAME, "Convert to JavaScript");
