@@ -23,6 +23,7 @@ import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.controller.WorkspaceController;
 import net.unicoen.mapper.JavaMapper;
+import net.unicoen.mapper.JavaScriptMapper;
 import net.unicoen.node.UniClassDec;
 import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRFileLog;
@@ -331,25 +332,33 @@ public class REBlockEditorManager {
 			public void doTask() {
 				try {
 					// xmlファイル生成
-					String[] libs = app.getLibraryManager().getLibsAsArray();
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
-
-					String xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
+					String filePath = app.getSourceManager().getCurrentFile().getPath();
+					String xmlFilePath = filePath.substring(0, filePath.lastIndexOf(".")) + ".xml";
 
 					// blockEditor.resetLanguage();
 					// blockEditor.setLangDefDirty(true);
 					blockEditor.resetWorkspace();
 
-					File javaFile = app.getSourceManager().getCurrentFile();
+					//file change
+					File file = app.getSourceManager().getCurrentFile();
 					File xmlFile = new File(xmlFilePath);
-					
-					JavaMapper mapper = new JavaMapper();
 					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false, "UTF-8");
 					BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
-					generator.parse((UniClassDec)mapper.parseFile(javaFile.getPath()));
+
+					//拡張子に応じて変換する
+					if(file.getPath().endsWith(".java")){
+						JavaMapper mapper = new JavaMapper();
+						generator.parse((UniClassDec)mapper.parseFile(javaFile.getPath()));
+					}else if(file.getPath().endsWith(".js")){
+						JavaScriptMapper mapper = new JavaScriptMapper();
+						generator.parse((UniClassDec)mapper.parseFile(javaFile.getPath()));
+					}
+					
 					out.close();
 					
-					blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());
+					blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());	
+					
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
 				} catch (Exception ex) {
 					ex.printStackTrace();

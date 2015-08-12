@@ -21,6 +21,7 @@ import nd.com.sun.tools.example.debug.gui.GUI;
 import nd.novicedebugger.NDebuggerListener;
 import nd.novicedebugger.NDebuggerManager;
 import net.unicoen.mapper.JavaMapper;
+import net.unicoen.mapper.JavaScriptMapper;
 import net.unicoen.node.UniClassDec;
 import pres.core.model.PRCommandLog;
 import pres.core.model.PRLog;
@@ -1220,16 +1221,28 @@ public class REApplication implements ICFwApplication {
 	 * JavaをUnicoenモデルへ変換して返す
 	 */
 	public UniClassDec convertJavaToUni(File file){
-		JavaMapper mapper = new JavaMapper();
-//		ExtendedExpressionMapper mapper = new ExtendedExpressionMapper(true);
-		Object node = mapper.parseFile(file.getPath());
+		if(file.getPath().endsWith(".java")){
+			JavaMapper mapper = new JavaMapper();
+			Object node = mapper.parseFile(file.getPath());
 
-		if(node instanceof UniClassDec){
-			return (UniClassDec)node;
-		}else{
-			CErrorDialog.show(frame, "UniClassモデルが作成できませんでした");
-			return null;
+			if(node instanceof UniClassDec){
+				return (UniClassDec)node;
+			}else{
+				CErrorDialog.show(frame, "UniClassモデルが作成できませんでした");
+				return null;
+			}			
+		}else if(file.getPath().endsWith(".js")){
+			JavaScriptMapper mapper = new JavaScriptMapper();
+			Object node = mapper.parseFile(file.getPath());
+			if(node instanceof UniClassDec){
+				return (UniClassDec)node;
+			}else{
+				CErrorDialog.show(frame, "UniClassモデルが作成できませんでした");
+				return null;
+			}		
 		}
+		return null;
+
 	}
 
 	/*
