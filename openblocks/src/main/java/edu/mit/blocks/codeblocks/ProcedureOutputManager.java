@@ -198,7 +198,6 @@ public class ProcedureOutputManager {
             revertType(ws.getEnv().getBlock(top), info, false);
             BlockStub.parentPlugChanged(ws, top, null);
         }
-        System.out.println();
     }
 
     private static void examineType(boolean add, Block b, OutputInfo info)

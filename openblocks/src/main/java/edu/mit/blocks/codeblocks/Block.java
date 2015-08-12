@@ -1909,7 +1909,6 @@ public class Block implements ISupportMemento {
 				block.before.setConnectorBlockID(beforeID);
 			}
 			if (afterID != null) {
-				System.out.println(block);
 				block.after.setConnectorBlockID(afterID);
 			}
 			if (pagelabel != null) {

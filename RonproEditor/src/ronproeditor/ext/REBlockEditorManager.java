@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import bc.BlockConverter;
-import bc.apps.JavaToBlockMain;
 import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
@@ -336,9 +335,7 @@ public class REBlockEditorManager {
 					String filePath = app.getSourceManager().getCurrentFile().getPath();
 					String xmlFilePath = filePath.substring(0, filePath.lastIndexOf(".")) + ".xml";
 
-					// blockEditor.resetLanguage();
-					// blockEditor.setLangDefDirty(true);
-					blockEditor.resetWorkspace();
+					blockEditor.loadFreshWorkspace();
 
 					//file change
 					File file = app.getSourceManager().getCurrentFile();
@@ -356,7 +353,6 @@ public class REBlockEditorManager {
 					}
 					
 					out.close();
-					
 					blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());	
 					
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);

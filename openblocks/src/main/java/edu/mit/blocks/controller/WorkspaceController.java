@@ -25,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.xml.XMLConstants;
@@ -84,7 +85,7 @@ public class WorkspaceController {
 	protected SearchBar searchBar;
 	// private static String LANG_DEF_PATH;
 
-//	private String enc = "SJIS";
+	// private String enc = "SJIS";
 
 	private String imagePath = "../support/images/";// added by macchan
 
@@ -98,13 +99,13 @@ public class WorkspaceController {
 	// flag to indicate if a workspace has been loaded/initialized
 	private boolean workspaceLoaded = false;
 	// last directory that was selected with open or save action
-//	private File lastDirectory;
+	// private File lastDirectory;
 	// file currently loaded in workspace
 	private File selectedFile;
 	// Reference kept to be able to update frame title with current loaded file
 	private JFrame frame;
 
-//	private DebuggerWorkspaceController debugger;
+	// private DebuggerWorkspaceController debugger;
 
 	// for CheCoPro
 	private boolean openedFromCH = false;
@@ -275,7 +276,8 @@ public class WorkspaceController {
 			Element documentElement = document.createElementNS(Constants.XML_CODEBLOCKS_NS, "cb:CODEBLOCKS");
 
 			// schema reference
-			documentElement.setAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi:schemaLocation", Constants.XML_CODEBLOCKS_NS + " " + Constants.XML_CODEBLOCKS_SCHEMA_URI);
+			documentElement.setAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi:schemaLocation",
+					Constants.XML_CODEBLOCKS_NS + " " + Constants.XML_CODEBLOCKS_SCHEMA_URI);
 
 			Node workspaceNode = workspace.getSaveNode(document);
 			if (workspaceNode != null) {
@@ -368,7 +370,10 @@ public class WorkspaceController {
 			workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
 			workspaceLoaded = true;
 
-			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(), getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
+			setDirty(false);
+			
+			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(),
+					getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
 
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
@@ -435,7 +440,8 @@ public class WorkspaceController {
 
 			showAllTraceLine(workspace);
 
-			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(), getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
+			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(),
+					getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
 
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
@@ -489,79 +495,82 @@ public class WorkspaceController {
 		}
 		return workspacePanel;
 	}
-//
-//	/**
-//	 * Action bound to "Open" action.
-//	 */
-//	private class OpenAction extends AbstractAction {
-//
-//		private static final long serialVersionUID = -2119679269613495704L;
-//
-//		OpenAction() {
-//			super("Open");
-//		}
-//
-//		@Override
-//		public void actionPerformed(ActionEvent e) {
-//			JFileChooser fileChooser = new JFileChooser(lastDirectory);
-//			if (fileChooser.showOpenDialog((Component) e.getSource()) == JFileChooser.APPROVE_OPTION) {
-//				setSelectedFile(fileChooser.getSelectedFile());
-//				lastDirectory = selectedFile.getParentFile();
-//				String selectedPath = selectedFile.getPath();
-//				loadFreshWorkspace();
-//				loadProjectFromPath(selectedPath);
-//			}
-//		}
-//	}
+	//
+	// /**
+	// * Action bound to "Open" action.
+	// */
+	// private class OpenAction extends AbstractAction {
+	//
+	// private static final long serialVersionUID = -2119679269613495704L;
+	//
+	// OpenAction() {
+	// super("Open");
+	// }
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// JFileChooser fileChooser = new JFileChooser(lastDirectory);
+	// if (fileChooser.showOpenDialog((Component) e.getSource()) ==
+	// JFileChooser.APPROVE_OPTION) {
+	// setSelectedFile(fileChooser.getSelectedFile());
+	// lastDirectory = selectedFile.getParentFile();
+	// String selectedPath = selectedFile.getPath();
+	// loadFreshWorkspace();
+	// loadProjectFromPath(selectedPath);
+	// }
+	// }
+	// }
 
-//	/**
-//	 * Action bound to "Save" button.
-//	 */
-//	private class SaveAction extends AbstractAction {
-//		private static final long serialVersionUID = -5540588250535739852L;
-//
-//		SaveAction() {
-//			super("Save");
-//		}
-//
-//		@Override
-//		public void actionPerformed(ActionEvent evt) {
-//			if (selectedFile == null) {
-//				JFileChooser fileChooser = new JFileChooser(lastDirectory);
-//				if (fileChooser.showSaveDialog((Component) evt.getSource()) == JFileChooser.APPROVE_OPTION) {
-//					setSelectedFile(fileChooser.getSelectedFile());
-//					lastDirectory = selectedFile.getParentFile();
-//				}
-//			}
-//			try {
-//				saveToFile(selectedFile);
-//				setDirty(false);
-//			} catch (IOException e) {
-//				JOptionPane.showMessageDialog((Component) evt.getSource(), e.getMessage());
-//			}
-//		}
-//	}
+	// /**
+	// * Action bound to "Save" button.
+	// */
+	// private class SaveAction extends AbstractAction {
+	// private static final long serialVersionUID = -5540588250535739852L;
+	//
+	// SaveAction() {
+	// super("Save");
+	// }
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent evt) {
+	// if (selectedFile == null) {
+	// JFileChooser fileChooser = new JFileChooser(lastDirectory);
+	// if (fileChooser.showSaveDialog((Component) evt.getSource()) ==
+	// JFileChooser.APPROVE_OPTION) {
+	// setSelectedFile(fileChooser.getSelectedFile());
+	// lastDirectory = selectedFile.getParentFile();
+	// }
+	// }
+	// try {
+	// saveToFile(selectedFile);
+	// setDirty(false);
+	// } catch (IOException e) {
+	// JOptionPane.showMessageDialog((Component) evt.getSource(),
+	// e.getMessage());
+	// }
+	// }
+	// }
 
-//	/**
-//	 * Action bound to "Save As..." button.
-//	 */
-//	private class SaveAsAction extends AbstractAction {
-//		private static final long serialVersionUID = 3981294764824307472L;
-//		private final SaveAction saveAction;
-//
-//		SaveAsAction(SaveAction saveAction) {
-//			super("Save As...");
-//			this.saveAction = saveAction;
-//		}
-//
-//		@Override
-//		public void actionPerformed(ActionEvent e) {
-//			selectedFile = null;
-//			// delegate to save action
-//			saveAction.actionPerformed(e);
-//			setDirty(false);
-//		}
-//	}
+	// /**
+	// * Action bound to "Save As..." button.
+	// */
+	// private class SaveAsAction extends AbstractAction {
+	// private static final long serialVersionUID = 3981294764824307472L;
+	// private final SaveAction saveAction;
+	//
+	// SaveAsAction(SaveAction saveAction) {
+	// super("Save As...");
+	// this.saveAction = saveAction;
+	// }
+	//
+	// @Override
+	// public void actionPerformed(ActionEvent e) {
+	// selectedFile = null;
+	// // delegate to save action
+	// saveAction.actionPerformed(e);
+	// setDirty(false);
+	// }
+	// }
 
 	/**
 	 * Action bound to "Save As..." button.
@@ -582,7 +591,7 @@ public class WorkspaceController {
 
 				BlockMapper mapper = new BlockMapper();
 				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
-				
+
 				outputFileFromUni(classDec);
 
 			} catch (Exception e1) {
@@ -591,14 +600,14 @@ public class WorkspaceController {
 		}
 	}
 
-	public void outputFileFromUni(UniClassDec dec) throws FileNotFoundException{
-		File javaFile = new File(selectedFile.getParentFile().getPath() + "/" + dec.className + ".java");
+	public void outputFileFromUni(UniClassDec dec) throws FileNotFoundException {
+		File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
 		PrintStream out = new PrintStream(javaFile);
 		JavaGenerator.generate(dec, out);
 		out.close();
 		listener.blockConverted(javaFile);
 
-		File jsFile = new File(selectedFile.getParentFile().getPath() + "/" + dec.className + ".js");
+		File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
 		out = new PrintStream(jsFile);
 		JavaScriptGenerator.generate(dec, out);
 		out.close();
@@ -635,52 +644,43 @@ public class WorkspaceController {
 	 */
 	private JComponent getButtonPanel() {
 		JPanel buttonPanel = new JPanel();
-//		// Open
-//		OpenAction openAction = new OpenAction();
-//		buttonPanel.add(new JButton(openAction));
-//		// Save
-//		SaveAction saveAction = new SaveAction();
-//		buttonPanel.add(new JButton(saveAction));
+		// // Open
+		// OpenAction openAction = new OpenAction();
+		// buttonPanel.add(new JButton(openAction));
+		// // Save
+		// SaveAction saveAction = new SaveAction();
+		// buttonPanel.add(new JButton(saveAction));
 		// Save as
-//		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
-//		buttonPanel.add(new JButton(saveAsAction));
+		// SaveAsAction saveAsAction = new SaveAsAction(saveAction);
+		// buttonPanel.add(new JButton(saveAsAction));
 
-		//save as Java and JS
+		// save as Java and JS
 		ConvertAction convertAction = new ConvertAction();
 		buttonPanel.add(new JButton(convertAction));
 
-		// {// create compile button
-		// JButton runButton = new JButton("Compile");
-		// runButton.addActionListener(new ActionListener() {
-		// public void actionPerformed(ActionEvent e) {
-		// if (dirty) {
-		// JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-		// "コンパイルできません", JOptionPane.ERROR_MESSAGE);
-		// return;
-		// }
-		// // ronproEditor.blockCompile();
-		// }
-		// });
-		// buttonPanel.add(runButton);
-		// }
+		{// create compile button
+			JButton runButton = new JButton("Compile");
+			runButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (dirty) {
+						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません", "コンパイルできません", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					listener.blockCompile();
+				}
+			});
+			buttonPanel.add(runButton);
+		}
 
 		{// create run button
 			JButton runButton = new JButton("Run");
 			runButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					try {
-						saveToFile(selectedFile);
-						setDirty(false);
-
-//						BlockMapper mapper = new BlockMapper();
-//						UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
-
-//						Engine engine = new Engine();
-//						engine.addListener(TurtleMain.libOverrider);
-//						engine.execute(classDec);
-					} catch (IOException e1) {
-						e1.printStackTrace();
+					if (dirty) {
+						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません", "実行できません", JOptionPane.ERROR_MESSAGE);
+						return;
 					}
+					listener.blockRun();
 				}
 			});
 			buttonPanel.add(runButton);
@@ -711,7 +711,8 @@ public class WorkspaceController {
 	 * BlockCanvas and block drawers
 	 */
 	public JComponent getSearchBar() {
-		final SearchBar sb = new SearchBar("Search blocks", "Search for blocks in the drawers and workspace", workspace);
+		final SearchBar sb = new SearchBar("Search blocks", "Search for blocks in the drawers and workspace",
+				workspace);
 		for (SearchableContainer con : getAllSearchableContainers()) {
 			sb.addSearchableContainer(con);
 		}

@@ -28,10 +28,6 @@ public class MethodReturnTypeChecker implements WorkspaceListener {
 				Block topBlock = Block.getTopBlock(sourceBlock);
 				returnParent.put(sourceBlock.getBlockID(), topBlock.getBlockID());
 			}
-
-			for(Long id : methodReturnTypes.keySet()){
-				System.out.println(event.getWorkspace().getEnv().getBlock(id).toString() + "," + methodReturnTypes.get(id));
-			}
 		}else if(event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED){
 			//メソッドのもつreturnBlockを更新する
 			for(Long id : returnParent.keySet()){
@@ -47,13 +43,9 @@ public class MethodReturnTypeChecker implements WorkspaceListener {
 			//全メソッドの返り値を再計算する
 			updateReturnTypes(event.getWorkspace());
 
-			for(Long id : methodReturnTypes.keySet()){
-				System.out.println(event.getWorkspace().getEnv().getBlock(id).toString() + "," + methodReturnTypes.get(id));
-			}
 		}else if(event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED){
 			//メソッドの持つreturnblockを更新する
 			for(Long id : returnParent.keySet()){
-				System.out.println();
 				Block newParent = Block.getTopBlock(getBlock(event.getWorkspace(), id));
 				//親が変更したreturnBlockの親を再登録する
 				if(!newParent.getBlockID().equals(returnParent.get(id))){
@@ -68,9 +60,6 @@ public class MethodReturnTypeChecker implements WorkspaceListener {
 
 			updateReturnTypes(event.getWorkspace());
 
-			for(Long id : methodReturnTypes.keySet()){
-				System.out.println(event.getWorkspace().getEnv().getBlock(id).toString() + "," + methodReturnTypes.get(id));
-			}
 		}else if(event.getEventType() == WorkspaceEvent.BLOCK_REMOVED){
 			sourceBlock = event.getWorkspace().getEnv().getBlock(event.getSourceBlockID());
 			if("return".equals(sourceBlock.getGenusName())){
@@ -92,9 +81,6 @@ public class MethodReturnTypeChecker implements WorkspaceListener {
 
 			updateReturnTypes(event.getWorkspace());
 
-			for(Long id : methodReturnTypes.keySet()){
-				System.out.println(event.getWorkspace().getEnv().getBlock(id).toString() + "," + methodReturnTypes.get(id));
-			}
 		}
 
 	}

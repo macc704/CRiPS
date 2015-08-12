@@ -220,7 +220,7 @@ public class REFrame extends JFrame {
 	private Action actionOpenBlockEditorFromUNI;
 	private Action actionOpenBlockEditorKeyaki;
 	private Action actionOpenDebuggerBlockEditor;
-	private Action actionGemerateJSCode;
+	private Action actionGenerateJSCode;
 
 	// private Action actionMakeLog;
 
@@ -273,11 +273,11 @@ public class REFrame extends JFrame {
 		menuUNICOEN = new JMenu("UNICOEN");
 		menuBar.add(menuUNICOEN);
 
-		menuUNICOEN.add(actionRunUNIProgram);
+//		menuUNICOEN.add(actionRunUNIProgram);
 		menuUNICOEN.add(actionOpenBlockEditorFromUNI);
-		menuUNICOEN.add(actionOpenBlockEditorKeyaki);
-		menuUNICOEN.add(actionOpenDebuggerBlockEditor);
-		menuUNICOEN.add(actionGemerateJSCode);
+//		menuUNICOEN.add(actionOpenBlockEditorKeyaki);
+//		menuUNICOEN.add(actionOpenDebuggerBlockEditor);
+		menuUNICOEN.add(actionGenerateJSCode);
 	}
 
 	/**
@@ -414,7 +414,7 @@ public class REFrame extends JFrame {
 		actionOpenDebuggerBlockEditor.putValue(Action.NAME, "Open DebuggerBlockEditor");
 
 		// gen js
-		actionGemerateJSCode = new AbstractAction() {
+		actionGenerateJSCode = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				File currentFile = application.getSourceManager().getCurrentFile();
@@ -428,7 +428,7 @@ public class REFrame extends JFrame {
 				}
 			}
 		};
-		actionGemerateJSCode.putValue(Action.NAME, "Convert to JavaScript");
+		actionGenerateJSCode.putValue(Action.NAME, "Convert to JavaScript");
 
 	}
 
