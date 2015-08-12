@@ -1,7 +1,6 @@
 package edu.mit.blocks.controller;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -22,12 +21,10 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.xml.XMLConstants;
@@ -42,10 +39,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import net.unicoen.generator.JavaGenerator;
-import net.unicoen.node.UniClassDec;
-import net.unicoen.parser.blockeditor.BlockMapper;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -55,7 +48,6 @@ import org.xml.sax.SAXException;
 import clib.view.app.javainfo.CJavaInfoPanels;
 import clib.view.windowmanager.CWindowCentraizer;
 import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
-import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
@@ -73,6 +65,10 @@ import edu.mit.blocks.workspace.TrashCan;
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceListener;
+import net.unicoen.generator.JavaGenerator;
+import net.unicoen.generator.JavaScriptGenerator;
+import net.unicoen.node.UniClassDec;
+import net.unicoen.parser.blockeditor.BlockMapper;
 
 /**
  * Example entry point to OpenBlock application creation.
@@ -88,7 +84,7 @@ public class WorkspaceController {
 	protected SearchBar searchBar;
 	// private static String LANG_DEF_PATH;
 
-	private String enc = "SJIS";
+//	private String enc = "SJIS";
 
 	private String imagePath = "../support/images/";// added by macchan
 
@@ -102,13 +98,13 @@ public class WorkspaceController {
 	// flag to indicate if a workspace has been loaded/initialized
 	private boolean workspaceLoaded = false;
 	// last directory that was selected with open or save action
-	private File lastDirectory;
+//	private File lastDirectory;
 	// file currently loaded in workspace
 	private File selectedFile;
 	// Reference kept to be able to update frame title with current loaded file
 	private JFrame frame;
 
-	private DebuggerWorkspaceController debugger;
+//	private DebuggerWorkspaceController debugger;
 
 	// for CheCoPro
 	private boolean openedFromCH = false;
@@ -140,7 +136,7 @@ public class WorkspaceController {
 	 */
 	public void setLangDefFilePath(final String filePath) {
 		InputStream in = null;
-		this.langDefRootPath = filePath;
+		WorkspaceController.langDefRootPath = filePath;
 		try {
 			in = new FileInputStream(filePath);
 			setLangDefStream(in);
@@ -493,79 +489,79 @@ public class WorkspaceController {
 		}
 		return workspacePanel;
 	}
+//
+//	/**
+//	 * Action bound to "Open" action.
+//	 */
+//	private class OpenAction extends AbstractAction {
+//
+//		private static final long serialVersionUID = -2119679269613495704L;
+//
+//		OpenAction() {
+//			super("Open");
+//		}
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			JFileChooser fileChooser = new JFileChooser(lastDirectory);
+//			if (fileChooser.showOpenDialog((Component) e.getSource()) == JFileChooser.APPROVE_OPTION) {
+//				setSelectedFile(fileChooser.getSelectedFile());
+//				lastDirectory = selectedFile.getParentFile();
+//				String selectedPath = selectedFile.getPath();
+//				loadFreshWorkspace();
+//				loadProjectFromPath(selectedPath);
+//			}
+//		}
+//	}
 
-	/**
-	 * Action bound to "Open" action.
-	 */
-	private class OpenAction extends AbstractAction {
+//	/**
+//	 * Action bound to "Save" button.
+//	 */
+//	private class SaveAction extends AbstractAction {
+//		private static final long serialVersionUID = -5540588250535739852L;
+//
+//		SaveAction() {
+//			super("Save");
+//		}
+//
+//		@Override
+//		public void actionPerformed(ActionEvent evt) {
+//			if (selectedFile == null) {
+//				JFileChooser fileChooser = new JFileChooser(lastDirectory);
+//				if (fileChooser.showSaveDialog((Component) evt.getSource()) == JFileChooser.APPROVE_OPTION) {
+//					setSelectedFile(fileChooser.getSelectedFile());
+//					lastDirectory = selectedFile.getParentFile();
+//				}
+//			}
+//			try {
+//				saveToFile(selectedFile);
+//				setDirty(false);
+//			} catch (IOException e) {
+//				JOptionPane.showMessageDialog((Component) evt.getSource(), e.getMessage());
+//			}
+//		}
+//	}
 
-		private static final long serialVersionUID = -2119679269613495704L;
-
-		OpenAction() {
-			super("Open");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JFileChooser fileChooser = new JFileChooser(lastDirectory);
-			if (fileChooser.showOpenDialog((Component) e.getSource()) == JFileChooser.APPROVE_OPTION) {
-				setSelectedFile(fileChooser.getSelectedFile());
-				lastDirectory = selectedFile.getParentFile();
-				String selectedPath = selectedFile.getPath();
-				loadFreshWorkspace();
-				loadProjectFromPath(selectedPath);
-			}
-		}
-	}
-
-	/**
-	 * Action bound to "Save" button.
-	 */
-	private class SaveAction extends AbstractAction {
-		private static final long serialVersionUID = -5540588250535739852L;
-
-		SaveAction() {
-			super("Save");
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent evt) {
-			if (selectedFile == null) {
-				JFileChooser fileChooser = new JFileChooser(lastDirectory);
-				if (fileChooser.showSaveDialog((Component) evt.getSource()) == JFileChooser.APPROVE_OPTION) {
-					setSelectedFile(fileChooser.getSelectedFile());
-					lastDirectory = selectedFile.getParentFile();
-				}
-			}
-			try {
-				saveToFile(selectedFile);
-				setDirty(false);
-			} catch (IOException e) {
-				JOptionPane.showMessageDialog((Component) evt.getSource(), e.getMessage());
-			}
-		}
-	}
-
-	/**
-	 * Action bound to "Save As..." button.
-	 */
-	private class SaveAsAction extends AbstractAction {
-		private static final long serialVersionUID = 3981294764824307472L;
-		private final SaveAction saveAction;
-
-		SaveAsAction(SaveAction saveAction) {
-			super("Save As...");
-			this.saveAction = saveAction;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			selectedFile = null;
-			// delegate to save action
-			saveAction.actionPerformed(e);
-			setDirty(false);
-		}
-	}
+//	/**
+//	 * Action bound to "Save As..." button.
+//	 */
+//	private class SaveAsAction extends AbstractAction {
+//		private static final long serialVersionUID = 3981294764824307472L;
+//		private final SaveAction saveAction;
+//
+//		SaveAsAction(SaveAction saveAction) {
+//			super("Save As...");
+//			this.saveAction = saveAction;
+//		}
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			selectedFile = null;
+//			// delegate to save action
+//			saveAction.actionPerformed(e);
+//			setDirty(false);
+//		}
+//	}
 
 	/**
 	 * Action bound to "Save As..." button.
@@ -586,7 +582,7 @@ public class WorkspaceController {
 
 				BlockMapper mapper = new BlockMapper();
 				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
-
+				
 				outputFileFromUni(classDec);
 
 			} catch (Exception e1) {
@@ -602,11 +598,11 @@ public class WorkspaceController {
 		out.close();
 		listener.blockConverted(javaFile);
 
-//		File jsFile = new File(selectedFile.getParentFile().getPath() + "/" + dec.className + ".js");
-//		out = new PrintStream(jsFile);
-//		JavaScriptGenerator.generate(dec, out);
-//		out.close();
-//		listener.blockConverted(jsFile);
+		File jsFile = new File(selectedFile.getParentFile().getPath() + "/" + dec.className + ".js");
+		out = new PrintStream(jsFile);
+		JavaScriptGenerator.generate(dec, out);
+		out.close();
+		listener.blockConverted(jsFile);
 	}
 
 	/**
@@ -639,16 +635,17 @@ public class WorkspaceController {
 	 */
 	private JComponent getButtonPanel() {
 		JPanel buttonPanel = new JPanel();
-		// Open
-		OpenAction openAction = new OpenAction();
-		buttonPanel.add(new JButton(openAction));
-		// Save
-		SaveAction saveAction = new SaveAction();
-		buttonPanel.add(new JButton(saveAction));
+//		// Open
+//		OpenAction openAction = new OpenAction();
+//		buttonPanel.add(new JButton(openAction));
+//		// Save
+//		SaveAction saveAction = new SaveAction();
+//		buttonPanel.add(new JButton(saveAction));
 		// Save as
-		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
-		buttonPanel.add(new JButton(saveAsAction));
+//		SaveAsAction saveAsAction = new SaveAsAction(saveAction);
+//		buttonPanel.add(new JButton(saveAsAction));
 
+		//save as Java and JS
 		ConvertAction convertAction = new ConvertAction();
 		buttonPanel.add(new JButton(convertAction));
 
@@ -675,8 +672,8 @@ public class WorkspaceController {
 						saveToFile(selectedFile);
 						setDirty(false);
 
-						BlockMapper mapper = new BlockMapper();
-						UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
+//						BlockMapper mapper = new BlockMapper();
+//						UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
 
 //						Engine engine = new Engine();
 //						engine.addListener(TurtleMain.libOverrider);
