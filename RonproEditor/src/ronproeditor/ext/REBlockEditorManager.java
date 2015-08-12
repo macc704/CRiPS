@@ -13,13 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import net.unicoen.node.UniClassDec;
-import net.unicoen.parser.blockeditor.BlockGenerator;
-import pres.core.model.PRFileLog;
-import pres.core.model.PRLog;
-import ronproeditor.ICFwResourceRepository;
-import ronproeditor.REApplication;
-import ronproeditor.helpers.CFrameUtils;
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
 import clib.common.filesystem.CPath;
@@ -29,7 +22,13 @@ import clib.view.dialogs.CErrorDialog;
 import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
 import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 import edu.mit.blocks.controller.WorkspaceController;
-
+import net.unicoen.node.UniClassDec;
+import net.unicoen.parser.blockeditor.BlockGenerator;
+import pres.core.model.PRFileLog;
+import pres.core.model.PRLog;
+import ronproeditor.ICFwResourceRepository;
+import ronproeditor.REApplication;
+import ronproeditor.helpers.CFrameUtils;
 
 /**
  * @author macchan
@@ -37,10 +36,10 @@ import edu.mit.blocks.controller.WorkspaceController;
  */
 public class REBlockEditorManager {
 
-	private static final String LANG_DEF_PATH = "ext/block/lang_def.xml";
+	// private static final String LANG_DEF_PATH = "ext/block/lang_def.xml";
 	// private static final String LANG_DEF_TURTLE_PATH =
 	// "ext/block/lang_def_turtle.xml";
-	private static final String IMAGES_PATH = "ext/block/images/";
+	// private static final String IMAGES_PATH = "ext/block/images/";
 	private REApplication app;
 	private WorkspaceController blockEditor;
 	private DebuggerWorkspaceController debugger;
@@ -104,7 +103,6 @@ public class REBlockEditorManager {
 		initDebuggerBlockEditor(classDec, sourcePath);
 	}
 
-
 	public void doCompileBlockFromUni(UniClassDec classDec, String sourcePath) {
 		try {
 			File file = new File(sourcePath + classDec.className + ".xml");
@@ -131,7 +129,8 @@ public class REBlockEditorManager {
 		}
 
 		try {
-			debugger = new DebuggerWorkspaceController(classDec, "ext/blocks/lang_def.xml", new File(sourcePath + classDec.className + ".xml"));
+			debugger = new DebuggerWorkspaceController(classDec, "ext/blocks/lang_def.xml",
+					new File(sourcePath + classDec.className + ".xml"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -145,9 +144,9 @@ public class REBlockEditorManager {
 
 		blockEditor = new WorkspaceController();
 
-//		blockEditor = new WorkspaceController();
-//		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
-//		blockEditor.loadFreshWorkspace();
+		// blockEditor = new WorkspaceController();
+		// blockEditor.setLangDefFilePath(LANG_DEF_PATH);
+		// blockEditor.loadFreshWorkspace();
 
 		blockEditor.addBlockEditorListener(new SBlockEditorListener() {
 			public void blockConverted(File file) {
@@ -183,59 +182,62 @@ public class REBlockEditorManager {
 			}
 
 		});
-//		blockEditor.createAndShowGUI(new SBlockEditorListener() {
-//			public void blockConverted(File file) {
-//				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
-//				app.doRefreshCurrentEditor();
-//				app.doFormat();
-//				app.doBlockToJavaSave();
-//				// app.doCompileBlocking(true);
-//				// successMessageDialog();// TODO
-//				// dirty = false;
-//			}
-//
-//			public void blockDebugRun() {
-//				writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
-//				app.doDebugRun();
-//			}
-//
-//			public void blockRun() {
-//				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
-//				app.doRun();
-//			}
-//
-//			public void blockCompile() {
-//				writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
-//				app.doCompile();
-//			}
-//
-//			public void chengeInheritance() {
-//			}
-//
-//			public void toggleTraceLines(String state) {
-//				writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
-//			}
-//
-//		});
-//		blockEditor.getFrame().addWindowFocusListener(new WindowFocusListener() {
-//			public void windowLostFocus(WindowEvent e) {
-//				writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
-//			}
-//
-//			public void windowGainedFocus(WindowEvent e) {
-//				writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
-//			}
-//		});
+		// blockEditor.createAndShowGUI(new SBlockEditorListener() {
+		// public void blockConverted(File file) {
+		// writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
+		// app.doRefreshCurrentEditor();
+		// app.doFormat();
+		// app.doBlockToJavaSave();
+		// // app.doCompileBlocking(true);
+		// // successMessageDialog();// TODO
+		// // dirty = false;
+		// }
+		//
+		// public void blockDebugRun() {
+		// writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
+		// app.doDebugRun();
+		// }
+		//
+		// public void blockRun() {
+		// writeBlockEditingLog(BlockEditorLog.SubType.RUN);
+		// app.doRun();
+		// }
+		//
+		// public void blockCompile() {
+		// writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
+		// app.doCompile();
+		// }
+		//
+		// public void chengeInheritance() {
+		// }
+		//
+		// public void toggleTraceLines(String state) {
+		// writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES,
+		// state);
+		// }
+		//
+		// });
+		// blockEditor.getFrame().addWindowFocusListener(new
+		// WindowFocusListener() {
+		// public void windowLostFocus(WindowEvent e) {
+		// writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
+		// }
+		//
+		// public void windowGainedFocus(WindowEvent e) {
+		// writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
+		// }
+		// });
 		writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
-//		blockEditor.getFrame().addWindowStateListener(new WindowStateListener() {
-//			public void windowStateChanged(WindowEvent e) {
-//				if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
-//					writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
-//				} else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
-//					// do nothing
-//				}
-//			}
-//		});
+		// blockEditor.getFrame().addWindowStateListener(new
+		// WindowStateListener() {
+		// public void windowStateChanged(WindowEvent e) {
+		// if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
+		// writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
+		// } else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
+		// // do nothing
+		// }
+		// }
+		// });
 	}
 
 	// private void successMessageDialog() {
@@ -256,7 +258,7 @@ public class REBlockEditorManager {
 		return blockEditor != null && blockEditor.getFrame() != null && blockEditor.getFrame().isVisible();
 	}
 
-	private boolean isDebuggerBlockEditorOpened(){
+	private boolean isDebuggerBlockEditorOpened() {
 		return debugger != null && debugger.getFrame() != null && debugger.getFrame().isVisible();
 	}
 
@@ -297,7 +299,7 @@ public class REBlockEditorManager {
 	}
 
 	private void doCompileErrorBlockEditor(final File target) {
-//		blockEditor.setState(WorkspaceController.COMPILE_ERROR);
+		// blockEditor.setState(WorkspaceController.COMPILE_ERROR);
 		// Thread thread = new Thread() {
 		//
 		// @Override
@@ -312,7 +314,7 @@ public class REBlockEditorManager {
 
 					// BlockEditor‚É”½‰f
 					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
-//					blockEditor.setCompileErrorTitle(target.getName());
+					// blockEditor.setCompileErrorTitle(target.getName());
 				} catch (Exception ex) {
 				}
 			}
@@ -322,7 +324,7 @@ public class REBlockEditorManager {
 	}
 
 	protected void doRefleshBlock(final File javaFile) {
-//		blockEditor.setState(WorkspaceController.BLOCK_SHOWING);
+		// blockEditor.setState(WorkspaceController.BLOCK_SHOWING);
 		// Thread thread = new Thread() {
 		//
 		// @Override
@@ -335,11 +337,9 @@ public class REBlockEditorManager {
 					String[] libs = app.getLibraryManager().getLibsAsArray();
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 					// File javaFile = app.getSourceManager().getCurrentFile();
-					String xmlFilePath = new JavaToBlockMain().run(javaFile,
-							REApplication.SRC_ENCODING, libs);
+					String xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
 
-					blockEditor.setLangDefFilePath(javaFile.getParentFile().getPath()
-							+ "/lang_def_project.xml");
+					blockEditor.setLangDefFilePath(javaFile.getParentFile().getPath() + "/lang_def_project.xml");
 
 					// blockEditor.resetLanguage();
 					// blockEditor.setLangDefDirty(true);
@@ -386,11 +386,9 @@ public class REBlockEditorManager {
 
 	private String emptyBEWorkSpacePrint() {
 		StringBuffer blockEditorFile = new StringBuffer();
-		blockEditorFile.append("<?xml version=\"1.0\" encoding=\""
-				+ BlockConverter.ENCODING_BLOCK_XML + "\"?>");
+		blockEditorFile.append("<?xml version=\"1.0\" encoding=\"" + BlockConverter.ENCODING_BLOCK_XML + "\"?>");
 		blockEditorFile.append("<CODEBLOCKS><Pages>");
-		blockEditorFile.append("<Page page-name=\"BlockEditor\""
-				+ " page-color=\" 40 40 40\" page-width=\"4000\""
+		blockEditorFile.append("<Page page-name=\"BlockEditor\"" + " page-color=\" 40 40 40\" page-width=\"4000\""
 				+ " page-infullview=\"yes\" page-drawer=\"NewClass\">");
 		blockEditorFile.append("<PageBlocks></PageBlocks></Page></Pages></CODEBLOCKS>");
 		return blockEditorFile.toString();
@@ -398,8 +396,7 @@ public class REBlockEditorManager {
 
 	private String emptyBEFactoryPrint() {
 		StringBuffer blockEditorFile = new StringBuffer();
-		blockEditorFile.append("<?xml version=\"1.0\" encoding=\""
-				+ BlockConverter.ENCODING_BLOCK_XML + "\"?>");
+		blockEditorFile.append("<?xml version=\"1.0\" encoding=\"" + BlockConverter.ENCODING_BLOCK_XML + "\"?>");
 		blockEditorFile.append("<BlockLangDef>");
 		blockEditorFile.append("<Pages drawer-with-page=\"yes\">");
 		blockEditorFile.append("<Page page-name=\"BlockEditor\" page-width=\"400\"></Page>");

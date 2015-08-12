@@ -20,10 +20,5 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/openblocks"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BlockConverter"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Junicoen"/>
-	<classpathentry kind="lib" path="package/lib/antlr-4.5.1-complete.jar"/>
-	<classpathentry kind="lib" path="package/lib/org.eclipse.xtext.xbase.lib-2.4.2.jar"/>
-	<classpathentry kind="lib" path="package/lib/guava-18.0.jar"/>
-	<classpathentry kind="lib" path="package/lib/org.apache.commons.logging_1.0.4.v201101211617.jar"/>
-	<classpathentry kind="lib" path="package/lib/xerces-2_6_2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

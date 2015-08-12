@@ -15,8 +15,6 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -38,14 +36,14 @@ import javax.swing.KeyStroke;
 import javax.swing.WindowConstants;
 import javax.swing.text.DefaultEditorKit;
 
+import clib.common.system.CJavaSystem;
+import clib.preference.model.CAbstractPreferenceCategory;
+import clib.view.app.javainfo.CJavaInfoPanels;
 import net.unicoen.interpreter.Engine;
 import net.unicoen.node.UniClassDec;
 import ronproeditor.REApplication;
 import ronproeditor.RESourceManager;
 import ronproeditor.helpers.ConsoleTextPane;
-import clib.common.system.CJavaSystem;
-import clib.preference.model.CAbstractPreferenceCategory;
-import clib.view.app.javainfo.CJavaInfoPanels;
 
 /**
  * REFrame
@@ -66,6 +64,7 @@ public class REFrame extends JFrame {
 	private RESourceEditorCategory category = new RESourceEditorCategory();
 
 	private static int CTRL_MASK = KeyEvent.CTRL_MASK;
+
 	static {
 		if (CJavaSystem.getInstance().isMac()) {
 			CTRL_MASK = KeyEvent.META_MASK;
@@ -119,8 +118,7 @@ public class REFrame extends JFrame {
 		verticalSplitter.setDividerLocation(400);
 		// getContentPane().add(verticalSplitter);
 
-		JSplitPane horizontalSplitter = new JSplitPane(
-				JSplitPane.HORIZONTAL_SPLIT);
+		JSplitPane horizontalSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		horizontalSplitter.setDividerLocation(200);
 		verticalSplitter.add(horizontalSplitter, JSplitPane.LEFT);
 		JScrollPane scrollconsole = new JScrollPane(console);
@@ -152,18 +150,15 @@ public class REFrame extends JFrame {
 	}
 
 	protected void initializeListeners() {
-		application.getSourceManager().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (evt.getPropertyName().equals(
-								RESourceManager.DOCUMENT_CLOSED)) {
-							deleteEditor();
-						} else if (evt.getPropertyName().equals(
-								RESourceManager.DOCUMENT_OPENED)) {
-							createNewEditor();
-						}
-					}
-				});
+		application.getSourceManager().addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				if (evt.getPropertyName().equals(RESourceManager.DOCUMENT_CLOSED)) {
+					deleteEditor();
+				} else if (evt.getPropertyName().equals(RESourceManager.DOCUMENT_OPENED)) {
+					createNewEditor();
+				}
+			}
+		});
 	}
 
 	/***********************
@@ -211,13 +206,12 @@ public class REFrame extends JFrame {
 	private Action actionBytecode;
 	private Action actionStartCheCoPro; // CheCoPro(kato)
 
-
 	// 「Help」
 	private JMenu menuHelp;
 	private Action actionOpenPreference;
 	private Action actionAbout;
 
-	//「UNICOEN」
+	// 「UNICOEN」
 	private JMenu menuUNICOEN;
 	private Action actionRunUNIProgram;
 	private Action actionOpenBlockEditorFromUNI;
@@ -272,7 +266,7 @@ public class REFrame extends JFrame {
 	/**
 	 * UNICOEN用のメニュー
 	 */
-	private void initializeUNICOENMenu(){
+	private void initializeUNICOENMenu() {
 		menuUNICOEN = new JMenu("UNICOEN");
 		menuBar.add(menuUNICOEN);
 
@@ -368,16 +362,17 @@ public class REFrame extends JFrame {
 		initializeHelpAction();
 	}
 
-	private void initializeUNICOENAction(){
-		//Block->Uni action
+	private void initializeUNICOENAction() {
+		// Block->Uni action
 		actionOpenBlockEditorFromUNI = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				application.doOpenBlockEdtorFromUni(application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
+				application.doOpenBlockEdtorFromUni(
+						application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
 			}
 		};
 		actionOpenBlockEditorFromUNI.putValue(Action.NAME, "Open BlockEditorFromUni");
 
-		//Run
+		// Run
 		actionRunUNIProgram = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				Engine engine = new Engine();
@@ -385,7 +380,7 @@ public class REFrame extends JFrame {
 				engine.out = new PrintStream(baos);
 
 				UniClassDec dec = application.convertJavaToUni(application.getSourceManager().getCurrentFile());
-//				engine.addListener(TurtleMain.libOverrider);
+				// engine.addListener(TurtleMain.libOverrider);
 				engine.execute(dec);
 				try {
 					getConsole().setText(baos.toString("UTF-8"));
@@ -396,36 +391,40 @@ public class REFrame extends JFrame {
 		};
 		actionRunUNIProgram.putValue(Action.NAME, "Run");
 
-		//open block
+		// open block
 		actionOpenBlockEditorKeyaki = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				//ファイルが選択されていない>>
+				// ファイルが選択されていない>>
 				application.doOpenBlockEditorKeyaki();
 			}
 		};
 		actionOpenBlockEditorKeyaki.putValue(Action.NAME, "Open EmptyBlockEditor");
 
-		//open debugger
+		// open debugger
 		actionOpenDebuggerBlockEditor = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				//ファイルが選択されていない>>
-				application.doOpenDebuggerBlockEditor(application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
+				// ファイルが選択されていない>>
+				application.doOpenDebuggerBlockEditor(
+						application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
 			}
 		};
 		actionOpenDebuggerBlockEditor.putValue(Action.NAME, "Open DebuggerBlockEditor");
 
-		//gen js
+		// gen js
 		actionGemerateJSCode = new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				File currentFile = application.getSourceManager().getCurrentFile();
-				UniClassDec dec = application.convertJavaToUni(currentFile);
-				try {
-					PrintStream out = new PrintStream(new File(currentFile.getPath().substring(0, currentFile.getPath().indexOf(".")) + ".js"));
-//					JavaScriptGenerator.generate(dec, out);
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				}
+				// File currentFile =
+				// application.getSourceManager().getCurrentFile();
+				// UniClassDec dec = application.convertJavaToUni(currentFile);
+				// try {
+				// PrintStream out = new PrintStream(
+				// new File(currentFile.getPath().substring(0,
+				// currentFile.getPath().indexOf(".")) + ".js"));
+				// JavaScriptGenerator.generate(dec, out);
+				// } catch (FileNotFoundException e1) {
+				// e1.printStackTrace();
+				// }
 			}
 		};
 		actionGemerateJSCode.putValue(Action.NAME, "Convert to JavaScript");
@@ -443,8 +442,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionCreateProject.putValue(Action.NAME, "New Project");
-		actionCreateProject.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_P, CTRL_MASK));
+		actionCreateProject.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, CTRL_MASK));
 
 		// -- 新規文書
 		actionCreateFile = new AbstractAction() {
@@ -453,8 +451,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionCreateFile.putValue(Action.NAME, "New File(Class)");
-		actionCreateFile.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_N, CTRL_MASK));
+		actionCreateFile.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, CTRL_MASK));
 
 		// //-- Refactorプロジェクト
 		// actionRefactoringProject = new AbstractAction() {
@@ -484,10 +481,8 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionRefactoring.putValue(Action.NAME, "Rename");
-		actionRefactoring.putValue(
-				Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK
-						| KeyEvent.SHIFT_MASK));
+		actionRefactoring.putValue(Action.ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK | KeyEvent.SHIFT_MASK));
 
 		// -- File Copy
 		actionFileCopy = new AbstractAction() {
@@ -496,10 +491,8 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionFileCopy.putValue(Action.NAME, "File Copy");
-		actionFileCopy.putValue(
-				Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_C, CTRL_MASK
-						| KeyEvent.SHIFT_MASK));
+		actionFileCopy.putValue(Action.ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_C, CTRL_MASK | KeyEvent.SHIFT_MASK));
 		actionFileCopy.setEnabled(false);
 
 		// -- Delete
@@ -509,10 +502,8 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionDelete.putValue(Action.NAME, "Delete");
-		actionDelete.putValue(
-				Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_D, CTRL_MASK
-						| KeyEvent.SHIFT_MASK));
+		actionDelete.putValue(Action.ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_D, CTRL_MASK | KeyEvent.SHIFT_MASK));
 
 		// -- 保存
 		actionSave = new AbstractAction() {
@@ -521,8 +512,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionSave.putValue(Action.NAME, "Save...");
-		actionSave.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_S, CTRL_MASK));
+		actionSave.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_S, CTRL_MASK));
 		actionSave.setEnabled(false);
 
 		// -- Export
@@ -543,8 +533,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionRefresh.putValue(Action.NAME, "Refresh");
-		actionRefresh.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+		actionRefresh.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
 
 		// -- 終了
 		actionExit = new AbstractAction() {
@@ -570,8 +559,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionUndo.putValue(Action.NAME, "Undo");
-		actionUndo.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_Z, CTRL_MASK));
+		actionUndo.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_Z, CTRL_MASK));
 		actionUndo.setEnabled(false);
 
 		// -- Redo
@@ -582,26 +570,21 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionRedo.putValue(Action.NAME, "Redo");
-		actionRedo.putValue(
-				Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_Z, CTRL_MASK
-						| KeyEvent.SHIFT_MASK));
+		actionRedo.putValue(Action.ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_Z, CTRL_MASK | KeyEvent.SHIFT_MASK));
 		actionRedo.setEnabled(false);
 
 		// -- Cut
 		actionCut.putValue(Action.NAME, "Cut");
-		actionCut.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_X, CTRL_MASK));
+		actionCut.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_X, CTRL_MASK));
 
 		// -- Copy
 		actionCopy.putValue(Action.NAME, "Copy");
-		actionCopy.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_C, CTRL_MASK));
+		actionCopy.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_C, CTRL_MASK));
 
 		// -- Paste
 		actionPaste.putValue(Action.NAME, "Paste");
-		actionPaste.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_V, CTRL_MASK));
+		actionPaste.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_V, CTRL_MASK));
 
 	}
 
@@ -613,8 +596,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionCompile.putValue(Action.NAME, "Compile");
-		actionCompile.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_E, CTRL_MASK));
+		actionCompile.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_E, CTRL_MASK));
 		actionCompile.setEnabled(false);
 
 		// -- Run
@@ -624,8 +606,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionRun.putValue(Action.NAME, "Run");
-		actionRun.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK));
+		actionRun.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_R, CTRL_MASK));
 		actionRun.setEnabled(false);
 
 		// -- DebugRun (add hakamata)
@@ -635,8 +616,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionDebugRun.putValue(Action.NAME, "DebugRun");
-		actionDebugRun.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_T, CTRL_MASK));
+		actionDebugRun.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_T, CTRL_MASK));
 		actionDebugRun.setEnabled(true);
 
 		// -- Kill
@@ -646,8 +626,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionKill.putValue(Action.NAME, "Kill");
-		actionKill.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_SEMICOLON, CTRL_MASK));
+		actionKill.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_SEMICOLON, CTRL_MASK));
 		actionKill.setEnabled(true);
 
 		// -- Format
@@ -657,8 +636,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionFormat.putValue(Action.NAME, "Format");
-		actionFormat.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_W, CTRL_MASK));
+		actionFormat.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_W, CTRL_MASK));
 		actionFormat.setEnabled(false);
 	}
 
@@ -670,8 +648,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
-		actionOpenBlockEditor.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_MASK));
+		actionOpenBlockEditor.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_MASK));
 		actionOpenBlockEditor.setEnabled(true);
 
 		// --Flowchart
@@ -681,8 +658,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionOpenFlowViewer.putValue(Action.NAME, "Open FlowViewer");
-		actionOpenFlowViewer.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_P, CTRL_MASK));
+		actionOpenFlowViewer.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, CTRL_MASK));
 		actionOpenFlowViewer.setEnabled(true);
 
 		// --GeneRef
@@ -692,8 +668,7 @@ public class REFrame extends JFrame {
 			}
 		};
 		actionOpenGeneRefBrowser.putValue(Action.NAME, "Open GeneRefBrowser");
-		actionOpenGeneRefBrowser.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_B, CTRL_MASK));
+		actionOpenGeneRefBrowser.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_B, CTRL_MASK));
 		actionOpenGeneRefBrowser.setEnabled(true);
 
 		// useRSSystem = new JCheckBoxMenuItem("Use ReflectionTool");
@@ -759,8 +734,7 @@ public class REFrame extends JFrame {
 		};
 
 		actionBytecode.putValue(Action.NAME, "Lesson Bytecode");
-		actionBytecode.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_J, CTRL_MASK));
+		actionBytecode.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_J, CTRL_MASK));
 		actionBytecode.setEnabled(false);
 
 		// --CheCoPro
@@ -842,8 +816,7 @@ public class REFrame extends JFrame {
 	private void refreshTitle() {
 		String title = REApplication.APP_NAME + " " + REApplication.VERSION;
 		if (application.getSourceManager().hasCurrentFile()) {
-			title += " - "
-					+ application.getSourceManager().getCurrentFile().getName();
+			title += " - " + application.getSourceManager().getCurrentFile().getName();
 			if (editor.isDirty()) {
 				title += "*";
 				actionSave.setEnabled(true);
@@ -882,8 +855,7 @@ public class REFrame extends JFrame {
 
 	private void refreshUndoState() {
 		if (editor != null && editor.undoableEdit() != null) {
-			actionUndo.putValue(Action.NAME, "Undo - "
-					+ editor.undoableEdit().getUndoPresentationName());
+			actionUndo.putValue(Action.NAME, "Undo - " + editor.undoableEdit().getUndoPresentationName());
 			actionUndo.setEnabled(true);
 		} else {
 			actionUndo.putValue(Action.NAME, "Undo");
@@ -891,8 +863,7 @@ public class REFrame extends JFrame {
 		}
 
 		if (editor != null && editor.redoableEdit() != null) {
-			actionRedo.putValue(Action.NAME, "Redo - "
-					+ editor.redoableEdit().getRedoPresentationName());
+			actionRedo.putValue(Action.NAME, "Redo - " + editor.redoableEdit().getRedoPresentationName());
 			actionRedo.setEnabled(true);
 		} else {
 			actionRedo.putValue(Action.NAME, "Redo");
@@ -909,12 +880,10 @@ public class REFrame extends JFrame {
 	}
 
 	public void showApplicationInformationDialog() {
-		String[] message = {
-				REApplication.APP_NAME + " " + REApplication.VERSION,
-				REApplication.DEVELOPERS, REApplication.COPYRIGHT };
+		String[] message = { REApplication.APP_NAME + " " + REApplication.VERSION, REApplication.DEVELOPERS,
+				REApplication.COPYRIGHT };
 		// Icon icon = new ImageIcon(getIconImage());
-		showDialog(REApplication.APP_NAME, message,
-				JOptionPane.INFORMATION_MESSAGE, null);
+		showDialog(REApplication.APP_NAME, message, JOptionPane.INFORMATION_MESSAGE, null);
 	}
 
 	private void showDialog(String title, Object message, int type, Icon icon) {
@@ -1030,8 +999,7 @@ public class REFrame extends JFrame {
 
 		public void save() {
 			getRepository().put(FONT_LABEL, getSelectedFont().getName());
-			getRepository().put(FONT_SIZE,
-					Integer.toString(getSelectedFontSize()));
+			getRepository().put(FONT_SIZE, Integer.toString(getSelectedFontSize()));
 			if (editor != null) {
 				editor.getViewer().changeFont(getSelectedFont());
 				console.setFont(getSelectedFont());
@@ -1041,8 +1009,8 @@ public class REFrame extends JFrame {
 		public Font getSelectedFont() {
 			// return
 			// checkbox.getSelectedFont().deriveFont(getSelectedFontSize());
-			return new Font(checkbox.getSelectedFont().getFontName(), checkbox
-					.getSelectedFont().getStyle(), getSelectedFontSize());
+			return new Font(checkbox.getSelectedFont().getFontName(), checkbox.getSelectedFont().getStyle(),
+					getSelectedFontSize());
 		}
 
 		private int getSelectedFontSize() {
