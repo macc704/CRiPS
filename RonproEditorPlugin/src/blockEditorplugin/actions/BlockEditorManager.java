@@ -296,6 +296,12 @@ public class BlockEditorManager {
 				writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
 			}
 
+			@Override
+			public void saveAsJavaAndJS(File file) {
+				// TODO Auto-generated method stub
+				
+			}
+
 		}, ENCODING);
 		blockEditor.getFrame().addWindowFocusListener(
 				new WindowFocusListener() {

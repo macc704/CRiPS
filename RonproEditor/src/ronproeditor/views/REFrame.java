@@ -379,9 +379,7 @@ public class REFrame extends JFrame {
 				//Java->Uni
 				UniClassDec dec = application.convertJavaToUni(application.getSourceManager().getCurrentFile());
 				
-				String[] pathes = application.getSourceManager().getCurrentFile().getPath().split(File.separator);
-				
-				File file = new File(application.getSourceManager().getCurrentFile().getParentFile().getPath() + File.separator + pathes[pathes.length-1].substring(0, pathes[pathes.length-1].indexOf(".")) + ".xml");
+                File file = new File(application.getSourceManager().getCurrentFile().getParentFile().getPath() + File.separator + dec.className + ".xml" );
 				try {
 					file.createNewFile();
 					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)), false, "UTF-8");
