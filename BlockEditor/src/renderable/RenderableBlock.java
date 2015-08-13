@@ -35,16 +35,6 @@ import javax.swing.SwingUtilities;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import renderable.BlockImageIcon.ImageLocation;
-import workspace.ContextMenu;
-import workspace.FactoryManager;
-import workspace.ISupportMemento;
-import workspace.MiniMap;
-import workspace.RBParent;
-import workspace.SearchableElement;
-import workspace.Workspace;
-import workspace.WorkspaceEvent;
-import workspace.WorkspaceWidget;
 import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.extent.SAbstractionBlockShape;
 import bc.BCSystem;
@@ -61,6 +51,17 @@ import codeblocks.JComponentDragHandler;
 import codeblocks.rendering.BlockShapeUtil;
 import codeblockutil.CToolTip;
 import codeblockutil.GraphicsManager;
+import renderable.BlockImageIcon.ImageLocation;
+import workspace.ContextMenu;
+import workspace.FactoryManager;
+import workspace.ISupportMemento;
+import workspace.MiniMap;
+import workspace.Page;
+import workspace.RBParent;
+import workspace.SearchableElement;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
+import workspace.WorkspaceWidget;
 
 /**
  * RenderableBlock is responsible for all graphical rendering of a code Block.
@@ -1790,10 +1791,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.setConstrainComment(false);
 		}
 		Component oldParent = renderable.getParent();
-
-		Workspace.getInstance().addToBlockLayer(renderable);
-
-		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
+		
+		if(!(renderable.getParentWidget() instanceof Page)){
+			Workspace.getInstance().addToBlockLayer(renderable);
+			renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));			
+		}
 
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(Block.getBlock(renderable.blockID))) {

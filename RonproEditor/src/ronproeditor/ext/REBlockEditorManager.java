@@ -45,7 +45,7 @@ public class REBlockEditorManager {
 	 private static final String LANG_DEF_PATH = "ext/blocks/lang_def_turtle.xml";
 	// private static final String LANG_DEF_TURTLE_PATH =
 	// "ext/block/lang_def_turtle.xml";
-	 private static final String IMAGES_PATH = "ext/blocks/images/";
+	 private static final String IMAGES_PATH = "ext/block/images/";
 	private REApplication app;
 	private WorkspaceController blockEditor;
 
