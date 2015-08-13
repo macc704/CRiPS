@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ import nd.com.sun.tools.example.debug.gui.CommandInterpreter;
 import nd.com.sun.tools.example.debug.gui.GUI;
 import nd.novicedebugger.NDebuggerListener;
 import nd.novicedebugger.NDebuggerManager;
+import net.unicoen.generator.JavaGenerator;
 import net.unicoen.mapper.JavaMapper;
 import net.unicoen.mapper.JavaScriptMapper;
 import net.unicoen.node.UniClassDec;
@@ -784,15 +786,14 @@ public class REApplication implements ICFwApplication {
 			return;
 		}
 
-		File target = getSourceManager().getCurrentFile();
+		File target = getTargetFile();
 		if (hasRunnableFile(target)) {
 			deleteRunnable(target);
 		}
 
 		frame.getConsole().setText("");
 
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
-				getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),target);
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
@@ -829,7 +830,34 @@ public class REApplication implements ICFwApplication {
 
 		generefManager.handleCompileDone();
 	}
+	
+	private File getTargetFile(){
+		File file = getSourceManager().getCurrentFile();
+		
+		if(file.getPath().endsWith(".js")){
+			return new File(file.getPath().replace(".js", ".java"));
+		}
+		
+		return file;
+	}
 
+	public UniClassDec convertJSToUni(String jsFilePath){
+		JavaScriptMapper mapper = new JavaScriptMapper();
+		return (UniClassDec)mapper.parseFile(jsFilePath);			
+	}
+	
+	public void convertJSToJava(String jsFilePath, String javaPath){
+		PrintStream ps;
+		try {
+			ps = new PrintStream(new File(javaPath));
+			UniClassDec dec = convertJSToUni(jsFilePath);
+			JavaGenerator.generate(dec, ps);
+			ps.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/*
 	 * BlockEditorとGeneRefのためのコンパイル処理 2012.12.04 この設計は仮なので再設計せよ
 	 *
@@ -908,15 +936,14 @@ public class REApplication implements ICFwApplication {
 	}
 
 	public void doRun() {
-		File target = getSourceManager().getCurrentFile();
+		File target = getTargetFile();
 		if (!hasRunnableFile(target)) {
 			JOptionPane.showMessageDialog(frame, "コンパイルに成功していません", "実行できません",
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
-				getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),getTargetFile());
 		String cp = libraryManager.getLibString();
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add(runCommand);

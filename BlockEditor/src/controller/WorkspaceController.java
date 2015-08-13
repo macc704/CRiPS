@@ -436,9 +436,8 @@ public class WorkspaceController {
 		}
 
 		String name = new File(path).getName();
-		String javaName = ChangeExtension.changeToJavaExtension(name);
 
-		String title = defaultTitle + "-" + javaName;
+		String title = defaultTitle + "-" + name;
 
 		if (!user.equals("")) {
 			title = user + "-" + title;

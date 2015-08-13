@@ -187,6 +187,7 @@ public class REBlockEditorManager {
 
 				writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK);
 
+				@SuppressWarnings("unused")
 				String message = "default";
 				try {
 					message = app.doCompile2(false);

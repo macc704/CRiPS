@@ -220,9 +220,12 @@ public class REFrame extends JFrame {
 
 	// ÅuUNICOENÅv
 	private JMenu menuUNICOEN;
+	@SuppressWarnings("unused")
 	private Action actionRunUNIProgram;
 	private Action actionOpenBlockEditorFromUNI;
+	@SuppressWarnings("unused")
 	private Action actionOpenBlockEditorKeyaki;
+	@SuppressWarnings("unused")
 	private Action actionOpenDebuggerBlockEditor;
 	private Action actionGenerateJSCode;
 
