@@ -803,16 +803,7 @@ public class WorkspaceController {
 		});
 
 		frame.setBounds(100, 100, 800, 600);
-		// // final SearchBar sb = new SearchBar("Search blocks",
-		// // "Search for blocks in the drawers and workspace", workspace);
-		// // for (final SearchableContainer con : getAllSearchableContainers())
-		// {
-		// // sb.addSearchableContainer(con);
-		// // }
-		// // final JPanel topPane = new JPanel();
-		// // sb.getComponent().setPreferredSize(new Dimension(130, 23));
-		// // topPane.add(sb.getComponent());
-		// frame.add(topPane, BorderLayout.PAGE_START);
+
 		frame.setJMenuBar(getMenuBar());
 
 		frame.add(getWorkspacePanel(), BorderLayout.CENTER);

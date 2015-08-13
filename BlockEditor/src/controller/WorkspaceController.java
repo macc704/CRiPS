@@ -20,6 +20,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -42,17 +43,6 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import renderable.RenderableBlock;
-import slcodeblocks.ParamRule;
-import slcodeblocks.PolyRule;
-import util.ChangeExtension;
-import workspace.BlockCanvas;
-import workspace.SearchBar;
-import workspace.SearchableContainer;
-import workspace.TrashCan;
-import workspace.Workspace;
-import workspace.WorkspaceEvent;
-import workspace.WorkspaceListener;
 import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.apps.BlockToJavaMain;
@@ -69,6 +59,17 @@ import codeblocks.BlockStub;
 import codeblocks.CommandRule;
 import codeblocks.InfixRule;
 import codeblocks.SocketRule;
+import renderable.RenderableBlock;
+import slcodeblocks.ParamRule;
+import slcodeblocks.PolyRule;
+import util.ChangeExtension;
+import workspace.BlockCanvas;
+import workspace.SearchBar;
+import workspace.SearchableContainer;
+import workspace.TrashCan;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
+import workspace.WorkspaceListener;
 
 /**
  *
@@ -660,30 +661,36 @@ public class WorkspaceController {
 
 		JPanel topPane = new JPanel();
 
-		{// create save button
-			JButton saveButton = new JButton("Save as Java and Compile");
-			saveButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					wc.convertToJava(wc.getSaveString(), enc);
-				}
-			});
-			topPane.add(saveButton);
-		}
-
-//		{// create compile button
-//			JButton runButton = new JButton("Compile");
-//			runButton.addActionListener(new ActionListener() {
+//		{// create save button
+//			JButton saveButton = new JButton("Save as Java and Compile");
+//			saveButton.addActionListener(new ActionListener() {
 //				public void actionPerformed(ActionEvent e) {
-//					if (dirty) {
-//						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-//								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
-//						return;
-//					}
-//					ronproEditor.blockCompile();
+//					wc.convertToJava(wc.getSaveString(), enc);
 //				}
 //			});
-//			topPane.add(runButton);
+//			topPane.add(saveButton);
 //		}
+		
+		{// create java and js save
+			ConvertAction convertAction = new ConvertAction();
+			topPane.add(new JButton(convertAction));	
+		}
+		
+
+		{// create compile button
+			JButton runButton = new JButton("Compile");
+			runButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (dirty) {
+						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
+								"コンパイルできません", JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					ronproEditor.blockCompile();
+				}
+			});
+			topPane.add(runButton);
+		}
 
 		{// create run button
 			JButton runButton = new JButton("Run");
@@ -852,7 +859,51 @@ public class WorkspaceController {
 		}
 		return params;
 	}
+	
+	/**
+	 * Action bound to "Save As..." button.
+	 */
+	private class ConvertAction extends AbstractAction {
 
+		private static final long serialVersionUID = 4649159219713654455L;
+
+		ConvertAction() {
+			super("Save As Java and JS");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			try {
+//				String[] pathes = selectedJavaFile.split(File.separator); 
+//				pathes[pathes.length-1] = pathes[pathes.length-1].substring(0, pathes[pathes.length-1].indexOf(".")) + ".java";
+				
+				saveToFile(new File(selectedJavaFile));
+				setDirty(false);
+				
+				ronproEditor.saveAsJavaAndJS(new File(selectedJavaFile));
+
+//				BlockMapper mapper = new BlockMapper();
+//				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
+//
+//				outputFileFromUni(classDec);
+
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+
+	private void saveToFile(File file) throws IOException {
+		OutputStreamWriter fileWriter = null;
+		try {
+			fileWriter = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+			fileWriter.write(getSaveString());
+		} finally {
+			if (fileWriter != null) {
+				fileWriter.close();
+			}
+		}
+	}
+	
 	public void createAndShowGUIForTesting(final WorkspaceController wc,
 			final String enc) {
 

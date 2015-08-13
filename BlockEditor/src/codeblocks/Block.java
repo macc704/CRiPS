@@ -52,6 +52,7 @@ public class Block implements ISupportMemento {
 	// 新規追加属性
 	private String javaType;
 	private String javaLabel;
+	private String name;
 
 	// block connection information
 	private List<BlockConnector> sockets;
@@ -1789,6 +1790,7 @@ public class Block implements ISupportMemento {
 		saveString.append("<Block ");
 		appendAttribute("id", this.blockID.toString(), saveString);
 		appendAttribute("genus-name", this.getGenusName(), saveString);
+		appendAttribute("kind", this.getKind(), saveString);
 		if (this.hasFocus)
 			appendAttribute("has-focus", "yes", saveString);
 		saveString.append(">");
@@ -1825,7 +1827,11 @@ public class Block implements ISupportMemento {
 			saveString.append(escape(javaLabel));
 			saveString.append("</JavaLabel>");
 		}
-
+		if (name != null) {
+			saveString.append("<Name>");
+			saveString.append(escape(name));
+			saveString.append("</Name>");
+		}
 		if (this.isBad) {
 			saveString.append("<CompilerErrorMsg>");
 			saveString.append(escape(pageLabel));
@@ -1952,6 +1958,7 @@ public class Block implements ISupportMemento {
 		HashMap<String, String> blockLangProperties = null;
 		String javaType = null;
 		String javaLabel = null;
+		String name = null;
 		// int numSockets;
 		boolean hasFocus = false;
 
@@ -2009,8 +2016,10 @@ public class Block implements ISupportMemento {
 //					headerLabel = child.getTextContent();
 				} else if (child.getNodeName().equals("LineNumber")) {
 					lineNumber = Integer.parseInt(child.getTextContent());
-				} else if (child.getNodeName().equals("JavaType")) {
+				} else if (child.getNodeName().equals("Type")) {
 					javaType = child.getTextContent();
+				} else if(child.getNodeName().equals("Name")) {
+					name = child.getTextContent();
 				} else if (child.getNodeName().equals("JavaLabel")) {
 					javaLabel = child.getTextContent();
 				} else if (child.getNodeName().equals("ParentBlock")) {
@@ -2176,6 +2185,10 @@ public class Block implements ISupportMemento {
 
 			if (javaLabel != null) {
 				block.javaLabel = javaLabel;
+			}
+			
+			if(name !=null){
+				block.name = name;
 			}
 
 			block.setLineNumber(lineNumber);

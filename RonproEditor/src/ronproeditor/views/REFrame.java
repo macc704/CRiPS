@@ -14,9 +14,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -44,6 +47,7 @@ import clib.view.app.javainfo.CJavaInfoPanels;
 import net.unicoen.generator.JavaScriptGenerator;
 import net.unicoen.interpreter.Engine;
 import net.unicoen.node.UniClassDec;
+import net.unicoen.parser.blockeditor.BlockGenerator;
 import ronproeditor.REApplication;
 import ronproeditor.RESourceManager;
 import ronproeditor.helpers.ConsoleTextPane;
@@ -369,8 +373,24 @@ public class REFrame extends JFrame {
 		// Block->Uni action
 		actionOpenBlockEditorFromUNI = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
-				application.doOpenBlockEdtorFromUni(
-						application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
+				//Java->Uni
+				UniClassDec dec = application.convertJavaToUni(application.getSourceManager().getCurrentFile());
+				
+				String[] pathes = application.getSourceManager().getCurrentFile().getPath().split(File.separator);
+				
+				File file = new File(application.getSourceManager().getCurrentFile().getParentFile().getPath() + File.separator + pathes[pathes.length-1].substring(0, pathes[pathes.length-1].indexOf(".")) + ".xml");
+				try {
+					file.createNewFile();
+					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)), false, "UTF-8");
+
+					//Uni->Block
+					BlockGenerator blockParser = new BlockGenerator(out, "ext/blocks/");
+					blockParser.parse(dec);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				application.doOpenBlockEdtorFromUni();
 			}
 		};
 		actionOpenBlockEditorFromUNI.putValue(Action.NAME, "Open BlockEditorFromUni");
@@ -392,26 +412,6 @@ public class REFrame extends JFrame {
 				}
 			}
 		};
-		actionRunUNIProgram.putValue(Action.NAME, "Run");
-
-		// open block
-		actionOpenBlockEditorKeyaki = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				// ファイルが選択されていない>>
-				application.doOpenBlockEditorKeyaki();
-			}
-		};
-		actionOpenBlockEditorKeyaki.putValue(Action.NAME, "Open EmptyBlockEditor");
-
-		// open debugger
-		actionOpenDebuggerBlockEditor = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				// ファイルが選択されていない>>
-				application.doOpenDebuggerBlockEditor(
-						application.convertJavaToUni(application.getSourceManager().getCurrentFile()));
-			}
-		};
-		actionOpenDebuggerBlockEditor.putValue(Action.NAME, "Open DebuggerBlockEditor");
 
 		// gen js
 		actionGenerateJSCode = new AbstractAction() {

@@ -1198,10 +1198,6 @@ public class REApplication implements ICFwApplication {
 		// getResourceRepository().getCCurrentProject().getAbsolutePath().toString()
 		// + "/lang_def_project.xml");
 		blockManager.doOpenBlockEditor();
-		// 20130926 DENOがBEを直接参照する　暫定対応
-//		if (deno != null && deno.isRunning()) {
-//			deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
-//		}
 	}
 
 	public void doOpenFlowViewer() {
@@ -1242,27 +1238,13 @@ public class REApplication implements ICFwApplication {
 			}		
 		}
 		return null;
-
 	}
 
 	/*
 	 * UniモデルからBlockEditorを起動する
 	 */
-	public void doOpenBlockEdtorFromUni(UniClassDec classDec) {
-		blockManager.doOpenBlockEditorFromUni(classDec, getSourceManager().getCurrentFile().getParentFile().getPath()+"/");
-	}
-
-	public void doOpenBlockEditorKeyaki(){
-		blockManager.doOpenBlockEditorKeyaki();
-	}
-
-	public void doOpenDebuggerBlockEditor(UniClassDec classDec){
-		blockManager.doOpenDebuggerBlockEditor(classDec, getSourceManager().getCurrentFile().getParentFile().getPath()+"/");
-	}
-
-
-	public void runUnicoenProgram(UniClassDec dec){
-
+	public void doOpenBlockEdtorFromUni() {
+		blockManager.doOpenBlockEditorFromUni();
 	}
 
 	private void copyDatFileToProject() {
