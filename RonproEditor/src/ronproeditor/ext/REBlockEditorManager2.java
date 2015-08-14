@@ -287,7 +287,8 @@ public class REBlockEditorManager2 {
 					// blockEditor.resetLanguage();
 					// blockEditor.setLangDefDirty(true);
 					blockEditor.resetWorkspace();
-					blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());
+					blockEditor.loadProjectFromPath(xmlFilePath);
+					blockEditor.setSelectedFile(new File(xmlFilePath));
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
 				} catch (Exception ex) {
 					ex.printStackTrace();
