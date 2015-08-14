@@ -606,22 +606,34 @@ public class WorkspaceController {
 	}
 
 	public void outputFileFromUni(UniClassDec dec) throws FileNotFoundException {
-		File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
-		PrintStream out = new PrintStream(javaFile);
-		JavaGenerator.generate(dec, out);
-		out.close();
-		listener.blockConverted(javaFile);
+		try {
+			File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
+			PrintStream out = new PrintStream(javaFile);
+			JavaGenerator.generate(dec, out);
+			out.close();
+			listener.blockConverted(javaFile);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
-		File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
-		out = new PrintStream(jsFile);
-		JavaScriptGenerator.generate(dec, out);
-		out.close();
-		listener.blockConverted(jsFile);
+		try {
+			File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
+			PrintStream out = new PrintStream(jsFile);
+			JavaScriptGenerator.generate(dec, out);
+			out.close();
+			listener.blockConverted(jsFile);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
-		File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".dlt");
-		out = new PrintStream(dltFile);
-		DolittleGenerator.generate(dec, out);
-		out.close();
+		try {
+			File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".dlt");
+			PrintStream out = new PrintStream(dltFile);
+			DolittleGenerator.generate(dec, out);
+			out.close();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 
 	}
 
