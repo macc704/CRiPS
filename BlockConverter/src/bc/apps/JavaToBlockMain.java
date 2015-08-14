@@ -57,8 +57,7 @@ public class JavaToBlockMain {
 	public void process(File file, String enc, PrintStream out,
 			String[] classpaths) throws Exception {
 		// 言語定義ファイルの上書き
-		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(file,
-				enc, classpaths);
+		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(file,enc, classpaths);
 		rewriter.rewrite();
 
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
