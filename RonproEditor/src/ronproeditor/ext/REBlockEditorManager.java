@@ -25,6 +25,7 @@ import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
 import clib.view.dialogs.CErrorDialog;
 import controller.WorkspaceController;
+import net.unicoen.generator.DolittleGenerator;
 import net.unicoen.generator.JavaGenerator;
 import net.unicoen.generator.JavaScriptGenerator;
 import net.unicoen.mapper.JavaMapper;
@@ -122,18 +123,37 @@ public class REBlockEditorManager {
 			}
 
 			public void outputFileFromUni(UniClassDec dec, File selectedFile) throws FileNotFoundException {
-				File javaFile = new File(
-						selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
-				PrintStream out = new PrintStream(javaFile);
-				JavaGenerator.generate(dec, out);
-				out.close();
-				this.blockConverted(javaFile);
+				//java
+				try {
+					File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
+					PrintStream out = new PrintStream(javaFile);
+					JavaGenerator.generate(dec, out);
+					out.close();
+					this.blockConverted(javaFile);
+				} catch (RuntimeException e) {
+					CErrorDialog.show(app.getFrame(), e.getMessage());
+				}
 
-				File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
-				out = new PrintStream(jsFile);
-				JavaScriptGenerator.generate(dec, out);
-				out.close();
-				this.blockConverted(jsFile);
+				//js
+				try {
+					File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
+					PrintStream out = new PrintStream(jsFile);
+					JavaScriptGenerator.generate(dec, out);
+					out.close();
+				} catch (RuntimeException e) {
+					CErrorDialog.show(app.getFrame(), e.getMessage());
+				}
+				
+				//ドリトル
+				try {
+					File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".dlt");
+					PrintStream out = new PrintStream(dltFile);
+					DolittleGenerator.generate(dec, out);
+					out.close();
+				} catch (RuntimeException | IOException e) {
+					CErrorDialog.show(app.getFrame(), e.getMessage());
+				}
+
 			}
 
 			public void doRefreshBlockEditor(File target) {
@@ -149,7 +169,6 @@ public class REBlockEditorManager {
 								return;
 							}
 
-							
 							// xmlファイル生成
 							String[] libs = app.getLibraryManager().getLibsAsArray();
 							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
@@ -159,7 +178,8 @@ public class REBlockEditorManager {
 
 							// 拡張子に応じて変換する
 							if (target.getPath().endsWith(".java")) {
-								String xmlFilePath = new JavaToBlockMain().run(target,REApplication.SRC_ENCODING, libs);
+								String xmlFilePath = new JavaToBlockMain().run(target, REApplication.SRC_ENCODING,
+										libs);
 								blockEditor.loadProjectFromPath(xmlFilePath);
 							}
 
@@ -194,7 +214,7 @@ public class REBlockEditorManager {
 			}
 		});
 
-		doCompileBlockFromUni();
+		doCompileBlock();
 	}
 
 	public void doOpenBlockEditorFromUni() {
@@ -289,7 +309,8 @@ public class REBlockEditorManager {
 
 						PrintStream out;
 						try {
-							out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false, "UTF-8");
+							out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false,
+									"UTF-8");
 							BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
 
 							// 拡張子に応じて変換する
