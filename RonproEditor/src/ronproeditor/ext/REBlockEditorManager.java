@@ -176,10 +176,18 @@ public class REBlockEditorManager {
 							// file change
 							blockEditor.resetWorkspace();
 
-							// 拡張子に応じて変換する
 							if (target.getPath().endsWith(".java")) {
-								String xmlFilePath = new JavaToBlockMain().run(target, REApplication.SRC_ENCODING,
-										libs);
+								//Javaの場合，古いコンバータを利用してxmlを作成
+								String xmlFilePath = new JavaToBlockMain().run(target, REApplication.SRC_ENCODING,libs);
+								blockEditor.loadProjectFromPath(xmlFilePath);
+							}else if(target.getPath().endsWith(".js")){
+								String filePath = target.getPath();
+								String xmlFilePath = filePath.substring(0, filePath.lastIndexOf(".")) + ".xml";
+								PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFilePath)), false,"UTF-8");
+								BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
+								JavaScriptMapper mapper = new JavaScriptMapper();
+								generator.parse((UniClassDec) mapper.parseFile(target.getPath()));
+								
 								blockEditor.loadProjectFromPath(xmlFilePath);
 							}
 
@@ -300,13 +308,9 @@ public class REBlockEditorManager {
 						writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 						String filePath = target.getPath();
 						String xmlFilePath = filePath.substring(0, filePath.lastIndexOf(".")) + ".xml";
-
-						// file change
-						File file = target;
 						File xmlFile = new File(xmlFilePath);
 
 						blockEditor.resetWorkspace();
-
 						PrintStream out;
 						try {
 							out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false,
@@ -314,16 +318,16 @@ public class REBlockEditorManager {
 							BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
 
 							// 拡張子に応じて変換する
-							if (file.getPath().endsWith(".java")) {
+							if (target.getPath().endsWith(".java")) {
 								JavaMapper mapper = new JavaMapper();
-								generator.parse((UniClassDec) mapper.parseFile(file.getPath()));
-							} else if (file.getPath().endsWith(".js")) {
+								generator.parse((UniClassDec) mapper.parseFile(target.getPath()));
+							} else if (target.getPath().endsWith(".js")) {
 								JavaScriptMapper mapper = new JavaScriptMapper();
-								generator.parse((UniClassDec) mapper.parseFile(file.getPath()));
+								generator.parse((UniClassDec) mapper.parseFile(target.getPath()));
 							}
 
 							out.close();
-							blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());
+							blockEditor.loadProjectFromPath(xmlFilePath);
 
 							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
 						} catch (IOException e) {
