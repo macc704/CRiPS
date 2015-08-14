@@ -127,7 +127,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 
 	private FocusTraversalManager focusManager;
 
-	private DrawingArrowManager mervManager;
+	private DrawingArrowManager mervManager = new DrawingArrowManager();
 
 	/// RENDERING LAYERS ///
 	public final static Integer PAGE_LAYER = new Integer(0);
@@ -143,8 +143,6 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 		setLayout(null);
 		setBackground(Color.WHITE);
 		setPreferredSize(new Dimension(1000, 600));
-
-		this.mervManager = new DrawingArrowManager();
 
 		this.factory = new FactoryManager(true, true);
 		this.addWorkspaceListener(this.factory);
@@ -1011,10 +1009,6 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 		factory.reset();
 		RenderableBlock.reset();
 
-		if(mervManager != null){
-			mervManager.reset();
-		}
-
 		revalidate();
 	}
 
@@ -1072,7 +1066,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	 * RBParent implemented methods
 	 ******************************************/
 	public void addToBlockLayer(Component c) {
-		add(c, DRAGGED_BLOCK_LAYER);
+		this.add(c, DRAGGED_BLOCK_LAYER);
 	}
 
 	public void addToHighlightLayer(Component c) {

@@ -164,7 +164,7 @@ public class LangDefFilesRewriter {
 			}
 
 			makeIndent(ps, ++lineNum);
-			ps.println("<BlockDrawer name=\"自作クラス型変数の定義\" type=\"factory\" button-color=\"255 155 64\">");
+			ps.println("<BlockDrawer name=\"Project-Objects\" type=\"factory\" button-color=\"255 155 64\">");
 			lineNum++;
 
 			for (ObjectBlockModel selDefClass : requestObjectBlock) {
@@ -176,7 +176,7 @@ public class LangDefFilesRewriter {
 
 			makeIndent(ps, ++lineNum);
 
-			ps.println("<BlockDrawer name=\"変換（自作クラス型）\" type=\"factory\" button-color=\"255 155 64\">");
+			ps.println("<BlockDrawer name=\"Project-Converter\" type=\"factory\" button-color=\"255 155 64\">");
 
 			for (ConvertBlockModel model : requestConvertBlockModel) {
 				model.printMenuItem(ps, lineNum);
@@ -187,7 +187,7 @@ public class LangDefFilesRewriter {
 
 			makeIndent(ps, ++lineNum);
 
-			ps.println("<BlockDrawer name=\"引数（自作クラス型）\" type=\"factory\" button-color=\"255 155 64\">");
+			ps.println("<BlockDrawer name=\"Project-Parameter\" type=\"factory\" button-color=\"255 155 64\">");
 
 			for (ParameterBlockModel model : requestParameterBlockModel) {
 				model.printMenuItem(ps, lineNum);
@@ -200,7 +200,7 @@ public class LangDefFilesRewriter {
 //
 //			ps.println("<BlockDrawer name=\"Project-Methods\" type=\"factory\" button-color=\"255 155 64\">");
 //
-			addProjectMethodBlocksToMenu(ps, lineNum);
+//			addProjectMethodBlocksToMenu(ps, lineNum);
 //
 //			makeIndent(ps, --lineNum);
 //			ps.println("</BlockDrawer>");
@@ -240,38 +240,41 @@ public class LangDefFilesRewriter {
 
 	}
 
-	private void addProjectMethodBlocksToMenu(PrintStream ps, int lineNum) {
-		Map<String, PublicMethodInfo> addedMethodsCash = new HashMap<String, PublicMethodInfo>();
-		for (ObjectBlockModel selDefClass : requestObjectBlock) {
-			if (selDefClass.getMethods() != null) {
-				addProjectMethodBlock(selDefClass, addedMethodsCash, ps,
-						lineNum);
-			}
-		}
-	}
+//	private void addProjectMethodBlocksToMenu(PrintStream ps, int lineNum) {
+//		Map<String, PublicMethodInfo> addedMethodsCash = new HashMap<String, PublicMethodInfo>();
+//		for (ObjectBlockModel selDefClass : requestObjectBlock) {
+//			if (selDefClass.getMethods() != null) {
+//				addProjectMethodBlock(selDefClass, addedMethodsCash, ps,
+//						lineNum);
+//			}
+//		}
+//	}
 
-	private void addProjectMethodBlock(ObjectBlockModel selDefClass, Map<String, PublicMethodInfo> addedMethodsCash, PrintStream ps, int lineNum) {
-		for (String key : selDefClass.getMethods().keySet()) {
-			for (PublicMethodInfo method : selDefClass.getMethods().get(key)) {
-				if (addedMethodsCash.get(method.getFullName()) == null) {
-					PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
-					writer.setMethods(method);
+//	private void addProjectMethodBlock(ObjectBlockModel selDefClass,
+//			Map<String, PublicMethodInfo> addedMethodsCash, PrintStream ps,
+//			int lineNum) {
+//		for (String key : selDefClass.getMethods().keySet()) {
+//			for (PublicMethodInfo method : selDefClass.getMethods().get(key)) {
+//				if (addedMethodsCash.get(method.getFullName()) == null) {
+//					PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
+//					writer.setMethods(method);
 //					writer.printMenuItem(ps, lineNum);
-					addedMethodsCash.put(method.getFullName(), method);
-					String paramSize = Integer.toString(method.getParameters().size());
-					if (paramSize.equals("0")) {
-						paramSize = "";
-					}
-					String addedMethodName = method.getName() + "(" + paramSize
-							+ ")";
-					this.addedMethods.put(addedMethodName,
-							method.getReturnType());
-					this.addedMethodsJavaType.put(method.getFullName(),
-							method.getJavaType());
-				}
-			}
-		}
-	}
+//					addedMethodsCash.put(method.getFullName(), method);
+//					String paramSize = Integer.toString(method.getParameters()
+//							.size());
+//					if (paramSize.equals("0")) {
+//						paramSize = "";
+//					}
+//					String addedMethodName = method.getName() + "(" + paramSize
+//							+ ")";
+//					this.addedMethods.put(addedMethodName,
+//							method.getReturnType());
+//					this.addedMethodsJavaType.put(method.getFullName(),
+//							method.getJavaType());
+//				}
+//			}
+//		}
+//	}
 
 	private void addInheritanceMethodBlocksToMenu(PrintStream ps, int lineNum) {
 		Map<String, PublicMethodInfo> addedMethods = new HashMap<String, PublicMethodInfo>();

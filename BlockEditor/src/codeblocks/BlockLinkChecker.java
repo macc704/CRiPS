@@ -153,7 +153,8 @@ public class BlockLinkChecker {
 				for (BlockConnector currentSocket : getSocketEquivalents(block2)) {
 					currentSocketPoint = getAbsoluteSocketPoint(rblock2,
 							currentSocket);
-					currentDistance = currentPlugPoint.distance(currentSocketPoint);
+					currentDistance = currentPlugPoint
+							.distance(currentSocketPoint);
 					if ((currentDistance < closestDistance)
 							&& checkRules(block1, block2, currentPlug,
 									currentSocket)) {
@@ -169,12 +170,13 @@ public class BlockLinkChecker {
 			if (currentPlug != null) {
 				currentPlugPoint = getAbsoluteSocketPoint(rblock2, currentPlug);
 				for (BlockConnector currentSocket : getSocketEquivalents(block1)) {
-					//ソケットの絶対座標を取得
-					currentSocketPoint = getAbsoluteSocketPoint(rblock1,currentSocket);
-					//プラグからソケットの座標を取得
-					currentDistance = currentPlugPoint.distance(currentSocketPoint);
-
-					if ((currentDistance < closestDistance) && checkRules(block1, block2, currentSocket,currentPlug)) {
+					currentSocketPoint = getAbsoluteSocketPoint(rblock1,
+							currentSocket);
+					currentDistance = currentPlugPoint
+							.distance(currentSocketPoint);
+					if ((currentDistance < closestDistance)
+							&& checkRules(block1, block2, currentSocket,
+									currentPlug)) {
 						closestBlock2 = block2;
 						closestSocket1 = currentSocket;
 						closestSocket2 = currentPlug;
@@ -491,7 +493,8 @@ public class BlockLinkChecker {
 	 *            the desired socket
 	 * @return a Point2D that represents the center of the socket on the screen.
 	 */
-	private static Point2D getAbsoluteSocketPoint(RenderableBlock block, BlockConnector socket) {
+	private static Point2D getAbsoluteSocketPoint(RenderableBlock block,
+			BlockConnector socket) {
 		Point2D relativePoint = block.getSocketPixelPoint(socket);
 		Point2D blockPosition = block.getLocationOnScreen();
 		return new Point2D.Double(relativePoint.getX() + blockPosition.getX(),

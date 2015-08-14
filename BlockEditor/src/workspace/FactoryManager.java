@@ -25,6 +25,7 @@ import codeblockutil.CBorderlessButton;
 import codeblockutil.CLabel;
 import codeblockutil.Canvas;
 import codeblockutil.Navigator;
+import drawingobjects.DrawingArrowManager;
 
 /**
  * ***********************OVERVIEW**************************
@@ -32,27 +33,27 @@ import codeblockutil.Navigator;
  * It has three main functions:  to control and display all factories
  * in one simple UI design, to manage the additions of new drawers,
  * and to add blocks to throse drawers appropriately.
- *
+ * 
  * The FactoryManager manages two factories: the static factory
  * and dynamic factory.  Each factory has a set of drawers.  NO TWO
  * DRAWERS WITHIN ANY FACTORY MAY SHARE the same name.
- *
+ * 
  * ********************FACTORY STRUCTURE***********************
- *
+ * 
  * Let's take a look into the stucture of a factory.  Factory is
  * a pallete that sits on the far left side of the workspace.
  * It has a bunch of drawers that slides up and down.  Each
  * drawer contains a bunch of related blocks that can be dragged
  * out.
- *
+ * 
  * The FactoryManager has two types of drawers: static and dynamic.
  * To add, remove, rename, drawers of either type, users should
  * invoke the name that specifies a particular drawer. Users
  * may also add blocks to the drawers or retrieve the set of blocks
  * that each drawer holds.
- *
+ * 
  * *************IMPLEMENTATION DETAIL******************
- *
+ * 
  * How the FactoryManager implements this UI is implementation
  * dependant.  Right now, it uses the Navigator-Explorer-Canvas deisgn.
  * Clients of the FactoryManager should know nothing about the
@@ -67,25 +68,25 @@ import codeblockutil.Navigator;
  * In the NEW design, we remove that burden from the developer and allow the
  * developer to access drawers by calling its name only.  This may
  * limit extensibility but keeps the system more robust.
- *
+ * 
  * *********************A WORD ON DRAWER**********************
  * Please note that the word "drawer" as it is used by the
  * FactoryManager refers to the object that holds blocks.
  * A factory holds a bunch of drawers, which in turn holds
  * a bunch of blocks.
- *
+ * 
  * Please do not mix this definition with the CSwing Drawer class.
  * A CSwing Drawer is a low-level component that is used
  * in a CSwing Exlorer.  Here, when the documentation refers
  * to drawers, it is NOT refering to the CSwing Drawer.  Rather,
  * when we say "drawer", we are referign to that object that holds blocks.
- *
+ * 
  * *****************NAMING OF DRAWERS*************************
  * Each factory may have only ONE drawer with a particular name.
  * Two different factories may NOT share a name.   If we have
  * a static drawer named "FOO", we may not have another drawer named
  * "FOO" in the dynamic drawers.
- *
+ * 
  * @author An Ho
  *
  */
@@ -372,7 +373,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 	 * If one alreaedy exist, then do ntohing.  If the name is null, do nothing
 	 * @param name - name os drawer, may not be null
 	 * @param color
-	 *
+	 * 
 	 * @requires name != null &&
 	 * 			 drawer to not already exist in BOTH static and dynamic set
 	 */
@@ -386,7 +387,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 	 * @param name - name os drawer, may not be null
 	 * @param color
 	 * @param position
-	 *
+	 * 
 	 * @requires name != null &&
 	 * 			 drawer to not already exist in BOTH static and dynamic set
 	 */
@@ -401,7 +402,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 	}
 
 	/**
-	 * Adds a new Subset drawer with the specified name and button color.
+	 * Adds a new Subset drawer with the specified name and button color.  
 	 * Places the drawer button below the last added subset drawer
 	 * @param name String name of new subset drawer, should not be null
 	 * @param color Color of drawer button
@@ -426,7 +427,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 	 * Adds a static drawer if no drawer with the specified name already exists.
 	 * If one alreaedy exist, then do ntohing.  If the name is null, do nothing
 	 * @param name - name os drawer, may not be null
-	 *
+	 * 
 	 * @requires name != null &&
 	 * 			 drawer to not already exist in BOTH static and dynamic set
 	 */
@@ -439,7 +440,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 	 * If one alreaedy exist, then do ntohing.  If the name is null, do nothing
 	 * @param name - name os drawer, may not be null
 	 * @param position
-	 *
+	 * 
 	 * @requires name != null &&
 	 * 			 drawer to not already exist in BOTH static and dynamic set
 	 */
@@ -460,7 +461,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 	 * 		(3) oldName and newName != null
 	 * @param oldName
 	 * @param newName
-	 *
+	 * 
 	 * @requires oldName != null &&
 	 * 			 drawer with newName exists in EITHER static or dynamic set &&
 	 * 			 drawer with newName to not already exist in BOTH static and dynamic set
@@ -516,7 +517,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 	 * 		(1) there exists a drawer specified by name,
 	 * 		(3) name != null
 	 * @param name
-	 *
+	 * 
 	 * @requires name != null && there exists a drawer with sepcified name
 	 */
 	public void removeStaticDrawer(String name) {
@@ -648,7 +649,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 	 * Add blocks to drawer if drawer can be found.  Add graphically
 	 * and alos throw event.  Do nothing if no drawer if specified
 	 * name is found.
-	 *
+	 * 
 	 * @param blocks
 	 * @param drawer
 	 */
@@ -781,7 +782,7 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 	}
 
 	public void blockDropped(RenderableBlock block) {
-
+		
 		BlockHIlighter.resetAllHilightedStubBlocks();
 
 		// remove block
@@ -800,12 +801,12 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
 		// fire to workspace that block was removed
 		// DO FIRE AN EVENT IF BLOCK IS REMOVED BY USER!!!!
 		// NOTE however that we do not throw na event for adding internally
-
+		
 		Workspace.getInstance().notifyListeners(
 				new WorkspaceEvent(this, block.getBlockID(), WorkspaceEvent.BLOCK_REMOVED));
 	}
-
-
+	
+	
 
 	public JComponent getJComponent() {
 		return this.navigator.getJComponent();

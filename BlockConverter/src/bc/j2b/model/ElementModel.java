@@ -205,10 +205,7 @@ public abstract class ElementModel {
 			return "object-" + type.toLowerCase();
 		} else if(type.equals("ListTurtle")){ 
 			return "object-" + "List";
-		} else if(type.equals("Turtle")) {
-			return "object-" + "Turtle";
-		}
-		else {
+		} else {
 			return "object";
 		}
 	}

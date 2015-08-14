@@ -19,6 +19,17 @@ public class MethodsCollector {
 	String path = "ext/block/";
 	
 	private Map<String, String> calcReturnType = new HashMap<String, String>();
+
+
+//unremoved:y(),double:null
+//unremoved:width(),double:null
+//unremoved:drawText(5),void:null
+//unremoved:isKeyCode(),boolean:null
+//unremoved:x(),double:null
+//unremoved:image(),ImageTurtle:null
+//unremoved:drawImage(3),void:null
+//unremoved:height(),double:null
+
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

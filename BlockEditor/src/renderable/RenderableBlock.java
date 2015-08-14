@@ -35,6 +35,16 @@ import javax.swing.SwingUtilities;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import renderable.BlockImageIcon.ImageLocation;
+import workspace.ContextMenu;
+import workspace.FactoryManager;
+import workspace.ISupportMemento;
+import workspace.MiniMap;
+import workspace.RBParent;
+import workspace.SearchableElement;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
+import workspace.WorkspaceWidget;
 import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.extent.SAbstractionBlockShape;
 import bc.BCSystem;
@@ -51,17 +61,6 @@ import codeblocks.JComponentDragHandler;
 import codeblocks.rendering.BlockShapeUtil;
 import codeblockutil.CToolTip;
 import codeblockutil.GraphicsManager;
-import renderable.BlockImageIcon.ImageLocation;
-import workspace.ContextMenu;
-import workspace.FactoryManager;
-import workspace.ISupportMemento;
-import workspace.MiniMap;
-import workspace.Page;
-import workspace.RBParent;
-import workspace.SearchableElement;
-import workspace.Workspace;
-import workspace.WorkspaceEvent;
-import workspace.WorkspaceWidget;
 
 /**
  * RenderableBlock is responsible for all graphical rendering of a code Block.
@@ -838,7 +837,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 *         linking between this RenderableBlock and another.
 	 */
 	public BlockLink getNearbyLink() {
-		return BlockLinkChecker.getLink(this, Workspace.getInstance().getBlockCanvas().getBlocks());
+		return BlockLinkChecker.getLink(this, Workspace.getInstance()
+				.getBlockCanvas().getBlocks());
 	}
 
 	// /////////////////////
@@ -1791,11 +1791,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			renderable.comment.setConstrainComment(false);
 		}
 		Component oldParent = renderable.getParent();
-		
-		if(!(renderable.getParentWidget() instanceof Page)){
-			Workspace.getInstance().addToBlockLayer(renderable);
-			renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));			
-		}
+		Workspace.getInstance().addToBlockLayer(renderable);
+		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
 
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(Block.getBlock(renderable.blockID))) {
@@ -1846,24 +1843,14 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				renderable.comment.setParent(null, renderable.getBounds());
 			}
 
-//			renderable.comment.setConstrainComment(true);
-//			renderable.comment.setLocation(renderable.comment.getLocation());
-//			renderable.comment.getArrow().updateArrow();
+			renderable.comment.setConstrainComment(true);
+			renderable.comment.setLocation(renderable.comment.getLocation());
+			renderable.comment.getArrow().updateArrow();
 		}
 
 	}
 
-	public void addBlockLayer(RenderableBlock renderable, WorkspaceWidget widget){
-		Workspace.getInstance().addToBlockLayer(renderable);
-		for (BlockConnector socket : BlockLinkChecker
-				.getSocketEquivalents(renderable.getBlock())) {
-			if (socket.hasBlock()) {
-				stopDragging(getRenderableBlock(socket.getBlockID()), widget);
-			}
-		}
-	}
-
-	public static Block getCommandBlock(Block block){
+	public Block getCommandBlock(Block block){
 		if(block != null){
 			while(block.getPlug() != null && block.getPlug().getBlockID() != Block.NULL){
 				block = Block.getBlock(block.getPlug().getBlockID());
@@ -2126,6 +2113,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	public void mouseDragged(MouseEvent e) {
+
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			if (!pickedUp) {
 				if (SBlockEditor.DEBUG) {
@@ -2163,7 +2151,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				if (plug != null && plug.hasBlock()) {
 					Block parent = Block.getBlock(plug.getBlockID());
 					BlockConnector socket = parent.getConnectorTo(blockID);
-					BlockLink link = BlockLink.getBlockLink(block, parent,plug, socket);
+					BlockLink link = BlockLink.getBlockLink(block, parent,
+							plug, socket);
 					link.disconnect();
 					// socket is removed internally from block's socket list if
 					// socket is expandable

@@ -64,7 +64,7 @@ public class BlockToJavaAnalyzer {
 	}
 
 	/**
-	 *
+	 * 
 	 * @return
 	 */
 	public ProgramModel getProgramModel() {
@@ -85,7 +85,7 @@ public class BlockToJavaAnalyzer {
 
 	/**
 	 * Pageノードを解析
-	 *
+	 * 
 	 * @param node
 	 */
 
@@ -127,7 +127,7 @@ public class BlockToJavaAnalyzer {
 
 	/**
 	 * Blockノードを解析
-	 *
+	 * 
 	 * @param node
 	 * @param className
 	 */
@@ -159,6 +159,7 @@ public class BlockToJavaAnalyzer {
 			NamedNodeMap BlockAttrs = block.getAttributes();
 			String genus_name = BlockAttrs.getNamedItem("genus-name")
 					.getNodeValue();
+
 			if ("procedure".equals(genus_name)) {
 				ProcedureBlockModel model = new ProcedureBlockModel();
 				parseBlock(block, model);
@@ -455,19 +456,18 @@ public class BlockToJavaAnalyzer {
 
 		Node blockInfo = node.getFirstChild();
 
-		for(int i = 0; i < node.getChildNodes().getLength(); i++){
-			blockInfo = node.getChildNodes().item(i);
-			System.out.println(blockInfo.getNodeName());
-			if ("JavaLabel".equals(blockInfo.getNodeName())) {
+		while (blockInfo != null) {
+			if (blockInfo.getNodeName() == "JavaLabel") {
 				return blockInfo.getTextContent();
 			}
+			blockInfo = blockInfo.getNextSibling();
 		}
 
 		return null;
 	}
 
 	/**
-	 *
+	 * 
 	 * @param blockInfo
 	 * @param b2j
 	 *            .model

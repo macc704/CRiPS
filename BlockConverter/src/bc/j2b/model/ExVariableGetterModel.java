@@ -18,19 +18,14 @@ public class ExVariableGetterModel extends ExpressionModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see j2b.model.ExpressionModel#getType()
 	 */
 	@Override
 	public String getType() {
-		if(index != null){
-			return getArrayElementGetterType(variable.getType());
-		}else{
-			return variable.getType();
-		}
-
+		return variable.getType();
 	}
-
+	
 	public ExpressionModel getIndex(){
 		return this.index;
 	}
@@ -46,7 +41,7 @@ public class ExVariableGetterModel extends ExpressionModel {
 	public void setIndexModel(ExpressionModel indexModel) {
 		this.index = indexModel;
 	}
-
+	
 
 	public void print(PrintStream out, int indent) {
 
@@ -153,8 +148,8 @@ public class ExVariableGetterModel extends ExpressionModel {
 		makeIndent(out, indent);
 		out.println("</BlockStub>");
 	}
-
-	public  String getArrayElementGetterType(String type){
+	
+	public  String getArrayElementGetterType(String type){	
 		if("int[]".equals(type)){
 			return "number";
 		}else if("String[]".equals(type)){

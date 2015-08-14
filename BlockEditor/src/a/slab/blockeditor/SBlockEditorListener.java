@@ -15,8 +15,4 @@ public interface SBlockEditorListener {
 	public void chengeInheritance();
 	
 	public void toggleTraceLines(String state);
-	
-	public void saveAsJavaAndJS(File file);
-	
-	public void doRefreshBlockEditor(File target);
 }

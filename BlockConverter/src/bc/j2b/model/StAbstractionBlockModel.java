@@ -20,7 +20,7 @@ public class StAbstractionBlockModel extends StatementModel {
 	}
 
 	public void setCommnent(String comment) {
-		this.comment = ElementModel.addEscapeSequence(comment);
+		this.comment = comment;
 	}
 
 	public void addChild(StatementModel bodyClause) {
@@ -115,7 +115,7 @@ public class StAbstractionBlockModel extends StatementModel {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see j2b.model.ElementModel#getLabel()
 	 */
 	@Override

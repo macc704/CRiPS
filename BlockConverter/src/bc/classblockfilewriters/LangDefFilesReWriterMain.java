@@ -40,8 +40,8 @@ public class LangDefFilesReWriterMain {
 		//言語定義ファイルを書き換えるインスタンスを作成
 		LangDefFilesRewriter selfDefModel = new LangDefFilesRewriter(
 				classDefFile, this.file.getName());
-
-		// 同じディレクトリ内のすべてのjavaファイルをパースし、モデルに追加する
+		
+		// 同じディレクトリ内のすべてのjavaファイルをパースし、モデルに追加する	
 		parseDirectry(selfDefModel);
 
 //		// 継承関係にあるブロック達をファミリーに出力
@@ -68,7 +68,8 @@ public class LangDefFilesReWriterMain {
 				selfDefModel.printMenu(projectMenuFile, turtleMenu);
 				selfDefModel.printGenus();
 				this.addedMethods = selfDefModel.getAddedMethods();
-				this.addedMethodsJavaType = selfDefModel.getAddedMethodsJavaType();
+				this.addedMethodsJavaType = selfDefModel
+						.getAddedMethodsJavaType();
 				return;
 			}
 		}
@@ -81,7 +82,7 @@ public class LangDefFilesReWriterMain {
 		this.addedMethods = selfDefModel.getAddedMethods();
 		this.addedMethodsJavaType = selfDefModel.getAddedMethodsJavaType();
 	}
-
+	
 	private void parseDirectry(LangDefFilesRewriter selfDefModel) throws IOException{
 		for (String name : file.getParentFile().list()) {
 			if (name.endsWith(".java")) {
@@ -97,21 +98,21 @@ public class LangDefFilesReWriterMain {
 				// ローカル変数ブロックのモデルを追加
 				selfDefModel.setLocalVariableBlockModel(name, methods, superClassName);// メソッドリストを引数に追加
 //				// インスタンス変数ブロックのモデルを追加
-				selfDefModel.setInstanceVariableBlockMode(name, methods, superClassName);
-
+//				selfDefModel.setInstanceVariableBlockMode(name, methods, superClassName);
+				
 				// 型変換ブロックモデルの追加
 				selfDefModel.setConvertBlockModel(name);
 				// 引数ブロックモデルの追加
 				selfDefModel.setParameterBlockModel(name, methods);
 //				//配列ブロックモデルの追加
-				selfDefModel.setArrayParameterBlockModel(name, methods);
-
+//				selfDefModel.setArrayParameterBlockModel(name, methods);
+				
 				//キャッシュに登録済みクラスを追加する
 				addedClasses.add(name);
 			}
 		}
 	}
-
+	
 	private void printMenu(LangDefFilesRewriter selfDefModel, File projectMenuFile){
 		File cuiMenu = new File(System.getProperty("user.dir"),"ext/block/lang_def_menu_cui.xml");
 		selfDefModel.printMenu(projectMenuFile, cuiMenu);
@@ -133,10 +134,10 @@ public class LangDefFilesReWriterMain {
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
 		MethodAnalyzer visitor = new MethodAnalyzer();
 		unit.accept(visitor);
-
+		
 		Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
 		String superClassName = visitor.getSuperClassName();
-
+		
 		//親クラスのクラス名と，メソッド情報を取得し，先に登録する
 		if (superClassName != null
 				&& existCurrentDirectry(superClassName + ".java")) {
@@ -146,10 +147,10 @@ public class LangDefFilesReWriterMain {
 		}
 		//最後に，自クラス名とメソッド情報を登録して返す
 		methods.put(name, visitor.getMethods());
-
+		
 		return methods;
 	}
-
+	
 	public String getSuperClassName(File file){
 		// javaファイル解析
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
