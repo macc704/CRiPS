@@ -584,7 +584,7 @@ public class WorkspaceController {
 		private static final long serialVersionUID = 4649159219713654455L;
 
 		ConvertAction() {
-			super("Save As Java and JS");
+			super("Convert");
 		}
 
 		@Override
