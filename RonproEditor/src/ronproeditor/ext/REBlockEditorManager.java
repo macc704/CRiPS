@@ -141,8 +141,16 @@ public class REBlockEditorManager {
 				man.addTask(new ICTask() {
 					public void doTask() {
 						try {
-							// xmlファイル生成
+							if (!isWorkspaceOpened()) {
+								return;
+							}
+							if (!app.getSourceManager().hasCurrentFile()) {
+								doLockBlockEditor();
+								return;
+							}
 
+							
+							// xmlファイル生成
 							String[] libs = app.getLibraryManager().getLibsAsArray();
 							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 
@@ -260,6 +268,14 @@ public class REBlockEditorManager {
 			public void doRefreshBlockEditor(File target) {
 				man.addTask(new ICTask() {
 					public void doTask() {
+						if (!isWorkspaceOpened()) {
+							return;
+						}
+						if (!app.getSourceManager().hasCurrentFile()) {
+							doLockBlockEditor();
+							return;
+						}
+
 						// xmlファイル生成
 						writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 						String filePath = target.getPath();
