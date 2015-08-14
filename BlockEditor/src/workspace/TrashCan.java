@@ -18,10 +18,9 @@ import javax.swing.JComponent;
 import renderable.BlockHIlighter;
 import renderable.BlockUtilities;
 import renderable.RenderableBlock;
-import drawingobjects.DrawingArrowManager;
 
-public class TrashCan extends JComponent implements MouseListener,
-		WorkspaceWidget, ComponentListener {
+public class TrashCan extends JComponent
+		implements MouseListener, WorkspaceWidget, ComponentListener {
 	private static final long serialVersionUID = 328149080275L;
 	private Image tcImage;
 	private Image openedTcImage;
@@ -76,15 +75,13 @@ public class TrashCan extends JComponent implements MouseListener,
 
 		//#ohata added reset highlight
 		BlockHIlighter.resetAllHilightedStubBlocks();
-		
+
 		BlockUtilities.deleteBlock(block);
 		currentColor = Color.BLACK;
 		currentImage = tcImage;
 		this.revalidate();
 		this.repaint();
 	}
-	
-
 
 	public void addBlock(RenderableBlock block) {
 	}

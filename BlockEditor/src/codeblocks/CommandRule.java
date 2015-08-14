@@ -1,6 +1,5 @@
 package codeblocks;
 
-import drawingobjects.DrawingArrowManager;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceListener;
 
@@ -37,7 +36,8 @@ public class CommandRule implements LinkRule, WorkspaceListener {
 			if (link.getLastBlockID() != null
 					&& link.getLastBlockID() != Block.NULL
 					&& BlockConnectorShape.isCommandConnector(link.getPlug())
-					&& BlockConnectorShape.isCommandConnector(link.getSocket())) {
+					&& BlockConnectorShape
+							.isCommandConnector(link.getSocket())) {
 				Block top = Block.getBlock(link.getPlugBlockID());
 				while (top.hasAfterConnector()
 						&& top.getAfterConnector().hasBlock())
