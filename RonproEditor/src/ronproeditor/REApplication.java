@@ -527,7 +527,8 @@ public class REApplication implements ICFwApplication {
 			getFrame().getEditor().doSave();
 
 			blockManager.doCompileBlock(); // 要：ファイル削除の前に実行
-
+			newBlockManager.doCompileBlock(); // 要：ファイル削除の前に実行
+			
 			deleteRunnable(getSourceManager().getCurrentFile());
 
 			// TODO
