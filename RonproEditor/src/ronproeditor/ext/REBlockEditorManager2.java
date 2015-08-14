@@ -26,10 +26,12 @@ import ronproeditor.REApplication;
 import ronproeditor.helpers.CFrameUtils;
 
 /**
+ * for New BlockEditor 2015.08.14
+ * 
  * @author macchan
  * 
  */
-public class REBlockEditorManager {
+public class REBlockEditorManager2 {
 
 	private static final String LANG_DEF_PATH = "ext/block/lang_def.xml";
 	// private static final String LANG_DEF_TURTLE_PATH =
@@ -38,7 +40,7 @@ public class REBlockEditorManager {
 	private REApplication app;
 	private WorkspaceController blockEditor;
 
-	public REBlockEditorManager(REApplication app) {
+	public REBlockEditorManager2(REApplication app) {
 		this.app = app;
 
 		man.start();
