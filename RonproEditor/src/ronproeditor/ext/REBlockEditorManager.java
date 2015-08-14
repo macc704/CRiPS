@@ -14,6 +14,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import a.slab.blockeditor.SBlockEditorListener;
@@ -43,10 +44,10 @@ import ronproeditor.helpers.CFrameUtils;
  */
 public class REBlockEditorManager {
 
-	 private static final String LANG_DEF_PATH = "ext/blocks/lang_def_turtle.xml";
+	private static final String LANG_DEF_PATH = "ext/blocks/lang_def_turtle.xml";
 	// private static final String LANG_DEF_TURTLE_PATH =
 	// "ext/block/lang_def_turtle.xml";
-	 private static final String IMAGES_PATH = "ext/block/images/";
+	private static final String IMAGES_PATH = "ext/block/images/";
 	private REApplication app;
 	private WorkspaceController blockEditor;
 
@@ -66,8 +67,8 @@ public class REBlockEditorManager {
 			}
 		});
 	}
-	
-	public void doOpenBlockEditor(){
+
+	public void doOpenBlockEditor() {
 		if (isWorkspaceOpened()) { // already opened
 			CFrameUtils.toFront(blockEditor.getFrame());
 			return;
@@ -104,7 +105,7 @@ public class REBlockEditorManager {
 			}
 
 			public void toggleTraceLines(String state) {
-					writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
+				writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
 			}
 
 			@Override
@@ -116,12 +117,13 @@ public class REBlockEditorManager {
 					outputFileFromUni(classDec, file);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
-				} 
-				
+				}
+
 			}
-			
+
 			public void outputFileFromUni(UniClassDec dec, File selectedFile) throws FileNotFoundException {
-				File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
+				File javaFile = new File(
+						selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
 				PrintStream out = new PrintStream(javaFile);
 				JavaGenerator.generate(dec, out);
 				out.close();
@@ -133,23 +135,23 @@ public class REBlockEditorManager {
 				out.close();
 				this.blockConverted(jsFile);
 			}
-			
-			public void doRefreshBlockEditor(File file){
-				//古い方法でリフレッシュする
+
+			public void doRefreshBlockEditor(File target) {
+				// 古い方法でリフレッシュする
 				man.addTask(new ICTask() {
 					public void doTask() {
 						try {
 							// xmlファイル生成
-							
+
 							String[] libs = app.getLibraryManager().getLibsAsArray();
 							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 
 							// file change
 							blockEditor.resetWorkspace();
-							
+
 							// 拡張子に応じて変換する
-							if (file.getPath().endsWith(".java")) {
-								String xmlFilePath = new JavaToBlockMain().run(app.getSourceManager().getCurrentFile(), REApplication.SRC_ENCODING, libs);
+							if (target.getPath().endsWith(".java")) {
+								String xmlFilePath = new JavaToBlockMain().run(target,REApplication.SRC_ENCODING, libs);
 								blockEditor.loadProjectFromPath(xmlFilePath);
 							}
 
@@ -163,28 +165,26 @@ public class REBlockEditorManager {
 			}
 
 		}, REApplication.SRC_ENCODING);
-		
-		blockEditor.getFrame().addWindowFocusListener(
-				new WindowFocusListener() {
-					public void windowLostFocus(WindowEvent e) {
-						writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
-					}
 
-					public void windowGainedFocus(WindowEvent e) {
-						writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
-					}
-				});
+		blockEditor.getFrame().addWindowFocusListener(new WindowFocusListener() {
+			public void windowLostFocus(WindowEvent e) {
+				writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
+			}
+
+			public void windowGainedFocus(WindowEvent e) {
+				writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
+			}
+		});
 		writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
-		blockEditor.getFrame().addWindowStateListener(
-				new WindowStateListener() {
-					public void windowStateChanged(WindowEvent e) {
-						if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
-							writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
-						} else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
-							// do nothing
-						}
-					}
-				});
+		blockEditor.getFrame().addWindowStateListener(new WindowStateListener() {
+			public void windowStateChanged(WindowEvent e) {
+				if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
+					writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
+				} else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
+					// do nothing
+				}
+			}
+		});
 
 		doCompileBlockFromUni();
 	}
@@ -226,7 +226,7 @@ public class REBlockEditorManager {
 			}
 
 			public void toggleTraceLines(String state) {
-					writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
+				writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
 			}
 
 			@Override
@@ -238,12 +238,13 @@ public class REBlockEditorManager {
 					outputFileFromUni(classDec, file);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
-				} 
-				
+				}
+
 			}
-			
+
 			public void outputFileFromUni(UniClassDec dec, File selectedFile) throws FileNotFoundException {
-				File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
+				File javaFile = new File(
+						selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
 				PrintStream out = new PrintStream(javaFile);
 				JavaGenerator.generate(dec, out);
 				out.close();
@@ -255,25 +256,26 @@ public class REBlockEditorManager {
 				out.close();
 				this.blockConverted(jsFile);
 			}
-			
-			public void doRefreshBlockEditor(File file){
+
+			public void doRefreshBlockEditor(File target) {
 				man.addTask(new ICTask() {
 					public void doTask() {
+						// xmlファイル生成
+						writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
+						String filePath = target.getPath();
+						String xmlFilePath = filePath.substring(0, filePath.lastIndexOf(".")) + ".xml";
+
+						// file change
+						File file = target;
+						File xmlFile = new File(xmlFilePath);
+
+						blockEditor.resetWorkspace();
+
+						PrintStream out;
 						try {
-							// xmlファイル生成
-							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
-							String filePath = app.getSourceManager().getCurrentFile().getPath();
-							String xmlFilePath = filePath.substring(0, filePath.lastIndexOf(".")) + ".xml";
-
-							// file change
-							File file = app.getSourceManager().getCurrentFile();
-							File xmlFile = new File(xmlFilePath);
-
-							blockEditor.resetWorkspace();
-
-							PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false, "UTF-8");
+							out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false, "UTF-8");
 							BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
-							
+
 							// 拡張子に応じて変換する
 							if (file.getPath().endsWith(".java")) {
 								JavaMapper mapper = new JavaMapper();
@@ -287,40 +289,37 @@ public class REBlockEditorManager {
 							blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());
 
 							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
-						} catch (Exception ex) {
-							ex.printStackTrace();
-							CErrorDialog.show(app.getFrame(), "Block変換時のエラー", ex);
+						} catch (IOException e) {
+							e.printStackTrace();
 						}
 					}
 				});
 			}
 		}, REApplication.SRC_ENCODING);
-		
-		blockEditor.getFrame().addWindowFocusListener(
-				new WindowFocusListener() {
-					public void windowLostFocus(WindowEvent e) {
-						writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
-					}
 
-					public void windowGainedFocus(WindowEvent e) {
-						writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
-					}
-				});
+		blockEditor.getFrame().addWindowFocusListener(new WindowFocusListener() {
+			public void windowLostFocus(WindowEvent e) {
+				writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
+			}
+
+			public void windowGainedFocus(WindowEvent e) {
+				writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
+			}
+		});
 		writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
-		blockEditor.getFrame().addWindowStateListener(
-				new WindowStateListener() {
-					public void windowStateChanged(WindowEvent e) {
-						if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
-							writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
-						} else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
-							// do nothing
-						}
-					}
-				});
+		blockEditor.getFrame().addWindowStateListener(new WindowStateListener() {
+			public void windowStateChanged(WindowEvent e) {
+				if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
+					writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
+				} else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
+					// do nothing
+				}
+			}
+		});
 
 		doCompileBlockFromUni();
 	}
-	
+
 	private boolean isWorkspaceOpened() {
 		return blockEditor != null && blockEditor.getFrame() != null && blockEditor.getFrame().isVisible();
 	}
@@ -351,17 +350,17 @@ public class REBlockEditorManager {
 					e.printStackTrace();
 				}
 
-//				if (message.length() != 0) {// has compile error
-//					writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
-//					doCompileErrorBlockEditor(target);
-//					return;
-//				}
+				// if (message.length() != 0) {// has compile error
+				// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
+				// doCompileErrorBlockEditor(target);
+				// return;
+				// }
 
 				doRefleshBlock(target);
 			}
 		});
 	}
-	
+
 	public void doCompileBlockFromUni() {
 		final File target = app.getSourceManager().getCurrentFile();
 		man.addTask(new ICTask() {
@@ -386,11 +385,11 @@ public class REBlockEditorManager {
 					e.printStackTrace();
 				}
 
-//				if (message.length() != 0) {// has compile error
-//					writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
-//					doCompileErrorBlockEditor(target);
-//					return;
-//				}
+				// if (message.length() != 0) {// has compile error
+				// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
+				// doCompileErrorBlockEditor(target);
+				// return;
+				// }
 
 				doRefleshBlock(target);
 			}
@@ -398,7 +397,9 @@ public class REBlockEditorManager {
 	}
 
 	public void doRefleshBlock(final File javaFile) {
-		blockEditor.doRefreshBlock(javaFile);
+		if (blockEditor != null) {
+			blockEditor.doRefreshBlock(javaFile);
+		}
 	}
 
 	protected boolean isTurtle() {

@@ -18,5 +18,5 @@ public interface SBlockEditorListener {
 	
 	public void saveAsJavaAndJS(File file);
 	
-	public void doRefreshBlockEditor(File file);
+	public void doRefreshBlockEditor(File target);
 }

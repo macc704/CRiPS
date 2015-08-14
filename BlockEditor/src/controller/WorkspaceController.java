@@ -767,8 +767,8 @@ public class WorkspaceController {
 		frame.setVisible(true);
 	}
 
-	public void doRefreshBlock(File file){
-		this.ronproEditor.doRefreshBlockEditor(file);
+	public void doRefreshBlock(File target){
+		this.ronproEditor.doRefreshBlockEditor(target);
 	}
 
 	public String calcClassName() {
