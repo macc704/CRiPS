@@ -157,11 +157,13 @@ public class REBlockEditorManager2 {
 				writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK);
 				// app.doCompileBlocking(false);
 
-				String message = "default";
-				try {
-					message = app.doCompile2(false);
-				} catch (Exception e) {
-					e.printStackTrace();
+				String message = "";
+				if (app.getSourceManager().getCCurrentFile().getName().getExtension().equals("java")) {
+					try {
+						message = app.doCompile2(false);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 
 				if (message.length() != 0) {// has compile error
