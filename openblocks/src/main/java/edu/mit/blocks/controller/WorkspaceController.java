@@ -66,6 +66,7 @@ import edu.mit.blocks.workspace.TrashCan;
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceListener;
+import net.unicoen.generator.DolittleGenerator;
 import net.unicoen.generator.JavaGenerator;
 import net.unicoen.generator.JavaScriptGenerator;
 import net.unicoen.node.UniClassDec;
@@ -616,6 +617,12 @@ public class WorkspaceController {
 		JavaScriptGenerator.generate(dec, out);
 		out.close();
 		listener.blockConverted(jsFile);
+
+		File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".dlt");
+		out = new PrintStream(dltFile);
+		DolittleGenerator.generate(dec, out);
+		out.close();
+
 	}
 
 	/**
