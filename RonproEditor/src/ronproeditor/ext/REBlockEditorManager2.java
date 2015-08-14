@@ -36,9 +36,6 @@ import ronproeditor.helpers.CFrameUtils;
 public class REBlockEditorManager2 {
 
 	private static final String LANG_DEF_PATH = "ext/block2/lang_def.xml";
-	// private static final String LANG_DEF_TURTLE_PATH =
-	// "ext/block/lang_def_turtle.xml";
-	// private static final String IMAGES_PATH = "ext/block/images/";
 	private REApplication app;
 	private WorkspaceController blockEditor;
 
@@ -47,14 +44,6 @@ public class REBlockEditorManager2 {
 
 		man.start();
 		man.setPriority(Thread.currentThread().getPriority() - 1);
-		// ìÄåã
-		// Workspace.getInstance().addWorkspaceListener(new WorkspaceListener()
-		// {
-		// public void workspaceEventOccurred(WorkspaceEvent event) {
-		// writeBlockEditingLog(BlockEditorLog.SubType.ANY,
-		// event.toString());
-		// }
-		// });
 
 		app.getSourceManager().addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -91,9 +80,6 @@ public class REBlockEditorManager2 {
 				app.doRefreshCurrentEditor();
 				app.doFormat();
 				app.doBlockToJavaSave();
-				// app.doCompileBlocking(true);
-				// successMessageDialog();// TODO
-				// dirty = false;
 			}
 
 			public void blockDebugRun() {
@@ -164,20 +150,6 @@ public class REBlockEditorManager2 {
 		}
 	}
 
-	// private void successMessageDialog() {
-	// // String selectButton[] = { "OK", "Java" };
-	// //
-	// // int select = JOptionPane.showOptionDialog(null,
-	// // "BlockÇ©ÇÁJavaÇ…ïœä∑ÇµÇ‹ÇµÇΩÅB",
-	// // "ê¨å˜ÇµÇ‹ÇµÇΩÅIÅI", JOptionPane.YES_NO_OPTION,
-	// // JOptionPane.INFORMATION_MESSAGE, null, selectButton,
-	// // selectButton[0]);
-	// //
-	// // if (select == 1) {
-	// // toFront(app.getFrame());
-	// // }
-	// }
-
 	private boolean isWorkspaceOpened() {
 		return blockEditor != null && blockEditor.getFrame() != null && blockEditor.getFrame().isVisible();
 	}
@@ -214,28 +186,12 @@ public class REBlockEditorManager2 {
 					return;
 				}
 
-				// if
-				// (!app.hasRunnableFile(app.getSourceManager().getCurrentFile()))
-				// {
-				// writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
-				// doCompileErrorBlockEditor(target);
-				// return;
-				// }
-
 				doRefleshBlock(target);
-				// TODO Auto-generated method stub
 			}
-			// });
-			// TODO Auto-generated method stub
 		});
 	}
 
 	private void doCompileErrorBlockEditor(final File target) {
-		// blockEditor.setState(WorkspaceController.COMPILE_ERROR);
-		// Thread thread = new Thread() {
-		//
-		// @Override
-		// public void run() {
 		man.addTask(new ICTask() {
 
 			public void doTask() {
@@ -251,16 +207,9 @@ public class REBlockEditorManager2 {
 				}
 			}
 		});
-		// thread.setPriority(Thread.currentThread().getPriority() - 1);
-		// thread.start();
 	}
 
 	protected void doRefleshBlock(final File javaFile) {
-		// blockEditor.setState(WorkspaceController.BLOCK_SHOWING);
-		// Thread thread = new Thread() {
-		//
-		// @Override
-		// public void run() {
 		man.addTask(new ICTask() {
 
 			public void doTask() {
@@ -282,7 +231,8 @@ public class REBlockEditorManager2 {
 					 * blockEditor.setLangDefFilePath(LANG_DEF_PATH); }
 					 */
 
-//					blockEditor.setLangDefFilePath(javaFile.getParentFile().getPath() + "/lang_def_project.xml");
+					// blockEditor.setLangDefFilePath(javaFile.getParentFile().getPath()
+					// + "/lang_def_project.xml");
 
 					// blockEditor.resetLanguage();
 					// blockEditor.setLangDefDirty(true);
@@ -296,8 +246,6 @@ public class REBlockEditorManager2 {
 				}
 			}
 		});
-		// thread.setPriority(Thread.currentThread().getPriority() - 1);
-		// thread.start();
 	}
 
 	protected boolean isTurtle() {
@@ -308,11 +256,6 @@ public class REBlockEditorManager2 {
 		if (!isWorkspaceOpened()) {
 			return;
 		}
-		// blockEditor.setState(WorkspaceController.PROJECT_SELECTED);
-		// Thread thread = new Thread() {
-		//
-		// @Override
-		// public void run() {
 		man.addTask(new ICTask() {
 
 			public void doTask() {
@@ -327,9 +270,6 @@ public class REBlockEditorManager2 {
 				}
 			}
 		});
-		// thread.setPriority(Thread.currentThread().getPriority() - 1);
-		// thread.start();
-
 	}
 
 	private String emptyBEWorkSpacePrint() {
