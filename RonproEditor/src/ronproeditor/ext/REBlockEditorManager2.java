@@ -10,16 +10,18 @@ import java.beans.PropertyChangeListener;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 
+import javax.swing.SwingUtilities;
+
 import bc.BlockConverter;
-import bc.apps.JavaToBlockMain;
 import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
 import clib.view.dialogs.CErrorDialog;
 import edu.mit.blocks.controller.WorkspaceController;
+import net.unicoen.mapper.JavaMapper;
+import net.unicoen.mapper.JavaScriptMapper;
 import net.unicoen.node.UniClassDec;
 import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRLog;
@@ -132,24 +134,6 @@ public class REBlockEditorManager2 {
 		doCompileBlock();
 	}
 
-	// 以前のコード
-	public void doCompileBlockFromUni(UniClassDec classDec, String sourcePath) {
-		try {
-			File file = new File(sourcePath + classDec.className + ".xml");
-			file.createNewFile();
-			PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)), false, "UTF-8");
-
-			BlockGenerator blockParser = new BlockGenerator(out, "ext/blocks/");
-			blockParser.parse(classDec);
-
-			// OpenBlock
-			blockEditor.loadFreshWorkspace();
-			blockEditor.openBlockEditor(file.getPath());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	private boolean isWorkspaceOpened() {
 		return blockEditor != null && blockEditor.getFrame() != null && blockEditor.getFrame().isVisible();
 	}
@@ -214,38 +198,69 @@ public class REBlockEditorManager2 {
 
 			public void doTask() {
 				try {
-					// xmlファイル生成
-					String[] libs = app.getLibraryManager().getLibsAsArray();
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
-					// File javaFile = app.getSourceManager().getCurrentFile();
-					String xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
 
-					// BlockEditorに反映
-					// lang def ファイル
-					/*
-					 * if (isTurtle()) { // lang_def.dtdの書き換え // 最後尾に要素を追加
-					 * 
-					 * // menuの書き換え
-					 * blockEditor.setLangDefFilePath(LANG_DEF_TURTLE_PATH); }
-					 * else { // lang_def.dtdの書き換え // menuの書き換え
-					 * blockEditor.setLangDefFilePath(LANG_DEF_PATH); }
-					 */
+					// Converter 1
+					// String[] libs = app.getLibraryManager().getLibsAsArray();
+					// String xmlFilePath = new JavaToBlockMain().run(javaFile,
+					// REApplication.SRC_ENCODING, libs);
 
-					// blockEditor.setLangDefFilePath(javaFile.getParentFile().getPath()
-					// + "/lang_def_project.xml");
+					// Converter 2
+					File srcfile = app.getSourceManager().getCurrentFile();
+					File dir = srcfile.getParentFile();
+					UniClassDec classDec = convertJavaToUni(srcfile);
+					File xmlfile = new File(dir.getAbsolutePath() + classDec.className + ".xml");
+					xmlfile.createNewFile();
+					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false,
+							"UTF-8");
+					BlockGenerator blockParser = new BlockGenerator(out, WorkspaceController.langDefRootPath);
+					blockParser.parse(classDec);
+					final String xmlFilePath = xmlfile.getAbsolutePath();
 
-					// blockEditor.resetLanguage();
-					// blockEditor.setLangDefDirty(true);
-					blockEditor.resetWorkspace();
-					blockEditor.loadProjectFromPath(xmlFilePath);
+					// blockEditor.resetWorkspace();//必要ないっぽい
 					blockEditor.setSelectedFile(new File(xmlFilePath));
-					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
+					SwingUtilities.invokeAndWait(new Runnable() {
+						@Override
+						public void run() {
+							blockEditor.loadProjectFromPath(xmlFilePath);
+							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
+						}
+					});
+
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					CErrorDialog.show(app.getFrame(), "Block変換時のエラー", ex);
 				}
 			}
 		});
+	}
+
+	/*
+	 * JavaをUnicoenモデルへ変換して返す
+	 */
+	private UniClassDec convertJavaToUni(File file) {
+		if (file.getPath().endsWith(".java")) {
+			JavaMapper mapper = new JavaMapper();
+			Object node = mapper.parseFile(file.getPath());
+
+			if (node instanceof UniClassDec) {
+				return (UniClassDec) node;
+			} else {
+				CErrorDialog.show(null, "UniClassモデルが作成できませんでした");
+				return null;
+			}
+		} else if (file.getPath().endsWith(".js")) {
+			JavaScriptMapper mapper = new JavaScriptMapper();
+			Object node = mapper.parseFile(file.getPath());
+			if (node instanceof UniClassDec) {
+				return (UniClassDec) node;
+			} else {
+				CErrorDialog.show(null, "UniClassモデルが作成できませんでした");
+				return null;
+			}
+		}
+
+		throw new RuntimeException("unknown file type");
 	}
 
 	protected boolean isTurtle() {
