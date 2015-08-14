@@ -1399,24 +1399,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setInitializer(parseExpression(initializer));
 		}
 
-		// // 配列サイズ分のローカル変数をリゾルバに追加
-		// if(model.getInitializer() instanceof ExArrayInstanceCreationModel){
-		// //配列サイズ分リゾルバに登録
-		// int index =
-		// ((ExArrayInstanceCreationModel)model.getInitializer()).getSize();
-		//
-		// for(int i=0;i<index;i++){
-		// StLocalVariableModel element = new StLocalVariableModel(argument);
-		// element.setArray(false);
-		// String elementName = name + "[" + i + "]";
-		// element.setName(elementName);
-		// System.out.println(element.getName());
-		// model.setJavaVariableType(((ExArrayInstanceCreationModel)model.getInitializer()).getType());
-		// model.setType(((ExArrayInstanceCreationModel)model.getInitializer()).getElementType());
-		// variableResolver.addLocalVariable(element);
-		// }
-		// }
-
 		return model;
 	}
 
@@ -1511,7 +1493,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					"The node type has not been supported yet node: "
 							+ node.getClass() + ", " + node.toString());
 		} catch (Exception ex) {
-			// ex.printStackTrace();
+			 ex.printStackTrace();
 			ExSpecialExpressionModel special = new ExSpecialExpressionModel(
 					node.toString());
 			special.setId(idCounter.getNextId());
@@ -2004,6 +1986,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setLeftExpression(parseExpression(receiver));
 			model.setRightExpression(parseExpression(arg));
 			return model;
+		}else if(fullName.startsWith("createTurtle")){
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("Turtle");
+			callMethod.setName("Turtle-createTurtle[]");
+			return callMethod;
 		}
 
 		//methodResolverに登録されているメソッドは，対応するブロックが存在するため解析する
@@ -2130,6 +2117,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		} else {
 			model = new ExCallMethodModel();
 			name = node.getName().toString();
+			if(BlockConverter.isLibraryMethod(name)){
+				name = "Turtle-" + calcMethodNameToUni(node);
+			}
 		}
 
 		model.setName(name);
@@ -2152,6 +2142,22 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.addArgument(arg);
 		}
 		return model;
+	}
+	
+	private String calcMethodNameToUni(MethodInvocation node){
+		String name = node.getName().toString() + "[";
+		for (Object param : node.arguments()) {
+			String paramType = ElementModel.getConnectorType(parseExpression(((Expression) param)).getType());
+			if (paramType.equals("double-number")) {
+				paramType = "double";
+			}else if(paramType.equals("number")){
+				paramType = "int";
+			}
+			name += ("@" + paramType);
+		}
+		name += "]";
+
+		return name;
 	}
 
 	private String calcMethodName(MethodInvocation node){

@@ -375,22 +375,7 @@ public class REFrame extends JFrame {
 	private void initializeUNICOENAction() {
 		// Block->Uni action
 		actionOpenBlockEditorFromUNI = new AbstractAction() {
-			public void actionPerformed(ActionEvent e) {
-				//Java->Uni
-				UniClassDec dec = application.convertJavaToUni(application.getSourceManager().getCurrentFile());
-				
-                File file = new File(application.getSourceManager().getCurrentFile().getParentFile().getPath() + File.separator + dec.className + ".xml" );
-				try {
-					file.createNewFile();
-					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(file)), false, "UTF-8");
-
-					//Uni->Block
-					BlockGenerator blockParser = new BlockGenerator(out, "ext/blocks/");
-					blockParser.parse(dec);
-				} catch (IOException e1) {
-					e1.printStackTrace();
-				}
-				
+			public void actionPerformed(ActionEvent e) {				
 				application.doOpenBlockEdtorFromUni();
 			}
 		};

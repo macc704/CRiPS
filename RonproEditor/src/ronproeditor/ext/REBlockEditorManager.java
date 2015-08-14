@@ -18,6 +18,7 @@ import java.io.PrintStream;
 
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.BlockConverter;
+import bc.apps.JavaToBlockMain;
 import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
@@ -58,20 +59,15 @@ public class REBlockEditorManager {
 		app.getSourceManager().addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (ICFwResourceRepository.DOCUMENT_OPENED.equals(evt.getPropertyName())) {
-					doCompileBlock();
+					doCompileBlockFromUni();
 				} else {
 					doLockBlockEditor();
 				}
 			}
 		});
 	}
-
-	public void doOpenBlockEditorFromUni() {
-		doOpenBlockEditor();
-	}
 	
-
-	public void doOpenBlockEditor() {
+	public void doOpenBlockEditor(){
 		if (isWorkspaceOpened()) { // already opened
 			CFrameUtils.toFront(blockEditor.getFrame());
 			return;
@@ -137,6 +133,34 @@ public class REBlockEditorManager {
 				out.close();
 				this.blockConverted(jsFile);
 			}
+			
+			public void doRefreshBlockEditor(File file){
+				//古い方法でリフレッシュする
+				man.addTask(new ICTask() {
+					public void doTask() {
+						try {
+							// xmlファイル生成
+							
+							String[] libs = app.getLibraryManager().getLibsAsArray();
+							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
+
+							// file change
+							blockEditor.resetWorkspace();
+							
+							// 拡張子に応じて変換する
+							if (file.getPath().endsWith(".java")) {
+								String xmlFilePath = new JavaToBlockMain().run(app.getSourceManager().getCurrentFile(), REApplication.SRC_ENCODING, libs);
+								blockEditor.loadProjectFromPath(xmlFilePath);
+							}
+
+							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
+						} catch (Exception ex) {
+							ex.printStackTrace();
+							CErrorDialog.show(app.getFrame(), "Block変換時のエラー", ex);
+						}
+					}
+				});
+			}
 
 		}, REApplication.SRC_ENCODING);
 		
@@ -162,9 +186,141 @@ public class REBlockEditorManager {
 					}
 				});
 
-		doCompileBlock();
+		doCompileBlockFromUni();
 	}
 
+	public void doOpenBlockEditorFromUni() {
+		if (isWorkspaceOpened()) { // already opened
+			CFrameUtils.toFront(blockEditor.getFrame());
+			return;
+		}
+
+		blockEditor = new WorkspaceController(IMAGES_PATH);
+		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
+		blockEditor.loadFreshWorkspace();
+		blockEditor.createAndShowGUI(blockEditor, new SBlockEditorListener() {
+
+			public void blockConverted(File file) {
+				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
+				app.doRefreshCurrentEditor();
+				app.doFormat();
+				app.doBlockToJavaSave();
+			}
+
+			public void blockDebugRun() {
+				writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
+				app.doDebugRun();
+			}
+
+			public void blockRun() {
+				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
+				app.doRun();
+			}
+
+			public void blockCompile() {
+				writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
+				app.doCompile();
+			}
+
+			public void chengeInheritance() {
+			}
+
+			public void toggleTraceLines(String state) {
+					writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
+			}
+
+			@Override
+			public void saveAsJavaAndJS(File file) {
+				BlockMapper mapper = new BlockMapper();
+				UniClassDec classDec = (UniClassDec) mapper.parse(file);
+
+				try {
+					outputFileFromUni(classDec, file);
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} 
+				
+			}
+			
+			public void outputFileFromUni(UniClassDec dec, File selectedFile) throws FileNotFoundException {
+				File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
+				PrintStream out = new PrintStream(javaFile);
+				JavaGenerator.generate(dec, out);
+				out.close();
+				this.blockConverted(javaFile);
+
+				File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
+				out = new PrintStream(jsFile);
+				JavaScriptGenerator.generate(dec, out);
+				out.close();
+				this.blockConverted(jsFile);
+			}
+			
+			public void doRefreshBlockEditor(File file){
+				man.addTask(new ICTask() {
+					public void doTask() {
+						try {
+							// xmlファイル生成
+							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
+							String filePath = app.getSourceManager().getCurrentFile().getPath();
+							String xmlFilePath = filePath.substring(0, filePath.lastIndexOf(".")) + ".xml";
+
+							// file change
+							File file = app.getSourceManager().getCurrentFile();
+							File xmlFile = new File(xmlFilePath);
+
+							blockEditor.resetWorkspace();
+
+							PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false, "UTF-8");
+							BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
+							
+							// 拡張子に応じて変換する
+							if (file.getPath().endsWith(".java")) {
+								JavaMapper mapper = new JavaMapper();
+								generator.parse((UniClassDec) mapper.parseFile(file.getPath()));
+							} else if (file.getPath().endsWith(".js")) {
+								JavaScriptMapper mapper = new JavaScriptMapper();
+								generator.parse((UniClassDec) mapper.parseFile(file.getPath()));
+							}
+
+							out.close();
+							blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());
+
+							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
+						} catch (Exception ex) {
+							ex.printStackTrace();
+							CErrorDialog.show(app.getFrame(), "Block変換時のエラー", ex);
+						}
+					}
+				});
+			}
+		}, REApplication.SRC_ENCODING);
+		
+		blockEditor.getFrame().addWindowFocusListener(
+				new WindowFocusListener() {
+					public void windowLostFocus(WindowEvent e) {
+						writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_LOST);
+					}
+
+					public void windowGainedFocus(WindowEvent e) {
+						writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
+					}
+				});
+		writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
+		blockEditor.getFrame().addWindowStateListener(
+				new WindowStateListener() {
+					public void windowStateChanged(WindowEvent e) {
+						if (e.getNewState() == WindowEvent.WINDOW_CLOSED) {
+							writeBlockEditingLog(BlockEditorLog.SubType.CLOSEED);
+						} else if (e.getNewState() == WindowEvent.WINDOW_OPENED) {
+							// do nothing
+						}
+					}
+				});
+
+		doCompileBlockFromUni();
+	}
+	
 	private boolean isWorkspaceOpened() {
 		return blockEditor != null && blockEditor.getFrame() != null && blockEditor.getFrame().isVisible();
 	}
@@ -205,45 +361,44 @@ public class REBlockEditorManager {
 			}
 		});
 	}
-
-	protected void doRefleshBlock(final File javaFile) {
+	
+	public void doCompileBlockFromUni() {
+		final File target = app.getSourceManager().getCurrentFile();
 		man.addTask(new ICTask() {
 
 			public void doTask() {
-				try {
-					// xmlファイル生成
-					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
-					String filePath = app.getSourceManager().getCurrentFile().getPath();
-					String xmlFilePath = filePath.substring(0, filePath.lastIndexOf(".")) + ".xml";
 
-					// file change
-					File file = app.getSourceManager().getCurrentFile();
-					File xmlFile = new File(xmlFilePath);
-
-					blockEditor.resetWorkspace();
-
-					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlFile)), false, "UTF-8");
-					BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
-					
-					// 拡張子に応じて変換する
-					if (file.getPath().endsWith(".java")) {
-						JavaMapper mapper = new JavaMapper();
-						generator.parse((UniClassDec) mapper.parseFile(javaFile.getPath()));
-					} else if (file.getPath().endsWith(".js")) {
-						JavaScriptMapper mapper = new JavaScriptMapper();
-						generator.parse((UniClassDec) mapper.parseFile(javaFile.getPath()));
-					}
-
-					out.close();
-					blockEditor.loadProjectFromPath(new File(xmlFilePath).getPath());
-
-					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					CErrorDialog.show(app.getFrame(), "Block変換時のエラー", ex);
+				if (!isWorkspaceOpened()) {
+					return;
 				}
+				if (!app.getSourceManager().hasCurrentFile()) {
+					doLockBlockEditor();
+					return;
+				}
+
+				writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK);
+
+				@SuppressWarnings("unused")
+				String message = "default";
+				try {
+					message = app.doCompile2(false);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+//				if (message.length() != 0) {// has compile error
+//					writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
+//					doCompileErrorBlockEditor(target);
+//					return;
+//				}
+
+				doRefleshBlock(target);
 			}
 		});
+	}
+
+	public void doRefleshBlock(final File javaFile) {
+		blockEditor.doRefreshBlock(javaFile);
 	}
 
 	protected boolean isTurtle() {

@@ -881,8 +881,8 @@
 
 
 <BlockGenus name="Turtle-createTurtle[]" kind="function" initlabel="新しくタートルを作る" color="255 0 0">
-	<Name>rightMouseDown</Name>
-	<ReturnType>boolean</ReturnType>
+	<Name>createTurtle</Name>
+	<ReturnType>Turtle</ReturnType>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object" position-type="mirror"></BlockConnector>
 	</BlockConnectors>

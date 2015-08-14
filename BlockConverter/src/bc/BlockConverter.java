@@ -89,7 +89,7 @@ public class BlockConverter {
 			/*BWindow*/"setLocation", "setSize", "getCanvas",  
 			/*List*/"remove", "remove[@object]", "get","get[@number]",
 			/*Scanner*/"isMouseDown", "hasNextInt", "hasNextDouble" ,/*Bsound*/"getVolume", "setVolume",
-			"getDefaultVolume","play[@string]","loadOnMemory[@string]"};
+			"getDefaultVolume","play[@string]","loadOnMemory[@string]", "createTurtle"};
 
 	// 戻り値のあるメソッドはここに登録 (上にも登録しないとダメ)
 	public final static String[] FUNCTION_METHODCALL_BLOCKS = { "input",
@@ -114,6 +114,22 @@ public class BlockConverter {
 			"getCanvasHeight", "removeFirst", "isMouseDown", "get[@number]",
 			"hasNextInt", "hasNextDouble" , "Input.getInt", "Input.getDouble", "Input.getString", "Input.isInteger", "Input.isDouble","length" };
 
+	public static boolean isLibraryMethod(String name){
+		for(String s : METHOD_CALL_BLOCKS){
+			if(s.equals(name)){
+				return true;
+			}
+		}
+		
+		for(String s : FUNCTION_METHODCALL_BLOCKS){
+			if(s.equals(name)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public static final String[] ALL_DATA_BLOCKNAMES;
 
 	static {

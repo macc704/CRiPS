@@ -393,17 +393,6 @@ public class WorkspaceController {
 
 				Element projectRoot = doc.getDocumentElement();
 
-				// load the canvas (or pages and page blocks if any) blocks from
-				// the
-				// save file
-				// also load drawers, or any custom drawers from file. if no
-				// custom
-				// drawers
-				// are present in root, then the default set of drawers is
-				// loaded
-				// from
-				// langDefRoot
-
 				workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
 
 				workspaceLoaded = true;
@@ -778,7 +767,9 @@ public class WorkspaceController {
 		frame.setVisible(true);
 	}
 
-
+	public void doRefreshBlock(File file){
+		this.ronproEditor.doRefreshBlockEditor(file);
+	}
 
 	public String calcClassName() {
 		String className = this.selectedJavaFile.substring(0,

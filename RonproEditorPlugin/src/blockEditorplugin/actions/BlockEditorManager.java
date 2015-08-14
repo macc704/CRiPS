@@ -302,6 +302,12 @@ public class BlockEditorManager {
 				
 			}
 
+			@Override
+			public void doRefreshBlockEditor(File file) {
+				// TODO Auto-generated method stub
+				
+			}
+
 		}, ENCODING);
 		blockEditor.getFrame().addWindowFocusListener(
 				new WindowFocusListener() {
