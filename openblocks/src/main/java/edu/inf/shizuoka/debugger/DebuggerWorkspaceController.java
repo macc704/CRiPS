@@ -15,27 +15,26 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.w3c.dom.Element;
+
+import edu.mit.blocks.controller.WorkspaceController;
 import net.unicoen.node.UniClassDec;
 import net.unicoen.parser.blockeditor.BlockGenerator;
 import net.unicoen.parser.blockeditor.BlockMapper;
 
-import org.w3c.dom.Element;
-
-import edu.mit.blocks.controller.WorkspaceController;
-
-public class DebuggerWorkspaceController extends WorkspaceController{
+public class DebuggerWorkspaceController extends WorkspaceController {
 
 	private File selectedFile;
 	// Reference kept to be able to update frame title with current loaded file
 	private JFrame frame;
 
-	public DebuggerWorkspaceController(UniClassDec dec, String langDefRootPath, File selectedFile) throws IOException{
+	public DebuggerWorkspaceController(UniClassDec dec, String langDefRootPath, File selectedFile) throws IOException {
 		setLangDefFilePath(langDefRootPath);
 		loadFreshWorkspace();
 		this.selectedFile = selectedFile;
 
 		PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(selectedFile)), false, "UTF-8");
-		BlockGenerator generator = new BlockGenerator(out, "ext/blocks/");
+		BlockGenerator generator = new BlockGenerator(out, WorkspaceController.langDefRootPath);
 		generator.parse(dec);
 		out.close();
 
@@ -45,8 +44,8 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 		runProgram(dec, generator.getAddedModels());
 	}
 
-	public UniClassDec parse() throws IOException{
-		BlockMapper mapper = new BlockMapper();
+	public UniClassDec parse() throws IOException {
+		BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
 		UniClassDec dec = mapper.parse(selectedFile);
 
 		return dec;
@@ -74,14 +73,14 @@ public class DebuggerWorkspaceController extends WorkspaceController{
 		return buttonPanel;
 	}
 
-	public void runProgram(UniClassDec exeClass, Map<String, Element> blocks){
+	public void runProgram(UniClassDec exeClass, Map<String, Element> blocks) {
 		ProgramRunnner runnner = new ProgramRunnner(exeClass, this, blocks);
 		runnner.start();
 	}
 
 }
 
-class NextAction implements ActionListener{
+class NextAction implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		BlockEditorDebbugger.setFlag(true);
 	}

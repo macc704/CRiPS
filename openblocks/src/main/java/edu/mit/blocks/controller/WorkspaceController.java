@@ -78,6 +78,9 @@ import net.unicoen.parser.blockeditor.BlockMapper;
  */
 public class WorkspaceController {
 
+	public static String langDefRootPath = "not available";
+	private static String langDefFilePath = "not available";
+
 	private Element langDefRoot;
 	private boolean isWorkspacePanelInitialized = false;
 	protected JPanel workspacePanel;
@@ -137,7 +140,8 @@ public class WorkspaceController {
 	 */
 	public void setLangDefFilePath(final String filePath) {
 		InputStream in = null;
-		WorkspaceController.langDefRootPath = filePath;
+		WorkspaceController.langDefRootPath = filePath.substring(0, filePath.lastIndexOf("/")) + "/";
+		WorkspaceController.langDefFilePath = filePath;
 		try {
 			in = new FileInputStream(filePath);
 			setLangDefStream(in);
@@ -166,7 +170,7 @@ public class WorkspaceController {
 		final Document doc;
 		try {
 			builder = factory.newDocumentBuilder();
-			doc = builder.parse(new File(langDefRootPath));
+			doc = builder.parse(new File(langDefFilePath));
 			langDefRoot = doc.getDocumentElement();
 			langDefDirty = true;
 		} catch (ParserConfigurationException e) {
@@ -371,7 +375,7 @@ public class WorkspaceController {
 			workspaceLoaded = true;
 
 			setDirty(false);
-			
+
 			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(),
 					getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
 
@@ -589,7 +593,7 @@ public class WorkspaceController {
 				saveToFile(selectedFile);
 				setDirty(false);
 
-				BlockMapper mapper = new BlockMapper();
+				BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
 				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
 
 				outputFileFromUni(classDec);
@@ -901,20 +905,14 @@ public class WorkspaceController {
 		// }
 	}
 
-	private static String langDefRootPath = "ext/blocks/lang_def.xml";
-
 	public static void main(final String[] args) {
 		WorkspaceController wc = new WorkspaceController();
-		wc.openBlockEditor();
-	}
-
-	public void openBlockEditor() {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				setLangDefFilePath(langDefRootPath);
-				loadFreshWorkspace();
-				createAndShowGUI();
+				wc.setLangDefFilePath("ext/blocks/lang_def.xml");
+				wc.loadFreshWorkspace();
+				wc.createAndShowGUI();
 			}
 		});
 	}
@@ -941,7 +939,7 @@ public class WorkspaceController {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				setLangDefFilePath(langDefRootPath);
+				setLangDefFilePath(langDefFilePath);
 				loadFreshWorkspace();
 				createAndShowGUI();
 				loadProjectFromPath(xmlFilePath);
