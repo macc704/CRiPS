@@ -107,6 +107,13 @@ public class REBlockEditorManager2 {
 				writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
 			}
 
+			@Override
+			public void newFileCreated() {
+				File file = app.getSourceManager().getCurrentFile();
+				app.doRefresh();
+				app.doOpen(file);
+			}
+
 		});
 
 		// blockEditor.getFrame().addWindowFocusListener(new

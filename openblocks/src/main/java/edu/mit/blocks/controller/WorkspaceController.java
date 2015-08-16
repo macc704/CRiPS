@@ -69,6 +69,7 @@ import edu.mit.blocks.workspace.WorkspaceListener;
 import net.unicoen.generator.DolittleGenerator;
 import net.unicoen.generator.JavaGenerator;
 import net.unicoen.generator.JavaScriptGenerator;
+import net.unicoen.node.Traverser;
 import net.unicoen.node.UniClassDec;
 import net.unicoen.parser.blockeditor.BlockMapper;
 
@@ -598,7 +599,7 @@ public class WorkspaceController {
 				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
 
 				outputFileFromUni(classDec);
-
+				
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -606,8 +607,10 @@ public class WorkspaceController {
 	}
 
 	public void outputFileFromUni(UniClassDec dec) throws FileNotFoundException {
+		boolean fileCreated = false;
 		try {
 			File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
+			fileCreated |= !javaFile.exists();
 			PrintStream out = new PrintStream(javaFile);
 			JavaGenerator.generate(dec, out);
 			out.close();
@@ -618,16 +621,19 @@ public class WorkspaceController {
 
 		try {
 			File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
+			fileCreated  |= !jsFile.exists();
 			PrintStream out = new PrintStream(jsFile);
 			JavaScriptGenerator.generate(dec, out);
 			out.close();
 			listener.blockConverted(jsFile);
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
 		try {
 			File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".dlt");
+			fileCreated |= !dltFile.exists();
 			PrintStream out = new PrintStream(dltFile);
 			DolittleGenerator.generate(dec, out);
 			out.close();
@@ -635,6 +641,10 @@ public class WorkspaceController {
 			ex.printStackTrace();
 		}
 
+		if(fileCreated){
+			listener.newFileCreated();
+		}
+		
 	}
 
 	/**
