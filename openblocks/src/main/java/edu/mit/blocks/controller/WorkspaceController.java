@@ -67,9 +67,8 @@ import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceListener;
 import net.unicoen.generator.DolittleGenerator;
-import net.unicoen.generator.JavaGenerator;
-import net.unicoen.generator.JavaScriptGenerator;
-import net.unicoen.node.Traverser;
+import net.unicoen.generator.JavaGeneratorForTurtle;
+import net.unicoen.generator.JavaScriptGeneratorForTurtle;
 import net.unicoen.node.UniClassDec;
 import net.unicoen.parser.blockeditor.BlockMapper;
 
@@ -612,7 +611,7 @@ public class WorkspaceController {
 			File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
 			fileCreated |= !javaFile.exists();
 			PrintStream out = new PrintStream(javaFile);
-			JavaGenerator.generate(dec, out);
+			JavaGeneratorForTurtle.generate(dec, out);
 			out.close();
 			listener.blockConverted(javaFile);
 		} catch (Exception ex) {
@@ -623,7 +622,7 @@ public class WorkspaceController {
 			File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
 			fileCreated  |= !jsFile.exists();
 			PrintStream out = new PrintStream(jsFile);
-			JavaScriptGenerator.generate(dec, out);
+			JavaScriptGeneratorForTurtle.generate(dec, out);
 			out.close();
 			listener.blockConverted(jsFile);
 
@@ -719,7 +718,7 @@ public class WorkspaceController {
 			buttonPanel.add(runButton);
 		}
 
-		{// create showing method trace line bottun
+		{// create showing method trace line button
 			final JToggleButton showTraceLineButton = new JToggleButton("Hide MeRV");
 			showTraceLineButton.setSelected(!workspace.getMeRVManager().isActive());
 			showTraceLineButton.addActionListener(new ActionListener() {
