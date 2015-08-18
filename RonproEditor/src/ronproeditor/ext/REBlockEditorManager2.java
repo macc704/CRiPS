@@ -218,6 +218,9 @@ public class REBlockEditorManager2 {
 					File srcfile = app.getSourceManager().getCurrentFile();
 					File dir = srcfile.getParentFile();
 					UniClassDec classDec = convertJavaToUni(srcfile);
+					if (classDec == null) {
+						return;
+					}
 					File xmlfile = new File(dir.getAbsolutePath() + "/" + classDec.className + ".xml");
 					xmlfile.createNewFile();
 					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false,
@@ -269,7 +272,7 @@ public class REBlockEditorManager2 {
 			}
 		}
 
-		throw new RuntimeException("unknown file type");
+		return null;
 	}
 
 	protected boolean isTurtle() {
