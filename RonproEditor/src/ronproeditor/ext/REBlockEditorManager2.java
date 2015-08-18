@@ -15,6 +15,7 @@ import java.io.PrintStream;
 import javax.swing.SwingUtilities;
 
 import bc.BlockConverter;
+import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
@@ -58,9 +59,10 @@ public class REBlockEditorManager2 {
 				 * .equals(evt.getPropertyName())
 				 */) {
 					doCompileBlock();
-				} else {
-					doLockBlockEditor();
 				}
+				// else {
+				// // doLockBlockEditor();
+				// }
 			}
 		});
 	}
@@ -149,6 +151,10 @@ public class REBlockEditorManager2 {
 
 	public void doCompileBlock() {
 		final File target = app.getSourceManager().getCurrentFile();
+		String ext = CFileSystem.convertToCFile(target).getName().getExtension();
+		if (!(ext.equals("java") || ext.equals("js"))) {
+			return;
+		}
 		man.addTask(new ICTask() {
 
 			public void doTask() {
@@ -218,9 +224,6 @@ public class REBlockEditorManager2 {
 					File srcfile = app.getSourceManager().getCurrentFile();
 					File dir = srcfile.getParentFile();
 					UniClassDec classDec = convertJavaToUni(srcfile);
-					if (classDec == null) {
-						return;
-					}
 					File xmlfile = new File(dir.getAbsolutePath() + "/" + classDec.className + ".xml");
 					xmlfile.createNewFile();
 					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false,
@@ -272,7 +275,7 @@ public class REBlockEditorManager2 {
 			}
 		}
 
-		return null;
+		throw new RuntimeException("unknown file type");
 	}
 
 	protected boolean isTurtle() {
