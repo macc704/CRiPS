@@ -607,20 +607,20 @@ public class WorkspaceController {
 
 	public void outputFileFromUni(UniClassDec dec) throws FileNotFoundException {
 		boolean fileCreated = false;
+		File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
 		try {
-			File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
 			fileCreated |= !javaFile.exists();
 			PrintStream out = new PrintStream(javaFile);
 			JavaGeneratorForTurtle.generate(dec, out);
 			out.close();
-			listener.blockConverted(javaFile);
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
 		try {
 			File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
-			fileCreated  |= !jsFile.exists();
+			fileCreated |= !jsFile.exists();
 			PrintStream out = new PrintStream(jsFile);
 			JavaScriptGeneratorForTurtle.generate(dec, out);
 			out.close();
@@ -640,9 +640,10 @@ public class WorkspaceController {
 			ex.printStackTrace();
 		}
 
-		if(fileCreated){
+		if (fileCreated) {
 			listener.newFileCreated();
 		}
+		listener.blockConverted(javaFile);
 
 	}
 
