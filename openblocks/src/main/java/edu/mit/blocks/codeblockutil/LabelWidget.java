@@ -368,11 +368,6 @@ public abstract class LabelWidget extends JComponent {
 	 * @param text
 	 */
 	public void updateLabelText(String text) {
-		// leave some space to click on
-		if (text.equals("")) {
-			text = "     ";
-		}
-
 		// update the text everywhere
 		textLabel.setText(text);
 		textField.setText(text);
