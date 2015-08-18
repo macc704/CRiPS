@@ -598,7 +598,7 @@ public class WorkspaceController {
 				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
 
 				outputFileFromUni(classDec);
-				
+
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -643,7 +643,7 @@ public class WorkspaceController {
 		if(fileCreated){
 			listener.newFileCreated();
 		}
-		
+
 	}
 
 	/**
