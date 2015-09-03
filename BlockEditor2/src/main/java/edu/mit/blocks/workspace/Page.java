@@ -866,8 +866,6 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
         public String id;
         public int width;
         public Color color;
-        public boolean fullview;
-        public Map<Long, Object> blocks = new HashMap<Long, Object>();
         public Map<Long, Object> renderableBlocks = new HashMap<Long, Object>();
     }
 
@@ -1108,18 +1106,12 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
             }
         }
 
-        public void mouseDragged(MouseEvent e) {
-        }
-
         @Override
         public void mouseReleased(MouseEvent e) {
             if ((!Page.this.hideMinimize)) {
                 pressed = false;
                 this.repaint();
             }
-        }
-
-        public void mouseMoved(MouseEvent e) {
         }
 
         @Override

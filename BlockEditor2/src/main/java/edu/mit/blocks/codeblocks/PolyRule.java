@@ -166,11 +166,11 @@ public class PolyRule implements LinkRule, WorkspaceListener {
 		procedureOutputManager.procedureUpdateInfo(e);
 	}
 
-	private static Iterable getPolyConnectors(Block b) {
-		ArrayList polySockets = new ArrayList();
+	private static Iterable<BlockConnector> getPolyConnectors(Block b) {
+		ArrayList<BlockConnector> polySockets = new ArrayList<BlockConnector>();
 		if (b.hasPlug() && isInitPoly(b.getPlug()))
 			polySockets.add(b.getPlug());
-		Iterator i$ = b.getSockets().iterator();
+		Iterator<BlockConnector> i$ = b.getSockets().iterator();
 		do {
 			if (!i$.hasNext())
 				break;
@@ -189,7 +189,7 @@ public class PolyRule implements LinkRule, WorkspaceListener {
 	private static void setPolyConnectors(Workspace ws, BlockConnector setterConn) {
 		if (setterConn.hasBlock()) {
 			Block otherBlock = ws.getEnv().getBlock(setterConn.getBlockID());
-			Iterator i$ = getPolyConnectors(otherBlock).iterator();
+			Iterator<BlockConnector> i$ = getPolyConnectors(otherBlock).iterator();
 			do {
 				if (!i$.hasNext())
 					break;
@@ -211,7 +211,7 @@ public class PolyRule implements LinkRule, WorkspaceListener {
 			if (otherBlock.hasStubs())
 				BlockStub.parentConnectorsChanged(ws, otherBlock.getBlockID());
 		} else {
-			Iterator i$ = getPolyConnectors(otherBlock).iterator();
+			Iterator<BlockConnector> i$ = getPolyConnectors(otherBlock).iterator();
 			do {
 				if (!i$.hasNext())
 					break;
@@ -246,7 +246,7 @@ public class PolyRule implements LinkRule, WorkspaceListener {
 	private static boolean canRevertPolyConnectors(Workspace ws, Block b, Long prevBlock) {
 		if (isProcRelated(ws, b.getBlockID()))
 			return true;
-		for (Iterator i$ = getPolyConnectors(b).iterator(); i$.hasNext();) {
+		for (Iterator<BlockConnector> i$ = getPolyConnectors(b).iterator(); i$.hasNext();) {
 			BlockConnector polyConn = (BlockConnector) i$.next();
 			if (polyConn.hasBlock() && polyConn.getBlockID() != prevBlock) {
 				Block otherBlock = ws.getEnv().getBlock(polyConn.getBlockID());
@@ -269,7 +269,7 @@ public class PolyRule implements LinkRule, WorkspaceListener {
 			if (polyBlock.hasStubs())
 				BlockStub.parentConnectorsChanged(polyBlock.getWorkspace(), polyBlock.getBlockID());
 		} else {
-			Iterator i$ = getPolyConnectors(polyBlock).iterator();
+			Iterator<BlockConnector> i$ = getPolyConnectors(polyBlock).iterator();
 			do {
 				if (!i$.hasNext())
 					break;
@@ -292,7 +292,7 @@ public class PolyRule implements LinkRule, WorkspaceListener {
 			if (otherBlock.hasStubs())
 				BlockStub.parentConnectorsChanged(ws, otherBlock.getBlockID());
 		} else {
-			Iterator i$ = getPolyConnectors(otherBlock).iterator();
+			Iterator<BlockConnector> i$ = getPolyConnectors(otherBlock).iterator();
 			do {
 				if (!i$.hasNext())
 					break;

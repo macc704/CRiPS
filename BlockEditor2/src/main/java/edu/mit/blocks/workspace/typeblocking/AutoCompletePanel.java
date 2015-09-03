@@ -57,12 +57,13 @@ public class AutoCompletePanel extends JPanel implements MouseListener, MouseMot
     /**editable text field for user to enter in desired pattern**/
     private final JTextField editor;
     /**menu that displays set of possibilities from user-input patter**/
-    private final JList menu;
+    @SuppressWarnings("rawtypes")
+	private final JList menu;
     /** The workspace in use */
     private final Workspace workspace;
 
     /**Constructs AutoCompletePanel*/
-    @SuppressWarnings("serial")
+    @SuppressWarnings({ "serial", "rawtypes", "unchecked" })
     public AutoCompletePanel(Workspace workspace) {
         super(new BorderLayout());
         this.workspace = workspace;
@@ -207,7 +208,8 @@ public class AutoCompletePanel extends JPanel implements MouseListener, MouseMot
      * all the possible blocks that match the user-generated pattern
      * (the user-generated pattern is entered within AutoCompletePanel.editor)
      */
-    private void updateMenu() {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private void updateMenu() {
         //resize to display entire text in editor
         if (this.editor.getPreferredSize().width > preferredWidth) {
             this.setSize(this.editor.getPreferredSize().width, preferredHeight);

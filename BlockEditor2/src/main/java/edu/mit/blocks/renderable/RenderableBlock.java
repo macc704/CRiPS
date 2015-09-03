@@ -80,12 +80,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	/** True if in debug mode */
 	private static final boolean DEBUG = false;
 
-	/**
-	 * The maximum distance between blocks that are still considered nearby
-	 * enough to link
-	 */
-	private static final double NEARBY_RADIUS = 20.0;
-
 	/** The alpha level while dragging - lower means more transparent */
 	private static final float DRAGGING_ALPHA = 0.66F;
 
@@ -2301,17 +2295,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * @return
 	 */
 	private int descale(int x) {
-		return (int) (x / zoom);
-	}
-
-	/**
-	 * returns the descaled x based on the current zoom that is given a scaled x
-	 * it returns what that position would be when zoom == 1
-	 *
-	 * @param x
-	 * @return
-	 */
-	private int descale(double x) {
 		return (int) (x / zoom);
 	}
 

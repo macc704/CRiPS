@@ -7,8 +7,6 @@ import edu.mit.blocks.workspace.Workspace;
 
 public class HeaderLabel extends BlockLabel {
 
-	private boolean editableHeaderLabel = false;
-
 	public HeaderLabel(Workspace workspace,String initLabelText, BlockLabel.Type labelType,
 			boolean isEditable, long blockID) {
 		super(workspace ,initLabelText, labelType, isEditable, blockID, true, new Color(
@@ -65,7 +63,7 @@ public class HeaderLabel extends BlockLabel {
 
 //	/**
 //	 * Rename header label of this block
-//	 * 
+//	 *
 //	 * @param RenderableBlock
 //	 */
 //	private void RenameHeaderLabel(RenderableBlock rb) {
@@ -103,7 +101,7 @@ public class HeaderLabel extends BlockLabel {
 //											socketRBlock.getBlockID())
 //											.getJavaType();
 //									type = type.substring(0, type.indexOf("[]"));
-//									
+//
 //									rb.getHeaderLabel().setText(type + "型の変数をつくり、");
 //
 //								}

@@ -28,19 +28,19 @@ import edu.mit.blocks.renderable.RenderableBlock;
  * A MiniMap is a miniturized representation of the
  * current Workspace's block canvas. Each MiniMap may
  * only be associated with only one block canvas.
- * 
+ *
  * A MiniMap should display its associated set of
  * RenderableBlocks and Comments at their current position,
  * or render their motion in real time.
- * 
+ *
  * The Minimap must tranform the block canvas's width:height ratio
  * such that it would fit within the MiniMap's area.
  * This may warp the blocks to appear thinner/wider
  * than their real size.
- * 
+ *
  * The MiniMap should expand and shrink with some delay
  * as the user mouses over or moves the mouse out of focus.
- * 
+ *
  * blockCanvas : BlockCanvas 		//the block canvas that this MiniMap renders
  * blocks : Set<RenderableBlocks> 	//the set of blocks that this renders
  * comments : Set<Comment> 			//the set of comments that this renders
@@ -474,7 +474,7 @@ public class MiniMap extends JPanel implements WorkspaceWidget, MouseListener, M
      * MiniMapAutoCenterTimer moves closer to the center of the block
      * by (dx, dy) for every 5 milliseconds and continues to do so
      * for "count" number of times.
-     * 
+     *
      * It wraps a Timer that stops only when count is less than 0.
      */
     private class MiniMapAutoCenterTimer implements ActionListener {
@@ -503,11 +503,6 @@ public class MiniMap extends JPanel implements WorkspaceWidget, MouseListener, M
         /**starts internal Timer*/
         public void start() {
             timer.start();
-        }
-
-        /**stops internal Timer*/
-        public void stop() {
-            timer.stop();
         }
 
         /**Repositions view in blockCanvas iff count>=0; Otherwise stop internal Timer*/
@@ -606,6 +601,6 @@ public class MiniMap extends JPanel implements WorkspaceWidget, MouseListener, M
 
 	@Override
 	public void addArrow(Component p) {
-		
+
 	}
 }

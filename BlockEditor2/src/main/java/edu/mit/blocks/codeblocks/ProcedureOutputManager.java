@@ -14,13 +14,13 @@ public class ProcedureOutputManager {
     private static class OutputInfo
     {
 
-        private final List outputs;
+        private final List<Long> outputs;
         private String type;
         private int numTyped;
 
         private OutputInfo()
         {
-            outputs = new ArrayList(5);
+            outputs = new ArrayList<Long>(5);
             type = null;
             numTyped = 0;
         }
@@ -68,7 +68,7 @@ public class ProcedureOutputManager {
 
     public void finishLoad()
     {
-        Iterator i;
+        Iterator<?> i;
         Block p;
         for(i = workspace.getBlocksFromGenus("procedure").iterator(); i.hasNext(); myProcInfo.put(p.getBlockID(), new OutputInfo()))
             p = (Block)i.next();
@@ -110,7 +110,7 @@ public class ProcedureOutputManager {
         if(top == null || !ws.getEnv().getBlock(top).isProcedureDeclBlock())
             return;
         OutputInfo info = (OutputInfo)myProcInfo.get(top);
-        List events = new ArrayList();
+        List<WorkspaceEvent> events = new ArrayList<WorkspaceEvent>();
         Block b = ws.getEnv().getBlock(socket);
         boolean add = true;
         if(isOutput(b))
@@ -221,7 +221,7 @@ public class ProcedureOutputManager {
             }
             return;
         }
-        Iterator i = b.getSockets().iterator();
+        Iterator<?> i = b.getSockets().iterator();
         do
         {
             if(!i.hasNext())
@@ -239,7 +239,7 @@ public class ProcedureOutputManager {
     private static void changeType(Workspace ws, OutputInfo info, WorkspaceWidget w, List<WorkspaceEvent> e)
     {
         String type = info.type;
-        Iterator i = info.outputs.iterator();
+        Iterator<?> i = info.outputs.iterator();
         do
         {
             if(!i.hasNext())
@@ -289,7 +289,7 @@ public class ProcedureOutputManager {
             }
             return;
         }
-        Iterator i = b.getSockets().iterator();
+        Iterator<BlockConnector> i = b.getSockets().iterator();
         do
         {
             if(!i.hasNext())
@@ -321,7 +321,7 @@ public class ProcedureOutputManager {
                 info.numTyped--;
             return;
         }
-        Iterator i = b.getSockets().iterator();
+        Iterator<BlockConnector> i = b.getSockets().iterator();
         do
         {
             if(!i.hasNext())
@@ -350,7 +350,6 @@ public class ProcedureOutputManager {
     }
 
     private  Workspace workspace;
-    private static final int DEFAULT_SIZE = 5;
     private  final Map<Long, OutputInfo> myProcInfo = new HashMap<Long, OutputInfo>();
 
 }

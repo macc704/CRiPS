@@ -18,53 +18,53 @@ import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceListener;
 
 /**
- * The FocusTraversalManager has two function.  First, it 
- * maintains a pointer to the block, if any, that has 
- * focus and the corresponding focus point on that block.  
- * If the focus is not on the block, then it must be set 
+ * The FocusTraversalManager has two function.  First, it
+ * maintains a pointer to the block, if any, that has
+ * focus and the corresponding focus point on that block.
+ * If the focus is not on the block, then it must be set
  * to some point of the block canvas.
- * 
- * The second primary function of the FocusTraversalManager 
- * is to redirect the focus to the next appropriate block 
- * in a particular stack.  One could "traverse" the stack 
+ *
+ * The second primary function of the FocusTraversalManager
+ * is to redirect the focus to the next appropriate block
+ * in a particular stack.  One could "traverse" the stack
  * by moving the focus to one of the following:
  * 		1. the block after
  * 		2. the block before
  * 		3. the next block
  * 		4. the previous block
- * 
- * The exact definition of what "next", "previous", 
- * "after", and "before" is described in details in 
+ *
+ * The exact definition of what "next", "previous",
+ * "after", and "before" is described in details in
  * their corresponding method summary.
- * As a focus manager of the entire system, the class 
- * must maintain particular invariants at all time.  
- * Clients of this module may obtain the focus through 
- * three observer (getter) methods.  Clients may also 
- * manualy mutate the focus through three modifier (setter) 
+ * As a focus manager of the entire system, the class
+ * must maintain particular invariants at all time.
+ * Clients of this module may obtain the focus through
+ * three observer (getter) methods.  Clients may also
+ * manualy mutate the focus through three modifier (setter)
  * methods.
- * 
- * However, BOTH the value returned in the observer 
- * methods and the value passed in the modifier methods 
+ *
+ * However, BOTH the value returned in the observer
+ * methods and the value passed in the modifier methods
  * MUST maintain particular invariants described below.
- * 
- * These invariants must hold at all time and check reps 
- * should be imposed to ensure that any changes to the 
- * system still holds these crucial invariants.  Clients 
- * of this module may assume that the invariants mentioned 
+ *
+ * These invariants must hold at all time and check reps
+ * should be imposed to ensure that any changes to the
+ * system still holds these crucial invariants.  Clients
+ * of this module may assume that the invariants mentioned
  * below will always hold.
- * 
+ *
  * INVARIANT I.
  * 	If the canvas has focus, then the block does not. Thus
  * 		1. focusBlock == Block.null
  * 		2. canvasFocusPoint != null
  * 		3. blockFocusPoint == null
- * 
+ *
  * INVARIANT II.
  * 	If the block has focus, then the canvas does not. Thus
  * 		1. focusBlock != Block.null
  * 		2. canvasFocusPoint == null
  * 		3. blockFocusPoint != null
- * 
+ *
  * @specfield focusBlock : Long //block with focus
  * @specfield canvasFocusPoint : Point //focus point on canvas relative to canvas
  * @specfield blockFocusPoint : Point //focus point on block relative to block
@@ -563,11 +563,6 @@ public class FocusTraversalManager implements MouseListener, KeyListener, Worksp
         if (parentBlock != null) {
             return getTopOfStack(parentBlock.getBlockID());
         }
-        //check invariant
-        if (parentBlock != null) {
-            throw new RuntimeException("Invariant Violated: may not "
-                    + "return a null instance of block as the outermost block");
-        }
         //If we can't traverse any deeper, then this is innermost Block.
         return blockID;
     }
@@ -602,11 +597,6 @@ public class FocusTraversalManager implements MouseListener, KeyListener, Worksp
         }
         if (returnBlock != null) {
             return getBottomRightBlock(returnBlock);
-        }
-        //check invariant
-        if (returnBlock != null) {
-            throw new RuntimeException("Invariant Violated: may not "
-                    + "return a null instance of block as the innermost block");
         }
         //If we can't traverse any deeper, then this is innermost Block.
         return block;
@@ -744,7 +734,7 @@ public class FocusTraversalManager implements MouseListener, KeyListener, Worksp
     public void keyTyped(KeyEvent e) {
     }
 
-    /////////////////////////////// 
+    ///////////////////////////////
     // WORKSPACE LISTENER METHOD //
     ///////////////////////////////
     /**

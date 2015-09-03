@@ -50,7 +50,7 @@ public class ScopeChecker {
 					compareBlockName)) {
 				return true;
 			}
-		
+
 			cmpBlock.getWorkspace().getEnv().getRenderableBlock(cmpBlock.getBlockID())
 					.setBlockHighlightColor(Color.RED);
 
@@ -73,16 +73,12 @@ public class ScopeChecker {
 	private static boolean confirmCompareBlockIsBelongable(Block cmpBlock,
 			Block beforeBlock, String originBlockName) {
 
-		Block checkBlock = cmpBlock;
-
 		if (cmpBlock.getPlugBlockID() != -1) {
 			while (cmpBlock.getPlugBlockID() != -1) {
 				cmpBlock = cmpBlock.getWorkspace().getEnv().getBlock(cmpBlock.getPlugBlockID());
 			}
 		}
-		
-		
-		Block lastBlock = null;
+
 		//持ってるブロックから前のブロックをすべてチェックする
 		while (cmpBlock != null) {
 			if (cmpBlock.getBlockLabel().equals(originBlockName)) {
@@ -100,10 +96,9 @@ public class ScopeChecker {
 					}
 				}
 			}
-			lastBlock = cmpBlock;
 			cmpBlock = cmpBlock.getWorkspace().getEnv().getBlock(cmpBlock.getBeforeBlockID());
 		}
-		
+
 		//結合先のブロック郡をチェック
 		cmpBlock = beforeBlock;
 		while (cmpBlock != null) {
@@ -122,12 +117,11 @@ public class ScopeChecker {
 					}
 				}
 			}
-			
-			lastBlock = cmpBlock;
+
 			cmpBlock = cmpBlock.getWorkspace().getEnv().getBlock(cmpBlock.getBeforeBlockID());
 		}
-		
-		
+
+
 		return false;
 	}
 

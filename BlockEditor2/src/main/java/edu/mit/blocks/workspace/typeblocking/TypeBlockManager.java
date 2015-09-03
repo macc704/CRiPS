@@ -23,15 +23,15 @@ import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceWidget;
 
 /**
- * The TypeBlockManager primary serves to help users drop 
- * blocks manually into the bock canvas through the keyboard.  
- * To achieve this, the TypeBlockManager commands three 
+ * The TypeBlockManager primary serves to help users drop
+ * blocks manually into the bock canvas through the keyboard.
+ * To achieve this, the TypeBlockManager commands three
  * distinct phases: Interfacing, Searching, Dropping.
  */
 public class TypeBlockManager {
-    
+
     private final Workspace workspace;
-    
+
     /**Directional Pad values*/
     protected static enum Direction {
 
@@ -52,7 +52,7 @@ public class TypeBlockManager {
     /**quote string for string blocks**/
     static final String QUOTE_LABEL = "\"";
     JFrame frame;
-    
+
     /** Whether keyboard support is enabled or not */
     private boolean enabled = false;
 
@@ -61,14 +61,14 @@ public class TypeBlockManager {
      */
     public TypeBlockManager(Workspace workspace, BlockCanvas component) {
         this.workspace = workspace;
-        
+
         // turned off the automated block placements
         KeyInputMap.enableDefaultKeyMapping(false);
         this.autoCompletePanel = new AutoCompletePanel(workspace);
         this.blockCanvas = component;
         this.focusManager = workspace.getFocusManager();
     }
-    
+
     /**
      * Enables/disables the keyboard support
      * @param enabled
@@ -86,7 +86,7 @@ public class TypeBlockManager {
             workspace.removeWorkspaceListener(focusManager);
         }
     }
-    
+
     /**
      * Whether keyboard support is enabled or not
      * @return {@code true}/{@code false}
@@ -462,7 +462,6 @@ public class TypeBlockManager {
             return;
         }
         WorkspaceWidget widget = null;
-        Iterable<WorkspaceWidget> widgets = null;
         Point spot = null;
         if (invalidBlockID(focusManager.getFocusBlockID())) {
             //canvas has focus

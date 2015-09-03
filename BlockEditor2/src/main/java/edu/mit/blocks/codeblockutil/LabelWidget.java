@@ -714,66 +714,6 @@ public abstract class LabelWidget extends JComponent {
 			return false;
 		}
 
-		/**
-		 * created by sakai lab 2011/10
-		 *
-		 * @param editLabel
-		 * @return
-		 */
-		private boolean resolveLabel(String editLabel) {
-			char[] validNumbers = { '1', '2', '3', '4', '5', '6', '7', '8',
-					'9', '0', '.' };
-
-			if (isNumber) {
-				if (editLabel.startsWith(".")) {
-					return false;
-				}
-				for (int i = 0; i < editLabel.length(); i++) {
-					char c = editLabel.charAt(i);
-					if ('\u3040' <= c && c <= '\u309F') {
-						return false;
-					}
-					if ('\u30A0' <= c && c <= '\u30FF') {
-						return false;
-					}
-					if ('\u4E00' <= c && c <= '\u9FFF') {
-						return false;
-					}
-					if ('\u3000' <= c && c <= '\u9FFF') {
-						return false;
-					}
-				}
-			} else if (isVariable || isProcedure) {
-				for (int i = 0; i < editLabel.length(); i++) {
-					char c = editLabel.charAt(i);
-					if ('\u3000' == c) {
-						return false;
-					}
-				}
-				for (char c : validNumbers) {
-					if (editLabel.startsWith(String.valueOf(c))) {
-						return false;
-					}
-				}
-			} else if (isNewObject) {
-				for (int i = 0; i < editLabel.length(); i++) {
-					char c = editLabel.charAt(i);
-					if (i == 0 && (Character.isLowerCase(c))) {
-						return false;
-					}
-					if ('\u3000' == c) {
-						return false;
-					}
-				}
-				for (char c : validNumbers) {
-					if (editLabel.startsWith(String.valueOf(c))) {
-						return false;
-					}
-				}
-			}
-			return true;
-		}
-
 	}
 
 	private class LabelMenu extends JPanel implements MouseListener,

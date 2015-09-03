@@ -489,14 +489,14 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
 	 * calls TypeBlockManager to copy the highlighted blocks on the canvas
 	 */
 	public void copyBlocks() {
-		typeBlockManager.copyBlock(this);
+		TypeBlockManager.copyBlock(this);
 	}
 
 	/**
 	 * calls TypeBlockManager to pastes the highlighted blocks on the canvas
 	 */
 	public void pasteBlocks() {
-		typeBlockManager.pasteBlock(this);
+		TypeBlockManager.pasteBlock(this);
 	}
 
 	// ////////////////////////

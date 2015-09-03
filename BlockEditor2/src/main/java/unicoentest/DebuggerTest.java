@@ -1,20 +1,5 @@
 package unicoentest;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import net.unicoen.node.UniBlock;
-import net.unicoen.node.UniClassDec;
-import net.unicoen.node.UniExpr;
-import net.unicoen.node.UniIdent;
-import net.unicoen.node.UniIntLiteral;
-import net.unicoen.node.UniMethodCall;
-import net.unicoen.node.UniMethodDec;
-import net.unicoen.node.UniStringLiteral;
-import net.unicoen.node.UniVariableDec;
-import edu.inf.shizuoka.debugger.DebuggerWorkspaceController;
 
 public class DebuggerTest {
 
