@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/test-classes" path="test">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/org.apache.commons.logging_1.0.4.v201101211617.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.core.contenttype_3.4.100.v20110207.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.core.jobs_3.5.100.v20110214.jar"/>
@@ -13,7 +22,12 @@
 	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.jdt.core_3.7.0.v_B42.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.osgi_3.7.0.v20110304.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/org.eclipse.text_3.5.100.v20110301-0545.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/CommonLibrary"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
