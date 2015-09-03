@@ -89,7 +89,7 @@ public class TurtleFrame extends JFrame implements ActionListener, ItemListener 
 	// speed.add(speedMenu[i]);
 	// }
 	// menubar.add(speed);
-	// speedMenu[2].setState(true); //Å‰‚ÍNormal‚È‚Ì‚Å
+	// speedMenu[2].setState(true); //æœ€åˆã¯Normalãªã®ã§
 	//
 	// // canvas
 	// canvas = new TurtleCanvas();
@@ -104,7 +104,7 @@ public class TurtleFrame extends JFrame implements ActionListener, ItemListener 
 	// for swing JFrame
 	public TurtleFrame(int x, int y, int width, int height) {
 
-		// TurtleƒNƒ‰ƒX‚Åİ’è‚·‚é
+		// Turtleã‚¯ãƒ©ã‚¹ã§è¨­å®šã™ã‚‹
 		// setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		MenuBar menubar = new MenuBar();
@@ -132,7 +132,7 @@ public class TurtleFrame extends JFrame implements ActionListener, ItemListener 
 			speed.add(speedMenu[i]);
 		}
 		menubar.add(speed);
-		speedMenu[3].setState(true); // Å‰‚ÍNormal‚È‚Ì‚Å
+		speedMenu[3].setState(true); // æœ€åˆã¯Normalãªã®ã§
 		setKameSpeed(speedMenuString[3]);
 
 		// view menu
@@ -281,7 +281,7 @@ public class TurtleFrame extends JFrame implements ActionListener, ItemListener 
 	}
 
 	/************************************************
-	 * À•WŠÖ˜A
+	 * åº§æ¨™é–¢é€£
 	 ************************************************/
 
 	public int x() {
@@ -339,7 +339,7 @@ public class TurtleFrame extends JFrame implements ActionListener, ItemListener 
 	}
 
 	/************************************************
-	 * disposeŠÖ˜A
+	 * disposeé–¢é€£
 	 ************************************************/
 
 	public void dispose() {

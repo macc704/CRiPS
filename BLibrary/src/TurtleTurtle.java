@@ -19,7 +19,7 @@ import java.util.Vector;
 public class TurtleTurtle extends Turtle {
 
 	/***************************************
-	 * ‚©‚ß’è”
+	 * ã‹ã‚å®šæ•°
 	 ***************************************/
 
 	private static final double kameScale = 0.4;
@@ -41,13 +41,13 @@ public class TurtleTurtle extends Turtle {
 	private static boolean withKame = true;
 
 	/***************************************
-	 * ƒCƒ“ƒXƒ^ƒ“ƒX•Ï”
+	 * ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å¤‰æ•°
 	 ***************************************/
 
 	// turtle segments history
 	private Vector history;
 
-	// 2011.12.16 CellTurtle‚ğì‚é‚É‚ ‚½‚èCƒX[ƒp[ƒNƒ‰ƒXTurtle‚Æƒf[ƒ^d•¡‚µ‚Ä‚¢‚é–â‘è‚ğC³
+	// 2011.12.16 CellTurtleã‚’ä½œã‚‹ã«ã‚ãŸã‚Šï¼Œã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹Turtleã¨ãƒ‡ãƒ¼ã‚¿é‡è¤‡ã—ã¦ã„ã‚‹å•é¡Œã‚’ä¿®æ­£
 	// private int angle; // turtle current angle (degree)
 	// private double x, y; // turtle current position
 
@@ -69,7 +69,7 @@ public class TurtleTurtle extends Turtle {
 	private int kameType = 0;
 
 	/***************************************
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 ***************************************/
 
 	public TurtleTurtle() {
@@ -77,11 +77,11 @@ public class TurtleTurtle extends Turtle {
 	}
 
 	/***************************************
-	 * ‰Šú‰»
+	 * åˆæœŸåŒ–
 	 ***************************************/
 
 	private void init() {
-		size(30, 50);// kameScale = 0.4‚Ì‚Æ‚«
+		size(30, 50);// kameScale = 0.4ã®ã¨ã
 		// x = 100;
 		// y = 100;
 		x(100);
@@ -96,7 +96,7 @@ public class TurtleTurtle extends Turtle {
 	}
 
 	/*********************************************
-	 * ƒXƒs[ƒh‚Ì’²®
+	 * ã‚¹ãƒ”ãƒ¼ãƒ‰ã®èª¿æ•´
 	 *********************************************/
 
 	public static boolean speed(int step) {
@@ -110,7 +110,7 @@ public class TurtleTurtle extends Turtle {
 	}
 
 	/*********************************************
-	 * ƒJƒ‚Ì•`‰æ
+	 * ã‚«ãƒ¡ã®æç”»
 	 *********************************************/
 
 	// set turtle angle
@@ -122,7 +122,7 @@ public class TurtleTurtle extends Turtle {
 		kameShow(rotateWait);
 	}
 
-	// sin90‚âcos90‚ÌŒë·‚ğŠÛ‚ß‚é
+	// sin90ã‚„cos90ã®èª¤å·®ã‚’ä¸¸ã‚ã‚‹
 	private double fixError(double x) {
 		if (-0.0000000000000001 < x && x <= 0.0000000000000001) {
 			return 0d;
@@ -213,7 +213,7 @@ public class TurtleTurtle extends Turtle {
 	}
 
 	/*********************************************
-	 * Šî–{ƒRƒ}ƒ“ƒh
+	 * åŸºæœ¬ã‚³ãƒãƒ³ãƒ‰
 	 *********************************************/
 
 	// forward n step
@@ -238,7 +238,7 @@ public class TurtleTurtle extends Turtle {
 		}
 		// x = xx + dx * n;
 		// y = yy + dy * n;
-		// 2011.12.16 ‚¸‚ê‚é‚Ì‚ÅC³
+		// 2011.12.16 ãšã‚Œã‚‹ã®ã§ä¿®æ­£
 		// x(xx + dx * n);
 		// y(yy + dy * n);
 		x(xx + dx * n);
@@ -322,7 +322,7 @@ public class TurtleTurtle extends Turtle {
 	}
 
 	/*********************************************
-	 * Turtle ‚Æ‚Ì‚Â‚È‚¬
+	 * Turtle ã¨ã®ã¤ãªã
 	 *********************************************/
 
 	public void rt(double angle) {
@@ -377,7 +377,7 @@ public class TurtleTurtle extends Turtle {
 	}
 
 	/***************************************
-	 * ƒJƒ
+	 * ã‚«ãƒ¡
 	 ***************************************/
 
 	/**

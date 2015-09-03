@@ -18,7 +18,7 @@ import javax.swing.SwingUtilities;
 public class CardTurtle extends ImageTurtle {
 
 	/***************************************************************************
-	 * ïœêî
+	 * Â§âÊï∞
 	 **************************************************************************/
 
 	private int fontsize = 18;
@@ -30,7 +30,7 @@ public class CardTurtle extends ImageTurtle {
 	protected ListTurtle parent;
 
 	/***************************************************************************
-	 * ÉRÉìÉXÉgÉâÉNÉ^
+	 * „Ç≥„É≥„Çπ„Éà„É©„ÇØ„Çø
 	 **************************************************************************/
 
 	public CardTurtle() {
@@ -152,15 +152,15 @@ public class CardTurtle extends ImageTurtle {
 				BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g = (Graphics2D) image.getGraphics();
 
-		// ìhÇË
+		// Â°ó„Çä
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width - 1, height - 1);
 
-		// ògê¸
+		// Êû†Á∑ö
 		g.setColor(color());
 		g.drawRect(0, 0, width - 1, height - 1);
 
-		// éö
+		// Â≠ó
 		g.setFont(f);
 		g.drawString(text, margin, height * 4 / 5);
 

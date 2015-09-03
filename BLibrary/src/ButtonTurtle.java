@@ -7,9 +7,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.SwingUtilities;
 
 /*
- * ƒvƒƒOƒ‰ƒ€–¼F ƒ{ƒ^ƒ“ƒ^[ƒgƒ‹
- * ì¬ÒF MegumiAraki
- * ƒo[ƒWƒ‡ƒ“F 1.0 (20071212)
+ * ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š ãƒœã‚¿ãƒ³ã‚¿ãƒ¼ãƒˆãƒ«
+ * ä½œæˆè€…ï¼š MegumiAraki
+ * ãƒãƒ¼ã‚¸ãƒ§ãƒ³ï¼š 1.0 (20071212)
  */
 
 public class ButtonTurtle extends ImageTurtle {
@@ -19,7 +19,7 @@ public class ButtonTurtle extends ImageTurtle {
 	};
 
 	/***************************************************************************
-	 * •Ï”
+	 * å¤‰æ•°
 	 **************************************************************************/
 
 	private int fontsize = 18;
@@ -29,7 +29,7 @@ public class ButtonTurtle extends ImageTurtle {
 	// private boolean textDirty = false;
 
 	/***************************************************************************
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 **************************************************************************/
 
 	public ButtonTurtle() {
@@ -58,7 +58,7 @@ public class ButtonTurtle extends ImageTurtle {
 	}
 
 	/***************************************************************************
-	 * ƒ{ƒ^ƒ“ŠÖ˜A
+	 * ãƒœã‚¿ãƒ³é–¢é€£
 	 **************************************************************************/
 
 	public boolean isClicked() {
@@ -195,7 +195,7 @@ public class ButtonTurtle extends ImageTurtle {
 		Graphics2D g = (Graphics2D) image.getGraphics();
 		g.setColor(color());
 
-		// ”wŒi
+		// èƒŒæ™¯
 		Color c = g.getColor();
 		if (state == State.PRESSED) {
 			g.setColor(Color.BLACK);
@@ -209,10 +209,10 @@ public class ButtonTurtle extends ImageTurtle {
 		g.fillRect(1, 1, width - 2, height - 2);
 		g.setColor(c);
 
-		// ˜gü
+		// æ ç·š
 		g.drawRect(1, 1, width - 2, height - 2);
 
-		// š
+		// å­—
 		g.setFont(f);
 		g.drawString(text, margin, height * 4 / 5);/* fm.getAscent() */
 

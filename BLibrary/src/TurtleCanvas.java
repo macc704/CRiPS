@@ -80,7 +80,7 @@ public class TurtleCanvas extends Canvas {
 		}
 	}
 
-	// ¸”si•`‰æ‚³‚ê‚È‚¢D‚Å‚à‚à‚¤‚¿‚å‚Á‚Æ’²‚×‚ê‚Î‰½‚Æ‚©‚È‚é‚©‚àj 2011.12.16
+	// å¤±æ•—ï¼ˆæç”»ã•ã‚Œãªã„ï¼ã§ã‚‚ã‚‚ã†ã¡ã‚‡ã£ã¨èª¿ã¹ã‚Œã°ä½•ã¨ã‹ãªã‚‹ã‹ã‚‚ï¼‰ 2011.12.16
 	// public Color getPixelColor(int x, int y) {
 	// if (offScreen == null) {
 	// throw new RuntimeException("offScreen is null");

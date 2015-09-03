@@ -8,9 +8,9 @@ import java.awt.image.BufferedImage;
 import javax.swing.SwingUtilities;
 
 /**
- * ƒvƒƒOƒ‰ƒ€–¼F “ü—Íƒ^[ƒgƒ‹
- * ì¬ŽÒF MegumiAraki
- * ƒo[ƒWƒ‡ƒ“F 1.0 (20071212)
+ * ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š å…¥åŠ›ã‚¿ãƒ¼ãƒˆãƒ«
+ * ä½œæˆè€…ï¼š MegumiAraki
+ * ãƒãƒ¼ã‚¸ãƒ§ãƒ³ï¼š 1.0 (20071212)
  */
 
 /**
@@ -19,7 +19,7 @@ import javax.swing.SwingUtilities;
 public class InputTurtle extends ImageTurtle {
 
 	/***************************************************************************
-	 * •Ï”
+	 * å¤‰æ•°
 	 **************************************************************************/
 
 	private boolean active = true;
@@ -33,14 +33,14 @@ public class InputTurtle extends ImageTurtle {
 	// private boolean textDirty = false;
 
 	/***************************************************************************
-	 * ’è”
+	 * å®šæ•°
 	 **************************************************************************/
-	// ƒL[ƒR[ƒh
-	private static int BIGIN_ALPHABET = 65;// a‚ÌƒL[ƒR[ƒh
-	private static int BIGIN_NUMBER = 48;// 0‚ÌƒL[ƒR[ƒh
+	// ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰
+	private static int BIGIN_ALPHABET = 65;// aã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰
+	private static int BIGIN_NUMBER = 48;// 0ã®ã‚­ãƒ¼ã‚³ãƒ¼ãƒ‰
 
 	/***************************************************************************
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 **************************************************************************/
 
 	public InputTurtle() {
@@ -70,10 +70,10 @@ public class InputTurtle extends ImageTurtle {
 	}
 
 	/***************************************************************************
-	 * “ü—ÍŠÖ˜A
+	 * å…¥åŠ›é–¢é€£
 	 **************************************************************************/
 
-	// ƒeƒLƒXƒg‚Ì“ü—Í‚ðŽó‚¯•t‚¯‚é
+	// ãƒ†ã‚­ã‚¹ãƒˆã®å…¥åŠ›ã‚’å—ã‘ä»˜ã‘ã‚‹
 	protected void captureText(KeyEvent evt) {
 		if (!active) {
 			return;
@@ -116,18 +116,18 @@ public class InputTurtle extends ImageTurtle {
 		// String text = KeyEvent.getKeyText(keyCode);
 		// return text.toLowerCase();
 
-		if (keyCode >= BIGIN_ALPHABET && keyCode <= (BIGIN_ALPHABET + 25)) {// ƒAƒ‹ƒtƒ@ƒxƒbƒg
+		if (keyCode >= BIGIN_ALPHABET && keyCode <= (BIGIN_ALPHABET + 25)) {// ã‚¢ãƒ«ãƒ•ã‚¡ãƒ™ãƒƒãƒˆ
 			char key = (char) (keyCode + 32);
 			return String.valueOf(key);
-		} else if (keyCode >= BIGIN_NUMBER && keyCode <= (BIGIN_NUMBER + 9)) {// ”Žš
+		} else if (keyCode >= BIGIN_NUMBER && keyCode <= (BIGIN_NUMBER + 9)) {// æ•°å­—
 			int number = keyCode - 48;
 			return String.valueOf(number);
-		} else if (keyCode == KeyEvent.VK_COMMA) {// ƒRƒ“ƒ}
+		} else if (keyCode == KeyEvent.VK_COMMA) {// ã‚³ãƒ³ãƒž
 			return ",";
-		} else if (keyCode == KeyEvent.VK_PERIOD) {// ƒsƒŠƒIƒh
+		} else if (keyCode == KeyEvent.VK_PERIOD) {// ãƒ”ãƒªã‚ªãƒ‰
 			return ".";
 		} else if (keyCode == KeyEvent.VK_MINUS) {
-			return "[";
+			return "ãƒ¼";
 		} else if (keyCode == KeyEvent.VK_EXCLAMATION_MARK) {
 			return "!";
 		} else if (keyCode == KeyEvent.VK_SLASH) {
@@ -255,10 +255,10 @@ public class InputTurtle extends ImageTurtle {
 		Graphics2D g = (Graphics2D) image.getGraphics();
 		g.setColor(color());
 
-		// ˜gü
+		// æž ç·š
 		g.drawRect(1, 1, width - 2, height - 2);
 
-		// Žš
+		// å­—
 		g.setFont(f);
 		g.drawString(text, margin, height * 4 / 5);
 

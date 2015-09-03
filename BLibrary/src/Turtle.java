@@ -43,110 +43,110 @@ import common.resource.CResourceFinder;
 /*
  * Class Turtle.
  * 
- * version 1.0.2 2007/12/12 HolderTurtle’Ç‰Á‚Ì‚½‚ß•ÏX
- * version 1.0.3 2007/12/12 InputTurtle’Ç‰Á‚Ì‚½‚ß•ÏX
- * version 1.0.4 2007/12/19 ButtonTurtleƒoƒO‚ÌC³i‰Šú‰»ƒuƒƒbƒN‚ªŒÄ‚Î‚ê‚é‘O‚ÉC
- * draw()‚Åstate‚ğŒÄ‚ñ‚ÅNullPointer‚ªo‚Ä‚¢‚½D‚»‚Ì‘¼InputTurtle‚Ìd—l•ÏXD
- * version 1.0.5 2007/12/21 SoundTurtle‚ğ’Ç‰Á 
- * version 1.1.0 2011/09/28 Soundü‚è‚ğC³ 
- * 		EURL‚Åw’è‚·‚é‚±‚Æ‚É‚æ‚èCjar‚Ì’†‚ÌƒTƒEƒ“ƒhƒtƒ@ƒCƒ‹‚ğÄ¶‚Å‚«‚é‚æ‚¤‚É‚µ‚½D
- * 		ESound‚ğPath‚Åw’è‚·‚é‚±‚Æ‚É‚æ‚èCƒNƒ‰ƒXƒpƒX¨ƒtƒ@ƒCƒ‹ƒpƒX‚Ì‡‚Å©“®‚Å’Tõ‚·‚é 
- * 		EThreadü‚è‚ÌÀ‘•‚ª‚¨‚©‚µ‚­CƒTƒEƒ“ƒhÄ¶C’â~‚ÌƒeƒXƒg‚É¸”s‚µ‚Ä‚¢‚½‚Ì‚ÅƒoƒOC³
- * version 1.2.0 2011/11/22 API‚Ì‘å•‚È•ÏX 
- * 		EImageTurtle‚É‚Â‚¢‚Ä‚àURL‚Åw’è‚·‚é‚±‚Æ‚É‚æ‚èCjar‚Ì’†‚ÌImageƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ß‚é‚æ‚¤‚É‚µ‚½B
- * 		EKeyPressingCMousePressingAPI‚Ì’Ç‰ÁCmouseDown‚ÍmouseClickedƒVƒŠ[ƒY‚É•ÏXB
- * version 1.2.1 2011/12/16 ƒZƒ‹ƒI[ƒgƒ}ƒgƒ“‹@”\EƒoƒOC³ 
- * 		Eƒ^[ƒgƒ‹‚Ìfd‚ª”÷–­‚É‚¸‚ê‚é–â‘è‚ğC³(sin‚ÌŒë·‚ğŠÛ‚ß‚Ä‚µ‚Ü‚¤)
- * 		ETurtleTurtle‚Ìlocation(), direction()‚ª³‚µ‚­•Ô‚³‚ê‚È‚¢–â‘è‚ğC³ 
- * 		ECellTurtle’Ç‰Á
+ * version 1.0.2 2007/12/12 HolderTurtleè¿½åŠ ã®ãŸã‚å¤‰æ›´
+ * version 1.0.3 2007/12/12 InputTurtleè¿½åŠ ã®ãŸã‚å¤‰æ›´
+ * version 1.0.4 2007/12/19 ButtonTurtleãƒã‚°ã®ä¿®æ­£ï¼ˆåˆæœŸåŒ–ãƒ–ãƒ­ãƒƒã‚¯ãŒå‘¼ã°ã‚Œã‚‹å‰ã«ï¼Œ
+ * draw()ã§stateã‚’å‘¼ã‚“ã§NullPointerãŒå‡ºã¦ã„ãŸï¼ãã®ä»–InputTurtleã®ä»•æ§˜å¤‰æ›´ï¼
+ * version 1.0.5 2007/12/21 SoundTurtleã‚’è¿½åŠ  
+ * version 1.1.0 2011/09/28 Soundå‘¨ã‚Šã‚’ä¿®æ­£ 
+ * 		ãƒ»URLã§æŒ‡å®šã™ã‚‹ã“ã¨ã«ã‚ˆã‚Šï¼Œjarã®ä¸­ã®ã‚µã‚¦ãƒ³ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å†ç”Ÿã§ãã‚‹ã‚ˆã†ã«ã—ãŸï¼
+ * 		ãƒ»Soundã‚’Pathã§æŒ‡å®šã™ã‚‹ã“ã¨ã«ã‚ˆã‚Šï¼Œã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹â†’ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã®é †ã§è‡ªå‹•ã§æ¢ç´¢ã™ã‚‹ 
+ * 		ãƒ»Threadå‘¨ã‚Šã®å®Ÿè£…ãŒãŠã‹ã—ãï¼Œã‚µã‚¦ãƒ³ãƒ‰å†ç”Ÿï¼Œåœæ­¢ã®ãƒ†ã‚¹ãƒˆã«å¤±æ•—ã—ã¦ã„ãŸã®ã§ãƒã‚°ä¿®æ­£
+ * version 1.2.0 2011/11/22 APIã®å¤§å¹…ãªå¤‰æ›´ 
+ * 		ãƒ»ImageTurtleã«ã¤ã„ã¦ã‚‚URLã§æŒ‡å®šã™ã‚‹ã“ã¨ã«ã‚ˆã‚Šï¼Œjarã®ä¸­ã®Imageãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚ã‚‹ã‚ˆã†ã«ã—ãŸã€‚
+ * 		ãƒ»KeyPressingï¼ŒMousePressingAPIã®è¿½åŠ ï¼ŒmouseDownã¯mouseClickedã‚·ãƒªãƒ¼ã‚ºã«å¤‰æ›´ã€‚
+ * version 1.2.1 2011/12/16 ã‚»ãƒ«ã‚ªãƒ¼ãƒˆãƒãƒˆãƒ³æ©Ÿèƒ½ãƒ»ãƒã‚°ä¿®æ­£ 
+ * 		ãƒ»ã‚¿ãƒ¼ãƒˆãƒ«ã®fdãŒå¾®å¦™ã«ãšã‚Œã‚‹å•é¡Œã‚’ä¿®æ­£(sinã®èª¤å·®ã‚’ä¸¸ã‚ã¦ã—ã¾ã†)
+ * 		ãƒ»TurtleTurtleã®location(), direction()ãŒæ­£ã—ãè¿”ã•ã‚Œãªã„å•é¡Œã‚’ä¿®æ­£ 
+ * 		ãƒ»CellTurtleè¿½åŠ 
  * version 1.2.2 
- * 		ECellTurtle”÷’²®
+ * 		ãƒ»CellTurtleå¾®èª¿æ•´
  * version 1.2.3
- * 		ETurtleTurtle‚Ìlocation(), direction()‚ª³‚µ‚­•Ô‚³‚ê‚È‚¢–â‘è‚ğC³
- * 		 ‚ÌƒGƒ“ƒoƒO‚Åƒ^[ƒgƒ‹‚ª“®‚©‚È‚¢ƒoƒO‚ğC³
+ * 		ãƒ»TurtleTurtleã®location(), direction()ãŒæ­£ã—ãè¿”ã•ã‚Œãªã„å•é¡Œã‚’ä¿®æ­£
+ * 		 ã®ã‚¨ãƒ³ãƒã‚°ã§ã‚¿ãƒ¼ãƒˆãƒ«ãŒå‹•ã‹ãªã„ãƒã‚°ã‚’ä¿®æ­£
  * version 1.2.4
- * 		EƒEƒCƒ“ƒhƒEÁ‹‚ÉSoundTurtle‚ÌƒNƒŠƒA 
+ * 		ãƒ»ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦æ¶ˆå»æ™‚ã«SoundTurtleã®ã‚¯ãƒªã‚¢ 
  * version 1.2.5
- * 		EƒfƒtƒHƒ‹ƒgƒ^[ƒgƒ‹‚Ìwarp‚ªo—ˆ‚é‚æ‚¤‚É‚·‚éD 
+ * 		ãƒ»ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚¿ãƒ¼ãƒˆãƒ«ã®warpãŒå‡ºæ¥ã‚‹ã‚ˆã†ã«ã™ã‚‹ï¼ 
  * version 1.2.6
- * 		ETurtle‚ÌƒCƒ“ƒ^[ƒiƒ‹ƒNƒ‰ƒX‚ğŠO‚Éo‚µ‚½D
- * 		ECellTurtle‚Ì‚QŸŒ³”Å‚ğo—ˆ‚é‚æ‚¤‚É‚·‚éD 
+ * 		ãƒ»Turtleã®ã‚¤ãƒ³ã‚¿ãƒ¼ãƒŠãƒ«ã‚¯ãƒ©ã‚¹ã‚’å¤–ã«å‡ºã—ãŸï¼
+ * 		ãƒ»CellTurtleã®ï¼’æ¬¡å…ƒç‰ˆã‚’å‡ºæ¥ã‚‹ã‚ˆã†ã«ã™ã‚‹ï¼ 
  * version 1.2.7
- * 		ECellTurtle‚ÌÀ‘••û–@‚ğ­‚µ•ÏXD
+ * 		ãƒ»CellTurtleã®å®Ÿè£…æ–¹æ³•ã‚’å°‘ã—å¤‰æ›´ï¼
  * version 1.2.8
- * 		EprintNoln‚ğ’Ç‰Á
+ * 		ãƒ»printNolnã‚’è¿½åŠ 
  * version 1.3.0 		
- * 		EV‚µ‚¢ƒRƒŒƒNƒVƒ‡ƒ“‚Æ‚µ‚ÄListTurtle‚ğ’Ç‰Á
- * 		E‚±‚ê‚É”º‚¢CTurtleTurtle‚Ö‚Ìdelegation‚ÉŠÖ‚·‚élooksw’è‚ÌƒR[ƒh‚ğ•ÏX
- * 		EList‚É“ü‚ê‚ç‚ê‚é‚æ‚¤CTurtle‚Éimage()ŠÖ”‚ğ’Ç‰ÁD
- * 		EHolderTurtle‚ğ@deprecatedw’è
+ * 		ãƒ»æ–°ã—ã„ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã¨ã—ã¦ListTurtleã‚’è¿½åŠ 
+ * 		ãƒ»ã“ã‚Œã«ä¼´ã„ï¼ŒTurtleTurtleã¸ã®delegationã«é–¢ã™ã‚‹looksæŒ‡å®šã®ã‚³ãƒ¼ãƒ‰ã‚’å¤‰æ›´
+ * 		ãƒ»Listã«å…¥ã‚Œã‚‰ã‚Œã‚‹ã‚ˆã†ï¼ŒTurtleã«image()é–¢æ•°ã‚’è¿½åŠ ï¼
+ * 		ãƒ»HolderTurtleã‚’@deprecatedæŒ‡å®š
  * version 1.4.0 		
- * 		Eƒtƒ@ƒCƒ‹“Ç‚İ‘‚«‹@”\’Ç‰Á
+ * 		ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿æ›¸ãæ©Ÿèƒ½è¿½åŠ 
  * version 1.4.1
- * 		Eƒtƒ@ƒCƒ‹“Ç‚İ, StringBuffer‚É•ÏXi‚‘¬‰»Ij
+ * 		ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿, StringBufferã«å¤‰æ›´ï¼ˆé«˜é€ŸåŒ–ï¼ï¼‰
  * version 1.4.2
- *		Eƒtƒ@ƒCƒ‹“Ç‚İ, encw’è‰Â”\‚ÉD
- *		Eƒtƒ@ƒCƒ‹“Ç‚İ, URLw’è‰Â”\‚ÉD
+ *		ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿, encæŒ‡å®šå¯èƒ½ã«ï¼
+ *		ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿, URLæŒ‡å®šå¯èƒ½ã«ï¼
  * version 1.4.3
- *		Ewindow.canvas().setBackground(Color);o—ˆ‚é‚æ‚¤‚É‚·‚éD
+ *		ãƒ»window.canvas().setBackground(Color);å‡ºæ¥ã‚‹ã‚ˆã†ã«ã™ã‚‹ï¼
  * version 1.4.4 (1.5.0)
- *		ECardTurtle‚Ìd—l‚ğ•ÏXCgetNumber()‚ªo—ˆ‚é‚æ‚¤‚É‚·‚éD
- *		EgetNumberAtCursor()‚ğ”ñ„§
+ *		ãƒ»CardTurtleã®ä»•æ§˜ã‚’å¤‰æ›´ï¼ŒgetNumber()ãŒå‡ºæ¥ã‚‹ã‚ˆã†ã«ã™ã‚‹ï¼
+ *		ãƒ»getNumberAtCursor()ã‚’éæ¨å¥¨
  * version 1.4.5 (1.5.1)
- *		ECardTurtle‚Ìd—l‚ğ•ÏXCbgColor‚ªİ’èo—ˆ‚é‚æ‚¤‚É‚·‚éD
- *      Eã‹L‚É‚Æ‚à‚È‚¢CCardTurtle‚ÌbgColor‚ªnull->WHITE‚É‚·‚éD
+ *		ãƒ»CardTurtleã®ä»•æ§˜ã‚’å¤‰æ›´ï¼ŒbgColorãŒè¨­å®šå‡ºæ¥ã‚‹ã‚ˆã†ã«ã™ã‚‹ï¼
+ *      ãƒ»ä¸Šè¨˜ã«ã¨ã‚‚ãªã„ï¼ŒCardTurtleã®bgColorãŒnull->WHITEã«ã™ã‚‹ï¼
  * version 1.5.2
- *		EListTurtle bgColorİ’è‚ÉImage‚ğ‘‚«’¼‚·‚æ‚¤‚ÉƒoƒOC³D
+ *		ãƒ»ListTurtle bgColorè¨­å®šæ™‚ã«Imageã‚’æ›¸ãç›´ã™ã‚ˆã†ã«ãƒã‚°ä¿®æ­£ï¼
  * version 1.5.3
- *		ETextTurtle‚ÉgetText(), getNumber()‚ğ’Ç‰ÁDiText‚ÆCard‚ªd•¡ƒR[ƒh‚È‚Ì‚ÅƒŠƒtƒ@ƒNƒ^ƒŠƒ“ƒO‚µ‚½•û‚ª‚æ‚³‚»‚¤j
+ *		ãƒ»TextTurtleã«getText(), getNumber()ã‚’è¿½åŠ ï¼ï¼ˆTextã¨CardãŒé‡è¤‡ã‚³ãƒ¼ãƒ‰ãªã®ã§ãƒªãƒ•ã‚¡ã‚¯ã‚¿ãƒªãƒ³ã‚°ã—ãŸæ–¹ãŒã‚ˆã•ãã†ï¼‰
  * version 1.5.4
- *		EDefault‚ÌFont‚ğDialog->MS Gothic‚É•ÏX
+ *		ãƒ»Defaultã®Fontã‚’Dialog->MS Gothicã«å¤‰æ›´
  * version 1.5.5
- *		EaddCursor(index, Object);‚ğ’Ç‰Á
+ *		ãƒ»addCursor(index, Object);ã‚’è¿½åŠ 
  * version 1.5.6
- *		EaddToBeforeCursor(Object)‚ğ’Ç‰Á
- *		EaddToAfterCursor(Object)‚ğ’Ç‰Á
+ *		ãƒ»addToBeforeCursor(Object)ã‚’è¿½åŠ 
+ *		ãƒ»addToAfterCursor(Object)ã‚’è¿½åŠ 
  * version 1.5.7
- *		EListTurtle‚Ìget()‚ÅNull—áŠOˆ—
+ *		ãƒ»ListTurtleã®get()ã§Nullä¾‹å¤–å‡¦ç†
  * version 1.5.7.x 2012/04/05
- * 		Eobproƒo[ƒWƒ‡ƒ“‚Æ“‡icapturemode‚Ìæ‚è“ü‚êj
+ * 		ãƒ»obproãƒãƒ¼ã‚¸ãƒ§ãƒ³ã¨çµ±åˆï¼ˆcapturemodeã®å–ã‚Šå…¥ã‚Œï¼‰
  * version 1.5.8 2012/04/05
- * 		EstartŠÖ”‚ğpublic‚ÉiƒIƒuƒvƒ”Å‚ÅƒI[ƒo[ƒ‰ƒCƒh‚Å‚«‚È‚¢j
+ * 		ãƒ»starté–¢æ•°ã‚’publicã«ï¼ˆã‚ªãƒ–ãƒ—ãƒ­ç‰ˆã§ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã§ããªã„ï¼‰
  * version 1.5.9 2012/09/28
- * 		Ejdk1.7‚Åsound‚ª“®‚©‚È‚¢–â‘è‚ğfix
+ * 		ãƒ»jdk1.7ã§soundãŒå‹•ã‹ãªã„å•é¡Œã‚’fix
  * version 1.5.12 2012/10/09
- * 		EÅ‹ß‚ÌJava(1.7)‚Åapplet‚ÅalwaysOnTop‚ª”­“®‚³‚ê‚é‚ÆC‹N“®‚µ‚È‚¢–â‘è 
- * 		ETurtleFrame if (JavaVertionChecker.getMinorVersion() >= 5 && && !TurtleLaunchApplet.initialized) {
- * 		EJFrame.EXIT_ON_CLOSE‚àJDK1.7‚Å‹Ö~‚É‚È‚éD
- * 			174s–ÚC³ if (!TurtleLaunchApplet.initialized) {
+ * 		ãƒ»æœ€è¿‘ã®Java(1.7)ã§appletã§alwaysOnTopãŒç™ºå‹•ã•ã‚Œã‚‹ã¨ï¼Œèµ·å‹•ã—ãªã„å•é¡Œ 
+ * 		ãƒ»TurtleFrame if (JavaVertionChecker.getMinorVersion() >= 5 && && !TurtleLaunchApplet.initialized) {
+ * 		ãƒ»JFrame.EXIT_ON_CLOSEã‚‚JDK1.7ã§ç¦æ­¢ã«ãªã‚‹ï¼
+ * 			174è¡Œç›®ä¿®æ­£ if (!TurtleLaunchApplet.initialized) {
  * 			window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
  * version 1.5.13 2012/11/06
- * 		EBE‚É‘Î‰‚·‚é‚½‚ßCSoundTurtle‚Ìd—l•ÏX
+ * 		ãƒ»BEã«å¯¾å¿œã™ã‚‹ãŸã‚ï¼ŒSoundTurtleã®ä»•æ§˜å¤‰æ›´
  * version 1.5.14 2012/11/07
- * 		EBE‚É‘Î‰‚·‚é‚½‚ßCsetShow()‚ğ’Ç‰Á
+ * 		ãƒ»BEã«å¯¾å¿œã™ã‚‹ãŸã‚ï¼ŒsetShow()ã‚’è¿½åŠ 
  * version 1.5.15 2012/11/14
- * 		EJava Web Start‚É‘Î‰‚·‚é‚½‚ßImageTurtle‚ÌƒŠƒ\[ƒXæ“¾•û–@‚ğ•ÏX
+ * 		ãƒ»Java Web Startã«å¯¾å¿œã™ã‚‹ãŸã‚ImageTurtleã®ãƒªã‚½ãƒ¼ã‚¹å–å¾—æ–¹æ³•ã‚’å¤‰æ›´
  * version 1.5.16 2012/11/14
- * 		Eˆø”‚É"jnlp"‚ğ“n‚·‚ÆƒRƒ“ƒ\[ƒ‹‚ª•\¦‚³‚ê‚é‚æ‚¤‚É•ÏX
- * 		EJava Web Start‚Å–¼‚ª‚È‚­‚Ä‚à“®ì‚·‚é‚æ‚¤‚É•ÏX
+ * 		ãƒ»å¼•æ•°ã«"jnlp"ã‚’æ¸¡ã™ã¨ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ãŒè¡¨ç¤ºã•ã‚Œã‚‹ã‚ˆã†ã«å¤‰æ›´
+ * 		ãƒ»Java Web Startã§ç½²åãŒãªãã¦ã‚‚å‹•ä½œã™ã‚‹ã‚ˆã†ã«å¤‰æ›´
  * version 1.5.17 2012/11/27
- * 		EJNLPMain‚ğì¬
+ * 		ãƒ»JNLPMainã‚’ä½œæˆ
  * version 1.5.18 2012/11/28
- * 		EJava Web Start‚Ì•s‹ï‡‚ğC³
+ * 		ãƒ»Java Web Startæ™‚ã®ä¸å…·åˆã‚’ä¿®æ­£
  * version 1.5.23 2012/12/19
- * 		EJava Web Start‚ÌEXIT_ON_CLOSE‚É‚È‚ç‚È‚¢•s‹ï‡‚ğC³
- * 		EJava Web Start‚ÌƒRƒ“ƒ\[ƒ‹‚ğ•ÊƒEƒCƒ“ƒhƒE‚É•ÏX
+ * 		ãƒ»Java Web Startæ™‚ã®EXIT_ON_CLOSEã«ãªã‚‰ãªã„ä¸å…·åˆã‚’ä¿®æ­£
+ * 		ãƒ»Java Web Startæ™‚ã®ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã‚’åˆ¥ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã«å¤‰æ›´
  * version 1.5.24 2013/01/09
- *      EDEFAULT_IS_ALWAYS_ON_TOP ‚ğfalse‚É
- *      E‹N“®‚ÉtoFront();
+ *      ãƒ»DEFAULT_IS_ALWAYS_ON_TOP ã‚’falseã«
+ *      ãƒ»èµ·å‹•æ™‚ã«toFront();
  * version 1.5.25 2013/01/15
- *      EButtonTurtle, InputTurtle‚ÉgetText()ƒƒ\ƒbƒh‚ğ’Ç‰Á
+ *      ãƒ»ButtonTurtle, InputTurtleã«getText()ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è¿½åŠ 
  * version 1.5.26 2013/12/15
- *      EDefaultTurtle‚ÌgetX()‚È‚Ç‚Ì“®ì‚ª‚¨‚©‚µ‚¢–â‘è‚ğfix
- *      Edebugger‚Åupdate()‚ª”½‰f‚³‚ê‚é‚æ‚¤‚ÉCwaitrepaintƒ‚[ƒh‚ğ’Ç‰Á
- *      EListTurtle‚Ìautoupdateƒ‚[ƒh‚ğ’Ç‰Á(default‚Ífalse)
+ *      ãƒ»DefaultTurtleã®getX()ãªã©ã®å‹•ä½œãŒãŠã‹ã—ã„å•é¡Œã‚’fix
+ *      ãƒ»debuggerã§update()ãŒåæ˜ ã•ã‚Œã‚‹ã‚ˆã†ã«ï¼Œwaitrepaintãƒ¢ãƒ¼ãƒ‰ã‚’è¿½åŠ 
+ *      ãƒ»ListTurtleã®autoupdateãƒ¢ãƒ¼ãƒ‰ã‚’è¿½åŠ (defaultã¯false)
  * version 1.5.27 2015/08/14
- * 		EcreateTurtle()ƒƒ\ƒbƒh‚Ì’Ç‰Á for SSS JUnicoenƒfƒ‚
+ * 		ãƒ»createTurtle()ãƒ¡ã‚½ãƒƒãƒ‰ã®è¿½åŠ  for SSS JUnicoenãƒ‡ãƒ¢
  *      
  * @author macchan
  * @version $Id: Turtle.java,v 1.11 2007/12/21 11:13:42 macchan Exp $
@@ -198,7 +198,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 		try {
 			Object o = Class.forName(classname).newInstance();
 			if (o.getClass() == Turtle.class) {
-				System.out.println("ÀsƒRƒ}ƒ“ƒh‚ªŠÔˆá‚Á‚Ä‚¢‚Ü‚·B(Turtle ‚ÌŒã‚É©•ª‚ÌƒNƒ‰ƒX–¼‚ª•K—v‚Å‚·)");
+				System.out.println("å®Ÿè¡Œã‚³ãƒãƒ³ãƒ‰ãŒé–“é•ã£ã¦ã„ã¾ã™ã€‚(Turtle ã®å¾Œã«è‡ªåˆ†ã®ã‚¯ãƒ©ã‚¹åãŒå¿…è¦ã§ã™)");
 				System.exit(0);
 			} else if (o instanceof Turtle) {
 				startTurtle((Turtle) o, argv);
@@ -206,7 +206,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 				System.out.println(classname + " is not a subclass of Turtle class.");
 			}
 		} catch (Exception e) {
-			System.out.println(classname + " ƒNƒ‰ƒX‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñBƒRƒ“ƒpƒCƒ‹‚Í’Ê‚è‚Ü‚µ‚½‚©H");
+			System.out.println(classname + " ã‚¯ãƒ©ã‚¹ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã¯é€šã‚Šã¾ã—ãŸã‹ï¼Ÿ");
 		}
 	}
 
@@ -290,51 +290,51 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * •Ï”
+	 * å¤‰æ•°
 	 ****************************************************/
 
-	// eƒ^[ƒgƒ‹ŠÖ˜A
+	// è¦ªã‚¿ãƒ¼ãƒˆãƒ«é–¢é€£
 	protected ListTurtle parent;
 	@SuppressWarnings("deprecation")
-	protected HolderTurtle parentHolder;// @deprecated ‰ºˆÊŒİŠ·«‚Ì‚½‚ß
+	protected HolderTurtle parentHolder;// @deprecated ä¸‹ä½äº’æ›æ€§ã®ãŸã‚
 	protected List<InputTurtle> inputTurtles = new ArrayList<InputTurtle>();
 
-	// À•WŠÖ˜A
-	private Point2D location = new Point2D.Double(100d, 100d); // ’†S‚ÌˆÊ’u
+	// åº§æ¨™é–¢é€£
+	private Point2D location = new Point2D.Double(100d, 100d); // ä¸­å¿ƒã®ä½ç½®
 
-	private Point2D balance = new Point2D.Double(100d, 100d); // dS‚ÌˆÊ’u
+	private Point2D balance = new Point2D.Double(100d, 100d); // é‡å¿ƒã®ä½ç½®
 
-	private Dimension2D size = new DoubleDimension(100d, 100d); // ‘å‚«‚³
+	private Dimension2D size = new DoubleDimension(100d, 100d); // å¤§ãã•
 
-	private double angle = 0.0; // ‰ñ“]Šp“x
+	private double angle = 0.0; // å›è»¢è§’åº¦
 
-	private double direction = 0.0; // •ûŒü
+	private double direction = 0.0; // æ–¹å‘
 
-	// Œ`ŠÖ˜A
-	private Turtle looks = null; // Œ©‚½–Ú
+	// å½¢é–¢é€£
+	private Turtle looks = null; // è¦‹ãŸç›®
 
 	private boolean show = true;
 
-	private LineList originalShape = null; // Œ©‚½–Ú
+	private LineList originalShape = null; // è¦‹ãŸç›®
 
-	private LineList shape = new LineList(); // Œ`
+	private LineList shape = new LineList(); // å½¢
 
-	// ‹OÕŠÖ˜A
-	private boolean penDown = false; // ƒyƒ“‚ª‰º‚è‚Ä‚¢‚é‚©
+	// è»Œè·¡é–¢é€£
+	private boolean penDown = false; // ãƒšãƒ³ãŒä¸‹ã‚Šã¦ã„ã‚‹ã‹
 
-	private Color penColor = Color.black; // ƒyƒ“‚ÌF
+	private Color penColor = Color.black; // ãƒšãƒ³ã®è‰²
 
-	private LineList locus = new LineList(); // ‹OÕ
+	private LineList locus = new LineList(); // è»Œè·¡
 
-	// ˆÏ÷ŠÖ˜A
-	private Turtle delegator = null; // ˆÏ÷Ò
+	// å§”è­²é–¢é€£
+	private Turtle delegator = null; // å§”è­²è€…
 
-	// Œ`ó•ÏŠ·ŠÖ˜A
+	// å½¢çŠ¶å¤‰æ›é–¢é€£
 	private boolean dirty = true;
 
 	private AffineTransform currentTransform = null;
 
-	// “ü—ÍŠÖ˜A
+	// å…¥åŠ›é–¢é€£
 	private KeyEvent keyEvent = null;
 
 	private MouseEvent mouseEvent = null;
@@ -344,7 +344,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	private boolean inputCaptured = true;
 
 	/***************************************************
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 ****************************************************/
 
 	/**
@@ -394,32 +394,32 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 ****************************************************/
 
 	private void initializeParameter() {
-		// À•WŠÖ˜A
-		location = new Point2D.Double(100d, 100d); // ’†S‚ÌˆÊ’u
-		balance = new Point2D.Double(100d, 100d); // dS‚ÌˆÊ’u
-		size = new DoubleDimension(100d, 100d); // ‘å‚«‚³
-		angle = 0.0; // ‰ñ“]Šp“x
-		direction = 0.0; // •ûŒü
+		// åº§æ¨™é–¢é€£
+		location = new Point2D.Double(100d, 100d); // ä¸­å¿ƒã®ä½ç½®
+		balance = new Point2D.Double(100d, 100d); // é‡å¿ƒã®ä½ç½®
+		size = new DoubleDimension(100d, 100d); // å¤§ãã•
+		angle = 0.0; // å›è»¢è§’åº¦
+		direction = 0.0; // æ–¹å‘
 
-		// Œ`ŠÖ˜A
-		looks = null; // Œ©‚½–Ú
+		// å½¢é–¢é€£
+		looks = null; // è¦‹ãŸç›®
 		show = true;
-		originalShape = null; // Œ©‚½–Ú
-		shape = new LineList(); // Œ`
+		originalShape = null; // è¦‹ãŸç›®
+		shape = new LineList(); // å½¢
 
-		// ‹OÕŠÖ˜A
-		penDown = false; // ƒyƒ“‚ª‰º‚è‚Ä‚¢‚é‚©
-		penColor = Color.black; // ƒyƒ“‚ÌF
-		locus = new LineList(); // ‹OÕ
+		// è»Œè·¡é–¢é€£
+		penDown = false; // ãƒšãƒ³ãŒä¸‹ã‚Šã¦ã„ã‚‹ã‹
+		penColor = Color.black; // ãƒšãƒ³ã®è‰²
+		locus = new LineList(); // è»Œè·¡
 
-		// ˆÏ÷ŠÖ˜A
-		delegator = null; // ˆÏ÷Ò
+		// å§”è­²é–¢é€£
+		delegator = null; // å§”è­²è€…
 
-		// Œ`ó•ÏŠ·ŠÖ˜A
+		// å½¢çŠ¶å¤‰æ›é–¢é€£
 		dirty = true;
 		currentTransform = null;
 
-		// “ü—ÍŠÖ˜A
+		// å…¥åŠ›é–¢é€£
 		keyEvent = null;
 		mouseEvent = null;
 		inputCaptured = true;
@@ -456,7 +456,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * LooksŠÖ˜A
+	 * Looksé–¢é€£
 	 ****************************************************/
 
 	public synchronized void looks(Turtle looks) {
@@ -494,7 +494,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * ˆÏ÷ŠÖ˜A
+	 * å§”è­²é–¢é€£
 	 ****************************************************/
 
 	public void delegator(Turtle delegator) {
@@ -502,7 +502,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * shape(Œ`ó) locus(‹OÕ) ŠÖ˜A
+	 * shape(å½¢çŠ¶) locus(è»Œè·¡) é–¢é€£
 	 ****************************************************/
 
 	protected LineList shape() {
@@ -522,7 +522,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * showŠÖ˜A
+	 * showé–¢é€£
 	 ****************************************************/
 
 	public void show() {
@@ -568,7 +568,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * LocationŠÖ˜A
+	 * Locationé–¢é€£
 	 ****************************************************/
 
 	public Point2D location() {
@@ -680,7 +680,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * Rotated(‰ñ“]Œã)PositionŠÖ˜A
+	 * Rotated(å›è»¢å¾Œ)Positioné–¢é€£
 	 ****************************************************/
 
 	public Point2D rotatedLocation() {
@@ -733,7 +733,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * SizeŠÖ˜A
+	 * Sizeé–¢é€£
 	 ****************************************************/
 
 	public Dimension2D size() {
@@ -878,7 +878,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * Rotated(‰ñ“]Œã)SizeŠÖ˜A
+	 * Rotated(å›è»¢å¾Œ)Sizeé–¢é€£
 	 ****************************************************/
 
 	public double rotatedWidth() {
@@ -896,7 +896,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * BoundsŠÖ˜A
+	 * Boundsé–¢é€£
 	 ****************************************************/
 
 	public Rectangle2D bounds() {
@@ -931,7 +931,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * RotatePointŠÖ˜A
+	 * RotatePointé–¢é€£
 	 ****************************************************/
 
 	public Point2D balance() {
@@ -982,7 +982,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * moveŠÖ˜A
+	 * moveé–¢é€£
 	 ****************************************************/
 
 	public void fd(double length) {
@@ -1052,7 +1052,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * scaleŠÖ˜A
+	 * scaleé–¢é€£
 	 ****************************************************/
 
 	public void scale(double scale) {
@@ -1111,7 +1111,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * angleŠÖ˜A
+	 * angleé–¢é€£
 	 ****************************************************/
 
 	public void angle(double angle) {
@@ -1155,7 +1155,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * directionŠÖ˜A
+	 * directioné–¢é€£
 	 ****************************************************/
 
 	public void direction(double direction) {
@@ -1198,7 +1198,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * theta‚ğ‹‚ß‚éUtility
+	 * thetaã‚’æ±‚ã‚ã‚‹Utility
 	 ****************************************************/
 
 	protected double theta() {
@@ -1217,7 +1217,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * penŠÖ˜A
+	 * pené–¢é€£
 	 ****************************************************/
 
 	public void up() {
@@ -1239,7 +1239,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * colorŠÖ˜A
+	 * coloré–¢é€£
 	 ****************************************************/
 
 	public void color(Color penColor) {
@@ -1258,7 +1258,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * ‚ ‚½‚è”»’èŠÖ˜A
+	 * ã‚ãŸã‚Šåˆ¤å®šé–¢é€£
 	 ****************************************************/
 
 	public boolean intersects(Turtle target) {
@@ -1312,7 +1312,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * ƒL[“ü—ÍŠÖ˜A
+	 * ã‚­ãƒ¼å…¥åŠ›é–¢é€£
 	 ****************************************************/
 
 	private Map<Integer, Boolean> pressing = new HashMap<Integer, Boolean>();
@@ -1374,7 +1374,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * ƒ}ƒEƒX“ü—ÍŠÖ˜A
+	 * ãƒã‚¦ã‚¹å…¥åŠ›é–¢é€£
 	 ****************************************************/
 
 	// --- implements MouseListener ---
@@ -1488,7 +1488,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * •W€“üo—ÍŠÖ˜A
+	 * æ¨™æº–å…¥å‡ºåŠ›é–¢é€£
 	 ****************************************************/
 
 	/**
@@ -1582,7 +1582,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * ƒtƒ@ƒCƒ‹‚ÌƒZ[ƒuCƒ[ƒh
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚»ãƒ¼ãƒ–ï¼Œãƒ­ãƒ¼ãƒ‰
 	 ****************************************************/
 
 	public void saveToFile(String filename, String text) {
@@ -1592,7 +1592,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 			fw.close();
 		} catch (Exception ex) {
 			// throw new RuntimeException(ex);
-			print("‘‚«‚İ‚É¸”s‚µ‚Ü‚µ‚½ " + ex.getMessage());
+			print("æ›¸ãè¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ " + ex.getMessage());
 		}
 	}
 
@@ -1622,7 +1622,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 			return buf.toString();
 		} catch (Exception ex) {
 			// throw new RuntimeException(ex);
-			print("“Ç‚İ‚İ‚É¸”s‚µ‚Ü‚µ‚½ " + ex.getMessage());
+			print("èª­ã¿è¾¼ã¿ã«å¤±æ•—ã—ã¾ã—ãŸ " + ex.getMessage());
 			return "";
 		}
 	}
@@ -1640,7 +1640,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************************************
-	 * ƒ‰ƒ“ƒ_ƒ€ŠÖ˜A
+	 * ãƒ©ãƒ³ãƒ€ãƒ é–¢é€£
 	 **************************************************************************/
 
 	private Random random = new Random();
@@ -1650,20 +1650,20 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/**
-	 * 0‚©‚çmax(‚ÍŠÜ‚Ü‚È‚¢j‚Ü‚Å‚Ìƒ‰ƒ“ƒ_ƒ€‚È’l‚ğ•Ô‚µ‚Ü‚·D
+	 * 0ã‹ã‚‰max(ã¯å«ã¾ãªã„ï¼‰ã¾ã§ã®ãƒ©ãƒ³ãƒ€ãƒ ãªå€¤ã‚’è¿”ã—ã¾ã™ï¼
 	 */
 	public int random(int max) {
 		return random.nextInt(max);
 	}
 
 	/***************************************************
-	 * SleepŠÖ˜A
+	 * Sleepé–¢é€£
 	 ****************************************************/
 
 	public void sleep(double second) {
 		synchronized (instanciationLock) {
 			if (isinstanciation) {
-				throw new RuntimeException("ƒ^[ƒgƒ‹¶¬’†‚ÉƒAƒjƒ[ƒVƒ‡ƒ“‚ªŒÄ‚Î‚ê‚Ü‚µ‚½");
+				throw new RuntimeException("ã‚¿ãƒ¼ãƒˆãƒ«ç”Ÿæˆä¸­ã«ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒå‘¼ã°ã‚Œã¾ã—ãŸ");
 			}
 
 			try {
@@ -1675,7 +1675,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * paintŠÖ˜A
+	 * painté–¢é€£
 	 ****************************************************/
 
 	public void update() {
@@ -1705,14 +1705,14 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * StartŠÖ˜A
+	 * Starté–¢é€£
 	 ****************************************************/
 
 	public void start() {
 	}
 
 	/***************************************************
-	 * Transform Œ`ó•ÏŠ·ŠÖ˜A
+	 * Transform å½¢çŠ¶å¤‰æ›é–¢é€£
 	 ****************************************************/
 
 	protected boolean dirty() {
@@ -1736,7 +1736,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 
 	protected synchronized void doTransform() {
 
-		// Šù‚ÉŒ»İ•ÏŠ·Ï‚İ‚È‚çˆê’UŒ³‚É–ß‚·
+		// æ—¢ã«ç¾åœ¨å¤‰æ›æ¸ˆã¿ãªã‚‰ä¸€æ—¦å…ƒã«æˆ»ã™
 		if (currentTransform != null) {
 			try {
 				AffineTransform reverse = currentTransform.createInverse();
@@ -1746,7 +1746,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 			}
 		}
 
-		// ˆ—
+		// å‡¦ç†
 		AffineTransform transform = createTransform();
 		shape.transform(transform);
 		currentTransform = transform;
@@ -1758,7 +1758,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 		Rectangle2D r = shape.getBounds();
 		Scale scale = new Scale(r.getWidth(), r.getHeight(), width(), height());
 
-		// ‹t‡‚É‚È‚Á‚Ä‚¢‚Ü‚·
+		// é€†é †ã«ãªã£ã¦ã„ã¾ã™
 		transform.rotate(theta(), balanceX(), balanceY());
 		transform.translate(balanceX(), balanceY());
 		transform.scale(scale.x(), scale.y());
@@ -1770,7 +1770,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * List‚É“ü‚ê‚ç‚ê‚é‚æ‚¤‚ÉCimage‚ğæ‚Á‚Ä‚±‚ê‚é‚æ‚¤‚É‚·‚éD(2012/01/08)
+	 * Listã«å…¥ã‚Œã‚‰ã‚Œã‚‹ã‚ˆã†ã«ï¼Œimageã‚’å–ã£ã¦ã“ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹ï¼(2012/01/08)
 	 ****************************************************/
 
 	private static final BufferedImage nullImage = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);

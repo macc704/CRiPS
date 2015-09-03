@@ -29,7 +29,7 @@ public class ImageTurtle extends Turtle {
 	public static String DEFAULT_FONT = "MS Gothic";
 
 	/************************************************
-	 * •Ï”
+	 * å¤‰æ•°
 	 ************************************************/
 
 	private BufferedImage image = null;
@@ -37,11 +37,11 @@ public class ImageTurtle extends Turtle {
 	private AffineTransformOp transformOp = null;
 
 	/************************************************
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 ************************************************/
 
 	public ImageTurtle() {
-		setImage(createTextImage("–¼Ì–¢İ’è"));
+		setImage(createTextImage("åç§°æœªè¨­å®š"));
 	}
 
 	public ImageTurtle(String filename) {
@@ -61,7 +61,7 @@ public class ImageTurtle extends Turtle {
 	}
 
 	/************************************************
-	 * ImageŠÖ˜A
+	 * Imageé–¢é€£
 	 ************************************************/
 
 	public void image(String filename) {
@@ -86,7 +86,7 @@ public class ImageTurtle extends Turtle {
 		try {
 			URL url = CResourceFinder.getResource(filename, getCaller());
 			if (applet == null && url == null) {
-				print("ƒGƒ‰[: ‰æ‘œ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ " + filename);
+				print("ã‚¨ãƒ©ãƒ¼: ç”»åƒãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ " + filename);
 				return null;
 			}
 
@@ -103,7 +103,7 @@ public class ImageTurtle extends Turtle {
 			mt.waitForAll();
 			if (mt.isErrorID(0)) {
 				if (new File(filename).exists()) {
-					print("ƒGƒ‰[: ‰æ‘œ‚ª“Ç‚İ‚ß‚È‚¢Œ`®‚Å‚· " + filename);
+					print("ã‚¨ãƒ©ãƒ¼: ç”»åƒãŒèª­ã¿è¾¼ã‚ãªã„å½¢å¼ã§ã™ " + filename);
 				}
 				return null;
 			}
@@ -172,7 +172,7 @@ public class ImageTurtle extends Turtle {
 	}
 
 	/************************************************
-	 * doTransform ‚Ì ƒI[ƒo[ƒ‰ƒCƒh
+	 * doTransform ã® ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 	 ************************************************/
 
 	protected synchronized void doTransform() {
@@ -196,7 +196,7 @@ public class ImageTurtle extends Turtle {
 	}
 
 	// temp for Turtle
-	// ã‚Æd•¡ƒR[ƒh
+	// ä¸Šã¨é‡è¤‡ã‚³ãƒ¼ãƒ‰
 	protected AffineTransformOp createTransformOp(double theta, double width,
 			double height, double rotatedWidth, double rotatedHeight) {
 

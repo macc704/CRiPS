@@ -7,7 +7,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 /**
- * ‰ºˆÊŒÝŠ·«‚Ì‚½‚ß‚É‚ ‚éHolderTurtle‚Å‚·D
+ * ä¸‹ä½äº’æ›æ€§ã®ãŸã‚ã«ã‚ã‚‹HolderTurtleã§ã™ï¼Ž
  */
 @Deprecated
 public class HolderTurtle extends ImageTurtle {
@@ -30,52 +30,52 @@ public class HolderTurtle extends ImageTurtle {
 	}
 
 	/***************************************************************************
-	 * Cursor—Þ
+	 * Cursoré¡ž
 	 **************************************************************************/
 
-	public int ƒJ[ƒ\ƒ‹ˆÊ’u() {
+	public int ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®() {
 		return cursor + 1;
 	}
 
-	public void ƒJ[ƒ\ƒ‹ˆÊ’u‚ð•Ï‚¦‚é(int newCursor) {
-		if (newCursor >= 1 && newCursor <= children.size()) {// ³í
+	public void ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã‚’å¤‰ãˆã‚‹(int newCursor) {
+		if (newCursor >= 1 && newCursor <= children.size()) {// æ­£å¸¸
 			this.cursor = newCursor - 1;
-		} else if (children.size() != 0) {// ”ÍˆÍŠO
+		} else if (children.size() != 0) {// ç¯„å›²å¤–
 			this.cursor = (newCursor % children.size()) - 1;
-		} else {// 0‚Ìê‡
+		} else {// 0ã®å ´åˆ
 			this.cursor = 0;
 		}
 		resetImage();
 	}
 
-	public void ƒJ[ƒ\ƒ‹‚ði‚ß‚é() {
-		ƒJ[ƒ\ƒ‹ˆÊ’u‚ð•Ï‚¦‚é(cursor + 2);
+	public void ã‚«ãƒ¼ã‚½ãƒ«ã‚’é€²ã‚ã‚‹() {
+		ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã‚’å¤‰ãˆã‚‹(cursor + 2);
 	}
 
-	public void ƒJ[ƒ\ƒ‹‚ð–ß‚·() {
-		ƒJ[ƒ\ƒ‹ˆÊ’u‚ð•Ï‚¦‚é(cursor);
+	public void ã‚«ãƒ¼ã‚½ãƒ«ã‚’æˆ»ã™() {
+		ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã‚’å¤‰ãˆã‚‹(cursor);
 	}
 
-	public ImageTurtle ƒJ[ƒ\ƒ‹ˆÊ’u‚É‚ ‚é‚à‚Ì() {
+	public ImageTurtle ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã«ã‚ã‚‹ã‚‚ã®() {
 		if (children.size() <= 0) {
 			return NullTurtle.NULL_TURTLE;
 		}
 		return children.get(cursor);
 	}
 
-	public ImageTurtle ˆÈ‰º‚ÌƒJ[ƒ\ƒ‹ˆÊ’u‚É‚ ‚é‚à‚Ì(int i) {
+	public ImageTurtle ä»¥ä¸‹ã®ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã«ã‚ã‚‹ã‚‚ã®(int i) {
 		return children.get(i - 1);
 	}
 
-	public int ƒJ[ƒ\ƒ‹ˆÊ’u‚É‚ ‚é‚à‚Ì‚Ì”’l() {
+	public int ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã«ã‚ã‚‹ã‚‚ã®ã®æ•°å€¤() {
 		try {
-			return Integer.parseInt(ƒJ[ƒ\ƒ‹ˆÊ’u‚É‚ ‚é‚à‚Ì‚Ì“à—e());
+			return Integer.parseInt(ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã«ã‚ã‚‹ã‚‚ã®ã®å†…å®¹());
 		} catch (Exception ex) {
 			return -1;
 		}
 	}
 
-	public String ƒJ[ƒ\ƒ‹ˆÊ’u‚É‚ ‚é‚à‚Ì‚Ì“à—e() {
+	public String ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã«ã‚ã‚‹ã‚‚ã®ã®å†…å®¹() {
 		try {
 			ImageTurtle object = children.get(cursor);
 			if (object instanceof CardTurtle) {
@@ -89,22 +89,22 @@ public class HolderTurtle extends ImageTurtle {
 	}
 
 	/***************************************************************************
-	 * ’Ç‰Á‚Æíœ
+	 * è¿½åŠ ã¨å‰Šé™¤
 	 **************************************************************************/
 
-	public void ÅŒã‚É’Ç‰Á‚·‚é(ImageTurtle turtle) {
+	public void æœ€å¾Œã«è¿½åŠ ã™ã‚‹(ImageTurtle turtle) {
 		parentCheck(turtle);
 		children.addLast(turtle);
 		doPostAddProcess(turtle);
 	}
 
-	public void æ“ª‚É’Ç‰Á‚·‚é(ImageTurtle turtle) {
+	public void å…ˆé ­ã«è¿½åŠ ã™ã‚‹(ImageTurtle turtle) {
 		parentCheck(turtle);
 		children.addFirst(turtle);
 		doPostAddProcess(turtle);
 	}
 
-	public void ƒJ[ƒ\ƒ‹ˆÊ’u‚É’Ç‰Á‚·‚é(ImageTurtle turtle) {
+	public void ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã«è¿½åŠ ã™ã‚‹(ImageTurtle turtle) {
 		parentCheck(turtle);
 		children.add(this.cursor, turtle);
 		doPostAddProcess(turtle);
@@ -118,18 +118,18 @@ public class HolderTurtle extends ImageTurtle {
 
 	private void parentCheck(ImageTurtle turtle) {
 		if (turtle.parent != null) {
-			turtle.parentHolder.íœ‚·‚é(turtle);
+			turtle.parentHolder.å‰Šé™¤ã™ã‚‹(turtle);
 		}
 	}
 
-	public void “ü‚Á‚Ä‚¢‚é‘S‚Ä‚Ì‚à‚Ì‚ðˆÈ‰º‚Ì“ü‚ê•¨‚ÉˆÚ“®‚·‚é(HolderTurtle to) {
-		int objectCount = this.“ü‚Á‚Ä‚¢‚é‚à‚Ì‚ÌŒÂ”();
+	public void å…¥ã£ã¦ã„ã‚‹å…¨ã¦ã®ã‚‚ã®ã‚’ä»¥ä¸‹ã®å…¥ã‚Œç‰©ã«ç§»å‹•ã™ã‚‹(HolderTurtle to) {
+		int objectCount = this.å…¥ã£ã¦ã„ã‚‹ã‚‚ã®ã®å€‹æ•°();
 		for (int i = 0; i < objectCount; i++) {
-			to.ÅŒã‚É’Ç‰Á‚·‚é(this.ƒJ[ƒ\ƒ‹ˆÊ’u‚É‚ ‚é‚à‚Ì());
+			to.æœ€å¾Œã«è¿½åŠ ã™ã‚‹(this.ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã«ã‚ã‚‹ã‚‚ã®());
 		}
 	}
 
-	public void “ü‚Á‚Ä‚¢‚é‚à‚Ì‚ð‘S‚ÄŽÌ‚Ä‚é() {
+	public void å…¥ã£ã¦ã„ã‚‹ã‚‚ã®ã‚’å…¨ã¦æ¨ã¦ã‚‹() {
 		for (ImageTurtle child : children) {
 			child.die();
 		}
@@ -137,17 +137,17 @@ public class HolderTurtle extends ImageTurtle {
 		resetImage();
 	}
 
-	public void ƒJ[ƒ\ƒ‹ˆÊ’u‚Ì‚à‚Ì‚ðíœ‚·‚é() {
-		íœ‚·‚é(ƒJ[ƒ\ƒ‹ˆÊ’u‚É‚ ‚é‚à‚Ì());
+	public void ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã®ã‚‚ã®ã‚’å‰Šé™¤ã™ã‚‹() {
+		å‰Šé™¤ã™ã‚‹(ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã«ã‚ã‚‹ã‚‚ã®());
 	}
 
-	public void íœ‚·‚é(ImageTurtle turtle) {
+	public void å‰Šé™¤ã™ã‚‹(ImageTurtle turtle) {
 		removeObjectInternal(turtle);
 	}
 
 	private ImageTurtle removeObjectInternal(ImageTurtle turtle) {
 		if (turtle == null || !children.contains(turtle)) {
-			System.err.println("íœ‚Å‚«‚Ü‚¹‚ñ");
+			System.err.println("å‰Šé™¤ã§ãã¾ã›ã‚“");
 			return null;
 		}
 
@@ -159,34 +159,34 @@ public class HolderTurtle extends ImageTurtle {
 	}
 
 	/***************************************************************************
-	 * ‚»‚Ì‘¼Public
+	 * ãã®ä»–Public
 	 **************************************************************************/
 
-	public int “ü‚Á‚Ä‚¢‚é‚à‚Ì‚ÌŒÂ”() {
+	public int å…¥ã£ã¦ã„ã‚‹ã‚‚ã®ã®å€‹æ•°() {
 		return children.size();
 	}
 
-	public void ‚©‚«‚Ü‚º‚é() {
+	public void ã‹ãã¾ãœã‚‹() {
 		Collections.shuffle(children);
 		resetImage();
 	}
 
 	/***************************************************************************
-	 * ƒfƒoƒbƒO—p
+	 * ãƒ‡ãƒãƒƒã‚°ç”¨
 	 * 
 	 * @deprecated
 	 **************************************************************************/
 	void printChildren() {
-		int objectCount = this.“ü‚Á‚Ä‚¢‚é‚à‚Ì‚ÌŒÂ”();
+		int objectCount = this.å…¥ã£ã¦ã„ã‚‹ã‚‚ã®ã®å€‹æ•°();
 		for (int i = 0; i < objectCount; i++) {
-			ƒJ[ƒ\ƒ‹ˆÊ’u‚ð•Ï‚¦‚é(i + 1);
-			System.out.print(this.ƒJ[ƒ\ƒ‹ˆÊ’u‚É‚ ‚é‚à‚Ì‚Ì”’l() + ",");
+			ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã‚’å¤‰ãˆã‚‹(i + 1);
+			System.out.print(this.ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã«ã‚ã‚‹ã‚‚ã®ã®æ•°å€¤() + ",");
 		}
-		ƒJ[ƒ\ƒ‹ˆÊ’u‚ð•Ï‚¦‚é(1);
+		ã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã‚’å¤‰ãˆã‚‹(1);
 	}
 
 	/***************************************************************************
-	 * •`‰æStrategy
+	 * æç”»Strategy
 	 **************************************************************************/
 
 	private synchronized void resetImage() {
@@ -213,7 +213,7 @@ public class HolderTurtle extends ImageTurtle {
 			width = 60;
 			height = 30;
 		}
-		if (name != null) {// –¼‘O‚Ì•ª‚ð‘«‚·
+		if (name != null) {// åå‰ã®åˆ†ã‚’è¶³ã™
 			height += FONTSIZE + MARGIN;
 			int nameW = (int) (name.length() * (FONTSIZE * 6d / 5d));
 			if (width < nameW) {
@@ -221,19 +221,19 @@ public class HolderTurtle extends ImageTurtle {
 			}
 		}
 
-		// €”õ
+		// æº–å‚™
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g = (Graphics2D) image.getGraphics();
 
-		// ˜gü
+		// æž ç·š
 		g.setColor(color());
 		g.drawRect(1, 1, width - 2, height - 2);
 
 		int x = MARGIN;
 		int y = MARGIN;
 
-		// –¼‘O
+		// åå‰
 		if (name != null) {
 			y += FONTSIZE;
 			g.drawString(name, MARGIN, y);
@@ -245,7 +245,7 @@ public class HolderTurtle extends ImageTurtle {
 			ImageTurtle child = children.get(i);
 			g.drawImage(child.image(), x, y, null);
 
-			// ƒJ[ƒ\ƒ‹
+			// ã‚«ãƒ¼ã‚½ãƒ«
 			if (cursor == i) {
 				g.setColor(Color.red);
 				Stroke original = g.getStroke();

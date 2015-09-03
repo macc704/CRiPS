@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cb:CODEBLOCKS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://education.mit.edu/openblocks/ns http://education.mit.edu/openblocks/codeblocks.xsd" xmlns:cb="http://education.mit.edu/openblocks/ns">
+<Pages collapsible-pages="no">
+<Page page-color="40 40 40" page-drawer="" page-infullview="yes" page-name="Hoge" page-width="1366">
+<PageBlocks>
+<Block genus-name="procedure" id="1000" kind="procedure">
+<Label>main</Label>
+<Location>
+<X>50</X>
+<Y>50</Y>
+</Location>
+<AfterBlockId>1001</AfterBlockId>
+</Block>
+<Block genus-name="local-var-int-number" id="1001" kind="local-variable">
+<Label>i</Label>
+<Name>i</Name>
+<Type>int</Type>
+<Sockets num-sockets="1">
+<BlockConnector con-block-id="1002" connector-kind="socket" connector-type="number" init-type="number" label="初期値" position-type="single"/>
+</Sockets>
+<AfterBlockId>1003</AfterBlockId>
+<BeforeBlockId>1000</BeforeBlockId>
+</Block>
+<Block genus-name="number" id="1002" kind="data">
+<Label>0</Label>
+<Plug>
+<BlockConnector con-block-id="1001" connector-kind="plug" connector-type="number" init-type="number" label="" position-type="mirror"/>
+</Plug>
+</Block>
+<Block genus-name="local-var-int-number" id="1003" kind="local-variable">
+<Label>j</Label>
+<Name>j</Name>
+<Type>int</Type>
+<Sockets num-sockets="1">
+<BlockConnector con-block-id="1004" connector-kind="socket" connector-type="number" init-type="number" label="初期値" position-type="single"/>
+</Sockets>
+<BeforeBlockId>1001</BeforeBlockId>
+</Block>
+<Block genus-name="number" id="1004" kind="data">
+<Label>0</Label>
+<Plug>
+<BlockConnector con-block-id="1003" connector-kind="plug" connector-type="number" init-type="number" label="" position-type="mirror"/>
+</Plug>
+</Block>
+</PageBlocks>
+</Page>
+</Pages>
+</cb:CODEBLOCKS>

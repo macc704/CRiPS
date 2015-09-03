@@ -47,7 +47,7 @@ public class SoundTurtle extends CardTurtle {
 	}
 
 	public void setFile(String path) {
-		text("ô" + path + "ô");
+		text("â™ª" + path + "â™ª");
 		this.url = CResourceFinder.getResource(path, getCaller());
 		this.sound = new BSound(url);
 	}
