@@ -18,7 +18,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/PresVisualizer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CocoViewer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CheCoPro"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/openblocks"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BlockConverter"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BlockEditor2"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
