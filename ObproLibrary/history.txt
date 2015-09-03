@@ -1,13 +1,13 @@
-Obproƒ‰ƒCƒuƒ‰ƒŠ
+Obproãƒ©ã‚¤ãƒ–ãƒ©ãƒª
 2.1.0 2012.04.05
-	start() ‚ğ publicŠÖ”‚É‚·‚é 
+	start() ã‚’ publicé–¢æ•°ã«ã™ã‚‹ 
 2.0.0 2012.04.05 
 	for 2012
-	Blibrary‚Æ“‡ (turtleƒVƒXƒeƒ€‚ğ“‡)D
-	BSound‚Í•ÊƒpƒbƒP[ƒW‚Ì‚à‚Ì‚ğ—˜—pD@
-1.9.3 capturemode‚ÌƒfƒtƒHƒ‹ƒgƒTƒCƒY size()ŠÖ”‚É•ÏX@¼àV@
-1.9.2 capturemode‚ÌƒfƒtƒHƒ‹ƒgƒTƒCƒY1000x700‚É•ÏX@¼àV@
-1.9.1 capturemode‚ÌƒfƒtƒHƒ‹ƒgƒTƒCƒY500x500‚É•ÏX@¼àV@
-1.9 turtle‚Écapturemode’Ç‰Á@¼àV@
-1.8 gamefw‚ÌCharacter‚ğGameCharacter‚Æ–¼‘O‚Ì•ÏX
-ijava.lang.Character‚Æ‚©‚Ô‚Á‚Äˆµ‚¢‚É‚­‚¢‚½‚ßj@2007/06/20 ¼àV
+	Blibraryã¨çµ±åˆ (turtleã‚·ã‚¹ãƒ†ãƒ ã‚’çµ±åˆ)ï¼
+	BSoundã¯åˆ¥ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®ã‚‚ã®ã‚’åˆ©ç”¨ï¼ã€€
+1.9.3 capturemodeã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µã‚¤ã‚º size()é–¢æ•°ã«å¤‰æ›´ã€€æ¾æ¾¤ã€€
+1.9.2 capturemodeã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µã‚¤ã‚º1000x700ã«å¤‰æ›´ã€€æ¾æ¾¤ã€€
+1.9.1 capturemodeã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚µã‚¤ã‚º500x500ã«å¤‰æ›´ã€€æ¾æ¾¤ã€€
+1.9 turtleã«capturemodeè¿½åŠ ã€€æ¾æ¾¤ã€€
+1.8 gamefwã®Characterã‚’GameCharacterã¨åå‰ã®å¤‰æ›´
+ï¼ˆjava.lang.Characterã¨ã‹ã¶ã£ã¦æ‰±ã„ã«ãã„ãŸã‚ï¼‰ã€€2007/06/20 æ¾æ¾¤

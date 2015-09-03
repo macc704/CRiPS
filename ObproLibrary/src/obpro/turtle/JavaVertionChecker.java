@@ -5,7 +5,7 @@ package obpro.turtle;
 
 /**
  * JavaVertionChecker
- * TODO 次回公開時 パッケージリファクタリング
+ * TODO 谺｡蝗槫�ｬ髢区凾 繝代ャ繧ｱ繝ｼ繧ｸ繝ｪ繝輔ぃ繧ｯ繧ｿ繝ｪ繝ｳ繧ｰ
  */
 public class JavaVertionChecker {
 

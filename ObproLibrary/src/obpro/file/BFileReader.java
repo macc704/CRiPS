@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 /**
- * ƒtƒ@ƒCƒ‹“Ç‚İ‚İƒXƒgƒŠ[ƒ€‚ğ•\Œ»‚·‚éƒNƒ‰ƒXi‰SÒ—pj
+ * ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹ï¼ˆåˆå¿ƒè€…ç”¨ï¼‰
  * 
  * @author macchan
  * @version $Id: BFileReader.java,v 1.1 2007/06/13 07:45:06 macchan Exp $
@@ -23,15 +23,15 @@ public class BFileReader {
 	private BufferedReader reader = null;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public BFileReader(InputStream inputStream) {
 		this.reader = new BufferedReader(new InputStreamReader(inputStream));
 	}
 
 	/**
-	 * ƒXƒgƒŠ[ƒ€‚ğÅŒã‚Ü‚Å“Ç‚İ‚ñ‚¾‚©‚Ç‚¤‚©’²‚×‚é
-	 * i‚±‚Ì‚Æ‚«‚ÉAŸ‚Ìs‚ğ“Ç‚İ‚ñ‚Å‚µ‚Ü‚¤j
+	 * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’æœ€å¾Œã¾ã§èª­ã¿è¾¼ã‚“ã ã‹ã©ã†ã‹èª¿ã¹ã‚‹
+	 * ï¼ˆã“ã®ã¨ãã«ã€æ¬¡ã®è¡Œã‚’èª­ã¿è¾¼ã‚“ã§ã—ã¾ã†ï¼‰
 	 */
 	public boolean isEndOfFile() {
 		try {
@@ -46,7 +46,7 @@ public class BFileReader {
 	}
 
 	/**
-	 * ˆês“Ç‚İ‚Ş
+	 * ä¸€è¡Œèª­ã¿è¾¼ã‚€
 	 */
 	public String readLine() {
 		if (isEndOfFile()) {
@@ -58,7 +58,7 @@ public class BFileReader {
 	}
 
 	/**
-	 * ƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚é
+	 * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’é–‰ã˜ã‚‹
 	 */
 	public void close() {
 		try {

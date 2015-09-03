@@ -3,18 +3,18 @@ package obpro.gamefw;
 import obpro.gui.BCanvas;
 
 /**
- * ƒAƒjƒ[ƒVƒ‡ƒ“‚·‚éƒIƒuƒWƒFƒNƒg‚·‚×‚Ä‚ÌƒX[ƒp[ƒNƒ‰ƒX
+ * ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã™ã¹ã¦ã®ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹
  */
 public class AnimationElement {
 
 	/**
-	 * 1ƒXƒeƒbƒv‚Ìˆ—‚ğ‚·‚é
+	 * 1ã‚¹ãƒ†ãƒƒãƒ—ã®å‡¦ç†ã‚’ã™ã‚‹
 	 */
 	public void processOneStep(BCanvas canvas) {
 	}
 
 	/**
-	 * •`‰æ‚·‚é
+	 * æç”»ã™ã‚‹
 	 */
 	public void draw(BCanvas canvas) {
 	}

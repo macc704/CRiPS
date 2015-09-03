@@ -10,7 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
- * ƒtƒ@ƒCƒ‹‚ğ•\Œ»‚·‚éƒNƒ‰ƒXi‰SÒ—pj
+ * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹ï¼ˆåˆå¿ƒè€…ç”¨ï¼‰
  * 
  * @author macchan
  * @version $Id: BFile.java,v 1.1 2007/06/13 07:45:06 macchan Exp $
@@ -20,7 +20,7 @@ public class BFile {
 	private File file = null;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public BFile(String filePath) {
 		try {
@@ -35,7 +35,7 @@ public class BFile {
 	}
 
 	/**
-	 * ‘‚«‚İƒXƒgƒŠ[ƒ€‚ğŠJ‚­
+	 * æ›¸ãè¾¼ã¿ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’é–‹ã
 	 */
 	public BFileWriter openWriter() {
 		try {
@@ -48,7 +48,7 @@ public class BFile {
 	}
 
 	/**
-	 * “Ç‚İ‚İƒXƒgƒŠ[ƒ€‚ğŠJ‚­
+	 * èª­ã¿è¾¼ã¿ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’é–‹ã
 	 */
 	public BFileReader openReader() {
 		try {
@@ -61,7 +61,7 @@ public class BFile {
 	}
 	
 	/**
-	 * •K—v‚ÈƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚·‚é
+	 * å¿…è¦ãªãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆã™ã‚‹
 	 */
 	public void makeDirectory(String filePath) {
 		if (filePath.contains("/")) {

@@ -14,21 +14,21 @@ public class BStopWatch {
 	private long stopTime = 0;
 
 	/**
-	 * ƒXƒ^[ƒg‚·‚é
+	 * ã‚¹ã‚¿ãƒ¼ãƒˆã™ã‚‹
 	 */
 	public void start() {
 		startTime = System.nanoTime();
 	}
 
 	/**
-	 * ƒXƒgƒbƒv‚·‚é
+	 * ã‚¹ãƒˆãƒƒãƒ—ã™ã‚‹
 	 */
 	public void stop() {
 		stopTime = System.nanoTime();
 	}
 
 	/**
-	 * ‚©‚©‚Á‚½ŠÔ‚ğæ“¾‚·‚é
+	 * ã‹ã‹ã£ãŸæ™‚é–“ã‚’å–å¾—ã™ã‚‹
 	 */
 	public long getTimeByMiliseconds() {
 		return (stopTime - startTime) / 1000000;

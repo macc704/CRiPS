@@ -9,7 +9,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 /**
- * ƒtƒ@ƒCƒ‹‘‚«‚İƒXƒgƒŠ[ƒ€‚ğ•\Œ»‚·‚éƒNƒ‰ƒXi‰SÒ—pj
+ * ãƒ•ã‚¡ã‚¤ãƒ«æ›¸ãè¾¼ã¿ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹ï¼ˆåˆå¿ƒè€…ç”¨ï¼‰
  * 
  * @author macchan
  * @version $Id: BFileWriter.java,v 1.1 2007/06/13 07:45:06 macchan Exp $
@@ -19,42 +19,42 @@ public class BFileWriter {
 	private PrintStream printStream;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public BFileWriter(FileOutputStream fileOutputStream) {
 		printStream = new PrintStream(fileOutputStream);
 	}
 
 	/**
-	 * •¶š—ñ‚ğ‘‚«‚Ş
+	 * æ–‡å­—åˆ—ã‚’æ›¸ãè¾¼ã‚€
 	 */
 	public void print(String s) {
 		printStream.print(s);
 	}
 	
 	/**
-	 * ®”‚ğ‘‚«‚Ş
+	 * æ•´æ•°ã‚’æ›¸ãè¾¼ã‚€
 	 */
 	public void print(long i) {
 		printStream.print(i);
 	}
 	
 	/**
-	 * À”‚ğ‘‚«‚Ş
+	 * å®Ÿæ•°ã‚’æ›¸ãè¾¼ã‚€
 	 */
 	public void print(double d) {
 		printStream.print(d);
 	}
 	
 	/**
-	 * •¶š‚ğ‘‚«‚Ş
+	 * æ–‡å­—ã‚’æ›¸ãè¾¼ã‚€
 	 */
 	public void print(char c) {
 		printStream.print(c);
 	}
 
 	/**
-	 * •¶š—ñ‚ğ‘‚«‚ñ‚ÅA‰üs‚·‚é
+	 * æ–‡å­—åˆ—ã‚’æ›¸ãè¾¼ã‚“ã§ã€æ”¹è¡Œã™ã‚‹
 	 */
 	public void println(String s) {
 		print(s);
@@ -62,35 +62,35 @@ public class BFileWriter {
 	}
 	
 	/**
-	 * ®”‚ğ‘‚«‚Ş
+	 * æ•´æ•°ã‚’æ›¸ãè¾¼ã‚€
 	 */
 	public void println(long i) {
 		printStream.println(i);
 	}
 	
 	/**
-	 * À”‚ğ‘‚«‚Ş
+	 * å®Ÿæ•°ã‚’æ›¸ãè¾¼ã‚€
 	 */
 	public void println(double d) {
 		printStream.println(d);
 	}
 	
 	/**
-	 * •¶š‚ğ‘‚«‚Ş
+	 * æ–‡å­—ã‚’æ›¸ãè¾¼ã‚€
 	 */
 	public void println(char c) {
 		printStream.println(c);
 	}
 	
 	/**
-	 * ‰üs‚·‚é
+	 * æ”¹è¡Œã™ã‚‹
 	 */
 	public void println() {
 		printStream.println();
 	}
 
 	/**
-	 * ƒXƒgƒŠ[ƒ€‚ğ•Â‚¶‚é
+	 * ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚’é–‰ã˜ã‚‹
 	 */
 	public void close() {
 		this.printStream.close();

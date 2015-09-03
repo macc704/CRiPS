@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class CellTurtle extends TurtleTurtle {
 
-	// Œg‘Ñ“d˜b
+	// æºå¸¯é›»è©±
 	public static final int WEST_TOP = 1;
 	public static final int TOP = 2;
 	public static final int EAST_TOP = 3;
@@ -196,14 +196,14 @@ public class CellTurtle extends TurtleTurtle {
 		case EAST_BOTTOM:
 			return getMarkingCheckPoint(1, -1);
 		default:
-			throw new RuntimeException("’²‚×‚ç‚ê‚éˆÊ’u‚Í1‚©‚ç9‚Ü‚Å‚Å‚·D");
+			throw new RuntimeException("èª¿ã¹ã‚‰ã‚Œã‚‹ä½ç½®ã¯1ã‹ã‚‰9ã¾ã§ã§ã™ï¼");
 		}
 	}
 
 	private Point getMarkingCheckPoint(int dx, int dy) {
 		int x = getX();
 		int y = getY();
-		double thetaX = theta(angle() + direction() + 90.0);// 90“x‰EŒü‚«
+		double thetaX = theta(angle() + direction() + 90.0);// 90åº¦å³å‘ã
 		double thetaY = theta(angle() + direction());
 		// System.out.print(angle() + direction());
 		int dxx = (int) (Math.sin(thetaX) * dx * size);

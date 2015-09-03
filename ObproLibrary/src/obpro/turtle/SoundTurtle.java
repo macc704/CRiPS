@@ -33,7 +33,7 @@ public class SoundTurtle extends CardTurtle {
 	private BSound sound;
 
 	public SoundTurtle(String path) {
-		super("ô" + path + "ô");
+		super("â™ª" + path + "â™ª");
 		location(-100, -100);
 		// this.path = path;
 		this.url = CResourceFinder.getResource(path, getCaller());

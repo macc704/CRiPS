@@ -10,8 +10,8 @@ import obpro.gui.BWindow;
  */
 
 /**
- * GUIƒQ[ƒ€@ƒtƒŒ[ƒ€ƒ[ƒN 
- * ’ŠÛƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒNƒ‰ƒXiƒX[ƒp[ƒNƒ‰ƒXj
+ * GUIã‚²ãƒ¼ãƒ ã€€ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ 
+ * æŠ½è±¡ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¯ãƒ©ã‚¹ï¼ˆã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚¯ãƒ©ã‚¹ï¼‰
  * 
  * @author macchan
  * @version 1.0
@@ -21,21 +21,21 @@ public class AbstractGUIAnimationApplication {
 	private GUIAnimationApplicationEngine engine;
 
 	/**
-	 * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‹ì“®‚·‚éƒGƒ“ƒWƒ“‚ğæ“¾‚·‚é(final:ƒI[ƒo[ƒ‰ƒCƒh‹Ö~)
+	 * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚’é§†å‹•ã™ã‚‹ã‚¨ãƒ³ã‚¸ãƒ³ã‚’å–å¾—ã™ã‚‹(final:ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ç¦æ­¢)
 	 */
 	public final GUIAnimationApplicationEngine getEngine() {
 		return this.engine;
 	}
 
 	/**
-	 * ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ‹ì“®‚·‚éƒGƒ“ƒWƒ“‚ğİ’è‚·‚é(final:ƒI[ƒo[ƒ‰ƒCƒh‹Ö~)
+	 * ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚’é§†å‹•ã™ã‚‹ã‚¨ãƒ³ã‚¸ãƒ³ã‚’è¨­å®šã™ã‚‹(final:ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ç¦æ­¢)
 	 */
 	public final void setEngine(GUIAnimationApplicationEngine engine) {
 		this.engine = engine;
 	}
 
 	/**
-	 * ƒEƒCƒ“ƒhƒE‚Ì‰Šú‰»‚ğ‚·‚é
+	 * ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã®åˆæœŸåŒ–ã‚’ã™ã‚‹
 	 */
 	public void initializeWindow(BWindow window) {
 		window.setLocation(100, 100);
@@ -43,19 +43,19 @@ public class AbstractGUIAnimationApplication {
 	}
 
 	/**
-	 * ƒAƒjƒ[ƒVƒ‡ƒ“ŠJn‚Ì€”õ‚ğ‚·‚é
+	 * ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é–‹å§‹ã®æº–å‚™ã‚’ã™ã‚‹
 	 */
 	public void prepareAnimationStart() {
 	}
 
 	/**
-	 * 1ƒXƒeƒbƒv‚Ìˆ—‚ğ‚·‚é
+	 * 1ã‚¹ãƒ†ãƒƒãƒ—ã®å‡¦ç†ã‚’ã™ã‚‹
 	 */
 	public void processOneStepForApplication(BCanvas canvas) {
 	}
 
 	/**
-	 * •`‰æ‚·‚é
+	 * æç”»ã™ã‚‹
 	 */
 	public void drawForApplication(BCanvas canvas) {
 	}

@@ -2,7 +2,7 @@ package obpro.cui;
 
 /**
  * Class Random.
- * TODO Ÿ‰ñŒöŠJ ƒpƒbƒP[ƒWƒŠƒtƒ@ƒNƒ^ƒŠƒ“ƒO
+ * TODO æ¬¡å›å…¬é–‹æ™‚ ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ãƒªãƒ•ã‚¡ã‚¯ã‚¿ãƒªãƒ³ã‚°
  * @author macchan
  * @version $Id: Random.java,v 1.2 2007/06/13 17:54:01 camei Exp $
  */
@@ -11,7 +11,7 @@ public class Random {
 	private static final java.util.Random random = new java.util.Random();
 
 	/**
-	 * ƒ‰ƒ“ƒ_ƒ€‚È®”‚ğ¶¬‚·‚é	 
+	 * ãƒ©ãƒ³ãƒ€ãƒ ãªæ•´æ•°ã‚’ç”Ÿæˆã™ã‚‹	 
 	 */
 	public static int getInt(int n) {
 		return random.nextInt(n);

@@ -1,17 +1,17 @@
 package obpro.gamefw;
 /**
- * ƒQ[ƒ€‚ÌƒLƒƒƒ‰ƒNƒ^[‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
+ * ã‚²ãƒ¼ãƒ ã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
  */
 public class GameCharacter extends AnimationElement {
 
-	//‘®«
+	//å±æ€§
 	private int x = 0;
 	private int y = 0;
 	private int width = 0;
 	private int height = 0;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public GameCharacter(int x, int y, int width, int height) {
 		this.x = x;
@@ -21,35 +21,35 @@ public class GameCharacter extends AnimationElement {
 	}
 
 	/**
-	 * ‚‚³‚ğæ“¾‚·‚é
+	 * é«˜ã•ã‚’å–å¾—ã™ã‚‹
 	 */
 	public int getHeight() {
 		return this.height;
 	}
 
 	/**
-	 * •‚ğæ“¾‚·‚é
+	 * å¹…ã‚’å–å¾—ã™ã‚‹
 	 */
 	public int getWidth() {
 		return this.width;
 	}
 
 	/**
-	 * XÀ•W‚ğæ“¾‚·‚é
+	 * Xåº§æ¨™ã‚’å–å¾—ã™ã‚‹
 	 */
 	public int getX() {
 		return this.x;
 	}
 
 	/**
-	 * YÀ•W‚ğæ“¾‚·‚é
+	 * Yåº§æ¨™ã‚’å–å¾—ã™ã‚‹
 	 */
 	public int getY() {
 		return this.y;
 	}
 
 	/**
-	 * ˆÊ’u‚ğÄİ’è‚·‚é
+	 * ä½ç½®ã‚’å†è¨­å®šã™ã‚‹
 	 */
 	public void setLocation(int newX, int newY) {
 		x = newX;
@@ -57,7 +57,7 @@ public class GameCharacter extends AnimationElement {
 	}
 
 	/**
-	 * “®‚©‚·
+	 * å‹•ã‹ã™
 	 */
 	public void move(int moveX, int moveY) {
 		x = x + moveX;
@@ -65,7 +65,7 @@ public class GameCharacter extends AnimationElement {
 	}
 
 	/**
-	 * ‘¼‚ÌƒLƒƒƒ‰ƒNƒ^[‚Æ‚ÌÕ“Ë”»’è‚ğ‚·‚é
+	 * ä»–ã®ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã¨ã®è¡çªåˆ¤å®šã‚’ã™ã‚‹
 	 */
 	public boolean intersects(GameCharacter another) {
 		int self_leftX = this.getX();

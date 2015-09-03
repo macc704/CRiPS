@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.Font;
 
 /**
- * ƒLƒƒƒ“ƒoƒX‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
+ * ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * 
- * Šeí‘‚«‚İƒƒ\ƒbƒh‚É‚æ‚èCGUI•`‰æ‚ğs‚È‚¤‚±‚Æ‚ª‚Å‚«‚Ü‚·D
- * ÀÛ‚Ì‘‚«‚İˆ—‚ÍCanvasPanel‚ÉˆÏ÷‚µ‚Ü‚·D
- * i—]Œv‚Èˆ—‚ğƒJƒvƒZƒ‹‰»‚µ‚Ä‚¢‚Ü‚·‚Ì‚ÅC’†g‚ğ’m‚è‚½‚¢l‚ÍCanvasPanel(BWindow.java“à)‚ğQÆ‚¹‚æj
+ * å„ç¨®æ›¸ãè¾¼ã¿ãƒ¡ã‚½ãƒƒãƒ‰ã«ã‚ˆã‚Šï¼ŒGUIæç”»ã‚’è¡Œãªã†ã“ã¨ãŒã§ãã¾ã™ï¼
+ * å®Ÿéš›ã®æ›¸ãè¾¼ã¿å‡¦ç†ã¯CanvasPanelã«å§”è­²ã—ã¾ã™ï¼
+ * ï¼ˆä½™è¨ˆãªå‡¦ç†ã‚’ã‚«ãƒ—ã‚»ãƒ«åŒ–ã—ã¦ã„ã¾ã™ã®ã§ï¼Œä¸­èº«ã‚’çŸ¥ã‚ŠãŸã„äººã¯CanvasPanel(BWindow.javaå†…)ã‚’å‚ç…§ã›ã‚ˆï¼‰
  * 
  * @author macchan
  * @version 2.0
@@ -20,7 +20,7 @@ public class BCanvas {
 	private CanvasMouseEventHandler mouseHandler;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public BCanvas(CanvasPanel canvasPanel, CanvasKeyEventHandler keyHandler,
 			CanvasMouseEventHandler mouseHandler) {
@@ -30,13 +30,13 @@ public class BCanvas {
 	}
 
 	/***************************************************
-	 * •`‰æŠÖ˜Ai‘æ7,8‰ñj
+	 * æç”»é–¢é€£ï¼ˆç¬¬7,8å›ï¼‰
 	 ****************************************************/
 
 	/**
-	 * ü‚ğˆø‚«‚Ü‚·
-	 * g—p—á:
-	 * À•W(10, 10) ‚©‚ç À•W(20, 20)‚Ö•‚¢ü‚ğˆø‚­ê‡
+	 * ç·šã‚’å¼•ãã¾ã™
+	 * ä½¿ç”¨ä¾‹:
+	 * åº§æ¨™(10, 10) ã‹ã‚‰ åº§æ¨™(20, 20)ã¸é»’ã„ç·šã‚’å¼•ãå ´åˆ
 	 * drawLine(Color.BLACK, 10, 10, 20, 20); 
 	 */
 	public void drawLine(Color color, double x1, double y1, double x2, double y2) {
@@ -44,9 +44,9 @@ public class BCanvas {
 	}
 
 	/**
-	 * “h‚è‚Â‚Ô‚µ‚½OŠpŒ`‚ğ‘‚«‚Ü‚·
-	 * g—p—á:
-	 * À•WA(10, 10), À•WB(20, 20), À•WC(10,20)‚ğ’¸“_‚Æ‚·‚éOŠpŒ`‚ğ‘‚­ê‡
+	 * å¡—ã‚Šã¤ã¶ã—ãŸä¸‰è§’å½¢ã‚’æ›¸ãã¾ã™
+	 * ä½¿ç”¨ä¾‹:
+	 * åº§æ¨™A(10, 10), åº§æ¨™B(20, 20), åº§æ¨™C(10,20)ã‚’é ‚ç‚¹ã¨ã™ã‚‹ä¸‰è§’å½¢ã‚’æ›¸ãå ´åˆ
 	 * drawFillTriangle(Color.BLACK, 10, 10, 20, 20, 10, 20); 
 	 */
 	public void drawFillTriangle(Color color, double x1, double y1, double x2,
@@ -55,15 +55,15 @@ public class BCanvas {
 	}
 
 	/**
-	 * ‰~ŒÊ‚ğ‘‚«‚Ü‚·
-	 * Šp“x‚Ì’PˆÊ‚Í“x‚Å‚·i0`360“x)
-	 * startAngle‚É‚ÍŒÊ‚ğ•`‚«n‚ß‚éŠp“x
+	 * å††å¼§ã‚’æ›¸ãã¾ã™
+	 * è§’åº¦ã®å˜ä½ã¯åº¦ã§ã™ï¼ˆ0ã€œ360åº¦)
+	 * startAngleã«ã¯å¼§ã‚’æãå§‹ã‚ã‚‹è§’åº¦
 	 *         90
 	 * 180           0
 	 *        270
-	 * arcAngle‚É‚ÍCŒÊ‘S‘Ì‚ÌŠp“x‚ğ‘‚«‚Ü‚·DŒÊ‚Í”½Œv‰ñ‚è‚É‘‚©‚ê‚Ü‚·
-	 * g—p—á:
-	 * À•W(10, 10)‚ğ¶ã‚Æ‚µ‚ÄC‚‚³100, •100 ‚Ì‰~ŒÊ‚ğ‘‚­ê‡
+	 * arcAngleã«ã¯ï¼Œå¼§å…¨ä½“ã®è§’åº¦ã‚’æ›¸ãã¾ã™ï¼å¼§ã¯åæ™‚è¨ˆå›ã‚Šã«æ›¸ã‹ã‚Œã¾ã™
+	 * ä½¿ç”¨ä¾‹:
+	 * åº§æ¨™(10, 10)ã‚’å·¦ä¸Šã¨ã—ã¦ï¼Œé«˜ã•100, å¹…100 ã®å††å¼§ã‚’æ›¸ãå ´åˆ
 	 * drawArc(Color.BLACK, 10, 10, 100, 100, 0, 360); 
 	 */
 	public void drawArc(Color color, double x, double y, double width,
@@ -72,14 +72,14 @@ public class BCanvas {
 	}
 
 	/**
-	 * “h‚è‚Â‚Ô‚µ‚½‰~‚ğ‘‚«‚Ü‚·
-	 * startAngle‚É‚ÍŒÊ‚ğ•`‚«n‚ß‚éŠp“x
+	 * å¡—ã‚Šã¤ã¶ã—ãŸå††ã‚’æ›¸ãã¾ã™
+	 * startAngleã«ã¯å¼§ã‚’æãå§‹ã‚ã‚‹è§’åº¦
 	 *         90
 	 * 180           0
 	 *        270
-	 * arcAngle‚É‚ÍCŒÊ‘S‘Ì‚ÌŠp“x‚ğ‘‚«‚Ü‚·DŒÊ‚Í”½Œv‰ñ‚è‚É‘‚©‚ê‚Ü‚·
-	 * g—p—á:
-	 * À•W(10, 10)‚ğ¶ã‚Æ‚µ‚ÄC‚‚³100, •100 ¶”¼•ª‚Ì‰~‚ğ‘‚­ê‡
+	 * arcAngleã«ã¯ï¼Œå¼§å…¨ä½“ã®è§’åº¦ã‚’æ›¸ãã¾ã™ï¼å¼§ã¯åæ™‚è¨ˆå›ã‚Šã«æ›¸ã‹ã‚Œã¾ã™
+	 * ä½¿ç”¨ä¾‹:
+	 * åº§æ¨™(10, 10)ã‚’å·¦ä¸Šã¨ã—ã¦ï¼Œé«˜ã•100, å¹…100 å·¦åŠåˆ†ã®å††ã‚’æ›¸ãå ´åˆ
 	 * drawFillArc(Color.BLACK, 10, 10, 100, 100, 90, 180); 
 	 */
 	public void drawFillArc(Color color, double x, double y, double width,
@@ -89,33 +89,33 @@ public class BCanvas {
 	}
 
 	/***************************************************
-	 * •`‰æŠÖ˜Ai‘æ9‰ñˆÈ~j
+	 * æç”»é–¢é€£ï¼ˆç¬¬9å›ä»¥é™ï¼‰
 	 ****************************************************/
 
 	/**
-	 * •¶š‚ğ‘‚«‚Ü‚·
+	 * æ–‡å­—ã‚’æ›¸ãã¾ã™
 	 */
 	public void drawText(Color color, String text, double x, double y) {
 		canvasPanel.drawText(color, text, x, y);
 	}
 
 	/**
-	 * iƒtƒHƒ“ƒgƒTƒCƒY‚ğw’è‚µ‚Äj•¶š‚ğ‘‚«‚Ü‚·
+	 * ï¼ˆãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã‚’æŒ‡å®šã—ã¦ï¼‰æ–‡å­—ã‚’æ›¸ãã¾ã™
 	 */
 	public void drawText(Color color, String text, double x, double y, Font font) {
 		canvasPanel.drawText(color, text, x, y, font);
 	}
 
 	/**
-	 * ‰æ‘œ‚ğ‘‚«‚Ü‚·
+	 * ç”»åƒã‚’æ›¸ãã¾ã™
 	 */
 	public void drawImage(String filename, double x, double y) {
 		canvasPanel.drawImage(filename, x, y);
 	}
 
 	/**
-	 * ‰æ‘œ‚ğ‘‚«‚Ü‚·
-	 * i•‚Æ‚‚³‚ğˆø”‚É‚Æ‚èC‚»‚Ì‘å‚«‚³‚ÉŠg‘åCk¬‚µ‚Ü‚·j
+	 * ç”»åƒã‚’æ›¸ãã¾ã™
+	 * ï¼ˆå¹…ã¨é«˜ã•ã‚’å¼•æ•°ã«ã¨ã‚Šï¼Œãã®å¤§ãã•ã«æ‹¡å¤§ï¼Œç¸®å°ã—ã¾ã™ï¼‰
 	 */
 	public void drawImage(String filename, double x, double y, double width,
 			double height) {
@@ -123,54 +123,54 @@ public class BCanvas {
 	}
 
 	/***************************************************
-	 * ƒtƒHƒ“ƒg•¶šƒTƒCƒY‚Ìæ“¾
+	 * ãƒ•ã‚©ãƒ³ãƒˆæ–‡å­—ã‚µã‚¤ã‚ºã®å–å¾—
 	 ****************************************************/
 
 	/**
-	 * ƒeƒLƒXƒg‚Ì•‚ğæ“¾‚µ‚Ü‚·
+	 * ãƒ†ã‚­ã‚¹ãƒˆã®å¹…ã‚’å–å¾—ã—ã¾ã™
 	 */
 	public int getTextWidth(String text, Font font) {
 		return canvasPanel.getTextWidth(text, font);
 	}
 
 	/**
-	 * ƒeƒLƒXƒg‚Ì‚‚³‚ğæ“¾‚µ‚Ü‚·
+	 * ãƒ†ã‚­ã‚¹ãƒˆã®é«˜ã•ã‚’å–å¾—ã—ã¾ã™
 	 */
 	public int getTextHeight(String text, Font font) {
 		return canvasPanel.getTextHeight(text, font);
 	}
 
 	/***************************************************
-	 * ‰æ‘œƒTƒCƒY‚Ìæ“¾
+	 * ç”»åƒã‚µã‚¤ã‚ºã®å–å¾—
 	 ****************************************************/
 
 	/**
-	 * ‰æ‘œ‚Ì•‚ğæ“¾‚µ‚Ü‚·
+	 * ç”»åƒã®å¹…ã‚’å–å¾—ã—ã¾ã™
 	 */
 	public int getImageWidth(String filename) {
 		return canvasPanel.getImageWidth(filename);
 	}
 
 	/**
-	 * ‰æ‘œ‚Ì‚‚³‚ğæ“¾‚µ‚Ü‚·
+	 * ç”»åƒã®é«˜ã•ã‚’å–å¾—ã—ã¾ã™
 	 */
 	public int getImageHeight(String filename) {
 		return canvasPanel.getImageHeight(filename);
 	}
 
 	/***************************************************
-	 * XVŠÖ˜A
+	 * æ›´æ–°é–¢é€£
 	 ****************************************************/
 
 	/**
-	 * ƒLƒƒƒ“ƒoƒX‘S‘Ì‚ğ”’‚­“h‚è‚Â‚Ô‚µ‚Ü‚·
+	 * ã‚­ãƒ£ãƒ³ãƒã‚¹å…¨ä½“ã‚’ç™½ãå¡—ã‚Šã¤ã¶ã—ã¾ã™
 	 */
 	public void clear() {
 		canvasPanel.clear();
 	}
 
 	/**
-	 * ƒLƒƒƒ“ƒoƒX‚ğXViÄ•`‰æj‚µ‚Ü‚·
+	 * ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’æ›´æ–°ï¼ˆå†æç”»ï¼‰ã—ã¾ã™
 	 */
 	public void update() {
 		canvasPanel.update();
@@ -179,104 +179,104 @@ public class BCanvas {
 	}
 
 	/***************************************************
-	 * ƒL[“ü—ÍŠÖ˜A
+	 * ã‚­ãƒ¼å…¥åŠ›é–¢é€£
 	 ****************************************************/
 
 	/**
-	 * ‰Ÿ‚³‚ê‚½ƒL[‚ÌƒR[ƒh‚ğæ“¾‚µ‚Ü‚·
+	 * æŠ¼ã•ã‚ŒãŸã‚­ãƒ¼ã®ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã—ã¾ã™
 	 */
 	public int getKeyCode() {
 		return keyHandler.key();
 	}
 
 	/**
-	 * ‰½‚ç‚©‚ÌƒL[‚ª‰Ÿ‚³‚ê‚½‚©‚Ç‚¤‚©‚ğ’²‚×‚Ü‚·iŒp‘±‚ÍŠÜ‚Ü‚È‚¢j
+	 * ä½•ã‚‰ã‹ã®ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã‹ã©ã†ã‹ã‚’èª¿ã¹ã¾ã™ï¼ˆç¶™ç¶šã¯å«ã¾ãªã„ï¼‰
 	 */
 	public boolean isKeyDown() {
 		return keyHandler.isKeyDown();
 	}
 
 	/**
-	 * w’è‚³‚ê‚½ƒL[‚ª‰Ÿ‚³‚ê‚Ä‚¢‚éó‘Ô‚©‚Ç‚¤‚©‚ğ’²‚×‚Ü‚·iŒp‘±‚àŠÜ‚Şj
+	 * æŒ‡å®šã•ã‚ŒãŸã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹çŠ¶æ…‹ã‹ã©ã†ã‹ã‚’èª¿ã¹ã¾ã™ï¼ˆç¶™ç¶šã‚‚å«ã‚€ï¼‰
 	 */
 	public boolean isKeyPressing(int keycode) {
 		return keyHandler.isKeyPressing(keycode);
 	}
 
 	/***************************************************
-	 * ƒ}ƒEƒX“ü—ÍŠÖ˜A
+	 * ãƒã‚¦ã‚¹å…¥åŠ›é–¢é€£
 	 ****************************************************/
 
 	/**
-	 * ƒ}ƒEƒX‚ÌXÀ•W‚ğæ“¾‚µ‚Ü‚·
+	 * ãƒã‚¦ã‚¹ã®Xåº§æ¨™ã‚’å–å¾—ã—ã¾ã™
 	 */
 	public int getMouseX() {
 		return mouseHandler.mouseX();
 	}
 
 	/**
-	 * ƒ}ƒEƒX‚ÌYÀ•W‚ğæ“¾‚µ‚Ü‚·
+	 * ãƒã‚¦ã‚¹ã®Yåº§æ¨™ã‚’å–å¾—ã—ã¾ã™
 	 */
 	public int getMouseY() {
 		return mouseHandler.mouseY();
 	}
 
 	/**
-	 * ƒ}ƒEƒX‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©’²‚×‚Ü‚·
+	 * ãƒã‚¦ã‚¹ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹èª¿ã¹ã¾ã™
 	 */
 	public boolean isMouseDown() {
 		return mouseHandler.isMouseDown();
 	}
 
 	/**
-	 * ‰E‚Ìƒ}ƒEƒXƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©’²‚×‚Ü‚·
+	 * å³ã®ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹èª¿ã¹ã¾ã™
 	 */
 	public boolean isRightMouseDown() {
 		return mouseHandler.isRightMouseDown();
 	}
 
 	/**
-	 * ¶‚Ìƒ}ƒEƒXƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©’²‚×‚Ü‚·
+	 * å·¦ã®ãƒã‚¦ã‚¹ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹èª¿ã¹ã¾ã™
 	 */
 	public boolean isLeftMouseDown() {
 		return mouseHandler.isLeftMouseDown();
 	}
 
 	/**
-	 * ƒNƒŠƒbƒN‚©‚Ç‚¤‚©’²‚×‚Ü‚·
-	 * (‰½‰ñ‚Å‚ÌƒNƒŠƒbƒN‚à”½‰‚µ‚Ü‚·j
+	 * ã‚¯ãƒªãƒƒã‚¯ã‹ã©ã†ã‹èª¿ã¹ã¾ã™
+	 * (ä½•å›ã§ã®ã‚¯ãƒªãƒƒã‚¯ã‚‚åå¿œã—ã¾ã™ï¼‰
 	 */
 	public boolean isClick() {
 		return mouseHandler.isClick();
 	}
 
 	/**
-	 * ƒVƒ“ƒOƒ‹ƒNƒŠƒbƒN‚©‚Ç‚¤‚©’²‚×‚Ü‚·
+	 * ã‚·ãƒ³ã‚°ãƒ«ã‚¯ãƒªãƒƒã‚¯ã‹ã©ã†ã‹èª¿ã¹ã¾ã™
 	 */
 	public boolean isSingleClick() {
 		return mouseHandler.isSingleClick();
 	}
 
 	/**
-	 * ƒ_ƒuƒ‹ƒNƒŠƒbƒN‚©‚Ç‚¤‚©’²‚×‚Ü‚·
+	 * ãƒ€ãƒ–ãƒ«ã‚¯ãƒªãƒƒã‚¯ã‹ã©ã†ã‹èª¿ã¹ã¾ã™
 	 */
 	public boolean isDoubleClick() {
 		return mouseHandler.isDoubleClick();
 	}
 
 	/**
-	 * ƒhƒ‰ƒbƒO’†‚©‚Ç‚¤‚©’²‚×‚Ü‚·
+	 * ãƒ‰ãƒ©ãƒƒã‚°ä¸­ã‹ã©ã†ã‹èª¿ã¹ã¾ã™
 	 */
 	public boolean isDragging() {
 		return mouseHandler.isDragging();
 	}
 
 	/***************************************************
-	 * ‚»‚Ì‘¼
+	 * ãã®ä»–
 	 ****************************************************/
 
 	/**
-	 * w’è‚³‚ê‚½•b”‘Ò‚¿‚Ü‚·
+	 * æŒ‡å®šã•ã‚ŒãŸç§’æ•°å¾…ã¡ã¾ã™
 	 */
 	public void sleep(double seconds) {
 		try {
@@ -287,14 +287,14 @@ public class BCanvas {
 	}
 
 	/**
-	 * ƒLƒƒƒ“ƒpƒX‚Ì•‚ğæ“¾‚µ‚Ü‚·
+	 * ã‚­ãƒ£ãƒ³ãƒ‘ã‚¹ã®å¹…ã‚’å–å¾—ã—ã¾ã™
 	 */
 	public int getCanvasWidth() {
 		return canvasPanel.getWidth();
 	}
 
 	/**
-	 * ƒLƒƒƒ“ƒpƒX‚Ì‚‚³‚ğæ“¾‚µ‚Ü‚·
+	 * ã‚­ãƒ£ãƒ³ãƒ‘ã‚¹ã®é«˜ã•ã‚’å–å¾—ã—ã¾ã™
 	 */
 	public int getCanvasHeight() {
 		return canvasPanel.getHeight();

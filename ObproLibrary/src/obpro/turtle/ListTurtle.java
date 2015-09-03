@@ -12,11 +12,11 @@ import java.util.LinkedList;
  * Created on 2012/01/07
  * Copyright(c) 2011 Yoshiaki Matsuzawa, Shizuoka University. All rights reserved.
  * 
- * ŒŸ“¢–€‚PFautohide‚ÌƒfƒtƒHƒ‹ƒg’l‚ğ‚Ç‚¤‚·‚é‚×‚«‚©
- * 			 false(List‚Ö‚ÌˆÚs‚É—L—˜)
- * 			 true(“ü‚ê‚½‚ç‚È‚­‚È‚éDD‹³ˆç“I‚ÉáŠ±—L—˜)
- * ŒŸ“¢–€‚QFindex‚ğ0‚©‚çn‚ß‚é‚©iJava‚Ö‚ÌˆÚs‚É—L—˜j
- * 			  ‚»‚ê‚Æ‚à1‚©‚çn‚ß‚é‚©i‹³ˆç“I‚É—L—˜j
+ * æ¤œè¨äº‹é …ï¼‘ï¼šautohideã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆå€¤ã‚’ã©ã†ã™ã‚‹ã¹ãã‹
+ * 			 false(Listã¸ã®ç§»è¡Œã«æœ‰åˆ©)
+ * 			 true(å…¥ã‚ŒãŸã‚‰ãªããªã‚‹ï¼ï¼æ•™è‚²çš„ã«è‹¥å¹²æœ‰åˆ©)
+ * æ¤œè¨äº‹é …ï¼’ï¼šindexã‚’0ã‹ã‚‰å§‹ã‚ã‚‹ã‹ï¼ˆJavaã¸ã®ç§»è¡Œã«æœ‰åˆ©ï¼‰
+ * 			  ãã‚Œã¨ã‚‚1ã‹ã‚‰å§‹ã‚ã‚‹ã‹ï¼ˆæ•™è‚²çš„ã«æœ‰åˆ©ï¼‰
  */
 public class ListTurtle<T extends Turtle> extends ImageTurtle {
 
@@ -51,7 +51,7 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 	}
 
 	/***************************************************************************
-	 * Cursor—Ş
+	 * Cursoré¡
 	 **************************************************************************/
 
 	public int getCursor() {
@@ -60,19 +60,19 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 
 	public void setCursor(int newCursor) {
 		int size = children.size();
-		if (0 <= newCursor && newCursor < size) {// ³í
+		if (0 <= newCursor && newCursor < size) {// æ­£å¸¸
 			this.cursor = newCursor;
-		} else if (size <= 0) {// ”z—ñ‚ªempty‚Ìê‡
+		} else if (size <= 0) {// é…åˆ—ãŒemptyã®å ´åˆ
 			this.cursor = 0;
-		} else if (newCursor >= 0) {// ”ÍˆÍŠOiƒvƒ‰ƒXj
+		} else if (newCursor >= 0) {// ç¯„å›²å¤–ï¼ˆãƒ—ãƒ©ã‚¹ï¼‰
 			this.cursor = newCursor % size;
-		} else if (newCursor < 0) {// ”ÍˆÍŠOiƒ}ƒCƒiƒXj
+		} else if (newCursor < 0) {// ç¯„å›²å¤–ï¼ˆãƒã‚¤ãƒŠã‚¹ï¼‰
 			this.cursor = size + (newCursor % size);
-		} else {// ‚ ‚è‚¦‚È‚¢‚Í‚¸
+		} else {// ã‚ã‚Šãˆãªã„ã¯ãš
 			throw new RuntimeException();
 		}
 
-		if (size > 0 && !(0 <= this.cursor && this.cursor < size)) {// ³í
+		if (size > 0 && !(0 <= this.cursor && this.cursor < size)) {// æ­£å¸¸
 			throw new RuntimeException(
 					"this.cursor is not in range. this.cursor = " + this.cursor);
 		}
@@ -89,15 +89,15 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 
 	public T getObjectAtCursor() {
 		if (children.size() <= 0) {
-			// 2012/01/17‘åŠw¶‚Å‚Í—]Œv”Y‚Ş‚Ì‚Åd—l•ÏX
+			// 2012/01/17å¤§å­¦ç”Ÿã§ã¯ä½™è¨ˆæ‚©ã‚€ã®ã§ä»•æ§˜å¤‰æ›´
 			// return (T) NullTurtle.NULL_TURTLE;
-			// 2012/01/17—áŠO‚ğ”­¶‚·‚é‚æ‚¤‚Éd—l•ÏX
+			// 2012/01/17ä¾‹å¤–ã‚’ç™ºç”Ÿã™ã‚‹ã‚ˆã†ã«ä»•æ§˜å¤‰æ›´
 			if (name == null) {
 				throw new RuntimeException(
-						"ƒJ[ƒ\ƒ‹ã‚É‚È‚É‚à‚È‚¢‚Ì‚ÉCgetObjectAtCursor()‚ªŒÄ‚Î‚ê‚Ü‚µ‚½");
+						"ã‚«ãƒ¼ã‚½ãƒ«ä¸Šã«ãªã«ã‚‚ãªã„ã®ã«ï¼ŒgetObjectAtCursor()ãŒå‘¼ã°ã‚Œã¾ã—ãŸ");
 			} else {
 				throw new RuntimeException(
-						"ƒJ[ƒ\ƒ‹ã‚É‚È‚É‚à‚È‚¢‚Ì‚ÉCgetObjectAtCursor()‚ªŒÄ‚Î‚ê‚Ü‚µ‚½F" + name);
+						"ã‚«ãƒ¼ã‚½ãƒ«ä¸Šã«ãªã«ã‚‚ãªã„ã®ã«ï¼ŒgetObjectAtCursor()ãŒå‘¼ã°ã‚Œã¾ã—ãŸï¼š" + name);
 			}
 		}
 		return children.get(cursor);
@@ -133,7 +133,7 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 	}
 
 	/***************************************************************************
-	 * ’Ç‰Á‚Æíœ
+	 * è¿½åŠ ã¨å‰Šé™¤
 	 **************************************************************************/
 
 	public void add(T turtle) {
@@ -229,7 +229,7 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 
 	private T removeObjectInternal(T turtle) {
 		if (turtle == null || !children.contains(turtle)) {
-			System.err.println("íœ‚Å‚«‚Ü‚¹‚ñ");
+			System.err.println("å‰Šé™¤ã§ãã¾ã›ã‚“");
 			return null;
 		}
 
@@ -241,7 +241,7 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 	}
 
 	/***************************************************************************
-	 * ‚»‚Ì‘¼Public
+	 * ãã®ä»–Public
 	 **************************************************************************/
 
 	public int getSize() {
@@ -270,7 +270,7 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 	}
 
 	/***************************************************************************
-	 * ƒfƒoƒbƒO—p
+	 * ãƒ‡ãƒãƒƒã‚°ç”¨
 	 * 
 	 * @deprecated
 	 **************************************************************************/
@@ -284,7 +284,7 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 	}
 
 	/***************************************************************************
-	 * •`‰æStrategy
+	 * æç”»Strategy
 	 **************************************************************************/
 
 	private synchronized void resetImage() {
@@ -311,7 +311,7 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 			width = 60;
 			height = 30;
 		}
-		if (name != null) {// –¼‘O‚Ì•ª‚ğ‘«‚·
+		if (name != null) {// åå‰ã®åˆ†ã‚’è¶³ã™
 			height += FONTSIZE + MARGIN;
 			int nameW = (int) (name.length() * (FONTSIZE * 6d / 5d));
 			if (width < nameW) {
@@ -319,25 +319,25 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 			}
 		}
 
-		// €”õ
+		// æº–å‚™
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g = (Graphics2D) image.getGraphics();
 
-		// “h‚è
+		// å¡—ã‚Š
 		if (bgColor != null) {
 			g.setColor(bgColor);
 			g.fillRect(0, 0, width - 1, height - 1);
 		}
 
-		// ˜gü
+		// æ ç·š
 		g.setColor(color());
 		g.drawRect(0, 0, width - 1, height - 1);
 
 		int x = MARGIN;
 		int y = MARGIN;
 
-		// –¼‘O
+		// åå‰
 		if (name != null) {
 			y += FONTSIZE;
 			g.drawString(name, MARGIN, y);
@@ -349,7 +349,7 @@ public class ListTurtle<T extends Turtle> extends ImageTurtle {
 			T child = children.get(i);
 			g.drawImage(child.image(), x, y, null);
 
-			// ƒJ[ƒ\ƒ‹
+			// ã‚«ãƒ¼ã‚½ãƒ«
 			if (cursor == i) {
 				g.setColor(Color.red);
 				Stroke original = g.getStroke();

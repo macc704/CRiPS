@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * ƒLƒƒƒXƒgƒƒ\ƒbƒhW‚Å‚·
+ * ã‚­ãƒ£ã‚¹ãƒˆãƒ¡ã‚½ãƒƒãƒ‰é›†ã§ã™
  * 
  * @author macchan
  * @version $Id: BConverter.java,v 1.2 2007/06/14 02:50:53 macchan Exp $
@@ -81,12 +81,12 @@ public class BConverter {
 		return Boolean.getBoolean(string);
 	}
 
-	//Map‚Ìkey‚ÌƒŠƒXƒg‚ğæ“¾‚·‚é
+	//Mapã®keyã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
 //	public static <T> ArrayList getKeys(Map<T, ?> map) {
 //		return new ArrayList<T>(map.keySet());
 //	}
 //
-//	//MapƒCƒ“ƒXƒ^ƒ“ƒX‚Ìvalue‚ÌƒŠƒXƒg‚ğæ“¾‚·‚é
+//	//Mapã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®valueã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹
 //	public static <T> ArrayList getValues(Map<?, T> map) {
 //		return new ArrayList<T>(map.values());
 //	}

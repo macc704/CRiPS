@@ -1,8 +1,8 @@
 package obpro.turtle;
 /*
- * ƒvƒƒOƒ‰ƒ€–¼F
- * ì¬ÒF 
- * ƒo[ƒWƒ‡ƒ“F 1.0 (“ú•t)
+ * ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+ * ä½œæˆè€…ï¼š 
+ * ãƒãƒ¼ã‚¸ãƒ§ãƒ³ï¼š 1.0 (æ—¥ä»˜)
  */
 public class NullTurtle extends CardTurtle {
 
@@ -13,12 +13,12 @@ public class NullTurtle extends CardTurtle {
 	}
 
 	public void text(Object text) {
-		// ‰½‚à‚µ‚È‚¢
-		System.err.println("NullTurtle#text() •s³‚È‘€ì‚Å‚·D");
+		// ä½•ã‚‚ã—ãªã„
+		System.err.println("NullTurtle#text() ä¸æ­£ãªæ“ä½œã§ã™ï¼");
 	}
 
 	public void hide() {
-		// ‰½‚à‚µ‚È‚¢
-		System.err.println("NullTurtle#hide() •s³‚È‘€ì‚Å‚·D");
+		// ä½•ã‚‚ã—ãªã„
+		System.err.println("NullTurtle#hide() ä¸æ­£ãªæ“ä½œã§ã™ï¼");
 	}
 }

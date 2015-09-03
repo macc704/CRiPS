@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
 public class TextTurtle extends ImageTurtle {
 
 	/******************************************
-	 * 変数
+	 * 螟画焚
 	 ******************************************/
 
 	private int fontsize = 32;
@@ -31,7 +31,7 @@ public class TextTurtle extends ImageTurtle {
 	// private boolean textDirty = false;
 
 	/******************************************
-	 * コンストラクタ
+	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	 ******************************************/
 
 	public TextTurtle() {

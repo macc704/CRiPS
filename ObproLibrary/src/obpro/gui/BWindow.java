@@ -29,7 +29,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 /**
- * ƒEƒCƒ“ƒhƒE‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
+ * ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
  * 
  * @author macchan
  * @version 2.0
@@ -41,14 +41,14 @@ public class BWindow {
 	private BCanvas canvas;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public BWindow() {
-		//ƒtƒŒ[ƒ€¶¬
+		//ãƒ•ãƒ¬ãƒ¼ãƒ ç”Ÿæˆ
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		//ƒpƒlƒ‹•ƒCƒxƒ“ƒgƒnƒ“ƒhƒ‰¶¬
+		//ãƒ‘ãƒãƒ«ï¼†ã‚¤ãƒ™ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ©ç”Ÿæˆ
 		CanvasPanel canvasPanel = new CanvasPanel();
 		frame.getContentPane().add(canvasPanel);
 
@@ -60,33 +60,33 @@ public class BWindow {
 		canvasPanel.addMouseListener(mouseHandler);
 		canvasPanel.addMouseMotionListener(mouseHandler);
 
-		//ƒLƒƒƒ“ƒoƒX¶¬
+		//ã‚­ãƒ£ãƒ³ãƒã‚¹ç”Ÿæˆ
 		canvas = new BCanvas(canvasPanel, keyHandler, mouseHandler);
 	}
 
 	/**
-	 * ˆÊ’u‚ğİ’è‚·‚é
+	 * ä½ç½®ã‚’è¨­å®šã™ã‚‹
 	 */
 	public void setLocation(int x, int y) {
 		frame.setLocation(x, y);
 	}
 
 	/**
-	 * ‘å‚«‚³‚ğİ’è‚·‚é
+	 * å¤§ãã•ã‚’è¨­å®šã™ã‚‹
 	 */
 	public void setSize(int width, int height) {
 		frame.setSize(width, height);
 	}
 
 	/**
-	 * i‚±‚ÌjƒEƒCƒ“ƒhƒE‚ğ•\¦‚·‚é
+	 * ï¼ˆã“ã®ï¼‰ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ç¤ºã™ã‚‹
 	 */
 	public void show() {
 		frame.setVisible(true);
 	}
 
 	/**
-	 * ‘‚«‚İ‚ª‚Å‚«‚éCanvasƒCƒ“ƒXƒ^ƒ“ƒX‚ğæ“¾‚·‚é
+	 * æ›¸ãè¾¼ã¿ãŒã§ãã‚‹Canvasã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’å–å¾—ã™ã‚‹
 	 */
 	public BCanvas getCanvas() {
 		return canvas;
@@ -95,16 +95,16 @@ public class BWindow {
 }
 
 /**
- * ƒL[‚ÌƒCƒxƒ“ƒg‚ğE‚¤ƒNƒ‰ƒX
+ * ã‚­ãƒ¼ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’æ‹¾ã†ã‚¯ãƒ©ã‚¹
  */
 class CanvasKeyEventHandler implements KeyListener {
 
-	//’è”
+	//å®šæ•°
 	public static final int NULL_KEY_CODE = -1;
 
 	public static final int NULL_MOUSE_LOCATION = -1;
 
-	//“ü—ÍƒCƒxƒ“ƒgŠÖ˜A
+	//å…¥åŠ›ã‚¤ãƒ™ãƒ³ãƒˆé–¢é€£
 	private KeyEvent bufferKeyEvent = null;
 
 	private KeyEvent capturedKeyEvent = null;
@@ -112,7 +112,7 @@ class CanvasKeyEventHandler implements KeyListener {
 	private Set pressingKeys = new HashSet();
 
 	/***************************************************
-	 * ƒŠƒXƒiƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÀ‘•
+	 * ãƒªã‚¹ãƒŠã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®å®Ÿè£…
 	 ****************************************************/
 
 	public void keyPressed(KeyEvent e) {
@@ -128,7 +128,7 @@ class CanvasKeyEventHandler implements KeyListener {
 	}
 
 	/***************************************************
-	 * ŒöŠJƒCƒ“ƒ^[ƒtƒFƒCƒX
+	 * å…¬é–‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
 	 ****************************************************/
 
 	public int key() {
@@ -148,7 +148,7 @@ class CanvasKeyEventHandler implements KeyListener {
 	}
 
 	/***************************************************
-	 * XVŠÖ˜A
+	 * æ›´æ–°é–¢é€£
 	 ****************************************************/
 
 	public void update() {
@@ -159,14 +159,14 @@ class CanvasKeyEventHandler implements KeyListener {
 }
 
 /**
- * ƒ}ƒEƒX‚ÌƒCƒxƒ“ƒg‚ğE‚¤ƒNƒ‰ƒX
+ * ãƒã‚¦ã‚¹ã®ã‚¤ãƒ™ãƒ³ãƒˆã‚’æ‹¾ã†ã‚¯ãƒ©ã‚¹
  */
 class CanvasMouseEventHandler implements MouseListener, MouseMotionListener {
 
-	//’è”
+	//å®šæ•°
 	public static final int NULL_MOUSE_LOCATION = -1;
 
-	//“ü—ÍƒCƒxƒ“ƒgŠÖ˜A
+	//å…¥åŠ›ã‚¤ãƒ™ãƒ³ãƒˆé–¢é€£
 	private int mouseX = NULL_MOUSE_LOCATION;
 
 	private int mouseY = NULL_MOUSE_LOCATION;
@@ -180,7 +180,7 @@ class CanvasMouseEventHandler implements MouseListener, MouseMotionListener {
 	private Set pressingMouses = new HashSet();
 
 	/***************************************************
-	 * ƒŠƒXƒiƒCƒ“ƒ^[ƒtƒFƒCƒX‚ÌÀ‘•
+	 * ãƒªã‚¹ãƒŠã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹ã®å®Ÿè£…
 	 ****************************************************/
 
 	public void mousePressed(MouseEvent e) {
@@ -217,7 +217,7 @@ class CanvasMouseEventHandler implements MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * ŒöŠJƒCƒ“ƒ^[ƒtƒFƒCƒX
+	 * å…¬é–‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
 	 ****************************************************/
 
 	public int mouseX() {
@@ -272,7 +272,7 @@ class CanvasMouseEventHandler implements MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * XVŠÖ˜A
+	 * æ›´æ–°é–¢é€£
 	 ****************************************************/
 
 	public void update() {
@@ -288,14 +288,14 @@ class CanvasMouseEventHandler implements MouseListener, MouseMotionListener {
 }
 
 /**
- * Canvas‚ÌˆÏ÷æƒNƒ‰ƒX
- * Canvas‚É‘‚©‚ê‚éŒ`®‚ğƒoƒbƒtƒ@‚µCSwingŒ`®‚É•ÏŠ·‚µo—Í‚µ‚Ü‚·D
+ * Canvasã®å§”è­²å…ˆã‚¯ãƒ©ã‚¹
+ * Canvasã«æ›¸ã‹ã‚Œã‚‹å½¢å¼ã‚’ãƒãƒƒãƒ•ã‚¡ã—ï¼ŒSwingå½¢å¼ã«å¤‰æ›ã—å‡ºåŠ›ã—ã¾ã™ï¼
  */
 class CanvasPanel extends Canvas implements ComponentListener {
 
 	private static final long serialVersionUID = 4997692113753908667L;
 
-	//’è”
+	//å®šæ•°
 	private static final int FILP_BUFFERSTRATEGY = 3;
 
 	private static BufferStrategy NULL_BUFFERSTRATEGY = new NullBufferStrategy();
@@ -303,11 +303,11 @@ class CanvasPanel extends Canvas implements ComponentListener {
 	private static final Graphics2D NULL_GRAPHICS = (Graphics2D) (new BufferedImage(
 			1, 1, BufferedImage.TYPE_3BYTE_BGR).createGraphics());
 
-	//‘®«
+	//å±æ€§
 	private Graphics2D offGraphics;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public CanvasPanel() {
 		addComponentListener(this);
@@ -315,7 +315,7 @@ class CanvasPanel extends Canvas implements ComponentListener {
 	}
 
 	/***************************************************
-	 * BufferStrategyŠÖ˜A
+	 * BufferStrategyé–¢é€£
 	 ****************************************************/
 
 	private void initializeBufferStrategy() {
@@ -352,7 +352,7 @@ class CanvasPanel extends Canvas implements ComponentListener {
 	}
 
 	/***************************************************
-	 * Component ListenerŠÖ˜A
+	 * Component Listeneré–¢é€£
 	 ****************************************************/
 
 	public void componentHidden(ComponentEvent e) {
@@ -370,7 +370,7 @@ class CanvasPanel extends Canvas implements ComponentListener {
 	}
 
 	/***************************************************
-	 * •`‰æŠÖ˜A
+	 * æç”»é–¢é€£
 	 ****************************************************/
 
 	public void drawLine(Color color, double x1, double y1, double x2, double y2) {
@@ -408,15 +408,15 @@ class CanvasPanel extends Canvas implements ComponentListener {
 		FontMetrics fontMetrics = offGraphics.getFontMetrics(font);
 		int topY = (int) y + fontMetrics.getAscent();
 
-		//‘Oˆ—
+		//å‰å‡¦ç†
 		offGraphics.setColor(color);
 		Font originalFont = offGraphics.getFont();
 		offGraphics.setFont(font);
 
-		//ˆ—
+		//å‡¦ç†
 		offGraphics.drawString(text, (int) x, topY);
 
-		//Œãˆ—
+		//å¾Œå‡¦ç†
 		offGraphics.setFont(originalFont);
 	}
 
@@ -443,7 +443,7 @@ class CanvasPanel extends Canvas implements ComponentListener {
 	}
 
 	/***************************************************
-	 * ƒtƒHƒ“ƒg•¶šƒTƒCƒY‚Ìæ“¾
+	 * ãƒ•ã‚©ãƒ³ãƒˆæ–‡å­—ã‚µã‚¤ã‚ºã®å–å¾—
 	 ****************************************************/
 
 	public int getTextWidth(String text, Font font) {
@@ -457,7 +457,7 @@ class CanvasPanel extends Canvas implements ComponentListener {
 	}
 
 	/***************************************************
-	 * ‰æ‘œƒTƒCƒY‚Ìæ“¾
+	 * ç”»åƒã‚µã‚¤ã‚ºã®å–å¾—
 	 ****************************************************/
 
 	public int getImageWidth(String filename) {
@@ -471,7 +471,7 @@ class CanvasPanel extends Canvas implements ComponentListener {
 	}
 
 	/***************************************************
-	 * XVŠÖ˜A
+	 * æ›´æ–°é–¢é€£
 	 ****************************************************/
 
 	public void update() {
@@ -511,18 +511,18 @@ class NullBufferStrategy extends BufferStrategy {
 }
 
 /**
- * ‰æ‘œ“Ç‚İ‚İƒNƒ‰ƒX
+ * ç”»åƒèª­ã¿è¾¼ã¿ã‚¯ãƒ©ã‚¹
  */
 class BImageProvider {
 
-	//’è”
+	//å®šæ•°
 	private static final int DUMMY_IMAGE_FONT_SIZE = 12;
 
 	private static final Font DUMMY_IMAGE_FONT = new Font("Dialog", Font.PLAIN,
 			DUMMY_IMAGE_FONT_SIZE);
 
 	/********************************
-	 * SingleTon‚ÌÀ‘•
+	 * SingleTonã®å®Ÿè£…
 	 ********************************/
 
 	private static BImageProvider instance;
@@ -534,18 +534,18 @@ class BImageProvider {
 		return instance;
 	}
 
-	//‘®«
+	//å±æ€§
 	private Map images = new HashMap();
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	private BImageProvider() {
 		super();
 	}
 
 	/**
-	 * ‰æ‘œ‚ğæ“¾‚·‚éi‚È‚¯‚ê‚ÎV‚µ‚­¶¬j
+	 * ç”»åƒã‚’å–å¾—ã™ã‚‹ï¼ˆãªã‘ã‚Œã°æ–°ã—ãç”Ÿæˆï¼‰
 	 */
 	public BufferedImage getImage(String filename) {
 		if (!images.containsKey(filename)) {
@@ -555,7 +555,7 @@ class BImageProvider {
 	}
 
 	/********************************
-	 * ˆÈ‰ºC‰æ‘œ“Ç‚İ‚İˆ—
+	 * ä»¥ä¸‹ï¼Œç”»åƒèª­ã¿è¾¼ã¿å‡¦ç†
 	 ********************************/
 
 	private BufferedImage prepareImage(String filename) {
@@ -573,13 +573,13 @@ class BImageProvider {
 	}
 
 	private BufferedImage createDummyImage(String filename) {
-		//‰æ‘œ‚ğ¶¬‚·‚é
+		//ç”»åƒã‚’ç”Ÿæˆã™ã‚‹
 		int width = DUMMY_IMAGE_FONT_SIZE * filename.length();
 		int height = DUMMY_IMAGE_FONT_SIZE * 2;
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_4BYTE_ABGR);
 
-		//ƒ_ƒ~[‰æ‘œ‚ğ‘‚«‚Ş
+		//ãƒ€ãƒŸãƒ¼ç”»åƒã‚’æ›¸ãè¾¼ã‚€
 		Graphics g = image.getGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, width - 1, height - 1);

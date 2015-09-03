@@ -15,8 +15,8 @@ import obpro.gui.BWindow;
  */
 
 /**
- * GUIƒQ[ƒ€@ƒtƒŒ[ƒ€ƒ[ƒN 
- * ÀsƒGƒ“ƒWƒ“
+ * GUIã‚²ãƒ¼ãƒ ã€€ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯ 
+ * å®Ÿè¡Œã‚¨ãƒ³ã‚¸ãƒ³
  * 
  * @author macchan
  * @version 1.0
@@ -25,11 +25,11 @@ public class GUIAnimationApplicationEngine {
 
 	public static void main(String[] args) {
 		if (args.length != 1) {
-			System.out.println("‹N“®‚É‚Íˆø”‚ª•K—v‚Å‚·");
+			System.out.println("èµ·å‹•ã«ã¯å¼•æ•°ãŒå¿…è¦ã§ã™");
 			return;
 		}
 
-		//ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğ¶¬‚µCƒGƒ“ƒWƒ“‚ğ‹N“®‚·‚é
+		//ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚’ç”Ÿæˆã—ï¼Œã‚¨ãƒ³ã‚¸ãƒ³ã‚’èµ·å‹•ã™ã‚‹
 		AbstractGUIAnimationApplication application = (AbstractGUIAnimationApplication) BReflection
 				.createInstanceByName(args[0]);
 		GUIAnimationApplicationEngine engine = new GUIAnimationApplicationEngine(
@@ -37,16 +37,16 @@ public class GUIAnimationApplicationEngine {
 		engine.run();
 	}
 
-	//Às‚·‚éƒAƒvƒŠƒP[ƒVƒ‡ƒ“
+	//å®Ÿè¡Œã™ã‚‹ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³
 	private AbstractGUIAnimationApplication application;
 
-	//ƒEƒCƒ“ƒhƒE
+	//ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦
 	private BWindow window;
 
-	//ƒAƒjƒ[ƒVƒ‡ƒ“ƒIƒuƒWƒFƒNƒg‚ÌW‡
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é›†åˆ
 	private List elements = new ArrayList();
 
-	//ƒ^ƒCƒ}[ŠÖ˜A
+	//ã‚¿ã‚¤ãƒãƒ¼é–¢é€£
 	private Timer timer = new Timer();
 
 	private double stepInterval = 0.03d;
@@ -54,7 +54,7 @@ public class GUIAnimationApplicationEngine {
 	private Object lockObject = "locker";
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public GUIAnimationApplicationEngine(
 			AbstractGUIAnimationApplication application) {
@@ -62,33 +62,33 @@ public class GUIAnimationApplicationEngine {
 		application.setEngine(this);
 	}
 
-	//ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ğÀs‚·‚é
+	//ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å®Ÿè¡Œã™ã‚‹
 	private void run() {
 		openWindow();
-		application.prepareAnimationStart();//ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŠJn€”õ‚ğ‚·‚é(ƒIƒuƒWƒFƒNƒg‚È‚Ç‚ğ‰Šú‰»‚·‚é)
+		application.prepareAnimationStart();//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®é–‹å§‹æº–å‚™ã‚’ã™ã‚‹(ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãªã©ã‚’åˆæœŸåŒ–ã™ã‚‹)
 		restartTimer();
 		doAnimation();
 	}
 
-	//ƒEƒCƒ“ƒhƒE‚ğŠJ‚­
+	//ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã
 	private void openWindow() {
 		window = new BWindow();
 		application.initializeWindow(window);
 		window.show();
 	}
 
-	//ƒAƒjƒ[ƒVƒ‡ƒ“‚·‚é
+	//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã™ã‚‹
 	private void doAnimation() {
-		//ƒLƒƒƒ“ƒoƒX‚ğæ“¾‚·‚é
+		//ã‚­ãƒ£ãƒ³ãƒã‚¹ã‚’å–å¾—ã™ã‚‹
 		BCanvas canvas = window.getCanvas();
 
-		//ƒAƒjƒ[ƒVƒ‡ƒ“‚·‚é
+		//ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã™ã‚‹
 		while (true) {
-			{//‚PƒRƒ}‚Ìˆ—‚ğs‚¤
-				//ƒQ[ƒ€‘S‘Ì‚Æ‚µ‚Ä‚Ì1ƒRƒ}‚Ìˆ—‚ğs‚¤
+			{//ï¼‘ã‚³ãƒã®å‡¦ç†ã‚’è¡Œã†
+				//ã‚²ãƒ¼ãƒ å…¨ä½“ã¨ã—ã¦ã®1ã‚³ãƒã®å‡¦ç†ã‚’è¡Œã†
 				application.processOneStepForApplication(canvas);
 
-				//ŠeƒIƒuƒWƒFƒNƒg‚Ì1ƒRƒ}‚Ìˆ—‚ğs‚¤
+				//å„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®1ã‚³ãƒã®å‡¦ç†ã‚’è¡Œã†
 				for (int i = 0; i < elements.size(); i++) {
 					AnimationElement element = (AnimationElement) elements
 							.get(i);
@@ -96,7 +96,7 @@ public class GUIAnimationApplicationEngine {
 				}
 			}
 
-			//}Œ`‚ğ•`‚­
+			//å›³å½¢ã‚’æã
 			canvas.clear();
 			application.drawForApplication(canvas);
 			for (int i = 0; i < elements.size(); i++) {
@@ -105,7 +105,7 @@ public class GUIAnimationApplicationEngine {
 			}
 			canvas.update();
 
-			//–°‚é
+			//çœ ã‚‹
 			try {
 				synchronized (lockObject) {
 					lockObject.wait();
@@ -117,42 +117,42 @@ public class GUIAnimationApplicationEngine {
 	}
 
 	/**
-	 * ‚PƒXƒeƒbƒv‚ÌŠÔ‚ğİ’è‚·‚é
+	 * ï¼‘ã‚¹ãƒ†ãƒƒãƒ—ã®æ™‚é–“ã‚’è¨­å®šã™ã‚‹
 	 */
 	public void setStepInterval(double stepInterval) {
 		this.stepInterval = stepInterval;
 	}
 
 	/**
-	 * ƒLƒƒƒ‰ƒNƒ^[‚ğ’Ç‰Á‚·‚é
+	 * ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’è¿½åŠ ã™ã‚‹
 	 */
 	public void addElement(AnimationElement element) {
 		elements.add(element);
 	}
 
 	/**
-	 * ƒLƒƒƒ‰ƒNƒ^[‚ğíœ‚·‚é
+	 * ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’å‰Šé™¤ã™ã‚‹
 	 */
 	public void removeElement(AnimationElement element) {
 		elements.remove(element);
 	}
 
 	/**
-	 * ‘SƒLƒƒƒ‰ƒNƒ^[‚ğíœ‚·‚é
+	 * å…¨ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã‚’å‰Šé™¤ã™ã‚‹
 	 */
 	public void removeAllElements() {
 		elements.clear();
 	}
 
 	/**
-	 * ‘SƒLƒƒƒ‰ƒNƒ^[‚ÌƒŠƒXƒg‚ğæ“¾‚·‚é 
+	 * å…¨ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®ãƒªã‚¹ãƒˆã‚’å–å¾—ã™ã‚‹ 
 	 */
 	public List getAllElements() {
 		return new ArrayList(elements);
 	}
 
 	/**
-	 * ƒ^ƒCƒ}[‚ğŠJn‚·‚é
+	 * ã‚¿ã‚¤ãƒãƒ¼ã‚’é–‹å§‹ã™ã‚‹
 	 */
 	private void restartTimer() {
 		timer.scheduleAtFixedRate(new GUIAnimationTimerTask(), 0,
@@ -160,7 +160,7 @@ public class GUIAnimationApplicationEngine {
 	}
 
 	/**
-	 * ƒ^ƒCƒ}[‚ª1ƒXƒeƒbƒv‚²‚Æ‚ÉŒÄ‚Ôˆ—‚ğ•\Œ»‚·‚éƒNƒ‰ƒX
+	 * ã‚¿ã‚¤ãƒãƒ¼ãŒ1ã‚¹ãƒ†ãƒƒãƒ—ã”ã¨ã«å‘¼ã¶å‡¦ç†ã‚’è¡¨ç¾ã™ã‚‹ã‚¯ãƒ©ã‚¹
 	 */
 	class GUIAnimationTimerTask extends TimerTask {
 		public void run() {
