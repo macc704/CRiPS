@@ -391,7 +391,7 @@ public class CommandInterpreter {
 	private boolean doLoad(boolean suspended,
 			StringTokenizer t) throws NoSessionException {
 
-		// ƒƒCƒ“ƒƒ\ƒbƒh(turtle‚Ìê‡start(), ‚»‚êˆÈŠO‚Ìê‡run())‚Ìæ“ª‚ÅƒXƒgƒbƒv
+		// ãƒ¡ã‚¤ãƒ³ãƒ¡ã‚½ãƒƒãƒ‰(turtleã®å ´åˆstart(), ãã‚Œä»¥å¤–ã®å ´åˆrun())ã®å…ˆé ­ã§ã‚¹ãƒˆãƒƒãƒ—
 		executeCommand("view " + context.getMainClassName() + ".java");
 		String methodname = "run";
 		if(env.isTurtle()){

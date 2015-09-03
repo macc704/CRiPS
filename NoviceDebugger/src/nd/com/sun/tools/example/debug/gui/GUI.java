@@ -67,7 +67,7 @@ import clib.view.actions.CActionUtils;
 import com.sun.jdi.VirtualMachine;
 
 /*
- * ƒRƒƒ“ƒg‚ÍNoviceDebuggerƒNƒ‰ƒX‚ÖˆÚ“®‚µ‚Ü‚µ‚½i¼j
+ * ã‚³ãƒ¡ãƒ³ãƒˆã¯NoviceDebuggerã‚¯ãƒ©ã‚¹ã¸ç§»å‹•ã—ã¾ã—ãŸï¼ˆæ¾ï¼‰
  */
 public class GUI extends JPanel {
 
@@ -87,32 +87,32 @@ public class GUI extends JPanel {
 
 	private static JFrame frame;
 
-	// ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“
+	// ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³
 	private CommandTool cmdTool;
-	// ƒRƒ“ƒ\[ƒ‹
+	// ã‚³ãƒ³ã‚½ãƒ¼ãƒ«
 	private ApplicationTool appTool;
-	// ƒ\[ƒXƒrƒ…[
+	// ã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼
 	private SourceTool srcTool;
-	// •Ï”ƒrƒ…[
+	// å¤‰æ•°ãƒ“ãƒ¥ãƒ¼
 	private NVariableTool varTool;
-	// ƒuƒƒbƒNƒrƒ…[
+	// ãƒ–ãƒ­ãƒƒã‚¯ãƒ“ãƒ¥ãƒ¼
 	// private NBlockViewTool blockTool;
-	// ƒrƒ…[
+	// ãƒ“ãƒ¥ãƒ¼
 	private JSplitPane views;
 	
-	// ÀsŠÂ‹«
+	// å®Ÿè¡Œç’°å¢ƒ
 	private final Environment env = new Environment();
 	
-	// ƒuƒƒbƒNƒrƒ…[‚Æƒ\[ƒXƒrƒ…[‚ÌØ‚è‘Ö‚¦•\¦—p
+	// ãƒ–ãƒ­ãƒƒã‚¯ãƒ“ãƒ¥ãƒ¼ã¨ã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼ã®åˆ‡ã‚Šæ›¿ãˆè¡¨ç¤ºç”¨
 	// private JPanel executiionView;
 	// private CardLayout cardLayout;
 
-	// ƒfƒBƒŒƒNƒgƒŠƒcƒŠ[
+	// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ„ãƒªãƒ¼
 	// private SourceTreeTool sourceTreeTool;
-	// ƒNƒ‰ƒXƒcƒŠ[
+	// ã‚¯ãƒ©ã‚¹ãƒ„ãƒªãƒ¼
 	// private ClassTreeTool classTreeTool;
 	// private ThreadTreeTool threadTreeTool;
-	// ƒXƒ^ƒbƒNƒc[ƒ‹
+	// ã‚¹ã‚¿ãƒƒã‚¯ãƒ„ãƒ¼ãƒ«
 	// private StackTraceTool stackTool;
 	// private MonitorTool monitorTool;
 
@@ -129,7 +129,7 @@ public class GUI extends JPanel {
 
 		JPanel srcPanel = new JPanel();
 		srcPanel.setLayout(new BorderLayout());
-		srcPanel.setBorder(BorderFactory.createTitledBorder("ƒ\[ƒXƒrƒ…["));
+		srcPanel.setBorder(BorderFactory.createTitledBorder("ã‚½ãƒ¼ã‚¹ãƒ“ãƒ¥ãƒ¼"));
 		srcTool = new SourceTool(env);
 		env.setSrcTool(srcTool);
 		srcTool.setTextFont(fixedFont);
@@ -180,14 +180,14 @@ public class GUI extends JPanel {
 
 		JPanel appPanel = new JPanel();
 		appPanel.setLayout(new BorderLayout());
-		appPanel.setBorder(BorderFactory.createTitledBorder("ƒRƒ“ƒ\[ƒ‹"));
+		appPanel.setBorder(BorderFactory.createTitledBorder("ã‚³ãƒ³ã‚½ãƒ¼ãƒ«"));
 		appTool = new ApplicationTool(env);
 		appPanel.setPreferredSize(new java.awt.Dimension(500, 200));
 		appPanel.add(appTool);
 
 		JPanel varPanel = new JPanel();
 		varPanel.setLayout(new BorderLayout());
-		varPanel.setBorder(BorderFactory.createTitledBorder("•Ï”ƒrƒ…["));
+		varPanel.setBorder(BorderFactory.createTitledBorder("å¤‰æ•°ãƒ“ãƒ¥ãƒ¼"));
 		varTool = new NVariableTool(env);
 		env.setVarTool(varTool);
 		varPanel.add(varTool);
@@ -203,7 +203,7 @@ public class GUI extends JPanel {
 
 	}
 
-	// g—p•û–@
+	// ä½¿ç”¨æ–¹æ³•
 	private static void usage() {
 		String separator = File.pathSeparator;
 		System.out.println("Usage: " + NNoviceDebugger.NAME
@@ -249,7 +249,7 @@ public class GUI extends JPanel {
 		return varTool;
 	}
 
-	// ƒƒCƒ“ƒƒ\ƒbƒh
+	// ãƒ¡ã‚¤ãƒ³ãƒ¡ã‚½ãƒƒãƒ‰
 	public void run(String args[]) {
 		// String remote = null;
 		String clsName = "";
@@ -257,15 +257,15 @@ public class GUI extends JPanel {
 		String javaArgs = "";
 		// boolean verbose = false; //### Not implemented.
 
-		// ƒRƒ“ƒeƒLƒXƒgƒ}ƒl[ƒWƒƒæ“¾
+		// ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒãƒãƒ¼ã‚¸ãƒ£å–å¾—
 		ContextManager context = env.getContextManager();
-		// Àsƒ}ƒl[ƒWƒƒæ“¾
+		// å®Ÿè¡Œãƒãƒãƒ¼ã‚¸ãƒ£å–å¾—
 		ExecutionManager runtime = env.getExecutionManager();
 
-		// ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‰ğÍ
+		// ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°è§£æ
 		for (int i = 0; i < args.length; i++) {
 			String token = args[i];
-			// dbgtraceˆø”
+			// dbgtraceå¼•æ•°
 			if (token.equals("-dbgtrace")) {
 				if ((i == args.length - 1)
 						|| !Character.isDigit(args[i + 1].charAt(0))) {
@@ -274,16 +274,16 @@ public class GUI extends JPanel {
 					String flagStr = args[++i];
 					runtime.setTraceMode(Integer.decode(flagStr).intValue());
 				}
-				// Xˆø”
+				// Xå¼•æ•°
 			} else if (token.equals("-X")) {
 				System.out
 						.println("Use 'java -X' to see the available non-standard options");
 				System.out.println();
 				usage();
 				System.exit(1);
-				// ‚»‚êˆÈŠO
+				// ãã‚Œä»¥å¤–
 			} else if (
-			// •W€VMƒIƒvƒVƒ‡ƒ“
+			// æ¨™æº–VMã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			token.equals("-v")
 					|| token.startsWith("-v:")
 					|| // -v[:...]
@@ -291,10 +291,10 @@ public class GUI extends JPanel {
 					|| // -verbose[:...]
 					token.startsWith("-D")
 					||
-					// ”ñ•W€ƒIƒvƒVƒ‡ƒ“
+					// éæ¨™æº–ã‚ªãƒ—ã‚·ãƒ§ãƒ³
 					token.startsWith("-X")
 					||
-					// ‹Œ®ƒIƒvƒVƒ‡ƒ“
+					// æ—§å¼ã‚ªãƒ—ã‚·ãƒ§ãƒ³
 					token.equals("-noasyncgc") || token.equals("-prof")
 					|| token.equals("-verify") || token.equals("-noverify")
 					|| token.equals("-verifyremote")
@@ -302,7 +302,7 @@ public class GUI extends JPanel {
 					|| token.startsWith("-mx") || token.startsWith("-ss")
 					|| token.startsWith("-oss")) {
 				javaArgs += token + " ";
-				// sourcepathˆø”
+				// sourcepathå¼•æ•°
 			} else if (token.equals("-sourcepath")) {
 				if (i == (args.length - 1)) {
 					System.out.println("No sourcepath specified.");
@@ -310,7 +310,7 @@ public class GUI extends JPanel {
 					System.exit(1);
 				}
 				env.getSourceManager().setSourcePath(new SearchPath(args[++i]));
-				// classpathˆø”
+				// classpathå¼•æ•°
 			} else if (token.equals("-classpath")) {
 				if (i == (args.length - 1)) {
 					System.out.println("No classpath specified.");
@@ -318,7 +318,7 @@ public class GUI extends JPanel {
 					System.exit(1);
 				}
 				env.getClassManager().setClassPath(new SearchPath(args[++i]));
-				// remoteˆø”
+				// remoteå¼•æ•°
 			} else if (token.equals("-remote")) {
 				if (i == (args.length - 1)) {
 					System.out.println("No remote specified.");
@@ -326,21 +326,21 @@ public class GUI extends JPanel {
 					System.exit(1);
 				}
 				env.getContextManager().setRemotePort(args[++i]);
-				// helpˆø”
+				// helpå¼•æ•°
 			} else if (token.equals("-help")) {
 				usage();
 				System.exit(0);
-				// versionˆø”
+				// versionå¼•æ•°
 			} else if (token.equals("-version")) {
 				System.out.println(NNoviceDebugger.NAME + " version "
 						+ NNoviceDebugger.VERSION);
 				System.exit(0);
-				// •s³‚ÈƒIƒvƒVƒ‡ƒ“
+				// ä¸æ­£ãªã‚ªãƒ—ã‚·ãƒ§ãƒ³
 			} else if (token.startsWith("-")) {
 				System.out.println("invalid option: " + token);
 				usage();
 				System.exit(1);
-				// ˆø”‚È‚µ
+				// å¼•æ•°ãªã—
 			} else {
 				clsName = token;
 				for (i++; i < args.length; i++) {
@@ -354,7 +354,7 @@ public class GUI extends JPanel {
 		context.setProgramArguments(progArgs);
 		context.setVmArguments(javaArgs);
 
-		// ƒ\[ƒXƒtƒ@ƒCƒ‹w’è
+		// ã‚½ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«æŒ‡å®š
 		String sourcename = clsName + ".java";
 		env.viewSource(sourcename);
 		
@@ -371,17 +371,17 @@ public class GUI extends JPanel {
 			System.err.println("Error loading L&F: " + exc);
 		}
 
-		// ƒEƒBƒ“ƒhƒE¶¬
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ç”Ÿæˆ
 		frame = new JFrame();
 
 		// added by matsuzawa
 		JMenuBar menubar = new JMenuBar();
 		{
-			JMenu menu = new JMenu("‘€ì");
+			JMenu menu = new JMenu("æ“ä½œ");
 			menubar.add(menu);
 
 			{
-				CAction action = CActionUtils.createAction("ƒXƒeƒbƒv",
+				CAction action = CActionUtils.createAction("ã‚¹ãƒ†ãƒƒãƒ—",
 						new ICTask() {
 							public void doTask() {
 								NDebuggerManager.fireStepPressed();
@@ -395,10 +395,10 @@ public class GUI extends JPanel {
 			}
 			
 //			{
-//				CAction action = CActionUtils.createAction("ƒrƒ…[Ø‚è‘Ö‚¦", 
+//				CAction action = CActionUtils.createAction("ãƒ“ãƒ¥ãƒ¼åˆ‡ã‚Šæ›¿ãˆ", 
 //						new ICTask() {
 //							public void doTask() {
-//								// ƒƒOæ‚é
+//								// ãƒ­ã‚°å–ã‚‹
 //								cardLayout.next(executiionView);
 //							}
 //						});
@@ -408,14 +408,14 @@ public class GUI extends JPanel {
 //			}
 		}
 		{
-			JMenu menu = new JMenu("•\¦Œ`®");
+			JMenu menu = new JMenu("è¡¨ç¤ºå½¢å¼");
 			menubar.add(menu);
 			{
-				JMenu subMenu = new JMenu("ÀsˆÊ’u•\¦");
+				JMenu subMenu = new JMenu("å®Ÿè¡Œä½ç½®è¡¨ç¤º");
 				menu.add(subMenu);
 				ButtonGroup group = new ButtonGroup();
 				{
-					CAction action = CActionUtils.createAction("DENOƒ‚[ƒh",
+					CAction action = CActionUtils.createAction("DENOãƒ¢ãƒ¼ãƒ‰",
 							new ICTask() {
 								public void doTask() {
 									NDebuggerManager.fireChangeAPMode("DENO");
@@ -429,7 +429,7 @@ public class GUI extends JPanel {
 					subMenu.add(radioMenu);
 				}
 				{
-					CAction action = CActionUtils.createAction("•W€ƒ‚[ƒh",
+					CAction action = CActionUtils.createAction("æ¨™æº–ãƒ¢ãƒ¼ãƒ‰",
 							new ICTask() {
 								public void doTask() {
 									NDebuggerManager.fireChangeAPMode("DEFAULT");
@@ -443,7 +443,7 @@ public class GUI extends JPanel {
 					subMenu.add(radioMenu);
 				}
 				{
-					CAction action = CActionUtils.createAction("•Ï”‡˜”½“]",
+					CAction action = CActionUtils.createAction("å¤‰æ•°é †åºåè»¢",
 							new ICTask() {
 								public void doTask() {
 									getVarTool().setReversed(
@@ -458,21 +458,21 @@ public class GUI extends JPanel {
 		}
 		frame.setJMenuBar(menubar);
 
-		// ”wŒiF
+		// èƒŒæ™¯è‰²
 		frame.setBackground(Color.lightGray);
-		// ƒEƒBƒ“ƒhƒEƒ^ƒCƒgƒ‹
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚¿ã‚¤ãƒˆãƒ«
 		// frame.setTitle(windowBanner);
 		frame.setTitle(NNoviceDebugger.WINDOWTITLE + NNoviceDebugger.VERSION
-				+ " ƒfƒoƒbƒO’† - " + sourcename);// changed
+				+ " ãƒ‡ãƒãƒƒã‚°ä¸­ - " + sourcename);// changed
 		// by
 		// matsuzawa
 
-		// ƒƒjƒ…[ƒo[
+		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼
 		// frame.setJMenuBar(new JDBMenuBar(env));
-		// ƒƒCƒ“ƒpƒlƒ‹İ’u
+		// ãƒ¡ã‚¤ãƒ³ãƒ‘ãƒãƒ«è¨­ç½®
 		frame.setContentPane(this);
 
-		// ƒEƒBƒ“ƒhƒEƒŠƒXƒi[
+		// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒªã‚¹ãƒŠãƒ¼
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				// env.terminate();
@@ -480,11 +480,11 @@ public class GUI extends JPanel {
 			}
 		});
 
-		// “à•”—Ìˆæ‚©‚çƒTƒCƒYİ’è
+		// å†…éƒ¨é ˜åŸŸã‹ã‚‰ã‚µã‚¤ã‚ºè¨­å®š
 		frame.pack();
-		// •\¦ˆÊ’uİ’è
+		// è¡¨ç¤ºä½ç½®è¨­å®š
 		frame.setBounds(305, frame.getY(), frame.getWidth(), frame.getHeight());
-		// •\¦
+		// è¡¨ç¤º
 		// frame.show();
 		NDebuggerManager.fireDebugStarted();
 		frame.setVisible(true);

@@ -34,7 +34,7 @@
 
 package nd.com.sun.tools.example.debug.gui;
 
-// クラスマネージャ
+// 繧ｯ繝ｩ繧ｹ繝槭ロ繝ｼ繧ｸ繝｣
 public class ClassManager {
 
 	// This class is provided primarily for symmetry with

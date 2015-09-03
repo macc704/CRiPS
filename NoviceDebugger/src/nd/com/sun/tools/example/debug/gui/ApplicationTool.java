@@ -44,32 +44,32 @@ import nd.com.sun.tools.example.debug.bdi.ExecutionManager;
 
 
 
-// Às—“
+// å®Ÿè¡Œæ¬„
 public class ApplicationTool extends JPanel {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	//private Environment env;
-	// Àsƒ}ƒl[ƒWƒƒ¶¬
+	// å®Ÿè¡Œãƒãƒãƒ¼ã‚¸ãƒ£ç”Ÿæˆ
 	private ExecutionManager runtime;
 
 	private TypeScript script;
 
-	private final String PROMPT = "ƒRƒ“ƒ\[ƒ‹‚Ö‚Ì“ü—Í:";
+	private final String PROMPT = "ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã¸ã®å…¥åŠ›:";
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	public ApplicationTool(Environment env) {
 		super(new BorderLayout());
 
-		// î•ñæ“¾
+		// æƒ…å ±å–å¾—
 		//this.env = env;
 		this.runtime = env.getExecutionManager();
 
 		this.script = new TypeScript(PROMPT, false); // No implicit echo.
 		this.add(script);
 
-		// ƒAƒNƒVƒ‡ƒ“ƒŠƒXƒi[
+		// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ãƒªã‚¹ãƒŠãƒ¼
 		script.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				runtime.sendLineToApplication(script.readln());

@@ -60,7 +60,7 @@ import nd.com.sun.tools.example.debug.event.VMDisconnectEventSet;
 import com.sun.jdi.ReferenceType;
 import com.sun.jdi.VMDisconnectedException;
 
-// ƒNƒ‰ƒXƒcƒŠ[
+// ã‚¯ãƒ©ã‚¹ãƒ„ãƒªãƒ¼
 public class ClassTreeTool extends JPanel {
 
 	/**
@@ -83,25 +83,25 @@ public class ClassTreeTool extends JPanel {
 
 	private final String HEADING = "CLASSES";
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	public ClassTreeTool(Environment env) {
 
 		super(new BorderLayout());
 
-		// î•ñæ“¾
+		// æƒ…å ±å–å¾—
 		//this.env = env;
 		this.runtime = env.getExecutionManager();
 		//this.sourceManager = env.getSourceManager();
 
 		this.interpreter = new CommandInterpreter(env);
 
-		// ƒ‹[ƒgæ“¾
+		// ãƒ«ãƒ¼ãƒˆå–å¾—
 		root = createClassTree(HEADING);
 		treeModel = new DefaultTreeModel(root);
 
 		// Create a tree that allows one selection at a time.
 
-		// ƒcƒŠ[¶¬
+		// ãƒ„ãƒªãƒ¼ç”Ÿæˆ
 		tree = new JTree(treeModel);
 		tree.setSelectionModel(new SingleLeafTreeSelectionModel());
 
@@ -118,7 +118,7 @@ public class ClassTreeTool extends JPanel {
 	});
 		 ******/
 
-		// ƒ}ƒEƒXƒŠƒXƒi[
+		// ãƒã‚¦ã‚¹ãƒªã‚¹ãƒŠãƒ¼
 		MouseListener ml = new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
@@ -138,7 +138,7 @@ public class ClassTreeTool extends JPanel {
 		};
 		tree.addMouseListener(ml);
 
-		// ƒXƒNƒ[ƒ‹ƒpƒlƒ‹‚ÉƒcƒŠ[‚ğİ’u
+		// ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒ‘ãƒãƒ«ã«ãƒ„ãƒªãƒ¼ã‚’è¨­ç½®
 		JScrollPane treeView = new JScrollPane(tree);
 		add(treeView);
 
@@ -150,7 +150,7 @@ public class ClassTreeTool extends JPanel {
 		//### remove listeners on exit!
 	}
 
-	// ƒNƒ‰ƒXƒcƒŠ[‚ÌƒŠƒXƒi[
+	// ã‚¯ãƒ©ã‚¹ãƒ„ãƒªãƒ¼ã®ãƒªã‚¹ãƒŠãƒ¼
 	private class ClassTreeToolListener extends JDIAdapter implements JDIListener, SessionListener {
 
 		// SessionListener
@@ -191,12 +191,12 @@ public class ClassTreeTool extends JPanel {
 		}
 	}
 
-	// ƒm[ƒh¶¬
+	// ãƒãƒ¼ãƒ‰ç”Ÿæˆ
 	ClassTreeNode createClassTree(String label) {
 		return new ClassTreeNode(label, null);
 	}
 
-	// ƒNƒ‰ƒXƒcƒŠ[‚Ìƒm[ƒh
+	// ã‚¯ãƒ©ã‚¹ãƒ„ãƒªãƒ¼ã®ãƒãƒ¼ãƒ‰
 	class ClassTreeNode extends DefaultMutableTreeNode {
 
 		/**
@@ -206,7 +206,7 @@ public class ClassTreeTool extends JPanel {
 		private String name;
 		private ReferenceType refTy;  // null for package
 
-		// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+		// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 		ClassTreeNode(String name, ReferenceType refTy) {
 			this.name = name;
 			this.refTy = refTy;
@@ -224,22 +224,22 @@ public class ClassTreeTool extends JPanel {
 			return refTy.name();
 		}
 
-		// ƒpƒbƒP[ƒW”»’è
+		// ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸åˆ¤å®š
 		private boolean isPackage() {
 			return (refTy == null);
 		}
 
-		// —t”»’è
+		// è‘‰åˆ¤å®š
 		public boolean isLeaf() {
 			return !isPackage();
 		}
 
-		// ƒm[ƒh’Ç‰Á‚»‚Ì1
+		// ãƒãƒ¼ãƒ‰è¿½åŠ ãã®1
 		public void addClass(ReferenceType refTy) {
 			addClass(refTy.name(), refTy);
 		}
 
-		// ƒm[ƒh’Ç‰Á‚»‚Ì2
+		// ãƒãƒ¼ãƒ‰è¿½åŠ ãã®2
 		private void addClass(String className, ReferenceType refTy) {
 			if (className.equals("")) {
 				return;
@@ -255,7 +255,7 @@ public class ClassTreeTool extends JPanel {
 			}
 		}
 
-		// ƒm[ƒh‘}“ü
+		// ãƒãƒ¼ãƒ‰æŒ¿å…¥
 		private ClassTreeNode insertNode(String name, ReferenceType refTy) {
 			for (int i = 0; i < getChildCount(); i++) {
 				ClassTreeNode child = (ClassTreeNode)getChildAt(i);
@@ -276,7 +276,7 @@ public class ClassTreeTool extends JPanel {
 			return newChild;
 		}
 
-		// ƒNƒ‰ƒXíœ
+		// ã‚¯ãƒ©ã‚¹å‰Šé™¤
 		public void removeClass(String className) {
 			if (className.equals("")) {
 				return;
@@ -299,7 +299,7 @@ public class ClassTreeTool extends JPanel {
 			}
 		}
 
-		// ƒm[ƒh’Tõ
+		// ãƒãƒ¼ãƒ‰æ¢ç´¢
 		private ClassTreeNode findNode(String name) {
 			for (int i = 0; i < getChildCount(); i++) {
 				ClassTreeNode child = (ClassTreeNode)getChildAt(i);

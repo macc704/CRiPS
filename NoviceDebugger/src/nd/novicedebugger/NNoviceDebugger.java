@@ -8,74 +8,74 @@ package nd.novicedebugger;
 import nd.com.sun.tools.example.debug.gui.GUI;
 
 /*
- * NoviceDebugger(‰¼)
+ * NoviceDebugger(ï¿½ï¿½)
  * 
- * 2012/12/27 version 1.0.0 hakamata	EƒŠƒŠ[ƒX
- * 2012/12/27 version 1.0.1 hakamata	E•ª‚©‚é”ÍˆÍ‚ÅŒx‚ðC³
- * 2012/12/27 version 1.1.0 hakamata	EI—¹Žž‚ÉTurtle‚àˆê‚ÉI—¹‚·‚é‚æ‚¤‚É‚µ‚½
- * 2012/12/27 version 1.2.0 hakamata	Eƒ\[ƒXã‚É‚È‚¢–½—ß‚ÍƒXƒLƒbƒv(StepIntoLine‚Ì‚Ý‚ÅŽÀs‰Â”\‚É‚È‚Á‚½)
- * 2013/01/06 version 1.3.0 hakamata	Eturtle‚Æ‚»‚êˆÈŠO‚Ì‰Šú’âŽ~ˆÊ’uŽ©“®Ø‚è‘Ö‚¦
- * 										Eƒ\[ƒXƒR[ƒh‚És”Ô†‚ð’Ç‰Á
- * 										EƒtƒHƒ“ƒg‚ðMS UI Gothic‚É•ÏX
- * 									 	Eturtle‚ð•Â‚¶‚½‚Æ‚«ƒfƒoƒbƒK‚àI—¹‚·‚é‚æ‚¤‚É•ÏX
- * 2013/01/07 version 1.4.0 hakamata	EƒXƒLƒbƒv’†‚ÉSource Not Available‚ªo‚È‚¢‚æ‚¤‚ÉC³
- * 										EƒfƒoƒbƒK‰ŠúÀ•WÝ’èA
- *									  	E“¯ˆês‚Ìê‡‚ÉƒXƒLƒbƒv‚ªŠ®‘S‚Å‚È‚¢‚Ì‚ðC³
- *										ETurtle‚Ìê‡‚Ì—áŠO‚É‘Î‰ž
- * 2013/01/07 version 1.5.0 hakamata	E‰EƒNƒŠƒbƒvƒ|ƒbƒvƒAƒbƒvƒƒjƒ…[‚ðÁ‹ŽA•Ï”•\Ž¦‚ÉŽb’è‘Î‰ž
- * 2013/01/08 version 0.1.0 matsuzawa	ELook And Feel‚Ì•ÏX
- * 										EUI‚ÌC³ Menubar‚Ì’Ç‰Á, Toolbar‚ÌˆÊ’u•ÏX
- * 										Eƒ\[ƒXƒyƒCƒ“‚ÌƒJƒ‰[ƒŠƒ“ƒO
- * 										EGUIƒNƒ‰ƒX‚Ì varTool‚ðstatic‚Å‚È‚¢‚æ‚¤‚ÉC³
- * 										‚Ü‚¾ŠJ”­ƒo[ƒWƒ‡ƒ“‚È‚Ì‚ÅCƒo[ƒWƒ‡ƒ“”Ô†–ß‚µ‚Ü‚µ‚½ -> 0.1.0 
- * 2013/01/09 version 0.1.1 matsuzawa   EƒRƒ“ƒpƒCƒ‰ƒŒƒxƒ‹1.7->1.5
- * 										Etools.jar‚Ì’†‚ÌexampleƒR[ƒh‚Æ¬‚´‚Á‚Ä‚¢‚½‚Ì‚ÅCƒpƒbƒP[ƒW–¼‚Ì•ÏXCC³
- * 2013/01/09 version 0.1.2 matsuzawa   EMac‚É‘Î‰ž
- * 										Etools.jar‚ðMac‚Ì‚à‚Ì‚É“ü‚ê‘Ö‚¦DiWindows‚Ì‚à‚Ì‚¾‚ÆCMac‚Å“®‚­‚ªC—áŠO‚ð“f‚¢‚Ä‚¢‚éDMac‚Ì‚à‚Ì‚ÍWin‚Å‚à“®‚¢‚Ä‚¢‚éDj
- * 2013/01/12 version 0.1.3 hakamata	Eƒƒ\ƒbƒh‚²‚Æ‚Ì•Ï”•\Ž¦‚ª‚Å‚«‚é‚æ‚¤‚É‚µ‚½
- * 										EˆêŽŸŒ³”z—ñ‚ð•Ï”•\Ž¦‚É‘Î‰ž‚³‚¹‚½
- * 										EGUIƒNƒ‰ƒX‚ÌsrcTool‚ðprivate‚É‚µAstatic‚Å‚È‚­‚Ä‚à“®‚­‚æ‚¤‚É‚µ‚½
- * 2013/01/12 version 0.1.4 matsuzawa	Eƒƒ\ƒbƒh‚²‚Æ‚Ì•Ï”•\Ž¦CƒŠƒtƒ@ƒNƒ^ƒŠƒ“ƒO
- * 										Eƒƒ\ƒbƒh‚²‚Æ‚Ì•Ï”•\Ž¦CƒoƒOC³icurrent‚ÌStackFrame‚É•Ï”‚ª‚È‚¢‚Æ‚·‚×‚Ä•\Ž¦‚³‚ê‚È‚¢j
- * 										Eƒƒ\ƒbƒh‚²‚Æ‚Ì•Ï”•\Ž¦CƒoƒOC³inull‚Ìê‡‚Ìˆ—j
- * 										Eƒƒ\ƒbƒh‚²‚Æ‚Ì•Ï”•\Ž¦C•\Ž¦•û–@‚Ì•ÏX‹@”\
- * 										Eƒƒ\ƒbƒh‚²‚Æ‚Ì•Ï”•\Ž¦CcurrentFrameˆÈŠO‚Ì•Ï”‚ðƒOƒŒ[•\Ž¦
- * 2013/01/13 version 0.1.5 hakamata	EVariableTool‚Ì—áŠO‚É‚Â‚¢‚ÄC³
- * 2013/01/15 version 0.1.6 hakamata	E”z—ñ‚Ì‰Šú’lnull‚Ìê‡‚Ìˆ—‚ð’Ç‰Á
- * 										EƒXƒeƒbƒvŽÀsŠÔŠu‚ðƒXƒ‰ƒCƒhƒo[‚ÅÝ’è‚Å‚«‚é‚æ‚¤‚É‚µ‚½
- * 2013/01/17 version 0.1.7 hakamata	EŽ©“®ŽÀs’†‚Å‚àŽÀsŠÔŠu‚ð•ÏX‚Å‚«‚é‚æ‚¤‚É‚µ‚½
- * 										EƒXƒ‰ƒCƒhƒo[‚ð‰E‘¤‚ªÅ¬A¶‘¤‚ªÅ‘å‚É‚È‚é‚æ‚¤‚É‚µ‚½
- * 2013/01/17 version 0.1.8 hakamata	EŽ©“®ŽÀsƒc[ƒ‹‚ðƒc[ƒ‹ƒo[‚ÉˆÚ“®‚µAƒXƒeƒbƒvƒ{ƒ^ƒ“‚Æ“‡
- * 										E’âŽ~AÄ¶AƒXƒeƒbƒvƒ{ƒ^ƒ“‚É•¶Žš‚Å‚Í‚È‚­ƒAƒCƒRƒ“‚ð•\Ž¦
- * 2013/01/17 verison 0.1.9 hakamata	EŽ©“®ŽÀsƒc[ƒ‹‚ÌƒŒƒCƒAƒEƒg‚ð’²®
- * 										EƒXƒNƒ[ƒ‹ƒo[‚ðƒXƒ‰ƒCƒ_[‚É•ÏX
- * 2013/01/22 version 0.1.10 hakamata	EŒx‚ðC³
+ * 2012/12/27 version 1.0.0 hakamata	ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½X
+ * 2012/12/27 version 1.0.1 hakamata	ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÍˆÍ‚ÅŒxï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½
+ * 2012/12/27 version 1.1.0 hakamata	ï¿½Eï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Turtleï¿½ï¿½ï¿½êï¿½ÉIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
+ * 2012/12/27 version 1.2.0 hakamata	ï¿½Eï¿½\ï¿½[ï¿½Xï¿½ï¿½É‚È‚ï¿½ï¿½ï¿½ï¿½ß‚ÍƒXï¿½Lï¿½bï¿½v(StepIntoLineï¿½Ì‚Ý‚ÅŽï¿½ï¿½sï¿½Â”\ï¿½É‚È‚ï¿½ï¿½ï¿½)
+ * 2013/01/06 version 1.3.0 hakamata	ï¿½Eturtleï¿½Æ‚ï¿½ï¿½ï¿½ÈŠOï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½~ï¿½Ê’uï¿½ï¿½ï¿½ï¿½ï¿½Ø‚ï¿½Ö‚ï¿½
+ * 										ï¿½Eï¿½\ï¿½[ï¿½Xï¿½Rï¿½[ï¿½hï¿½Ésï¿½Ôï¿½ï¿½ï¿½Ç‰ï¿½
+ * 										ï¿½Eï¿½tï¿½Hï¿½ï¿½ï¿½gï¿½ï¿½MS UI Gothicï¿½É•ÏX
+ * 									 	ï¿½Eturtleï¿½ï¿½Â‚ï¿½ï¿½ï¿½ï¿½Æ‚ï¿½ï¿½fï¿½oï¿½bï¿½Kï¿½ï¿½ï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É•ÏX
+ * 2013/01/07 version 1.4.0 hakamata	ï¿½Eï¿½Xï¿½Lï¿½bï¿½vï¿½ï¿½ï¿½ï¿½Source Not Availableï¿½ï¿½ï¿½oï¿½È‚ï¿½ï¿½æ‚¤ï¿½ÉCï¿½ï¿½
+ * 										ï¿½Eï¿½fï¿½oï¿½bï¿½Kï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Wï¿½Ý’ï¿½A
+ *									  	ï¿½Eï¿½ï¿½ï¿½ï¿½sï¿½Ìê‡ï¿½ÉƒXï¿½Lï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½Sï¿½Å‚È‚ï¿½ï¿½Ì‚ï¿½ï¿½Cï¿½ï¿½
+ *										ï¿½ETurtleï¿½Ìê‡ï¿½Ì—ï¿½Oï¿½É‘Î‰ï¿½
+ * 2013/01/07 version 1.5.0 hakamata	ï¿½Eï¿½Eï¿½Nï¿½ï¿½ï¿½bï¿½vï¿½|ï¿½bï¿½vï¿½Aï¿½bï¿½vï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Aï¿½Ïï¿½ï¿½\ï¿½ï¿½ï¿½ÉŽbï¿½ï¿½Î‰ï¿½
+ * 2013/01/08 version 0.1.0 matsuzawa	ï¿½ELook And Feelï¿½Ì•ÏX
+ * 										ï¿½EUIï¿½ÌCï¿½ï¿½ Menubarï¿½Ì’Ç‰ï¿½, Toolbarï¿½ÌˆÊ’uï¿½ÏX
+ * 										ï¿½Eï¿½\ï¿½[ï¿½Xï¿½yï¿½Cï¿½ï¿½ï¿½ÌƒJï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½O
+ * 										ï¿½EGUIï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½ varToolï¿½ï¿½staticï¿½Å‚È‚ï¿½ï¿½æ‚¤ï¿½ÉCï¿½ï¿½
+ * 										ï¿½Ü‚ï¿½ï¿½Jï¿½ï¿½ï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½È‚Ì‚ÅCï¿½oï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½Ôï¿½ï¿½ß‚ï¿½ï¿½Ü‚ï¿½ï¿½ï¿½ -> 0.1.0 
+ * 2013/01/09 version 0.1.1 matsuzawa   ï¿½Eï¿½Rï¿½ï¿½ï¿½pï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½1.7->1.5
+ * 										ï¿½Etools.jarï¿½Ì’ï¿½ï¿½ï¿½exampleï¿½Rï¿½[ï¿½hï¿½Æï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½Ì‚ÅCï¿½pï¿½bï¿½Pï¿½[ï¿½Wï¿½ï¿½ï¿½Ì•ÏXï¿½Cï¿½Cï¿½ï¿½
+ * 2013/01/09 version 0.1.2 matsuzawa   ï¿½EMacï¿½É‘Î‰ï¿½
+ * 										ï¿½Etools.jarï¿½ï¿½Macï¿½Ì‚ï¿½ï¿½Ì‚É“ï¿½ï¿½ï¿½Ö‚ï¿½ï¿½Dï¿½iWindowsï¿½Ì‚ï¿½ï¿½Ì‚ï¿½ï¿½ÆCMacï¿½Å“ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½Oï¿½ï¿½fï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½DMacï¿½Ì‚ï¿½ï¿½Ì‚ï¿½Winï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Dï¿½j
+ * 2013/01/12 version 0.1.3 hakamata	ï¿½Eï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Æ‚Ì•Ïï¿½ï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
+ * 										ï¿½Eï¿½êŽŸï¿½ï¿½ï¿½zï¿½ï¿½ï¿½Ïï¿½ï¿½\ï¿½ï¿½ï¿½É‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * 										ï¿½EGUIï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½srcToolï¿½ï¿½privateï¿½É‚ï¿½ï¿½Astaticï¿½Å‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
+ * 2013/01/12 version 0.1.4 matsuzawa	ï¿½Eï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Æ‚Ì•Ïï¿½ï¿½\ï¿½ï¿½ï¿½Cï¿½ï¿½ï¿½tï¿½@ï¿½Nï¿½^ï¿½ï¿½ï¿½ï¿½ï¿½O
+ * 										ï¿½Eï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Æ‚Ì•Ïï¿½ï¿½\ï¿½ï¿½ï¿½Cï¿½oï¿½Oï¿½Cï¿½ï¿½ï¿½icurrentï¿½ï¿½StackFrameï¿½É•Ïï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Æ‚ï¿½ï¿½×‚Ä•\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½j
+ * 										ï¿½Eï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Æ‚Ì•Ïï¿½ï¿½\ï¿½ï¿½ï¿½Cï¿½oï¿½Oï¿½Cï¿½ï¿½ï¿½inullï¿½Ìê‡ï¿½Ìï¿½ï¿½ï¿½ï¿½j
+ * 										ï¿½Eï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Æ‚Ì•Ïï¿½ï¿½\ï¿½ï¿½ï¿½Cï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½@ï¿½Ì•ÏXï¿½@ï¿½\
+ * 										ï¿½Eï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Æ‚Ì•Ïï¿½ï¿½\ï¿½ï¿½ï¿½CcurrentFrameï¿½ÈŠOï¿½Ì•Ïï¿½ï¿½ï¿½ï¿½Oï¿½ï¿½ï¿½[ï¿½\ï¿½ï¿½
+ * 2013/01/13 version 0.1.5 hakamata	ï¿½EVariableToolï¿½Ì—ï¿½Oï¿½É‚Â‚ï¿½ï¿½ÄCï¿½ï¿½
+ * 2013/01/15 version 0.1.6 hakamata	ï¿½Eï¿½zï¿½ï¿½Ìï¿½ï¿½ï¿½ï¿½lnullï¿½Ìê‡ï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½Ç‰ï¿½
+ * 										ï¿½Eï¿½Xï¿½eï¿½bï¿½vï¿½ï¿½ï¿½sï¿½ÔŠuï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Cï¿½hï¿½oï¿½[ï¿½ÅÝ’ï¿½Å‚ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
+ * 2013/01/17 version 0.1.7 hakamata	ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½sï¿½ÔŠuï¿½ï¿½ÏXï¿½Å‚ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
+ * 										ï¿½Eï¿½Xï¿½ï¿½ï¿½Cï¿½hï¿½oï¿½[ï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½Åï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‘ï¿½É‚È‚ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
+ * 2013/01/17 version 0.1.8 hakamata	ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½cï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½cï¿½[ï¿½ï¿½ï¿½oï¿½[ï¿½ÉˆÚ“ï¿½ï¿½ï¿½ï¿½Aï¿½Xï¿½eï¿½bï¿½vï¿½{ï¿½^ï¿½ï¿½ï¿½Æ“ï¿½ï¿½ï¿½
+ * 										ï¿½Eï¿½ï¿½~ï¿½Aï¿½Äï¿½ï¿½Aï¿½Xï¿½eï¿½bï¿½vï¿½{ï¿½^ï¿½ï¿½ï¿½É•ï¿½ï¿½ï¿½ï¿½Å‚Í‚È‚ï¿½ï¿½Aï¿½Cï¿½Rï¿½ï¿½ï¿½ï¿½\ï¿½ï¿½
+ * 2013/01/17 verison 0.1.9 hakamata	ï¿½Eï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½cï¿½[ï¿½ï¿½ï¿½Ìƒï¿½ï¿½Cï¿½Aï¿½Eï¿½gï¿½ð’²ï¿½
+ * 										ï¿½Eï¿½Xï¿½Nï¿½ï¿½ï¿½[ï¿½ï¿½ï¿½oï¿½[ï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½Cï¿½_ï¿½[ï¿½É•ÏX
+ * 2013/01/22 version 0.1.10 hakamata	ï¿½Eï¿½xï¿½ï¿½ï¿½ï¿½ï¿½Cï¿½ï¿½
  * 
- * 2013/09/26 version 0.2.0 hakamata	EBlockEditor‚Æ˜AŒg
- * 										EsŠÔƒ‚[ƒh
- * 										EGUIƒNƒ‰ƒX‚Ìstatic‚ð‰ðœ
- * 										EƒuƒŒ[ƒNƒ|ƒCƒ“ƒg‚Ì•œŠˆ
- * 										E‘I‘ð•ûŽ®‚Ì•ÏX‚Æ‰EƒNƒŠƒbƒNƒƒjƒ…[‚ÌŽd‘g‚Ý•ÏX
- * 2013/10/03 version 0.2.1 hakamata	E‘€ìƒ{ƒ^ƒ“‚ð2‚Â‚É‚µ‚½
- * 										E‘¬“xÝ’èƒXƒ‰ƒCƒ_‚ð7’iŠK(‰¼)‚É‚µ‚½
- * 										i‘¬“xÅ‘¬‚¾‚Æcont‚Æ“¯“™)
- * 2013/10/10 version 0.2.2 hakamata	EƒXƒeƒbƒvŽ©“®ŽÀs‚¾‚ÆƒuƒŒ[ƒNƒ|ƒCƒ“ƒg‚ÅŽ~‚Ü‚ç‚È‚¢‚Ì‚ðC³
- * 2013/10/10 version 0.2.3 hakamata	E•ÏX‚³‚ê‚½•Ï”‚ª‰©F‚ÅƒnƒCƒ‰ƒCƒg‚³‚ê‚é‚æ‚¤‚É‚µ‚½
+ * 2013/09/26 version 0.2.0 hakamata	ï¿½EBlockEditorï¿½Æ˜Aï¿½g
+ * 										ï¿½Eï¿½sï¿½Ôƒï¿½ï¿½[ï¿½h
+ * 										ï¿½EGUIï¿½Nï¿½ï¿½ï¿½Xï¿½ï¿½staticï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * 										ï¿½Eï¿½uï¿½ï¿½ï¿½[ï¿½Nï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½Ì•ï¿½ï¿½ï¿½
+ * 										ï¿½Eï¿½Iï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì•ÏXï¿½Æ‰Eï¿½Nï¿½ï¿½ï¿½bï¿½Nï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ÌŽdï¿½gï¿½Ý•ÏX
+ * 2013/10/03 version 0.2.1 hakamata	ï¿½Eï¿½ï¿½ï¿½ï¿½{ï¿½^ï¿½ï¿½ï¿½ï¿½2ï¿½Â‚É‚ï¿½ï¿½ï¿½
+ * 										ï¿½Eï¿½ï¿½ï¿½xï¿½Ý’ï¿½Xï¿½ï¿½ï¿½Cï¿½_ï¿½ï¿½7ï¿½iï¿½K(ï¿½ï¿½)ï¿½É‚ï¿½ï¿½ï¿½
+ * 										ï¿½iï¿½ï¿½ï¿½xï¿½Å‘ï¿½ï¿½ï¿½ï¿½ï¿½contï¿½Æ“ï¿½ï¿½ï¿½)
+ * 2013/10/10 version 0.2.2 hakamata	ï¿½Eï¿½Xï¿½eï¿½bï¿½vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½Æƒuï¿½ï¿½ï¿½[ï¿½Nï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½ÅŽ~ï¿½Ü‚ï¿½È‚ï¿½ï¿½Ì‚ï¿½ï¿½Cï¿½ï¿½
+ * 2013/10/10 version 0.2.3 hakamata	ï¿½Eï¿½ÏXï¿½ï¿½ï¿½ê‚½ï¿½Ïï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½Åƒnï¿½Cï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
  * 
- * 2013/10/11 version 0.2.4 hakamata	EƒuƒŒ[ƒNƒ|ƒCƒ“ƒgC•\Ž¦ƒ‚[ƒhØ‚è‘Ö‚¦Ccont‚ÌƒƒO‘‚«o‚µ
- * 2013/10/11 version 0.2.5 hakamata	Es”Ô†‚ðƒeƒLƒXƒg’¼‘‚«‚©‚çScrollPane‚Ìƒwƒbƒ_‚É•ÏX
- * 										E•W€ƒ‚[ƒh(sƒ‚[ƒh)‚ð¡‚Ü‚Å‚ÌƒAƒCƒRƒ“‚Æs“h‚è‚Â‚Ô‚µ‚ÌŒ`‚É–ß‚µ‚½
- * 2013/10/11 version 0.2.6 hakamata	Eƒrƒ…[‚Ì”z’u‚ð•ÏX(ã‚Ì¶Fƒ\[ƒXCã‚Ì‰EF•Ï”C‰ºFƒRƒ“ƒ\[ƒ‹)
- * 2013/10/15 version 0.2.7 hakamata	EBreakpoint‚ðˆê’UOFF‚É‚µ‚½
- * 										E•ÏX‚ª‚ ‚Á‚½•Ï”‚¾‚¯‚Å‚È‚­CV‚µ‚¢•Ï”‚à‰©FƒnƒCƒ‰ƒCƒg‚³‚ê‚é‚æ‚¤‚É‚µ‚½
- * 2013/10/15 version 0.2.8 hakamata	EBE‚©‚ç‹N“®Žž‚ÍƒEƒBƒ“ƒhƒEk¬•ƒ\[ƒXƒrƒ…[Å¬‰»
+ * 2013/10/11 version 0.2.4 hakamata	ï¿½Eï¿½uï¿½ï¿½ï¿½[ï¿½Nï¿½|ï¿½Cï¿½ï¿½ï¿½gï¿½Cï¿½\ï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½hï¿½Ø‚ï¿½Ö‚ï¿½ï¿½Ccontï¿½Ìƒï¿½ï¿½Oï¿½ï¿½ï¿½ï¿½ï¿½oï¿½ï¿½
+ * 2013/10/11 version 0.2.5 hakamata	ï¿½Eï¿½sï¿½Ôï¿½ï¿½ï¿½ï¿½eï¿½Lï¿½Xï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ScrollPaneï¿½Ìƒwï¿½bï¿½_ï¿½É•ÏX
+ * 										ï¿½Eï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h(ï¿½sï¿½ï¿½ï¿½[ï¿½h)ï¿½ï¿½ï¿½ï¿½ï¿½Ü‚Å‚ÌƒAï¿½Cï¿½Rï¿½ï¿½ï¿½Æsï¿½hï¿½ï¿½Â‚Ô‚ï¿½ï¿½ÌŒ`ï¿½É–ß‚ï¿½ï¿½ï¿½
+ * 2013/10/11 version 0.2.6 hakamata	ï¿½Eï¿½rï¿½ï¿½ï¿½[ï¿½Ì”zï¿½uï¿½ï¿½ÏX(ï¿½ï¿½Ìï¿½ï¿½Fï¿½\ï¿½[ï¿½Xï¿½Cï¿½ï¿½Ì‰Eï¿½Fï¿½Ïï¿½ï¿½Cï¿½ï¿½ï¿½Fï¿½Rï¿½ï¿½ï¿½\ï¿½[ï¿½ï¿½)
+ * 2013/10/15 version 0.2.7 hakamata	ï¿½EBreakpointï¿½ï¿½ï¿½ï¿½UOFFï¿½É‚ï¿½ï¿½ï¿½
+ * 										ï¿½Eï¿½ÏXï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å‚È‚ï¿½ï¿½Cï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Ïï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Fï¿½nï¿½Cï¿½ï¿½ï¿½Cï¿½gï¿½ï¿½ï¿½ï¿½ï¿½æ‚¤ï¿½É‚ï¿½ï¿½ï¿½
+ * 2013/10/15 version 0.2.8 hakamata	ï¿½EBEï¿½ï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½ÍƒEï¿½Bï¿½ï¿½ï¿½hï¿½Eï¿½kï¿½ï¿½ï¿½ï¿½ï¿½\ï¿½[ï¿½Xï¿½rï¿½ï¿½ï¿½[ï¿½Åï¿½ï¿½ï¿½
  * 
- * 2013/10/16 version 0.2.9 hakamata	EJRE1.7.0_25‚Åvm‚ª‹N“®‚µ‚È‚¢ƒGƒ‰[‚ÉŽb’è‘Î‰ž
- * 										E•Ï”‡˜”½“]‚ð•\Ž¦Œ`Ž®ƒƒjƒ…[‚ÖˆÚ“®
+ * 2013/10/16 version 0.2.9 hakamata	ï¿½EJRE1.7.0_25ï¿½ï¿½vmï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½ï¿½ï¿½È‚ï¿½ï¿½Gï¿½ï¿½ï¿½[ï¿½ÉŽbï¿½ï¿½Î‰ï¿½
+ * 										ï¿½Eï¿½Ïï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]ï¿½ï¿½\ï¿½ï¿½ï¿½`ï¿½ï¿½ï¿½ï¿½ï¿½jï¿½ï¿½ï¿½[ï¿½ÖˆÚ“ï¿½
  *
- * 	Eint x = 3;@‚Í‚n‚j‚¾‚¯‚ÇC int y; ‚Íƒ_ƒD
- * 		Java‚ÌŽd—lã,éŒ¾‚Ì‚Ý‚ÌƒvƒŠƒ~ƒeƒBƒuŒ^•Ï”‚ÍƒXƒ^ƒbƒN‚ÉÏ‚Ü‚ê‚È‚¢‚Ì‚Å‚±‚ê‚Å³‚µ‚¢
- *@@@
+ * 	ï¿½Eint x = 3;ï¿½@ï¿½Í‚nï¿½jï¿½ï¿½ï¿½ï¿½ï¿½ÇC int y; ï¿½Íƒ_ï¿½ï¿½ï¿½D
+ * 		Javaï¿½ÌŽdï¿½lï¿½ï¿½,ï¿½éŒ¾ï¿½Ì‚Ý‚Ìƒvï¿½ï¿½ï¿½~ï¿½eï¿½Bï¿½uï¿½^ï¿½Ïï¿½ï¿½ÍƒXï¿½^ï¿½bï¿½Nï¿½ÉÏ‚Ü‚ï¿½È‚ï¿½ï¿½Ì‚Å‚ï¿½ï¿½ï¿½Åï¿½ï¿½ï¿½ï¿½ï¿½
+ *ï¿½@ï¿½@ï¿½@
  * 
  * */
 public class NNoviceDebugger {

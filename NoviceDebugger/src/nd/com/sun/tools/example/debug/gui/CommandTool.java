@@ -73,7 +73,7 @@ import com.sun.jdi.event.MethodExitEvent;
 import com.sun.jdi.event.StepEvent;
 
 
-// ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“
+// ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³
 public class CommandTool extends JPanel {
 
 	private Environment env;
@@ -97,12 +97,12 @@ public class CommandTool extends JPanel {
 	
 	boolean variableUpdateFlag = true;
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	public CommandTool(Environment env) {
 
 		super(new BorderLayout());
 
-		// î•ñæ“¾
+		// æƒ…å ±å–å¾—
 		this.env = env;
 		this.context = env.getContextManager();
 		this.runtime = env.getExecutionManager();

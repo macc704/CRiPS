@@ -196,7 +196,7 @@ class ChildSession extends Session {
 			vm = connector.launch(arguments);
 		} catch (IOException ioe) {
 			// diagnostics.putString("Unable to start child: " + ioe.getMessage());
-			JOptionPane.showMessageDialog(null, String.format("ƒvƒƒOƒ‰ƒ€‚ª‹N“®‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½\nJRE1.7.0_25‚Å‚Í‚¤‚Ü‚­“®ì‚µ‚Ü‚¹‚ñ"));
+			JOptionPane.showMessageDialog(null, String.format("ãƒ—ãƒ­ã‚°ãƒ©ãƒ ãŒèµ·å‹•ã§ãã¾ã›ã‚“ã§ã—ãŸ\nJRE1.7.0_25ã§ã¯ã†ã¾ãå‹•ä½œã—ã¾ã›ã‚“"));
 		} catch (IllegalConnectorArgumentsException icae) {
 			diagnostics
 					.putString("Unable to start child: " + icae.getMessage());

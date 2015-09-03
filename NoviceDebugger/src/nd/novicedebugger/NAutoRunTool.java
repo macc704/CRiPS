@@ -93,9 +93,9 @@ public class NAutoRunTool extends JPanel {
 		// toggle = new JToggleButton("OFF");
 
 		// radio button
-		lineMode = new JRadioButton("•W€ƒ‚[ƒh");
+		lineMode = new JRadioButton("ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½[ï¿½h");
 		lineMode.setSelected(false);
-		betweenMode = new JRadioButton("DENOƒ‚[ƒh");
+		betweenMode = new JRadioButton("DENOï¿½ï¿½ï¿½[ï¿½h");
 		betweenMode.setSelected(true);
 		apModeBtns = new ButtonGroup();
 		apModeBtns.add(lineMode);
@@ -127,7 +127,7 @@ public class NAutoRunTool extends JPanel {
 		runbtn.setSelectedIcon(pauseIcon);
 
 		// label
-		label = new JLabel("‘¬“xF");
+		label = new JLabel("ï¿½ï¿½ï¿½xï¿½F");
 
 		// scrollbar
 		// scroll = new JScrollBar(JDELAY.HORIZONTAL, -DELAY_DEFAULT, extent,
@@ -143,8 +143,8 @@ public class NAutoRunTool extends JPanel {
 				SLIDER_DEFAULT);
 		slider.setInverted(true);
 		Hashtable<Integer, JComponent> labeltable = new Hashtable<Integer, JComponent>();
-		labeltable.put(new Integer(SLIDER_MAX), new JLabel("’x"));
-		labeltable.put(new Integer(SLIDER_MIN), new JLabel("‘¬"));
+		labeltable.put(new Integer(SLIDER_MAX), new JLabel("ï¿½x"));
+		labeltable.put(new Integer(SLIDER_MIN), new JLabel("ï¿½ï¿½"));
 		slider.setLabelTable(labeltable);
 		slider.setPaintTicks(true);
 		slider.setMajorTickSpacing(1);
@@ -183,7 +183,7 @@ public class NAutoRunTool extends JPanel {
 
 		/*
 		 * contbtn.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { // ƒƒO
+		 * actionPerformed(ActionEvent e) { // ï¿½ï¿½ï¿½O
 		 * interpreter.executeCommand("cont"); } });
 		 */
 
@@ -212,7 +212,7 @@ public class NAutoRunTool extends JPanel {
 						}
 						timer.start();
 					} else {
-						// ƒƒO‚Æ‚è•K—v
+						// ï¿½ï¿½ï¿½Oï¿½Æ‚ï¿½Kï¿½v
 						interpreter.executeCommand("cont");
 						source.setSelected(false);
 						stepbtn.setEnabled(true);
@@ -235,13 +235,13 @@ public class NAutoRunTool extends JPanel {
 		slider.addChangeListener(new SliderListener());
 		stepbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				stepbtn.setEnabled(false);// matsuzawa stepbutton disable‹@”\
+				stepbtn.setEnabled(false);// matsuzawa stepbutton disableï¿½@ï¿½\
 				NDebuggerManager.fireStepPressed();
 				interpreter.executeCommand("step");
 				// System.out.println(env.getLinenum());
 			}
 		});
-		// matsuzawa stepbutton disable‹@”\
+		// matsuzawa stepbutton disableï¿½@ï¿½\
 		stepbtn.setEnabled(false);
 		env.getExecutionManager().addJDIListener(new JDIAdapter() {
 			@Override

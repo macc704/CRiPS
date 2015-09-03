@@ -116,8 +116,8 @@ public class NVariableTool extends JPanel {
 			StackFrame currentFrame = frames.getFirst();
 
 			int row = 0;
-			if (reversed == false) {// ŒÃ‚¢‚à‚Ì‚©‚çã->‰º(ƒƒ\ƒbƒh‚ÍiƒXƒ^ƒbƒN‹t‡‚É‚È‚Á‚Ä‚¢‚é‚Ì‚Åj‹t‡‚ÉC
-									// •Ï”‡‚Í‚»‚Ì‚Ü‚Üj
+			if (reversed == false) {// ï¿½Ã‚ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½->ï¿½ï¿½(ï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½Íiï¿½Xï¿½^ï¿½bï¿½Nï¿½tï¿½ï¿½ï¿½É‚È‚ï¿½ï¿½Ä‚ï¿½ï¿½ï¿½Ì‚Åjï¿½tï¿½ï¿½ï¿½ÉC
+									// ï¿½Ïï¿½ï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ì‚Ü‚Üj
 				Collections.reverse(frames);
 				for (StackFrame frame : frames) {
 					currentFlag = frame == currentFrame;
@@ -145,7 +145,7 @@ public class NVariableTool extends JPanel {
 						row++;
 					}
 				}
-			} else {// V‚µ‚¢‚à‚Ì‚©‚çã->‰ºiƒƒ\ƒbƒh‡‚Í‚»‚Ì‚Ü‚ÜC•Ï”‡‚Í‹t‡‚Éj
+			} else {// ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì‚ï¿½ï¿½ï¿½ï¿½->ï¿½ï¿½ï¿½iï¿½ï¿½ï¿½\ï¿½bï¿½hï¿½ï¿½ï¿½Í‚ï¿½ï¿½Ì‚Ü‚ÜCï¿½Ïï¿½ï¿½ï¿½ï¿½Í‹tï¿½ï¿½ï¿½Éj
 				for (StackFrame frame : frames) {
 					currentFlag = frame == currentFrame;
 					List<LocalVariable> vars = new ArrayList<LocalVariable>(
@@ -208,14 +208,14 @@ public class NVariableTool extends JPanel {
 		}
 	}
 
-	private String[] columnNames = { "•Ï”–¼", "’l", "Œ^", "ˆÊ’u" };
+	private String[] columnNames = { "ï¿½Ïï¿½ï¿½ï¿½", "ï¿½l", "ï¿½^", "ï¿½Ê’u" };
 
 	private void addVariable(StackFrame stackFrame, String varName,
 			String typeName, Object value) {
 		String valString = value == null ? "null" : value.toString();
 		// String data[] = { methodName, varName + " (" + typeName +
-		// "Œ^)",valString };
-		Object data[] = { varName, valString, typeName + "Œ^",
+		// "ï¿½^)",valString };
+		Object data[] = { varName, valString, typeName + "ï¿½^",
 				toString(stackFrame) };
 		tableModel.addRow(data);
 		currentVariables.add(data);

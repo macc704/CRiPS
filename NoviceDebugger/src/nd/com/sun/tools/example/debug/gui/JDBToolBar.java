@@ -57,7 +57,7 @@ public class JDBToolBar extends JToolBar {
 
 	// CommandInterpreter interpreter;
 	
-	// Ž©“®ŽÀsƒc[ƒ‹
+	// è‡ªå‹•å®Ÿè¡Œãƒ„ãƒ¼ãƒ«
 	private NAutoRunTool autoRunTool;
 
 	public JDBToolBar(Environment env) {
@@ -78,7 +78,7 @@ public class JDBToolBar extends JToolBar {
 		autoRunTool = new NAutoRunTool(env);
 		this.add(autoRunTool, BorderLayout.EAST);
 		
-		// addTool("Step into next line", "ƒXƒeƒbƒv", "step");
+		// addTool("Step into next line", "ã‚¹ãƒ†ãƒƒãƒ—", "step");
 		// addTool("Step over next line", "locals", "locals");
 		// addSeparator();
 
