@@ -13,7 +13,7 @@ public class HTMLFile {
 
 	private String BREAK = "\n";
 
-	private String TITLE = "2012”N“x‰Û‘è";
+	private String TITLE = "2012å¹´åº¦èª²é¡Œ";
 	private String CSS_NAME = "cssbykengo.css";
 
 	private File file = null;

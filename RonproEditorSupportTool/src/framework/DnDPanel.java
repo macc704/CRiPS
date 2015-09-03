@@ -45,7 +45,7 @@ public class DnDPanel extends JPanel {
 					}
 				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(DnDPanel.this,
-							ex.getMessage(), "—áŠO‚ª”­¶‚µ‚Ü‚µ‚½",
+							ex.getMessage(), "ä¾‹å¤–ãŒç™ºç”Ÿã—ã¾ã—ãŸ",
 							JOptionPane.ERROR_MESSAGE);
 				}
 

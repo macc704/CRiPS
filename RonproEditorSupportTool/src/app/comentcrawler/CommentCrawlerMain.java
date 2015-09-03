@@ -8,7 +8,7 @@ public class CommentCrawlerMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		DnDFramework.open("コメント収集", "フォルダをドロップしてください",
+		DnDFramework.open("繧ｳ繝｡繝ｳ繝亥庶髮�", "繝輔か繝ｫ繝繧偵ラ繝ｭ繝�繝励＠縺ｦ縺上□縺輔＞",
 				new CommentCrawleStrategy());
 	}
 

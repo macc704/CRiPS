@@ -8,7 +8,7 @@ public class UnzipMoodleMain {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		DnDFramework.open("UnzipMoodle", "zipファイルをドロップしてください",
+		DnDFramework.open("UnzipMoodle", "zip繝輔ぃ繧､繝ｫ繧偵ラ繝ｭ繝�繝励＠縺ｦ縺上□縺輔＞",
 				new UnzipMoodleStrategy());
 
 	}

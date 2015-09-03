@@ -40,7 +40,7 @@ public class SourceFile {
 	// // for (;;) {
 	// // int len = is.read(buf);
 	// // if (len < 0) break;
-	// // //buf‚ðŽg‚Á‚Äˆ—
+	// // //bufã‚’ä½¿ã£ã¦å‡¦ç†
 	// // }
 	// // is.close();
 	// }
@@ -71,8 +71,8 @@ public class SourceFile {
 	// }
 	// System.out.println();
 	// /**
-	// * ŒÜE4BA94@¨@E4 BA 94 \E58D81@¨@E5 8D 81 —’E5B590@¨@E5 B5 81 Š²E5B9B9@¨@45
-	// * E5 B9 •vE5A4AB@¨@E5 A4 AB
+	// * äº”E4BA94ã€€â†’ã€€E4 BA 94 åE58D81ã€€â†’ã€€E5 8D 81 åµE5B590ã€€â†’ã€€E5 B5 81 å¹¹E5B9B9ã€€â†’ã€€45
+	// * E5 B9 å¤«E5A4ABã€€â†’ã€€E5 A4 AB
 	// *
 	// */
 	// }
@@ -81,7 +81,7 @@ public class SourceFile {
 	// File after = new File(file.getParent() + File.separator + studentId
 	// + "-" + noLecture + ".zip");
 	// if (!file.renameTo(after)) {
-	// System.out.println("•ÏŠ·Ž¸”s");
+	// System.out.println("å¤‰æ›å¤±æ•—");
 	// }
 	// }
 }

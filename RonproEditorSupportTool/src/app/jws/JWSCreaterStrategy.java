@@ -12,11 +12,11 @@ public class JWSCreaterStrategy implements DropStrategy {
 	@Override
 	public void dropPerformed(List<File> files) throws Exception {
 		if (files.size() != 1) {
-			throw new RuntimeException("ƒhƒƒbƒv‚Å‚«‚éƒfƒBƒŒƒNƒgƒŠ‚Í1‚Â‚Ì‚İ‚Å‚·");
+			throw new RuntimeException("ãƒ‰ãƒ­ãƒƒãƒ—ã§ãã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯1ã¤ã®ã¿ã§ã™");
 		}
 		File dir = files.get(0);
 		if (!dir.isDirectory()) {
-			throw new RuntimeException("ƒtƒ@ƒCƒ‹‚Íƒhƒƒbƒv‚Å‚«‚Ü‚¹‚ñ");
+			throw new RuntimeException("ãƒ•ã‚¡ã‚¤ãƒ«ã¯ãƒ‰ãƒ­ãƒƒãƒ—ã§ãã¾ã›ã‚“");
 		}
 
 		File[] zipFiles = dir.listFiles();

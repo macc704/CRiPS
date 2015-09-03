@@ -5,7 +5,7 @@ import framework.DnDFramework;
 public class JWSCreaterMain {
 
 	public static void main(String[] args) {
-		DnDFramework.open("JWSCreater", "番号化されたフォルダリストをドロップしてください",
+		DnDFramework.open("JWSCreater", "逡ｪ蜿ｷ蛹悶＆繧後◆繝輔か繝ｫ繝繝ｪ繧ｹ繝医ｒ繝峨Ο繝�繝励＠縺ｦ縺上□縺輔＞",
 				new JWSCreaterStrategy());
 	}
 }

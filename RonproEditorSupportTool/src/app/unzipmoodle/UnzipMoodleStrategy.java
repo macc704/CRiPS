@@ -23,7 +23,7 @@ public class UnzipMoodleStrategy implements DropStrategy {
 		}
 		String outDirName = inFile.getName().substring(0, inFile.getName().lastIndexOf('.'));
 		File outDir = new File(inFile.getParent() + File.separator + outDirName);
-		// ���Ƀt�H���_������Ă�����ʖ��̃t�H���_���쐬
+		// 既にフォルダが作られていたら別名のフォルダを作成
 		if(outDir.exists()){
 			Calendar calendar = Calendar.getInstance();
 			int year = calendar.get(Calendar.YEAR);

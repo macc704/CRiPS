@@ -21,7 +21,7 @@ public class NameList {
 	private Map<String, String> create(File file) {
 		Map<String, String> map = new HashMap<String, String>();
 		try {
-			// SJIS�ł͈ꕪ�����̓ǂݍ��݂Ɏ��s����̂ŁCMS932�œǂݍ���
+			// SJISでは一分文字の読み込みに失敗するので，MS932で読み込む
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					new FileInputStream(file), "MS932"));
 			String line = null;

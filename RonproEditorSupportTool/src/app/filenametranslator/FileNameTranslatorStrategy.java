@@ -21,7 +21,7 @@ public class FileNameTranslatorStrategy implements DropStrategy {
 	@Override
 	public void dropPerformed(List<File> files) throws Exception {
 		if (files.size() < 2) {
-			throw new RuntimeException("ƒhƒƒbƒv‚·‚éƒtƒ@ƒCƒ‹‚ª‘«‚è‚Ü‚¹‚ñ");
+			throw new RuntimeException("ãƒ‰ãƒ­ãƒƒãƒ—ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¶³ã‚Šã¾ã›ã‚“");
 		} else if (files.size() == 2) {
 			for (File f : files) {
 				if (f.getName().endsWith(".zip")) {
@@ -32,13 +32,13 @@ public class FileNameTranslatorStrategy implements DropStrategy {
 			}
 
 			if (zipFile == null) {
-				throw new RuntimeException("zipƒtƒ@ƒCƒ‹‚ªƒhƒƒbƒv‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
+				throw new RuntimeException("zipãƒ•ã‚¡ã‚¤ãƒ«ãŒãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚Œã¦ã„ã¾ã›ã‚“");
 			} else if (csvFile == null) {
-				throw new RuntimeException("csvƒtƒ@ƒCƒ‹‚ªƒhƒƒbƒv‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ");
+				throw new RuntimeException("csvãƒ•ã‚¡ã‚¤ãƒ«ãŒãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚Œã¦ã„ã¾ã›ã‚“");
 			}
 
 		} else {
-			throw new RuntimeException("ƒhƒƒbƒv‚Å‚«‚éƒtƒ@ƒCƒ‹‚Í2‚Â‚Å‚·");
+			throw new RuntimeException("ãƒ‰ãƒ­ãƒƒãƒ—ã§ãã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã¯2ã¤ã§ã™");
 		}
 
 		// InputDataFrame frame = new InputDataFrame();
@@ -52,7 +52,7 @@ public class FileNameTranslatorStrategy implements DropStrategy {
 		NameList nameList = new NameList(csvFile);
 		SourceFile sourceFile = new SourceFile(zipFile);
 		
-		// zipƒtƒ@ƒCƒ‹‚Æ“¯‚¶ƒtƒHƒ‹ƒ_‚ÉƒŠƒl[ƒ€‚³‚ê‚½zipƒtƒ@ƒCƒ‹‚ğû‚ß‚½ƒtƒHƒ‹ƒ_‚ğì‚é
+		// zipãƒ•ã‚¡ã‚¤ãƒ«ã¨åŒã˜ãƒ•ã‚©ãƒ«ãƒ€ã«ãƒªãƒãƒ¼ãƒ ã•ã‚ŒãŸzipãƒ•ã‚¡ã‚¤ãƒ«ã‚’åã‚ãŸãƒ•ã‚©ãƒ«ãƒ€ã‚’ä½œã‚‹
 		if(zipFile.getParent() != null) {
 			path = zipFile.getParent() + File.separator + "lecture" + File.separator;
 		} else {
@@ -60,31 +60,31 @@ public class FileNameTranslatorStrategy implements DropStrategy {
 		}
 
 		System.out.println(path);
-		// dirì¬
+		// dirä½œæˆ
 		File dir = new File(path);
 		dir.mkdir();
 
 		for (@SuppressWarnings("unchecked")
 		Iterator<File> it = sourceFile.iterator(); it.hasNext();) {
 			File file = it.next();
-			// –¼æ“¾
+			// æ°åå–å¾—
 			String name = file.getName().substring(0,
 					file.getName().indexOf('_'));
-			// ŠwĞ”Ô†æ“¾
+			// å­¦ç±ç•ªå·å–å¾—
 			String studentId = nameList.getStudentId(name);
 			if (studentId == null) {
-				JOptionPane.showMessageDialog(null, "–¼•ë‚É–¼‘O‚ª‚ ‚è‚Ü‚¹‚ñ: " + name);
+				JOptionPane.showMessageDialog(null, "åç°¿ã«åå‰ãŒã‚ã‚Šã¾ã›ã‚“: " + name);
 				break;
 			}
-			// ‰Û‘è”Ô†æ“¾
-			// ƒtƒ@ƒCƒ‹–¼•ÏŠ·
+			// èª²é¡Œç•ªå·å–å¾—
+			// ãƒ•ã‚¡ã‚¤ãƒ«åå¤‰æ›
 			File after = new File(path + File.separator + studentId + ".zip");
-			// Šù‚É‘¶İ‚µ‚Ä‚¢‚éê‡‚Ííœ‚µ‚Ä’u‚«Š·‚¦
+			// æ—¢ã«å­˜åœ¨ã—ã¦ã„ã‚‹å ´åˆã¯å‰Šé™¤ã—ã¦ç½®ãæ›ãˆ
 			if (after.exists()) {
 				after.delete();
 			}
 			if (!file.renameTo(after)) {
-				JOptionPane.showMessageDialog(null, "•ÏŠ·¸”s: " + file.getName());
+				JOptionPane.showMessageDialog(null, "å¤‰æ›å¤±æ•—: " + file.getName());
 			}
 		}
 	}

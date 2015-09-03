@@ -5,7 +5,7 @@ import framework.DnDFramework;
 public class FileNameTranslatorMain {
 
 	public static void main(String[] args) {
-		DnDFramework.open("FileNameTranslator", "zipファイルとcsvファイルをドロップしてください",
+		DnDFramework.open("FileNameTranslator", "zip繝輔ぃ繧､繝ｫ縺ｨcsv繝輔ぃ繧､繝ｫ繧偵ラ繝ｭ繝�繝励＠縺ｦ縺上□縺輔＞",
 				new FileNameTranslatorStrategy());
 	}
 

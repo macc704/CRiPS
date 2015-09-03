@@ -39,7 +39,7 @@ public class InputDataFrame extends JFrame {
 
 		JPanel main = new JPanel();
 		main.setLayout(new BorderLayout());
-		main.add(new JLabel("‰Û‘è”Ô†‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢"), BorderLayout.NORTH);
+		main.add(new JLabel("èª²é¡Œç•ªå·ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„"), BorderLayout.NORTH);
 		main.add(textField, BorderLayout.CENTER);
 
 		pane.add(main, BorderLayout.CENTER);
@@ -54,7 +54,7 @@ public class InputDataFrame extends JFrame {
 
 	private void doClose() {
 		if (textField.getText().length() == 0) {
-			JOptionPane.showMessageDialog(this, "‰Û‘è”Ô†‚ª‚ ‚è‚Ü‚¹‚ñ");
+			JOptionPane.showMessageDialog(this, "èª²é¡Œç•ªå·ãŒã‚ã‚Šã¾ã›ã‚“");
 			return;
 		} else {
 			lectureNumber = textField.getText();
