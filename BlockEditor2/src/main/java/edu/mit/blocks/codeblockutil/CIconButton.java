@@ -21,7 +21,7 @@ import java.awt.image.Kernel;
  * A CIconButton is a swing-compatible widget that allows clients
  * to display a circular button with an optional icon.  Clients
  * may choose from the the possible set of of icons: play, pause, step.
- * 
+ *
  * To add a particular action to this widget, users should invoke
  * this.addMouseListener( new CButtonListener());
  */
@@ -36,7 +36,7 @@ public class CIconButton extends CButton {
 
     /** icon inset of this button */
     private static final int ICON_INSET = 12;
-    
+
     /** Button icon */
     private Icon icon;
 
@@ -50,10 +50,6 @@ public class CIconButton extends CButton {
         super.setPreferredSize(new Dimension(40, 40));
         super.setSize(new Dimension(40, 40));
 
-        //Check rep
-        if (!(ICON_INSET > 2 * INSET)) {
-            throw new RuntimeException("insets faulty");
-        }
     }
 
     /**
@@ -69,10 +65,6 @@ public class CIconButton extends CButton {
         super.setPreferredSize(new Dimension(40, 40));
         super.setSize(new Dimension(40, 40));
 
-        //Check rep
-        if (!(ICON_INSET > 2 * INSET)) {
-            throw new RuntimeException("insets faulty");
-        }
     }
 
     /**

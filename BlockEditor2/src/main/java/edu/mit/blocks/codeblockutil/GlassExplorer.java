@@ -25,7 +25,7 @@ import edu.mit.blocks.workspace.Workspace;
 
 /**
  * See documentation for Explorer.
- * 
+ *
  * A Glass Explorer explores the canvas by normally
  * displaying only the buttons.  When the user selects a
  * particular button, the corresponding canvas is rolled out
@@ -51,11 +51,13 @@ public class GlassExplorer extends JPanel implements Explorer, FocusListener {
     /** The default index signifying no canvases have been selected */
     private static final int DEFAULT_INDEX = 1000;
     /** The width of the canvas panel */
-    private static final int SELECTED_CANVAS_WIDTH = 225;
+    @SuppressWarnings("unused")
+	private static final int SELECTED_CANVAS_WIDTH = 225;
     /** A List of listeners for this canvas */
     private List<ExplorerListener> listeners;
     /** The workspace in use */
-    private final Workspace workspace;
+    @SuppressWarnings("unused")
+	private final Workspace workspace;
 
     /**
      * Constructor
@@ -190,7 +192,7 @@ public class GlassExplorer extends JPanel implements Explorer, FocusListener {
     }
 
     /**
-     * This class represents the glass pane that slides out when 
+     * This class represents the glass pane that slides out when
      * a drawer is selected.
      */
     private class CanvasPane extends JPanel {

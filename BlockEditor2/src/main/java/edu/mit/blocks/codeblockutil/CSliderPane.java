@@ -25,22 +25,22 @@ import javax.swing.SwingConstants;
  * The CSliderPane is a swing-compatible widget that
  * allows users to interface with a slider through
  * the slider itself and three text fields.
- * 
+ *
  * The widget itself mains the bounded range model of ONE particular
  * abstract data structure, to be refered to as the abstract model.
  * This model is displayed graphically through the slider and text
  * fields.
- * 
+ *
  * The model itself has a maximum, a minimum, and a value (to be
  * consistant with all swing components that wrap a bounded range model).
- * 
+ *
  * The GUI representation of the abstract model has three text fields
  * that correspond to the value, left side, and right side of the slider.
  * The text field (left or right) with the lowest numerical value maps to the
  * abstract minimum of the abstract bounded range model.  The text field
  * (left or right) with the highest numerical value maps to the abstract
  * maximum.
- * 
+ *
  * As with most swing lightweight components, the CSliderPane is itself
  * a controller that manages the display and interface between the
  * abstract model and UI (view).  The CSliderPane's controller is
@@ -52,11 +52,11 @@ import javax.swing.SwingConstants;
  *  3	notfying observers of the CSliderPane's ChangeEvents that the abstract
  *  	value was changed by the USER.  This is done by publicly throwing a
  *  	ChangeEvent with a property name of CSliderPane.VALUE_CHANGED
- * 
+ *
  * @specfield minium : float // the minimum value of this abstract bounded range model
  * @specfield maximum : float // the maximum value of this abstract bounded range model
  * @specfield value : float // the abstract value of this abstract bounded range model
- * 
+ *
  */
 public class CSliderPane extends JPanel implements ComponentListener {
 
@@ -341,7 +341,11 @@ public class CSliderPane extends JPanel implements ComponentListener {
      */
     private abstract class CNumberTextField extends JTextField implements KeyListener, FocusListener, MouseListener {
 
-        private final int[] validKeyCodes = {KeyEvent.VK_BACK_SPACE,
+        /**
+		 *
+		 */
+		private static final long serialVersionUID = -565524163688851632L;
+		private final int[] validKeyCodes = {KeyEvent.VK_BACK_SPACE,
             KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT,
             KeyEvent.VK_RIGHT, KeyEvent.VK_END, KeyEvent.VK_HOME};
         //private final char[] validKeyChar = {'.', '-'};
@@ -384,14 +388,16 @@ public class CSliderPane extends JPanel implements ComponentListener {
         public void mousePressed(MouseEvent e) {
         }
 
-        public void mouseDragged(MouseEvent e) {
+        @SuppressWarnings("unused")
+		public void mouseDragged(MouseEvent e) {
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
         }
 
-        public void mouseMoved(MouseEvent e) {
+        @SuppressWarnings("unused")
+		public void mouseMoved(MouseEvent e) {
         }
         //revaluate text widget abstract model and GUI displays
         //whever users moves focus to different component

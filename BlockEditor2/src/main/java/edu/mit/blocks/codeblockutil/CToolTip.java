@@ -17,7 +17,8 @@ public class CToolTip extends JToolTip {
     private static final long serialVersionUID = 328149080249L;
     private Color background = new Color(255, 255, 225);
 
-    private CToolTip() {
+    @SuppressWarnings("unused")
+	private CToolTip() {
         this(new Color(255, 255, 225));
     }
 

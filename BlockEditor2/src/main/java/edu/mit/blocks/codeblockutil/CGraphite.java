@@ -11,6 +11,5 @@ public final class CGraphite {
     public static final Color lightgray = Color.lightGray;
     public static final Color milky = new Color(0, 0, 0, 100);
     public static final Color white = new Color(240, 240, 240);
-    //200-500 isused
-    private static final long serialVersionUID = 328149080430L;
+
 }
