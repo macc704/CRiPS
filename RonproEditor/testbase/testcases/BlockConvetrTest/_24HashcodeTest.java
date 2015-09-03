@@ -1,19 +1,19 @@
 import java.util.*;
 
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Wed Nov 14 12:15:12 JST 2012
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Wed Nov 14 12:15:12 JST 2012
 */
 public class _24HashcodeTest{
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		_24HashcodeTest main = new _24HashcodeTest();
 		main.run();
 	}
 	
-	//ƒƒCƒ“ˆ—
+	//ãƒ¡ã‚¤ãƒ³å‡¦ç†
 	public void run() {
 		String s = "abc";
 		int a = s.hashCode();

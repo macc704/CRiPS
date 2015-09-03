@@ -66,7 +66,7 @@ public class REFileTreeNavigator extends JTree implements
 	}
 
 	/***********************************
-	 * View => Modelの更新系
+	 * View => Model縺ｮ譖ｴ譁ｰ邉ｻ
 	 ************************************/
 
 	/**
@@ -94,7 +94,7 @@ public class REFileTreeNavigator extends JTree implements
 	}
 
 	/***********************************
-	 * Model => Viewの更新系
+	 * Model => View縺ｮ譖ｴ譁ｰ邉ｻ
 	 ************************************/
 
 	/**

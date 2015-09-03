@@ -122,7 +122,7 @@ public class RECheCoProManager {
 	}
 
 	/*******************
-	 * ƒtƒŒ[ƒ€EƒŠƒXƒiŠÖŒW
+	 * ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ»ãƒªã‚¹ãƒŠé–¢ä¿‚
 	 *******************/
 
 	private PropertyChangeListener rePropertyChangeListener;
@@ -368,8 +368,8 @@ public class RECheCoProManager {
 		final String syncLabel;
 		final String nonSyncLabel;
 		if (language == 0){
-			syncLabel = "“¯Šú’†";
-			nonSyncLabel = "”ñ“¯Šú’†";
+			syncLabel = "åŒæœŸä¸­";
+			nonSyncLabel = "éåŒæœŸä¸­";
 		} else {
 			syncLabel = "sync";
 			nonSyncLabel = "async";
@@ -408,9 +408,9 @@ public class RECheCoProManager {
 		JButton pullButton = new JButton();
 		
 		if (language == 0) {
-			pullButton.setText("æ‚è‚İ«");
+			pullButton.setText("å–ã‚Šè¾¼ã¿â†“");
 		} else {
-			pullButton.setText("Import«");
+			pullButton.setText("Importâ†“");
 		}
 		
 		pullButton.addActionListener(new ActionListener() {
@@ -601,7 +601,7 @@ public class RECheCoProManager {
 	}
 
 	/********************
-	 * ƒNƒ‰ƒCƒAƒ“ƒgƒƒCƒ““®ì
+	 * ã‚¯ãƒ©ã‚¤ã‚¢ãƒ³ãƒˆãƒ¡ã‚¤ãƒ³å‹•ä½œ
 	 ********************/
 
 	public void startCheCoPro() {
@@ -685,7 +685,7 @@ public class RECheCoProManager {
 	}
 
 	/**********************
-	 * óM‚µ‚½ƒRƒ}ƒ“ƒh•Ê‚Ìˆ—
+	 * å—ä¿¡ã—ãŸã‚³ãƒãƒ³ãƒ‰åˆ¥ã®å‡¦ç†
 	 **********************/
 
 	private void processLoginResult(CHLoginResult result) {
@@ -712,10 +712,10 @@ public class RECheCoProManager {
 
 	private void processEntryResult(CHEntryResult result) {
 		if (result.isResult()) {
-			// “o˜^¬Œ÷
+			// ç™»éŒ²æˆåŠŸ
 			conn.write(new CHLoginRequest(user, password, color));
 		} else {
-			// “o˜^¸”s
+			// ç™»éŒ²å¤±æ•—
 			System.out.println("Entry failed");
 			conn.close();
 		}
@@ -822,7 +822,7 @@ public class RECheCoProManager {
 	}
 
 	/*********
-	 * Ø’fˆ—
+	 * åˆ‡æ–­å‡¦ç†
 	 *********/
 
 	private void connectionKilled() {
@@ -872,7 +872,7 @@ public class RECheCoProManager {
 	}
 
 	/**********
-	 * ”»’èŠÖŒW
+	 * åˆ¤å®šé–¢ä¿‚
 	 **********/
 
 	public boolean shouldPrintSource(String sender, String senderCurrentFile) {
@@ -900,7 +900,7 @@ public class RECheCoProManager {
 	}
 
 	/****************
-	 * preferenceŠÖŒW
+	 * preferenceé–¢ä¿‚
 	 ****************/
 
 	private static final String LOGINID_LABEL = "CheCoPro.loginid";
@@ -1026,7 +1026,7 @@ public class RECheCoProManager {
 				
 				JPanel languagePanel = new JPanel(flowLayout);
 				languagePanel.add(new JLabel("Language : "));
-				languageBox.addItem("“ú–{Œê");
+				languageBox.addItem("æ—¥æœ¬èª");
 				languageBox.addItem("English");
 				languagePanel.add(languageBox);
 				

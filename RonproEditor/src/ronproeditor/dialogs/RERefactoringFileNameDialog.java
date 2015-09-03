@@ -21,7 +21,7 @@ public class RERefactoringFileNameDialog extends RECreateFileNameDialog {
 
 	public RERefactoringFileNameDialog(REApplication application) {
 		super(application);
-		setTitle("ƒtƒ@ƒCƒ‹iƒNƒ‰ƒXj–¼‚Ì•ÏX");
+		setTitle("ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆã‚¯ãƒ©ã‚¹ï¼‰åã®å¤‰æ›´");
 	}
 
 	public void open(File file) {

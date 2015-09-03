@@ -70,18 +70,18 @@ public class RELineRelationshipAnalyzer {
 			int dJLine = jLineNext - jLine;
 			int dSJ = dJLine - dSLine;
 
-			// Jasmin‚Ì‚½‚ß‚É‹ó”’s‚ğì‚é•ª
+			// Jasminã®ãŸã‚ã«ç©ºç™½è¡Œã‚’ä½œã‚‹åˆ†
 			for (int i = 0; i < dSJ; i++) {
 				writer.write(FileSystemUtil.CR);
 				jLine++;
 			}
 
-			// ƒ\[ƒX‘‚¢‚Ä‚¢‚È‚¢•ª
+			// ã‚½ãƒ¼ã‚¹æ›¸ã„ã¦ã„ãªã„åˆ†
 			for (int i = 0; i < dSLine; i++) {
 				flushLine(scanner, writer);
 			}
 
-			// “–ŠYs
+			// å½“è©²è¡Œ
 			flushLine(scanner, writer);
 
 			// sLine = sLineNext + 1;

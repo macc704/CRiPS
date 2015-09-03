@@ -30,8 +30,8 @@ public class RSRecordPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String CAUSE = "Œ´ˆö";
-	private final String HANDLE = "‘Îˆ•û–@";
+	private final String CAUSE = "åŸå› ";
+	private final String HANDLE = "å¯¾å‡¦æ–¹æ³•";
 
 	private ImageIcon arrowIcon = new ImageIcon(
 			"./ext/reflection/arrow-left.png");
@@ -52,21 +52,21 @@ public class RSRecordPanel extends JPanel {
 		initializeViews();
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-		// ƒ{[ƒ_[‚ğİ’è
+		// ãƒœãƒ¼ãƒ€ãƒ¼ã‚’è¨­å®š
 		setBorder();
 	}
 
 	private void initializeViews() {
 
-		// Œ´ˆö‹LqƒeƒLƒXƒgƒGƒŠƒAƒpƒlƒ‹ì¬
+		// åŸå› è¨˜è¿°ãƒ†ã‚­ã‚¹ãƒˆã‚¨ãƒªã‚¢ãƒ‘ãƒãƒ«ä½œæˆ
 		JPanel causePanel = createTextAreaPanel(new JLabel(CAUSE),
 				causeTextArea, selectCausePanel);
-		causePanel.setBorder(BorderFactory.createTitledBorder("Œ´ˆö"));
+		causePanel.setBorder(BorderFactory.createTitledBorder("åŸå› "));
 
-		// ‘Îˆ‹LqƒeƒLƒXƒgƒGƒŠƒAƒpƒlƒ‹ì¬
+		// å¯¾å‡¦è¨˜è¿°ãƒ†ã‚­ã‚¹ãƒˆã‚¨ãƒªã‚¢ãƒ‘ãƒãƒ«ä½œæˆ
 		JPanel handlePanel = createTextAreaPanel(new JLabel(HANDLE),
 				handleTextArea, selectHandlePanel);
-		handlePanel.setBorder(BorderFactory.createTitledBorder("‘Îˆ•û–@"));
+		handlePanel.setBorder(BorderFactory.createTitledBorder("å¯¾å‡¦æ–¹æ³•"));
 
 		add(causePanel, BorderLayout.CENTER);
 		add(handlePanel, BorderLayout.SOUTH);
@@ -121,7 +121,7 @@ public class RSRecordPanel extends JPanel {
 	};
 
 	private void setBorder() {
-		TitledBorder border = BorderFactory.createTitledBorder("l@‹Lq—“");
+		TitledBorder border = BorderFactory.createTitledBorder("è€ƒå¯Ÿè¨˜è¿°æ¬„");
 		border.setTitleFont(new Font(getFont().getName(), Font.PLAIN, 18));
 		setBorder(border);
 	}
@@ -173,7 +173,7 @@ public class RSRecordPanel extends JPanel {
 
 		pane.add(textAreaPane, BorderLayout.CENTER);
 
-		// ¸”s’m¯‚ª‚ ‚ê‚Î‘I‘ğƒpƒlƒ‹‚ğ’Ç‰Á
+		// å¤±æ•—çŸ¥è­˜ãŒã‚ã‚Œã°é¸æŠãƒ‘ãƒãƒ«ã‚’è¿½åŠ 
 		// if (selectPanel.getList().size() != 0) {
 		pane.add(createSelectPanel(label.getText(), selectPanel),
 				BorderLayout.EAST);
@@ -191,7 +191,7 @@ public class RSRecordPanel extends JPanel {
 		JLabel iconLabel = new JLabel(arrowIcon);
 		pane.add(iconLabel, BorderLayout.WEST);
 
-		TitledBorder border = BorderFactory.createTitledBorder("i¡‚Ü‚Å‚Ì‹Lq‚©‚ç“ü—Íj");
+		TitledBorder border = BorderFactory.createTitledBorder("ï¼ˆä»Šã¾ã§ã®è¨˜è¿°ã‹ã‚‰å…¥åŠ›ï¼‰");
 		border.setBorder(new EmptyBorder(0, 0, 0, 0));
 		pane.setBorder(border);
 		pane.add(selectPanel, BorderLayout.CENTER);
@@ -254,7 +254,7 @@ public class RSRecordPanel extends JPanel {
 			causeTextArea.setText(knowledge.getCause());
 			// setCauseText(knowledge.getCause());
 		} else {
-			causeTextArea.setText("‹Lq“à—e‚ÌˆÙ‚È‚é•¡”‚ÌƒGƒ‰[‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚·B•ÒW‚·‚é‚Æã‘‚«‚³‚ê‚Ü‚·B");
+			causeTextArea.setText("è¨˜è¿°å†…å®¹ã®ç•°ãªã‚‹è¤‡æ•°ã®ã‚¨ãƒ©ãƒ¼ãŒé¸æŠã•ã‚Œã¦ã„ã¾ã™ã€‚ç·¨é›†ã™ã‚‹ã¨ä¸Šæ›¸ãã•ã‚Œã¾ã™ã€‚");
 		}
 
 		if (!isDifferentHandle()) {
@@ -262,7 +262,7 @@ public class RSRecordPanel extends JPanel {
 			handleTextArea.setText(knowledge.getHandle());
 			// setHandleText(knowledge.getHandle());
 		} else {
-			handleTextArea.setText("‹Lq“à—e‚ÌˆÙ‚È‚é•¡”‚ÌƒGƒ‰[‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚·B•ÒW‚·‚é‚Æã‘‚«‚³‚ê‚Ü‚·B");
+			handleTextArea.setText("è¨˜è¿°å†…å®¹ã®ç•°ãªã‚‹è¤‡æ•°ã®ã‚¨ãƒ©ãƒ¼ãŒé¸æŠã•ã‚Œã¦ã„ã¾ã™ã€‚ç·¨é›†ã™ã‚‹ã¨ä¸Šæ›¸ãã•ã‚Œã¾ã™ã€‚");
 		}
 
 		causeTextArea.getDocument().addDocumentListener(causeDocumentListener);
@@ -283,7 +283,7 @@ public class RSRecordPanel extends JPanel {
 		private boolean cause = false;
 
 		public RSSelectFailureKnowledgePanel() {
-			// ƒNƒŠƒbƒN‚Ì“®ìİ’è
+			// ã‚¯ãƒªãƒƒã‚¯æ™‚ã®å‹•ä½œè¨­å®š
 			getJList().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			getJList().addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
@@ -310,31 +310,31 @@ public class RSRecordPanel extends JPanel {
 
 			removeAll();
 
-			List<Object> checkList = new ArrayList<Object>(); // “¯‚¶•¶š—ñ‚ª‚ ‚é‚©‚·‚Å‚ÉŠÜ‚Ü‚ê‚Ä‚¢‚é‚©ƒ`ƒFƒbƒN‚·‚éƒŠƒXƒg
+			List<Object> checkList = new ArrayList<Object>(); // åŒã˜æ–‡å­—åˆ—ãŒã‚ã‚‹ã‹ã™ã§ã«å«ã¾ã‚Œã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ãƒªã‚¹ãƒˆ
 			for (RSFailureKnowledge knowledge : showKnowledges) {
 				if (cause && !containsElement(knowledge.getCause(), checkList)) {
-					if (!knowledge.getCause().equals("‚æ‚­•ª‚©‚ç‚È‚¢")) {
+					if (!knowledge.getCause().equals("ã‚ˆãåˆ†ã‹ã‚‰ãªã„")) {
 						addElement(knowledge.getCause());
 					}
 				} else if (!cause
 						&& !containsElement(knowledge.getHandle(), checkList)) {
-					if (!knowledge.getHandle().equals("ƒGƒ‰[‚Ì•”•ª‚ğíœ‚µ‚½")
+					if (!knowledge.getHandle().equals("ã‚¨ãƒ©ãƒ¼ã®éƒ¨åˆ†ã‚’å‰Šé™¤ã—ãŸ")
 							&& !knowledge.getHandle()
-									.equals("ƒGƒ‰[‚Ì•”•ª‚ğƒRƒƒ“ƒgƒAƒEƒg‚µ‚½")
+									.equals("ã‚¨ãƒ©ãƒ¼ã®éƒ¨åˆ†ã‚’ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã—ãŸ")
 							&& !knowledge.getHandle().equals(
-									"ƒGƒ‰[‚ª”­¶‚µ‚Ä‚¢‚È‚¢‚Ìƒ\[ƒXƒR[ƒh‚É–ß‚µ‚½")) {
+									"ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¦ã„ãªã„æ™‚ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã«æˆ»ã—ãŸ")) {
 						addElement(knowledge.getHandle());
 					}
 				}
 			}
 
-			// ––”ö‚ÉƒfƒtƒHƒ‹ƒg‚Åİ’è‚µ‚Ä‚¨‚­
+			// æœ«å°¾ã«ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§è¨­å®šã—ã¦ãŠã
 			if (cause) {
-				addElement("‚æ‚­•ª‚©‚ç‚È‚¢");
+				addElement("ã‚ˆãåˆ†ã‹ã‚‰ãªã„");
 			} else {
-				addElement("ƒGƒ‰[‚Ì•”•ª‚ğíœ‚µ‚½");
-				addElement("ƒGƒ‰[‚Ì•”•ª‚ğƒRƒƒ“ƒgƒAƒEƒg‚µ‚½");
-				addElement("ƒGƒ‰[‚ª”­¶‚µ‚Ä‚¢‚È‚¢‚Ìƒ\[ƒXƒR[ƒh‚É–ß‚µ‚½");
+				addElement("ã‚¨ãƒ©ãƒ¼ã®éƒ¨åˆ†ã‚’å‰Šé™¤ã—ãŸ");
+				addElement("ã‚¨ãƒ©ãƒ¼ã®éƒ¨åˆ†ã‚’ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã—ãŸ");
+				addElement("ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¦ã„ãªã„æ™‚ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ã«æˆ»ã—ãŸ");
 			}
 
 			refresh();

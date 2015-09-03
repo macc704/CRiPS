@@ -38,8 +38,8 @@ public abstract class RECreateNameDialog extends REDialog {
 
 	private String defaultName = "Default";
 
-	protected JLabel messageLabel = new JLabel("Å@");
-	protected JTextField nameTextField = new JTextField("Å@");
+	protected JLabel messageLabel = new JLabel("„ÄÄ");
+	protected JTextField nameTextField = new JTextField("„ÄÄ");
 	protected JButton okButton = new JButton("OK");
 	protected JButton cancelButton = new JButton("cancel");
 
@@ -53,7 +53,7 @@ public abstract class RECreateNameDialog extends REDialog {
 		messageLabel.setPreferredSize(new Dimension(300, 50));
 
 		nameTextField.setBorder(BorderFactory
-				.createTitledBorder(getInputTitle() + "ÅF"));
+				.createTitledBorder(getInputTitle() + "Ôºö"));
 		nameTextField.addCaretListener(new CaretListener() {
 			public void caretUpdate(CaretEvent arg0) {
 				validCheck();

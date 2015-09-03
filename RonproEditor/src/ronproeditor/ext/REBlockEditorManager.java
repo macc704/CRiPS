@@ -43,7 +43,7 @@ public class REBlockEditorManager {
 
 		man.start();
 		man.setPriority(Thread.currentThread().getPriority() - 1);
-		// “€Œ‹
+		// å‡çµ
 		// Workspace.getInstance().addWorkspaceListener(new WorkspaceListener()
 		// {
 		// public void workspaceEventOccurred(WorkspaceEvent event) {
@@ -142,8 +142,8 @@ public class REBlockEditorManager {
 	// // String selectButton[] = { "OK", "Java" };
 	// //
 	// // int select = JOptionPane.showOptionDialog(null,
-	// // "Block‚©‚çJava‚É•ÏŠ·‚µ‚Ü‚µ‚½B",
-	// // "¬Œ÷‚µ‚Ü‚µ‚½II", JOptionPane.YES_NO_OPTION,
+	// // "Blockã‹ã‚‰Javaã«å¤‰æ›ã—ã¾ã—ãŸã€‚",
+	// // "æˆåŠŸã—ã¾ã—ãŸï¼ï¼", JOptionPane.YES_NO_OPTION,
 	// // JOptionPane.INFORMATION_MESSAGE, null, selectButton,
 	// // selectButton[0]);
 	// //
@@ -214,11 +214,11 @@ public class REBlockEditorManager {
 
 			public void doTask() {
 				try {
-					// xmlƒtƒ@ƒCƒ‹¶¬
+					// xmlãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆ
 					String emptyWorkSpace = emptyBEWorkSpacePrint();
 					String emptyFactory = emptyBEFactoryPrint();
 
-					// BlockEditor‚É”½‰f
+					// BlockEditorã«åæ˜ 
 					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
 					blockEditor.setCompileErrorTitle(target.getName());
 				} catch (Exception ex) {
@@ -239,20 +239,20 @@ public class REBlockEditorManager {
 
 			public void doTask() {
 				try {
-					// xmlƒtƒ@ƒCƒ‹¶¬
+					// xmlãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆ
 					String[] libs = app.getLibraryManager().getLibsAsArray();
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 					// File javaFile = app.getSourceManager().getCurrentFile();
 					String xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
 
-					// BlockEditor‚É”½‰f
-					// lang def ƒtƒ@ƒCƒ‹
+					// BlockEditorã«åæ˜ 
+					// lang def ãƒ•ã‚¡ã‚¤ãƒ«
 					/*
-					 * if (isTurtle()) { // lang_def.dtd‚Ì‘‚«Š·‚¦ // ÅŒã”ö‚É—v‘f‚ğ’Ç‰Á
+					 * if (isTurtle()) { // lang_def.dtdã®æ›¸ãæ›ãˆ // æœ€å¾Œå°¾ã«è¦ç´ ã‚’è¿½åŠ 
 					 * 
-					 * // menu‚Ì‘‚«Š·‚¦
+					 * // menuã®æ›¸ãæ›ãˆ
 					 * blockEditor.setLangDefFilePath(LANG_DEF_TURTLE_PATH); }
-					 * else { // lang_def.dtd‚Ì‘‚«Š·‚¦ // menu‚Ì‘‚«Š·‚¦
+					 * else { // lang_def.dtdã®æ›¸ãæ›ãˆ // menuã®æ›¸ãæ›ãˆ
 					 * blockEditor.setLangDefFilePath(LANG_DEF_PATH); }
 					 */
 
@@ -265,7 +265,7 @@ public class REBlockEditorManager {
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
 				} catch (Exception ex) {
 					ex.printStackTrace();
-					CErrorDialog.show(app.getFrame(), "Block•ÏŠ·‚ÌƒGƒ‰[", ex);
+					CErrorDialog.show(app.getFrame(), "Blockå¤‰æ›æ™‚ã®ã‚¨ãƒ©ãƒ¼", ex);
 				}
 			}
 		});
@@ -290,11 +290,11 @@ public class REBlockEditorManager {
 
 			public void doTask() {
 				try {
-					// xmlƒtƒ@ƒCƒ‹¶¬
+					// xmlãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆ
 					String emptyWorkSpace = emptyBEWorkSpacePrint();
 					String emptyFactory = emptyBEFactoryPrint();
 
-					// BlockEditor‚É”½‰f
+					// BlockEditorã«åæ˜ 
 					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
 				} catch (Exception ex) {
 				}
@@ -341,7 +341,7 @@ public class REBlockEditorManager {
 		}
 	}
 
-	// 20130926 DENO‚ªBlockEditor‚ğ’¼ÚQÆ‚·‚éİŒv‚Íb’è
+	// 20130926 DENOãŒBlockEditorã‚’ç›´æ¥å‚ç…§ã™ã‚‹è¨­è¨ˆã¯æš«å®š
 	public WorkspaceController getBlockEditor() {
 		if (isWorkspaceOpened()) {
 			return blockEditor;

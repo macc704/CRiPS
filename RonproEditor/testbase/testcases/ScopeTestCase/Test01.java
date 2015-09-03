@@ -1,16 +1,16 @@
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Mon Oct 21 16:08:02 JST 2013
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Mon Oct 21 16:08:02 JST 2013
 */
 public class Test01 extends Turtle {
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		Turtle.startTurtle(new Test01());
 	}
 	
-	//ƒ^[ƒgƒ‹‚ğ“®‚©‚·ˆ—
+	//ã‚¿ãƒ¼ãƒˆãƒ«ã‚’å‹•ã‹ã™å‡¦ç†
 	public void start() {
 		int i = 1;
 		if(i == 1){

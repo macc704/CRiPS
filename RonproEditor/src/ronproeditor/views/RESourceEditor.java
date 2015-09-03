@@ -104,7 +104,7 @@ public class RESourceEditor {
 		textPane.getDocument().addDocumentListener(documentListener);
 		textPane.getDocument().addUndoableEditListener(documentListener);
 
-		// Debugger’â~
+		// Debuggeråœæ­¢
 		// application.getDebugManager().addPropertyChangeListener(
 		// new PropertyChangeListener() {
 		// public void propertyChange(PropertyChangeEvent evt) {
@@ -200,11 +200,11 @@ public class RESourceEditor {
 		}
 	}
 
-	// TODO ‰¼‚ÌÀ‘•
+	// TODO ä»®ã®å®Ÿè£…
 	public void refresh() {
 		if (isDirty()) {
-			JOptionPane.showMessageDialog(application.getFrame(), "•s³‚ÈXV",
-					"•ÒW‚³‚ê‚Ä‚¢‚Ü‚·", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(application.getFrame(), "ä¸æ­£ãªæ›´æ–°",
+					"ç·¨é›†ã•ã‚Œã¦ã„ã¾ã™", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		setText(loadText());
@@ -227,7 +227,7 @@ public class RESourceEditor {
 
 		public void changedUpdate(DocumentEvent e) {
 			state = State.CHANGING;
-			// setDirty(true); // font‚ğ•Ï‚¦‚½‚Æ‚«‚Édirty‚É‚È‚Á‚Ä‚µ‚Ü‚¤D
+			// setDirty(true); // fontã‚’å¤‰ãˆãŸã¨ãã«dirtyã«ãªã£ã¦ã—ã¾ã†ï¼
 		}
 
 		public void insertUpdate(DocumentEvent e) {
@@ -283,9 +283,9 @@ public class RESourceEditor {
 		String newText = IndentEngine.execIndent(text);
 		if (!text.equals(newText)) {
 			application.writePresLog(SubType.START_FORMAT);
-			// getViewer().getTextPane().getDocument().addDocumentListener(documentListener);//2012.10.10ŠëŒ¯‚È‚Ì‚Åˆê’Uƒ„ƒ
+			// getViewer().getTextPane().getDocument().addDocumentListener(documentListener);//2012.10.10å±é™ºãªã®ã§ä¸€æ—¦ãƒ¤ãƒ¡
 			setText(newText);
-			// getViewer().getTextPane().getDocument().addDocumentListener(documentListener);//2012.10.10ŠëŒ¯‚È‚Ì‚Åˆê’Uƒ„ƒ
+			// getViewer().getTextPane().getDocument().addDocumentListener(documentListener);//2012.10.10å±é™ºãªã®ã§ä¸€æ—¦ãƒ¤ãƒ¡
 			application.writePresLog(SubType.END_FORMAT);
 		}
 	}

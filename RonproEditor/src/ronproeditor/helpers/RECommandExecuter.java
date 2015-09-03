@@ -72,7 +72,7 @@ public class RECommandExecuter {
 
 		Runtime rt = Runtime.getRuntime();
 		console.getOut().println(
-				"ƒRƒ}ƒ“ƒhÀs(" + new Date(System.currentTimeMillis()) + "):"
+				"ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œ(" + new Date(System.currentTimeMillis()) + "):"
 						+ getCommandString(commands));
 
 		Process p = rt.exec(listToStringArray(commands), null, dir);
@@ -92,7 +92,7 @@ public class RECommandExecuter {
 		console.setConsoleToStream(null);
 		processes.remove(p);
 		console.getOut().println(
-				"ƒRƒ}ƒ“ƒhI—¹(" + new Date(System.currentTimeMillis()) + "):"
+				"ã‚³ãƒãƒ³ãƒ‰çµ‚äº†(" + new Date(System.currentTimeMillis()) + "):"
 						+ getCommandString(commands));
 	}
 
@@ -138,14 +138,14 @@ public class RECommandExecuter {
 	}
 
 	private static String fixErrorMessage(String message, FontMetrics fontMetrics) {
-		// 2s–Ú‚ÌƒGƒ‰[‰ÓŠ‚ğ’Šo‚·‚é
+		// 2è¡Œç›®ã®ã‚¨ãƒ©ãƒ¼ç®‡æ‰€ã‚’æŠ½å‡ºã™ã‚‹
 		String[] messages = message.split(System.getProperty("line.separator"));
 		if (messages.length < 3) {
-			// •ÏŠ·‚Ì•K—v«‚ª‚È‚¢‚Ì‚Å‚»‚Ì‚Ü‚Ü•Ô‚·
+			// å¤‰æ›ã®å¿…è¦æ€§ãŒãªã„ã®ã§ãã®ã¾ã¾è¿”ã™
 			return message;
 		}
 		
-		//ƒGƒ‰[Œ´ˆö‰ÓŠ‚ÌtabƒL[,ƒXƒy[ƒXƒL[‚ğˆê“xæ‚èœ‚­
+		//ã‚¨ãƒ©ãƒ¼åŸå› ç®‡æ‰€ã®tabã‚­ãƒ¼,ã‚¹ãƒšãƒ¼ã‚¹ã‚­ãƒ¼ã‚’ä¸€åº¦å–ã‚Šé™¤ã
 		String tmpErrorMessage = messages[1].replaceAll("\t", " ");
 		String tmpPointoutMessage = messages[2].replaceAll("\t", " ");		
 		
@@ -153,15 +153,15 @@ public class RECommandExecuter {
 			return message;
 		}
 		
-		//ƒGƒ‰[ƒƒbƒZ[ƒW‚ÌƒsƒNƒZƒ‹”‚ğæ“¾‚·‚é
+		//ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ãƒ”ã‚¯ã‚»ãƒ«æ•°ã‚’å–å¾—ã™ã‚‹
 		int errorMessagePixel = fontMetrics.stringWidth(tmpErrorMessage.substring(0, tmpPointoutMessage.indexOf("^")));
 		
-		//ƒsƒNƒZƒ‹”‚ğ’²®‚·‚é
+		//ãƒ”ã‚¯ã‚»ãƒ«æ•°ã‚’èª¿æ•´ã™ã‚‹
 		while(fontMetrics.stringWidth(tmpPointoutMessage) < errorMessagePixel){
 			tmpPointoutMessage = " " + tmpPointoutMessage;
 		}
 		
-		//V‚µ‚¢ƒƒbƒZ[ƒW‚ğì¬‚·‚é
+		//æ–°ã—ã„ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’ä½œæˆã™ã‚‹
 		String newMessage = "";
 		
 		messages[1]= tmpErrorMessage;

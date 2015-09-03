@@ -107,33 +107,33 @@ public class FileSystemUtil {
 	}
 
 	/**
-	 * ƒtƒ@ƒCƒ‹‚ğƒRƒs[‚·‚é
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 	 * 
 	 * @param source
 	 * @param target
 	 */
 	public static void copyFile(File source, File target) {
 		try {
-			// //ƒGƒ‰[ƒ`ƒFƒbƒN
+			// //ã‚¨ãƒ©ãƒ¼ãƒã‚§ãƒƒã‚¯
 			// if (!source.exists()) {
-			// throw new RuntimeException("ƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñ");
+			// throw new RuntimeException("ãƒ•ã‚¡ã‚¤ãƒ«ãŒå­˜åœ¨ã—ã¾ã›ã‚“");
 			// }
 			// if (target.exists()) {
-			// System.out.println("‚·‚Å‚É‘¶İ‚·‚éƒtƒ@ƒCƒ‹‚ğã‘‚«‚µ‚Ü‚·");
+			// System.out.println("ã™ã§ã«å­˜åœ¨ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¸Šæ›¸ãã—ã¾ã™");
 			// }
 
-			// ‘Oˆ—
+			// å‰å‡¦ç†
 			FileInputStream in = new FileInputStream(source);
 			FileOutputStream out = new FileOutputStream(target);
 
-			// ƒRƒs[‚·‚é
+			// ã‚³ãƒ”ãƒ¼ã™ã‚‹
 			byte[] buf = new byte[1024];
 			int nByte = 0;
 			while ((nByte = in.read(buf)) > 0) {
 				out.write(buf, 0, nByte);
 			}
 
-			// Œãˆ—
+			// å¾Œå‡¦ç†
 			in.close();
 			out.close();
 

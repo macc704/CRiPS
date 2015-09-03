@@ -1,22 +1,22 @@
 import java.util.*;
 
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Tue Nov 13 21:54:12 JST 2012
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Tue Nov 13 21:54:12 JST 2012
 */
 public class _08CalcTest extends Turtle{
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		_08CalcTest main = new _08CalcTest();
 		main.run();
 	}
 	
-	//ƒƒCƒ“ˆ—
-	//Java‚Å‘«‚µZ‚Ì˜AŒ‹‚Í‚Q€®‚Ì‘g‚İ‡‚í‚¹‚Å‚È‚¢D‘½€®‚Æ‚È‚è‘¼‚ÆˆÓ–¡‚ªˆÙ‚È‚é
+	//ãƒ¡ã‚¤ãƒ³å‡¦ç†
+	//Javaã§è¶³ã—ç®—ã®é€£çµã¯ï¼’é …å¼ã®çµ„ã¿åˆã‚ã›ã§ãªã„ï¼å¤šé …å¼ã¨ãªã‚Šä»–ã¨æ„å‘³ãŒç•°ãªã‚‹
 	public void run() {
-		{//‚»‚Ì‚Ü‚Ü‚à‚Ç‚ñ‚È‚¢‚Á‚·@2‰ñ‚â‚ê‚Î–ß‚é
+		{//ãã®ã¾ã¾ã‚‚ã©ã‚“ãªã„ã£ã™ã€€2å›ã‚„ã‚Œã°æˆ»ã‚‹
 			int i = 3 + 5 + 8;
 			int j = 3 + 5 * 8;
 			int k = 3 * 5 * 8;
@@ -24,11 +24,11 @@ public class _08CalcTest extends Turtle{
 			String t1 = "hoge";
 			String t2 = "3" + t1;
 			String t3 = t1 + "3";
-			String t4 = "‚ ‚È‚½‚Ì“ü—Í‚µ‚½‚Ì‚Í" + t2 + "‚Å‚·‚Ë";
-			t4 = "‚ ‚È‚½‚Ì“ü—Í‚µ‚½‚Ì‚Í" + t2 + "‚Å‚·‚Ë";
+			String t4 = "ã‚ãªãŸã®å…¥åŠ›ã—ãŸã®ã¯" + t2 + "ã§ã™ã­";
+			t4 = "ã‚ãªãŸã®å…¥åŠ›ã—ãŸã®ã¯" + t2 + "ã§ã™ã­";
 			int year = 3000;
 			int japaneseYear = 4000;
-			System.out.println(Integer.toString(year) + "”N‚Í" + japaneseYear + "”N‚Å‚·");
+			System.out.println(Integer.toString(year) + "å¹´ã¯" + japaneseYear + "å¹´ã§ã™");
 			int japanese = 100;
 			int math = 50;
 			int english = 40;

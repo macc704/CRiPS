@@ -65,240 +65,240 @@ import ronproeditor.views.RESourceEditor;
  * Ronpro Editor Application
  * 
  * 
- * 2007/09/21 version 1.0.0 ƒŠƒŠ[ƒX 
- * 2007/09/21 version 1.0.1 -cp ‚ª“®‚©‚È‚¢ŠÂ‹«‚ª‚ ‚é‚Ì‚ğC³ -classpath‚É 
- * 2007/09/21 version 1.0.2 ƒRƒ“ƒpƒCƒ‹‚ÉƒRƒ“ƒ\[ƒ‹‚ğƒNƒŠƒA‚·‚é‚æ‚¤‚ÉC³
- * 2007/09/21 version 1.0.3 Mac Runtime#exec() ‚Åclasspath‚É""‚ğ‚Â‚¯‚é‚Æ“®‚©‚È‚¢–â‘è‚ğC³ 
- * 2007/09/21 version 1.0.4 ƒRƒ“ƒ\[ƒ‹‚ÅCtrl-R‚Å‹N“®‚µ‚½‚Æ‚«‚Ì“ü—Í‚Ì•s‹ï‡‰ğÁ 
- * 2007/09/21 version 1.1.0 ƒRƒ“ƒ\[ƒ‹‚ÌErr‚ğÔ‚­•\¦iƒeƒLƒXƒgƒyƒCƒ“‚É•ÏXj 
- * 2007/09/22 version 1.2.0 ƒL[ƒ[ƒhƒnƒCƒ‰ƒCƒg’Ç‰Á, ƒGƒfƒBƒ^‚ğƒeƒLƒXƒgƒyƒCƒ“‚É•ÏX 
- * 2007/09/22 version 1.3.0 ƒtƒH[ƒ}ƒbƒg‚ğƒ^ƒuå‘Ì‚ÉØ‚è‘Ö‚¦ , ƒeƒLƒXƒgƒyƒCƒ“‚Ìƒ^ƒu4•¶š‚É
- * 2007/09/22 version 1.4.0 íœ‹@”\‚ğ’Ç‰ÁCƒŠƒtƒ@ƒNƒ^ƒŠƒ“ƒO•û–@‚Ì“ˆê‰» 
- * 2007/09/22 version 1.5.0 TreeViewer‚ÅCƒ‹[ƒg‚ªŒ©‚¦‚é‚æ‚¤‚É‚µ‚ÄCg‚¢Ÿè‚ğ—Ç‚­‚·‚é ƒfƒtƒHƒ‹ƒgƒ‹[ƒg‚ğMyProject‚É•ÏX 
- * 2007/09/22 version 1.5.1 ƒ_ƒCƒAƒƒO‚ÌŒ©‚½–Ú‚ÌC³
- * 2007/09/22 version 1.5.2 ƒTƒ“ƒvƒ‹ƒeƒ“ƒvƒŒ[ƒg‚ğŠg[ 
- * 2007/09/22 version 1.5.3 Tree‚ªScroll‚É‚È‚Á‚Ä‚¢‚È‚­‚Ä‘½‚­‚È‚é‚Æ‚µ‚½‚ªØ‚ê‚Ä‚µ‚Ü‚Á‚½‚Ì‚ÅScrollƒo[‚ğ‚Â‚¯‚½ 
- * 2007/09/22 version 1.5.4 Tree‚ª‰½‚à‘I‘ğ‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚É‚à‚¤ˆê“x‘I‘ğ‚µ‚Ä‚µ‚Ü‚¤‚Æ—áŠO‚ªo‚Ä‚¢‚½‚Ì‚ğC³ 
- * 2007/09/22 version 1.6.0 ƒpƒbƒP[ƒW‚ğ—˜—p‚Å‚«‚é‚æ‚¤‚É‚µ‚½DiRonproEditor©g‚ğƒRƒ“ƒpƒCƒ‹‚µ‚½‚©‚Á‚½‚Ì‚Åj
- * 2007/09/22 version 1.6.1 Mac‚ÅƒXƒy[ƒX‚ªg‚¦‚È‚¢–â‘è‚ğcommand”­s‚Ìd‘g‚İ‚ğ•Ï‚¦‚é‚±‚Æ‚ÅC³ 
- * 2007/09/22 version 1.6.2 Mac‚ÅCtrlƒL[‚ªAppleƒL[‚É‚È‚ç‚È‚¢–â‘è‚ğC³ 
- * 2007/09/22 version 1.6.3 Mac‚ÅCtrl-Q‚ªI—¹‚µ‚Ä‚µ‚Ü‚¤‚Ì‚ÅƒRƒ“ƒpƒCƒ‹‚ÌƒVƒ‡[ƒgƒJƒbƒg‚ğCtrl-E‚É•ÏX 
- * 2007/10/03 version 1.6.4 Windows‚ÅƒXƒy[ƒX‚ªg‚¦‚È‚¢–â‘è‚ğC³iu"v‚ğ‚Â‚¯‚È‚­‚Ä‚æ‚©‚Á‚½j 
- * 2007/10/07 version 1.6.5 ƒeƒ“ƒvƒŒ[ƒg‚ÉCVSiƒtƒHƒ‹ƒ_j‚ª•\¦‚³‚ê‚Ä‚µ‚Ü‚Á‚Ä‚¢‚ÄC‘I‘ğ‚·‚é‚ÆƒGƒ‰[‚É‚È‚Á‚Ä‚µ‚Ü‚¤‚Ì‚ğC³ 
- * 2007/10/08 version 1.6.6 ƒ‰ƒCƒuƒ‰ƒŠ‚ğblib.jar‚É•ÏXDƒeƒ“ƒvƒŒ[ƒg‚ğƒfƒtƒHƒ‹ƒgƒpƒbƒP[ƒW‚Ì‚ÌTurtle.java‚ğg‚¤‚æ‚¤‚É•ÏX 
- * 2007/10/08 version 1.6.7 ƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“ƒAƒbƒv¨blib101.jar 
- * 2007/12/14 version 1.7.0 ƒtƒ@ƒCƒ‹ƒRƒs[‹@”\‚ğ’Ç‰Á
- * 2007/12/14 version 1.7.1 ƒRƒ“ƒpƒCƒ‹‚É¬Œ÷‚µ‚È‚¢‚ÆCÀs‚Å‚«‚È‚¢‚æ‚¤‚É•ÏXiƒRƒ“ƒpƒCƒ‹‚ÉƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚ğíœ)
- * 2007/12/14 version 1.8.0 ƒoƒCƒgƒR[ƒhŠwK‹@”\‚Ì’Ç‰Á(Beta Windows‚Ì‚İ) 
- * 2007/12/14 version 1.8.1 •Û‘¶‚µ‚½‚Æ‚«‚ÉCƒNƒ‰ƒXƒtƒ@ƒCƒ‹‚ğíœ‚·‚é‚æ‚¤‚Éd—l•ÏX 
- * 2007/12/20 version 1.8.2 .jarƒtƒ@ƒCƒ‹(Mac‚Å©“®“I‚Éì¬‚³‚ê‚é)‚ğ“Ç‚Ü‚È‚¢‚æ‚¤‚ÉC³, ˆê’UƒoƒCƒgƒR[ƒhŠwK‹@”\‚ğ–³Œø‰» 
- * 2007/12/21 version 1.8.3 ƒRƒ“ƒpƒCƒ‰‚ÌƒGƒ‰[‚Ìo‚µ•û‚É‚ ‚í‚¹‚ÄCƒRƒ“ƒ\[ƒ‹‚Ìƒ^ƒu‚ÌƒTƒCƒY‚ğ’²®iƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚ÌˆÊ’u‚ª‚¸‚ê‚È‚¢‚æ‚¤‚É‚µ‚½j 
- * 2007/12/21 version 1.8.4 ƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“ƒAƒbƒv¨blib105.jar, japa.jar(version1)‚É•ÏXCƒoƒCƒgƒR[ƒhŠwK‹@”\—LŒø‰»
- * 2007/12/26 version 1.8.5 ƒRƒ}ƒ“ƒhÀs‚É‚»‚ÌƒRƒ}ƒ“ƒh‚ª‚È‚¢‚ÆƒGƒ‰[‚ğo—Í‚·‚é‚æ‚¤‚ÉC³ijavac‚ÌƒpƒX‚ª’Ê‚Á‚Ä‚È‚¢ê‡‚Ö‚Ì‘Îˆj 
- * 2008/11/11 version 1.8.6 ƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚Å‰»‚¯‚éê‡‚ª‚ ‚èC“Ç‚İ‚İ•û–@‚ğJISAutoDetect‚É•ÏX 
- * 2008/11/17 version 1.8.7 ƒtƒ@ƒCƒ‹“Ç‚İ‚İ‚Å‰»‚¯‚éê‡‚ª‚ ‚èC‘‚«‚İ•û–@‚ğSJIS‚É•ÏX 
- * 2009/11/17 version 1.8.8 ƒRƒ“ƒpƒCƒ‹‚²‚Æ‚Éƒtƒ@ƒCƒ‹‚ğlogƒtƒHƒ‹ƒ_‚É•Û‘¶‚·‚é‹@”\AlogƒtƒHƒ‹ƒ_‚ğzip‚Å‚Ü‚Æ‚ß‚é‹@”\‚ğ’Ç‰Áiby turkeyj 
- * 2010/01/06 version 1.8.9 MacOS10.5ŠÂ‹«‚ÅƒRƒ“ƒpƒCƒ‹¸”s‚·‚é‚Ì‚ÅAjavacƒIƒvƒVƒ‡ƒ“‚É -encoding SJIS ‚ğ’Ç‰Áiby turkeyj
- * 2010/01/07 version –¢’è ƒRƒ“ƒ\[ƒ‹‚Å“ú–{Œê“ü—Í‚·‚é‚ÆAŸ‚©‚çƒtƒH[ƒJƒX‚ª“¾‚ç‚ê‚È‚­‚È‚éƒoƒO‚ğC³iby turkeyj
- * 2010/11/05 version 1.9.1 PRES‹@”\’Ç‰Á
- * 2010/11/05 version 1.9.2 .‚©‚çn‚Ü‚éƒeƒ“ƒvƒŒ[ƒg‚ğ“Ç‚İ‚Ü‚È‚¢‚æ‚¤‚É‚·‚é
- * 2011/09/29 version 2.0.0 Ã‰ª‘åŠwî•ñŠw•”‘Î‰”Åiƒ\[ƒXwarningC³‚Ì‚İj 
- * 2011/10/10 version 2.1.0 BlockEditor‚ğ‘g‚İ‚İ
- * 2011/10/10 version 2.1.1 batƒtƒ@ƒCƒ‹‚ğ“¯«iÃ‘åö‹Æ‚ÅC‹N“®‚Å‚«‚È‚¢Šw¶‚ª‚¢‚½‚½‚ßj
- * 2011/10/15 version 2.1.2 ƒvƒƒWƒFƒNƒg‰z‚µ‚Ìƒtƒ@ƒCƒ‹ƒRƒs[‹@”\’Ç‰Á
- * 2011/10/20 version 2.1.3 ƒXƒ}[ƒgƒuƒŒ[ƒX‹@”\‚ğíœ
- * 							ƒXƒ}[ƒgƒCƒ“ƒfƒ“ƒg‹@”\‚ğ’Ç‰Á
- * 							FormatƒAƒ‹ƒSƒŠƒYƒ€‚Ì•ÏXi}}¨}\n}‚É‚·‚éj
- * 2011/10/22 version 2.1.4 ƒƒfƒBƒAƒtƒ@ƒCƒ‹‚ªƒcƒŠ[ƒrƒ…[ƒA‚©‚çŒ©‚ç‚ê‚é‚æ‚¤‚É‚·‚éiÀ‘•‚Í“K“–‚È‚Ì‚ÅŒã‚ÅC³€–Új
- * 2011/10/22 version 2.1.5 blib‚ğ120‚Ö“ü‘Ö
- * 2011/10/23 version 2.1.6 FormatƒAƒ‹ƒSƒŠƒYƒ€‚Ì•ÏXi{{¨{\n{‚É‚·‚éj
- * 							ƒXƒ}[ƒgƒCƒ“ƒfƒ“ƒgƒAƒ‹ƒSƒŠƒYƒ€‚ğ•ÏX‚µA{‚Í‚¢‚­‚Â‚ ‚Á‚Ä‚àƒCƒ“ƒfƒ“ƒgi‚ß‚Í‚P‚Â‚Ü‚ÅC}‚ÍƒCƒ“ƒfƒ“ƒg–ß‚µ–³‚µD
+ * 2007/09/21 version 1.0.0 ãƒªãƒªãƒ¼ã‚¹ 
+ * 2007/09/21 version 1.0.1 -cp ãŒå‹•ã‹ãªã„ç’°å¢ƒãŒã‚ã‚‹ã®ã‚’ä¿®æ­£ -classpathã« 
+ * 2007/09/21 version 1.0.2 ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã«ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã‚ˆã†ã«ä¿®æ­£
+ * 2007/09/21 version 1.0.3 Mac Runtime#exec() ã§classpathã«""ã‚’ã¤ã‘ã‚‹ã¨å‹•ã‹ãªã„å•é¡Œã‚’ä¿®æ­£ 
+ * 2007/09/21 version 1.0.4 ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã§Ctrl-Rã§èµ·å‹•ã—ãŸã¨ãã®å…¥åŠ›ã®ä¸å…·åˆè§£æ¶ˆ 
+ * 2007/09/21 version 1.1.0 ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®Errã‚’èµ¤ãè¡¨ç¤ºï¼ˆãƒ†ã‚­ã‚¹ãƒˆãƒšã‚¤ãƒ³ã«å¤‰æ›´ï¼‰ 
+ * 2007/09/22 version 1.2.0 ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ãƒã‚¤ãƒ©ã‚¤ãƒˆè¿½åŠ , ã‚¨ãƒ‡ã‚£ã‚¿ã‚’ãƒ†ã‚­ã‚¹ãƒˆãƒšã‚¤ãƒ³ã«å¤‰æ›´ 
+ * 2007/09/22 version 1.3.0 ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’ã‚¿ãƒ–ä¸»ä½“ã«åˆ‡ã‚Šæ›¿ãˆ , ãƒ†ã‚­ã‚¹ãƒˆãƒšã‚¤ãƒ³ã®ã‚¿ãƒ–4æ–‡å­—ã«
+ * 2007/09/22 version 1.4.0 å‰Šé™¤æ©Ÿèƒ½ã‚’è¿½åŠ ï¼Œãƒªãƒ•ã‚¡ã‚¯ã‚¿ãƒªãƒ³ã‚°æ–¹æ³•ã®çµ±ä¸€åŒ– 
+ * 2007/09/22 version 1.5.0 TreeViewerã§ï¼Œãƒ«ãƒ¼ãƒˆãŒè¦‹ãˆã‚‹ã‚ˆã†ã«ã—ã¦ï¼Œä½¿ã„å‹æ‰‹ã‚’è‰¯ãã™ã‚‹ ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ«ãƒ¼ãƒˆã‚’MyProjectã«å¤‰æ›´ 
+ * 2007/09/22 version 1.5.1 ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¦‹ãŸç›®ã®ä¿®æ­£
+ * 2007/09/22 version 1.5.2 ã‚µãƒ³ãƒ—ãƒ«ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’æ‹¡å…… 
+ * 2007/09/22 version 1.5.3 TreeãŒScrollã«ãªã£ã¦ã„ãªãã¦å¤šããªã‚‹ã¨ã—ãŸãŒåˆ‡ã‚Œã¦ã—ã¾ã£ãŸã®ã§Scrollãƒãƒ¼ã‚’ã¤ã‘ãŸ 
+ * 2007/09/22 version 1.5.4 TreeãŒä½•ã‚‚é¸æŠã•ã‚Œã¦ã„ãªã„ã¨ãã«ã‚‚ã†ä¸€åº¦é¸æŠã—ã¦ã—ã¾ã†ã¨ä¾‹å¤–ãŒå‡ºã¦ã„ãŸã®ã‚’ä¿®æ­£ 
+ * 2007/09/22 version 1.6.0 ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’åˆ©ç”¨ã§ãã‚‹ã‚ˆã†ã«ã—ãŸï¼ï¼ˆRonproEditorè‡ªèº«ã‚’ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ãŸã‹ã£ãŸã®ã§ï¼‰
+ * 2007/09/22 version 1.6.1 Macã§ã‚¹ãƒšãƒ¼ã‚¹ãŒä½¿ãˆãªã„å•é¡Œã‚’commandç™ºè¡Œã®ä»•çµ„ã¿ã‚’å¤‰ãˆã‚‹ã“ã¨ã§ä¿®æ­£ 
+ * 2007/09/22 version 1.6.2 Macã§Ctrlã‚­ãƒ¼ãŒAppleã‚­ãƒ¼ã«ãªã‚‰ãªã„å•é¡Œã‚’ä¿®æ­£ 
+ * 2007/09/22 version 1.6.3 Macã§Ctrl-QãŒçµ‚äº†ã—ã¦ã—ã¾ã†ã®ã§ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã®ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆã‚’Ctrl-Eã«å¤‰æ›´ 
+ * 2007/10/03 version 1.6.4 Windowsã§ã‚¹ãƒšãƒ¼ã‚¹ãŒä½¿ãˆãªã„å•é¡Œã‚’ä¿®æ­£ï¼ˆã€Œ"ã€ã‚’ã¤ã‘ãªãã¦ã‚ˆã‹ã£ãŸï¼‰ 
+ * 2007/10/07 version 1.6.5 ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã«CVSï¼ˆãƒ•ã‚©ãƒ«ãƒ€ï¼‰ãŒè¡¨ç¤ºã•ã‚Œã¦ã—ã¾ã£ã¦ã„ã¦ï¼Œé¸æŠã™ã‚‹ã¨ã‚¨ãƒ©ãƒ¼ã«ãªã£ã¦ã—ã¾ã†ã®ã‚’ä¿®æ­£ 
+ * 2007/10/08 version 1.6.6 ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’blib.jarã«å¤‰æ›´ï¼ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã®ã®Turtle.javaã‚’ä½¿ã†ã‚ˆã†ã«å¤‰æ›´ 
+ * 2007/10/08 version 1.6.7 ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚¢ãƒƒãƒ—â†’blib101.jar 
+ * 2007/12/14 version 1.7.0 ãƒ•ã‚¡ã‚¤ãƒ«ã‚³ãƒ”ãƒ¼æ©Ÿèƒ½ã‚’è¿½åŠ 
+ * 2007/12/14 version 1.7.1 ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«æˆåŠŸã—ãªã„ã¨ï¼Œå®Ÿè¡Œã§ããªã„ã‚ˆã†ã«å¤‰æ›´ï¼ˆã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã«ã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤)
+ * 2007/12/14 version 1.8.0 ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰å­¦ç¿’æ©Ÿèƒ½ã®è¿½åŠ (Beta Windowsã®ã¿) 
+ * 2007/12/14 version 1.8.1 ä¿å­˜ã—ãŸã¨ãã«ï¼Œã‚¯ãƒ©ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹ã‚ˆã†ã«ä»•æ§˜å¤‰æ›´ 
+ * 2007/12/20 version 1.8.2 .jarãƒ•ã‚¡ã‚¤ãƒ«(Macã§è‡ªå‹•çš„ã«ä½œæˆã•ã‚Œã‚‹)ã‚’èª­ã¾ãªã„ã‚ˆã†ã«ä¿®æ­£, ä¸€æ—¦ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰å­¦ç¿’æ©Ÿèƒ½ã‚’ç„¡åŠ¹åŒ– 
+ * 2007/12/21 version 1.8.3 ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã®ã‚¨ãƒ©ãƒ¼ã®å‡ºã—æ–¹ã«ã‚ã‚ã›ã¦ï¼Œã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®ã‚¿ãƒ–ã®ã‚µã‚¤ã‚ºã‚’èª¿æ•´ï¼ˆã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ã®ä½ç½®ãŒãšã‚Œãªã„ã‚ˆã†ã«ã—ãŸï¼‰ 
+ * 2007/12/21 version 1.8.4 ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚¢ãƒƒãƒ—â†’blib105.jar, japa.jar(version1)ã«å¤‰æ›´ï¼Œãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰å­¦ç¿’æ©Ÿèƒ½æœ‰åŠ¹åŒ–
+ * 2007/12/26 version 1.8.5 ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œæ™‚ã«ãã®ã‚³ãƒãƒ³ãƒ‰ãŒãªã„ã¨ã‚¨ãƒ©ãƒ¼ã‚’å‡ºåŠ›ã™ã‚‹ã‚ˆã†ã«ä¿®æ­£ï¼ˆjavacã®ãƒ‘ã‚¹ãŒé€šã£ã¦ãªã„å ´åˆã¸ã®å¯¾å‡¦ï¼‰ 
+ * 2008/11/11 version 1.8.6 ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã§åŒ–ã‘ã‚‹å ´åˆãŒã‚ã‚Šï¼Œèª­ã¿è¾¼ã¿æ–¹æ³•ã‚’JISAutoDetectã«å¤‰æ›´ 
+ * 2008/11/17 version 1.8.7 ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã§åŒ–ã‘ã‚‹å ´åˆãŒã‚ã‚Šï¼Œæ›¸ãè¾¼ã¿æ–¹æ³•ã‚’SJISã«å¤‰æ›´ 
+ * 2009/11/17 version 1.8.8 ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã”ã¨ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’logãƒ•ã‚©ãƒ«ãƒ€ã«ä¿å­˜ã™ã‚‹æ©Ÿèƒ½ã€logãƒ•ã‚©ãƒ«ãƒ€ã‚’zipã§ã¾ã¨ã‚ã‚‹æ©Ÿèƒ½ã‚’è¿½åŠ ï¼ˆby turkeyï¼‰ 
+ * 2010/01/06 version 1.8.9 MacOS10.5ç’°å¢ƒã§ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å¤±æ•—ã™ã‚‹ã®ã§ã€javacã‚ªãƒ—ã‚·ãƒ§ãƒ³ã« -encoding SJIS ã‚’è¿½åŠ ï¼ˆby turkeyï¼‰
+ * 2010/01/07 version æœªå®š ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã§æ—¥æœ¬èªå…¥åŠ›ã™ã‚‹ã¨ã€æ¬¡ã‹ã‚‰ãƒ•ã‚©ãƒ¼ã‚«ã‚¹ãŒå¾—ã‚‰ã‚Œãªããªã‚‹ãƒã‚°ã‚’ä¿®æ­£ï¼ˆby turkeyï¼‰
+ * 2010/11/05 version 1.9.1 PRESæ©Ÿèƒ½è¿½åŠ 
+ * 2010/11/05 version 1.9.2 .ã‹ã‚‰å§‹ã¾ã‚‹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’èª­ã¿è¾¼ã¾ãªã„ã‚ˆã†ã«ã™ã‚‹
+ * 2011/09/29 version 2.0.0 é™å²¡å¤§å­¦æƒ…å ±å­¦éƒ¨å¯¾å¿œç‰ˆï¼ˆã‚½ãƒ¼ã‚¹warningä¿®æ­£ã®ã¿ï¼‰ 
+ * 2011/10/10 version 2.1.0 BlockEditorã‚’çµ„ã¿è¾¼ã¿
+ * 2011/10/10 version 2.1.1 batãƒ•ã‚¡ã‚¤ãƒ«ã‚’åŒæ¢±ï¼ˆé™å¤§æˆæ¥­ã§ï¼Œèµ·å‹•ã§ããªã„å­¦ç”ŸãŒã„ãŸãŸã‚ï¼‰
+ * 2011/10/15 version 2.1.2 ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆè¶Šã—ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚³ãƒ”ãƒ¼æ©Ÿèƒ½è¿½åŠ 
+ * 2011/10/20 version 2.1.3 ã‚¹ãƒãƒ¼ãƒˆãƒ–ãƒ¬ãƒ¼ã‚¹æ©Ÿèƒ½ã‚’å‰Šé™¤
+ * 							ã‚¹ãƒãƒ¼ãƒˆã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆæ©Ÿèƒ½ã‚’è¿½åŠ 
+ * 							Formatã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã®å¤‰æ›´ï¼ˆ}}â†’}\n}ã«ã™ã‚‹ï¼‰
+ * 2011/10/22 version 2.1.4 ãƒ¡ãƒ‡ã‚£ã‚¢ãƒ•ã‚¡ã‚¤ãƒ«ãŒãƒ„ãƒªãƒ¼ãƒ“ãƒ¥ãƒ¼ã‚¢ã‹ã‚‰è¦‹ã‚‰ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹ï¼ˆå®Ÿè£…ã¯é©å½“ãªã®ã§å¾Œã§ä¿®æ­£é …ç›®ï¼‰
+ * 2011/10/22 version 2.1.5 blibã‚’120ã¸å…¥æ›¿
+ * 2011/10/23 version 2.1.6 Formatã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã®å¤‰æ›´ï¼ˆ{{â†’{\n{ã«ã™ã‚‹ï¼‰
+ * 							ã‚¹ãƒãƒ¼ãƒˆã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã‚’å¤‰æ›´ã—ã€{ã¯ã„ãã¤ã‚ã£ã¦ã‚‚ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆé€²ã‚ã¯ï¼‘ã¤ã¾ã§ï¼Œ}ã¯ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆæˆ»ã—ç„¡ã—ï¼
  * 
- * 2011/12/18 version 2.1.7 EBlockEditor‚ªƒo[ƒWƒ‡ƒ“ƒAƒbƒvi•Ûˆäj
- * 							Ekana/FlowViewerì¬ŠJn
- * 							Eblib‚ğ128‚Ö“ü‘Ö
- * 2012/01/24 version 2.1.8 E.csvƒtƒ@ƒCƒ‹Œ©‚ê‚é‚æ‚¤‚É‚·‚éD
- * 2012/02/04 version 2.1.9 EFlowViewer‚Ì©“®XV
- * 2012/09/27 version 2.2.0 EBlockEditor‚Ìƒo[ƒWƒ‡ƒ“ƒAƒbƒv
- * 							EGeneRefƒVƒXƒeƒ€‘g
- * 							EPreference
- * 2012/09/27 version 2.2.1 EPreference‚ÌƒoƒOC³
- * 2012/09/28 version 2.2.2 Eblib‚ğ123->129
- * 							Eupdater‚ğ‘g
+ * 2011/12/18 version 2.1.7 ãƒ»BlockEditorãŒãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚¢ãƒƒãƒ—ï¼ˆä¿äº•ï¼‰
+ * 							ãƒ»kana/FlowViewerä½œæˆé–‹å§‹
+ * 							ãƒ»blibã‚’128ã¸å…¥æ›¿
+ * 2012/01/24 version 2.1.8 ãƒ».csvãƒ•ã‚¡ã‚¤ãƒ«è¦‹ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹ï¼
+ * 2012/02/04 version 2.1.9 ãƒ»FlowViewerã®è‡ªå‹•æ›´æ–°
+ * 2012/09/27 version 2.2.0 ãƒ»BlockEditorã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚¢ãƒƒãƒ—
+ * 							ãƒ»GeneRefã‚·ã‚¹ãƒ†ãƒ çµ„è¾¼
+ * 							ãƒ»Preference
+ * 2012/09/27 version 2.2.1 ãƒ»Preferenceã®ãƒã‚°ä¿®æ­£
+ * 2012/09/28 version 2.2.2 ãƒ»blibã‚’123->129
+ * 							ãƒ»updaterã‚’çµ„è¾¼
  * 2012/10/02 version 2.2.3 sakakibara
- * 							EGeneRef‚ğƒo[ƒWƒ‡ƒ“ƒAƒbƒv 
- * 							Ecompile‚Ærun‚ÉƒRƒ}ƒ“ƒhÀsŠÔ‚ğ•\¦‚³‚¹‚é‚æ‚¤•ÏX
- * 2012/10/03 version 2.2.4 matsuzawa	EBlockEditor2.1.0
- * 							EBlockEditor‚Ì•¶šƒR[ƒh–â‘è‚ğ‰ğŒˆ 
- * 2012/10/03 version 2.2.5 matsuzawa	Eupdater.jar‚Ìƒo[ƒWƒ‡ƒ“‚ğ1.1.0‚É
- * 2012/10/03 version 2.2.6 matsuzawa	EBlockEditor2.1.1
- * 2012/10/03 version 2.2.7 matsuzawa	EBlockEditor2.1.3
- * 2012/10/03 version 2.2.8 matsuzawa	EBlockEditor2.1.4
- * 2012/10/03 version 2.2.9 matsuzawa	EBlockEditor2.1.5
- * 2012/10/03 version 2.2.10 sakakibara	EGeneRef1.0.4
- * 2012/10/03 version 2.2.11 matsuzawa	EBlockEditor2.1.6
- * 2012/10/04 version 2.2.12 sakakibara	EGeneRef1.0.5
- * 2012/10/04 version 2.2.13 sakakibara	EGeneRef1.0.6
- * 							EPreference‚Åcancel‚µ‚Ä‚àó‘Ô‚ªc‚Á‚Ä‚µ‚Ü‚¤•s‹ï‡‚ğC³
- * 2012/10/09 version 2.2.14 matsuzawa	EBlockEditor2.1.9
- * 							EƒƒMƒ“ƒOü‚è‚ÌC³iSourceEditorŒnC“®ì‚µ‚Ä‚¢‚È‚©‚Á‚½j
+ * 							ãƒ»GeneRefã‚’ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚¢ãƒƒãƒ— 
+ * 							ãƒ»compileã¨runæ™‚ã«ã‚³ãƒãƒ³ãƒ‰å®Ÿè¡Œæ™‚é–“ã‚’è¡¨ç¤ºã•ã›ã‚‹ã‚ˆã†å¤‰æ›´
+ * 2012/10/03 version 2.2.4 matsuzawa	ãƒ»BlockEditor2.1.0
+ * 							ãƒ»BlockEditorã®æ–‡å­—ã‚³ãƒ¼ãƒ‰å•é¡Œã‚’è§£æ±º 
+ * 2012/10/03 version 2.2.5 matsuzawa	ãƒ»updater.jarã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’1.1.0ã«
+ * 2012/10/03 version 2.2.6 matsuzawa	ãƒ»BlockEditor2.1.1
+ * 2012/10/03 version 2.2.7 matsuzawa	ãƒ»BlockEditor2.1.3
+ * 2012/10/03 version 2.2.8 matsuzawa	ãƒ»BlockEditor2.1.4
+ * 2012/10/03 version 2.2.9 matsuzawa	ãƒ»BlockEditor2.1.5
+ * 2012/10/03 version 2.2.10 sakakibara	ãƒ»GeneRef1.0.4
+ * 2012/10/03 version 2.2.11 matsuzawa	ãƒ»BlockEditor2.1.6
+ * 2012/10/04 version 2.2.12 sakakibara	ãƒ»GeneRef1.0.5
+ * 2012/10/04 version 2.2.13 sakakibara	ãƒ»GeneRef1.0.6
+ * 							ãƒ»Preferenceã§cancelã—ã¦ã‚‚çŠ¶æ…‹ãŒæ®‹ã£ã¦ã—ã¾ã†ä¸å…·åˆã‚’ä¿®æ­£
+ * 2012/10/09 version 2.2.14 matsuzawa	ãƒ»BlockEditor2.1.9
+ * 							ãƒ»ãƒ­ã‚®ãƒ³ã‚°å‘¨ã‚Šã®ä¿®æ­£ï¼ˆSourceEditorç³»ï¼Œå‹•ä½œã—ã¦ã„ãªã‹ã£ãŸï¼‰
  * 2012/10/10 version 2.2.15 matsuzawa
- * 							ESourceEditor, SourceViewer‚Ì•ª—£ ƒŠƒtƒ@ƒNƒ^ƒŠƒ“ƒO
- * 2012/10/10 version 2.2.16 matsuzawa	EBlockEditor2.1.10
- * 2012/10/10 version 2.3.0 matsuzawa	EƒƒMƒ“ƒO‚Ì’Ç‰ÁCFORMAT_START, END, BLOCK_LOADING_START, END
- * 2012/10/10 version 2.3.1 matsuzawa	EBlockEditor2.1.11
- * 2012/10/14 version 2.3.2 sakakibara	EGeneRef1.0.7
- * 2012/10/14 version 2.3.3 sakakibara	EGeneRef1.0.8
- * 2012/10/15 version 2.3.4 sakakibara	EGeneRef1.0.9
- * 2012/10/16 version 2.4.0 matsuzawa EBlockEditor 2.1.12
- * 									EFont‚Ì•ÏX‚ªo—ˆ‚éD
- * 2012/10/16 version 2.4.1 matsuzawa Font‚Ì•ÏX, ƒoƒO‚ÌC³
- * 2012/10/18 version 2.4.2 matsuzawa EBlockEditor 2.2.0 d‘å‚ÈƒoƒOC³
- * 									EPreference Windowƒ^ƒCƒgƒ‹
- * 									EJava Informationƒ_ƒCƒAƒƒO
- * 2012/10/19 version 2.4.3 sakakibara	EGeneRef1.0.10
- * 2012/10/18 version 2.4.4 matsuzawa EBlockEditor 2.3.0 SS
- * 2012/10/18 version 2.4.5 matsuzawa EBlockEditor 2.3.1
- * 2012/10/18 version 2.4.6 matsuzawa EBlockEditor 2.3.2
- * 2012/10/18 version 2.4.7 matsuzawa EFlowViewer SS
- * 2012/10/18 version 2.5.0 matsuzawa EƒRƒƒ“ƒg‹@”\’Ç‰Á
- * 2012/10/22 version 2.5.1 sakakibara	EBE‚ğŠJ‚¢‚½ó‘Ô‚¾‚ÆGeneRef‚ª•\¦‚³‚ê‚È‚¢ƒoƒO‚ğC³
- * 									EBE‚ğŠJ‚¢‚½AŠJ‚¢‚½ó‘Ô‚Åƒtƒ@ƒCƒ‹‚ğ•ÏX‚µ‚½AƒZ[ƒu‚ğ‚µ‚½‚ÌƒRƒ“ƒpƒCƒ‹“®ì‚ğ”ñ•\¦‚É•ÏX
- * 2012/10/23 version 2.5.2 matsuzawa@EBE 2.5.0 -SS, BE‚Ìdirtyó‘Ô‚ğ”½‰fC‘¼BEƒoƒOC³		
- * 2012/10/24 version 2.5.3 sakakibara  EƒRƒ“ƒpƒCƒ‹ˆ—‚ğ’Êí‚ÆBECGeneRef—p‚É•ªŠ„
- * 										EGeneRef 1.1.0
- * 2012/10/29 version 2.6.1 matsuzawa  EBE 2.6.1
- * 2012/10/30 version 2.6.2 matsuzawa  EBE 2.6.2
- *							sakakibara	EGeneRef1.1.1
- * 2012/11/1 version 2.7.0  matsuzawa  EBE 2.7.0
- * 2012/11/4 version 2.8.0  matsuzawa  EBE 2.8.0
- * 2012/11/6 version 2.9.0  matsuzawa  EBE 2.9.0
- * 2012/11/6 version 2.9.1  matsuzawa  EBE 2.9.1
- * 										Eblib1.5.13 (SoundTurtle‚Ìd—l•ÏX)
- * 2012/11/6 version 2.9.2  matsuzawa  EBE 2.9.2
- * 2012/11/7 version 2.9.4  matsuzawa  EBE 2.9.4
- * 										Eblib1.5.14 (setShow()‚Ì’Ç‰Á‚È‚Ç)
- * 2012/11/7 version 2.9.5  matsuzawa  EBE 2.9.5
- * 2012/11/7 version 2.9.6  matsuzawa  EBE 2.9.6
- * 2012/11/8 version 2.9.7  matsuzawa  EBE 2.9.7
- * 2012/11/13 version 2.10.0  sakaki EGeneRef 1.1.2 id‘å‚ÈƒoƒOC³j
- * 							matsuzawa  EBE 2.10.0
- * 2012/11/13 version 2.10.2  matsuzawa  EBE 2.10.2
- * 2012/11/14 version 2.10.3  matsuzawa  EBE 2.10.3
- * 2012/11/14 version 2.10.4  matsuzawa  EFormat‚ÌUndo‚ª‚Ü‚Æ‚ß‚Ä‚Å‚«‚È‚¢–â‘è‚ğC³
- * 2012/11/14 version 2.10.5  matsuzawa	EBE 2.10.5 
- * 										ECUI, Turtle‚Åƒƒjƒ…[‚ªØ‚è‘Ö‚í‚é‚æ‚¤‚Éİ’è
- * 2012/11/14 version 2.10.7  matsuzawa	EBE 2.10.7 
- * 2012/11/14 version 2.10.9  matsuzawa	EBE 2.10.9 
- * 2012/11/14 version 2.10.10  matsuzawa	EBE 2.10.10
- * 2012/11/15 version 2.10.11  matsuzawa	EBE 2.10.11 ö‹Æ’†
- * 2012/11/15 version 2.10.12  matsuzawa	EBE 2.10.12 ö‹Æ’†
- * 2012/11/15 version 2.10.13  matsuzawa	EBE 2.10.13 ö‹Æ’†
- * 2012/11/23 version 2.10.14  matsuzawa	EBE 2.10.14
- * 											EJavaƒtƒ@ƒCƒ‹‚©‚çƒvƒƒWƒFƒNƒg‚ğ‘I‘ğ‚·‚é‚ÆFocusLost‚ÌƒƒO‚ª³‚µ‚­‚Æ‚ê‚È‚¢ƒoƒO‚ğC³
- * 2012/11/23 version 2.10.16  matsuzawa	EBE 2.10.16
- * 2012/11/24 version 2.11.1  matsuzawa		EBE 2.11.1 ŠÖ”
- * 											EJava->Block‚ÌÀsƒXƒŒƒbƒh‚ğThreadManager•û®‚É•ÏX
- * 2012/11/24 version 2.11.2  matsuzawa		EBE 2.11.2 ŠÖ”
- * 2012/11/24 version 2.11.5  matsuzawa		EBE 2.11.5 ŠÖ”
- * 2012/11/24 version 2.11.6  matsuzawa		EBE 2.11.6 ŠÖ” d—v‚ÈƒoƒOC³
- * 2012/11/24 version 2.11.7  matsuzawa		EBE 2.11.7 FlowViewer‚É‘Î‰D‚ªŒ©‚ç‚ê‚é‚æ‚¤‰ñ‹AƒeƒXƒg‚ÅƒoƒOæ‚è
- * 2012/11/25 version 2.11.8  matsuzawa		EBE 2.11.8
- * 2012/11/29 version 2.11.9  sakakibara	EGeneRef 1.1.4
- * 2012/12/03 version 2.11.10 sakakibara	EŒÃ‚¢JDK‚ÅBE‚ª“®‚©‚È‚¢ƒoƒO‚ğC³
- * 2012/12/04 version 2.11.11 matsuzawa		EBlock‚Ìˆø”‚Ì•¶Œ¾‚ğC³
- * 											EdoCompile2 RSErrorMessage ‚ª–ß‚è’l‚É‚È‚Á‚Ä‚¢‚½‚Ì‚ğC³
- * 2012/12/27 version 2.12.1 hakamata		ENoviceDebugger(‰¼)’Ç‰Á@v1.0.0
- * 2012/12/27 version 2.12.2 hakamata		ENoviceDebugger(‰¼) v1.1.0
- * 2012/12/27 version 2.12.3 hakamata		ENoviceDebugger(‰¼) v1.2.0
- * 2013/01/06 version 2.12.4 hakamata		ENoviceDebugger(‰¼) v1.3.0, debugger‚à–¢ƒRƒ“ƒpƒCƒ‹‚ÍÀs‚Å‚«‚È‚¢‚æ‚¤‚ÉC³
- * 2013/01/07 version 2.12.5 hakamata		ENoviceDebugger(‰¼) v1.5.0
- * 2013/01/08 version 2.13.0 matsuzawa		ENoviceDebugger‚ğ³®ƒŠƒŠ[ƒX v 0.1.0
- * 2013/01/09 version 2.13.1 matsuzawa		EBlockEditor 2.11.9
- * 2013/01/09 version 2.14.0 matsuzawa		EBlockEditor 2.12.0
- * 2013/01/09 version 2.15.0 matsuzawa		EBlockEditor 2.13.0
+ * 							ãƒ»SourceEditor, SourceViewerã®åˆ†é›¢ ãƒªãƒ•ã‚¡ã‚¯ã‚¿ãƒªãƒ³ã‚°
+ * 2012/10/10 version 2.2.16 matsuzawa	ãƒ»BlockEditor2.1.10
+ * 2012/10/10 version 2.3.0 matsuzawa	ãƒ»ãƒ­ã‚®ãƒ³ã‚°ã®è¿½åŠ ï¼ŒFORMAT_START, END, BLOCK_LOADING_START, END
+ * 2012/10/10 version 2.3.1 matsuzawa	ãƒ»BlockEditor2.1.11
+ * 2012/10/14 version 2.3.2 sakakibara	ãƒ»GeneRef1.0.7
+ * 2012/10/14 version 2.3.3 sakakibara	ãƒ»GeneRef1.0.8
+ * 2012/10/15 version 2.3.4 sakakibara	ãƒ»GeneRef1.0.9
+ * 2012/10/16 version 2.4.0 matsuzawa ãƒ»BlockEditor 2.1.12
+ * 									ãƒ»Fontã®å¤‰æ›´ãŒå‡ºæ¥ã‚‹ï¼
+ * 2012/10/16 version 2.4.1 matsuzawa Fontã®å¤‰æ›´, ãƒã‚°ã®ä¿®æ­£
+ * 2012/10/18 version 2.4.2 matsuzawa ãƒ»BlockEditor 2.2.0 é‡å¤§ãªãƒã‚°ä¿®æ­£
+ * 									ãƒ»Preference Windowã‚¿ã‚¤ãƒˆãƒ«
+ * 									ãƒ»Java Informationãƒ€ã‚¤ã‚¢ãƒ­ã‚°
+ * 2012/10/19 version 2.4.3 sakakibara	ãƒ»GeneRef1.0.10
+ * 2012/10/18 version 2.4.4 matsuzawa ãƒ»BlockEditor 2.3.0 SS
+ * 2012/10/18 version 2.4.5 matsuzawa ãƒ»BlockEditor 2.3.1
+ * 2012/10/18 version 2.4.6 matsuzawa ãƒ»BlockEditor 2.3.2
+ * 2012/10/18 version 2.4.7 matsuzawa ãƒ»FlowViewer SS
+ * 2012/10/18 version 2.5.0 matsuzawa ãƒ»ã‚³ãƒ¡ãƒ³ãƒˆæ©Ÿèƒ½è¿½åŠ 
+ * 2012/10/22 version 2.5.1 sakakibara	ãƒ»BEã‚’é–‹ã„ãŸçŠ¶æ…‹ã ã¨GeneRefãŒè¡¨ç¤ºã•ã‚Œãªã„ãƒã‚°ã‚’ä¿®æ­£
+ * 									ãƒ»BEã‚’é–‹ã„ãŸæ™‚ã€é–‹ã„ãŸçŠ¶æ…‹ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å¤‰æ›´ã—ãŸæ™‚ã€ã‚»ãƒ¼ãƒ–ã‚’ã—ãŸæ™‚ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å‹•ä½œã‚’éè¡¨ç¤ºã«å¤‰æ›´
+ * 2012/10/23 version 2.5.2 matsuzawaã€€ãƒ»BE 2.5.0 -SS, BEã®dirtyçŠ¶æ…‹ã‚’åæ˜ ï¼Œä»–BEãƒã‚°ä¿®æ­£		
+ * 2012/10/24 version 2.5.3 sakakibara  ãƒ»ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å‡¦ç†ã‚’é€šå¸¸ã¨BEï¼ŒGeneRefç”¨ã«åˆ†å‰²
+ * 										ãƒ»GeneRef 1.1.0
+ * 2012/10/29 version 2.6.1 matsuzawa  ãƒ»BE 2.6.1
+ * 2012/10/30 version 2.6.2 matsuzawa  ãƒ»BE 2.6.2
+ *							sakakibara	ãƒ»GeneRef1.1.1
+ * 2012/11/1 version 2.7.0  matsuzawa  ãƒ»BE 2.7.0
+ * 2012/11/4 version 2.8.0  matsuzawa  ãƒ»BE 2.8.0
+ * 2012/11/6 version 2.9.0  matsuzawa  ãƒ»BE 2.9.0
+ * 2012/11/6 version 2.9.1  matsuzawa  ãƒ»BE 2.9.1
+ * 										ãƒ»blib1.5.13 (SoundTurtleã®ä»•æ§˜å¤‰æ›´)
+ * 2012/11/6 version 2.9.2  matsuzawa  ãƒ»BE 2.9.2
+ * 2012/11/7 version 2.9.4  matsuzawa  ãƒ»BE 2.9.4
+ * 										ãƒ»blib1.5.14 (setShow()ã®è¿½åŠ ãªã©)
+ * 2012/11/7 version 2.9.5  matsuzawa  ãƒ»BE 2.9.5
+ * 2012/11/7 version 2.9.6  matsuzawa  ãƒ»BE 2.9.6
+ * 2012/11/8 version 2.9.7  matsuzawa  ãƒ»BE 2.9.7
+ * 2012/11/13 version 2.10.0  sakaki ãƒ»GeneRef 1.1.2 ï¼ˆé‡å¤§ãªãƒã‚°ä¿®æ­£ï¼‰
+ * 							matsuzawa  ãƒ»BE 2.10.0
+ * 2012/11/13 version 2.10.2  matsuzawa  ãƒ»BE 2.10.2
+ * 2012/11/14 version 2.10.3  matsuzawa  ãƒ»BE 2.10.3
+ * 2012/11/14 version 2.10.4  matsuzawa  ãƒ»Formatæ™‚ã®UndoãŒã¾ã¨ã‚ã¦ã§ããªã„å•é¡Œã‚’ä¿®æ­£
+ * 2012/11/14 version 2.10.5  matsuzawa	ãƒ»BE 2.10.5 
+ * 										ãƒ»CUI, Turtleã§ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãŒåˆ‡ã‚Šæ›¿ã‚ã‚‹ã‚ˆã†ã«è¨­å®š
+ * 2012/11/14 version 2.10.7  matsuzawa	ãƒ»BE 2.10.7 
+ * 2012/11/14 version 2.10.9  matsuzawa	ãƒ»BE 2.10.9 
+ * 2012/11/14 version 2.10.10  matsuzawa	ãƒ»BE 2.10.10
+ * 2012/11/15 version 2.10.11  matsuzawa	ãƒ»BE 2.10.11 æˆæ¥­ä¸­
+ * 2012/11/15 version 2.10.12  matsuzawa	ãƒ»BE 2.10.12 æˆæ¥­ä¸­
+ * 2012/11/15 version 2.10.13  matsuzawa	ãƒ»BE 2.10.13 æˆæ¥­ä¸­
+ * 2012/11/23 version 2.10.14  matsuzawa	ãƒ»BE 2.10.14
+ * 											ãƒ»Javaãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’é¸æŠã™ã‚‹ã¨FocusLostã®ãƒ­ã‚°ãŒæ­£ã—ãã¨ã‚Œãªã„ãƒã‚°ã‚’ä¿®æ­£
+ * 2012/11/23 version 2.10.16  matsuzawa	ãƒ»BE 2.10.16
+ * 2012/11/24 version 2.11.1  matsuzawa		ãƒ»BE 2.11.1 é–¢æ•°
+ * 											ãƒ»Java->Blockæ™‚ã®å®Ÿè¡Œã‚¹ãƒ¬ãƒƒãƒ‰ã‚’ThreadManageræ–¹å¼ã«å¤‰æ›´
+ * 2012/11/24 version 2.11.2  matsuzawa		ãƒ»BE 2.11.2 é–¢æ•°
+ * 2012/11/24 version 2.11.5  matsuzawa		ãƒ»BE 2.11.5 é–¢æ•°
+ * 2012/11/24 version 2.11.6  matsuzawa		ãƒ»BE 2.11.6 é–¢æ•° é‡è¦ãªãƒã‚°ä¿®æ­£
+ * 2012/11/24 version 2.11.7  matsuzawa		ãƒ»BE 2.11.7 FlowViewerã«å¯¾å¿œï¼ãŒè¦‹ã‚‰ã‚Œã‚‹ã‚ˆã†å›å¸°ãƒ†ã‚¹ãƒˆã§ãƒã‚°å–ã‚Š
+ * 2012/11/25 version 2.11.8  matsuzawa		ãƒ»BE 2.11.8
+ * 2012/11/29 version 2.11.9  sakakibara	ãƒ»GeneRef 1.1.4
+ * 2012/12/03 version 2.11.10 sakakibara	ãƒ»å¤ã„JDKã§BEãŒå‹•ã‹ãªã„ãƒã‚°ã‚’ä¿®æ­£
+ * 2012/12/04 version 2.11.11 matsuzawa		ãƒ»Blockã®å¼•æ•°ã®æ–‡è¨€ã‚’ä¿®æ­£
+ * 											ãƒ»doCompile2 RSErrorMessage ãŒæˆ»ã‚Šå€¤ã«ãªã£ã¦ã„ãŸã®ã‚’ä¿®æ­£
+ * 2012/12/27 version 2.12.1 hakamata		ãƒ»NoviceDebugger(ä»®)è¿½åŠ ã€€v1.0.0
+ * 2012/12/27 version 2.12.2 hakamata		ãƒ»NoviceDebugger(ä»®) v1.1.0
+ * 2012/12/27 version 2.12.3 hakamata		ãƒ»NoviceDebugger(ä»®) v1.2.0
+ * 2013/01/06 version 2.12.4 hakamata		ãƒ»NoviceDebugger(ä»®) v1.3.0, debuggerã‚‚æœªã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã¯å®Ÿè¡Œã§ããªã„ã‚ˆã†ã«ä¿®æ­£
+ * 2013/01/07 version 2.12.5 hakamata		ãƒ»NoviceDebugger(ä»®) v1.5.0
+ * 2013/01/08 version 2.13.0 matsuzawa		ãƒ»NoviceDebuggerã‚’æ­£å¼ãƒªãƒªãƒ¼ã‚¹ v 0.1.0
+ * 2013/01/09 version 2.13.1 matsuzawa		ãƒ»BlockEditor 2.11.9
+ * 2013/01/09 version 2.14.0 matsuzawa		ãƒ»BlockEditor 2.12.0
+ * 2013/01/09 version 2.15.0 matsuzawa		ãƒ»BlockEditor 2.13.0
  * 											blib1514.jar -> blib1524.jar
- * 2013/01/09 version 2.15.1 matsuzawa		EBlockEditor 2.13.1
- * 2013/01/09 version 2.15.2 matsuzawa		EBlockEditor warpByTopLeft(), bgColor()ƒ^ƒCƒ‹’Ç‰Á
- * 											EBlockEditor DebugRunƒ{ƒ^ƒ“’Ç‰Á
- * 											ENoviceDebugger ƒƒO‹L˜^
- * 2013/01/09 version 2.15.3 matsuzawa		EJava1.7‚ª•K—v‚¾‚Á‚½‚Ì‚ğ1.5ˆÈã‚É“ˆê‚µ‚½D
- * 2013/01/09 version 2.15.4 matsuzawa		ETools‚ÌNoviceDebugger‚ªã‚ª‚Á‚Ä‚µ‚Ü‚¤‚±‚Æ‚ª‚ ‚é‚Ì‚ğC³D
- * 2013/01/09 version 2.15.5 matsuzawa		ENoviceDebugger0.1.1 ƒpƒbƒP[ƒW–¼‚Ì•ÏXD
- * 2013/01/10 version 2.15.6 matsuzawa		ENoviceDebugger0.1.2 Mac‚É‘Î‰iƒpƒX‚Ìİ’è‚ªWindowsˆË‘¶‚¾‚Á‚½j
- * 2013/01/13 version 2.16.0 matsuzawa		ENoviceDebugger0.1.4
- * 											EClassFileAnalyzer‚ğ—˜—p‚µ‚ÄƒoƒCƒgƒR[ƒh‹@”\‚ğ•œŠˆ
- * 2013/01/15 version 2.16.1 matsuzawa		Eblib1524.jar->blib1525.jar
- * 											EButtonTurtle, InputTurtle‚ÌƒuƒƒbƒN‚É‘Î‰
- * 2013/01/15 version 2.16.2 matsuzawa		EListTurtle#setCursor()‚ÌƒuƒƒbƒN•s‹ï‡‚É‘Î‰
- * 2013/01/22 version 2.16.3 matsuzawa		ENovieDebugger‚Ìƒo[ƒWƒ‡ƒ“ƒAƒbƒv
- * 2013/01/23 version 2.16.4 matsuzawa		ENovieDebugger‚ÌƒƒO‚ğ’Ç‰ÁD
- * 2013/03/14 version 2.16.5 matsuzawa		EFont‚Ì‘å‚«‚³•ÏX‹@”\
- * 2013/04/13 version 2.16.6 matsuzawa		Emac snow leopard‚Å‚Ìjavac•¶š‰»‚¯–â‘è‚ğ‰ğÁijavac‚ÌƒIƒvƒVƒ‡ƒ“‚Å‰ğŒˆj
- * 											EMac‚ÅƒfƒtƒHƒ‹ƒg‚ÌFont‚ğOsaka‚É‚·‚éD
- * 2013/04/13 version 2.16.7 matsuzawa		Emac snow leopard‚Å‚Ìjavac•¶š‰»‚¯–â‘è‚ğ‰ğÁ‚µ‚Ä‚¢‚È‚©‚Á‚½–â‘è‚ğ‰ğŒˆ
- * 											ijarƒtƒ@ƒCƒ‹ƒNƒŠƒbƒN‚Å‹N“®Cfile.encoding‚ªUS-ASCII‚É‚È‚Á‚Ä‚µ‚Ü‚¤‚Ì‚ğ‹­ˆø‚Éã‘j
- * 2013/04/13 version 2.16.8 matsuzawa		E16.7‚Å‚¤‚Ü‚­‚¢‚Á‚Ä‚¢‚È‚©‚Á‚½‚Ì‚ÅC‰ğŒˆ  
- * 2013/04/18 version 2.16.9 matsuzawa		Emac‚Å‚ÌƒfƒoƒbƒK‚Ì•¶š‰»‚¯Dfile.encoding‚ğ‹N“®‚µ‚Ä‚©‚ç‚©‚¦‚é‚Ì‚Í–³ˆÓ–¡D
- * 											.command‹N“®ƒtƒ@ƒCƒ‹“±“ü‚É‚æ‚èª–{“I‚È‰ğŒˆ‚ğ}‚éD  
+ * 2013/01/09 version 2.15.1 matsuzawa		ãƒ»BlockEditor 2.13.1
+ * 2013/01/09 version 2.15.2 matsuzawa		ãƒ»BlockEditor warpByTopLeft(), bgColor()ã‚¿ã‚¤ãƒ«è¿½åŠ 
+ * 											ãƒ»BlockEditor DebugRunãƒœã‚¿ãƒ³è¿½åŠ 
+ * 											ãƒ»NoviceDebugger ãƒ­ã‚°è¨˜éŒ²
+ * 2013/01/09 version 2.15.3 matsuzawa		ãƒ»Java1.7ãŒå¿…è¦ã ã£ãŸã®ã‚’1.5ä»¥ä¸Šã«çµ±ä¸€ã—ãŸï¼
+ * 2013/01/09 version 2.15.4 matsuzawa		ãƒ»Toolsã®NoviceDebuggerãŒä¸ŠãŒã£ã¦ã—ã¾ã†ã“ã¨ãŒã‚ã‚‹ã®ã‚’ä¿®æ­£ï¼
+ * 2013/01/09 version 2.15.5 matsuzawa		ãƒ»NoviceDebugger0.1.1 ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸åã®å¤‰æ›´ï¼
+ * 2013/01/10 version 2.15.6 matsuzawa		ãƒ»NoviceDebugger0.1.2 Macã«å¯¾å¿œï¼ˆãƒ‘ã‚¹ã®è¨­å®šãŒWindowsä¾å­˜ã ã£ãŸï¼‰
+ * 2013/01/13 version 2.16.0 matsuzawa		ãƒ»NoviceDebugger0.1.4
+ * 											ãƒ»ClassFileAnalyzerã‚’åˆ©ç”¨ã—ã¦ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰æ©Ÿèƒ½ã‚’å¾©æ´»
+ * 2013/01/15 version 2.16.1 matsuzawa		ãƒ»blib1524.jar->blib1525.jar
+ * 											ãƒ»ButtonTurtle, InputTurtleã®ãƒ–ãƒ­ãƒƒã‚¯ã«å¯¾å¿œ
+ * 2013/01/15 version 2.16.2 matsuzawa		ãƒ»ListTurtle#setCursor()ã®ãƒ–ãƒ­ãƒƒã‚¯ä¸å…·åˆã«å¯¾å¿œ
+ * 2013/01/22 version 2.16.3 matsuzawa		ãƒ»NovieDebuggerã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚¢ãƒƒãƒ—
+ * 2013/01/23 version 2.16.4 matsuzawa		ãƒ»NovieDebuggerã®ãƒ­ã‚°ã‚’è¿½åŠ ï¼
+ * 2013/03/14 version 2.16.5 matsuzawa		ãƒ»Fontã®å¤§ãã•å¤‰æ›´æ©Ÿèƒ½
+ * 2013/04/13 version 2.16.6 matsuzawa		ãƒ»mac snow leopardã§ã®javacæ–‡å­—åŒ–ã‘å•é¡Œã‚’è§£æ¶ˆï¼ˆjavacã®ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§è§£æ±ºï¼‰
+ * 											ãƒ»Macã§ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®Fontã‚’Osakaã«ã™ã‚‹ï¼
+ * 2013/04/13 version 2.16.7 matsuzawa		ãƒ»mac snow leopardã§ã®javacæ–‡å­—åŒ–ã‘å•é¡Œã‚’è§£æ¶ˆã—ã¦ã„ãªã‹ã£ãŸå•é¡Œã‚’è§£æ±º
+ * 											ï¼ˆjarãƒ•ã‚¡ã‚¤ãƒ«ã‚¯ãƒªãƒƒã‚¯ã§èµ·å‹•æ™‚ï¼Œfile.encodingãŒUS-ASCIIã«ãªã£ã¦ã—ã¾ã†ã®ã‚’å¼·å¼•ã«ä¸Šæ›¸ï¼‰
+ * 2013/04/13 version 2.16.8 matsuzawa		ãƒ»16.7ã§ã†ã¾ãã„ã£ã¦ã„ãªã‹ã£ãŸã®ã§ï¼Œè§£æ±º  
+ * 2013/04/18 version 2.16.9 matsuzawa		ãƒ»macã§ã®ãƒ‡ãƒãƒƒã‚¬ã®æ–‡å­—åŒ–ã‘ï¼file.encodingã‚’èµ·å‹•ã—ã¦ã‹ã‚‰ã‹ãˆã‚‹ã®ã¯ç„¡æ„å‘³ï¼
+ * 											.commandèµ·å‹•ãƒ•ã‚¡ã‚¤ãƒ«å°å…¥ã«ã‚ˆã‚Šæ ¹æœ¬çš„ãªè§£æ±ºã‚’å›³ã‚‹ï¼  
  * 
- * 2013/09/26 version 2.17.0 hakamata		EDENO version0.2.0‚Æ“‡
+ * 2013/09/26 version 2.17.0 hakamata		ãƒ»DENO version0.2.0ã¨çµ±åˆ
  * 
- * 2013/09/26 version 2.18.0 ohata			EBE version 2.14.0‚ÆŒ‹‡
+ * 2013/09/26 version 2.18.0 ohata			ãƒ»BE version 2.14.0ã¨çµåˆ
  * 
- * 2013/10/11 version 2.18.1 hakamata		EDENO version0.2.4‚Æ“‡
- * 											EDENO‚ÌBreakpoint, ÀsˆÊ’u•\¦ƒ‚[ƒh‚ÌØ‚è‘Ö‚¦, cont, Focus‚ÌƒƒO‘‚«o‚µ 
- * 2013/10/16 version 2.19.0 matsuzawa		Eã‹LVƒo[ƒWƒ‡ƒ“‚ğ“‡‚µ‚½week3—pƒo[ƒWƒ‡ƒ“D
- * 2013/10/22 version 2.19.1 matsuzawa		Eƒtƒ@ƒCƒ‹ƒRƒs[‚Ì•s‹ï‡C³
- * 											EBE ƒXƒR[ƒv”»’è‹@”\
- * 											EDENO BlockƒGƒfƒBƒ^”Å‚ğíœ
- * 2013/10/30 version 2.20.0 matsuzawa		EPPV‘g‚İ‚İ
- * 											EBE ƒnƒCƒ‰ƒCƒgbugfix
- * 											Es”Ô†‚Ìfont‚ª’Ç]‚µ‚È‚¢–â‘è‚ğC³
- * 											E‘SŠp‚Ìu{v‚ğ•ÏŠ·‚µ‚æ‚¤‚Æ‚·‚é‚Æƒ\[ƒX‘S‘Ì‚ª‚¨‚©‚µ‚­‚È‚é–â‘è‚ğC³
- * 											E”¼Šp‚Ì{‚ğ“ü—Í‚µ‚½‚Æ‚«‚É}‚ğ©“®“ü—Í‚·‚é‹@”\‚ğíœ
- * 2013/12/4 version 2.21.0 matsuzawa		EÚ×‚ÍgitƒƒO‚ğQÆ‚Ì‚±‚Æ
- * 												E‚¢‚­‚Â‚©bugfix
- * 												EBlockEditor”÷’²®
- * 												E‘SŠpƒXƒy[ƒX•\¦‚È‚Ç
- * 2013/12/15 version 2.22.0 matsuzawa		Eblib‚ÌXV@blib.jar 1.5.26
- * 											EDebugger‚Åupdate()‚ª”½‰f‚³‚ê‚é‚Ì‚ª’x‚¢–â‘è‚ğ‰ğŒˆ
- * 												Eblib‚ÌXV waitrepaintƒ‚[ƒh
- * 												Ewaitrepaintˆø”
- * 												ETurtleƒeƒ“ƒvƒŒ•ÏX args‚ğˆø”‚Æ‚·‚é
- * 2013/12/17 version 2.23.0 matsuzawa		EgitQÆ‚Ì‚±‚Æ
- * 2013/12/17 version 2.23.1 matsuzawa		EgitQÆ‚Ì‚±‚Æ 19“úƒo[ƒWƒ‡ƒ“
- * 2013/12/19 version 2.24.0 matsuzawa		EgitQÆ‚Ì‚±‚Æ CocoviewerŠª‚«–ß‚µ
- * 2014/01/08 version 2.25.0 matsuzawa		EgitQÆ‚Ì‚±‚Æ
+ * 2013/10/11 version 2.18.1 hakamata		ãƒ»DENO version0.2.4ã¨çµ±åˆ
+ * 											ãƒ»DENOã®Breakpoint, å®Ÿè¡Œä½ç½®è¡¨ç¤ºãƒ¢ãƒ¼ãƒ‰ã®åˆ‡ã‚Šæ›¿ãˆ, cont, Focusã®ãƒ­ã‚°æ›¸ãå‡ºã— 
+ * 2013/10/16 version 2.19.0 matsuzawa		ãƒ»ä¸Šè¨˜æ–°ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’çµ±åˆã—ãŸweek3ç”¨ãƒãƒ¼ã‚¸ãƒ§ãƒ³ï¼
+ * 2013/10/22 version 2.19.1 matsuzawa		ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã‚³ãƒ”ãƒ¼ã®ä¸å…·åˆä¿®æ­£
+ * 											ãƒ»BE ã‚¹ã‚³ãƒ¼ãƒ—åˆ¤å®šæ©Ÿèƒ½
+ * 											ãƒ»DENO Blockã‚¨ãƒ‡ã‚£ã‚¿ç‰ˆã‚’å‰Šé™¤
+ * 2013/10/30 version 2.20.0 matsuzawa		ãƒ»PPVçµ„ã¿è¾¼ã¿
+ * 											ãƒ»BE ãƒã‚¤ãƒ©ã‚¤ãƒˆbugfix
+ * 											ãƒ»è¡Œç•ªå·ã®fontãŒè¿½å¾“ã—ãªã„å•é¡Œã‚’ä¿®æ­£
+ * 											ãƒ»å…¨è§’ã®ã€Œ{ã€ã‚’å¤‰æ›ã—ã‚ˆã†ã¨ã™ã‚‹ã¨ã‚½ãƒ¼ã‚¹å…¨ä½“ãŒãŠã‹ã—ããªã‚‹å•é¡Œã‚’ä¿®æ­£
+ * 											ãƒ»åŠè§’ã®{ã‚’å…¥åŠ›ã—ãŸã¨ãã«}ã‚’è‡ªå‹•å…¥åŠ›ã™ã‚‹æ©Ÿèƒ½ã‚’å‰Šé™¤
+ * 2013/12/4 version 2.21.0 matsuzawa		ãƒ»è©³ç´°ã¯gitãƒ­ã‚°ã‚’å‚ç…§ã®ã“ã¨
+ * 												ãƒ»ã„ãã¤ã‹bugfix
+ * 												ãƒ»BlockEditorå¾®èª¿æ•´
+ * 												ãƒ»å…¨è§’ã‚¹ãƒšãƒ¼ã‚¹è¡¨ç¤ºãªã©
+ * 2013/12/15 version 2.22.0 matsuzawa		ãƒ»blibã®æ›´æ–°ã€€blib.jar 1.5.26
+ * 											ãƒ»Debuggerã§update()ãŒåæ˜ ã•ã‚Œã‚‹ã®ãŒé…ã„å•é¡Œã‚’è§£æ±º
+ * 												ãƒ»blibã®æ›´æ–° waitrepaintãƒ¢ãƒ¼ãƒ‰
+ * 												ãƒ»waitrepaintå¼•æ•°
+ * 												ãƒ»Turtleãƒ†ãƒ³ãƒ—ãƒ¬å¤‰æ›´ argsã‚’å¼•æ•°ã¨ã™ã‚‹
+ * 2013/12/17 version 2.23.0 matsuzawa		ãƒ»gitå‚ç…§ã®ã“ã¨
+ * 2013/12/17 version 2.23.1 matsuzawa		ãƒ»gitå‚ç…§ã®ã“ã¨ 19æ—¥ãƒãƒ¼ã‚¸ãƒ§ãƒ³
+ * 2013/12/19 version 2.24.0 matsuzawa		ãƒ»gitå‚ç…§ã®ã“ã¨ Cocoviewerå·»ãæˆ»ã—
+ * 2014/01/08 version 2.25.0 matsuzawa		ãƒ»gitå‚ç…§ã®ã“ã¨
  * 
- * 2014/10/01 version 2.27.0 ohata			E2014ƒvƒƒOƒ‰ƒ~ƒ“ƒOĞ‰ïŠw‰È—p
- * 2014/10/11 version 2.27.1 ohata			EŒy”÷‚ÈƒoƒO‚ğC³
+ * 2014/10/01 version 2.27.0 ohata			ãƒ»2014ãƒ—ãƒ­ã‚°ãƒ©ãƒŸãƒ³ã‚°ç¤¾ä¼šå­¦ç§‘ç”¨
+ * 2014/10/11 version 2.27.1 ohata			ãƒ»è»½å¾®ãªãƒã‚°ã‚’ä¿®æ­£
  * 
 <<<<<<< HEAD
- * 2014/10/01 version 2.27.2 ohata			EƒRƒ“ƒ\[ƒ‹‚ÌƒtƒHƒ“ƒg‚ğƒGƒfƒBƒ^‚ÌƒtƒHƒ“ƒg‚Æ“ˆê
+ * 2014/10/01 version 2.27.2 ohata			ãƒ»ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®ãƒ•ã‚©ãƒ³ãƒˆã‚’ã‚¨ãƒ‡ã‚£ã‚¿ã®ãƒ•ã‚©ãƒ³ãƒˆã¨çµ±ä¸€
 =======
- * 2014/10/18 version 2.27.2 ohata			EƒRƒ“ƒ\[ƒ‹‚ÌƒtƒHƒ“ƒg‚ğƒGƒfƒBƒ^‚ÌƒtƒHƒ“ƒg‚Æ“ˆê
+ * 2014/10/18 version 2.27.2 ohata			ãƒ»ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®ãƒ•ã‚©ãƒ³ãƒˆã‚’ã‚¨ãƒ‡ã‚£ã‚¿ã®ãƒ•ã‚©ãƒ³ãƒˆã¨çµ±ä¸€
 >>>>>>> ronpro_plugin_master
- * 											EƒtƒHƒ“ƒg‚Ì•¶š•‚É‚æ‚éƒGƒ‰[w“EƒƒbƒZ[ƒW‚ÌƒYƒŒ‚ğC³
- * 2014/10/24 version 2.27.3 ohata			Esizeƒƒ\ƒbƒh‚ÌBlock>>Java•ÏŠ·‚ÌƒGƒ‰[‚ğC³
- * 											ETurtle‚ğŒp³‚µ‚½©ìƒNƒ‰ƒXƒuƒƒbƒN‚ğ‰EƒNƒŠƒbƒN‚µ‚½‚Æ‚«‚ÌƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[‚ÉCƒ^[ƒgƒ‹ƒƒjƒ…[‚ğ’Ç‰Á
- * 											EList,Image,TextTurtle‚È‚Ç‚Ìƒƒ\ƒbƒhŒÄ‚Ño‚µƒuƒƒbƒN‚ğ‰B•Á
- * 2014/10/24 version 2.27.4 ohata			EƒRƒ“ƒeƒLƒXƒgƒƒjƒ…[•ÏX
- * 2014/10/24 version 2.27.5 ohata			Eƒƒ\ƒbƒhƒR[ƒ‹–îˆó‚Ì•`‰æˆ—‚ğC³
- * 											EBlock>>Java‚ÌƒGƒ‰[‚ğC³ 
- * 2014/10/24 version 2.27.6 ohata			Eƒƒ\ƒbƒhƒR[ƒ‹–îˆó‚ÌC³,ƒeƒXƒg
- * 											EQÆƒuƒƒbƒN‚ÌƒnƒCƒ‰ƒCƒgˆ—‚ğC³
- * 2014/10/24 version 2.28.0 ohata			Eƒƒ\ƒbƒhƒR[ƒ‹–îˆó‚ÌƒŠƒŠ[ƒX
- * 2014/10/24 version 2.28.1 ohata			Eƒƒ\ƒbƒhƒR[ƒ‹–îˆó‚ÌC³
- * 2014/10/24 version 2.28.2 ohata			EÄ‹A‘Î‰‚ğˆê’â~
- * 2014/10/24 version 2.28.3 ohata			EBE‚ÌÄ‹AƒoƒO‚ğC³C‚»‚Ì‘¼ƒƒ\ƒbƒh’è‹`‚ÌƒoƒO‚ğC³ 
- * 2015/01/14 version 2.29.0 kato           ECheCoProƒŠƒŠ[ƒX
- * 2015/01/14 version 2.29.1 kato           ECheCoPro pullƒƒOC³
- * ƒŒœˆÄ–€„
- * EdoCompile2()‚ÌİŒv‚ªç’·‚È‚Ì‚ÅÄİŒv‚·‚é‚±‚ÆD
- * E"}"‚ğ‰Ÿ‚µ‚½‚Æ‚«‚ÌƒXƒ}[ƒgƒCƒ“ƒfƒ“ƒg
- * EmanagerŒQ‚Ìinitialize‚ÌˆÊ’uCŠ„‚ê‘‹C³‚·‚é‚±‚Æ
- *@EƒtƒHƒ‹ƒ_‚ğƒNƒŠƒbƒN‚µ‚½‚Æ‚«C‰º‹L‚ÌƒGƒ‰[‚ª‚Å‚Ä‚¢‚éD
+ * 											ãƒ»ãƒ•ã‚©ãƒ³ãƒˆã®æ–‡å­—å¹…ã«ã‚ˆã‚‹ã‚¨ãƒ©ãƒ¼æŒ‡æ‘˜ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã®ã‚ºãƒ¬ã‚’ä¿®æ­£
+ * 2014/10/24 version 2.27.3 ohata			ãƒ»sizeãƒ¡ã‚½ãƒƒãƒ‰ã®Block>>Javaå¤‰æ›ã®ã‚¨ãƒ©ãƒ¼ã‚’ä¿®æ­£
+ * 											ãƒ»Turtleã‚’ç¶™æ‰¿ã—ãŸè‡ªä½œã‚¯ãƒ©ã‚¹ãƒ–ãƒ­ãƒƒã‚¯ã‚’å³ã‚¯ãƒªãƒƒã‚¯ã—ãŸã¨ãã®ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼ã«ï¼Œã‚¿ãƒ¼ãƒˆãƒ«ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’è¿½åŠ 
+ * 											ãƒ»List,Image,TextTurtleãªã©ã®ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ãƒ–ãƒ­ãƒƒã‚¯ã‚’éš è”½
+ * 2014/10/24 version 2.27.4 ohata			ãƒ»ã‚³ãƒ³ãƒ†ã‚­ã‚¹ãƒˆãƒ¡ãƒ‹ãƒ¥ãƒ¼å¤‰æ›´
+ * 2014/10/24 version 2.27.5 ohata			ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã‚³ãƒ¼ãƒ«çŸ¢å°ã®æç”»å‡¦ç†ã‚’ä¿®æ­£
+ * 											ãƒ»Block>>Javaã®ã‚¨ãƒ©ãƒ¼ã‚’ä¿®æ­£ 
+ * 2014/10/24 version 2.27.6 ohata			ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã‚³ãƒ¼ãƒ«çŸ¢å°ã®ä¿®æ­£,ãƒ†ã‚¹ãƒˆ
+ * 											ãƒ»å‚ç…§ãƒ–ãƒ­ãƒƒã‚¯ã®ãƒã‚¤ãƒ©ã‚¤ãƒˆå‡¦ç†ã‚’ä¿®æ­£
+ * 2014/10/24 version 2.28.0 ohata			ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã‚³ãƒ¼ãƒ«çŸ¢å°ã®ãƒªãƒªãƒ¼ã‚¹
+ * 2014/10/24 version 2.28.1 ohata			ãƒ»ãƒ¡ã‚½ãƒƒãƒ‰ã‚³ãƒ¼ãƒ«çŸ¢å°ã®ä¿®æ­£
+ * 2014/10/24 version 2.28.2 ohata			ãƒ»å†å¸°å¯¾å¿œã‚’ä¸€æ™‚åœæ­¢
+ * 2014/10/24 version 2.28.3 ohata			ãƒ»BEã®å†å¸°ãƒã‚°ã‚’ä¿®æ­£ï¼Œãã®ä»–ãƒ¡ã‚½ãƒƒãƒ‰å®šç¾©ã®ãƒã‚°ã‚’ä¿®æ­£ 
+ * 2015/01/14 version 2.29.0 kato           ãƒ»CheCoProãƒªãƒªãƒ¼ã‚¹
+ * 2015/01/14 version 2.29.1 kato           ãƒ»CheCoPro pullãƒ­ã‚°ä¿®æ­£
+ * ï¼œæ‡¸æ¡ˆäº‹é …ï¼
+ * ãƒ»doCompile2()ã®è¨­è¨ˆãŒå†—é•·ãªã®ã§å†è¨­è¨ˆã™ã‚‹ã“ã¨ï¼
+ * ãƒ»"}"ã‚’æŠ¼ã—ãŸã¨ãã®ã‚¹ãƒãƒ¼ãƒˆã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆ
+ * ãƒ»managerç¾¤ã®initializeã®ä½ç½®ï¼Œå‰²ã‚Œçª“ä¿®æ­£ã™ã‚‹ã“ã¨
+ *ã€€ãƒ»ãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚¯ãƒªãƒƒã‚¯ã—ãŸã¨ãï¼Œä¸‹è¨˜ã®ã‚¨ãƒ©ãƒ¼ãŒã§ã¦ã„ã‚‹ï¼
  *at ronproeditor.REApplication.writePresLog(REApplication.java:647)
  *at ronproeditor.views.RESourceEditor$2.focusLost(RESourceEditor.java:93)
  */
@@ -401,7 +401,7 @@ public class REApplication implements ICFwApplication {
 				"Makefile", "*.oil", "*.rb", "*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
 		// this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*",
 		// "CVS", "bin"));
-		// @TODO ‚«‚¿‚ñ‚ÆÀ‘•‚·‚é‚±‚Æ 2011/11/22
+		// @TODO ãã¡ã‚“ã¨å®Ÿè£…ã™ã‚‹ã“ã¨ 2011/11/22
 	}
 
 	private void initializeLookAndFeel() {
@@ -418,13 +418,13 @@ public class REApplication implements ICFwApplication {
 		if (CJavaSystem.getInstance().hasCommand("java")) {
 			this.runCommand = "java";
 		} else {
-			JOptionPane.showMessageDialog(frame, "javaƒRƒ}ƒ“ƒh‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ", "‹N“®ƒ`ƒFƒbƒN‚É‚Ğ‚Á‚©‚©‚è‚Ü‚µ‚½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "javaã‚³ãƒãƒ³ãƒ‰ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“", "èµ·å‹•æ™‚ãƒã‚§ãƒƒã‚¯ã«ã²ã£ã‹ã‹ã‚Šã¾ã—ãŸ", JOptionPane.ERROR_MESSAGE);
 			// System.exit(0);
 		}
 
 		this.compileCommand = CJavaSystem.getInstance().getJavacCommand();
 		if (this.compileCommand == null) {
-			JOptionPane.showMessageDialog(frame, "javacƒRƒ}ƒ“ƒh‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ", "‹N“®ƒ`ƒFƒbƒN‚Éˆø‚Á‚©‚©‚è‚Ü‚µ‚½", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "javacã‚³ãƒãƒ³ãƒ‰ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“", "èµ·å‹•æ™‚ãƒã‚§ãƒƒã‚¯ã«å¼•ã£ã‹ã‹ã‚Šã¾ã—ãŸ", JOptionPane.ERROR_MESSAGE);
 			// System.exit(0);
 		}
 	}
@@ -436,7 +436,7 @@ public class REApplication implements ICFwApplication {
 		refactorProjectNameDialog = new RERefactoringProjectNameDialog(this);
 		refactorFileNameDialog = new RERefactoringFileNameDialog(this);
 		copyFileNameDialog = new RECreateFileNameDialogForCopy(this);
-		copyFileNameDialog.setTitle("ƒtƒ@ƒCƒ‹iƒNƒ‰ƒXj‚ÌƒRƒs[");
+		copyFileNameDialog.setTitle("ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆã‚¯ãƒ©ã‚¹ï¼‰ã®ã‚³ãƒ”ãƒ¼");
 	}
 
 	private void prepareRootDirectory(String rootDirName) {
@@ -504,7 +504,7 @@ public class REApplication implements ICFwApplication {
 		doClose();
 
 		if (getSourceManager().getProjectDirectory() == null) {
-			JOptionPane.showMessageDialog(frame, "ƒvƒƒWƒFƒNƒg‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒtƒ@ƒCƒ‹iƒNƒ‰ƒXj‚ğì‚ê‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆã‚¯ãƒ©ã‚¹ï¼‰ã‚’ä½œã‚Œã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -517,7 +517,7 @@ public class REApplication implements ICFwApplication {
 	public void doOpen(File file) {
 		doClose();
 
-		if (file.getName().endsWith("java") || file.getName().endsWith("js") || file.getName().endsWith("dlt")) {// @TODO ‚«‚¿‚ñ‚ÆÀ‘•‚·‚é‚±‚Æ 2011/11/22
+		if (file.getName().endsWith("java") || file.getName().endsWith("js") || file.getName().endsWith("dlt")) {// @TODO ãã¡ã‚“ã¨å®Ÿè£…ã™ã‚‹ã“ã¨ 2011/11/22
 			getSourceManager().open(file);
 		}
 	}
@@ -526,8 +526,8 @@ public class REApplication implements ICFwApplication {
 		if (getSourceManager().hasCurrentFile()) {
 			getFrame().getEditor().doSave();
 
-			blockManager.doCompileBlock(); // —vFƒtƒ@ƒCƒ‹íœ‚Ì‘O‚ÉÀs
-			newBlockManager.doCompileBlock(); // —vFƒtƒ@ƒCƒ‹íœ‚Ì‘O‚ÉÀs
+			blockManager.doCompileBlock(); // è¦ï¼šãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤ã®å‰ã«å®Ÿè¡Œ
+			newBlockManager.doCompileBlock(); // è¦ï¼šãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤ã®å‰ã«å®Ÿè¡Œ
 			
 			deleteRunnable(getSourceManager().getCurrentFile());
 
@@ -548,7 +548,7 @@ public class REApplication implements ICFwApplication {
 			// TODO
 			writePresLog(PRCommandLog.SubType.SAVE);// TODO
 
-			// TODO ã‚Æd•¡
+			// TODO ä¸Šã¨é‡è¤‡
 			flowManager.refreshChart();
 
 			checoproManager.sendText();
@@ -566,11 +566,11 @@ public class REApplication implements ICFwApplication {
 
 	private void doRefactorProjectName() {
 		if (getSourceManager().getProjectDirectory() == null) {
-			JOptionPane.showMessageDialog(frame, "ƒvƒƒWƒFƒNƒg‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒvƒƒWƒFƒNƒg–¼‚ğ•ÏX‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆåã‚’å¤‰æ›´ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
-			JOptionPane.showMessageDialog(frame, "ƒ\[ƒX‚ªƒZ[ƒu‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒvƒƒWƒFƒNƒg–¼‚ğ•ÏX‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚½ãƒ¼ã‚¹ãŒã‚»ãƒ¼ãƒ–ã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆåã‚’å¤‰æ›´ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -584,11 +584,11 @@ public class REApplication implements ICFwApplication {
 
 	private void doRefactorFileName() {
 		if (!getSourceManager().hasCurrentFile()) {
-			JOptionPane.showMessageDialog(frame, "ƒ\[ƒX‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒtƒ@ƒCƒ‹–¼‚ğ•ÏX‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚½ãƒ¼ã‚¹ãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å¤‰æ›´ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
-			JOptionPane.showMessageDialog(frame, "ƒ\[ƒX‚ªƒZ[ƒu‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒtƒ@ƒCƒ‹–¼‚ğ•ÏX‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚½ãƒ¼ã‚¹ãŒã‚»ãƒ¼ãƒ–ã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å¤‰æ›´ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -604,11 +604,11 @@ public class REApplication implements ICFwApplication {
 
 	public void doFileCopy() {
 		if (!getSourceManager().hasCurrentFile()) {
-			JOptionPane.showMessageDialog(frame, "ƒ\[ƒX‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒtƒ@ƒCƒ‹‚ğƒRƒs[‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚½ãƒ¼ã‚¹ãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
-			JOptionPane.showMessageDialog(frame, "ƒ\[ƒX‚ªƒZ[ƒu‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒtƒ@ƒCƒ‹‚ğƒRƒs[‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚½ãƒ¼ã‚¹ãŒã‚»ãƒ¼ãƒ–ã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚³ãƒ”ãƒ¼ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -635,12 +635,12 @@ public class REApplication implements ICFwApplication {
 
 	private void doDeleteProject() {
 		if (getSourceManager().getProjectDirectory() == null) {
-			JOptionPane.showMessageDialog(frame, "ƒvƒƒWƒFƒNƒg‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒvƒƒWƒFƒNƒg‚ğíœ‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’å‰Šé™¤ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		int res = JOptionPane.showConfirmDialog(frame,
-				"–{“–‚É" + getSourceManager().getProjectDirectory().getName() + "‚ğíœ‚µ‚Ä‚æ‚¢‚Å‚·‚©H ˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚à‚·‚×‚Äíœ‚³‚ê‚Ü‚·", "ÅIŠm”F",
+				"æœ¬å½“ã«" + getSourceManager().getProjectDirectory().getName() + "ã‚’å‰Šé™¤ã—ã¦ã‚ˆã„ã§ã™ã‹ï¼Ÿ ä»¥ä¸‹ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚‚ã™ã¹ã¦å‰Šé™¤ã•ã‚Œã¾ã™", "æœ€çµ‚ç¢ºèª",
 				JOptionPane.WARNING_MESSAGE);
 		if (res == JOptionPane.OK_OPTION) {
 			doClose();
@@ -652,13 +652,13 @@ public class REApplication implements ICFwApplication {
 
 	private void doDeleteFile() {
 		if (!getSourceManager().hasCurrentFile()) {
-			JOptionPane.showMessageDialog(frame, "ƒ\[ƒX‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒtƒ@ƒCƒ‹‚ğíœ‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚½ãƒ¼ã‚¹ãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		File file = getSourceManager().getCurrentFile();
 
-		int res = JOptionPane.showConfirmDialog(frame, "–{“–‚É" + file.getName() + "‚ğíœ‚µ‚Ä‚æ‚¢‚Å‚·‚©H", "ÅIŠm”F",
+		int res = JOptionPane.showConfirmDialog(frame, "æœ¬å½“ã«" + file.getName() + "ã‚’å‰Šé™¤ã—ã¦ã‚ˆã„ã§ã™ã‹ï¼Ÿ", "æœ€çµ‚ç¢ºèª",
 				JOptionPane.WARNING_MESSAGE);
 		if (res == JOptionPane.OK_OPTION) {
 			doClose();
@@ -718,13 +718,13 @@ public class REApplication implements ICFwApplication {
 	// } catch (IOException e) {
 	// e.printStackTrace(frame.getConsole().err);
 	// frame.getConsole().setText(
-	// frame.getConsole().getText() + "\‚µ–ó‚ ‚è‚Ü‚¹‚ñ‚ªƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B\n");
+	// frame.getConsole().getText() + "ç”³ã—è¨³ã‚ã‚Šã¾ã›ã‚“ãŒã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚\n");
 	// frame.getConsole().setText(
-	// frame.getConsole().getText() + "ŠJ”­Ò‚Ü‚ÅŒä˜A—‰º‚³‚¢B\n");
+	// frame.getConsole().getText() + "é–‹ç™ºè€…ã¾ã§å¾¡é€£çµ¡ä¸‹ã•ã„ã€‚\n");
 	// }
 	// }
 
-	// turkey‚ÌƒR[ƒh
+	// turkeyã®ã‚³ãƒ¼ãƒ‰
 	// public void doSaveCompileLog() {
 	//
 	// File logRoot = new File("log");
@@ -756,16 +756,16 @@ public class REApplication implements ICFwApplication {
 	}
 
 	/**
-	 * ƒRƒ“ƒpƒCƒ‹‚ğ‚µ‚Ü‚·
+	 * ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚’ã—ã¾ã™
 	 * 
 	 * @param blocking
-	 *            ƒRƒ“ƒpƒCƒ‹‚ğƒuƒƒbƒLƒ“ƒO‚·‚é‚©
+	 *            ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚’ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°ã™ã‚‹ã‹
 	 */
 	private void doCompile(boolean blocking) {
-		// doSaveCompileLog(); turkey‚ÌƒR[ƒh
+		// doSaveCompileLog(); turkeyã®ã‚³ãƒ¼ãƒ‰
 
 		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
-			JOptionPane.showMessageDialog(frame, "ƒ\[ƒX‚ªƒZ[ƒu‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒRƒ“ƒpƒCƒ‹‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚½ãƒ¼ã‚¹ãŒã‚»ãƒ¼ãƒ–ã•ã‚Œã¦ã„ã¾ã›ã‚“", "ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -793,10 +793,10 @@ public class REApplication implements ICFwApplication {
 		commands.add(env.source);
 
 		writePresLog(PRCommandLog.SubType.COMPILE);// TODO
-													// BlockEditor‚Ì‚àƒRƒ“ƒpƒCƒ‹ƒƒO‚ª‹L˜^‚³‚ê‚Ä‚µ‚Ü‚¤D
+													// BlockEditorã®æ™‚ã‚‚ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ãƒ­ã‚°ãŒè¨˜éŒ²ã•ã‚Œã¦ã—ã¾ã†ï¼
 
 		// if (blocking) {
-		// // iBlockEditor‚Ì‚½‚ß‚ÌƒRƒ“ƒpƒCƒ‹j ƒuƒƒbƒLƒ“ƒO‚·‚éD
+		// // ï¼ˆBlockEditorã®ãŸã‚ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ï¼‰ ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°ã™ã‚‹ï¼
 		// try {
 		// CommandExecuter.executeCommandWait(commands, env.dir,
 		// frame.getConsole());
@@ -804,7 +804,7 @@ public class REApplication implements ICFwApplication {
 		// ex.printStackTrace();
 		// }
 		// } else {
-		// // ’ÊíƒRƒ“ƒpƒCƒ‹D ƒuƒƒbƒLƒ“ƒO‚µ‚È‚¢D
+		// // é€šå¸¸ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ï¼ ãƒ–ãƒ­ãƒƒã‚­ãƒ³ã‚°ã—ãªã„ï¼
 		// CommandExecuter.executeCommand(commands, env.dir,
 		// frame.getConsole());
 		// }
@@ -816,7 +816,7 @@ public class REApplication implements ICFwApplication {
 	}
 
 	/*
-	 * BlockEditor‚ÆGeneRef‚Ì‚½‚ß‚ÌƒRƒ“ƒpƒCƒ‹ˆ— 2012.12.04 ‚±‚ÌİŒv‚Í‰¼‚È‚Ì‚ÅÄİŒv‚¹‚æ
+	 * BlockEditorã¨GeneRefã®ãŸã‚ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«å‡¦ç† 2012.12.04 ã“ã®è¨­è¨ˆã¯ä»®ãªã®ã§å†è¨­è¨ˆã›ã‚ˆ
 	 * 
 	 * @return
 	 */
@@ -893,7 +893,7 @@ public class REApplication implements ICFwApplication {
 	public void doRun() {
 		File target = getSourceManager().getCurrentFile();
 		if (!hasRunnableFile(target)) {
-			JOptionPane.showMessageDialog(frame, "ƒRƒ“ƒpƒCƒ‹‚É¬Œ÷‚µ‚Ä‚¢‚Ü‚¹‚ñ", "Às‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«æˆåŠŸã—ã¦ã„ã¾ã›ã‚“", "å®Ÿè¡Œã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -915,25 +915,25 @@ public class REApplication implements ICFwApplication {
 
 		File target = getSourceManager().getCurrentFile();
 		if (!hasRunnableFile(target)) {
-			JOptionPane.showMessageDialog(frame, "ƒRƒ“ƒpƒCƒ‹‚É¬Œ÷‚µ‚Ä‚¢‚Ü‚¹‚ñ", "Às‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«æˆåŠŸã—ã¦ã„ã¾ã›ã‚“", "å®Ÿè¡Œã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		if (deno != null && deno.isRunning()) {
-			JOptionPane.showMessageDialog(frame, "‘O‚ÌƒfƒoƒbƒO‰æ–Ê‚ªŠJ‚«‚Á‚Ï‚È‚µ‚Å‚·", "Às‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "å‰ã®ãƒ‡ãƒãƒƒã‚°ç”»é¢ãŒé–‹ãã£ã±ãªã—ã§ã™", "å®Ÿè¡Œã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 			// CFrameUtils.toFront(deno.getFrame());
 			// return;
 		}
 
-		// ƒpƒX“™æ“¾
+		// ãƒ‘ã‚¹ç­‰å–å¾—
 		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
 				getSourceManager().getCurrentFile());
 		String args[] = new String[6];
-		// ƒ\[ƒXƒpƒX
+		// ã‚½ãƒ¼ã‚¹ãƒ‘ã‚¹
 		args[0] = "-sourcepath";
 		args[1] = env.dir.getAbsolutePath();
-		// ƒNƒ‰ƒXƒpƒX
+		// ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹
 		args[2] = "-classpath";
 		String libString = libraryManager.getLibString();
 		libString = env.dir.getAbsolutePath() + FileSystemUtil.PATH_SEPARATOR + libString;
@@ -941,7 +941,7 @@ public class REApplication implements ICFwApplication {
 			libString = "\"" + libString + "\"";
 		}
 		args[3] = libString;
-		// ƒNƒ‰ƒX–¼
+		// ã‚¯ãƒ©ã‚¹å
 		args[4] = env.runnable;
 		// waitrepaint
 		args[5] = "waitrepaint";
@@ -953,7 +953,7 @@ public class REApplication implements ICFwApplication {
 		// REApplication.SRC_ENCODING, libs);
 		// } catch (Exception e) {
 		// e.printStackTrace();
-		// CErrorDialog.show(getFrame(), "Block•ÏŠ·‚ÌƒGƒ‰[", e);
+		// CErrorDialog.show(getFrame(), "Blockå¤‰æ›æ™‚ã®ã‚¨ãƒ©ãƒ¼", e);
 		// }
 
 		NDebuggerManager.registerListener(new NDebuggerListener() {
@@ -1056,17 +1056,17 @@ public class REApplication implements ICFwApplication {
 
 	public void doShowBytecode() {
 		if (!getSourceManager().hasCurrentFile()) {
-			JOptionPane.showMessageDialog(frame, "ƒ\[ƒX‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒoƒCƒgƒR[ƒh‚ğ‰{——‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚½ãƒ¼ã‚¹ãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’é–²è¦§ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
-			JOptionPane.showMessageDialog(frame, "ƒ\[ƒX‚ªƒZ[ƒu‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "ƒoƒCƒgƒR[ƒh‚ğ‰{——‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚½ãƒ¼ã‚¹ãŒã‚»ãƒ¼ãƒ–ã•ã‚Œã¦ã„ã¾ã›ã‚“", "ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’é–²è¦§ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		File target = getSourceManager().getCurrentFile();
 		if (!hasRunnableFile(target)) {
-			JOptionPane.showMessageDialog(frame, "ƒRƒ“ƒpƒCƒ‹‚É¬Œ÷‚µ‚Ä‚¢‚Ü‚¹‚ñ", "ƒoƒCƒgƒR[ƒh‚ğ‰{——‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã«æˆåŠŸã—ã¦ã„ã¾ã›ã‚“", "ãƒã‚¤ãƒˆã‚³ãƒ¼ãƒ‰ã‚’é–²è¦§ã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -1081,7 +1081,7 @@ public class REApplication implements ICFwApplication {
 	}
 
 	/****************************
-	 * ˆê‚ÌŒq‚¬
+	 * ä¸€æ™‚ã®ç¹‹ã
 	 ****************************/
 
 	public void doOpen(CFileElement file) {
@@ -1106,28 +1106,28 @@ public class REApplication implements ICFwApplication {
 		try {
 			CDirectory project = getSourceManager().getCCurrentProject();
 			if (project == null) {
-				JOptionPane.showMessageDialog(frame, "ƒvƒƒWƒFƒNƒg‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ", "Export‚Å‚«‚Ü‚¹‚ñ", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(frame, "ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆãŒé¸æŠã•ã‚Œã¦ã„ã¾ã›ã‚“", "Exportã§ãã¾ã›ã‚“", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
 			if (!COMMENT) {// CONFIRM ONLY
 				int res = 0;
-				res = JOptionPane.showConfirmDialog(frame, "u" + project.getName() + "v" + "‚ğExport‚µ‚Ü‚·D‚æ‚ë‚µ‚¢‚Å‚·‚ËH",
-						"ƒvƒƒWƒFƒNƒg–¼Šm”F", JOptionPane.OK_CANCEL_OPTION);
+				res = JOptionPane.showConfirmDialog(frame, "ã€Œ" + project.getName() + "ã€" + "ã‚’Exportã—ã¾ã™ï¼ã‚ˆã‚ã—ã„ã§ã™ã­ï¼Ÿ",
+						"ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆåç¢ºèª", JOptionPane.OK_CANCEL_OPTION);
 				if (res != JFileChooser.APPROVE_OPTION) {
 					return;
 				}
 			} else {// COMMENT
 				RECommentInputDialog input = new RECommentInputDialog(project);
 				int res = 0;
-				res = JOptionPane.showConfirmDialog(frame, input, "ƒvƒƒWƒFƒNƒg–¼Šm”F‚ÆƒRƒƒ“ƒg“ü—Í", JOptionPane.OK_CANCEL_OPTION);
+				res = JOptionPane.showConfirmDialog(frame, input, "ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆåç¢ºèªã¨ã‚³ãƒ¡ãƒ³ãƒˆå…¥åŠ›", JOptionPane.OK_CANCEL_OPTION);
 				input.save();
 				if (res != JFileChooser.APPROVE_OPTION) {
 					return;
 				}
 			}
 
-			// datƒtƒ@ƒCƒ‹‚ÌƒRƒs[
+			// datãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚³ãƒ”ãƒ¼
 			copyDatFileToProject();
 
 			chooser.setSelectedFile(
@@ -1144,17 +1144,17 @@ public class REApplication implements ICFwApplication {
 			CFile zip = dir.findOrCreateFile(name);
 			NewZipUtil.createZip(zip, project, project);
 
-			JOptionPane.showConfirmDialog(frame, name.toString() + "‚Æ‚µ‚Äzipƒtƒ@ƒCƒ‹‚ğExport‚µ‚Ü‚µ‚½D", "¬Œ÷‚µ‚Ü‚µ‚½",
+			JOptionPane.showConfirmDialog(frame, name.toString() + "ã¨ã—ã¦zipãƒ•ã‚¡ã‚¤ãƒ«ã‚’Exportã—ã¾ã—ãŸï¼", "æˆåŠŸã—ã¾ã—ãŸ",
 					JOptionPane.OK_OPTION);
 
 		} catch (Exception ex) {
 			ex.printStackTrace(frame.getConsole().getErr());
-			CErrorDialog.show(frame, "Export’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½D", ex);
-			// JOptionPane.showConfirmDialog(frame, "Export’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½D",
-			// "ƒGƒ‰[",
+			CErrorDialog.show(frame, "Exportä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸï¼", ex);
+			// JOptionPane.showConfirmDialog(frame, "Exportä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸï¼",
+			// "ã‚¨ãƒ©ãƒ¼",
 			// JOptionPane.ERROR_MESSAGE);
 		} finally {
-			// ƒRƒs[‚µ‚½datƒtƒ@ƒCƒ‹‚ğíœ
+			// ã‚³ãƒ”ãƒ¼ã—ãŸdatãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤
 			deleteDatFileFromProject();
 		}
 	}
@@ -1173,7 +1173,7 @@ public class REApplication implements ICFwApplication {
 		// getResourceRepository().getCCurrentProject().getAbsolutePath().toString()
 		// + "/lang_def_project.xml");
 		blockManager.doOpenBlockEditor();
-		// 20130926 DENO‚ªBE‚ğ’¼ÚQÆ‚·‚é b’è‘Î‰
+		// 20130926 DENOãŒBEã‚’ç›´æ¥å‚ç…§ã™ã‚‹ æš«å®šå¯¾å¿œ
 		if (deno != null && deno.isRunning()) {
 			deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
 		}
@@ -1198,7 +1198,7 @@ public class REApplication implements ICFwApplication {
 
 	private void copyDatFileToProject() {
 		try {
-			// TODO ‰‹}ˆ’u mac‚¾‚ÆNullPointerException‚ªo‚é
+			// TODO å¿œæ€¥å‡¦ç½® macã ã¨NullPointerExceptionãŒå‡ºã‚‹
 			generefManager.copyDatFileToProject();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1218,7 +1218,7 @@ public class REApplication implements ICFwApplication {
 			ppvManager.openPresVisualizer();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			CErrorDialog.show(frame, "OpenPPV’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½D", ex);
+			CErrorDialog.show(frame, "OpenPPVä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸï¼", ex);
 		}
 	}
 
@@ -1227,7 +1227,7 @@ public class REApplication implements ICFwApplication {
 			createCocoDataManager.createCocoData();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			CErrorDialog.show(frame, "Create CocoData’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½D", ex);
+			CErrorDialog.show(frame, "Create CocoDataä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸï¼", ex);
 		}
 	}
 
@@ -1236,7 +1236,7 @@ public class REApplication implements ICFwApplication {
 			cocoViewerManager.openCocoViewer(createCocoDataManager.getPPProjectSet());
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			CErrorDialog.show(frame, "Open CocoViewer’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½D", ex);
+			CErrorDialog.show(frame, "Open CocoViewerä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸï¼", ex);
 		}
 	}
 
@@ -1245,7 +1245,7 @@ public class REApplication implements ICFwApplication {
 			ppvManager.clearCash();
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			CErrorDialog.show(frame, "Clear Cash’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½D", ex);
+			CErrorDialog.show(frame, "Clear Cashä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸï¼", ex);
 		}
 	}
 
@@ -1268,7 +1268,7 @@ public class REApplication implements ICFwApplication {
 		application.initializeLookAndFeel();
 		application.initializeCommands();
 		application.initializeAndOpen(dirPath);
-		// •Ô‚è’l’Ç‰Áikatoj
+		// è¿”ã‚Šå€¤è¿½åŠ ï¼ˆkatoï¼‰
 		return application;
 	}
 
@@ -1285,8 +1285,8 @@ public class REApplication implements ICFwApplication {
 	// if (c == '\n') {
 	// int end = i;
 	// DefaultStyledDocument copy = CCopyUtil.copyDeep(doc);
-	// copy.remove(end, len - end);// ‡”Ôd—v
-	// copy.remove(0, start);// ‡”Ôd—v
+	// copy.remove(end, len - end);// é †ç•ªé‡è¦
+	// copy.remove(0, start);// é †ç•ªé‡è¦
 	// JTextPane pane = new JTextPane(copy);
 	// panes.add(pane);
 	// start = i + 1;

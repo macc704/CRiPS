@@ -87,12 +87,12 @@ public class REBytecodeViewer extends JPanel {
 		panel.setLayout(new GridLayout(1, 3));
 		addLabel(panel, "Java Source");
 		addLabel(panel, "Bytecode (Jasmin Style)");
-		addLabel(panel, "Bytecode (Œ¾—ìŒ`®)");
+		addLabel(panel, "Bytecode (è¨€éœŠå½¢å¼)");
 		this.add(panel, BorderLayout.NORTH);
 		// sourceScrollPane.setColumnHeaderView(new JLabel("Java Source"));
 		// jasminScrollPane.setColumnHeaderView(new
-		// JLabel("Bytecode(JasminŒ`®)"));
-		// japaScrollPane.setColumnHeaderView(new JLabel("Bytecode(“ú–{Œê)"));
+		// JLabel("Bytecode(Jasminå½¢å¼)"));
+		// japaScrollPane.setColumnHeaderView(new JLabel("Bytecode(æ—¥æœ¬èª)"));
 	}
 
 	private void addLabel(JPanel panel, String text) {
@@ -143,7 +143,7 @@ public class REBytecodeViewer extends JPanel {
 	}
 
 	/**
-	 * ƒtƒHƒ“ƒg‚ğ•ÏX‚·‚éê‡A•K‚¸‚±‚Ìƒƒ\ƒbƒh‚ğ’Ê‚µ‚Ä•ÏX‚·‚éB i‚Å‚È‚¢‚Æs”Ô†‚ª‚¸‚ê‚Ä‚µ‚Ü‚¤j
+	 * ãƒ•ã‚©ãƒ³ãƒˆã‚’å¤‰æ›´ã™ã‚‹å ´åˆã€å¿…ãšã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’é€šã—ã¦å¤‰æ›´ã™ã‚‹ã€‚ ï¼ˆã§ãªã„ã¨è¡Œç•ªå·ãŒãšã‚Œã¦ã—ã¾ã†ï¼‰
 	 * 
 	 * @param font
 	 */

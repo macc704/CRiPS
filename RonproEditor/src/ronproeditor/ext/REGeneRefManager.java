@@ -38,31 +38,31 @@ import clib.preference.model.CAbstractPreferenceCategory;
 /*
  * GeneRef
  * 
- * 2012/09/28 version 1.0.0 ƒŠƒŠ[ƒX
- * 2012/09/28 version 1.0.1 ƒGƒ‰[Œ¸­ƒpƒ^[ƒ“‚ÌÛ‚É‘O‰ñC³‚³‚ê‚½‚à‚Ì‚àC³‚³‚ê‚½‚Æ”»’è‚³‚ê‚éƒoƒO‚ğC³
- * 2012/09/29 version 1.0.2 •¡”ƒtƒ@ƒCƒ‹‚ÌƒRƒ“ƒpƒCƒ‹‚Ì“®ì‚É‘Î‰
- * 2012/10/01 version 1.0.3 Export‚Édatƒtƒ@ƒCƒ‹‚ğzip‚ÉŠÜ‚ß‚é‚æ‚¤•ÏX
- * 2012/10/03 version 1.0.4 ƒRƒ“ƒpƒCƒ‹‚µ‚Ä‚È‚¢ó‘Ô‚Å—š—ğ‰æ–Ê‚ğŠJ‚­‚ÆNullPointerException‚ªo‚é–â‘è‚ğC³
- * 2012/10/04 version 1.0.5 ƒRƒ“ƒpƒCƒ‹ƒGƒ‰[‚ÌC³ŠÔ‚É‹LqŠÔ‚ğŠÜ‚ß‚È‚¢‚æ‚¤‚É•ÏX
- * 2012/10/04 version 1.0.6 “àÈƒ_ƒCƒAƒƒO•\¦‚Ìè‡’l‚ğƒVƒXƒeƒ€ã‚Å•ÏX‚Å‚«‚é‚æ‚¤‚É‚µ‚½
- * 2012/10/14 version 1.0.7 GeneRef‚ÌƒCƒ“ƒ^ƒtƒF[ƒX‚ğ•ÏX
- * 2012/10/14 version 1.0.8 â‘ÎƒpƒX‚Å•Û‘¶‚µ‚Ä‚¢‚½‚à‚Ì‚ğ‘Š‘ÎƒpƒX‚É•ÏX
- * 2012/10/15 version 1.0.9 CT’lƒXƒŒƒbƒVƒ‡ƒ‹ƒh‚ÌƒfƒtƒHƒ‹ƒg‚ğ0‚É•ÏX
- * 							¸”s’m¯‘I‘ğ‚ÉƒfƒtƒHƒ‹ƒg‚Å‘I‘ğˆ‚ğ’Ç‰Á
- * 2012/10/19 version 1.0.10 ƒGƒ‰[‘I‘ğƒpƒlƒ‹‚Éu‘S‚Ä‘I‘ğvƒ{ƒ^ƒ“‚ğ’Ç‰Á
- * 2012/10/24 version 1.1.0 ƒGƒ‰[C³‚ÌŒŸo‚É‚¨‚¯‚éƒoƒO‚ğC³
- * 2012/10/30 version 1.1.1 WorkingTime‚ÅNullPointerException‚ªo‚é–â‘è‚ğC³
- * 2012/11/09 version 1.1.2 CT’lƒXƒŒƒbƒVƒ‡ƒ‹ƒh‚Ì•s‹ï‡‚ğC³
- * 2012/11/21 version 1.1.3 HistoryBrowser‚Å¸”s’m¯‚ğŒ©‚½‚ÉopenWindow‚ÆcloseWindow‚ÌŠÔ‚ª‘‚«•Ï‚í‚é–â‘è‚ğC³
- * 2012/11/26 version 1.1.4 ƒXƒŒƒbƒVƒ‡ƒ‹ƒh‚ğƒƒO‚Åo—Í‚·‚é‚æ‚¤‚É•ÏX
- * 							“àÈƒ_ƒCƒAƒƒO‚ÉC³ŠÔ‚ğ•\¦‚·‚é‚æ‚¤‚É•ÏX
- * 2012/12/05 version 1.1.5 ƒ‚[ƒ_ƒ‹ƒ_ƒCƒAƒƒO‚É‚È‚Á‚Ä‚¢‚È‚©‚Á‚½‚Ì‚ğC³
+ * 2012/09/28 version 1.0.0 ãƒªãƒªãƒ¼ã‚¹
+ * 2012/09/28 version 1.0.1 ã‚¨ãƒ©ãƒ¼æ¸›å°‘ãƒ‘ã‚¿ãƒ¼ãƒ³ã®éš›ã«å‰å›ä¿®æ­£ã•ã‚ŒãŸã‚‚ã®ã‚‚ä¿®æ­£ã•ã‚ŒãŸã¨åˆ¤å®šã•ã‚Œã‚‹ãƒã‚°ã‚’ä¿®æ­£
+ * 2012/09/29 version 1.0.2 è¤‡æ•°ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«æ™‚ã®å‹•ä½œã«å¯¾å¿œ
+ * 2012/10/01 version 1.0.3 Exportæ™‚ã«datãƒ•ã‚¡ã‚¤ãƒ«ã‚’zipã«å«ã‚ã‚‹ã‚ˆã†å¤‰æ›´
+ * 2012/10/03 version 1.0.4 ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ã¦ãªã„çŠ¶æ…‹ã§å±¥æ­´ç”»é¢ã‚’é–‹ãã¨NullPointerExceptionãŒå‡ºã‚‹å•é¡Œã‚’ä¿®æ­£
+ * 2012/10/04 version 1.0.5 ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ã®ä¿®æ­£æ™‚é–“ã«è¨˜è¿°æ™‚é–“ã‚’å«ã‚ãªã„ã‚ˆã†ã«å¤‰æ›´
+ * 2012/10/04 version 1.0.6 å†…çœãƒ€ã‚¤ã‚¢ãƒ­ã‚°è¡¨ç¤ºã®é–¾å€¤ã‚’ã‚·ã‚¹ãƒ†ãƒ ä¸Šã§å¤‰æ›´ã§ãã‚‹ã‚ˆã†ã«ã—ãŸ
+ * 2012/10/14 version 1.0.7 GeneRefã®ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹ã‚’å¤‰æ›´
+ * 2012/10/14 version 1.0.8 çµ¶å¯¾ãƒ‘ã‚¹ã§ä¿å­˜ã—ã¦ã„ãŸã‚‚ã®ã‚’ç›¸å¯¾ãƒ‘ã‚¹ã«å¤‰æ›´
+ * 2012/10/15 version 1.0.9 CTå€¤ã‚¹ãƒ¬ãƒƒã‚·ãƒ§ãƒ«ãƒ‰ã®ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚’0ã«å¤‰æ›´
+ * 							å¤±æ•—çŸ¥è­˜é¸æŠã«ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§é¸æŠè‚¢ã‚’è¿½åŠ 
+ * 2012/10/19 version 1.0.10 ã‚¨ãƒ©ãƒ¼é¸æŠãƒ‘ãƒãƒ«ã«ã€Œå…¨ã¦é¸æŠã€ãƒœã‚¿ãƒ³ã‚’è¿½åŠ 
+ * 2012/10/24 version 1.1.0 ã‚¨ãƒ©ãƒ¼ä¿®æ­£ã®æ¤œå‡ºã«ãŠã‘ã‚‹ãƒã‚°ã‚’ä¿®æ­£
+ * 2012/10/30 version 1.1.1 WorkingTimeã§NullPointerExceptionãŒå‡ºã‚‹å•é¡Œã‚’ä¿®æ­£
+ * 2012/11/09 version 1.1.2 CTå€¤ã‚¹ãƒ¬ãƒƒã‚·ãƒ§ãƒ«ãƒ‰ã®ä¸å…·åˆã‚’ä¿®æ­£
+ * 2012/11/21 version 1.1.3 HistoryBrowserã§å¤±æ•—çŸ¥è­˜ã‚’è¦‹ãŸæ™‚ã«openWindowã¨closeWindowã®æ™‚é–“ãŒæ›¸ãå¤‰ã‚ã‚‹å•é¡Œã‚’ä¿®æ­£
+ * 2012/11/26 version 1.1.4 ã‚¹ãƒ¬ãƒƒã‚·ãƒ§ãƒ«ãƒ‰ã‚’ãƒ­ã‚°ã§å‡ºåŠ›ã™ã‚‹ã‚ˆã†ã«å¤‰æ›´
+ * 							å†…çœãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã«ä¿®æ­£æ™‚é–“ã‚’è¡¨ç¤ºã™ã‚‹ã‚ˆã†ã«å¤‰æ›´
+ * 2012/12/05 version 1.1.5 ãƒ¢ãƒ¼ãƒ€ãƒ«ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã«ãªã£ã¦ã„ãªã‹ã£ãŸã®ã‚’ä¿®æ­£
  * 
  */
 
 public class REGeneRefManager {
 
-	public static final String APP_NAME = "GeneRef -ƒWƒFƒlƒŠƒt-";
+	public static final String APP_NAME = "GeneRef -ã‚¸ã‚§ãƒãƒªãƒ•-";
 	public static final String VERSION = "1.1.5";
 
 	private static final String FILE_NAME = "repository.dat";
@@ -121,7 +121,7 @@ public class REGeneRefManager {
 	}
 
 	/***************************************************************************
-	 * ŒöŠJƒCƒ“ƒ^[ƒtƒFƒCƒX
+	 * å…¬é–‹ã‚¤ãƒ³ã‚¿ãƒ¼ãƒ•ã‚§ã‚¤ã‚¹
 	 **************************************************************************/
 
 	public void openReflectionDialog(RSFKWritingPoint point) {
@@ -163,7 +163,7 @@ public class REGeneRefManager {
 	}
 
 	public void refreshCompileHistory() {
-		// History‚ÌC³Ï‚İƒGƒ‰[ƒŠƒXƒg‚ğƒNƒŠƒA
+		// Historyã®ä¿®æ­£æ¸ˆã¿ã‚¨ãƒ©ãƒ¼ãƒªã‚¹ãƒˆã‚’ã‚¯ãƒªã‚¢
 		historyList.clearCompileSuccessHistorys(result, compileSourceNames);
 	}
 
@@ -221,7 +221,7 @@ public class REGeneRefManager {
 	}
 
 	/***************************************************************************
-	 * ”ñŒöŠJ
+	 * éå…¬é–‹
 	 **************************************************************************/
 
 	private void doReflectionProcess() throws Exception {
@@ -317,7 +317,7 @@ public class REGeneRefManager {
 
 		private static final long serialVersionUID = 1L;
 
-		private JCheckBox checkbox = new JCheckBox("GeneRef—LŒø");
+		private JCheckBox checkbox = new JCheckBox("GeneRefæœ‰åŠ¹");
 		private JSlider slider = new JSlider(0, 60);
 
 		private JPanel panel = new GeneRefPreferencePanel();
@@ -373,7 +373,7 @@ public class REGeneRefManager {
 				slider.addChangeListener(new ChangeListener() {
 					public void stateChanged(ChangeEvent e) {
 						if (!slider.getValueIsAdjusting()) {
-							label.setText("CT’l F" + slider.getValue());
+							label.setText("CTå€¤ ï¼š" + slider.getValue());
 						}
 					}
 				});
@@ -382,7 +382,7 @@ public class REGeneRefManager {
 				JPanel sliderPanel = new JPanel();
 				sliderPanel.setLayout(new BorderLayout());
 				sliderPanel.add(slider, BorderLayout.CENTER);
-				label.setText("CT’l F" + slider.getValue());
+				label.setText("CTå€¤ ï¼š" + slider.getValue());
 				label.setHorizontalAlignment(JLabel.CENTER);
 				sliderPanel.add(label, BorderLayout.NORTH);
 

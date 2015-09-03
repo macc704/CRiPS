@@ -30,7 +30,7 @@ public class RECreateFileNameDialogWithType extends RECreateFileNameDialog {
 
 	private void initializeComboBox() {
 		JPanel panel = new JPanel();
-		panel.setBorder(BorderFactory.createTitledBorder("ƒeƒ“ƒvƒŒ[ƒgF"));
+		panel.setBorder(BorderFactory.createTitledBorder("ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆï¼š"));
 		combobox.setPreferredSize(new Dimension(150, 27));
 		panel.add(combobox);
 
@@ -45,7 +45,7 @@ public class RECreateFileNameDialogWithType extends RECreateFileNameDialog {
 				.getTemplates()) {
 			combobox.addItem(template);
 
-			// Turtle‚ª‚ ‚ê‚Î‚»‚ê‚É‰Šú‰»‚·‚é
+			// TurtleãŒã‚ã‚Œã°ãã‚Œã«åˆæœŸåŒ–ã™ã‚‹
 			if (template.getName().equals("Turtle")) {
 				combobox.setSelectedItem(template);
 			}

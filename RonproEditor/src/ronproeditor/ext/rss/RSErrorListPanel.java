@@ -40,7 +40,7 @@ public class RSErrorListPanel extends JPanel {
 
 	// View
 	private CListPanel<RSFailureKnowledge> errorListPanel = new CListPanel<RSFailureKnowledge>();
-	private JButton allSelectButton = new JButton("‘S‚Ä‘I‘ğ");
+	private JButton allSelectButton = new JButton("å…¨ã¦é¸æŠ");
 
 	public RSErrorListPanel(RSReflectionDialog reflectionDialog) {
 		this.reflectionDialog = reflectionDialog;
@@ -68,7 +68,7 @@ public class RSErrorListPanel extends JPanel {
 		setListColor(new Color(255, 200, 255));
 		errorListPanel.getJList().setSelectionMode(
 				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		// ƒNƒŠƒbƒN‚Ì“®ìİ’è
+		// ã‚¯ãƒªãƒƒã‚¯æ™‚ã®å‹•ä½œè¨­å®š
 		errorListPanel.getJList().addListSelectionListener(
 				new ListSelectionListener() {
 					public void valueChanged(ListSelectionEvent e) {
@@ -84,7 +84,7 @@ public class RSErrorListPanel extends JPanel {
 	}
 
 	private void setBorder() {
-		TitledBorder border = BorderFactory.createTitledBorder("ƒGƒ‰[ˆê——");
+		TitledBorder border = BorderFactory.createTitledBorder("ã‚¨ãƒ©ãƒ¼ä¸€è¦§");
 		border.setTitleFont(new Font(getFont().getName(), Font.PLAIN, 18));
 		setBorder(border);
 	}
@@ -126,7 +126,7 @@ public class RSErrorListPanel extends JPanel {
 		}
 		errorListPanel.refresh();
 
-		// ƒfƒtƒHƒ‹ƒg‚Åˆê”Ôã‚ÌƒGƒ‰[‚ğ‘I‘ğ
+		// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ä¸€ç•ªä¸Šã®ã‚¨ãƒ©ãƒ¼ã‚’é¸æŠ
 		if (failureKnowledges.size() > 0) {
 			errorListPanel.getJList().setSelectedIndex(0);
 			selectedErrorChanged();
@@ -135,7 +135,7 @@ public class RSErrorListPanel extends JPanel {
 
 	// private JLabel getFixedErrorCountLabel(int count) {
 	// JLabel label = new JLabel();
-	// label.setText("C³‚³‚ê‚½ƒGƒ‰[”F" + count + "ŒÂ");
+	// label.setText("ä¿®æ­£ã•ã‚ŒãŸã‚¨ãƒ©ãƒ¼æ•°ï¼š" + count + "å€‹");
 	// label.setHorizontalAlignment(JLabel.CENTER);
 	// label.setForeground(new Color(255, 0, 0));
 	// label.setFont(new Font("Dialog", Font.PLAIN, 14));
@@ -208,7 +208,7 @@ public class RSErrorListPanel extends JPanel {
 
 			if (this.indexes.contains(index)) {
 				if (list.isSelectedIndex(index)) {
-					// ‘I‘ğs‚ÍƒfƒtƒHƒ‹ƒg‚ÌF
+					// é¸æŠè¡Œã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®è‰²
 					label.setBackground(list.getSelectionBackground());
 				} else {
 					label.setBackground(color);

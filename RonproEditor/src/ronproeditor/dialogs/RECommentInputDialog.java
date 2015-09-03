@@ -32,13 +32,13 @@ public class RECommentInputDialog extends JPanel {
 		setPreferredSize(new Dimension(400, 300));
 		JPanel northPanel = new JPanel();
 		northPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		northPanel.add(new JLabel("u" + project.getName() + "v"
-				+ "‚ğExport‚µ‚Ü‚·D‚æ‚ë‚µ‚¢‚Å‚·‚ËH"));
+		northPanel.add(new JLabel("ã€Œ" + project.getName() + "ã€"
+				+ "ã‚’Exportã—ã¾ã™ï¼ã‚ˆã‚ã—ã„ã§ã™ã­ï¼Ÿ"));
 		add(northPanel, BorderLayout.NORTH);
 		JPanel panel = new JPanel();
 		add(panel);
 		panel.setLayout(new BorderLayout());
-		panel.setBorder(BorderFactory.createTitledBorder("–{ƒvƒƒWƒFƒNƒg‚ÌŠ´‘z E ƒRƒƒ“ƒg"));
+		panel.setBorder(BorderFactory.createTitledBorder("æœ¬ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®æ„Ÿæƒ³ ãƒ» ã‚³ãƒ¡ãƒ³ãƒˆ"));
 		panel.add(new JScrollPane(textPane));
 		CFile file = project.findOrCreateFile(REApplication.COMMENT_FILE);
 		file.setEncodingIn(CEncoding.get(REApplication.SRC_ENCODING));

@@ -66,10 +66,10 @@ public class REBytecodeViewerGenerator {
 		dialog.setVisible(true);
 	}
 
-	// String ƒRƒ}ƒ“ƒh–¼ = "lib/d-java.exe -o jasmin " + ƒNƒ‰ƒX–¼ +
-	// ".class > "+ƒNƒ‰ƒX–¼+".j";
-	// 2007/12/12 Œ»İCo—Í‚ªDOSƒtƒ@ƒCƒ‹–¼‚Åo‚Ä‚µ‚Ü‚¤‚Ì‚ÅC‚¢‚Á‚½‚ñTMPƒtƒ@ƒCƒ‹‚Öo—Í‚µ‚ÄC
-	// ƒŠƒl[ƒ€‚·‚é‚Æ‚¢‚¤•ûô‚ğÌ‚éi‚Æ‚è‚ ‚¦‚¸‚Ìˆ’uj
+	// String ã‚³ãƒãƒ³ãƒ‰å = "lib/d-java.exe -o jasmin " + ã‚¯ãƒ©ã‚¹å +
+	// ".class > "+ã‚¯ãƒ©ã‚¹å+".j";
+	// 2007/12/12 ç¾åœ¨ï¼Œå‡ºåŠ›ãŒDOSãƒ•ã‚¡ã‚¤ãƒ«åã§å‡ºã¦ã—ã¾ã†ã®ã§ï¼Œã„ã£ãŸã‚“TMPãƒ•ã‚¡ã‚¤ãƒ«ã¸å‡ºåŠ›ã—ã¦ï¼Œ
+	// ãƒªãƒãƒ¼ãƒ ã™ã‚‹ã¨ã„ã†æ–¹ç­–ã‚’æ¡ã‚‹ï¼ˆã¨ã‚Šã‚ãˆãšã®å‡¦ç½®ï¼‰
 	private File createJasmin(File classFile, String className, REFrame frame)
 			throws Exception {
 		File temp = new File(classFile.getParent(), JASMIN_TEMP);
@@ -95,7 +95,7 @@ public class REBytecodeViewerGenerator {
 		// temp.renameTo(target);
 		// }
 
-		// {// D-java‚ªx64‚Å‚±‚¯‚é‚Ì‚ÅCjavap‚Åo—ˆ‚È‚¢‚©ƒeƒXƒgi“r’†j -> ¸”s(japa‚ªjasminŒ`®‚¶‚á‚È‚¢‚Æƒ_ƒ)
+		// {// D-javaãŒx64ã§ã“ã‘ã‚‹ã®ã§ï¼Œjavapã§å‡ºæ¥ãªã„ã‹ãƒ†ã‚¹ãƒˆï¼ˆé€”ä¸­ï¼‰ -> å¤±æ•—(japaãŒjasminå½¢å¼ã˜ã‚ƒãªã„ã¨ãƒ€ãƒ¡)
 		// ArrayList<String> commands = new ArrayList<String>();
 		// commands.add("javap");
 		// commands.add("-l");
@@ -120,7 +120,7 @@ public class REBytecodeViewerGenerator {
 		// temp.renameTo(target);
 		// }
 
-		// {// Jasper version Jasper‚Ío—ÍŒ`®‚ÉáŠ±–â‘è‚ª‚ ‚éD
+		// {// Jasper version Jasperã¯å‡ºåŠ›å½¢å¼ã«è‹¥å¹²å•é¡ŒãŒã‚ã‚‹ï¼
 		// File jasper = new File("ext/bytecode/Jasper.jar");
 		// ArrayList<String> commands = new ArrayList<String>();
 		// commands.add("java");
@@ -131,7 +131,7 @@ public class REBytecodeViewerGenerator {
 		// classFile.getParentFile(), frame.getConsole());
 		// }
 
-		{// ClassFileAnalyzer version@GPL‚È‚Ì‚ÅC‚»‚Ì|–¾¦‚·‚é‚±‚ÆD˜_ƒvƒƒGƒfƒBƒ^‚ÍƒtƒŠ[‚È‚Ì‚Å–â‘è‚È‚µD
+		{// ClassFileAnalyzer versionã€€GPLãªã®ã§ï¼Œãã®æ—¨æ˜ç¤ºã™ã‚‹ã“ã¨ï¼è«–ãƒ—ãƒ­ã‚¨ãƒ‡ã‚£ã‚¿ã¯ãƒ•ãƒªãƒ¼ãªã®ã§å•é¡Œãªã—ï¼
 			File jasper = new File("ext/bytecode/ClassFileAnalyzer.jar");
 			ArrayList<String> commands = new ArrayList<String>();
 			commands.add("java");
@@ -148,7 +148,7 @@ public class REBytecodeViewerGenerator {
 		return target;
 	}
 
-	// String ƒRƒ}ƒ“ƒh = "java.exe -jar lib/japa.jar -j " + ƒNƒ‰ƒX–¼ + ".j";
+	// String ã‚³ãƒãƒ³ãƒ‰ = "java.exe -jar lib/japa.jar -j " + ã‚¯ãƒ©ã‚¹å + ".j";
 	private File createJapa(File classFile, String className, REFrame frame)
 			throws Exception {
 		String jasminName = className + ".j";

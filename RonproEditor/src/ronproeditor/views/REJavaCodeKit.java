@@ -109,7 +109,7 @@ public class REJavaCodeKit extends CJavaCodeKit {
 					.getBounds();
 			FontMetrics fontMetrics = g.getFontMetrics();
 			int spaceW = fontMetrics.stringWidth(" ");
-			int bigSpaceW = fontMetrics.stringWidth("Å@");
+			int bigSpaceW = fontMetrics.stringWidth("„ÄÄ");
 			int sumOfTabs = 0;
 			String text = getText(getStartOffset(), getEndOffset()).toString();
 			for (int i = 0; i < text.length(); i++) {
@@ -118,7 +118,7 @@ public class REJavaCodeKit extends CJavaCodeKit {
 						.substring(0, i)) + sumOfTabs;
 				int sx = alloc.x + previousStringWidth;
 				int sy = alloc.y + alloc.height - fontMetrics.getDescent();
-				if ("Å@".equals(s)) {
+				if ("„ÄÄ".equals(s)) {
 					int left = sx;
 					int right = sx + bigSpaceW;
 					int top = alloc.y;
@@ -133,7 +133,7 @@ public class REJavaCodeKit extends CJavaCodeKit {
 				} else if ("\t".equals(s)) {
 					float tabWidth = (int) getTabExpander().nextTabStop(
 							(float) sx, i)
-							- sx - spaceW;// Ç»Ç∫spaceï™à¯Ç≠ÇÃÇ©ÇÕïsñæÅD
+							- sx - spaceW;// „Å™„ÅúspaceÂàÜÂºï„Åè„ÅÆ„Åã„ÅØ‰∏çÊòéÔºé
 					sumOfTabs += (int) tabWidth;
 				}
 			}

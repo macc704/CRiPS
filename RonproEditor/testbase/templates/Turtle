@@ -1,16 +1,16 @@
 /**
- * ƒvƒƒOƒ‰ƒ€–¼F
- * ì¬ÒF 
- * ì¬“úF “ú•t
+ * ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+ * ä½œæˆè€…ï¼š 
+ * ä½œæˆæ—¥ï¼š æ—¥ä»˜
  */
 public class CLASSNAME extends Turtle {
 
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		Turtle.startTurtle(new CLASSNAME(), args);
 	}
 
-	//ƒ^[ƒgƒ‹‚ğ“®‚©‚·ˆ—
+	//ã‚¿ãƒ¼ãƒˆãƒ«ã‚’å‹•ã‹ã™å‡¦ç†
 	public void start() {
 	}
 

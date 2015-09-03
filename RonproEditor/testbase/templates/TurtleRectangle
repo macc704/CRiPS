@@ -1,23 +1,23 @@
 /**
- * ƒvƒƒOƒ‰ƒ€–¼F ”CˆÓ‚Ì‘å‚«‚³‚ÌlŠpŒ`‚ğ‘‚­ƒvƒƒOƒ‰ƒ€
- * ì¬ÒF Yoshiaki Matsuzawa
- * ì¬“úF 2007/09/22
+ * ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š ä»»æ„ã®å¤§ãã•ã®å››è§’å½¢ã‚’æ›¸ããƒ—ãƒ­ã‚°ãƒ©ãƒ 
+ * ä½œæˆè€…ï¼š Yoshiaki Matsuzawa
+ * ä½œæˆæ—¥ï¼š 2007/09/22
  */
 public class CLASSNAME extends Turtle {
 
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		Turtle.startTurtle(new CLASSNAME(), args);
 	}
 
-	//ƒ^[ƒgƒ‹‚ğ“®‚©‚·ˆ—
+	//ã‚¿ãƒ¼ãƒˆãƒ«ã‚’å‹•ã‹ã™å‡¦ç†
 	public void start() {
 	
-		//•Ó‚Ì’·‚³‚ğ“ü—Í‚³‚¹‚é
-		print("’·‚³‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢");
+		//è¾ºã®é•·ã•ã‚’å…¥åŠ›ã•ã›ã‚‹
+		print("é•·ã•ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„");
 		int len = input();
 		
-		//lŠpŒ`‚ğ‘‚­
+		//å››è§’å½¢ã‚’æ›¸ã
 		for(int i = 0; i < 4; i++){
 			fd(len);
 			rt(90);

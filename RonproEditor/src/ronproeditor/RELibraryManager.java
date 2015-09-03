@@ -62,7 +62,7 @@ public class RELibraryManager {
 		for (File file : dir.listFiles()) {
 			if (file.isFile() && file.getName().endsWith(".jar")
 					&& !file.getName().startsWith(".")) {
-				// .jarƒtƒ@ƒCƒ‹(Mac‚Å©“®“I‚Éì¬‚³‚ê‚é)‚ğ“Ç‚Ü‚È‚¢‚æ‚¤‚ÉC³ 2007/12/21
+				// .jarãƒ•ã‚¡ã‚¤ãƒ«(Macã§è‡ªå‹•çš„ã«ä½œæˆã•ã‚Œã‚‹)ã‚’èª­ã¾ãªã„ã‚ˆã†ã«ä¿®æ­£ 2007/12/21
 				libs.add(new Library(file));
 			}
 		}
@@ -79,7 +79,7 @@ class Library {
 
 	String getPath() {
 		if (CJavaSystem.getInstance().isWindows()) {
-			// "‚Í‚Â‚¯‚È‚­‚Ä‚æ‚¢D1.6.4‚ÅC³
+			// "ã¯ã¤ã‘ãªãã¦ã‚ˆã„ï¼1.6.4ã§ä¿®æ­£
 			// return "\"" + file.getAbsolutePath() + "\"";
 			return file.getAbsolutePath();
 		} else {

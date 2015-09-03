@@ -96,7 +96,7 @@ public class RSReflectionDialog extends JDialog {
 
 	private void initializeViews() {
 
-		// ƒ{ƒ^ƒ“ì¬
+		// ãƒœã‚¿ãƒ³ä½œæˆ
 		JButton okButton = new JButton("OK");
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -104,20 +104,20 @@ public class RSReflectionDialog extends JDialog {
 			}
 		});
 
-		// ƒpƒlƒ‹ì¬
+		// ãƒ‘ãƒãƒ«ä½œæˆ
 		rootPane = new JPanel();
 		rootPane.setLayout(new BorderLayout());
 
-		// ƒ{ƒ^ƒ“ƒpƒlƒ‹’Ç‰Á
+		// ãƒœã‚¿ãƒ³ãƒ‘ãƒãƒ«è¿½åŠ 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout());
 		buttonPanel.add(okButton);
 		rootPane.add(buttonPanel, BorderLayout.SOUTH);
 
-		// ƒ\[ƒX•\¦ƒpƒlƒ‹EƒGƒ‰[ƒƒbƒZ[ƒW•\¦E‹Lqƒpƒlƒ‹‚Ìİ’è
+		// ã‚½ãƒ¼ã‚¹è¡¨ç¤ºãƒ‘ãƒãƒ«ãƒ»ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸è¡¨ç¤ºãƒ»è¨˜è¿°ãƒ‘ãƒãƒ«ã®è¨­å®š
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		TitledBorder border = BorderFactory.createTitledBorder("ƒGƒ‰[“à—e");
+		TitledBorder border = BorderFactory.createTitledBorder("ã‚¨ãƒ©ãƒ¼å†…å®¹");
 		border.setTitleFont(new Font(panel.getFont().getName(), Font.PLAIN, 18));
 		panel.setBorder(border);
 		panel.add(sourcePanel, BorderLayout.NORTH);
@@ -129,7 +129,7 @@ public class RSReflectionDialog extends JDialog {
 		pane.add(recordPanel, BorderLayout.CENTER);
 		rootPane.add(pane, BorderLayout.CENTER);
 
-		// ƒGƒ‰[ˆê——ƒpƒlƒ‹’Ç‰Á
+		// ã‚¨ãƒ©ãƒ¼ä¸€è¦§ãƒ‘ãƒãƒ«è¿½åŠ 
 		JPanel westPane = new JPanel();
 		westPane.setLayout(new BorderLayout());
 		westPane.add(createTimePanel(), BorderLayout.NORTH);
@@ -140,7 +140,7 @@ public class RSReflectionDialog extends JDialog {
 	}
 
 	/**
-	 * ¸”s’m¯‚ª‹Lq‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ”»’è‚µ‚Ü‚·
+	 * å¤±æ•—çŸ¥è­˜ãŒè¨˜è¿°ã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’åˆ¤å®šã—ã¾ã™
 	 */
 	private boolean isEmpty() {
 		for (RSFailureKnowledge knowledge : this.inputFailureKnowledges) {
@@ -152,13 +152,13 @@ public class RSReflectionDialog extends JDialog {
 	}
 
 	/**
-	 * C³ŠÔ•\¦ƒpƒlƒ‹‚ğì¬‚µ‚Ü‚·
+	 * ä¿®æ­£æ™‚é–“è¡¨ç¤ºãƒ‘ãƒãƒ«ã‚’ä½œæˆã—ã¾ã™
 	 * 
 	 * @return
 	 */
 	private JPanel createTimePanel() {
 		JPanel pane = new JPanel();
-		TitledBorder border = BorderFactory.createTitledBorder("ƒGƒ‰[1ŒÂ‚ÌC³ŠÔ");
+		TitledBorder border = BorderFactory.createTitledBorder("ã‚¨ãƒ©ãƒ¼1å€‹ã®ä¿®æ­£æ™‚é–“");
 		border.setTitleFont(new Font(pane.getFont().getName(), Font.PLAIN, 18));
 		pane.setBorder(border);
 		pane.add(createTimeLabel());
@@ -168,7 +168,7 @@ public class RSReflectionDialog extends JDialog {
 	private JLabel createTimeLabel() {
 		JLabel label = new JLabel();
 		String text = "<html><center>" + manager.getCorrectionTime()
-				+ "•b<center></html>";
+				+ "ç§’<center></html>";
 		label.setText(text);
 		label.setHorizontalAlignment(JLabel.CENTER);
 		return label;

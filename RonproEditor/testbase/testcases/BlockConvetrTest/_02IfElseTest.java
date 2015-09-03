@@ -1,16 +1,16 @@
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Thu Nov 08 10:57:58 JST 2012
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Thu Nov 08 10:57:58 JST 2012
 */
 public class _02IfElseTest extends Turtle {
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		Turtle.startTurtle(new _02IfElseTest());
 	}
 	
-	//ƒ^[ƒgƒ‹‚ğ“®‚©‚·ˆ—
+	//ã‚¿ãƒ¼ãƒˆãƒ«ã‚’å‹•ã‹ã™å‡¦ç†
 	public void start() {
 		int x = 0;
 		if(x == 3){

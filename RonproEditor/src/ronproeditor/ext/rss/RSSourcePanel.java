@@ -25,8 +25,8 @@ public class RSSourcePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String UNFIXED = "ƒƒGƒ‰[”­¶‚Ìƒ\[ƒXƒR[ƒh„";
-	private final String FIXED = "ƒŒ»İ‚Ìƒ\[ƒXƒR[ƒh„";
+	private final String UNFIXED = "ï¼œã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ï¼";
+	private final String FIXED = "ï¼œç¾åœ¨ã®ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰ï¼";
 
 	private int fontHeight;
 
@@ -187,7 +187,7 @@ public class RSSourcePanel extends JPanel {
 
 	private int getViewHeight(RESourceViewer view) {
 		int colmn = view.getText().split("\n").length;
-		return fontHeight * (colmn + 7); // 7s•ª—]•ª‚Éİ’èiƒXƒNƒ[ƒ‹ƒo[‘Îôj
+		return fontHeight * (colmn + 7); // 7è¡Œåˆ†ä½™åˆ†ã«è¨­å®šï¼ˆã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼å¯¾ç­–ï¼‰
 	}
 
 	public void setSourceFile(File unFixedFile, File fixedFile) {
@@ -196,7 +196,7 @@ public class RSSourcePanel extends JPanel {
 	}
 
 	/**
-	 * w’è‚µ‚½s”‚ÉƒXƒNƒ[ƒ‹ƒo[‚ğƒXƒ‰ƒCƒh‚³‚¹‚Ü‚·
+	 * æŒ‡å®šã—ãŸè¡Œæ•°ã«ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒãƒ¼ã‚’ã‚¹ãƒ©ã‚¤ãƒ‰ã•ã›ã¾ã™
 	 * 
 	 * @param colmn
 	 */
@@ -205,7 +205,7 @@ public class RSSourcePanel extends JPanel {
 			scrollPane.getViewport().setViewPosition(new Point(0, 0));
 		} else {
 			scrollPane.getViewport().setViewPosition(
-					new Point(0, (int) ((colmn - 8) * fontHeight))); // 8s•ª‚¸‚ç‚µ‚Ä•\¦
+					new Point(0, (int) ((colmn - 8) * fontHeight))); // 8è¡Œåˆ†ãšã‚‰ã—ã¦è¡¨ç¤º
 		}
 	}
 

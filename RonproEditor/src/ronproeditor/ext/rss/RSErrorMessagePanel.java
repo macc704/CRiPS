@@ -40,7 +40,7 @@ public class RSErrorMessagePanel extends JPanel {
 	}
 
 	private void setBorder() {
-		TitledBorder border = BorderFactory.createTitledBorder("メッセージ");
+		TitledBorder border = BorderFactory.createTitledBorder("繝｡繝�繧ｻ繝ｼ繧ｸ");
 		border.setTitleFont(new Font(getFont().getName(), Font.PLAIN, 15));
 		setBorder(border);
 	}

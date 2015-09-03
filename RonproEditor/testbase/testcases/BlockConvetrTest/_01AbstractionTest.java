@@ -1,61 +1,61 @@
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Tue Oct 02 16:06:43 JST 2012
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Tue Oct 02 16:06:43 JST 2012
 */
 public class _01AbstractionTest extends Turtle {
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		Turtle.startTurtle(new _01AbstractionTest());
 	}
 	
-	//ƒ^[ƒgƒ‹‚ğ“®‚©‚·ˆ—
+	//ã‚¿ãƒ¼ãƒˆãƒ«ã‚’å‹•ã‹ã™å‡¦ç†
 	public void start() {
-		{	//sesfB
+		{	//sesfã€‚
 		}
-		{	//c//XX‚ğYYaa‚·‚éBabaabb
+		{	//c//XXã‚’YYaaã™ã‚‹ã€‚abaabb
 		}
 		boolean ba = true;
 		fd(500);
 		warp(100,30);
 		if(1 == 1){
-			{	//  ZZ ‚ğoo YY‚·‚éB
+			{	//  ZZ ã‚’oo YYã™ã‚‹ã€‚
 			}
 			{	//hoge
 				int i1 = 1;
 			}
 		}
-		{	//XX‚ğYY‚·‚éB
-			{	//XX‚ğYY‚·‚éB
+		{	//XXã‚’YYã™ã‚‹ã€‚
+			{	//XXã‚’YYã™ã‚‹ã€‚
 				fd(50);
 			}
 			fd(input());
 			if(1 == 1){
-				{	//XX‚ğYY‚·‚éB
+				{	//XXã‚’YYã™ã‚‹ã€‚
 					bk(50);
 				}
 			}
 			if(1 == 1){
-				{	//XX‚ğYY‚·‚éB
+				{	//XXã‚’YYã™ã‚‹ã€‚
 					fd(50);
 					fd(50);
-					{	//XX‚ğYY‚·‚éB
+					{	//XXã‚’YYã™ã‚‹ã€‚
 						fd(50);
-						{	//XX‚ğYY‚·‚éB
+						{	//XXã‚’YYã™ã‚‹ã€‚
 							bk(50);
 						}
-						{	//XX‚ğYY‚·‚éB
+						{	//XXã‚’YYã™ã‚‹ã€‚
 							bk(50);
 						}
 						fd(50);
 					}
-					{	//XX‚ğYY‚·‚éB
+					{	//XXã‚’YYã™ã‚‹ã€‚
 						fd(50);
-						{	//XX‚ğYY‚·‚éB
+						{	//XXã‚’YYã™ã‚‹ã€‚
 							bk(50);
 						}
-						{	//XX‚ğYY‚·‚éB
+						{	//XXã‚’YYã™ã‚‹ã€‚
 							bk(50);
 						}
 						fd(50);

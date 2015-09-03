@@ -35,7 +35,7 @@ public class RSEmptyTextDialog extends REDialog {
 
 	private void initializeViews() {
 
-		// ƒ{ƒ^ƒ“ì¬
+		// ãƒœã‚¿ãƒ³ä½œæˆ
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				okFinish();
@@ -44,7 +44,7 @@ public class RSEmptyTextDialog extends REDialog {
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.add(new JLabel(
-				"<html>“àÈ‚ğ‹Lq‚µ‚Ä‚¢‚È‚¢ƒGƒ‰[‚ª‚ ‚è‚Ü‚·I<br>‘S‚Ä‚ÌƒGƒ‰[‚É‚Â‚¢‚Ä“àÈ‚ğ‹Lq‚µ‚Ä‚­‚¾‚³‚¢</html>"));
+				"<html>å†…çœã‚’è¨˜è¿°ã—ã¦ã„ãªã„ã‚¨ãƒ©ãƒ¼ãŒã‚ã‚Šã¾ã™ï¼<br>å…¨ã¦ã®ã‚¨ãƒ©ãƒ¼ã«ã¤ã„ã¦å†…çœã‚’è¨˜è¿°ã—ã¦ãã ã•ã„</html>"));
 		mainPanel.add(okButton);
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
 	}

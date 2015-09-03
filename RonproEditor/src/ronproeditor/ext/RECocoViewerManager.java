@@ -12,7 +12,7 @@ import clib.common.filesystem.CDirectory;
 public class RECocoViewerManager {
 	private REApplication application;
 
-	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvフォルダに展開する
+	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppv繝輔か繝ｫ繝縺ｫ螻暮幕縺吶ｋ
 	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv";
 	private static String DATA_FILE = "CompileErrorLog.csv";
 	private static String METRICS_FILE = "FileMetrics.csv";

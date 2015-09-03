@@ -16,22 +16,22 @@ public class RECreateProjectNameDialog extends RECreateNameDialog {
 
 	public RECreateProjectNameDialog(REApplication application) {
 		super(application);
-		setTitle("V‹KƒvƒƒWƒFƒNƒgì¬");
+		setTitle("æ–°è¦ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆä½œæˆ");
 	}
 
 	protected void validCheck() {
 		String text = nameTextField.getText();
 		if (text.length() == 0) {
-			messageLabel.setText("ƒGƒ‰[F–¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢D");
+			messageLabel.setText("ã‚¨ãƒ©ãƒ¼ï¼šåå‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ï¼");
 			okButton.setEnabled(false);
 		} else if (!getApplication().getSourceManager().canCreateProject(text)) {
-			messageLabel.setText("ƒGƒ‰[F‚»‚Ì–¼‘O‚ÌƒvƒƒWƒFƒNƒg‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·D");
+			messageLabel.setText("ã‚¨ãƒ©ãƒ¼ï¼šãã®åå‰ã®ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã¯ã™ã§ã«å­˜åœ¨ã—ã¾ã™ï¼");
 			okButton.setEnabled(false);
 		} else if (!isValidCharacterUsed(text)) {
-			messageLabel.setText("ƒGƒ‰[FJava‚Å—˜—p‚Å‚«‚È‚¢•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚·D");
+			messageLabel.setText("ã‚¨ãƒ©ãƒ¼ï¼šJavaã§åˆ©ç”¨ã§ããªã„æ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ã¾ã™ï¼");
 			okButton.setEnabled(false);
 		} else {
-			messageLabel.setText("@");
+			messageLabel.setText("ã€€");
 			okButton.setEnabled(true);
 		}
 	}
@@ -51,7 +51,7 @@ public class RECreateProjectNameDialog extends RECreateNameDialog {
 
 	@Override
 	protected String getInputTitle() {
-		return "ƒvƒƒWƒFƒNƒg–¼‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢";
+		return "ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆåã‚’å…¥åŠ›ã—ã¦ãã ã•ã„";
 	}
 
 }

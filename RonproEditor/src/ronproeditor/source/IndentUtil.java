@@ -1,19 +1,19 @@
 package ronproeditor.source;
 
 /**
- *@ƒR[ƒh‚ğ®Œ`‚·‚é‚½‚ß‚Ì•Ö—˜ƒƒ\ƒbƒh‚ğ‚Á‚Ä‚¢‚éƒNƒ‰ƒX‚Å‚·B
+ *ã€€ã‚³ãƒ¼ãƒ‰ã‚’æ•´å½¢ã™ã‚‹ãŸã‚ã®ä¾¿åˆ©ãƒ¡ã‚½ãƒƒãƒ‰ã‚’æŒã£ã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  */
 public class IndentUtil {
 
 	//	/**
-	//	 * ‚»‚Ìs‚ÌŒ»İ‚ÌƒCƒ“ƒfƒ“ƒg‚Ì”‚ğ”‚¦‚éƒƒ\ƒbƒh‚Å‚·B
+	//	 * ãã®è¡Œã®ç¾åœ¨ã®ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆã®æ•°ã‚’æ•°ãˆã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚
 	//	 */
 	//	public static int countIndentDepth(String lineString) {
 	//
 	//		char[] lineChar = lineString.toCharArray();
 	//		int countIndent = 0;
 	//
-	//		//ƒ^ƒu‚à‚µ‚­‚ÍƒXƒy[ƒX‚Ì”‚ğ”‚¦‚é
+	//		//ã‚¿ãƒ–ã‚‚ã—ãã¯ã‚¹ãƒšãƒ¼ã‚¹ã®æ•°ã‚’æ•°ãˆã‚‹
 	//		for (int j = 0; j < lineChar.length; j++) {
 	//			if (lineChar[j] == ' ') {
 	//				countIndent++;
@@ -28,7 +28,7 @@ public class IndentUtil {
 	//	}
 
 	/**
-	 * ˆês‚ğ³‚µ‚¢ƒCƒ“ƒfƒ“ƒg‚É‚·‚éƒƒ\ƒbƒh‚Å‚·B
+	 * ä¸€è¡Œã‚’æ­£ã—ã„ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆã«ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚
 	 */
 	public static void doIndentLine(int depth, StringBuffer line) {
 		int pos = getStartPoint(line);
@@ -47,18 +47,18 @@ public class IndentUtil {
 		//		int beforeIndentCount = countIndentDepth(lineString);
 		//		int wishIndentCount = depth * REApplication.WHITESPACE_COUNT_FOR_TAB
 		//				* 2;
-		//		//‚ ‚Á‚Ä‚é‚©’²‚×‚Ä‚é
+		//		//ã‚ã£ã¦ã‚‹ã‹èª¿ã¹ã¦ã‚‹
 		//		int insertSpace = wishIndentCount - beforeIndentCount;
-		//		if (insertSpace == 0) {//‚¿‚å‚¤‚Ç‚¢‚¢
+		//		if (insertSpace == 0) {//ã¡ã‚‡ã†ã©ã„ã„
 		//			return;
-		//		} else if (insertSpace > 0) {//‚·‚­‚È‚¢‚©‚ç‚½‚·
+		//		} else if (insertSpace > 0) {//ã™ããªã„ã‹ã‚‰ãŸã™
 		//			String insertString = "";
 		//			for (int i = 0; i < insertSpace; i++) {
 		//				insertString = insertString + " ";
 		//			}
 		//			line.insert(0, insertString);
-		//		} else {//‚¨‚¨‚¢‚©‚çí‚é
-		//			//‚½‚¾‚µIƒ}ƒCƒiƒX‚É‚È‚é‚Æ¢‚é‚Ì‚Å¬‚³‚¢‚Ù‚¤‚ğ‚Æ‚é
+		//		} else {//ãŠãŠã„ã‹ã‚‰å‰Šã‚‹
+		//			//ãŸã ã—ï¼ãƒã‚¤ãƒŠã‚¹ã«ãªã‚‹ã¨å›°ã‚‹ã®ã§å°ã•ã„ã»ã†ã‚’ã¨ã‚‹
 		//			insertSpace = insertSpace * -1;
 		//			insertSpace = (insertSpace < beforeIndentCount) ? insertSpace
 		//					: beforeIndentCount;
@@ -73,7 +73,7 @@ public class IndentUtil {
 		for (i = 0; i < line.length(); i++) {
 			switch (line.charAt(i)) {
 			case ' ':
-			case '@':
+			case 'ã€€':
 			case '\t':
 				continue;
 			default:
@@ -84,7 +84,7 @@ public class IndentUtil {
 	}
 
 	/**
-	 * ˆêsƒXƒLƒƒƒ“‚·‚éƒƒ\ƒbƒh‚Å‚·B
+	 * ä¸€è¡Œã‚¹ã‚­ãƒ£ãƒ³ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã§ã™ã€‚
 	 */
 	public static ScanResult scanLine(String s, boolean inComment) {
 		ScanResult sr = new ScanResult();
@@ -102,27 +102,27 @@ public class IndentUtil {
 					&& inDoubleQuote == false && inComment == false) {
 				sr.addOpenBraceCount();
 			} else if (line[i] == '/' && lastChar == '/'
-					&& inDoubleQuote == false && inComment == false) {//sƒRƒƒ“ƒg
+					&& inDoubleQuote == false && inComment == false) {//è¡Œã‚³ãƒ¡ãƒ³ãƒˆ
 				sr.setInComment(inComment);
 				return sr;
 			} else if (line[i] == '\'' && lastChar != '\\'
-					&& inDoubleQuote == false && inComment == false) {//charƒŠƒeƒ‰ƒ‹
+					&& inDoubleQuote == false && inComment == false) {//charãƒªãƒ†ãƒ©ãƒ«
 				inSingleQuote = !inSingleQuote;
 			} else if (line[i] == '"' && lastChar != '\\'
-					&& inSingleQuote == false && inComment == false) {//•¶š—ñƒŠƒeƒ‰ƒ‹
+					&& inSingleQuote == false && inComment == false) {//æ–‡å­—åˆ—ãƒªãƒ†ãƒ©ãƒ«
 				inDoubleQuote = !inDoubleQuote;
 			} else if (line[i] == '*' && lastChar == '/'
-					&& inDoubleQuote == false && inComment == false) {//ƒRƒƒ“ƒgŠJ‚­‚Æ‚«
+					&& inDoubleQuote == false && inComment == false) {//ã‚³ãƒ¡ãƒ³ãƒˆé–‹ãã¨ã
 				inComment = !inComment;
 				lastChar = '\0';
 				continue;
 			} else if (line[i] == '/' && lastChar == '*'
-					&& inDoubleQuote == false && inComment == true) {//ƒRƒƒ“ƒg•Â‚¶‚é‚Æ‚«
+					&& inDoubleQuote == false && inComment == true) {//ã‚³ãƒ¡ãƒ³ãƒˆé–‰ã˜ã‚‹ã¨ã
 				inComment = !inComment;
 				lastChar = '\0';
 				continue;
 			} else if (line[i] == '\\' && lastChar == '\\'
-					&& (inSingleQuote == true || inDoubleQuote == true)) {//\\‚Íˆê‚Â‚Æ‚İ‚È‚·
+					&& (inSingleQuote == true || inDoubleQuote == true)) {//\\ã¯ä¸€ã¤ã¨ã¿ãªã™
 				lastChar = '\0';
 				continue;
 			}

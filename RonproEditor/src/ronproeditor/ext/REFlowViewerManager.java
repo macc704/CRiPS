@@ -76,7 +76,7 @@ public class REFlowViewerManager {
 		CompilationUnitModel root = visitor.getCompilationUnit();
 		REFlowViewerPanel flowchartPanel = new REFlowViewerPanel(root);
 
-		// “ü‚ê‘Ö‚¦
+		// å…¥ã‚Œæ›¿ãˆ
 		scrollPane.setViewportView(flowchartPanel);
 	}
 

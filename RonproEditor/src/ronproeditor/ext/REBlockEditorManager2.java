@@ -195,11 +195,11 @@ public class REBlockEditorManager2 {
 
 			public void doTask() {
 				try {
-					// xmlƒtƒ@ƒCƒ‹¶¬
+					// xmlãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆ
 					String emptyWorkSpace = emptyBEWorkSpacePrint();
 					String emptyFactory = emptyBEFactoryPrint();
 
-					// BlockEditor‚É”½‰f
+					// BlockEditorã«åæ˜ 
 					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
 					// blockEditor.setCompileErrorTitle(target.getName());
 				} catch (Exception ex) {
@@ -232,7 +232,7 @@ public class REBlockEditorManager2 {
 					blockParser.parse(classDec);
 					final String xmlFilePath = xmlfile.getAbsolutePath();
 
-					// blockEditor.resetWorkspace();//•K—v‚È‚¢‚Á‚Û‚¢
+					// blockEditor.resetWorkspace();//å¿…è¦ãªã„ã£ã½ã„
 					blockEditor.setSelectedFile(new File(xmlFilePath));
 					SwingUtilities.invokeAndWait(new Runnable() {
 						@Override
@@ -244,14 +244,14 @@ public class REBlockEditorManager2 {
 
 				} catch (Exception ex) {
 					ex.printStackTrace();
-					CErrorDialog.show(app.getFrame(), "Block•ÏŠ·‚ÌƒGƒ‰[", ex);
+					CErrorDialog.show(app.getFrame(), "Blockå¤‰æ›æ™‚ã®ã‚¨ãƒ©ãƒ¼", ex);
 				}
 			}
 		});
 	}
 
 	/*
-	 * Java‚ğUnicoenƒ‚ƒfƒ‹‚Ö•ÏŠ·‚µ‚Ä•Ô‚·
+	 * Javaã‚’Unicoenãƒ¢ãƒ‡ãƒ«ã¸å¤‰æ›ã—ã¦è¿”ã™
 	 */
 	private UniClassDec convertJavaToUni(File file) {
 		if (file.getPath().endsWith(".java")) {
@@ -261,7 +261,7 @@ public class REBlockEditorManager2 {
 			if (node instanceof UniClassDec) {
 				return (UniClassDec) node;
 			} else {
-				CErrorDialog.show(null, "UniClassƒ‚ƒfƒ‹‚ªì¬‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½");
+				CErrorDialog.show(null, "UniClassãƒ¢ãƒ‡ãƒ«ãŒä½œæˆã§ãã¾ã›ã‚“ã§ã—ãŸ");
 				return null;
 			}
 		} else if (file.getPath().endsWith(".js")) {
@@ -270,7 +270,7 @@ public class REBlockEditorManager2 {
 			if (node instanceof UniClassDec) {
 				return (UniClassDec) node;
 			} else {
-				CErrorDialog.show(null, "UniClassƒ‚ƒfƒ‹‚ªì¬‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½");
+				CErrorDialog.show(null, "UniClassãƒ¢ãƒ‡ãƒ«ãŒä½œæˆã§ãã¾ã›ã‚“ã§ã—ãŸ");
 				return null;
 			}
 		}
@@ -290,11 +290,11 @@ public class REBlockEditorManager2 {
 
 			public void doTask() {
 				try {
-					// xmlƒtƒ@ƒCƒ‹¶¬
+					// xmlãƒ•ã‚¡ã‚¤ãƒ«ç”Ÿæˆ
 					String emptyWorkSpace = emptyBEWorkSpacePrint();
 					String emptyFactory = emptyBEFactoryPrint();
 
-					// BlockEditor‚É”½‰f
+					// BlockEditorã«åæ˜ 
 					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
 				} catch (Exception ex) {
 				}
@@ -338,7 +338,7 @@ public class REBlockEditorManager2 {
 		}
 	}
 
-	// 20130926 DENO‚ªBlockEditor‚ğ’¼ÚQÆ‚·‚éİŒv‚Íb’è
+	// 20130926 DENOãŒBlockEditorã‚’ç›´æ¥å‚ç…§ã™ã‚‹è¨­è¨ˆã¯æš«å®š
 	public WorkspaceController getBlockEditor() {
 		if (isWorkspaceOpened()) {
 			return blockEditor;

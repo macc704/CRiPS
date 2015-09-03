@@ -1,19 +1,19 @@
 import java.util.*;
 
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Thu Nov 15 10:21:19 JST 2012
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Thu Nov 15 10:21:19 JST 2012
 */
 public class _30MethodTest extends Turtle{
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		_30MethodTest main = new _30MethodTest();
 		main.run();
 	}
 	
-	//ƒƒCƒ“ˆ—
+	//ãƒ¡ã‚¤ãƒ³å‡¦ç†
 	public void run() {
 		m0();
 		m1(100);
@@ -28,7 +28,7 @@ public class _30MethodTest extends Turtle{
 	public void m1(int x) {
 		rt(x);
 		x = 3;
-		m2(1,true,"‚ ‚¢‚¤‚¦‚¨", 2);
+		m2(1,true,"ã‚ã„ã†ãˆãŠ", 2);
 	}
 	
 	public void m2(int a, boolean b, String c, double d) {

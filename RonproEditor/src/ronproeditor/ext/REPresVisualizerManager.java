@@ -18,14 +18,14 @@ import clib.common.io.CIOUtils;
 import clib.common.thread.ICTask;
 import clib.view.progress.CPanelProcessingMonitor;
 
-// TODO ppDataManager‚ªnull‚Ì‚ª‚ ‚é‚Ì‚ª‚¢‚â‚Å‚·‚ËDŒã‚ÅC³
-// TODO –ˆ‰ñ‘S•”ƒRƒ“ƒpƒCƒ‹‚µ’¼‚·‚Ì‚ª‚¢‚â‚Å‚·‚ËD‚ ‚Æ‚ÅC³
-// TODO project–ˆ‚É’¼‚ÉPPVQÆ‚µ‚½‚¢‚Å‚·‚ËD‚ ‚Æ‚ÅC³
+// TODO ppDataManagerãŒnullã®æ™‚ãŒã‚ã‚‹ã®ãŒã„ã‚„ã§ã™ã­ï¼å¾Œã§ä¿®æ­£
+// TODO æ¯å›å…¨éƒ¨ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã—ç›´ã™ã®ãŒã„ã‚„ã§ã™ã­ï¼ã‚ã¨ã§ä¿®æ­£
+// TODO projectæ¯ã«ç›´ã«PPVå‚ç…§ã—ãŸã„ã§ã™ã­ï¼ã‚ã¨ã§ä¿®æ­£
 public class REPresVisualizerManager {
 
-	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvƒtƒHƒ‹ƒ_‚É“WŠJ‚·‚é
-	private static String PPV_TMP_DIR = "tmp";// zipƒtƒ@ƒCƒ‹‚ğ“WŠJ‚·‚é‚½‚ß‚ÌˆêƒtƒHƒ‹ƒ_ /.ppv’†
-	private static String PPV_PROJECTSET_NAME = "hoge";// projectset–¼
+	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvãƒ•ã‚©ãƒ«ãƒ€ã«å±•é–‹ã™ã‚‹
+	private static String PPV_TMP_DIR = "tmp";// zipãƒ•ã‚¡ã‚¤ãƒ«ã‚’å±•é–‹ã™ã‚‹ãŸã‚ã®ä¸€æ™‚ãƒ•ã‚©ãƒ«ãƒ€ /.ppvä¸­
+	private static String PPV_PROJECTSET_NAME = "hoge";// projectsetå
 	private static IPPVLoader RONPRO_PPV_ROADER = new PPRonproPPVLoader();
 
 	private REApplication application;
@@ -39,19 +39,19 @@ public class REPresVisualizerManager {
 	}
 
 	public void openPresVisualizer() {
-		// Šm”Fƒ_ƒCƒAƒƒO
+		// ç¢ºèªãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 		int res;
 		if (!CJavaCompilerFactory.hasEmbededJavaCompiler()) {
 			res = JOptionPane.showConfirmDialog(null,
-					"JDK‚ğ—˜—p‚µ‚Ä‚¢‚È‚¢ê‡Cˆ—ŠÔ‚ª’·‚­‚È‚è‚Ü‚·‚ªC‚æ‚ë‚µ‚¢‚Å‚·‚©H", "ƒRƒ“ƒpƒCƒ‰‚Ìƒ`ƒFƒbƒN",
+					"JDKã‚’åˆ©ç”¨ã—ã¦ã„ãªã„å ´åˆï¼Œå‡¦ç†æ™‚é–“ãŒé•·ããªã‚Šã¾ã™ãŒï¼Œã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ", "ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã®ãƒã‚§ãƒƒã‚¯",
 					JOptionPane.OK_CANCEL_OPTION);
 			if (res != JOptionPane.OK_OPTION) {
 				return;
 			}
 		}
 
-		res = JOptionPane.showConfirmDialog(null, "ƒf[ƒ^‚Ìì¬‚É‚ÍŠÔ‚ª‚©‚©‚è‚Ü‚·‚ªC‚æ‚ë‚µ‚¢‚Å‚·‚©H",
-				"ƒf[ƒ^‚Ìì¬", JOptionPane.OK_CANCEL_OPTION);
+		res = JOptionPane.showConfirmDialog(null, "ãƒ‡ãƒ¼ã‚¿ã®ä½œæˆã«ã¯æ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™ãŒï¼Œã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ",
+				"ãƒ‡ãƒ¼ã‚¿ã®ä½œæˆ", JOptionPane.OK_CANCEL_OPTION);
 		if (res != JOptionPane.OK_OPTION) {
 			return;
 		}
@@ -69,7 +69,7 @@ public class REPresVisualizerManager {
 		final CDirectory ppvRoot = application.getSourceManager()
 				.getCRootDirectory().findOrCreateDirectory(PPV_ROOT_DIR);
 
-		// ‹N“®‚‘¬‰»‚Ì‚½‚ßcash‚ÍÁ‚³‚È‚¢
+		// èµ·å‹•é«˜é€ŸåŒ–ã®ãŸã‚cashã¯æ¶ˆã•ãªã„
 		monitor.setWorkTitle("Deleting...");
 		monitor.doTaskWithDialog(new ICTask() {
 			public void doTask() {
@@ -118,7 +118,7 @@ public class REPresVisualizerManager {
 		for (CFileElement element : elements) {
 			boolean deleted = element.delete();
 			if (!deleted) {
-				throw new RuntimeException(elements.toString() + "‚ğíœ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½D");
+				throw new RuntimeException(elements.toString() + "ã‚’å‰Šé™¤ã§ãã¾ã›ã‚“ã§ã—ãŸï¼");
 			}
 			monitor.progress(1);
 		}
@@ -135,9 +135,9 @@ public class REPresVisualizerManager {
 				exportOneProject(project, tmpDir);
 			} else {
 				System.out.println(project.getNameByString()
-						+ "‚É‚¨‚¢‚Äpres2.log‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+						+ "ã«ãŠã„ã¦pres2.logãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“");
 				// throw new RuntimeException(project.getNameByString()
-				// + "‚É‚¨‚¢‚Äpres2.log‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+				// + "ã«ãŠã„ã¦pres2.logãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“");
 			}
 			monitor.progress(1);
 		}
@@ -164,15 +164,15 @@ public class REPresVisualizerManager {
 	}
 
 	public void clearCash() {
-		// Šm”Fƒ_ƒCƒAƒƒO
+		// ç¢ºèªãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 		int res = JOptionPane.showConfirmDialog(null,
-				"Cash‚Ìíœ‚É‚ÍŠÔ‚ª‚©‚©‚è‚Ü‚·‚ªC‚æ‚ë‚µ‚¢‚Å‚·‚©H", "cash‚Ìíœ",
+				"Cashã®å‰Šé™¤ã«ã¯æ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™ãŒï¼Œã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ", "cashã®å‰Šé™¤",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (res != JOptionPane.OK_OPTION) {
 			return;
 		}
 
-		// cash‚ğíœ‚µ‚Ä‚¢‚éi’»ƒ_ƒCƒ„ƒƒO‚ğ—˜—p‚µ‚½‚¢‚Ì‚ÅCPPDataManager‚ÌŠÖ”‚ğŒÄ‚Ô
+		// cashã‚’å‰Šé™¤ã—ã¦ã„ã‚‹é€²æ—ãƒ€ã‚¤ãƒ¤ãƒ­ã‚°ã‚’åˆ©ç”¨ã—ãŸã„ã®ã§ï¼ŒPPDataManagerã®é–¢æ•°ã‚’å‘¼ã¶
 		CDirectory ppvRoot = application.getSourceManager().getCRootDirectory()
 				.findOrCreateDirectory(PPV_ROOT_DIR);
 
@@ -180,13 +180,13 @@ public class REPresVisualizerManager {
 		try {
 			ppDataManager.clearCompileCash();
 		} catch (Exception ex) {
-			throw new RuntimeException("cash‚ªíœ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½D");
+			throw new RuntimeException("cashãŒå‰Šé™¤ã§ãã¾ã›ã‚“ã§ã—ãŸï¼");
 		}
 
 		// boolean deleted = ppvRoot.findOrCreateDirectory("ppv.data")
 		// .findOrCreateDirectory("cash").delete();
 		// if (!deleted) {
-		// throw new RuntimeException("cash‚ğíœ‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½D");
+		// throw new RuntimeException("cashã‚’å‰Šé™¤ã§ãã¾ã›ã‚“ã§ã—ãŸï¼");
 		// }
 	}
 }

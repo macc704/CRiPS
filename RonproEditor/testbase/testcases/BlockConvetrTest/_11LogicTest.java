@@ -1,21 +1,21 @@
 import java.util.*;
 
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Tue Nov 13 21:54:12 JST 2012
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Tue Nov 13 21:54:12 JST 2012
 */
 public class _11LogicTest extends Turtle{
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		_11LogicTest main = new _11LogicTest();
 		main.run();
 	}
 	
-	//ƒƒCƒ“ˆ—
+	//ãƒ¡ã‚¤ãƒ³å‡¦ç†
 	public void run() {
-		{//‚»‚Ì‚Ü‚Ü‚à‚Ç‚ç‚È‚¢C‚¯‚Ç–¾Šm‚É‚È‚Á‚Ä‚¢‚é‚Ì‚Å‚n‚jD2‰ñ‚Å–ß‚é
+		{//ãã®ã¾ã¾ã‚‚ã©ã‚‰ãªã„ï¼Œã‘ã©æ˜ç¢ºã«ãªã£ã¦ã„ã‚‹ã®ã§ï¼¯ï¼«ï¼2å›ã§æˆ»ã‚‹
 			boolean b1 = true;
 			boolean b2 = false;
 			boolean b3 = b1 && b2;

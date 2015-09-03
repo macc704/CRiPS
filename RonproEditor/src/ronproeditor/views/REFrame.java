@@ -67,7 +67,7 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^ ‚±‚±‚Åinitialize()‚ğŒÄ‚Î‚È‚¢‚±‚Æ
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ ã“ã“ã§initialize()ã‚’å‘¼ã°ãªã„ã“ã¨
 	 */
 	public REFrame(REApplication application) {
 		assert application != null;
@@ -75,13 +75,13 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * ƒtƒŒ[ƒ€‚Ì‰Šú‰»‚ğs‚¢‚Ü‚·B
+	 * ãƒ•ãƒ¬ãƒ¼ãƒ ã®åˆæœŸåŒ–ã‚’è¡Œã„ã¾ã™ã€‚
 	 */
 	public void initialize() {
 		initializeWindow();
 		initializeAction();
 		initializeMenu();
-		initializeView(); // Action‚ª‚·‚×‚Ä¶¬‚³‚ê‚Ä‚©‚çView‚ğ‰Šú‰»‚·‚é•K—vƒAƒŠ
+		initializeView(); // ActionãŒã™ã¹ã¦ç”Ÿæˆã•ã‚Œã¦ã‹ã‚‰Viewã‚’åˆæœŸåŒ–ã™ã‚‹å¿…è¦ã‚¢ãƒª
 		initializeListeners();
 
 		application.getPreferenceManager().putCategory(category);
@@ -90,12 +90,12 @@ public class REFrame extends JFrame {
 
 	protected void initializeWindow() {
 		// this.setTitle(TITLE);
-		// fwSetWindowIcon("image/LogoIcon16.gif"); // ƒAƒCƒRƒ“
-		// fwSetWindowSizeToMaximum(); // ƒEƒBƒ“ƒhƒEƒTƒCƒY
+		// fwSetWindowIcon("image/LogoIcon16.gif"); // ã‚¢ã‚¤ã‚³ãƒ³
+		// fwSetWindowSizeToMaximum(); // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚º
 		this.setSize(800, 600);
 		fwSetWindowAtCenter();
 
-		// •Â‚¶‚½‚Æ‚«‚ÉI—¹‚·‚é‚æ‚¤‚É‚·‚é
+		// é–‰ã˜ãŸã¨ãã«çµ‚äº†ã™ã‚‹ã‚ˆã†ã«ã™ã‚‹
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				application.doExit();
@@ -133,7 +133,7 @@ public class REFrame extends JFrame {
 
 		// new REDebugNavigator( application );
 
-		// ToolBar ƒ„ƒ
+		// ToolBar ãƒ¤ãƒ¡
 		// JToolBar toolBar = new JToolBar();
 		// getContentPane().add(toolBar, BorderLayout.NORTH);
 		// CFontComboBox font = new CFontComboBox();
@@ -157,10 +157,10 @@ public class REFrame extends JFrame {
 	}
 
 	/***********************
-	 * ƒƒjƒ…[EƒAƒNƒVƒ‡ƒ“—Ş
+	 * ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒ»ã‚¢ã‚¯ã‚·ãƒ§ãƒ³é¡
 	 **********************/
 
-	// uƒtƒ@ƒCƒ‹v
+	// ã€Œãƒ•ã‚¡ã‚¤ãƒ«ã€
 	private JMenu menuFile;
 	private Action actionCreateProject;
 	private Action actionCreateFile;
@@ -172,7 +172,7 @@ public class REFrame extends JFrame {
 	private Action actionRefresh;
 	private Action actionExit;
 
-	// u•ÒWv
+	// ã€Œç·¨é›†ã€
 	private JMenu menuEdit;
 	private Action actionUndo;
 	private Action actionRedo;
@@ -180,7 +180,7 @@ public class REFrame extends JFrame {
 	private Action actionCopy = new DefaultEditorKit.CopyAction();
 	private Action actionPaste = new DefaultEditorKit.PasteAction();
 
-	// uJavav
+	// ã€ŒJavaã€
 	private JMenu menuJava;
 	private Action actionCompile;
 	private Action actionRun;
@@ -188,7 +188,7 @@ public class REFrame extends JFrame {
 	private Action actionKill;
 	private Action actionFormat;
 
-	// uToolsv
+	// ã€ŒToolsã€
 	private JMenu menuTools;
 	private Action actionOpenBlockEditor;
 	private Action actionOpenNewBlockEditor;
@@ -202,7 +202,7 @@ public class REFrame extends JFrame {
 	private Action actionBytecode;
 	private Action actionStartCheCoPro; // CheCoPro(kato)
 
-	// uHelpv
+	// ã€ŒHelpã€
 	private JMenu menuHelp;
 	private Action actionOpenPreference;
 	private Action actionAbout;
@@ -210,11 +210,11 @@ public class REFrame extends JFrame {
 	// private Action actionMakeLog;
 
 	/*******************
-	 * ƒƒjƒ…[‚Ì‰Šú‰»
+	 * ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®åˆæœŸåŒ–
 	 *******************/
 
 	private void initializeMenu() {
-		// -- ƒƒjƒ…[ƒo[‚Ìİ’è --
+		// -- ãƒ¡ãƒ‹ãƒ¥ãƒ¼ãƒãƒ¼ã®è¨­å®š --
 		setJMenuBar(menuBar);
 
 		initializeFileMenu();
@@ -225,14 +225,14 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * ƒtƒ@ƒCƒ‹ƒƒjƒ…[‚Ì‰Šú‰»
+	 * ãƒ•ã‚¡ã‚¤ãƒ«ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®åˆæœŸåŒ–
 	 */
 	private void initializeFileMenu() {
-		// ƒƒjƒ…[‚Ì’Ç‰Á
+		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¿½åŠ 
 		menuFile = new JMenu("File");
 		menuBar.add(menuFile);
 
-		// ƒAƒNƒVƒ‡ƒ“‚Ì’Ç‰Á
+		// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®è¿½åŠ 
 		menuFile.add(actionCreateProject);
 		menuFile.add(actionCreateFile);
 		menuFile.addSeparator();
@@ -251,14 +251,14 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * •ÒWƒƒjƒ…[‚Ì‰Šú‰»
+	 * ç·¨é›†ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®åˆæœŸåŒ–
 	 */
 	private void initializeEditMenu() {
-		// ƒƒjƒ…[‚Ì’Ç‰Á
+		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¿½åŠ 
 		menuEdit = new JMenu("Edit");
 		menuBar.add(menuEdit);
 
-		// ƒAƒNƒVƒ‡ƒ“‚Ì’Ç‰Á
+		// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®è¿½åŠ 
 		menuEdit.add(actionUndo);
 		menuEdit.add(actionRedo);
 		menuEdit.addSeparator();
@@ -269,14 +269,14 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * Javaƒƒjƒ…[‚Ì‰Šú‰»
+	 * Javaãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®åˆæœŸåŒ–
 	 */
 	private void initializeJavaMenu() {
-		// ƒƒjƒ…[‚Ì’Ç‰Á
+		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¿½åŠ 
 		menuJava = new JMenu("Java");
 		menuBar.add(menuJava);
 
-		// ƒAƒNƒVƒ‡ƒ“‚Ì’Ç‰Á
+		// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®è¿½åŠ 
 		menuJava.add(actionCompile);
 		menuJava.add(actionRun);
 		menuJava.add(actionDebugRun);
@@ -286,14 +286,14 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * Toolsƒƒjƒ…[‚Ì‰Šú‰»
+	 * Toolsãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®åˆæœŸåŒ–
 	 */
 	private void initializeToolsMenu() {
-		// ƒƒjƒ…[‚Ì’Ç‰Á
+		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¿½åŠ 
 		menuTools = new JMenu("Tools");
 		menuBar.add(menuTools);
 
-		// ƒAƒNƒVƒ‡ƒ“‚Ì’Ç‰Á
+		// ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®è¿½åŠ 
 		menuTools.add(actionOpenBlockEditor);
 		menuTools.add(actionOpenNewBlockEditor);
 		menuTools.add(actionOpenFlowViewer);
@@ -312,7 +312,7 @@ public class REFrame extends JFrame {
 	}
 
 	private void initializeHelpMenu() {
-		// ƒƒjƒ…[‚Ì’Ç‰Á
+		// ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã®è¿½åŠ 
 		menuHelp = new JMenu("Help");
 		menuBar.add(menuHelp);
 		// menuHelp.add(actionMakeLog);
@@ -324,7 +324,7 @@ public class REFrame extends JFrame {
 	}
 
 	/************************
-	 * ƒAƒNƒVƒ‡ƒ“‚Ì‰Šú‰»
+	 * ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–
 	 ************************/
 
 	private void initializeAction() {
@@ -336,10 +336,10 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * uƒtƒ@ƒCƒ‹vƒAƒNƒVƒ‡ƒ“‚Ì‰Šú‰»
+	 * ã€Œãƒ•ã‚¡ã‚¤ãƒ«ã€ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–
 	 */
 	private void initializeFileAction() {
-		// -- V‹KƒvƒƒWƒFƒNƒg
+		// -- æ–°è¦ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ
 		actionCreateProject = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				application.doCreateProject();
@@ -348,7 +348,7 @@ public class REFrame extends JFrame {
 		actionCreateProject.putValue(Action.NAME, "New Project");
 		actionCreateProject.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, CTRL_MASK));
 
-		// -- V‹K•¶‘
+		// -- æ–°è¦æ–‡æ›¸
 		actionCreateFile = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				application.doCreateFile();
@@ -357,7 +357,7 @@ public class REFrame extends JFrame {
 		actionCreateFile.putValue(Action.NAME, "New File(Class)");
 		actionCreateFile.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_N, CTRL_MASK));
 
-		// //-- RefactorƒvƒƒWƒFƒNƒg
+		// //-- Refactorãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ
 		// actionRefactoringProject = new AbstractAction() {
 		// public void actionPerformed(ActionEvent e) {
 		// application.doRefactorProjectName();
@@ -368,7 +368,7 @@ public class REFrame extends JFrame {
 		// KeyStroke
 		// // .getKeyStroke(KeyEvent.VK_P, CTRL_MASK));
 		//
-		// // -- Refactorƒtƒ@ƒCƒ‹
+		// // -- Refactorãƒ•ã‚¡ã‚¤ãƒ«
 		// actionRefactoringFile = new AbstractAction() {
 		// public void actionPerformed(ActionEvent e) {
 		// application.doRefactorFileName();
@@ -378,7 +378,7 @@ public class REFrame extends JFrame {
 		// // actionRefactoringFile.putValue(Action.ACCELERATOR_KEY, KeyStroke
 		// // .getKeyStroke(KeyEvent.VK_N, CTRL_MASK));
 
-		// -- RefactorƒvƒƒWƒFƒNƒg
+		// -- Refactorãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆ
 		actionRefactoring = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				application.doRefactoring();
@@ -409,7 +409,7 @@ public class REFrame extends JFrame {
 		actionDelete.putValue(Action.ACCELERATOR_KEY,
 				KeyStroke.getKeyStroke(KeyEvent.VK_D, CTRL_MASK | KeyEvent.SHIFT_MASK));
 
-		// -- •Û‘¶
+		// -- ä¿å­˜
 		actionSave = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				application.doSave();
@@ -430,7 +430,7 @@ public class REFrame extends JFrame {
 		// KeyEvent.VK_S, CTRL_MASK));
 		actionExport.setEnabled(false);
 
-		// -- XV
+		// -- æ›´æ–°
 		actionRefresh = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				application.doRefresh();
@@ -439,7 +439,7 @@ public class REFrame extends JFrame {
 		actionRefresh.putValue(Action.NAME, "Refresh");
 		actionRefresh.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
 
-		// -- I—¹
+		// -- çµ‚äº†
 		actionExit = new AbstractAction() {
 			public void actionPerformed(ActionEvent e) {
 				application.doExit();
@@ -451,7 +451,7 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * u•ÒWvƒAƒNƒVƒ‡ƒ“‚Ì‰Šú‰»
+	 * ã€Œç·¨é›†ã€ã‚¢ã‚¯ã‚·ãƒ§ãƒ³ã®åˆæœŸåŒ–
 	 */
 	private void initializeEditAction() {
 
@@ -690,7 +690,7 @@ public class REFrame extends JFrame {
 	}
 
 	/*******************
-	 * ƒGƒfƒBƒ^ŠÖŒW
+	 * ã‚¨ãƒ‡ã‚£ã‚¿é–¢ä¿‚
 	 ******************/
 
 	public RESourceEditor getEditor() {
@@ -785,7 +785,7 @@ public class REFrame extends JFrame {
 	}
 
 	/******************/
-	/* ƒ†[ƒeƒBƒŠƒeƒB */
+	/* ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£ */
 	/******************/
 
 	public ConsoleTextPane getConsole() {
@@ -809,13 +809,13 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * ‘ÎÛ‚Æ‚È‚éƒEƒCƒ“ƒhƒE‚ğÅ‘å‚Ì‘å‚«‚³‚É‚µ‚Ü‚·
+	 * å¯¾è±¡ã¨ãªã‚‹ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚’æœ€å¤§ã®å¤§ãã•ã«ã—ã¾ã™
 	 */
 	protected final void fwSetWindowSizeToMaximum() {
 		int screenW = Toolkit.getDefaultToolkit().getScreenSize().width;
 		int screenH = Toolkit.getDefaultToolkit().getScreenSize().height;
 
-		// ƒ^ƒXƒNƒo[‚Ì‚½‚ß
+		// ã‚¿ã‚¹ã‚¯ãƒãƒ¼ã®ãŸã‚
 		screenH = screenH - 50;
 
 		this.setSize(screenW, screenH);
@@ -823,7 +823,7 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * ‘ÎÛ‚Æ‚È‚éƒEƒCƒ“ƒhƒE‚ğ‰æ–Ê‚Ì’†‰›‚Éİ’è‚µ‚Ü‚·B
+	 * å¯¾è±¡ã¨ãªã‚‹ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã‚’ç”»é¢ã®ä¸­å¤®ã«è¨­å®šã—ã¾ã™ã€‚
 	 */
 	protected final void fwSetWindowAtCenter() {
 		int width = this.getSize().width;
@@ -839,7 +839,7 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * ƒEƒCƒ“ƒhƒE‚ÉƒAƒCƒRƒ“‚ğİ’è‚µ‚Ü‚·
+	 * ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ã«ã‚¢ã‚¤ã‚³ãƒ³ã‚’è¨­å®šã—ã¾ã™
 	 */
 	protected final void fwSetWindowIcon(String iconPath) {
 		URL url = ClassLoader.getSystemClassLoader().getResource(iconPath);
@@ -848,7 +848,7 @@ public class REFrame extends JFrame {
 	}
 
 	/**
-	 * path‚©‚çƒAƒCƒRƒ“‚ğæ“¾‚·‚é
+	 * pathã‹ã‚‰ã‚¢ã‚¤ã‚³ãƒ³ã‚’å–å¾—ã™ã‚‹
 	 */
 	protected final ImageIcon fwGetImageIcon(String iconPath) {
 		URL url = ClassLoader.getSystemClassLoader().getResource(iconPath);

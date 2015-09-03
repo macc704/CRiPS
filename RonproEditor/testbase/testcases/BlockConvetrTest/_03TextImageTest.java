@@ -1,19 +1,19 @@
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Tue Nov 06 14:51:41 JST 2012
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Tue Nov 06 14:51:41 JST 2012
 */
 public class _03TextImageTest extends Turtle {
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		Turtle.startTurtle(new _03TextImageTest());
 	}
 	
-	//ƒ^[ƒgƒ‹‚ğ“®‚©‚·ˆ—
+	//ã‚¿ãƒ¼ãƒˆãƒ«ã‚’å‹•ã‹ã™å‡¦ç†
 	public void start() {
 		TextTurtle tt = new TextTurtle("aaa");
-		tt.text("‚ ‚¢‚¤‚¦‚¨");
+		tt.text("ã‚ã„ã†ãˆãŠ");
 		String text = tt.getText();
 		ImageTurtle it = new ImageTurtle("bbb");
 		it.image("aaa");

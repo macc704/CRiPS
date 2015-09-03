@@ -16,7 +16,7 @@ import ronproeditor.helpers.MatcherUtil;
  */
 public abstract class RESourceTemplate {
 	public static final String CLASSNAME = "CLASSNAME";
-	public static final String DATE = "“ú•t";
+	public static final String DATE = "æ—¥ä»˜";
 
 	private String clName = "ClassName";
 

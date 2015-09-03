@@ -16,28 +16,28 @@ public class RECreateFileNameDialog extends RECreateNameDialog {
 
 	public RECreateFileNameDialog(REApplication application) {
 		super(application);
-		setTitle("V‹Kƒtƒ@ƒCƒ‹iƒNƒ‰ƒXjì¬");
+		setTitle("æ–°è¦ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆã‚¯ãƒ©ã‚¹ï¼‰ä½œæˆ");
 	}
 
 	protected void validCheck() {
 		String text = nameTextField.getText();
 		if (text.length() == 0) {
-			messageLabel.setText("ƒGƒ‰[F–¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢D");
+			messageLabel.setText("ã‚¨ãƒ©ãƒ¼ï¼šåå‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ï¼");
 			okButton.setEnabled(false);
 		} else if (Character.isLowerCase(text.charAt(0))) {
-			messageLabel.setText("ƒGƒ‰[F‘å•¶š‚ÅŠJn‚µ‚Ä‚­‚¾‚³‚¢D");
+			messageLabel.setText("ã‚¨ãƒ©ãƒ¼ï¼šå¤§æ–‡å­—ã§é–‹å§‹ã—ã¦ãã ã•ã„ï¼");
 			okButton.setEnabled(false);
 		} else if (!getApplication().getSourceManager().canCreateFile(text)) {
-			messageLabel.setText("ƒGƒ‰[F‚»‚Ì–¼‘O‚Ìƒtƒ@ƒCƒ‹‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·D");
+			messageLabel.setText("ã‚¨ãƒ©ãƒ¼ï¼šãã®åå‰ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ã™ã§ã«å­˜åœ¨ã—ã¾ã™ï¼");
 			okButton.setEnabled(false);
 		} else if (!isValidFirstCharacterUsed(text)) {
-			messageLabel.setText("ƒGƒ‰[FÅ‰‚Ì•¶š‚ÉJava‚Å—˜—p‚Å‚«‚È‚¢•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚·D");
+			messageLabel.setText("ã‚¨ãƒ©ãƒ¼ï¼šæœ€åˆã®æ–‡å­—ã«Javaã§åˆ©ç”¨ã§ããªã„æ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ã¾ã™ï¼");
 			okButton.setEnabled(false);
 		} else if (!isValidCharacterUsed(text)) {
-			messageLabel.setText("ƒGƒ‰[FJava‚Å—˜—p‚Å‚«‚È‚¢•¶š‚ªŠÜ‚Ü‚ê‚Ä‚¢‚Ü‚·D");
+			messageLabel.setText("ã‚¨ãƒ©ãƒ¼ï¼šJavaã§åˆ©ç”¨ã§ããªã„æ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ã¾ã™ï¼");
 			okButton.setEnabled(false);
 		} else {
-			messageLabel.setText("@");
+			messageLabel.setText("ã€€");
 			okButton.setEnabled(true);
 		}
 	}
@@ -57,7 +57,7 @@ public class RECreateFileNameDialog extends RECreateNameDialog {
 
 	@Override
 	protected String getInputTitle() {
-		return "ƒNƒ‰ƒX–¼i.java‚ğœ‚¢‚½–¼‘Oj‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢";
+		return "ã‚¯ãƒ©ã‚¹åï¼ˆ.javaã‚’é™¤ã„ãŸåå‰ï¼‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„";
 	}
 
 }

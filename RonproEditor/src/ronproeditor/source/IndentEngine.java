@@ -5,16 +5,16 @@ import java.util.Scanner;
 import ronproeditor.helpers.FileSystemUtil;
 
 /**
- * @ƒ\[ƒXƒR[ƒh®Œ`‚ð‚·‚éƒGƒ“ƒWƒ“‚Å‚·B
+ * ã€€ã‚½ãƒ¼ã‚¹ã‚³ãƒ¼ãƒ‰æ•´å½¢ã‚’ã™ã‚‹ã‚¨ãƒ³ã‚¸ãƒ³ã§ã™ã€‚
  */
 public class IndentEngine {
 
 	/**
-	 * @ˆês‚¸‚Â“Ç‚ÝAƒXƒLƒƒƒ“‚µ‚Ä‚¢‚«‚Ü‚·B
+	 * ã€€ä¸€è¡Œãšã¤èª­ã¿ã€ã‚¹ã‚­ãƒ£ãƒ³ã—ã¦ã„ãã¾ã™ã€‚
 	 */
 	public static String execIndent(String before) {
 
-		// 2011/11/20’Ç‹L macchan
+		// 2011/11/20è¿½è¨˜ macchan
 		while (before.contains("}}")) {
 			before = before.replace("}}", "}\n}");
 		}
@@ -26,23 +26,23 @@ public class IndentEngine {
 		StringBuffer buf = new StringBuffer();
 
 		try {
-			int braceCount = 0;// Œ»Ý‚Ìƒ^ƒu‚Ì”‚ðŠo‚¦‚Ä‚¨‚­
-			boolean inComment = false;// ƒRƒƒ“ƒg“à‚©‚Ç‚¤‚©(ó‘Ô)
+			int braceCount = 0;// ç¾åœ¨ã®ã‚¿ãƒ–ã®æ•°ã‚’è¦šãˆã¦ãŠã
+			boolean inComment = false;// ã‚³ãƒ¡ãƒ³ãƒˆå†…ã‹ã©ã†ã‹(çŠ¶æ…‹)
 			while (scanner.hasNext()) {
 
-				// ˆês‚Æ‚Á‚Ä‚­‚é
+				// ä¸€è¡Œã¨ã£ã¦ãã‚‹
 				String lineString = scanner.nextLine();
 
-				// ƒXƒLƒƒƒ“‚·‚é
+				// ã‚¹ã‚­ãƒ£ãƒ³ã™ã‚‹
 				ScanResult sr = IndentUtil.scanLine(lineString, inComment);
 				inComment = sr.getInComment();
 
-				// Œ¸‚éê‡æ‚ÉŒ¸‚ç‚·
+				// æ¸›ã‚‹å ´åˆå…ˆã«æ¸›ã‚‰ã™
 				if (sr.getCloseBraceCount() > 0) {
 					braceCount = braceCount - sr.getCloseBraceCount();
 				}
 
-				// ƒXƒLƒƒƒ“‚µ‚½s‚ÌƒCƒ“ƒfƒ“ƒg‡‚í‚¹‚ð‚·‚é
+				// ã‚¹ã‚­ãƒ£ãƒ³ã—ãŸè¡Œã®ã‚¤ãƒ³ãƒ‡ãƒ³ãƒˆåˆã‚ã›ã‚’ã™ã‚‹
 				StringBuffer linebuf = new StringBuffer(lineString);
 				IndentUtil.doIndentLine(braceCount + sr.getCloseSecond(),
 						linebuf);
@@ -51,7 +51,7 @@ public class IndentEngine {
 					buf.append(FileSystemUtil.CR);
 				}
 
-				// ‘‚¦‚éê‡‚ ‚Æ‚É‘‚â‚·
+				// å¢—ãˆã‚‹å ´åˆã‚ã¨ã«å¢—ã‚„ã™
 				if (sr.getOpenBraceCount() > 0) {
 					braceCount = braceCount + sr.getOpenBraceCount();
 				}

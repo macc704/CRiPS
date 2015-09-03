@@ -2,13 +2,13 @@ import java.util.*;
 
 public class _20CUITest{
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		_20CUITest main = new _20CUITest();
 		main.run();
 	}
 	
-	//ƒƒCƒ“ˆ—
+	//ãƒ¡ã‚¤ãƒ³å‡¦ç†
 	public void run() {
 		System.out.print("a");
 		System.out.println("a");
@@ -19,7 +19,7 @@ public class _20CUITest{
 		int a = c.nextInt();
 		String s = c.next();
 		Scanner scanner = new Scanner(System.in);
-		{	//nextLine()‚ÍŠÔˆá‚¢‚ÅCnext()‚Å‚·D
+		{	//nextLine()ã¯é–“é•ã„ã§ï¼Œnext()ã§ã™ï¼
 			System.out.print(scanner.nextLine());
 			System.out.print(scanner.next());
 		}

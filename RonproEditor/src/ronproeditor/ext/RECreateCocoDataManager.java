@@ -12,10 +12,10 @@ import ronproeditor.REApplication;
 public class RECreateCocoDataManager {
 	private REApplication application;
 
-	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvƒtƒHƒ‹ƒ_‚É“WŠJ‚·‚é
-	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv"; // ext“à‚ÌErrorKinds
-	private static String ORIGINAL_DATA_FILE = "CompileError.csv"; // ppv‚©‚ço—Í‚³‚ê‚écsvƒtƒ@ƒCƒ‹
-	private static String DATA_FILE = "CompileErrorLog.csv"; // Coco—p‚ÌƒRƒ“ƒpƒCƒ‹ƒGƒ‰[ƒf[ƒ^
+	private static String PPV_ROOT_DIR = ".ppv";// MyProjects/.ppvãƒ•ã‚©ãƒ«ãƒ€ã«å±•é–‹ã™ã‚‹
+	private static String KINDS_FILE = "ext/cocoviewer/ErrorKinds.csv"; // extå†…ã®ErrorKinds
+	private static String ORIGINAL_DATA_FILE = "CompileError.csv"; // ppvã‹ã‚‰å‡ºåŠ›ã•ã‚Œã‚‹csvãƒ•ã‚¡ã‚¤ãƒ«
+	private static String DATA_FILE = "CompileErrorLog.csv"; // Cocoç”¨ã®ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã‚¨ãƒ©ãƒ¼ãƒ‡ãƒ¼ã‚¿
 
 	private PPProjectSet ppProjectSet;
 
@@ -25,16 +25,16 @@ public class RECreateCocoDataManager {
 
 	public void createCocoData() {
 		int res = JOptionPane.showConfirmDialog(null,
-				"ƒf[ƒ^‚Ìì¬‚É‚ÍŠÔ‚ª‚©‚©‚è‚Ü‚·‚ªC‚æ‚ë‚µ‚¢‚Å‚·‚©H", "ƒf[ƒ^‚Ìì¬",
+				"ãƒ‡ãƒ¼ã‚¿ã®ä½œæˆã«ã¯æ™‚é–“ãŒã‹ã‹ã‚Šã¾ã™ãŒï¼Œã‚ˆã‚ã—ã„ã§ã™ã‹ï¼Ÿ", "ãƒ‡ãƒ¼ã‚¿ã®ä½œæˆ",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (res != JOptionPane.OK_OPTION) {
 			return;
 		}
 
-		// CompileError.csv‚ğ©“®“I‚ÉƒGƒNƒXƒ|[ƒg‚·‚é
+		// CompileError.csvã‚’è‡ªå‹•çš„ã«ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆã™ã‚‹
 		autoExportCompileErrorCSV();
 
-		// ©“®“I‚ÉƒGƒNƒXƒ|[ƒg‚µ‚½ƒtƒ@ƒCƒ‹‚ğCoco—pƒf[ƒ^‚É•ÏŠ·‚·‚é
+		// è‡ªå‹•çš„ã«ã‚¨ã‚¯ã‚¹ãƒãƒ¼ãƒˆã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’Cocoç”¨ãƒ‡ãƒ¼ã‚¿ã«å¤‰æ›ã™ã‚‹
 		convertCompileErrorData();
 	}
 
@@ -57,12 +57,12 @@ public class RECreateCocoDataManager {
 
 		checkAllFileExist();
 
-		// ƒGƒ‰[‚Ìí—Şƒf[ƒ^‚ğƒ[ƒh
+		// ã‚¨ãƒ©ãƒ¼ã®ç¨®é¡ãƒ‡ãƒ¼ã‚¿ã‚’ãƒ­ãƒ¼ãƒ‰
 		CCCompileErrorKindLoader kindloader = new CCCompileErrorKindLoader(
 				manager);
 		kindloader.load(KINDS_FILE);
 
-		// CompileErrorƒf[ƒ^‚ğCoco—p‚ÉƒRƒ“ƒo[ƒg
+		// CompileErrorãƒ‡ãƒ¼ã‚¿ã‚’Cocoç”¨ã«ã‚³ãƒ³ãƒãƒ¼ãƒˆ
 		try {
 			CCCompileErrorConverter errorConverter = new CCCompileErrorConverter(
 					manager);

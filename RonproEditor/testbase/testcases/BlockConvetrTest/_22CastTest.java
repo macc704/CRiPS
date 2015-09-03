@@ -1,25 +1,25 @@
 import java.util.*;
 
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Tue Nov 13 15:31:47 JST 2012
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Tue Nov 13 15:31:47 JST 2012
 */
 public class _22CastTest{
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		_22CastTest main = new _22CastTest();
 		main.run();
 	}
 	
-	//ƒƒCƒ“ˆ—
+	//ãƒ¡ã‚¤ãƒ³å‡¦ç†
 	public void run() {
-		{ //‚»‚Ì‚Ü‚Ü–ß‚ç‚È‚¢D2‰ñ‚Å–ß‚é
+		{ //ãã®ã¾ã¾æˆ»ã‚‰ãªã„ï¼2å›ã§æˆ»ã‚‹
 			int i = (int)1.0;
-			int j = Integer.parseInt("‚ ‚¢‚¤‚¦‚¨");
+			int j = Integer.parseInt("ã‚ã„ã†ãˆãŠ");
 			double d = (double)2;
-			double d1 = Double.parseDouble("‚ ‚¢‚¤‚¦‚¨");
+			double d1 = Double.parseDouble("ã‚ã„ã†ãˆãŠ");
 			String s = Integer.toString(1);
 			String s1 = Double.toString(1.0);
 			double d3 = (double)i + 3;

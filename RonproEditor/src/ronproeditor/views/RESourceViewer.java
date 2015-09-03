@@ -93,7 +93,7 @@ public class RESourceViewer extends JPanel {
 	}
 
 	/**
-	 * w’è‚µ‚½s‚Ì•¶š—ñ‚ğƒnƒCƒ‰ƒCƒg‚µ‚Ü‚·
+	 * æŒ‡å®šã—ãŸè¡Œã®æ–‡å­—åˆ—ã‚’ãƒã‚¤ãƒ©ã‚¤ãƒˆã—ã¾ã™
 	 * 
 	 * @param lineNumber
 	 */
@@ -107,7 +107,7 @@ public class RESourceViewer extends JPanel {
 			String[] line = str.split("\n");
 			int total = 0;
 			for (int i = 0; i < lineNumber - 1; i++) {
-				total += line[i].length() + 1; // +1 = ‰üs•ª
+				total += line[i].length() + 1; // +1 = æ”¹è¡Œåˆ†
 			}
 			int width = line[lineNumber - 1].length();
 
@@ -171,9 +171,9 @@ public class RESourceViewer extends JPanel {
 				public void mousePressed(MouseEvent e) {
 
 					int pos = getLineAtPoint(e.getY());
-					pos = pos + 1; // s”‚Í‚P‚©‚çn‚Ü‚é‚Ì‚ÅA‚P‚ğ‘«‚·B
+					pos = pos + 1; // è¡Œæ•°ã¯ï¼‘ã‹ã‚‰å§‹ã¾ã‚‹ã®ã§ã€ï¼‘ã‚’è¶³ã™ã€‚
 
-					// breakpoint@turkey ˆê’â~
+					// breakpoint@turkey ä¸€æ™‚åœæ­¢
 					// if (application != null) {
 					// application.setBreakPoint(pos);
 					// }
@@ -246,7 +246,7 @@ public class RESourceViewer extends JPanel {
 					text.getHeight());
 			g.setColor(Color.blue);
 
-			// breakpoint@turkey ˆê’â~
+			// breakpoint@turkey ä¸€æ™‚åœæ­¢
 			// for (int i = 1; i <= end; i++) {
 			// if (application != null && application.isBreakPoint(i))
 			// g.fillOval(3, topMargin + fontHeight * (i - 1), buttonSize,
@@ -257,7 +257,7 @@ public class RESourceViewer extends JPanel {
 	}
 
 	/**
-	 * ƒtƒHƒ“ƒg‚ğ•ÏX‚·‚éê‡A•K‚¸‚±‚Ìƒƒ\ƒbƒh‚ğ’Ê‚µ‚Ä•ÏX‚·‚éB i‚Å‚È‚¢‚Æs”Ô†‚ª‚¸‚ê‚Ä‚µ‚Ü‚¤j
+	 * ãƒ•ã‚©ãƒ³ãƒˆã‚’å¤‰æ›´ã™ã‚‹å ´åˆã€å¿…ãšã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã‚’é€šã—ã¦å¤‰æ›´ã™ã‚‹ã€‚ ï¼ˆã§ãªã„ã¨è¡Œç•ªå·ãŒãšã‚Œã¦ã—ã¾ã†ï¼‰
 	 * 
 	 * @param font
 	 */

@@ -1,19 +1,19 @@
 import java.util.*;
 
 /**
- * ƒvƒƒOƒ‰ƒ€–¼F
- * ì¬ÒF 
- * ì¬“úF “ú•t
+ * ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+ * ä½œæˆè€…ï¼š 
+ * ä½œæˆæ—¥ï¼š æ—¥ä»˜
  */
 public class CLASSNAME{
 
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		CLASSNAME main = new CLASSNAME();
 		main.run();
 	}
 
-	//ƒƒCƒ“ˆ—
+	//ãƒ¡ã‚¤ãƒ³å‡¦ç†
 	public void run() {
 	}
 

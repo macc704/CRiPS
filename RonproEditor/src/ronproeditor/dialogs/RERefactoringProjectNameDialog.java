@@ -20,7 +20,7 @@ public class RERefactoringProjectNameDialog extends RECreateProjectNameDialog {
 
 	public RERefactoringProjectNameDialog(REApplication application) {
 		super(application);
-		setTitle("プロジェクト名の変更");
+		setTitle("繝励Ο繧ｸ繧ｧ繧ｯ繝亥錐縺ｮ螟画峩");
 	}
 
 	public void open(File file) {

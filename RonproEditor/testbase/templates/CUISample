@@ -1,29 +1,29 @@
 import java.util.*;
 
 /**
- * ƒvƒƒOƒ‰ƒ€–¼F ‚¨‚¤‚Ş•Ô‚µ‚ÌƒvƒƒOƒ‰ƒ€
- * ì¬ÒF Yoshiaki Matsuzawa
- * ì¬“úF 2007/09/22
+ * ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š ãŠã†ã‚€è¿”ã—ã®ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
+ * ä½œæˆè€…ï¼š Yoshiaki Matsuzawa
+ * ä½œæˆæ—¥ï¼š 2007/09/22
  */
 public class CLASSNAME{
 
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		CLASSNAME main = new CLASSNAME();
 		main.run();
 	}
 
-	//‚¨‚¤‚Ş•Ô‚µ‚ğ‚·‚é
+	//ãŠã†ã‚€è¿”ã—ã‚’ã™ã‚‹
 	public void run() {
-		//‘Oˆ—
-		Scanner scanner = new Scanner(System.in);//“ü—Í‚ğó‚¯æ‚é‚½‚ß‚ÌƒXƒLƒƒƒi
+		//å‰å‡¦ç†
+		Scanner scanner = new Scanner(System.in);//å…¥åŠ›ã‚’å—ã‘å–ã‚‹ãŸã‚ã®ã‚¹ã‚­ãƒ£ãƒŠ
 	
-		//“ü—Í‚ğó‚¯‚Æ‚é
-		System.out.print("D‚«‚È•¶š‚ğ“ü—Í>>");
+		//å…¥åŠ›ã‚’å—ã‘ã¨ã‚‹
+		System.out.print("å¥½ããªæ–‡å­—ã‚’å…¥åŠ›>>");
 		String text = scanner.nextLine();
 		
-		//o—Í‚ğs‚¤
-		String reply = "‚ ‚È‚½‚Ì“ü—Í‚µ‚½‚Ì‚Í" + text + "‚Å‚·‚Ë";
+		//å‡ºåŠ›ã‚’è¡Œã†
+		String reply = "ã‚ãªãŸã®å…¥åŠ›ã—ãŸã®ã¯" + text + "ã§ã™ã­";
 		System.out.println(reply);
 	}
 

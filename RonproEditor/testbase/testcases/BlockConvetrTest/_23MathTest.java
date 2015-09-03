@@ -1,19 +1,19 @@
 import java.util.*;
 
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Wed Nov 14 12:15:12 JST 2012
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Wed Nov 14 12:15:12 JST 2012
 */
 public class _23MathTest{
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		_23MathTest main = new _23MathTest();
 		main.run();
 	}
 	
-	//ƒƒCƒ“ˆ—
+	//ãƒ¡ã‚¤ãƒ³å‡¦ç†
 	public void run() {
 		double a = Math.sqrt(4.0);
 		double b = Math.sin(Math.toRadians(90.0));
@@ -21,7 +21,7 @@ public class _23MathTest{
 		double d = Math.tan(100);
 		double e = Math.log(100);
 		double f = Math.toRadians(100);
-		{	//’è‹`‚³‚ê‚Ä‚¢‚È‚¢•ª
+		{	//å®šç¾©ã•ã‚Œã¦ã„ãªã„åˆ†
 			double g = Math.acos(100);
 			double h = Math.acos(100) + 20;
 		}

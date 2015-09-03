@@ -80,14 +80,14 @@ public class RSFailureKnowledgeBrowserFrame extends JFrame {
 
 		RSFailureKnowledgeRepository knowledges = manager.getFKRepository();
 
-		// Element‚Ìİ’è
+		// Elementã®è¨­å®š
 		for (String message : knowledges.getFailureKnowledgeKinds()) {
 			errorSelectPanel.addElement(message);
 		}
 
 		errorSelectPanel.refresh();
 
-		// ƒNƒŠƒbƒN‚Ì“®ìİ’è
+		// ã‚¯ãƒªãƒƒã‚¯æ™‚ã®å‹•ä½œè¨­å®š
 		errorSelectPanel.getJList().setSelectionMode(
 				ListSelectionModel.SINGLE_SELECTION);
 		errorSelectPanel.getJList().addMouseListener(new MouseAdapter() {
@@ -146,9 +146,9 @@ public class RSFailureKnowledgeBrowserFrame extends JFrame {
 
 			JPanel pane = new JPanel();
 			pane.setLayout(new FlowLayout());
-			JPanel causePane = createTextAreaPane("ƒGƒ‰[‚ÌŒ´ˆö",
+			JPanel causePane = createTextAreaPane("ã‚¨ãƒ©ãƒ¼ã®åŸå› ",
 					createScrollPane(knowledge.getCause()));
-			JPanel handlePane = createTextAreaPane("ƒGƒ‰[‚Ö‚Ì‘Îˆ•û–@",
+			JPanel handlePane = createTextAreaPane("ã‚¨ãƒ©ãƒ¼ã¸ã®å¯¾å‡¦æ–¹æ³•",
 					createScrollPane(knowledge.getHandle()));
 			pane.add(causePane);
 			pane.add(handlePane);
@@ -161,13 +161,13 @@ public class RSFailureKnowledgeBrowserFrame extends JFrame {
 
 		private JScrollPane createScrollPane(String message) {
 
-			// ƒeƒLƒXƒgƒGƒŠƒA‚Ìİ’è
+			// ãƒ†ã‚­ã‚¹ãƒˆã‚¨ãƒªã‚¢ã®è¨­å®š
 			JTextArea textArea = new JTextArea(3, 50);
 			textArea.setText(message);
 			textArea.setLineWrap(true);
 			textArea.setEditable(false);
 
-			// ƒXƒNƒ[ƒ‹ƒpƒlƒ‹‚Ìİ’è
+			// ã‚¹ã‚¯ãƒ­ãƒ¼ãƒ«ãƒ‘ãƒãƒ«ã®è¨­å®š
 			JScrollPane scrollPane = new JScrollPane(textArea);
 			scrollPane
 					.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

@@ -1,28 +1,28 @@
 /*
-* ƒvƒƒOƒ‰ƒ€–¼FƒJ[ƒh‚ğƒŠƒXƒg‚P‚©‚çƒŠƒXƒg‚Q‚ÉˆÚ“®‚·‚éƒvƒƒOƒ‰ƒ€
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼šã‚«ãƒ¼ãƒ‰ã‚’ãƒªã‚¹ãƒˆï¼‘ã‹ã‚‰ãƒªã‚¹ãƒˆï¼’ã«ç§»å‹•ã™ã‚‹ãƒ—ãƒ­ã‚°ãƒ©ãƒ 
 * Created on 2012/01/07
 * Copyright(c) 2011 Yoshiaki Matsuzawa, Shizuoka University. All rights reserved.
 */
 public class MoveCards extends Turtle {
 	
-	// ‹N“®ˆ—
+	// èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		Turtle.startTurtle(new MoveCards(), args);
 	}
 	
-	// ƒ^[ƒgƒ‹‚ğ“®‚©‚·ˆ—
+	// ã‚¿ãƒ¼ãƒˆãƒ«ã‚’å‹•ã‹ã™å‡¦ç†
 	public void start() {
 		hide();
 		Turtle.window.size(550,300);
-		ListTurtle<CardTurtle> list1 = new ListTurtle<CardTurtle>(true,"ƒŠƒXƒg1");
-		ListTurtle<CardTurtle> list2 = new ListTurtle<CardTurtle>(true,"ƒŠƒXƒg2");
-		{	//ˆÊ’u‚ğˆÚ“®‚·‚é
+		ListTurtle<CardTurtle> list1 = new ListTurtle<CardTurtle>(true,"ãƒªã‚¹ãƒˆ1");
+		ListTurtle<CardTurtle> list2 = new ListTurtle<CardTurtle>(true,"ãƒªã‚¹ãƒˆ2");
+		{	//ä½ç½®ã‚’ç§»å‹•ã™ã‚‹
 			list1.warp(50,40);
 			list2.warp(50,110);
 		}
 		update();
 
-		{	//ƒJ[ƒh‚ğ“ü‚ê‚é
+		{	//ã‚«ãƒ¼ãƒ‰ã‚’å…¥ã‚Œã‚‹
 			int i = 0;
 			while(i < 10){
 				list1.addLast(new CardTurtle(i * 10));
@@ -33,8 +33,8 @@ public class MoveCards extends Turtle {
 
 		while(true){
 			sleep(0.025);
-			{	//ˆêƒRƒ}‚Ìˆ—
-				if(list1.getSize() != 0){//ˆÚ“®‚·‚é
+			{	//ä¸€ã‚³ãƒã®å‡¦ç†
+				if(list1.getSize() != 0){//ç§»å‹•ã™ã‚‹
 					list2.addLast(list1.getObjectAtCursor());
 				}
 			}

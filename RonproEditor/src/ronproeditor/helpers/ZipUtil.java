@@ -11,14 +11,14 @@ import java.util.zip.ZipOutputStream;
 public class ZipUtil {
 
 	/**
-	 * targetFiles‚ğZIPˆ³k‚µ‚ÄzipFile‚Éo—Í‚·‚éB
+	 * targetFilesã‚’ZIPåœ§ç¸®ã—ã¦zipFileã«å‡ºåŠ›ã™ã‚‹ã€‚
 	 * 
 	 * @param zipFile
-	 *            ZIPo—Íƒtƒ@ƒCƒ‹–¼
+	 *            ZIPå‡ºåŠ›ãƒ•ã‚¡ã‚¤ãƒ«å
 	 * @param targetFiles
-	 *            “ü—Íƒtƒ@ƒCƒ‹–¼(ƒfƒBƒŒƒNƒgƒŠ)”z—ñ
+	 *            å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«å(ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª)é…åˆ—
 	 * @throws IOException
-	 *             “üo—Í—áŠO
+	 *             å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	public static void createZip(String zipFile, String targetDir ) throws IOException {
 		createZip( zipFile, new String[]{ targetDir } );
@@ -41,14 +41,14 @@ public class ZipUtil {
 	}
 
 	/**
-	 * targetFile‚ğout‚ÌZIPƒGƒ“ƒgƒŠ‚Öo—Í‚·‚éB
+	 * targetFileã‚’outã®ZIPã‚¨ãƒ³ãƒˆãƒªã¸å‡ºåŠ›ã™ã‚‹ã€‚
 	 * 
 	 * @param out
-	 *            ZIPo—Íæ
+	 *            ZIPå‡ºåŠ›å…ˆ
 	 * @param targetFile
-	 *            “ü—Íƒtƒ@ƒCƒ‹–¼(ƒfƒBƒŒƒNƒgƒŠ)
+	 *            å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«å(ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª)
 	 * @throws IOException
-	 *             “üo—Í—áŠO
+	 *             å…¥å‡ºåŠ›ä¾‹å¤–
 	 */
 	private static void createZip(ZipOutputStream out, File targetFile)
 			throws IOException {
@@ -74,11 +74,11 @@ public class ZipUtil {
 	}
 
 	/**
-	 * ZIPƒGƒ“ƒgƒŠƒpƒX‚ğ•Ô‚·B
+	 * ZIPã‚¨ãƒ³ãƒˆãƒªãƒ‘ã‚¹ã‚’è¿”ã™ã€‚
 	 * 
 	 * @param file
-	 *            ZIPƒGƒ“ƒgƒŠ‘ÎÛƒtƒ@ƒCƒ‹
-	 * @return ZIPƒGƒ“ƒgƒŠ‚ÌƒpƒX
+	 *            ZIPã‚¨ãƒ³ãƒˆãƒªå¯¾è±¡ãƒ•ã‚¡ã‚¤ãƒ«
+	 * @return ZIPã‚¨ãƒ³ãƒˆãƒªã®ãƒ‘ã‚¹
 	 */
 	private static String getEntryPath(File file) {
 //		int deleteLength = file.getPath().length() - file.getName().length();

@@ -1,26 +1,26 @@
 import java.util.*;
 
 /**
-* ƒvƒƒOƒ‰ƒ€–¼F
-* ì¬ÒF 
-* ì¬“úF Tue Nov 13 21:54:12 JST 2012
+* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š
+* ä½œæˆè€…ï¼š 
+* ä½œæˆæ—¥ï¼š Tue Nov 13 21:54:12 JST 2012
 */
 public class _10VariableTest extends Turtle{
 	
-	//‹N“®ˆ—
+	//èµ·å‹•å‡¦ç†
 	public static void main(String[] args) {
 		_10VariableTest main = new _10VariableTest();
 		main.run();
 	}
 	
-	//ƒƒCƒ“ˆ—
+	//ãƒ¡ã‚¤ãƒ³å‡¦ç†
 	public void run() {
 		int i = 0;
 		i = i + 1;
 		i++;
 		double d = 0;
 		d = d + 1;
-		{	//‚±‚Ìˆ—‚Ñ‚İ‚å‚¤
+		{	//ã“ã®å‡¦ç†ã³ã¿ã‚‡ã†
 			d++;
 			d++;
 		}

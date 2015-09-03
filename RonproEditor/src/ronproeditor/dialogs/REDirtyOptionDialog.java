@@ -25,15 +25,15 @@ public class REDirtyOptionDialog extends REDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private JButton saveButton = new JButton("•Û‘¶‚·‚é");
-	private JButton noSaveButton = new JButton("”jŠü‚·‚é");
+	private JButton saveButton = new JButton("ä¿å­˜ã™ã‚‹");
+	private JButton noSaveButton = new JButton("ç ´æ£„ã™ã‚‹");
 
 	private JLabel label = new JLabel();
 
 	public REDirtyOptionDialog(REApplication application) {
 		super(application.getFrame(), application);
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setTitle("ƒZ[ƒu‚³‚ê‚Ä‚¢‚È‚¢ƒhƒLƒ…ƒƒ“ƒg‚ª‚ ‚è‚Ü‚·D");
+		setTitle("ã‚»ãƒ¼ãƒ–ã•ã‚Œã¦ã„ãªã„ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆãŒã‚ã‚Šã¾ã™ï¼");
 		initializeViews();
 	}
 
@@ -68,11 +68,11 @@ public class REDirtyOptionDialog extends REDialog {
 
 	private void refreshViews() {
 		StringBuffer buf = new StringBuffer();
-		buf.append("ƒtƒ@ƒCƒ‹");
+		buf.append("ãƒ•ã‚¡ã‚¤ãƒ«");
 		buf.append(getApplication().getSourceManager().getCurrentFile()
 				.getName());
-		buf.append("‚Í•ÏX‚³‚ê‚Ä‚¢‚Ü‚·D");
-		buf.append("•Û‘¶‚µ‚Ü‚·‚©H");
+		buf.append("ã¯å¤‰æ›´ã•ã‚Œã¦ã„ã¾ã™ï¼");
+		buf.append("ä¿å­˜ã—ã¾ã™ã‹ï¼Ÿ");
 		label.setText(buf.toString());
 
 		pack();

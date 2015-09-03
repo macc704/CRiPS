@@ -59,7 +59,7 @@ public class REFlowViewerPanel extends FCFlowchartPanel {
 		}
 	}
 
-	// TODO ã‚Æ“¯‚¶‚É‚È‚é‚Í‚¸DModel‚Ì’iŠK‚Å‚Ü‚Æ‚ß‚ç‚ê‚é‚Í‚¸Di¼j
+	// TODO ä¸Šã¨åŒã˜ã«ãªã‚‹ã¯ãšï¼Modelã®æ®µéšã§ã¾ã¨ã‚ã‚‰ã‚Œã‚‹ã¯ãšï¼ï¼ˆæ¾ï¼‰
 	private void buildAbstractionBlock(StAbstractionBlockModel model,
 			FCCompositePanel parentPanel) {
 		FCCompositePanel panel = new FCCompositePanel();

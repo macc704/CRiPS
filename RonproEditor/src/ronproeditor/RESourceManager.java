@@ -40,7 +40,7 @@ public class RESourceManager implements ICFwResourceRepository {
 	}
 
 	/***************************
-	 * Root‘€ì
+	 * Rootæ“ä½œ
 	 ***************************/
 
 	public File getRootDirectory() {
@@ -60,7 +60,7 @@ public class RESourceManager implements ICFwResourceRepository {
 	}
 
 	/***************************
-	 * Project‘€ì
+	 * Projectæ“ä½œ
 	 ***************************/
 
 	public File getProjectDirectory() {
@@ -97,7 +97,7 @@ public class RESourceManager implements ICFwResourceRepository {
 	}
 
 	/***************************
-	 * ƒtƒ@ƒCƒ‹‘€ì
+	 * ãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œ
 	 ***************************/
 
 	public File getCurrentFile() {
@@ -172,7 +172,7 @@ public class RESourceManager implements ICFwResourceRepository {
 	}
 
 	/*************************************
-	 * RefactorŠÖ˜A
+	 * Refactoré–¢é€£
 	 *************************************/
 
 	public void refactorProjectName(String inputtedName) {
@@ -228,7 +228,7 @@ public class RESourceManager implements ICFwResourceRepository {
 	}
 
 	/*************************************
-	 * TrashŠÖ˜A
+	 * Trashé–¢é€£
 	 *************************************/
 
 	protected File makeTrashFolder() {
@@ -249,7 +249,7 @@ public class RESourceManager implements ICFwResourceRepository {
 	}
 
 	/*************************************
-	 * ƒCƒxƒ“ƒgŠÖ˜A
+	 * ã‚¤ãƒ™ãƒ³ãƒˆé–¢é€£
 	 *************************************/
 
 	public void addPropertyChangeListener(PropertyChangeListener listener) {
@@ -261,7 +261,7 @@ public class RESourceManager implements ICFwResourceRepository {
 	}
 
 	/***************************
-	 * ‚Â‚È‚¬
+	 * ã¤ãªã
 	 ***************************/
 
 	private CFileFilter fileFilter = CFileFilter.ALL_ACCEPT_FILTER();

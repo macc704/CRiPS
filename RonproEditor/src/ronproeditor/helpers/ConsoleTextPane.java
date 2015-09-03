@@ -25,7 +25,7 @@ import ronproeditor.REApplication;
 import clib.view.textpane.CTextPaneUtils;
 
 /**
- * ƒRƒ“ƒ\[ƒ‹‚ğƒGƒ~ƒ…ƒŒ[ƒg‚·‚éTextAreaƒNƒ‰ƒX TextPane”Å
+ * ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã‚’ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ãƒˆã™ã‚‹TextAreaã‚¯ãƒ©ã‚¹ TextPaneç‰ˆ
  * 
  * @author macchan
  * @version $Id: ConsoleTextPane.java,v 1.4 2010/03/10 15:44:28 turkey Exp $
@@ -34,7 +34,7 @@ public class ConsoleTextPane extends JTextPane implements IConsole {
 
 	private static final long serialVersionUID = 1L;
 
-	// ŠÖ˜A
+	// é–¢é€£
 	private PrintStream consoleToStream = null;
 	private JTextAreaInputStream in = new JTextAreaInputStream(this);
 	private JTextAreaPrintStream out = new JTextAreaPrintStream(this,
@@ -42,7 +42,7 @@ public class ConsoleTextPane extends JTextPane implements IConsole {
 	private JTextAreaPrintStream err = new JTextAreaPrintStream(this, Color.RED);
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^ System.out, System.err‚Ì‚Â‚È‚¬‚©‚¦‚ğs‚¢‚Ü‚·
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ System.out, System.errã®ã¤ãªãã‹ãˆã‚’è¡Œã„ã¾ã™
 	 */
 	public ConsoleTextPane() {
 		this.initialize();
@@ -76,13 +76,13 @@ public class ConsoleTextPane extends JTextPane implements IConsole {
 	}
 
 	/**
-	 * ‰Šú‰»‚µ‚Ü‚·
+	 * åˆæœŸåŒ–ã—ã¾ã™
 	 */
 	private void initialize() {
 		CTextPaneUtils
-				.setTabs(this, REApplication.WHITESPACE_COUNT_FOR_TAB * 2);// ƒRƒ“ƒpƒCƒ‰‚ÌƒGƒ‰[‚Ìo‚µ•û‚É‚ ‚í‚¹‚é
+				.setTabs(this, REApplication.WHITESPACE_COUNT_FOR_TAB * 2);// ã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã®ã‚¨ãƒ©ãƒ¼ã®å‡ºã—æ–¹ã«ã‚ã‚ã›ã‚‹
 		
-		// ƒL[‚É‚æ‚éAƒJ[ƒ\ƒ‹‚ÌˆÚ“®‚ğ‘j~‚·‚é
+		// ã‚­ãƒ¼ã«ã‚ˆã‚‹ã€ã‚«ãƒ¼ã‚½ãƒ«ã®ç§»å‹•ã‚’é˜»æ­¢ã™ã‚‹
 		this.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {
 				switch (e.getKeyCode()) {
@@ -105,7 +105,7 @@ public class ConsoleTextPane extends JTextPane implements IConsole {
 			}
 		});
 
-		// ƒ}ƒEƒX‚É‚æ‚éAƒJ[ƒ\ƒ‹‚ÌˆÚ“®‚ğ‘j~‚·‚é
+		// ãƒã‚¦ã‚¹ã«ã‚ˆã‚‹ã€ã‚«ãƒ¼ã‚½ãƒ«ã®ç§»å‹•ã‚’é˜»æ­¢ã™ã‚‹
 		this.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
 				toLast();
@@ -135,42 +135,42 @@ public class ConsoleTextPane extends JTextPane implements IConsole {
 }
 
 /**
- * JTextArea‚ğƒRƒ“ƒ\[ƒ‹‚É‚·‚é‚½‚ß‚Ì System.out ƒGƒ~ƒ…ƒŒ[ƒ^
+ * JTextAreaã‚’ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã«ã™ã‚‹ãŸã‚ã® System.out ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚¿
  * 
- * printlnƒƒ\ƒbƒh‚ÆAprintƒƒ\ƒbƒhAflushƒƒ\ƒbƒh‚Ì‚İƒI[ƒo[ƒ‰ƒCƒh‚µ‚Ü‚·
- * ‚»‚Ì‘¼‚Í•W€‚ÌPrintStream‚Ì‹@”\‚ğg‚¢ASystem.out‚ÉƒRƒlƒNƒg‚³‚ê‚Ü‚·
+ * printlnãƒ¡ã‚½ãƒƒãƒ‰ã¨ã€printãƒ¡ã‚½ãƒƒãƒ‰ã€flushãƒ¡ã‚½ãƒƒãƒ‰ã®ã¿ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¾ã™
+ * ãã®ä»–ã¯æ¨™æº–ã®PrintStreamã®æ©Ÿèƒ½ã‚’ä½¿ã„ã€System.outã«ã‚³ãƒã‚¯ãƒˆã•ã‚Œã¾ã™
  * 
  * @author macchan
  * @version $Id: ConsoleTextPane.java,v 1.4 2010/03/10 15:44:28 turkey Exp $
  */
 class JTextAreaPrintStream extends PrintStream {
 
-	// ’è”
+	// å®šæ•°
 	private static final char CR = '\n';
 
-	// ó‘Ô
+	// çŠ¶æ…‹
 	private StringBuffer buf = new StringBuffer();
 
-	// ƒtƒ‰ƒO
-	private boolean invokeLater = false; // flush“®ì‚ğSwingƒXƒŒƒbƒh‚Åˆ—‚·‚é‚©‚Ç‚¤‚©
-	private boolean caretUpdate = true; // flush‚ÉƒJ[ƒ\ƒ‹‚ğˆÚ“®‚·‚é‚©‚Ç‚¤‚©
+	// ãƒ•ãƒ©ã‚°
+	private boolean invokeLater = false; // flushå‹•ä½œã‚’Swingã‚¹ãƒ¬ãƒƒãƒ‰ã§å‡¦ç†ã™ã‚‹ã‹ã©ã†ã‹
+	private boolean caretUpdate = true; // flushæ™‚ã«ã‚«ãƒ¼ã‚½ãƒ«ã‚’ç§»å‹•ã™ã‚‹ã‹ã©ã†ã‹
 
-	// ŠÖ˜A
+	// é–¢é€£
 	private ConsoleTextPane textArea = null;
 
 	private MutableAttributeSet attribute = new SimpleAttributeSet();
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public JTextAreaPrintStream(ConsoleTextPane textarea, Color color) {
-		super(System.out); // System.out‚Í‰¼ƒRƒlƒNƒg
+		super(System.out); // System.outã¯ä»®ã‚³ãƒã‚¯ãƒˆ
 		this.textArea = textarea;
 		StyleConstants.setForeground(attribute, color);
 	}
 
 	/***********************************
-	 * printŠÖ˜A@iƒI[ƒo[ƒ‰ƒCƒhj
+	 * printé–¢é€£ã€€ï¼ˆã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ï¼‰
 	 ***********************************/
 
 	public void print(Object o) {
@@ -210,7 +210,7 @@ class JTextAreaPrintStream extends PrintStream {
 	}
 
 	/***********************************
-	 * printlnŠÖ˜A@iƒI[ƒo[ƒ‰ƒCƒhj
+	 * printlné–¢é€£ã€€ï¼ˆã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ï¼‰
 	 ***********************************/
 
 	public void println() {
@@ -254,22 +254,22 @@ class JTextAreaPrintStream extends PrintStream {
 	}
 
 	/***********************************
-	 * flushŠÖ˜A@iƒI[ƒo[ƒ‰ƒCƒhj
+	 * flushé–¢é€£ã€€ï¼ˆã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ï¼‰
 	 ***********************************/
 
 	/**
-	 * textarea‚ÉStream‚ğo—Í‚µ‚Ü‚·B
+	 * textareaã«Streamã‚’å‡ºåŠ›ã—ã¾ã™ã€‚
 	 */
 	public synchronized void flush() {
 		this.flushImpl();
 	}
 
 	/***********************************
-	 * À‘•ŠÖ˜A
+	 * å®Ÿè£…é–¢é€£
 	 ***********************************/
 
 	/**
-	 * print“®ì‚ÌÀ‘•‚Å‚· ƒoƒbƒtƒ@‚É‚½‚ß,flush‚µ‚Ü‚·(©“®flush)
+	 * printå‹•ä½œã®å®Ÿè£…ã§ã™ ãƒãƒƒãƒ•ã‚¡ã«ãŸã‚,flushã—ã¾ã™(è‡ªå‹•flush)
 	 */
 	private void printImpl(String s) {
 		this.buf.append(s);
@@ -277,41 +277,41 @@ class JTextAreaPrintStream extends PrintStream {
 	}
 
 	/**
-	 * println“®ì‚ÌÀ‘•‚Å‚·
+	 * printlnå‹•ä½œã®å®Ÿè£…ã§ã™
 	 */
 	private void printlnImpl(String s) {
 		this.printImpl(s + CR);
 	}
 
 	/**
-	 * flush“®ì‚ÌÀ‘•‚Å‚·
+	 * flushå‹•ä½œã®å®Ÿè£…ã§ã™
 	 */
 	private void flushImpl() {
-		// ‘Oˆ—
+		// å‰å‡¦ç†
 		final String s = this.buf.toString();
 
-		// –{ˆ—(writeText‚Å‘‚«‚Ş)
-		if (this.invokeLater) { // SwingƒXƒŒƒbƒh‚Å‘‚«‚İ
+		// æœ¬å‡¦ç†(writeTextã§æ›¸ãè¾¼ã‚€)
+		if (this.invokeLater) { // Swingã‚¹ãƒ¬ãƒƒãƒ‰ã§æ›¸ãè¾¼ã¿
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					writeText(s);
 				}
 			});
-		} else { // ‚±‚ÌƒXƒŒƒbƒh‚Å‘‚«‚İ(‚±‚Ì‚Ü‚ÜÀs)
+		} else { // ã“ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã§æ›¸ãè¾¼ã¿(ã“ã®ã¾ã¾å®Ÿè¡Œ)
 			writeText(s);
 		}
 
-		// Œãˆ—
+		// å¾Œå‡¦ç†
 		this.buf = new StringBuffer();
 
 	}
 
 	/***********************************
-	 * ƒeƒLƒXƒgƒGƒŠƒA‚É‘‚«‚İŠÖ˜A
+	 * ãƒ†ã‚­ã‚¹ãƒˆã‚¨ãƒªã‚¢ã«æ›¸ãè¾¼ã¿é–¢é€£
 	 ***********************************/
 
 	/**
-	 * ƒeƒLƒXƒg‚ğƒeƒLƒXƒgƒGƒŠƒA‚É‘‚«‚İ‚Ü‚·
+	 * ãƒ†ã‚­ã‚¹ãƒˆã‚’ãƒ†ã‚­ã‚¹ãƒˆã‚¨ãƒªã‚¢ã«æ›¸ãè¾¼ã¿ã¾ã™
 	 */
 	private void writeText(String s) {
 
@@ -319,14 +319,14 @@ class JTextAreaPrintStream extends PrintStream {
 			throw new NullPointerException("textarea is null");
 		}
 
-		// ƒeƒLƒXƒgƒGƒŠƒA‚É‘‚«‚Ş
+		// ãƒ†ã‚­ã‚¹ãƒˆã‚¨ãƒªã‚¢ã«æ›¸ãè¾¼ã‚€
 		textArea.toLast();
 		int caret = this.textArea.getCaretPosition();
 		int len = this.textArea.getDocument().getLength();
 		int pos = caret < len ? caret : len;
 		try {
 			this.textArea.getDocument().insertString(pos, s, attribute);
-			// ©“®ƒJ[ƒ\ƒ‹ˆÚ“®ˆ—
+			// è‡ªå‹•ã‚«ãƒ¼ã‚½ãƒ«ç§»å‹•å‡¦ç†
 			if (this.caretUpdate) {
 				this.textArea.setCaretPosition(pos + s.length());
 				this.textArea.repaint();
@@ -337,7 +337,7 @@ class JTextAreaPrintStream extends PrintStream {
 	}
 
 	/***********************************
-	 * Setter, GetterŠÖ˜A
+	 * Setter, Getteré–¢é€£
 	 ***********************************/
 
 	public void setInvokeLater(boolean invokeLater) {
@@ -359,23 +359,23 @@ class JTextAreaPrintStream extends PrintStream {
 }
 
 /**
- * JTextArea‚ğƒRƒ“ƒ\[ƒ‹‚É‚·‚é‚½‚ß‚Ì System.in ƒGƒ~ƒ…ƒŒ[ƒ^
+ * JTextAreaã‚’ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã«ã™ã‚‹ãŸã‚ã® System.in ã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚¿
  * 
- * Œp³‚µ‚Ä‚¢‚éPrintableInputStream‚Ìprintln‹@”\‚ğ—˜—p‚µ‚Ä‘‚«‚İ‚Ü‚·
- * Block‚Ìd‘g‚İ‚ÍPrintableInputStreamˆË‘¶‚Å‚·
+ * ç¶™æ‰¿ã—ã¦ã„ã‚‹PrintableInputStreamã®printlnæ©Ÿèƒ½ã‚’åˆ©ç”¨ã—ã¦æ›¸ãè¾¼ã¿ã¾ã™
+ * Blockã®ä»•çµ„ã¿ã¯PrintableInputStreamä¾å­˜ã§ã™
  * 
  * @author macchan
  * @version $Id: ConsoleTextPane.java,v 1.4 2010/03/10 15:44:28 turkey Exp $
  */
 class JTextAreaInputStream extends PrintableInputStream {
 
-	// ’è”
+	// å®šæ•°
 	private static final int NULL = -1;
 
-	// ó‘Ô
-	private int inputStartCaretPosition = NULL; // “ü—Í‚ªn‚Ü‚Á‚½ƒJ[ƒ\ƒ‹ˆÊ’u‚ğŠo‚¦‚Ä‚¨‚­
+	// çŠ¶æ…‹
+	private int inputStartCaretPosition = NULL; // å…¥åŠ›ãŒå§‹ã¾ã£ãŸã‚«ãƒ¼ã‚½ãƒ«ä½ç½®ã‚’è¦šãˆã¦ãŠã
 
-	// ŠÖ˜A
+	// é–¢é€£
 	private ConsoleTextPane textArea = null;
 
 	/**
@@ -391,7 +391,7 @@ class JTextAreaInputStream extends PrintableInputStream {
 	}
 
 	/**
-	 * ‰Šú‰»‚µ‚Ü‚·
+	 * åˆæœŸåŒ–ã—ã¾ã™
 	 */
 	private void initialize() {
 		this.textArea.addKeyListener(new KeyAdapter() {
@@ -411,19 +411,19 @@ class JTextAreaInputStream extends PrintableInputStream {
 	}
 
 	public synchronized void memorizeStartPosition() {
-		// Å‰‚Ì“ü—Í‚È‚çAˆÊ’u‚ğŠo‚¦‚Ä‚¨‚­
+		// æœ€åˆã®å…¥åŠ›ãªã‚‰ã€ä½ç½®ã‚’è¦šãˆã¦ãŠã
 		if (this.inputStartCaretPosition == NULL) {
 			this.inputStartCaretPosition = this.textArea.getCaretPosition();
 		}
 	}
 
 	/**
-	 * ƒL[‚ª‰Ÿ‚³‚ê‚½‚Ìˆ—
+	 * ã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸæ™‚ã®å‡¦ç†
 	 */
 	public synchronized void handleKeyPressed(KeyEvent e) {
 		this.memorizeStartPosition();
 
-		// Enter‚È‚çA‘‚«‚İ“®ì‚ğs‚¤
+		// Enterãªã‚‰ã€æ›¸ãè¾¼ã¿å‹•ä½œã‚’è¡Œã†
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			// e.consume();
 			this.writeLine();
@@ -444,7 +444,7 @@ class JTextAreaInputStream extends PrintableInputStream {
 						this.inputStartCaretPosition, len);
 			}
 
-			// ‘‚«‚İ‚Ü‚·
+			// æ›¸ãè¾¼ã¿ã¾ã™
 			if (textArea.getConsoleToStream() != null) {
 				textArea.getConsoleToStream().println(lineString);
 				textArea.getConsoleToStream().flush();
@@ -459,92 +459,92 @@ class JTextAreaInputStream extends PrintableInputStream {
 }
 
 /**
- * String‚ğ‘‚«‚ß‚éInputStreamƒGƒ~ƒ…ƒŒ[ƒ^
+ * Stringã‚’æ›¸ãè¾¼ã‚ã‚‹InputStreamã‚¨ãƒŸãƒ¥ãƒ¬ãƒ¼ã‚¿
  * 
- * write(String)ƒƒ\ƒbƒh‚Åˆês‚¸‚Â‘‚«‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚·B
- * ‚±‚ÌƒNƒ‰ƒX‚ğ—˜—p‚·‚é“Ç‚İè‚ÍAread()‚µ‚½‚Æ‚«‚Ébuffer‚É‘‚«‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚ÎA ‘‚«‚Ü‚ê‚é‚Ü‚ÅƒuƒƒbƒN‚µ‚Ü‚·
+ * write(String)ãƒ¡ã‚½ãƒƒãƒ‰ã§ä¸€è¡Œãšã¤æ›¸ãè¾¼ã‚€ã“ã¨ãŒã§ãã¾ã™ã€‚
+ * ã“ã®ã‚¯ãƒ©ã‚¹ã‚’åˆ©ç”¨ã™ã‚‹èª­ã¿æ‰‹ã¯ã€read()ã—ãŸã¨ãã«bufferã«æ›¸ãè¾¼ã¾ã‚Œã¦ã„ãªã‘ã‚Œã°ã€ æ›¸ãè¾¼ã¾ã‚Œã‚‹ã¾ã§ãƒ–ãƒ­ãƒƒã‚¯ã—ã¾ã™
  * 
  * @author macchan
  * @version $Id: ConsoleTextPane.java,v 1.4 2010/03/10 15:44:28 turkey Exp $
  */
 class PrintableInputStream extends InputStream {
 
-	// ’è”
+	// å®šæ•°
 	private static final char CR = '\n';
 
 	private static final char END_SYMBOL = '\0';
 
 	private static final int END_CODE = -1;
 
-	// ó‘Ô
-	private byte[] buf = null; // •¶š—ñ‚ğbyte—ñ‚Å•\Œ»‚·‚éƒoƒbƒtƒ@
+	// çŠ¶æ…‹
+	private byte[] buf = null; // æ–‡å­—åˆ—ã‚’byteåˆ—ã§è¡¨ç¾ã™ã‚‹ãƒãƒƒãƒ•ã‚¡
 
-	private int cursor = 0; // byte—ñ‚ğ‚Ç‚±‚Ü‚Å“Ç‚ñ‚¾‚©•Û‘¶‚·‚éƒJ[ƒ\ƒ‹
+	private int cursor = 0; // byteåˆ—ã‚’ã©ã“ã¾ã§èª­ã‚“ã ã‹ä¿å­˜ã™ã‚‹ã‚«ãƒ¼ã‚½ãƒ«
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public PrintableInputStream() {
 	}
 
 	/**
-	 * ƒoƒbƒtƒ@‚É‘‚«‚İ‚Ü‚·B ‚à‚µƒuƒƒbƒN’†‚ÌƒXƒŒƒbƒh‚ª‚¢‚½‚çAƒuƒƒbƒN‚ğ‰ğœ‚µ‚Ü‚·
+	 * ãƒãƒƒãƒ•ã‚¡ã«æ›¸ãè¾¼ã¿ã¾ã™ã€‚ ã‚‚ã—ãƒ–ãƒ­ãƒƒã‚¯ä¸­ã®ã‚¹ãƒ¬ãƒƒãƒ‰ãŒã„ãŸã‚‰ã€ãƒ–ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã—ã¾ã™
 	 */
 	public synchronized void println(String s) {
-		// ‰üs‚ÆI—¹‹L†‚ğ‰Á‚¦‚é
+		// æ”¹è¡Œã¨çµ‚äº†è¨˜å·ã‚’åŠ ãˆã‚‹
 		s = s + CR + END_SYMBOL;
 
-		// ‘ÎÛ•¶š—ñ‚ğbyte—ñ‚Ìƒoƒbƒtƒ@‚É•ÏŠ·‚·‚é
+		// å¯¾è±¡æ–‡å­—åˆ—ã‚’byteåˆ—ã®ãƒãƒƒãƒ•ã‚¡ã«å¤‰æ›ã™ã‚‹
 		byte[] stringBuf = s.getBytes();
 
-		// ƒoƒbƒtƒ@‚ªI‚í‚è‚É’B‚µ‚Ä‚¢‚½‚çA‚»‚Ì‚Ü‚Üƒoƒbƒtƒ@‚ÉB
+		// ãƒãƒƒãƒ•ã‚¡ãŒçµ‚ã‚ã‚Šã«é”ã—ã¦ã„ãŸã‚‰ã€ãã®ã¾ã¾ãƒãƒƒãƒ•ã‚¡ã«ã€‚
 		if (this.isBufferEnd()) {
 			this.buf = stringBuf;
 		}
-		// ƒoƒbƒtƒ@‚ªI‚í‚è‚É’B‚µ‚Ä‚¢‚È‚©‚Á‚½‚çAŒp‚¬‘«‚µ‚ÄAV‚µ‚¢ƒoƒbƒtƒ@‚ğì‚é
+		// ãƒãƒƒãƒ•ã‚¡ãŒçµ‚ã‚ã‚Šã«é”ã—ã¦ã„ãªã‹ã£ãŸã‚‰ã€ç¶™ãè¶³ã—ã¦ã€æ–°ã—ã„ãƒãƒƒãƒ•ã‚¡ã‚’ä½œã‚‹
 		else {
-			int remain = buf.length - cursor; // —á‚¦‚Î8,4‚Ìê‡A0,1,2,3‚Æ4‚ÂI—¹‚µ‚Ä‚¢‚é‚©‚çAc‚è‚S‚ÂB
+			int remain = buf.length - cursor; // ä¾‹ãˆã°8,4ã®å ´åˆã€0,1,2,3ã¨4ã¤çµ‚äº†ã—ã¦ã„ã‚‹ã‹ã‚‰ã€æ®‹ã‚Šï¼”ã¤ã€‚
 			int newbufsize = remain + stringBuf.length;
 			byte[] newBuf = new byte[newbufsize];
 			System.arraycopy(buf, cursor, newBuf, 0, remain);
 			System.arraycopy(stringBuf, 0, newBuf, remain, stringBuf.length);
-			// —á‚¦‚Î13,4‚Ìê‡A13-4=9‚±ƒRƒs[‚µ‚Ä‚»‚ÌŸ‚¾‚©‚ç9”Ô–ÚB
+			// ä¾‹ãˆã°13,4ã®å ´åˆã€13-4=9ã“ã‚³ãƒ”ãƒ¼ã—ã¦ãã®æ¬¡ã ã‹ã‚‰9ç•ªç›®ã€‚
 			buf = newBuf;
 		}
 
-		// ƒJ[ƒ\ƒ‹‚ğ–ß‚µ‚ÄAƒuƒƒbƒN‚ğ‰ğœ‚·‚é
+		// ã‚«ãƒ¼ã‚½ãƒ«ã‚’æˆ»ã—ã¦ã€ãƒ–ãƒ­ãƒƒã‚¯ã‚’è§£é™¤ã™ã‚‹
 		cursor = 0;
 		notify();
 	}
 
 	/***************************************
-	 * ƒI[ƒo[ƒ‰ƒCƒh
+	 * ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 	 ***************************************/
 
 	/**
-	 * ƒuƒƒbƒN‚¹‚¸‚É“Ç‚İ‚ß‚éƒoƒCƒg”‚ğ•Ô‚µ‚Ü‚·
+	 * ãƒ–ãƒ­ãƒƒã‚¯ã›ãšã«èª­ã¿è¾¼ã‚ã‚‹ãƒã‚¤ãƒˆæ•°ã‚’è¿”ã—ã¾ã™
 	 */
 	public synchronized int available() throws IOException {
 		return buf == null ? 0 : buf.length - cursor;
 	}
 
 	/**
-	 * ƒoƒbƒtƒ@‚©‚çAˆê•¶š“Ç‚İ‚İ‚Ü‚·
+	 * ãƒãƒƒãƒ•ã‚¡ã‹ã‚‰ã€ä¸€æ–‡å­—èª­ã¿è¾¼ã¿ã¾ã™
 	 */
 	public synchronized int read() throws IOException {
 		int readChar = END_CODE;
 
 		try {
-			// “Ç‚İ‚ß‚È‚¯‚ê‚ÎƒuƒƒbƒN
+			// èª­ã¿è¾¼ã‚ãªã‘ã‚Œã°ãƒ–ãƒ­ãƒƒã‚¯
 			if (isBufferEnd()) {
 				wait();
 			}
 
-			// ˆê•¶š“Ç‚İ‚Ş
+			// ä¸€æ–‡å­—èª­ã¿è¾¼ã‚€
 			readChar = this.buf[cursor];
 			this.cursor++;
 
-			// I‚í‚è‚¾‚Á‚½‚ç-1
+			// çµ‚ã‚ã‚Šã ã£ãŸã‚‰-1
 			if ((char) readChar == END_SYMBOL) {
 				return END_CODE;
 			}
@@ -561,7 +561,7 @@ class PrintableInputStream extends InputStream {
 	 ***************************************/
 
 	/**
-	 * ƒoƒbƒtƒ@‚ªI—¹‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©’²‚×‚Ü‚·
+	 * ãƒãƒƒãƒ•ã‚¡ãŒçµ‚äº†ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹èª¿ã¹ã¾ã™
 	 */
 	private synchronized boolean isBufferEnd() {
 		return this.buf == null ? true : this.cursor >= this.buf.length;

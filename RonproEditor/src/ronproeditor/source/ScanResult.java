@@ -6,7 +6,7 @@
 package ronproeditor.source;
 
 /**
- *@ˆêsƒXƒLƒƒƒ“‚µ‚½Œ‹‰Ê‚ğ•\‚í‚·ƒCƒ“ƒi[ƒNƒ‰ƒX‚Å‚·B
+ *ã€€ä¸€è¡Œã‚¹ã‚­ãƒ£ãƒ³ã—ãŸçµæœã‚’è¡¨ã‚ã™ã‚¤ãƒ³ãƒŠãƒ¼ã‚¯ãƒ©ã‚¹ã§ã™ã€‚
  */
 public class ScanResult {
 	private int openBraceCount = 0;
@@ -15,20 +15,20 @@ public class ScanResult {
 	private boolean isCloseSecond = false;
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Å‚·B
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã§ã™ã€‚
 	 */
 	ScanResult() {
 	}
 
 	/**
-	 *@“Ç‚İ‚ñ‚¾s‚ÌŠJ‚«’†Š‡ŒÊ‚Ì”‚ğ‘‚â‚µ‚Ü‚·
+	 *ã€€èª­ã¿è¾¼ã‚“ã è¡Œã®é–‹ãä¸­æ‹¬å¼§ã®æ•°ã‚’å¢—ã‚„ã—ã¾ã™
 	 */
 	public void addOpenBraceCount() {
 		openBraceCount++;
 	}
 
 	/**
-	 *@“Ç‚İ‚ñ‚¾s‚Ì•Â‚¶’†Š‡ŒÊ‚Ì”‚ğ‘‚â‚µ‚Ü‚·
+	 *ã€€èª­ã¿è¾¼ã‚“ã è¡Œã®é–‰ã˜ä¸­æ‹¬å¼§ã®æ•°ã‚’å¢—ã‚„ã—ã¾ã™
 	 */
 	public void addCloseBraceCount() {
 		closeBraceCount++;
@@ -38,9 +38,9 @@ public class ScanResult {
 	}
 
 	/**
-	 * •Â‚¶ƒJƒbƒR‚ªŠJ‚«Š‡ŒÊ‚Ì‚ ‚Æ‚ÉŒÄ‚Î‚ê‚½‚Æ‚«
-	 * —v‚·‚é‚É  {return;}  “™‚Ìs‚¾‚Á‚½‚Æ‚«‚É
-	 * ‚P‚ğ•Ô‚µ‚Ü‚·B
+	 * é–‰ã˜ã‚«ãƒƒã‚³ãŒé–‹ãæ‹¬å¼§ã®ã‚ã¨ã«å‘¼ã°ã‚ŒãŸã¨ã
+	 * è¦ã™ã‚‹ã«  {return;}  ç­‰ã®è¡Œã ã£ãŸã¨ãã«
+	 * ï¼‘ã‚’è¿”ã—ã¾ã™ã€‚
 	 */
 	public int getCloseSecond() {
 		return isCloseSecond ? 1 : 0;
