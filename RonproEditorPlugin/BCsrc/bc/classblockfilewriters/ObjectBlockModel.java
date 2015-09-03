@@ -13,8 +13,7 @@ public class ObjectBlockModel extends BasicModel {
 	protected Map<String, String> langSpecProperties = new LinkedHashMap<String, String>();
 	protected String superClassName;
 
-	public ObjectBlockModel(String name, String kind, String initialLabel,
-			String headerLabel, String footerLabel, String color) {
+	public ObjectBlockModel(String name, String kind, String initialLabel, String headerLabel, String footerLabel, String color) {
 		super(name, kind, initialLabel, headerLabel, footerLabel, color);
 		if (kind.startsWith("local")) {
 			langSpecProperties.put("scope", "local");
@@ -25,12 +24,12 @@ public class ObjectBlockModel extends BasicModel {
 		langSpecProperties.put("is-owned-by-breed", "yes");
 		langSpecProperties.put("is-monitorable", "yes");
 	}
-	
-	public void setSuperClassName(String name){
+
+	public void setSuperClassName(String name) {
 		this.superClassName = name;
 	}
-	
-	public String getSuperClassName(){
+
+	public String getSuperClassName() {
 		return this.superClassName;
 	}
 
@@ -52,14 +51,9 @@ public class ObjectBlockModel extends BasicModel {
 
 	public void print(PrintStream out, int lineNumber) throws Exception {
 
-		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" "
-				+ "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\""
-				+ getInitialLabel() + "\"");
+		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"");
 		makeIndent(out, ++lineNumber);
-		out.println(" header-label=" + "\"" + getHeaderLabel() + "\" "
-				+ "footer-label=" + "\"" + getFooterLabel() + "\" "
-				+ "editable-label=\"yes\" " + "label-unique=\"yes\" "
-				+ "color=\"" + getColor() + "\">");
+		out.println(" header-label=" + "\"" + getHeaderLabel() + "\" " + "footer-label=" + "\"" + getFooterLabel() + "\" " + "editable-label=\"yes\" " + "label-unique=\"yes\" " + "color=\"" + getColor() + "\">");
 
 		makeIndent(out, lineNumber);
 		out.println("<description>");
@@ -76,30 +70,25 @@ public class ObjectBlockModel extends BasicModel {
 		makeIndent(out, --lineNumber);
 		out.println("</description>");
 
-
-		//コンストラクタを求める
+		// コンストラクタを求める
 		String constructor = getConstructorName();
-		if(constructor != null){
-			printBlockConnectors(out, lineNumber + 1, "socket", "object",
-					constructor, getClassName());
-		}else{
-			if(className.contains("[]")){
-				printBlockConnectors(out, lineNumber + 1, "socket", "object",
-						"new-arrayobject-objectarray", getClassName());	
-			}else{
-				printBlockConnectors(out, lineNumber + 1, "socket", "object",
-						"new-object", getClassName());					
+		if (constructor != null) {
+			printBlockConnectors(out, lineNumber + 1, "socket", "object", constructor, getClassName());
+		} else {
+			if (className.contains("[]")) {
+				printBlockConnectors(out, lineNumber + 1, "socket", "object", "new-arrayobject-objectarray", getClassName());
+			} else {
+				printBlockConnectors(out, lineNumber + 1, "socket", "object", "new-object", getClassName());
 			}
 		}
-		
+
 		printStubs(out, lineNumber);
 
 		makeIndent(out, lineNumber);
 		out.println("<LangSpecProperties>");
 
 		for (String langSpecProperty : langSpecProperties.keySet()) {
-			printLangSpecProperty(out, lineNumber + 1, langSpecProperty,
-					langSpecProperties.get(langSpecProperty));
+			printLangSpecProperty(out, lineNumber + 1, langSpecProperty, langSpecProperties.get(langSpecProperty));
 		}
 
 		makeIndent(out, lineNumber);
@@ -110,14 +99,13 @@ public class ObjectBlockModel extends BasicModel {
 			for (String key : methods.keySet()) {
 				makeIndent(out, lineNumber++);
 				out.println("<ClassName name=\"" + key + "\">");
-				
+
 				for (PublicMethodInfo method : methods.get(key)) {
 					method.print(out, lineNumber);
 				}
 				makeIndent(out, --lineNumber);
 				out.println("</ClassName>");
-				
-				
+
 			}
 			makeIndent(out, --lineNumber);
 			out.println("</ClassMethods>");
@@ -125,11 +113,11 @@ public class ObjectBlockModel extends BasicModel {
 		makeIndent(out, lineNumber);
 		out.println("<JavaType>" + className + "</JavaType>");
 		out.println("<SuperClassName>" + superClassName + "</SuperClassName>");
-		
+
 		out.println("</BlockGenus>");
 		out.println();
 		// コマンドブロック情報の書き出し
-		if(!className.contains("[]")){
+		if (!className.contains("[]")) {
 			PublicMethodCommandWriter commandWriter = new PublicMethodCommandWriter();
 			if (methods != null) {
 				for (String key : methods.keySet()) {
@@ -143,20 +131,19 @@ public class ObjectBlockModel extends BasicModel {
 		out.println();
 	}
 
-	private String getConstructorName(){
-		
+	private String getConstructorName() {
 		List<PublicMethodInfo> methods = this.methods.get(className);
-		if(methods != null){
-			for(PublicMethodInfo method : methods){
-				if(method.getFullName().startsWith("new-")){
+		if (methods != null) {
+			for (PublicMethodInfo method : methods) {
+				if (method.getFullName().startsWith("new-")) {
 					return method.getFullName();
 				}
-			}	
+			}
 		}
 
 		return null;
 	}
-	
+
 	protected void printStubs(PrintStream out, int lineNumber) {
 		makeIndent(out, lineNumber);
 		out.println("<Stubs>");
@@ -166,93 +153,32 @@ public class ObjectBlockModel extends BasicModel {
 		out.println("</Stubs>");
 	}
 
-	protected void printAllStubs(PrintStream out, int lineNumber){
-		printStub(
-				"<Stub stub-genus=\"callActionMethod\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\""
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>", out, lineNumber);
-		printStub(
-				"<Stub stub-genus=\"callGetterMethod\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\""
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>", out, lineNumber);
+	protected void printAllStubs(PrintStream out, int lineNumber) {
+		printStub("<Stub stub-genus=\"callActionMethod\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
+		printStub("<Stub stub-genus=\"callGetterMethod\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
 
-		printStub(
-				"<Stub stub-genus=\"callBooleanMethod\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\""
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>", out, lineNumber);
+		printStub("<Stub stub-genus=\"callBooleanMethod\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
 
-		printStub(
-				"<Stub stub-genus=\"callDoubleMethod\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\""
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>", out, lineNumber);
+		printStub("<Stub stub-genus=\"callDoubleMethod\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
 
-		printStub(
-				"<Stub stub-genus=\"callStringMethod\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\""
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>", out, lineNumber);
+		printStub("<Stub stub-genus=\"callStringMethod\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
 
-		printStub(
-				"<Stub stub-genus=\"callObjectMethod\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\""
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>", out, lineNumber);
+		printStub("<Stub stub-genus=\"callObjectMethod\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
 
-		printStub(
-				"<Stub stub-genus=\"getter\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-"
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\""
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>", out, lineNumber);
+		printStub("<Stub stub-genus=\"getter\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
 
-		printStub(
-				"<Stub stub-genus=\"setter\">",
-				"<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set"
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>",
-				"<LangSpecProperty key=\"scope\" value=\""
-						+ langSpecProperties.get("scope")
-						+ "\"></LangSpecProperty>", out, lineNumber);
+		printStub("<Stub stub-genus=\"setter\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
 	}
-	
-	protected void printBlockConnectors(PrintStream out, int lineNumber,
-			String connectorKind, String connectorType,
-			String defaultGenusName, String DefaultLabel) {
+
+	protected void printBlockConnectors(PrintStream out, int lineNumber, String connectorKind, String connectorType, String defaultGenusName, String DefaultLabel) {
 		makeIndent(out, lineNumber);
 		out.println("<BlockConnectors>");
 
 		makeIndent(out, ++lineNumber);
-		out.println("<BlockConnector label=\"初期値\" connector-kind=\""
-				+ connectorKind + "\" connector-type=\"" + connectorType
-				+ "\">");
+		out.println("<BlockConnector label=\"初期値\" connector-kind=\"" + connectorKind + "\" connector-type=\"" + connectorType + "\" connector-javatype=\"" + className + "\">");
 
 		makeIndent(out, ++lineNumber);
-		out.println("<DefaultArg genus-name=\"" + defaultGenusName
-				+ "\" label=\"" + DefaultLabel + "\"></DefaultArg>");
+		out.println("<DefaultArg genus-name=\"" + defaultGenusName + "\" label=\"" + DefaultLabel + "\"></DefaultArg>");
 
 		makeIndent(out, --lineNumber);
 		out.println("</BlockConnector>");

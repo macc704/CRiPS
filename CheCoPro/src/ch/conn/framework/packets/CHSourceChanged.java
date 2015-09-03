@@ -12,7 +12,7 @@ public class CHSourceChanged extends CHPacket {
 	private String source;
 	private String currentFileName;
 	private Point point;
-	
+
 	public CHSourceChanged(String user, String source, String currentFileName,
 			Point point) {
 		this.user = user;

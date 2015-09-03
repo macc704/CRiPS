@@ -9,7 +9,7 @@ import java.io.PrintStream;
 
 /**
  * @author macchan
- * 
+ *
  */
 public class ExCallUserMethodModel extends ExCallMethodModel {
 
@@ -36,7 +36,7 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 
 		// user method special(1)
 		makeIndent(out, indent);
-		out.print("<BlockStub>");
+		out.println("<BlockStub>");
 		out.println("<StubParentName>" + getName() + "</StubParentName>");
 		makeIndent(out, indent);
 		out.print("<StubParentGenus>procedure</StubParentGenus>");
@@ -117,8 +117,7 @@ public class ExCallUserMethodModel extends ExCallMethodModel {
 			}
 		}
 
-		ExCallMethodModel.printArguments(getArguments(), out, indent, this,
-				getArgumentLabels());
+		ExCallMethodModel.printArguments(getArguments(), out, indent, this, getArgumentLabels());
 
 		// end Block
 		makeIndent(out, indent);

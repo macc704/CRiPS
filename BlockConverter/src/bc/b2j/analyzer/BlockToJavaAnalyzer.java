@@ -64,7 +64,7 @@ public class BlockToJavaAnalyzer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return
 	 */
 	public ProgramModel getProgramModel() {
@@ -85,7 +85,7 @@ public class BlockToJavaAnalyzer {
 
 	/**
 	 * Pageノードを解析
-	 * 
+	 *
 	 * @param node
 	 */
 
@@ -127,7 +127,7 @@ public class BlockToJavaAnalyzer {
 
 	/**
 	 * Blockノードを解析
-	 * 
+	 *
 	 * @param node
 	 * @param className
 	 */
@@ -456,8 +456,9 @@ public class BlockToJavaAnalyzer {
 
 		Node blockInfo = node.getFirstChild();
 
-		while (blockInfo != null) {
-			if (blockInfo.getNodeName() == "JavaLabel") {
+		for(int i = 0; i < node.getChildNodes().getLength(); i++){
+			blockInfo = node.getChildNodes().item(i);
+			if ("JavaLabel".equals(blockInfo.getNodeName())) {
 				return blockInfo.getTextContent();
 			}
 			blockInfo = blockInfo.getNextSibling();
@@ -467,7 +468,7 @@ public class BlockToJavaAnalyzer {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param blockInfo
 	 * @param b2j
 	 *            .model

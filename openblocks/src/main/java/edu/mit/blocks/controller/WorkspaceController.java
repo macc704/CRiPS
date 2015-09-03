@@ -934,18 +934,6 @@ public class WorkspaceController {
 		// }
 	}
 
-	public static void main(final String[] args) {
-		WorkspaceController wc = new WorkspaceController();
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				wc.setLangDefFilePath("ext/blocks/lang_def.xml");
-				wc.loadFreshWorkspace();
-				wc.createAndShowGUI();
-			}
-		});
-	}
-
 	public boolean isOpened() {
 		return opened;
 	}

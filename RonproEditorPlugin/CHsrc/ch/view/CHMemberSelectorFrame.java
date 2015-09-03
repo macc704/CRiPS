@@ -1,6 +1,8 @@
 package ch.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -12,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -19,6 +22,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
@@ -33,6 +37,7 @@ import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.library.CHFileSystem;
 import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileFilter;
 import clib.common.filesystem.CFileSystem;
 
@@ -101,23 +106,47 @@ public class CHMemberSelectorFrame extends JFrame {
 	public void setMembers(List<CHUserState> userStates) {
 
 		this.getContentPane().removeAll();
-		JPanel buttonPanel = new JPanel();
-		this.getContentPane().add(buttonPanel);
+		List<JPanel> panels = new ArrayList<JPanel>();
+		JPanel basePanel = new JPanel();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+
+		this.getContentPane().add(basePanel);
 
 		for (final CHUserState aUserState : userStates) {
+
+			JPanel panel = new JPanel();
+
 			JButton button = new JButton(aUserState.getUser());
 			button.setBackground(aUserState.getColor());
 
-			buttonPanel.add(button);
+			JLabel lastLoginTime = new JLabel("online");
+			lastLoginTime.setForeground(Color.GREEN);
+
+			panel.setLayout(new BorderLayout());
+			panel.add(button, BorderLayout.NORTH);
+			panel.add(lastLoginTime, BorderLayout.CENTER);
+			panels.add(panel);
 
 			if (!aUserState.isLogin()) {
 				button.setForeground(Color.RED);
+				if (aUserState.getLastLogin() != null) {
+					lastLoginTime.setText(formatter.format(aUserState
+							.getLastLogin()));
+				} else {
+					lastLoginTime.setText("offline");
+				}
+				lastLoginTime.setForeground(Color.RED);
 			}
 
 			button.addActionListener(buttonAction);
 
 			buttons.add(button);
 		}
+
+		for (JPanel aPanel : panels) {
+			basePanel.add(aPanel);
+		}
+
 		this.getContentPane().validate();
 
 	}
@@ -136,7 +165,7 @@ public class CHMemberSelectorFrame extends JFrame {
 			} else {
 				conn.write(new CHFilelistRequest(pushed));
 
-				// TODO デフォルトフォントおかしい
+				// TODO デフォルトフォントおかしい（無理やり対処中）
 				REApplication chApplication = application
 						.doOpenNewRE(CH_DIR_PATH + "/" + pushed);
 				openedCHEditors.put(pushed, chApplication);
@@ -155,7 +184,15 @@ public class CHMemberSelectorFrame extends JFrame {
 	private void initCHEMenubar(final REApplication application) {
 
 		JMenuBar menuBar = application.getFrame().getJMenuBar();
-		menuBar.getMenu(2).setEnabled(false);
+
+		// Fileメニューのsaveとrefresh以外削除
+		for (int i = 14; i >= 0; i--) {
+			if (i != 8 && i != 12) {
+				menuBar.getMenu(0).remove(i);
+			}
+		}
+
+		// menuBar.getMenu(2).setEnabled(false);
 		menuBar.getMenu(3).setEnabled(false);
 		menuBar.add(initSyncButton(application));
 		menuBar.add(initPullButton(application));
@@ -238,19 +275,37 @@ public class CHMemberSelectorFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CHPullDialog pullDialog = new CHPullDialog(openedUsers
-						.get(application));
+				CHPullDialog pullDialog;
+				if (application.getSourceManager().getCurrentFile() != null) {
+					pullDialog = new CHPullDialog(openedUsers.get(application),
+							true);
+				} else {
+					pullDialog = new CHPullDialog(openedUsers.get(application),
+							false);
+				}
 				pullDialog.open();
 
 				boolean java = pullDialog.isJavaChecked();
-				boolean material = pullDialog.isMaterialCecked();
+				boolean material = pullDialog.isMaterialChecked();
+				boolean current = pullDialog.isCurrentChecked();
 				if (material) {
 					doPull(openedUsers.get(application),
 							makeCFileFilter(java, material));
-					writePullLog(java, material, openedUsers.get(application));
+					writePullLog(java, material, current,
+							openedUsers.get(application), "");
 				} else if (java && !material) {
 					doPullForJava(openedUsers.get(application), CHFileSystem
 							.getEclipseMemberDir(openedUsers.get(application)));
+					writePullLog(java, material, current,
+							openedUsers.get(application), "");
+				} else if (current) {
+					doPullForCurrent(openedUsers.get(application), CHFileSystem
+							.getEclipseMemberDir(openedUsers.get(application)),
+							application.getSourceManager().getCCurrentFile());
+					writePullLog(java, material, current,
+							openedUsers.get(application), application
+									.getSourceManager().getCurrentFile()
+									.getName());
 				}
 			}
 		});
@@ -258,13 +313,18 @@ public class CHMemberSelectorFrame extends JFrame {
 		return pullButton;
 	}
 
-	private void writePullLog(boolean java, boolean material, String user) {
+	private void writePullLog(boolean java, boolean material, boolean current,
+			String user, String fileName) {
 		if (java && material) {
-			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_ALL);
+			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_ALL, "");
 		} else if (java && !material) {
-			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_JAVA);
+			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_JAVA, "");
 		} else if (!java && material) {
-			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_MATERIAL);
+			CheCoProManager.getLog().pull(user, CHUserLogWriter.PULL_MATERIAL,
+					"");
+		} else if (current) {
+			CheCoProManager.getLog().pull(user,
+					CHUserLogWriter.PULL_CURRENT_FILE, fileName);
 		}
 	}
 
@@ -295,6 +355,22 @@ public class CHMemberSelectorFrame extends JFrame {
 				.findOrCreateDirectory(toPath);
 		CHFileSystem.pull(dir, toDir,
 				CFileFilter.ACCEPT_BY_EXTENSION_FILTER("java"));
+	}
+
+	private void doPullForCurrent(String user, CDirectory dir, CFile file) {
+		List<CDirectory> children = dir.getDirectoryChildren(CFileFilter
+				.IGNORE_BY_NAME_FILTER(".*"));
+		if (!children.isEmpty()) {
+			for (CDirectory childe : children) {
+				doPullForCurrent(user, childe, file);
+			}
+		}
+		String toPath = CHFileSystem.PROJECTPATH + "/"
+				+ dir.getRelativePath(CHFileSystem.getEclipseMemberDir(user));
+		CDirectory toDir = CFileSystem.getExecuteDirectory()
+				.findOrCreateDirectory(toPath);
+		CHFileSystem.pull(dir, toDir,
+				CFileFilter.ACCEPT_BY_NAME_FILTER(file.getNameByString()));
 	}
 
 	private void doPull(String user, CFileFilter filter) {
@@ -344,6 +420,9 @@ public class CHMemberSelectorFrame extends JFrame {
 							.getTextPane().removeKeyListener(keyListner);
 				}
 				if (evt.getPropertyName().equals("documentOpened")) {
+					// フォント無理やり
+					application.getFrame().getEditor().getViewer()
+							.changeFont(new Font("Osaka-Mono", Font.PLAIN, 12));
 					addCHKeyListner(application);
 					application.getFrame().getEditor().getViewer()
 							.getTextPane()
@@ -426,13 +505,14 @@ public class CHMemberSelectorFrame extends JFrame {
 					@Override
 					public void run() {
 
-						System.out.println(topPixel);
+						// System.out.println(topPixel);
 						openedCHEditors.get(sender).getFrame().getEditor()
 								.getViewer().getScroll().getVerticalScrollBar()
 								.setValue(topPixel);
-						System.out.println(openedCHEditors.get(sender)
-								.getFrame().getEditor().getViewer().getScroll()
-								.getVerticalScrollBar().getValue());
+						// System.out.println(openedCHEditors.get(sender)
+						// .getFrame().getEditor().getViewer().getScroll()
+						// .getVerticalScrollBar().getValue());
+						openedCHEditors.get(sender).doSave();
 					}
 				});
 			}
@@ -507,12 +587,12 @@ public class CHMemberSelectorFrame extends JFrame {
 	public static void main(String[] args) {
 		CHMemberSelectorFrame frame = new CHMemberSelectorFrame("name");
 		List<CHUserState> userStates = new ArrayList<CHUserState>();
-		userStates.add(new CHUserState("user1", true, Color.CYAN));
-		userStates.add(new CHUserState("name", true, Color.LIGHT_GRAY));
-		userStates.add(new CHUserState("user2", false, Color.MAGENTA));
+		// userStates.add(new CHUserState("user1", true, Color.CYAN));
+		// userStates.add(new CHUserState("name", true, Color.LIGHT_GRAY));
+		// userStates.add(new CHUserState("user2", false, Color.MAGENTA));
 		frame.open();
 		frame.setMembers(userStates);
-		userStates.add(new CHUserState("user3", true, Color.YELLOW));
+		// userStates.add(new CHUserState("user3", true, Color.YELLOW));
 		frame.setMembers(userStates);
 
 	}

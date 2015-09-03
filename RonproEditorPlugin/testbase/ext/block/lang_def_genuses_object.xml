@@ -904,7 +904,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-arrayobject-doublearray" kind="function"
+<BlockGenus name="new-arrayobject-double-numberarray" kind="function"
 	initlabel="doubleArray" editable-label="yes" header-label="新しく"
 	footer-label="を作る" color="16 240 27">
 	<description>
@@ -1042,7 +1042,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>	
+			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -1114,7 +1114,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-linkedlistobject" label="LinkedList"></DefaultArg>	
+			<DefaultArg genus-name="new-linkedlistobject" label="LinkedList"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -1186,7 +1186,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>	
+			<DefaultArg genus-name="new-listobject" label="ArrayList"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -1402,7 +1402,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-linkedlistobject" label="LinkedList"></DefaultArg>	
+			<DefaultArg genus-name="new-linkedlistobject" label="LinkedList"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>

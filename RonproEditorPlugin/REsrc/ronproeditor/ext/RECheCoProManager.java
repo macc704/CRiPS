@@ -154,11 +154,11 @@ public class RECheCoProManager {
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				conn.write(new CHSourceChanged(user, application.getFrame()
-						.getEditor().getViewer().getText(), application
-						.getSourceManager().getCurrentFile().getName(),
-						application.getFrame().getEditor().getViewer()
-								.getScroll().getVerticalScrollBar().getValue()));
+				// conn.write(new CHSourceChanged(user, application.getFrame()
+				// .getEditor().getViewer().getText(), application
+				// .getSourceManager().getCurrentFile().getName(),
+				// application.getFrame().getEditor().getViewer()
+				// .getScroll().getVerticalScrollBar().getValue()));
 				if (e.getKeyCode() == KeyEvent.VK_S) {
 					if ((mod & CTRL_MASK) != 0) {
 						processFilelistRequest(new CHFilelistRequest(user));
@@ -378,9 +378,9 @@ public class RECheCoProManager {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CHPullDialog pullDialog = new CHPullDialog(user);
+				CHPullDialog pullDialog = new CHPullDialog(user, false);
 				boolean java = pullDialog.isJavaChecked();
-				boolean material = pullDialog.isMaterialCecked();
+				boolean material = pullDialog.isMaterialChecked();
 				if (java || material) {
 					doPull(user, createCFileFilter(java, material));
 				}

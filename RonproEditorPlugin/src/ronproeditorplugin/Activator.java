@@ -7,6 +7,10 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 import ppv.app.datamanager.PPProjectSet;
+import ch.actions.CheCoProManager;
+import ch.conn.framework.CHUserLogWriter;
+import ch.library.CHFileSystem;
+import clib.common.table.CCSVFileIO;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -49,8 +53,14 @@ public class Activator extends AbstractUIPlugin {
 		// file.getParentFile().getParentFile().getAbsolutePath());
 		plugin = this;
 
-		// CheCoProManager.setLog(new CHUserLogWriter());
-		// CheCoProManager.getLog().eclipseOpen();
+		String[][] table = new String[1][3];
+		table = CCSVFileIO.load(CHFileSystem.getPrefFile());
+		if (table.length == 0) {
+			CheCoProManager.setLog(new CHUserLogWriter());
+		} else {
+			CheCoProManager.setLog(new CHUserLogWriter(table[0][0]));
+		}
+		CheCoProManager.getLog().eclipseOpen();
 	}
 
 	/*
@@ -61,7 +71,7 @@ public class Activator extends AbstractUIPlugin {
 	 * )
 	 */
 	public void stop(BundleContext context) throws Exception {
-		// CheCoProManager.getLog().eclipseClose();
+		CheCoProManager.getLog().eclipseClose();
 		plugin = null;
 		super.stop(context);
 	}

@@ -4,11 +4,10 @@ import java.io.PrintStream;
 import java.util.HashSet;
 
 public class ConvertBlockModel extends BasicModel {
-	
+
 	private String javaType;
 
-	public ConvertBlockModel(String name, String kind, String initialLabel,
-			String headerLabel, String footerLabel, String color, String javaType) {
+	public ConvertBlockModel(String name, String kind, String initialLabel, String headerLabel, String footerLabel, String color, String javaType) {
 		super(name, kind, initialLabel, headerLabel, footerLabel, color);
 
 		// connectorの登録
@@ -25,15 +24,13 @@ public class ConvertBlockModel extends BasicModel {
 
 	public void print(PrintStream out, int lineNumber) throws Exception {
 
-		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" "
-				+ "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\""
-				+ getInitialLabel() + "\"" + " color=\"" + getColor() + "\">");
+		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"" + " color=\"" + getColor() + "\">");
 
 		printBlockConnectors(out, lineNumber);
 
 		makeIndent(out, lineNumber);
 		out.println("<JavaType>" + javaType + "</JavaType>");
-		
+
 		out.println("</BlockGenus>");
 
 	}

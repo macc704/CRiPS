@@ -27,6 +27,7 @@ public class CHUserLogWriter {
 	public static final String PULL_ALL = "PULL_ALL";
 	public static final String PULL_JAVA = "PULL_JAVA";
 	public static final String PULL_MATERIAL = "PULL_MATERIAL";
+	public static final String PULL_CURRENT_FILE = "PULL_CURRENT_FILE";
 	public static final String COPY = "COPY";
 	public static final String PASTE = "PASTE";
 	public static final String OPEN_CHEDITOR = "open cheditor";
@@ -37,6 +38,7 @@ public class CHUserLogWriter {
 	private List<String> row = new ArrayList<String>();
 	private DateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	private String user = "";
+	private String prevCopy = "";
 
 	public CHUserLogWriter(String user) {
 		this.user = user;
@@ -51,10 +53,14 @@ public class CHUserLogWriter {
 		CFile file = getCHDir().findFile(user + LOGFILE);
 		if (file != null) {
 			table = CCSVFileIO.loadAsListList(file);
+			if (file.getNameByString().equals("CHLog.csv") && !user.equals("")) {
+				file.renameTo(user + "_CHLog.csv");
+			}
 		} else {
 			table.add(getHeaderList());
 			saveTableToFile();
 		}
+
 		initRow();
 	}
 
@@ -170,9 +176,10 @@ public class CHUserLogWriter {
 		saveTableToFile();
 	}
 
-	public void pull(String user, String type) {
+	public void pull(String user, String type, String fileName) {
 		writeCommand(type);
 		writeFrom(user);
+		writeCode(fileName);
 		addRowToTable();
 		saveTableToFile();
 	}
@@ -183,14 +190,17 @@ public class CHUserLogWriter {
 		writeCode(code);
 		addRowToTable();
 		saveTableToFile();
+		prevCopy = code;
 	}
 
 	public void paste(String fileName, String code) {
-		writeCommand(PASTE);
-		writeTo(fileName);
-		writeCode(code);
-		addRowToTable();
-		saveTableToFile();
+		if (prevCopy.equals(code)) {
+			writeCommand(PASTE);
+			writeTo(fileName);
+			writeCode(code);
+			addRowToTable();
+			saveTableToFile();
+		}
 	}
 
 	public static void main(String[] args) {
@@ -198,9 +208,9 @@ public class CHUserLogWriter {
 		CHUserLogWriter log = new CHUserLogWriter("hoge");
 		log.eclipseOpen();
 		log.login();
-		log.pull("fuge", PULL_JAVA);
-		log.pull("abc", PULL_ALL);
-		log.pull("fda", PULL_MATERIAL);
+		log.pull("fuge", PULL_JAVA, "");
+		log.pull("abc", PULL_ALL, "");
+		log.pull("fda", PULL_MATERIAL, "");
 		log.logout();
 		log.eclipseClose();
 	}

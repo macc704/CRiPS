@@ -1,5 +1,7 @@
 package ch.conn.framework.packets;
 
+import java.awt.Point;
+
 import ch.conn.framework.CHPacket;
 
 public class CHSourceChanged extends CHPacket {
@@ -9,14 +11,14 @@ public class CHSourceChanged extends CHPacket {
 	private String user;
 	private String source;
 	private String currentFileName;
-	private int topPixel;
+	private Point point;
 
 	public CHSourceChanged(String user, String source, String currentFileName,
-			int topPixel) {
+			Point point) {
 		this.user = user;
 		this.source = source;
 		this.currentFileName = currentFileName;
-		this.topPixel = topPixel;
+		this.point = point;
 	}
 
 	public String getUser() {
@@ -31,7 +33,7 @@ public class CHSourceChanged extends CHPacket {
 		return currentFileName;
 	}
 
-	public int getTopPixel() {
-		return topPixel;
+	public Point getPoint() {
+		return point;
 	}
 }

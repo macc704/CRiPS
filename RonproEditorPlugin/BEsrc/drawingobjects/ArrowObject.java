@@ -65,8 +65,8 @@ public class ArrowObject extends JComponent {
 		}else{
 			arrowColor = normalColor;
 		}
-
 	}
+
 
 	public void paintComponent(Graphics g) {
 		if(isVisible()){

@@ -19,9 +19,9 @@ import codeblocks.BlockGenus;
 
 /**
  * Utilities class that provides the loading and saving of pages and drawers
- * 
+ *
  * @author An Ho
- * 
+ *
  */
 public class PageDrawerLoadingUtils {
 	private static Pattern attrExtractor = Pattern.compile("\"(.*)\"");
@@ -74,8 +74,8 @@ public class PageDrawerLoadingUtils {
 		List<Page> pageList = new ArrayList<Page>();
 		//pagesToAdd is needed so that we can add pages all at once
 		//to the page bar once all the the pages been loaded
-		//Before adding all the pages, this method makes a check 
-		//if there is only one page with an empty name - if so, it will just 
+		//Before adding all the pages, this method makes a check
+		//if there is only one page with an empty name - if so, it will just
 		//add the page to the workspace/block canvas but not add it to this
 		//LinkedHashMap<Page, PageBlockDrawer> pagesToAdd = new LinkedHashMap<Page, PageBlockDrawer>();
 		LinkedHashMap<String, ArrayList<RenderableBlock>> blocksForDrawers = new LinkedHashMap<String, ArrayList<RenderableBlock>>();
@@ -84,7 +84,7 @@ public class PageDrawerLoadingUtils {
 		NodeList pagesRoot = root.getElementsByTagName("Pages");
 		if (pagesRoot != null) {
 			//isBlankPage denotes if the page being loaded is a default blank page
-			//in other words, the project did not specify any pages for their environment.  
+			//in other words, the project did not specify any pages for their environment.
 			//EvoBeaker does this
 			boolean isBlankPage = false;
 			Node pagesNode = pagesRoot.item(0);
@@ -235,14 +235,7 @@ public class PageDrawerLoadingUtils {
 						//get drawer's color:
 						Node colorNode = drawerNode.getAttributes()
 								.getNamedItem("button-color");
-						//    					if(colorNode == null){
-						//    						buttonColor = Color.blue;
-						//    						System.out.println("Loading a drawer without defined color: ");
-						//    						for(int ai=0; ai<drawerNode.getAttributes().getLength(); ai++){
-						//        						System.out.println("\t"+drawerNode.getAttributes().item(ai).getNodeName()+
-						//        								", "+drawerNode.getAttributes().item(ai).getNodeValue());
-						//        					}
-						//    					}else{    
+
 						if (colorNode != null) {
 							nameMatcher = attrExtractor.matcher(colorNode
 									.toString());
@@ -266,19 +259,17 @@ public class PageDrawerLoadingUtils {
 						ArrayList<RenderableBlock> drawerRBs = new ArrayList<RenderableBlock>();
 						for (int k = 0; k < drawerBlocks.getLength(); k++) {
 							blockNode = drawerBlocks.item(k);
-							if (blockNode.getNodeName().equals(
-									"BlockGenusMember")) {
+							if (blockNode.getNodeName().equals("BlockGenusMember")) {
 								String genusName = blockNode.getTextContent();
 								assert BlockGenus.getGenusWithName(genusName) != null : "Unknown BlockGenus: "
 										+ genusName;
 								Block newBlock;
-								//don't link factory blocks to their stubs because they will 
+								//don't link factory blocks to their stubs because they will
 								//forever remain inside the drawer and never be active
 								try {
 									newBlock = new Block(genusName, false);
 								} catch (NullPointerException ex) {
-									throw new RuntimeException("genusName="
-											+ genusName, ex);
+									throw new RuntimeException("genusName=" + genusName + ex.getLocalizedMessage() , ex);
 								}
 								drawerRBs.add(new FactoryRenderableBlock(
 										manager, newBlock.getBlockID()));

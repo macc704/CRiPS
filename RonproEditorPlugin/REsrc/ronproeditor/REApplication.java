@@ -9,8 +9,13 @@ package ronproeditor;
 //import java.awt.event.WindowFocusListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -33,9 +38,9 @@ import ronproeditor.dialogs.REDirtyOptionDialog;
 import ronproeditor.dialogs.RERefactoringFileNameDialog;
 import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
+import ronproeditor.ext.RECheCoProManager;
 import ronproeditor.ext.RECocoViewerManager;
 import ronproeditor.ext.RECreateCocoDataManager;
-import ronproeditor.ext.RECheCoProManager;
 //import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
@@ -338,7 +343,7 @@ public class REApplication implements ICFwApplication {
 
 	private PresProjectManager presManager;
 	private REBlockEditorManager blockManager;
-//	private REFlowViewerManager flowManager;
+	// private REFlowViewerManager flowManager;
 	private REGeneRefManager generefManager;
 	private REPresVisualizerManager ppvManager;
 	private RECheCoProManager checoproManager; // CheCoPro(kato)
@@ -364,7 +369,7 @@ public class REApplication implements ICFwApplication {
 		presManager = new PresProjectManager();
 		presManager.initialize();
 		blockManager = new REBlockEditorManager(this);
-//		flowManager = new REFlowViewerManager(this);
+		// flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
 		ppvManager = new REPresVisualizerManager(this);
 		createCocoDataManager = new RECreateCocoDataManager(this);
@@ -428,8 +433,8 @@ public class REApplication implements ICFwApplication {
 				.ACCEPT_BY_EXTENSION_FILTER("java"));
 		sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
 
-		CFile preferenceFile = CFileSystem.findDirectory(/*DEFAULT_ROOT*/rootDirName)
-				.findOrCreateFile(".pref/preference");
+		CFile preferenceFile = CFileSystem.findDirectory(
+		/* DEFAULT_ROOT */rootDirName).findOrCreateFile(".pref/preference");
 		preferenceManager = new CPreferenceManager(preferenceFile);
 	}
 
@@ -517,7 +522,7 @@ public class REApplication implements ICFwApplication {
 			writePresLog(PRCommandLog.SubType.SAVE);// TODO
 
 			// blockManager.doRefleshBlock();
-//			flowManager.refreshChart();
+			// flowManager.refreshChart();
 
 		}
 	}
@@ -531,7 +536,7 @@ public class REApplication implements ICFwApplication {
 			writePresLog(PRCommandLog.SubType.SAVE);// TODO
 
 			// TODO 上と重複
-//			flowManager.refreshChart();
+			// flowManager.refreshChart();
 		}
 	}
 
@@ -824,7 +829,7 @@ public class REApplication implements ICFwApplication {
 		JavaEnv env = FileSystemUtil.createJavaEnv(
 				sourceManager.getRootDirectory(),
 				sourceManager.getCurrentFile());
-		
+
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
@@ -918,116 +923,116 @@ public class REApplication implements ICFwApplication {
 		writePresLog(PRCommandLog.SubType.START_RUN);// TODO
 	}
 
-//	
-//	public void doDebugRun() {
-//
-//		File target = getSourceManager().getCurrentFile();
-//		if (!hasRunnableFile(target)) {
-//			JOptionPane.showMessageDialog(frame, "コンパイルに成功していません", "実行できません",
-//					JOptionPane.ERROR_MESSAGE);
-//			return;
-//		}
-//		
-//		/*
-//		if (deno != null && deno.isRunning()) {
-//			JOptionPane.showMessageDialog(frame, "前のデバッグ画面が開きっぱなしです",
-//					"実行できません", JOptionPane.ERROR_MESSAGE);
-//			return;
-//			// CFrameUtils.toFront(deno.getFrame());
-//			// return;
-//		}
-//		*/
-//
-//		// パス等取得
-//		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager()
-//				.getRootDirectory(), getSourceManager().getCurrentFile());
-//		String args[] = new String[6];
-//		// ソースパス
-//		args[0] = "-sourcepath";
-//		args[1] = env.dir.getAbsolutePath();
-//		// クラスパス
-//		args[2] = "-classpath";
-//		String libString = libraryManager.getLibString();
-//		libString = env.dir.getAbsolutePath() + FileSystemUtil.PATH_SEPARATOR
-//				+ libString;
-//		if (CJavaSystem.getInstance().isWindows()) {
-//			libString = "\"" + libString + "\"";
-//		}
-//		args[3] = libString;
-//		// クラス名
-//		args[4] = env.runnable;
-//		// waitrepaint
-//		args[5] = "waitrepaint";
-//
-//		// xml
-//		// String[] libs = getLibraryManager().getLibsAsArray();
-//		// try {
-//		// new JavaToBlockMain().run(getSourceManager().getCurrentFile(),
-//		// REApplication.SRC_ENCODING, libs);
-//		// } catch (Exception e) {
-//		// e.printStackTrace();
-//		// CErrorDialog.show(getFrame(), "Block変換時のエラー", e);
-//		// }
-//
-//		NDebuggerManager.registerListener(new NDebuggerListener() {
-//			public void stepPressed() {
-//				writePresLog(PRCommandLog.SubType.STEP);
-//			}
-//
-//			public void debugStarted() {
-//				writePresLog(PRCommandLog.SubType.START_DEBUG);
-//			}
-//
-//			public void debugFinished() {
-//				writePresLog(PRCommandLog.SubType.STOP_DEBUG);
-//			}
-//
-//			public void playPressed() {
-//				writePresLog(PRCommandLog.SubType.DEBUG_PLAY);
-//			}
-//
-//			public void stopPressed() {
-//				writePresLog(PRCommandLog.SubType.DEBUG_STOP);
-//			}
-//
-//			public void speedSet(int speed) {
-//				writePresLog(PRCommandLog.SubType.DEBUG_SPEED, speed);
-//			}
-//
-//			public void contPressed() {
-//				writePresLog(PRCommandLog.SubType.DEBUG_CONT);
-//			}
-//
-//			public void breakpointSet() {
-//				writePresLog(PRCommandLog.SubType.DEBUG_BPSET);
-//			}
-//
-//			public void breakpointClear() {
-//				writePresLog(PRCommandLog.SubType.DEBUG_BPCLR);
-//			}
-//
-//			public void changeAPMode(String mode) {
-//				writePresLog(PRCommandLog.SubType.DEBUG_CHANGEMODE, mode);
-//			}
-//		});
-//		deno = new GUI();
-//		deno.run(args);
-//		deno.getFrame().addWindowFocusListener(new WindowFocusListener() {
-//			public void windowLostFocus(WindowEvent e) {
-//				writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
-//			}
-//
-//			public void windowGainedFocus(WindowEvent e) {
-//				writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
-//			}
-//		});
-//		CommandInterpreter cmdint = new CommandInterpreter(deno.getEnv());
-//		// deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
-//		// if(blockManager.getBlockEditor() != null) {
-//		// deno.beMode();
-//		// }
-//		cmdint.executeCommand("run");
-//	}
+	//
+	// public void doDebugRun() {
+	//
+	// File target = getSourceManager().getCurrentFile();
+	// if (!hasRunnableFile(target)) {
+	// JOptionPane.showMessageDialog(frame, "コンパイルに成功していません", "実行できません",
+	// JOptionPane.ERROR_MESSAGE);
+	// return;
+	// }
+	//
+	// /*
+	// if (deno != null && deno.isRunning()) {
+	// JOptionPane.showMessageDialog(frame, "前のデバッグ画面が開きっぱなしです",
+	// "実行できません", JOptionPane.ERROR_MESSAGE);
+	// return;
+	// // CFrameUtils.toFront(deno.getFrame());
+	// // return;
+	// }
+	// */
+	//
+	// // パス等取得
+	// JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager()
+	// .getRootDirectory(), getSourceManager().getCurrentFile());
+	// String args[] = new String[6];
+	// // ソースパス
+	// args[0] = "-sourcepath";
+	// args[1] = env.dir.getAbsolutePath();
+	// // クラスパス
+	// args[2] = "-classpath";
+	// String libString = libraryManager.getLibString();
+	// libString = env.dir.getAbsolutePath() + FileSystemUtil.PATH_SEPARATOR
+	// + libString;
+	// if (CJavaSystem.getInstance().isWindows()) {
+	// libString = "\"" + libString + "\"";
+	// }
+	// args[3] = libString;
+	// // クラス名
+	// args[4] = env.runnable;
+	// // waitrepaint
+	// args[5] = "waitrepaint";
+	//
+	// // xml
+	// // String[] libs = getLibraryManager().getLibsAsArray();
+	// // try {
+	// // new JavaToBlockMain().run(getSourceManager().getCurrentFile(),
+	// // REApplication.SRC_ENCODING, libs);
+	// // } catch (Exception e) {
+	// // e.printStackTrace();
+	// // CErrorDialog.show(getFrame(), "Block変換時のエラー", e);
+	// // }
+	//
+	// NDebuggerManager.registerListener(new NDebuggerListener() {
+	// public void stepPressed() {
+	// writePresLog(PRCommandLog.SubType.STEP);
+	// }
+	//
+	// public void debugStarted() {
+	// writePresLog(PRCommandLog.SubType.START_DEBUG);
+	// }
+	//
+	// public void debugFinished() {
+	// writePresLog(PRCommandLog.SubType.STOP_DEBUG);
+	// }
+	//
+	// public void playPressed() {
+	// writePresLog(PRCommandLog.SubType.DEBUG_PLAY);
+	// }
+	//
+	// public void stopPressed() {
+	// writePresLog(PRCommandLog.SubType.DEBUG_STOP);
+	// }
+	//
+	// public void speedSet(int speed) {
+	// writePresLog(PRCommandLog.SubType.DEBUG_SPEED, speed);
+	// }
+	//
+	// public void contPressed() {
+	// writePresLog(PRCommandLog.SubType.DEBUG_CONT);
+	// }
+	//
+	// public void breakpointSet() {
+	// writePresLog(PRCommandLog.SubType.DEBUG_BPSET);
+	// }
+	//
+	// public void breakpointClear() {
+	// writePresLog(PRCommandLog.SubType.DEBUG_BPCLR);
+	// }
+	//
+	// public void changeAPMode(String mode) {
+	// writePresLog(PRCommandLog.SubType.DEBUG_CHANGEMODE, mode);
+	// }
+	// });
+	// deno = new GUI();
+	// deno.run(args);
+	// deno.getFrame().addWindowFocusListener(new WindowFocusListener() {
+	// public void windowLostFocus(WindowEvent e) {
+	// writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
+	// }
+	//
+	// public void windowGainedFocus(WindowEvent e) {
+	// writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
+	// }
+	// });
+	// CommandInterpreter cmdint = new CommandInterpreter(deno.getEnv());
+	// // deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
+	// // if(blockManager.getBlockEditor() != null) {
+	// // deno.beMode();
+	// // }
+	// cmdint.executeCommand("run");
+	// }
 
 	// Helper
 	public boolean hasRunnableFile(File source) {
@@ -1187,16 +1192,16 @@ public class REApplication implements ICFwApplication {
 		this.preferenceManager.openPreferenceFrame();
 	}
 
-//	public void doOpenBlockEditor() {
-//		blockManager.doOpenBlockEditor();
-//		// 20130926 DENOがBEを直接参照する　暫定対応
-//		if (deno != null && deno.isRunning()) {
-//			deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
-//		}
-//	}
+	// public void doOpenBlockEditor() {
+	// blockManager.doOpenBlockEditor();
+	// // 20130926 DENOがBEを直接参照する　暫定対応
+	// if (deno != null && deno.isRunning()) {
+	// deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
+	// }
+	// }
 
 	public void doOpenFlowViewer() {
-//		flowManager.doOpenFlowViewer();
+		// flowManager.doOpenFlowViewer();
 	}
 
 	public void doOpenGeneRefBrowser() {
@@ -1268,11 +1273,34 @@ public class REApplication implements ICFwApplication {
 		if (!dir.exists()) {
 			dir.mkdirs();
 		}
+
+		// eclipse版（obproライブラリの調整）
+		List<String> libNames = new ArrayList<String>();
+
+		for (Library lib : libraryManager.getLibs()) {
+			libNames.add(lib.file.getName());
+		}
+
+		if (!libNames.contains("obpro.jar")) {
+			Path inputPath = FileSystems
+					.getDefault()
+					.getPath(
+							"workspace/.metadata/.plugins/jp.ac.keio.sfc.crew.obpro/obpro.jar");
+			Path outputPath = FileSystems.getDefault().getPath("lib/obpro.jar");
+			try {
+				Files.copy(inputPath, outputPath);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		// --------------------------------
+
+		application.initializeLookAndFeel();
+		application.initializeCommands();
 		application.initializeAndOpen(dirPath);
 		// 返り値追加（kato）
 		return application;
 	}
-
 	// private void sourceColoringTest(){
 	// try {
 	// List<JTextPane> panes = new ArrayList<JTextPane>();

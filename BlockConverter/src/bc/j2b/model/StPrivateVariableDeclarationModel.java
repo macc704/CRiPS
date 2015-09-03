@@ -32,10 +32,10 @@ public class StPrivateVariableDeclarationModel extends
 		if (isArray()) {
 			genusName += "-arrayobject";
 		}
-		
+
 		return accessModifier + "-" + getModifier() + "var-" + genusName;
 	}
-	
+
 	private String calcProjectObjectType(){
 		String type = getType();
 		if(type.contains("[]")){
@@ -43,10 +43,10 @@ public class StPrivateVariableDeclarationModel extends
 		}
 		return "object-" +type;
 	}
-	
+
 	public String getModifier(){
 		for(String mod : modifiers){
-			if(mod.equals("final")){
+			if(mod.contains("final")){
 				return "final-";
 			}
 		}

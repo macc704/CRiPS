@@ -106,8 +106,7 @@ public class BasicModel {
 		for (String connectorKind : connectors.keySet()) {
 			HashSet<String> types = connectors.get(connectorKind);
 			for (String connectorType : types) {
-				printBlockConnector(out, lineNumber, connectorKind,
-						connectorType);
+				printBlockConnector(out, lineNumber, connectorKind,connectorType);
 			}
 		}
 

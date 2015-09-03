@@ -81,8 +81,7 @@
 		</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object" connector-javatype="BCanvas">
 			<DefaultArg genus-name="new-object" label="BCanvas"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -953,7 +952,7 @@
 	initlabel="画像の幅">
 	<BlockConnectors>
         <BlockConnector connector-type="number" connector-kind="plug"></BlockConnector>
-		<BlockConnector label="パス" connector-type="string" connector-kind="socket"></BlockConnector>	
+		<BlockConnector label="パス" connector-type="string" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="getImageWidth"></LangSpecProperty>

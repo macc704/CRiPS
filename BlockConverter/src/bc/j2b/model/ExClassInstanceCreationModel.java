@@ -12,7 +12,7 @@ public class ExClassInstanceCreationModel extends ExpressionModel {
 	private List<ExpressionModel> arguments = new ArrayList<ExpressionModel>();
 	private String genusName;
 
-	
+
 	public ExClassInstanceCreationModel() {
 		setBlockHeight(blockHeight);
 	}
@@ -27,7 +27,7 @@ public class ExClassInstanceCreationModel extends ExpressionModel {
 	public List<ExpressionModel> getAruguments() {
 		return this.arguments;
 	}
-	
+
 	public void setGenusName(String genusName){
 		this.genusName = genusName;
 	}
@@ -80,15 +80,12 @@ public class ExClassInstanceCreationModel extends ExpressionModel {
 		} else {
 			//同一プロジェクト内のクラスのインスタンス生成かどうか確認する
 			if(genusName != null){
-				out.println("<Block id=\"" + getId()
-						+ "\" genus-name=\"" + genusName + "\">");
+				out.println("<Block id=\"" + getId() + "\" genus-name=\"" + genusName + "\">");
 			}else{
-			
-				out.println("<Block id=\"" + getId()
-						+ "\" genus-name=\"new-object\">");	
+				out.println("<Block id=\"" + getId() + "\" genus-name=\"new-object\">");
 			}
 		}
-		
+
 		// label
 		makeIndent(out, indent + 1);
 		out.println("<Label>" + name + "</Label>");

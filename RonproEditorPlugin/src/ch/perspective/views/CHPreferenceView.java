@@ -1,6 +1,8 @@
 package ch.perspective.views;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
@@ -60,6 +62,19 @@ public class CHPreferenceView extends ViewPart {
 		userNameArea = new Text(parent, SWT.SINGLE | SWT.BORDER);
 		userNameArea.setTextLimit(16);
 		userNameArea.setText(user);
+
+		userNameArea.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				applyBbutton.setEnabled(true);
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+
 		userNameArea.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	}
 
@@ -69,6 +84,19 @@ public class CHPreferenceView extends ViewPart {
 		passArea = new Text(parent, SWT.PASSWORD | SWT.BORDER);
 		passArea.setTextLimit(16);
 		passArea.setText(pass);
+
+		passArea.addKeyListener(new KeyListener() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				applyBbutton.setEnabled(true);
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+			}
+		});
+
 		passArea.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 	}
 
@@ -80,6 +108,18 @@ public class CHPreferenceView extends ViewPart {
 			groupNumArea.add(Integer.toString(i));
 		}
 		groupNumArea.select(groupNum);
+
+		groupNumArea.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				applyBbutton.setEnabled(true);
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 	}
 
 	private void createApplyButton(Composite parent) {
@@ -101,6 +141,7 @@ public class CHPreferenceView extends ViewPart {
 				}
 				user = table[0][0];
 				password = table[0][1];
+				applyBbutton.setEnabled(false);
 			}
 
 			@Override
@@ -119,12 +160,18 @@ public class CHPreferenceView extends ViewPart {
 				if (connectButton.getText().equals("Login")) {
 					manager = new CheCoProManager(PlatformUI.getWorkbench()
 							.getActiveWorkbenchWindow());
+					userNameArea.setEditable(false);
+					passArea.setEditable(false);
+					groupNumArea.setEnabled(false);
 					connectButton.setText("Logout");
 				} else if (connectButton.getText().equals("Logout")) {
 					if (manager != null) {
 						manager.getConn().write(
 								new CHLogoutRequest(manager.getUser()));
 					}
+					userNameArea.setEditable(true);
+					passArea.setEditable(true);
+					groupNumArea.setEnabled(true);
 					connectButton.setText("Login");
 				}
 			}
@@ -169,6 +216,9 @@ public class CHPreferenceView extends ViewPart {
 			connectButton.setText("Logout");
 		} else {
 			connectButton.setText("Login");
+			userNameArea.setEditable(true);
+			passArea.setEditable(true);
+			groupNumArea.setEnabled(true);
 		}
 	}
 

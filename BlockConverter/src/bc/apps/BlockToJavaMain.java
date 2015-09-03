@@ -17,13 +17,10 @@ public class BlockToJavaMain {
 	public static void convert(File openBlockXmlFile, String enc,
 			String[] classpaths) throws Exception {
 
-		File javaFile = new File(
-				ExtensionChanger.changeToJavaExtension(openBlockXmlFile
-						.getPath()));
+		File javaFile = new File(ExtensionChanger.changeToJavaExtension(openBlockXmlFile.getPath()));
 
 		// 言語定義ファイルの上書き
-		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(javaFile, enc,
-				classpaths);
+		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(javaFile, enc,classpaths);
 		rewriter.rewrite();
 
 		Document document = DomParserWrapper.parse(openBlockXmlFile.getPath());
@@ -48,6 +45,7 @@ public class BlockToJavaMain {
 
 		sourceModel.save();
 		//新たに追加されたメソッドなどを反映させるために，再度言語定義ファイルを書き換える
-		rewriter.rewrite();		
+
+		rewriter.rewrite();
 	}
 }

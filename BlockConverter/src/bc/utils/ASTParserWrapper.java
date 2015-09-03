@@ -14,7 +14,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 
 /**
  * @author macchan
- * 
+ *
  */
 public class ASTParserWrapper {
 
@@ -22,15 +22,8 @@ public class ASTParserWrapper {
 	// return parse(file, "JISAutoDetect");
 	// }
 
-	public static CompilationUnit parse(File file, String enc,
-			String[] classpaths) {
+	public static CompilationUnit parse(File file, String enc, String[] classpaths) {
 		try {
-			// IProject project = AProject.create(file.getParentFile());
-			// IJavaProject javaProject = JavaCore.create(project);
-			// IClasspathEntry cpe = JavaCore.newLibraryEntry(new
-			// Path(classpaths[0]), null, null);
-			// javaProject.setRawClasspath(new IClasspathEntry[] { cpe }, null);
-
 			String source = FileReader.readFile(file, enc);
 
 			ASTParser astParser = ASTParser.newParser(AST.JLS3);
@@ -41,8 +34,7 @@ public class ASTParserWrapper {
 			astParser.setBindingsRecovery(true);
 			astParser.setResolveBindings(true);
 			astParser.setSource(source.toCharArray());
-			CompilationUnit unit = (CompilationUnit) astParser
-					.createAST(new NullProgressMonitor());
+			CompilationUnit unit = (CompilationUnit) astParser.createAST(new NullProgressMonitor());
 			return unit;
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);

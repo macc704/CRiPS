@@ -15,9 +15,12 @@ import java.util.Collection;
 
 import javax.swing.JComponent;
 
+import codeblocks.Block;
+import codeblocks.BlockStub;
 import renderable.BlockHIlighter;
 import renderable.BlockUtilities;
 import renderable.RenderableBlock;
+import renderable.ScopeChecker;
 
 public class TrashCan extends JComponent
 		implements MouseListener, WorkspaceWidget, ComponentListener {
@@ -75,6 +78,24 @@ public class TrashCan extends JComponent
 
 		//#ohata added reset highlight
 		BlockHIlighter.resetAllHilightedStubBlocks();
+
+		//変数の場合は、参照ブロックは赤くハイライト
+		if(block.getBlock().isVariableDeclBlock()){
+			for(RenderableBlock rb : Workspace.getInstance().getBlockCanvas().getBlocks()){
+				if(rb.getBlock() instanceof BlockStub){
+					BlockStub stub = (BlockStub)rb.getBlock();
+					if(stub.getParent() != null && stub.getParent().getBlockID().equals(block.getBlock().getBlockID())){
+						RenderableBlock.getRenderableBlock(stub.getBlockID()).getHighlightHandler().setHighlightColor(Color.RED);
+						stub.setParentBlockID(Block.NULL);
+						if(stub.getPlugBlockID() != BlockStub.NULL){
+							RenderableBlock.getTopBlock(ScopeChecker.purcePlugBlock(stub)).getHighlightHandler().setHighlightColor(Color.RED);
+						}else{
+							RenderableBlock.getTopBlock(stub).getHighlightHandler().setHighlightColor(Color.RED);
+						}
+					}
+				}
+			}
+		}
 
 		BlockUtilities.deleteBlock(block);
 		currentColor = Color.BLACK;

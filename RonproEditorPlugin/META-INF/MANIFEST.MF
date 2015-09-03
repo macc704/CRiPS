@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: RonproEditorPlugin
 Bundle-SymbolicName:  jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin;singleton:=true
-Bundle-Version: 2.3.6
+Bundle-Version: 2.4.8
 Bundle-Activator: ronproeditorplugin.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
