@@ -20,17 +20,17 @@ public class BSoundTest {
 	}
 
 	void main() {
-		testBSound("testsrc/obpro/bsound/samples/sample.wav");
-		testBSound("testsrc/obpro/bsound/samples/sample.mid");
-		testBSound("testsrc/obpro/bsound/samples/sample.mp3");
+		testBSound("testsrc/test/blib/bsound/samples/sample.wav");
+		testBSound("testsrc/test/blib/bsound/samples/sample.mid");
+		testBSound("testsrc/test/blib/bsound/samples/sample.mp3");
 
-		testBSoundLoop("testsrc/obpro/bsound/samples/sample.wav");
-		testBSoundLoop("testsrc/obpro/bsound/samples/sample.mid");
-		testBSoundLoop("testsrc/obpro/bsound/samples/sample.mp3");
+		testBSoundLoop("testsrc/test/blib/bsound/samples/sample.wav");
+		testBSoundLoop("testsrc/test/blib/bsound/samples/sample.mid");
+		testBSoundLoop("testsrc/test/blib/bsound/samples/sample.mp3");
 
-		testDirectPlay("obpro/bsound/samples/sample.wav");
-		testDirectPlay("obpro/bsound/samples/sample.mid");
-		testDirectPlay("obpro/bsound/samples/sample.mp3");
+		testDirectPlay("testsrc/test/blib/bsound/samples/sample.wav");
+		testDirectPlay("testsrc/test/blib/bsound/samples/sample.mid");
+		testDirectPlay("testsrc/test/blib/bsound/samples/sample.mp3");
 	}
 
 	void testBSound(String filename) {

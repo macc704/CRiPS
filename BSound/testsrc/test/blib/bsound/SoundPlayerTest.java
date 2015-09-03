@@ -30,38 +30,38 @@ public class SoundPlayerTest {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new FlowLayout());
 
-		BSoundSystem.load("obpro/bsound/samples/sample.wav");
-		BSoundSystem.load("testsrc/obpro/bsound/samples/sample.mp3");
-		BSoundSystem.load("testsrc/obpro/bsound/samples/sample.mid");
-		BSoundSystem.load("testsrc/obpro/bsound/samples/sample.hoge");
+		BSoundSystem.load("testsrc/test/blib/bsound/samples/sample.wav");
+		BSoundSystem.load("testsrc/test/blib/bsound/samples/sample.mp3");
+		BSoundSystem.load("testsrc/test/blib/bsound/samples/sample.mid");
+		BSoundSystem.load("testsrc/test/blib/bsound/samples/sample.hoge");
 
 		BSoundPlayer player;
 		SoundPlayerPanel panel;
 
-		player = BSoundSystem.createPlayer("obpro/bsound/samples/sample.wav");
+		player = BSoundSystem.createPlayer("testsrc/test/blib/bsound/samples/sample.wav");
 		panel = new SoundPlayerPanel(player);
 		frame.getContentPane().add(panel);
 
 		player = BSoundSystem
-				.createPlayer("testsrc/obpro/bsound/samples/sample.wav");
+				.createPlayer("testsrc/test/blib/bsound/samples/sample.wav");
 		panel = new SoundPlayerPanel(player);
 		frame.getContentPane().add(panel);
 
-		player = BSoundSystem.createPlayer("obpro/bsound/samples/sample.mp3");
-		panel = new SoundPlayerPanel(player);
-		frame.getContentPane().add(panel);
-
-		player = BSoundSystem
-				.createPlayer("testsrc/obpro/bsound/samples/sample.mp3");
-		panel = new SoundPlayerPanel(player);
-		frame.getContentPane().add(panel);
-
-		player = BSoundSystem.createPlayer("obpro/bsound/samples/sample.mid");
+		player = BSoundSystem.createPlayer("testsrc/test/blib/bsound/samples/sample.mp3");
 		panel = new SoundPlayerPanel(player);
 		frame.getContentPane().add(panel);
 
 		player = BSoundSystem
-				.createPlayer("testsrc/obpro/bsound/samples/sample.mid");
+				.createPlayer("testsrc/test/blib/bsound/samples/sample.mp3");
+		panel = new SoundPlayerPanel(player);
+		frame.getContentPane().add(panel);
+
+		player = BSoundSystem.createPlayer("testsrc/test/blib/bsound/samples/sample.mid");
+		panel = new SoundPlayerPanel(player);
+		frame.getContentPane().add(panel);
+
+		player = BSoundSystem
+				.createPlayer("testsrc/test/blib/bsound/samples/sample.mid");
 		panel = new SoundPlayerPanel(player);
 		frame.getContentPane().add(panel);
 
