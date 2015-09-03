@@ -42,7 +42,7 @@ public class BWavSoundStream implements BSoundStream {
 			audioStream = AudioSystem
 					.getAudioInputStream(new BufferedInputStream(factory
 							.createInputStream()));// 2012.09.13 ver2 buffered
-													// input streamÇ≈wrap
+													// input stream„Åßwrap
 			nBytesRead = 0;
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);

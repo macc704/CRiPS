@@ -12,7 +12,7 @@ import blib.bsound.framework.BSoundPlayer;
 
 
 /**
- * Midi‚ğÄ¶‚·‚é
+ * Midiã‚’å†ç”Ÿã™ã‚‹
  * 
  * @author Shinora
  * 
@@ -31,7 +31,7 @@ public class BMidiSoundPlayer extends BSoundPlayer {
 	 * Constructor
 	 * 
 	 * @param file
-	 *            “Ç‚İ‚ŞMidiƒtƒ@ƒCƒ‹
+	 *            èª­ã¿è¾¼ã‚€Midiãƒ•ã‚¡ã‚¤ãƒ«
 	 */
 	public BMidiSoundPlayer(String name, BInputStreamFactory factory) {
 		super(name);
@@ -129,7 +129,7 @@ public class BMidiSoundPlayer extends BSoundPlayer {
 	}
 
 	public void setVolume(int volume) {
-		showError("midiƒtƒ@ƒCƒ‹‚Ìƒ{ƒŠƒ…[ƒ€’²®‚Í‚Å‚«‚Ü‚¹‚ñi–¢À‘•j");
+		showError("midiãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒœãƒªãƒ¥ãƒ¼ãƒ èª¿æ•´ã¯ã§ãã¾ã›ã‚“ï¼ˆæœªå®Ÿè£…ï¼‰");
 	}
 
 	public int getDefaultVolume() {

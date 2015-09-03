@@ -31,7 +31,7 @@ public class BSoundSystem {
 	public static final void load(String path) {
 		URL url = CResourceFinder.getResource(path);
 		if (url == null) {
-			System.err.println(path + "‚Í“Ç‚İ‚ß‚Ü‚¹‚ñ‚Å‚µ‚½D");
+			System.err.println(path + "ã¯èª­ã¿è¾¼ã‚ã¾ã›ã‚“ã§ã—ãŸï¼");
 			return;
 		}
 		load(url);
@@ -44,7 +44,7 @@ public class BSoundSystem {
 		try {
 			load(file.toURI().toURL());
 		} catch (Exception ex) {
-			System.err.println(file.getAbsolutePath() + "‚Í“Ç‚İ‚ß‚Ü‚¹‚ñ‚Å‚µ‚½D");
+			System.err.println(file.getAbsolutePath() + "ã¯èª­ã¿è¾¼ã‚ã¾ã›ã‚“ã§ã—ãŸï¼");
 		}
 	}
 
@@ -55,7 +55,7 @@ public class BSoundSystem {
 		try {
 			sounds.loadSound(file);
 		} catch (Exception ex) {
-			System.err.println(file.getFile() + "‚Í“Ç‚İ‚ß‚Ü‚¹‚ñ‚Å‚µ‚½D");
+			System.err.println(file.getFile() + "ã¯èª­ã¿è¾¼ã‚ã¾ã›ã‚“ã§ã—ãŸï¼");
 		}
 	}
 
@@ -66,7 +66,7 @@ public class BSoundSystem {
 		URL url = CResourceFinder.getResource(path);
 		if (url == null) {
 			BNullSoundPlayer player = new BNullSoundPlayer(path);
-			player.showError("ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+			player.showError("ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“");
 			return player;
 		}
 		return createPlayer(url);
@@ -80,7 +80,7 @@ public class BSoundSystem {
 			return createPlayer(file.toURI().toURL());
 		} catch (Exception ex) {
 			BNullSoundPlayer player = new BNullSoundPlayer(file.toString());
-			player.showError("ƒtƒ@ƒCƒ‹‚ª“Ç‚İ‚ß‚Ü‚¹‚ñ");
+			player.showError("ãƒ•ã‚¡ã‚¤ãƒ«ãŒèª­ã¿è¾¼ã‚ã¾ã›ã‚“");
 			return player;
 		}
 	}
@@ -91,7 +91,7 @@ public class BSoundSystem {
 	public static final BSoundPlayer createPlayer(URL file) {
 		if (file == null) {
 			BNullSoundPlayer player = new BNullSoundPlayer("null");
-			player.showError("ƒtƒ@ƒCƒ‹‚ªnull‚Å‚·");
+			player.showError("ãƒ•ã‚¡ã‚¤ãƒ«ãŒnullã§ã™");
 			return player;
 		}
 
@@ -113,14 +113,14 @@ public class BSoundSystem {
 			}
 		} catch (FileNotFoundException ex) {
 			BNullSoundPlayer player = new BNullSoundPlayer(filename);
-			player.showError("ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ");
+			player.showError("ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“");
 			return player;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
 		BNullSoundPlayer player = new BNullSoundPlayer(filename);
-		player.showError("SoundPlayer‚ğ‰Šú‰»‚Å‚«‚Ü‚¹‚ñ");
+		player.showError("SoundPlayerã‚’åˆæœŸåŒ–ã§ãã¾ã›ã‚“");
 		return player;
 	}
 

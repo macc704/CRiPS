@@ -21,57 +21,57 @@ public abstract class BSoundPlayer {
 	private boolean loop = false;
 
 	/**
-	 * ‰Šú‰»‚³‚ê‚È‚¢ê‡‚ÍC—áŠO‚ğo‚·‚±‚Æ
+	 * åˆæœŸåŒ–ã•ã‚Œãªã„å ´åˆã¯ï¼Œä¾‹å¤–ã‚’å‡ºã™ã“ã¨
 	 */
 	public BSoundPlayer(String name) {
 		this.name = name;
 	}
 
 	/**
-	 * –¼‘O‚ğæ“¾‚·‚é
+	 * åå‰ã‚’å–å¾—ã™ã‚‹
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
-	 * Ä¶‚·‚é
+	 * å†ç”Ÿã™ã‚‹
 	 */
 	public abstract void play();
 
 	/**
-	 * ‰‰‘t‚ğˆê’â~‚·‚é
+	 * æ¼”å¥ã‚’ä¸€æ™‚åœæ­¢ã™ã‚‹
 	 */
 	public abstract void pause();
 
 	/**
-	 * ‰‰‘t‚ğ~‚ß‚é
+	 * æ¼”å¥ã‚’æ­¢ã‚ã‚‹
 	 */
 	public abstract void stop();
 
 	/**
-	 * ƒ‹[ƒv‚·‚é‚©‚Ç‚¤‚©’²‚×‚é
+	 * ãƒ«ãƒ¼ãƒ—ã™ã‚‹ã‹ã©ã†ã‹èª¿ã¹ã‚‹
 	 */
 	public boolean isLoop() {
 		return loop;
 	}
 
 	/**
-	 * ƒ‹[ƒv‚·‚é‚©‚Ç‚¤‚©İ’è‚·‚é
+	 * ãƒ«ãƒ¼ãƒ—ã™ã‚‹ã‹ã©ã†ã‹è¨­å®šã™ã‚‹
 	 */
 	public void setLoop(boolean loop) {
 		this.loop = loop;
 	}
 
 	/**
-	 * ó‘Ô‚ğ’²‚×‚é
+	 * çŠ¶æ…‹ã‚’èª¿ã¹ã‚‹
 	 */
 	public State getState() {
 		return state;
 	}
 
 	/**
-	 * ó‘Ô‚ğİ’è‚·‚é
+	 * çŠ¶æ…‹ã‚’è¨­å®šã™ã‚‹
 	 */
 	public void setState(State state) {
 		if (this.state != state) {
@@ -80,22 +80,22 @@ public abstract class BSoundPlayer {
 	}
 
 	/**
-	 * ƒ{ƒŠƒ…[ƒ€‚ğæ“¾‚·‚é
+	 * ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’å–å¾—ã™ã‚‹
 	 */
 	public abstract int getVolume();
 
 	/**
-	 * ƒ{ƒŠƒ…[ƒ€‚ğİ’è‚·‚é
+	 * ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’è¨­å®šã™ã‚‹
 	 */
 	public abstract void setVolume(int volume);
 
 	/**
-	 * ‰Šúƒ{ƒŠƒ…[ƒ€‚ğİ’è‚·‚é
+	 * åˆæœŸãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’è¨­å®šã™ã‚‹
 	 */
 	public abstract int getDefaultVolume();
 
 	/**
-	 * ƒGƒ‰[‚ğo—Í‚·‚é
+	 * ã‚¨ãƒ©ãƒ¼ã‚’å‡ºåŠ›ã™ã‚‹
 	 */
 	public void showError(String message) {
 		System.err.println(message + " :" + getName());

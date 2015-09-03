@@ -44,7 +44,7 @@ public class SoundPlayerPanel extends JPanel {
 	private JLabel filename = new JLabel("");
 
 	/**
-	 * コンストラクタ
+	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	 */
 	public SoundPlayerPanel(BSoundPlayer player) {
 		super();

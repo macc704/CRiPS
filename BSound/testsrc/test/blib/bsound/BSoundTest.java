@@ -37,27 +37,27 @@ public class BSoundTest {
 		BSound sound = new BSound(filename);
 
 		for (int i = 0; i < 2; i++) {
-			System.out.println(filename + "‚ÌÄ¶‚ð‚µ‚Ü‚·");
+			System.out.println(filename + "ã®å†ç”Ÿã‚’ã—ã¾ã™");
 			sound.play();
 			sleep(2);
 
-			System.out.println(filename + "‚ÌÄ¶‚ðŽ~‚ß‚Ü‚·");
+			System.out.println(filename + "ã®å†ç”Ÿã‚’æ­¢ã‚ã¾ã™");
 			sound.stop();
 		}
 	}
 
 	void testBSoundLoop(String filename) {
 		BSound sound = new BSound(filename);
-		System.out.println(filename + "‚ÌloopÄ¶‚ð‚µ‚Ü‚·");
+		System.out.println(filename + "ã®loopå†ç”Ÿã‚’ã—ã¾ã™");
 		sound.loop();
 		sleep(10);
 
-		System.out.println(filename + "‚ÌloopÄ¶‚ðŽ~‚ß‚Ü‚·");
+		System.out.println(filename + "ã®loopå†ç”Ÿã‚’æ­¢ã‚ã¾ã™");
 		sound.stop();
 	}
 
 	void testDirectPlay(String filename) {
-		System.out.println(filename + "‚ÌŠÈˆÕÄ¶‚ð‚µ‚Ü‚·");
+		System.out.println(filename + "ã®ç°¡æ˜“å†ç”Ÿã‚’ã—ã¾ã™");
 		BSound.play(filename);
 	}
 

@@ -29,7 +29,7 @@ public class BStreamingSoundPlayer extends BSoundPlayer {
 	private Object lock = new Object();
 
 	/**
-	 * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	 * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	 */
 	public BStreamingSoundPlayer(String name, BSoundStream stream)
 			throws Exception {
@@ -56,7 +56,7 @@ public class BStreamingSoundPlayer extends BSoundPlayer {
 	public void createVolumeControl() throws Exception {
 		this.line.open();
 		if (!line.isControlSupported(FloatControl.Type.MASTER_GAIN)) {
-			throw new Exception("Volume Control ‚ğƒTƒ|[ƒg‚µ‚Ä‚¢‚Ü‚¹‚ñ");
+			throw new Exception("Volume Control ã‚’ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ã¾ã›ã‚“");
 		}
 
 		FloatControl control = (FloatControl) line
@@ -66,7 +66,7 @@ public class BStreamingSoundPlayer extends BSoundPlayer {
 	}
 
 	/**
-	 * Ä¶‚·‚é
+	 * å†ç”Ÿã™ã‚‹
 	 */
 	public void play() {
 		synchronized (lock) {
@@ -86,7 +86,7 @@ public class BStreamingSoundPlayer extends BSoundPlayer {
 	}
 
 	/**
-	 * ‰‰‘t‚ğˆê’â~‚·‚é
+	 * æ¼”å¥ã‚’ä¸€æ™‚åœæ­¢ã™ã‚‹
 	 */
 	public void pause() {
 		synchronized (lock) {
@@ -102,7 +102,7 @@ public class BStreamingSoundPlayer extends BSoundPlayer {
 	}
 
 	/**
-	 * ‰‰‘t‚ğ~‚ß‚é
+	 * æ¼”å¥ã‚’æ­¢ã‚ã‚‹
 	 */
 	public void stop() {
 		synchronized (lock) {
@@ -121,21 +121,21 @@ public class BStreamingSoundPlayer extends BSoundPlayer {
 	}
 
 	/**
-	 * ƒ{ƒŠƒ…[ƒ€‚ğæ“¾‚·‚é
+	 * ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’å–å¾—ã™ã‚‹
 	 */
 	public int getVolume() {
 		return this.volume.getVolume();
 	}
 
 	/**
-	 * ƒ{ƒŠƒ…[ƒ€‚ğİ’è‚·‚é
+	 * ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’è¨­å®šã™ã‚‹
 	 */
 	public void setVolume(int volume) {
 		this.volume.setVolume(volume);
 	}
 
 	/**
-	 * ‰Šúƒ{ƒŠƒ…[ƒ€‚ğæ“¾‚·‚é
+	 * åˆæœŸãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’å–å¾—ã™ã‚‹
 	 */
 	public int getDefaultVolume() {
 		return this.volume.getDefaultVolume();

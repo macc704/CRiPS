@@ -12,7 +12,7 @@ import blib.bsound.framework.BInputStreamFactory;
 import blib.bsound.framework.BSoundStream;
 
 /**
- * MP3をストリーミング再生する
+ * MP3繧偵せ繝医Μ繝ｼ繝溘Φ繧ｰ蜀咲函縺吶ｋ
  * 
  * @author hashiyaman
  * @version $Id: MP3StreamingSoundSource.java,v 1.8 2006/06/11 09:52:56
@@ -20,10 +20,10 @@ import blib.bsound.framework.BSoundStream;
  */
 public class BMp3SoundStream implements BSoundStream {
 
-	// 定数
+	// 螳壽焚
 	private static final int STREAMING_BUF_SIZE = 1024;
 
-	// 変数
+	// 螟画焚
 	private BInputStreamFactory factory;
 
 	private Decoder mp3Decoder;
@@ -35,7 +35,7 @@ public class BMp3SoundStream implements BSoundStream {
 	private byte[] byteBuf = new byte[STREAMING_BUF_SIZE * 4];
 
 	/**
-	 * コンストラクタ
+	 * 繧ｳ繝ｳ繧ｹ繝医Λ繧ｯ繧ｿ
 	 */
 	public BMp3SoundStream(BInputStreamFactory factory) {
 		try {
@@ -55,7 +55,7 @@ public class BMp3SoundStream implements BSoundStream {
 			}
 			mp3Stream = new Bitstream(new BufferedInputStream(
 					factory.createInputStream()));// 2012.09.13 ver2 buffered
-			// input streamでwrap
+			// input stream縺ｧwrap
 
 			currentHeader = mp3Stream.readFrame();
 			mp3Decoder.initialize(currentHeader);

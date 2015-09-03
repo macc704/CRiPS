@@ -25,22 +25,22 @@ public class BFloatVolumeController extends BVolumeController {
 	}
 
 	public int getVolume() {
-		// ƒGƒ‰[ˆ—
+		// ã‚¨ãƒ©ãƒ¼å‡¦ç†
 		if (volumeControl == null) {
 			return 0;
 		}
 
-		// ƒ{ƒŠƒ…[ƒ€‚ðŽæ“¾‚·‚é
+		// ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’å–å¾—ã™ã‚‹
 		return getIntVolume(volumeControl.getValue());
 	}
 
 	public void setVolume(int volume) {
-		// ƒGƒ‰[ˆ—
+		// ã‚¨ãƒ©ãƒ¼å‡¦ç†
 		if (volumeControl == null) {
 			return;
 		}
 
-		// ƒ{ƒŠƒ…[ƒ€‚ðÝ’è‚·‚é
+		// ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’è¨­å®šã™ã‚‹
 		if (volume > 100) {
 			volume = 100;
 		} else if (volume < 0) {
@@ -50,12 +50,12 @@ public class BFloatVolumeController extends BVolumeController {
 	}
 	
 	public int getDefaultVolume() {
-		// ƒGƒ‰[ˆ—
+		// ã‚¨ãƒ©ãƒ¼å‡¦ç†
 		if (volumeControl == null) {
 			return 0;
 		}
 
-		// ƒ{ƒŠƒ…[ƒ€‚ðŽæ“¾‚·‚é
+		// ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’å–å¾—ã™ã‚‹
 		return getIntVolume(0f);
 	}
 
@@ -64,7 +64,7 @@ public class BFloatVolumeController extends BVolumeController {
 		float absoluteFloatVolume = floatVolume - volumeControl.getMinimum();
 
 		float intVolume = (absoluteFloatVolume / range) * 100f;
-		return (int) (intVolume + 0.5);// ŽlŽÌŒÜ“ü
+		return (int) (intVolume + 0.5);// å››æ¨äº”å…¥
 	}
 
 	private float getFloatVolume(int intVolume) {

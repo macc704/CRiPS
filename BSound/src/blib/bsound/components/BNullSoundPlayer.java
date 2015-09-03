@@ -29,7 +29,7 @@ public class BNullSoundPlayer extends BSoundPlayer {
 	 * @see framework.SoundPlayer#getVolume()
 	 */
 	public int getVolume() {
-		showError("ボリューム取得できません");
+		showError("繝懊Μ繝･繝ｼ繝蜿門ｾ励〒縺阪∪縺帙ｓ");
 		return 0;
 	}
 
@@ -39,7 +39,7 @@ public class BNullSoundPlayer extends BSoundPlayer {
 	 * @see framework.SoundPlayer#pause()
 	 */
 	public void pause() {
-		showError("pauseできません");
+		showError("pause縺ｧ縺阪∪縺帙ｓ");
 	}
 
 	/*
@@ -48,7 +48,7 @@ public class BNullSoundPlayer extends BSoundPlayer {
 	 * @see framework.SoundPlayer#play()
 	 */
 	public void play() {
-		showError("playできません");
+		showError("play縺ｧ縺阪∪縺帙ｓ");
 	}
 
 	/*
@@ -57,14 +57,14 @@ public class BNullSoundPlayer extends BSoundPlayer {
 	 * @see framework.SoundPlayer#setVolume(int)
 	 */
 	public void setVolume(int volume) {
-		showError("ボリューム設定できません");
+		showError("繝懊Μ繝･繝ｼ繝險ｭ螳壹〒縺阪∪縺帙ｓ");
 	}
 
 	/* (non-Javadoc)
 	 * @see obpro.bsound.framework.BSoundPlayer#getDefaultVolume()
 	 */
 	public int getDefaultVolume() {
-		showError("ボリューム取得できません");
+		showError("繝懊Μ繝･繝ｼ繝蜿門ｾ励〒縺阪∪縺帙ｓ");
 		return 0;
 	}
 
@@ -74,7 +74,7 @@ public class BNullSoundPlayer extends BSoundPlayer {
 	 * @see framework.SoundPlayer#stop()
 	 */
 	public void stop() {
-		showError("stopできません");
+		showError("stop縺ｧ縺阪∪縺帙ｓ");
 	}
 
 }
