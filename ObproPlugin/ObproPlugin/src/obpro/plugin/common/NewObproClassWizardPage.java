@@ -19,7 +19,7 @@ import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
- * ƒIƒuƒvƒ—pJavaƒNƒ‰ƒX¶¬—pƒEƒBƒU[ƒh
+ * ã‚ªãƒ–ãƒ—ãƒ­ç”¨Javaã‚¯ãƒ©ã‚¹ç”Ÿæˆç”¨ã‚¦ã‚£ã‚¶ãƒ¼ãƒ‰
  * 
  * @author camei
  * @version $Id: NewObproClassWizardPage.java,v 1.1 2007/06/13 19:16:01 camei
@@ -29,22 +29,22 @@ public abstract class NewObproClassWizardPage extends NewClassWizardPage {
 
 	public static final String TEMPLATE_COMMENT = "template/comment";
 
-	public static final String PROJECT_ERROR_MSG = "ƒIƒuƒvƒƒvƒƒWƒFƒNƒg‚Å‚È‚¢‚Ì‚ÅCƒNƒ‰ƒX‚ğì¬‚Å‚«‚Ü‚¹‚ñDƒvƒƒWƒFƒNƒg‚ğì‚è’¼‚µ‚Ä‚­‚¾‚³‚¢";
+	public static final String PROJECT_ERROR_MSG = "ã‚ªãƒ–ãƒ—ãƒ­ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã§ãªã„ã®ã§ï¼Œã‚¯ãƒ©ã‚¹ã‚’ä½œæˆã§ãã¾ã›ã‚“ï¼ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’ä½œã‚Šç›´ã—ã¦ãã ã•ã„";
 
 	protected StatusInfo isObproProject = new StatusInfo();
 
 	/**
-	 * @return –{•¶ƒeƒ“ƒvƒŒ[ƒg‚ÌURL
+	 * @return æœ¬æ–‡ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã®URL
 	 */
 	protected abstract String getTemplatePath();
 
 	/**
-	 * @return ƒCƒ“ƒ|[ƒg•¶
+	 * @return ã‚¤ãƒ³ãƒãƒ¼ãƒˆæ–‡
 	 */
 	protected abstract String getImportText();
 
 	/**
-	 * @return ƒNƒ‰ƒXƒRƒƒ“ƒg
+	 * @return ã‚¯ãƒ©ã‚¹ã‚³ãƒ¡ãƒ³ãƒˆ
 	 */
 	protected String getTypeComment() {
 		Template template = new Template();
@@ -54,7 +54,7 @@ public abstract class NewObproClassWizardPage extends NewClassWizardPage {
 	}
 
 	/**
-	 * FileƒRƒƒ“ƒg‚Í“f‚©‚È‚¢‚æ‚¤‚ÉƒI[ƒo[ƒ‰ƒCƒh
+	 * Fileã‚³ãƒ¡ãƒ³ãƒˆã¯åã‹ãªã„ã‚ˆã†ã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 	 */
 	protected String getFileComment(ICompilationUnit parentCU,
 			String lineDelimiter) throws CoreException {
@@ -62,7 +62,7 @@ public abstract class NewObproClassWizardPage extends NewClassWizardPage {
 	}
 
 	/**
-	 * TypeƒRƒƒ“ƒg‚ğƒIƒuƒvƒŒ`®‚ÉƒI[ƒo[ƒ‰ƒCƒh
+	 * Typeã‚³ãƒ¡ãƒ³ãƒˆã‚’ã‚ªãƒ–ãƒ—ãƒ­å½¢å¼ã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 	 */
 	protected String getTypeComment(ICompilationUnit parentCU,
 			String lineDelimiter) {
@@ -70,27 +70,27 @@ public abstract class NewObproClassWizardPage extends NewClassWizardPage {
 	}
 
 	/**
-	 * ƒNƒ‰ƒX‚Ìƒƒ“ƒo‚ğì¬ ’†giƒRƒ“ƒXƒgƒ‰ƒNƒ^AmainAƒtƒB[ƒ‹ƒhj‚Í‚±‚±‚Å‘S•”ì‚Á‚Ä‚µ‚Ü‚¤‚±‚Æ‚É‚·‚éB
+	 * ã‚¯ãƒ©ã‚¹ã®ãƒ¡ãƒ³ãƒã‚’ä½œæˆ ä¸­èº«ï¼ˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã€mainã€ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ï¼‰ã¯ã“ã“ã§å…¨éƒ¨ä½œã£ã¦ã—ã¾ã†ã“ã¨ã«ã™ã‚‹ã€‚
 	 */
 	protected void createTypeMembers(IType type, ImportsManager imports,
 			IProgressMonitor monitor) throws CoreException {
 		Template template = new Template();
 
-		// •Ï”’l‚Ìİ’è
+		// å¤‰æ•°å€¤ã®è¨­å®š
 		String className = type.getElementName();
 		template.setVariable("className", className);
 		template
 				.setVariable("instanceName", Template.toInstanceName(className));
 
-		// ƒeƒ“ƒvƒŒ[ƒg‚©‚ç–{•¶¶¬
+		// ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‹ã‚‰æœ¬æ–‡ç”Ÿæˆ
 		URL contentURL = ObproPlugin.getDefault().getURL(getTemplatePath());
 		String content = template.generate(contentURL);
 
-		// –{•¶‚ğİ’è‚·‚é
+		// æœ¬æ–‡ã‚’è¨­å®šã™ã‚‹
 		type.createMethod(content, null, false, null);
 	}
 
-	// ------ ƒoƒŠƒf[ƒVƒ‡ƒ“•ÏX‚Ì‚½‚ß‚ÌƒI[ƒo[ƒ‰ƒCƒh --------
+	// ------ ãƒãƒªãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³å¤‰æ›´ã®ãŸã‚ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ --------
 	/**
 	 * The wizard owning this page is responsible for calling this method with
 	 * the current selection. The selection is used to initialize the fields of
@@ -121,12 +121,12 @@ public abstract class NewObproClassWizardPage extends NewClassWizardPage {
 	}
 
 	private void doStatusUpdate() {
-		// ƒIƒuƒvƒƒ‰ƒCƒuƒ‰ƒŠƒ`ƒFƒbƒN
+		// ã‚ªãƒ–ãƒ—ãƒ­ãƒ©ã‚¤ãƒ–ãƒ©ãƒªãƒã‚§ãƒƒã‚¯
 		if (!ObproPlugin.isObproProject(getJavaProject())) {
 			isObproProject.setError(PROJECT_ERROR_MSG);
 		}
 
-		// ¬•¶š‚©‚ç‚Í‚¶‚Ü‚éƒNƒ‰ƒX–¼‚Í‹–‚³‚È‚¢D
+		// å°æ–‡å­—ã‹ã‚‰ã¯ã˜ã¾ã‚‹ã‚¯ãƒ©ã‚¹åã¯è¨±ã•ãªã„ï¼
 		StatusInfo typeNameStatus = ((StatusInfo) fTypeNameStatus);
 		if (typeNameStatus.isWarning()) {
 			typeNameStatus.setError(typeNameStatus.getMessage());
@@ -135,8 +135,8 @@ public abstract class NewObproClassWizardPage extends NewClassWizardPage {
 		// status of all used components
 		IStatus[] status = new IStatus[] {
 				fContainerStatus,
-				isObproProject, // ©’Ç‰Á
-				// «‚±‚±‚ÍƒfƒtƒHƒ‹ƒgƒpƒbƒP[ƒW‚Å‚à‚n‚j‚É‚·‚é‚Ì‚Å–³Œø‰»D
+				isObproProject, // â†è¿½åŠ 
+				// â†“ã“ã“ã¯ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã§ã‚‚ï¼¯ï¼«ã«ã™ã‚‹ã®ã§ç„¡åŠ¹åŒ–ï¼
 				// isEnclosingTypeSelected() ? fEnclosingTypeStatus :
 				// fPackageStatus,
 				fTypeNameStatus, fModifierStatus, fSuperClassStatus,

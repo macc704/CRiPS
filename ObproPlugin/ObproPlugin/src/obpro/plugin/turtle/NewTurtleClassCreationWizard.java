@@ -24,7 +24,7 @@ public class NewTurtleClassCreationWizard extends NewClassCreationWizard {
 
 	public NewTurtleClassCreationWizard() {
 		super(new NewTurtleClassCreationWizardPage(), true);
-		this.setWindowTitle("ƒ^[ƒgƒ‹ƒNƒ‰ƒX‚Ìì¬");
+		this.setWindowTitle("ã‚¿ãƒ¼ãƒˆãƒ«ã‚¯ãƒ©ã‚¹ã®ä½œæˆ");
 		this.setDefaultPageImageDescriptor(ObproPlugin
 				.getImageDescriptor("icons/BigIcon_TurtleClass.gif"));
 		this.setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
@@ -41,13 +41,13 @@ public class NewTurtleClassCreationWizard extends NewClassCreationWizard {
 		IWizardPage[] pages = super.getPages();
 		NewTurtleClassCreationWizardPage page = ((NewTurtleClassCreationWizardPage) pages[0]);
 		page.init(getSelection());
-		page.setTitle("ƒ^[ƒgƒ‹ƒNƒ‰ƒX‚Ìì¬");
-		page.setDescription("ƒ^[ƒgƒ‹ƒNƒ‰ƒX‚ğì¬‚µ‚Ü‚·DiƒNƒ‰ƒX–¼i‘å•¶š‚©‚ç‚Í‚¶‚ß‚éj‚Ì‚İ‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢j");
+		page.setTitle("ã‚¿ãƒ¼ãƒˆãƒ«ã‚¯ãƒ©ã‚¹ã®ä½œæˆ");
+		page.setDescription("ã‚¿ãƒ¼ãƒˆãƒ«ã‚¯ãƒ©ã‚¹ã‚’ä½œæˆã—ã¾ã™ï¼ï¼ˆã‚¯ãƒ©ã‚¹åï¼ˆå¤§æ–‡å­—ã‹ã‚‰ã¯ã˜ã‚ã‚‹ï¼‰ã®ã¿ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ï¼‰");
 
 		page.setEnclosingTypeSelection(false, false);
 		int modifiers = Flags.AccPublic;
 		page.setModifiers(modifiers, false);
-		page.setSuperClass(TURTLE_CLASS_PATH, false);// ƒ^[ƒgƒ‹‚ğŒp³
+		page.setSuperClass(TURTLE_CLASS_PATH, false);// ã‚¿ãƒ¼ãƒˆãƒ«ã‚’ç¶™æ‰¿
 		page.setSuperInterfaces(new ArrayList(), false);
 		page.setMethodStubSelection(true, false, false, false);
 		page.setAddComments(true, false);

@@ -19,9 +19,9 @@ import org.eclipse.jface.wizard.IWizardPage;
  */
 public class NewGUIClassCreationWizard extends NewClassCreationWizard {
 
-	private static final String PAGE_DESCRIPTION = "GUIƒNƒ‰ƒX‚ğì¬‚µ‚Ü‚·DiƒNƒ‰ƒX–¼i‘å•¶š‚©‚ç‚Í‚¶‚ß‚éj‚Ì‚İ‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢j";
+	private static final String PAGE_DESCRIPTION = "GUIã‚¯ãƒ©ã‚¹ã‚’ä½œæˆã—ã¾ã™ï¼ï¼ˆã‚¯ãƒ©ã‚¹åï¼ˆå¤§æ–‡å­—ã‹ã‚‰ã¯ã˜ã‚ã‚‹ï¼‰ã®ã¿ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ï¼‰";
 	private static final String PAGE_ICON = "icons/icon_GUIClass.gif";
-	private static final String WINDOW_TITLE = "GUIƒNƒ‰ƒX‚Ìì¬";
+	private static final String WINDOW_TITLE = "GUIã‚¯ãƒ©ã‚¹ã®ä½œæˆ";
 
 	public NewGUIClassCreationWizard() {
 		super(new NewGUIClassCreationWizardPage(), true);

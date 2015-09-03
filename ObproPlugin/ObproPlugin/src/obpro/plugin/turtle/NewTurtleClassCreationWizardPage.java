@@ -30,11 +30,11 @@ public class NewTurtleClassCreationWizardPage extends NewObproClassWizardPage {
 
 	
 	
-//	public static final String MAIN_COMMENT = "//‹N“®ˆ—";
-//	public static final String START_COMMENT = "//ƒ^[ƒgƒ‹‚ğ“®‚©‚·ˆ—";
+//	public static final String MAIN_COMMENT = "//èµ·å‹•å‡¦ç†";
+//	public static final String START_COMMENT = "//ã‚¿ãƒ¼ãƒˆãƒ«ã‚’å‹•ã‹ã™å‡¦ç†";
 //
 //	/**
-//	 * FileƒRƒƒ“ƒg‚Í“f‚©‚È‚¢‚æ‚¤‚ÉƒI[ƒo[ƒ‰ƒCƒh
+//	 * Fileã‚³ãƒ¡ãƒ³ãƒˆã¯åã‹ãªã„ã‚ˆã†ã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 //	 */
 //	protected String getFileComment(ICompilationUnit parentCU,
 //			String lineDelimiter) throws CoreException {
@@ -42,27 +42,27 @@ public class NewTurtleClassCreationWizardPage extends NewObproClassWizardPage {
 //	}
 //
 //	/**
-//	 * TypeƒRƒƒ“ƒg‚ğƒIƒuƒvƒŒ`®‚ÉƒI[ƒo[ƒ‰ƒCƒh
+//	 * Typeã‚³ãƒ¡ãƒ³ãƒˆã‚’ã‚ªãƒ–ãƒ—ãƒ­å½¢å¼ã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 //	 */
 //	protected String getTypeComment(ICompilationUnit parentCU,
 //			String lineDelimiter) {
 //		StringBuffer buf = new StringBuffer();
 //
-//		// ‘Ã‹¦ˆ—import•¶‚Ì’Ç‰Á
+//		// å¦¥å”å‡¦ç†importæ–‡ã®è¿½åŠ 
 //		buf.append("import obpro.turtle.*;\n");
-//		buf.append("\n");// ‹ós
+//		buf.append("\n");// ç©ºè¡Œ
 //		
-//		// ƒwƒbƒ_ƒRƒƒ“ƒg‚Ì’Ç‰Á
+//		// ãƒ˜ãƒƒãƒ€ã‚³ãƒ¡ãƒ³ãƒˆã®è¿½åŠ 
 //		buf.append("/**\n");
-//		buf.append("* ƒvƒƒOƒ‰ƒ€–¼F \n");
-//		buf.append("* ì¬ÒF \n");
-//		buf.append("* ƒo[ƒWƒ‡ƒ“F 1.0 (“ú•t) \n");
+//		buf.append("* ãƒ—ãƒ­ã‚°ãƒ©ãƒ åï¼š \n");
+//		buf.append("* ä½œæˆè€…ï¼š \n");
+//		buf.append("* ãƒãƒ¼ã‚¸ãƒ§ãƒ³ï¼š 1.0 (æ—¥ä»˜) \n");
 //		buf.append("*/");
 //		return buf.toString();
 //	}
 //
 //	/**
-//	 * ƒƒCƒ“Cstart()ƒƒ\ƒbƒh‚ğ©“®¶¬‚·‚é‚æ‚¤‚ÉƒI[ƒo[ƒ‰ƒCƒh
+//	 * ãƒ¡ã‚¤ãƒ³ï¼Œstart()ãƒ¡ã‚½ãƒƒãƒ‰ã‚’è‡ªå‹•ç”Ÿæˆã™ã‚‹ã‚ˆã†ã«ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
 //	 */
 //	protected void createTypeMembers(IType type, ImportsManager imports,
 //			IProgressMonitor monitor) throws CoreException {
@@ -86,7 +86,7 @@ public class NewTurtleClassCreationWizardPage extends NewObproClassWizardPage {
 //		}
 //	}
 //
-//	// ƒƒCƒ“ƒƒ\ƒbƒh‚ğ¶¬‚·‚é
+//	// ãƒ¡ã‚¤ãƒ³ãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç”Ÿæˆã™ã‚‹
 //	private void createMainMethod(IType type, ImportsManager imports)
 //			throws CoreException, JavaModelException {
 //		StringBuffer buf = new StringBuffer();
@@ -126,7 +126,7 @@ public class NewTurtleClassCreationWizardPage extends NewObproClassWizardPage {
 //		type.createMethod(buf.toString(), null, false, null);
 //	}
 //
-//	// Startƒƒ\ƒbƒh‚ğ¶¬‚·‚é
+//	// Startãƒ¡ã‚½ãƒƒãƒ‰ã‚’ç”Ÿæˆã™ã‚‹
 //	private void createStartMethod(IType type, ImportsManager imports)
 //			throws CoreException, JavaModelException {
 //		StringBuffer buf = new StringBuffer();

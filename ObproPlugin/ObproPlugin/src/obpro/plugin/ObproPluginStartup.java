@@ -5,9 +5,9 @@ import org.eclipse.ui.IStartup;
 public class ObproPluginStartup implements IStartup {
 
 	public void earlyStartup() {
-		// ‚±‚ÌƒNƒ‰ƒX‚ªƒ[ƒh‚³‚ê‚½“_‚Å ObproPlugin#start ‚ªŒÄ‚Î‚ê‚é‚Ì‚ÅA
-		// ‚±‚Ìƒƒ\ƒbƒh‚Ì’†g‚Í‹ó‚É‚µ‚Ä‚¨‚¢‚ÄA ObproPlugin#start ‚É updateLibrary ‚ğ‘‚¢‚Ä‚à
-		// –â‘è‚Í‚È‚¢‚ªAˆÓ–¡“I‚É‚±‚±‚É‹Lq‚µ‚Ä‚¨‚­B
+		// ã“ã®ã‚¯ãƒ©ã‚¹ãŒãƒ­ãƒ¼ãƒ‰ã•ã‚ŒãŸæ™‚ç‚¹ã§ ObproPlugin#start ãŒå‘¼ã°ã‚Œã‚‹ã®ã§ã€
+		// ã“ã®ãƒ¡ã‚½ãƒƒãƒ‰ã®ä¸­èº«ã¯ç©ºã«ã—ã¦ãŠã„ã¦ã€ ObproPlugin#start ã« updateLibrary ã‚’æ›¸ã„ã¦ã‚‚
+		// å•é¡Œã¯ãªã„ãŒã€æ„å‘³çš„ã«ã“ã“ã«è¨˜è¿°ã—ã¦ãŠãã€‚
 		try {
 			ObproPlugin.getDefault().updateLibrary();
 		} catch (Exception e) {

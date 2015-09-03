@@ -21,22 +21,22 @@ import java.util.regex.Pattern;
 import obpro.plugin.ObproPlugin;
 
 /**
- * ƒeƒ“ƒvƒŒ[ƒgƒWƒFƒlƒŒ[ƒ^ Java‚ÌƒNƒ‰ƒXì¬‚É“Á‰»‚µ‚Ä‚Ü‚·B
+ * ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚¸ã‚§ãƒãƒ¬ãƒ¼ã‚¿ Javaã®ã‚¯ãƒ©ã‚¹ä½œæˆã«ç‰¹åŒ–ã—ã¦ã¾ã™ã€‚
  * 
  * @author camei
  * @version $Id: Template.java,v 1.2 2009/05/08 09:20:50 macchan Exp $
  */
 public class Template {
 
-	// ŒöŠJ’è”
+	// å…¬é–‹å®šæ•°
 	public static final String LINE_DELIMITER = System
 			.getProperty("line.separator");
 
-	// ’è”
+	// å®šæ•°
 	private static Pattern variablePattern = Pattern
 			.compile("\\$\\{([^\\}]*)\\}");
 
-	// ‘®«
+	// å±æ€§
 	private Map<String, String> variables = new HashMap<String, String>();
 
 	// : String>
@@ -68,10 +68,10 @@ public class Template {
 
 			String line;
 			while ((line = reader.readLine()) != null) {
-				// •Ï”•”•ª‚ğ’uŠ·‚·‚é
+				// å¤‰æ•°éƒ¨åˆ†ã‚’ç½®æ›ã™ã‚‹
 				String replaced = replaceVariable(line);
 
-				// ’uŠ·Œ‹‰Ê‚ğo—Í
+				// ç½®æ›çµæœã‚’å‡ºåŠ›
 				writer.write(replaced);
 				writer.newLine();
 			}
@@ -88,10 +88,10 @@ public class Template {
 	 * @return
 	 */
 	private String replaceVariable(String line) {
-		// •Ï”•\Œ»‚Éƒ}ƒbƒ`‚³‚¹‚é
+		// å¤‰æ•°è¡¨ç¾ã«ãƒãƒƒãƒã•ã›ã‚‹
 		Matcher matcher = variablePattern.matcher(line);
 
-		// ƒ}ƒbƒ`‚µ‚½•”•ª‚ğ’uŠ·
+		// ãƒãƒƒãƒã—ãŸéƒ¨åˆ†ã‚’ç½®æ›
 		StringBuffer replaced = new StringBuffer();
 		while (matcher.find()) {
 			String key = matcher.group(1);
@@ -106,7 +106,7 @@ public class Template {
 	}
 
 	/**********
-	 * •Ï”İ’è
+	 * å¤‰æ•°è¨­å®š
 	 **********/
 
 	/**
@@ -131,11 +131,11 @@ public class Template {
 	 *********/
 
 	/**
-	 * ƒNƒ‰ƒX–¼‚ğ•Ï”–¼‚É•ÏŠ·
+	 * ã‚¯ãƒ©ã‚¹åã‚’å¤‰æ•°åã«å¤‰æ›
 	 * 
 	 * @param className
-	 *            ƒNƒ‰ƒX–¼
-	 * @return ƒNƒ‰ƒX–¼‚ğjava‹K–ñ‚ÉŠî‚Ã‚«•Ï”–¼‚É‚µ‚½•¶š—ñ
+	 *            ã‚¯ãƒ©ã‚¹å
+	 * @return ã‚¯ãƒ©ã‚¹åã‚’javaè¦ç´„ã«åŸºã¥ãå¤‰æ•°åã«ã—ãŸæ–‡å­—åˆ—
 	 */
 	public static String toInstanceName(String className) {
 		return className.substring(0, 1).toLowerCase() + className.substring(1);
@@ -159,9 +159,9 @@ public class Template {
 	}
 
 	private void test() {
-		String templateData = "–l‚Í${name}‚Å‚·B\n”N—î‚Í${age}Î‚Å‚·B";
+		String templateData = "åƒ•ã¯${name}ã§ã™ã€‚\nå¹´é½¢ã¯${age}æ­³ã§ã™ã€‚";
 
-		setVariable("name", "‘¾˜Y\n‰üs‚µ‚Ä");
+		setVariable("name", "å¤ªéƒ\næ”¹è¡Œã—ã¦");
 		setVariable("age", "31");
 
 		System.out.println(replaceVariable(templateData));

@@ -38,7 +38,7 @@ public class NewObproProjectCreationWizard extends JavaProjectWizard {
 	public NewObproProjectCreationWizard() {
 		super();
 
-		this.setWindowTitle("ƒIƒuƒvƒƒvƒƒWƒFƒNƒg‚Ìì¬");
+		this.setWindowTitle("ã‚ªãƒ–ãƒ—ãƒ­ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã®ä½œæˆ");
 		this.setDefaultPageImageDescriptor(ObproPlugin
 				.getImageDescriptor("icons/icon_ObproProject.gif"));
 		// this.setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
@@ -91,7 +91,7 @@ public class NewObproProjectCreationWizard extends JavaProjectWizard {
 	 **************************************************************************/
 
 	/**
-	 * Obpro.jar‚ğƒoƒCƒ“ƒh‚·‚é
+	 * Obpro.jarã‚’ãƒã‚¤ãƒ³ãƒ‰ã™ã‚‹
 	 */
 	private void bindTurtleJar() {
 		try {
@@ -109,7 +109,7 @@ public class NewObproProjectCreationWizard extends JavaProjectWizard {
 	}
 
 	/**
-	 * Œ³‚©‚ç‚ ‚éƒNƒ‰ƒXƒpƒX‚ğ‚»‚Ì‚Ü‚Üæ“¾‚·‚é(‚»‚±‚É’Ç‰Á‚·‚é‚½‚ß)
+	 * å…ƒã‹ã‚‰ã‚ã‚‹ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹ã‚’ãã®ã¾ã¾å–å¾—ã™ã‚‹(ãã“ã«è¿½åŠ ã™ã‚‹ãŸã‚)
 	 * 
 	 * @return List<IClasspathEntry> Object
 	 */
@@ -121,14 +121,14 @@ public class NewObproProjectCreationWizard extends JavaProjectWizard {
 		return jars;
 	}
 
-	// JavaƒvƒƒWƒFƒNƒg‚ğæ“¾‚·‚é
+	// Javaãƒ—ãƒ­ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹
 	private IJavaProject getJavaProject() {
 		IJavaProject javaProject = ((NewJavaProjectWizardPageTwo) getPages()[1])
 				.getJavaProject();
 		return javaProject;
 	}
 
-	// Turtle.jar‚Ì‚ ‚è‚©‚ğæ“¾‚·‚é
+	// Turtle.jarã®ã‚ã‚Šã‹ã‚’å–å¾—ã™ã‚‹
 	// private IPath getTurtleJarPath() {
 	// IPath pluginPath = ObproPlugin.getDefault().getStateLocation();
 	// IPath turtleJarPath = pluginPath.append(ObproPlugin.OBPRO_JAR);

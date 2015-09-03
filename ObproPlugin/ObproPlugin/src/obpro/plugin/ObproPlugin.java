@@ -89,7 +89,7 @@ public class ObproPlugin extends AbstractUIPlugin {
 	}
 
 	/**********************************************
-	 * ƒIƒuƒvƒƒ‰ƒCƒuƒ‰ƒŠŠÖŒW
+	 * ã‚ªãƒ–ãƒ—ãƒ­ãƒ©ã‚¤ãƒ–ãƒ©ãƒªé–¢ä¿‚
 	 **********************************************/
 
 	/**
@@ -98,14 +98,14 @@ public class ObproPlugin extends AbstractUIPlugin {
 	 * @throws Exception
 	 */
 	public void updateLibrary() throws Exception {
-		// ƒ‰ƒCƒuƒ‰ƒŠ‚Ìƒo[ƒWƒ‡ƒ“‚ğ’²‚×AXV‚Ì•K—v«‚ª‚ ‚é‚©’²‚×‚é
+		// ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã‚’èª¿ã¹ã€æ›´æ–°ã®å¿…è¦æ€§ãŒã‚ã‚‹ã‹èª¿ã¹ã‚‹
 		URL newVersionURL = getURL(OBPRO_JAR_VERSION);
 		double newVersion = getLibraryVersion(newVersionURL.openStream());
 		IPath currentVersionPath = getStateLocation().append(OBPRO_JAR_VERSION);
 		double currentVersion = getLibraryVersion(currentVersionPath.toFile());
 		boolean shouldUpdateTurtle = newVersion > currentVersion;
 
-		// ƒ‰ƒCƒuƒ‰ƒŠ‚ğXV‚·‚é
+		// ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’æ›´æ–°ã™ã‚‹
 		if (shouldUpdateTurtle) {
 			URL turtleURL = getURL(OBPRO_JAR);
 			InputStream input = turtleURL.openStream();
@@ -119,7 +119,7 @@ public class ObproPlugin extends AbstractUIPlugin {
 					currentVersionPath.toFile()));
 		}
 
-		// ƒ‰ƒCƒuƒ‰ƒŠ‚ÌƒNƒ‰ƒXƒpƒX•Ï”‚ğİ’è
+		// ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®ã‚¯ãƒ©ã‚¹ãƒ‘ã‚¹å¤‰æ•°ã‚’è¨­å®š
 		JavaCore.setClasspathVariable(OBPRO_JAR_PATH_VARIABLE,
 				getLibraryPath(), null);
 		// IPath path = JavaCore.getClasspathVariable(OBPRO_JAR_PATH_VARIABLE);
@@ -134,14 +134,14 @@ public class ObproPlugin extends AbstractUIPlugin {
 
 	private void fileCopy(InputStream in, OutputStream out)
 			throws FileNotFoundException, IOException {
-		// ƒRƒs[‚·‚é
+		// ã‚³ãƒ”ãƒ¼ã™ã‚‹
 		byte[] buf = new byte[1024];
 		int nByte = 0;
 		while ((nByte = in.read(buf)) > 0) {
 			out.write(buf, 0, nByte);
 		}
 
-		// Œãˆ—
+		// å¾Œå‡¦ç†
 		in.close();
 		out.close();
 	}
