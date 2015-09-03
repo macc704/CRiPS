@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cb:CODEBLOCKS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://education.mit.edu/openblocks/ns http://education.mit.edu/openblocks/codeblocks.xsd"
+	xmlns:cb="http://education.mit.edu/openblocks/ns">
+	<Pages collapsible-pages="no">
+		<Page page-color="40 40 40" page-drawer="" page-infullview="yes"
+			page-name="" page-width="1440">
+			<PageBlocks>
+				<Block genus-name="Turtle-print[@string]" id="2144" kind="command">
+					<Label>コンソールに出力する</Label>
+					<Name>print</Name>
+					<Location>
+						<X>26</X>
+						<Y>150</Y>
+					</Location>
+					<BeforeBlockId>2142</BeforeBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector con-block-id="2145" connector-kind="socket"
+							connector-type="string" init-type="string" label=""
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="string" id="2145" kind="data">
+					<Label>Bye world</Label>
+					<Location>
+						<X>168</X>
+						<Y>153</Y>
+					</Location>
+					<Plug>
+						<BlockConnector con-block-id="2144" connector-kind="plug"
+							connector-type="string" init-type="string" label=""
+							position-type="mirror" />
+					</Plug>
+				</Block>
+				<Block genus-name="procedure" id="2142" kind="procedure">
+					<Label>YYをする</Label>
+					<Location>
+						<X>26</X>
+						<Y>120</Y>
+					</Location>
+					<AfterBlockId>2144</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="socket"
+							connector-type="poly" init-type="poly" is-expandable="yes" label=""
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="Turtle-print[@string]" id="2140" kind="command">
+					<Label>コンソールに出力する</Label>
+					<Name>print</Name>
+					<Location>
+						<X>29</X>
+						<Y>66</Y>
+					</Location>
+					<BeforeBlockId>2138</BeforeBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector con-block-id="2141" connector-kind="socket"
+							connector-type="string" init-type="string" label=""
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="string" id="2141" kind="data">
+					<Label>Hello world</Label>
+					<Location>
+						<X>171</X>
+						<Y>69</Y>
+					</Location>
+					<Plug>
+						<BlockConnector con-block-id="2140" connector-kind="plug"
+							connector-type="string" init-type="string" label=""
+							position-type="mirror" />
+					</Plug>
+				</Block>
+				<Block genus-name="procedure" id="2138" kind="procedure">
+					<Label>start</Label>
+					<Location>
+						<X>29</X>
+						<Y>36</Y>
+					</Location>
+					<AfterBlockId>2140</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="socket"
+							connector-type="poly" init-type="poly" is-expandable="yes" label=""
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="remainder" id="2146" kind="function">
+					<Label>割り算の余り</Label>
+					<Location>
+						<X>-204</X>
+						<Y>261</Y>
+					</Location>
+					<Plug>
+						<BlockConnector connector-kind="plug"
+							connector-type="number" init-type="number" label=""
+							position-type="mirror" />
+					</Plug>
+					<Sockets num-sockets="2">
+						<BlockConnector con-block-id="2147" connector-kind="socket"
+							connector-type="number" init-type="number" label=""
+							position-type="bottom" />
+						<BlockConnector con-block-id="2148" connector-kind="socket"
+							connector-type="number" init-type="number" label=""
+							position-type="bottom" />
+					</Sockets>
+				</Block>
+			</PageBlocks>
+		</Page>
+	</Pages>
+</cb:CODEBLOCKS>

@@ -28,7 +28,7 @@ public class FailureKnowledgeAnalyzer {
 	public long getWrintingTimeWithoutIsWorking() {
 		long writingTime = 0;
 		for (RSFailureKnowledge knowledge : getWritingPointKnowledges()) {
-			if (knowledge.getWritingTime() < 5 * 60 * 1000) { // isWorking‚Ì‚à‚Ì‚¾‚¯Žæ‚èo‚·
+			if (knowledge.getWritingTime() < 5 * 60 * 1000) { // isWorkingã®ã‚‚ã®ã ã‘å–ã‚Šå‡ºã™
 				writingTime += knowledge.getWritingTime();
 			}
 		}
@@ -36,7 +36,7 @@ public class FailureKnowledgeAnalyzer {
 	}
 
 	/**
-	 * ŠeWritingPoint‚©‚ç1‚Â‚¸‚ÂŽ¸”s’mŽ¯‚ðŽæ‚èo‚µ‚½ƒŠƒXƒg‚ð•Ô‚µ‚Ü‚·
+	 * å„WritingPointã‹ã‚‰1ã¤ãšã¤å¤±æ•—çŸ¥è­˜ã‚’å–ã‚Šå‡ºã—ãŸãƒªã‚¹ãƒˆã‚’è¿”ã—ã¾ã™
 	 * 
 	 * @return
 	 */

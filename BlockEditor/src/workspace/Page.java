@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -29,9 +30,11 @@ import javax.swing.SwingUtilities;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import renderable.RenderableBlock;
 import codeblocks.Block;
+import codeblocks.BlockConnector;
 import codeblockutil.CToolTip;
+import drawingobjects.ArrowObject;
+import renderable.RenderableBlock;
 
 /**
  * A Page serves as both an abstract container of blocks and also a graphical
@@ -52,8 +55,8 @@ import codeblockutil.CToolTip;
  * directly. But clients must remember to reform the pages in order to
  * synchronize the data between the b2j.model and view.
  * 
- * A page�ｽ�ｽs abstract color is rendered the same no matter what state the page
- * is in. A page�ｽ�ｽs abstract name is rendered thrice centered at every fourth
+ * A page?ｽ?ｽs abstract color is rendered the same no matter what state the page
+ * is in. A page?ｽ?ｽs abstract name is rendered thrice centered at every fourth
  * of the page. The name is rendered with a size depending on the zoom level of
  * that page (it tries to maintain a constant aspect ratio). The drawer name is
  * not rendered. The width and height of the page is rendered differently
@@ -76,8 +79,8 @@ import codeblockutil.CToolTip;
  * explorer that affects the display of the page. When an explorer event happens
  * the page changes its display accordingly
  */
-public class Page implements WorkspaceWidget, SearchableContainer,
-		ISupportMemento {
+public class Page
+		implements WorkspaceWidget, SearchableContainer, ISupportMemento {
 	/** Width while in collapsed mode */
 	private static final int COLLAPSED_WIDTH = 20;
 	/** The smallest value that this.minimumPixelWidth/zoom can be */
@@ -121,7 +124,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	/** Toggles to show/hide minimize page button. */
 	private boolean hideMinimize = false;
 	/** super class of Java */
-	private String superClass = null;
+	private String superClass = "";
 
 	//////////////////////////////
 	//Constructor/ Destructor	//
@@ -242,6 +245,14 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		for (RenderableBlock block : this.getBlocks()) {
 			this.pageJComponent.remove(block);
 		}
+	}
+
+	public void clearArrow(Object o) {
+		this.pageJComponent.clearArrow(o);
+	}
+
+	public void clearArrowLayer() {
+		this.pageJComponent.clearArrowLayer();
 	}
 
 	/**
@@ -377,8 +388,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		//iterate through blocks and update the ones that are page label enabled
 		for (RenderableBlock block : this.getBlocks()) {
 			if (Block.getBlock(block.getBlockID()).isPageLabelSetByPage()) {
-				Block.getBlock(block.getBlockID()).setPageLabel(
-						this.getPageName());
+				Block.getBlock(block.getBlockID())
+						.setPageLabel(this.getPageName());
 				block.repaintBlock();
 			}
 		}
@@ -422,7 +433,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	 */
 	public void addPixelWidth(int deltaPixelWidth) {
 		if (fullview) {
-			this.setPixelWidth((int) (this.getAbstractWidth() * zoom + deltaPixelWidth));
+			this.setPixelWidth(
+					(int) (this.getAbstractWidth() * zoom + deltaPixelWidth));
 		}
 	}
 
@@ -461,14 +473,14 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 			this.getJComponent().setBounds((int) (pixelXCor), 0,
 					(int) (this.abstractWidth * zoom),
 					(int) (this.abstractHeight * zoom));
-			this.getJComponent().setFont(
-					new Font("Ariel", Font.PLAIN, (int) (12 * zoom)));
+			this.getJComponent()
+					.setFont(new Font("Ariel", Font.PLAIN, (int) (12 * zoom)));
 			return (int) (this.abstractWidth * zoom);
 		} else {
 			this.getJComponent().setBounds((int) (pixelXCor), 0,
 					COLLAPSED_WIDTH + 2, (int) (this.abstractHeight * zoom));
-			this.getJComponent().setFont(
-					new Font("Ariel", Font.PLAIN, (int) (12 * zoom)));
+			this.getJComponent()
+					.setFont(new Font("Ariel", Font.PLAIN, (int) (12 * zoom)));
 			return COLLAPSED_WIDTH + 2;
 		}
 
@@ -504,10 +516,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 			block.setLocation(p.x, block.getHighlightStrokeWidth() / 2 + 1);
 			block.moveConnectedBlocks();
 		} else if (p.y + block.getStackBounds().height
-				+ block.getHighlightStrokeWidth() / 2 + 1 > this.pageJComponent
-					.getHeight()) {
-			block.setLocation(
-					p.x,
+				+ block.getHighlightStrokeWidth() / 2
+				+ 1 > this.pageJComponent.getHeight()) {
+			block.setLocation(p.x,
 					this.pageJComponent.getHeight()
 							- block.getStackBounds().height
 							- block.getHighlightStrokeWidth() / 2 + 1);
@@ -539,14 +550,16 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 		// loop through blocks, growing min to fit each block
 		for (RenderableBlock b : this.getBlocks()) {
-			if (b.getX() + b.getWidth() + b.getHighlightStrokeWidth() / 2 > minimumPixelWidth) {
+			if (b.getX() + b.getWidth()
+					+ b.getHighlightStrokeWidth() / 2 > minimumPixelWidth) {
 				// increase min width to fit this block
 				minimumPixelWidth = b.getX() + b.getWidth()
 						+ b.getHighlightStrokeWidth() / 2 + 1;
 			}
 
 			if (b.hasComment()) {
-				if (b.getComment().getX() + b.getComment().getWidth() > minimumPixelWidth) {
+				if (b.getComment().getX()
+						+ b.getComment().getWidth() > minimumPixelWidth) {
 					// increase min width to fit this block
 					minimumPixelWidth = b.getComment().getX()
 							+ b.getComment().getWidth() + 1;
@@ -585,7 +598,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		Page.zoom = newZoom;
 	}
 
-	/** @ovverride Zoomable.getZoomLevel() */
+	/**
+	 * @ovverride Zoomable.getZoomLevel()
+	 */
 	public static double getZoomLevel() {
 		return Page.zoom;
 	}
@@ -594,7 +609,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	//WORKSPACEWIDGET METHODS 	//
 	//////////////////////////////
 
-	/** @ovverride WorkspaceWidget.blockDropped() */
+	/**
+	 * @ovverride WorkspaceWidget.blockDropped()
+	 */
 	public void blockDropped(RenderableBlock block) {
 		//add to view at the correct location
 		Component oldParent = block.getParent();
@@ -605,7 +622,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		this.pageJComponent.revalidate();
 	}
 
-	/** @ovverride WorkspaceWidget.blockDragged() */
+	/**
+	 * @ovverride WorkspaceWidget.blockDragged()
+	 */
 	public void blockDragged(RenderableBlock block) {
 		if (mouseIsInPage == false) {
 			mouseIsInPage = true;
@@ -613,7 +632,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		}
 	}
 
-	/** @ovverride WorkspaceWidget.blockEntered() */
+	/**
+	 * @ovverride WorkspaceWidget.blockEntered()
+	 */
 	public void blockEntered(RenderableBlock block) {
 		if (mouseIsInPage == false) {
 			mouseIsInPage = true;
@@ -621,13 +642,27 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		}
 	}
 
-	/** @ovverride WorkspaceWidget.blockExited() */
+	/**
+	 * @ovverride WorkspaceWidget.blockExited()
+	 */
 	public void blockExited(RenderableBlock block) {
 		mouseIsInPage = false;
 		this.pageJComponent.repaint();
 	}
 
-	/** @ovverride WorkspaceWidget.addBlock() */
+	public void addArrow(Component p) {
+		this.pageJComponent.addToArrowLayer(p);
+		this.pageJComponent.revalidate();
+	}
+
+	public void removeArrow(Component p) {
+		this.pageJComponent.remove(p);
+		this.pageJComponent.revalidate();
+	}
+
+	/**
+	 * @ovverride WorkspaceWidget.addBlock()
+	 */
 	public void addBlock(RenderableBlock block) {
 		//update parent widget if dropped block
 		WorkspaceWidget oldParent = block.getParentWidget();
@@ -640,8 +675,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 			}
 			block.setParentWidget(this);
 			if (block.hasComment()) {
-				block.getComment().setParent(
-						block.getParentWidget().getJComponent());
+				block.getComment()
+						.setParent(block.getParentWidget().getJComponent());
 			}
 		}
 
@@ -657,12 +692,10 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 		//fire to workspace that block was added to canvas if oldParent != this
 		if (oldParent != this) {
-			Workspace.getInstance().notifyListeners(
-					new WorkspaceEvent(oldParent, block.getBlockID(),
-							WorkspaceEvent.BLOCK_MOVED));
-			Workspace.getInstance().notifyListeners(
-					new WorkspaceEvent(this, block.getBlockID(),
-							WorkspaceEvent.BLOCK_ADDED, true));
+			Workspace.getInstance().notifyListeners(new WorkspaceEvent(
+					oldParent, block.getBlockID(), WorkspaceEvent.BLOCK_MOVED));
+			Workspace.getInstance().notifyListeners(new WorkspaceEvent(this,
+					block.getBlockID(), WorkspaceEvent.BLOCK_ADDED, true));
 		}
 
 		// if the block is off the edge, shift everything or grow as needed to fully show it
@@ -691,12 +724,28 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		this.pageJComponent.revalidate();
 	}
 
-	/** @ovverride WorkspaceWidget.removeBlock() */
+	/**
+	 * @ovverride WorkspaceWidget.removeBlock()
+	 */
 	public void removeBlock(RenderableBlock block) {
-		this.pageJComponent.remove(block);
+		if (block != null) {
+			Iterable<BlockConnector> sockets = block.getBlock().getSockets();
+			if (sockets != null) {
+				Iterator<BlockConnector> socketConnectors = sockets.iterator();
+				while (socketConnectors.hasNext()) {
+					removeBlock(RenderableBlock.getRenderableBlock(
+							socketConnectors.next().getBlockID()));
+				}
+			}
+			this.pageJComponent.remove(block);
+			removeBlock(RenderableBlock
+					.getRenderableBlock(block.getBlock().getAfterBlockID()));
+		}
 	}
 
-	/** @ovverride WorkspaceWidget.getJComponent() */
+	/**
+	 * @ovverride WorkspaceWidget.getJComponent()
+	 */
 	public JComponent getJComponent() {
 		return this.pageJComponent;
 	}
@@ -708,12 +757,16 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		return (RBParent) this.pageJComponent;
 	}
 
-	/** @ovverride WorkspaceWidget.contains() */
+	/**
+	 * @ovverride WorkspaceWidget.contains()
+	 */
 	public boolean contains(int x, int y) {
 		return this.pageJComponent.contains(x, y);
 	}
 
-	/** @ovverride WorkspaceWidget.contains() */
+	/**
+	 * @ovverride WorkspaceWidget.contains()
+	 */
 	public boolean contains(Point p) {
 		return this.contains(p.x, p.y);
 	}
@@ -728,12 +781,16 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 	//////////////////////////////////
 	// SearchableContainer Methods	//
 	//////////////////////////////////
-	/** @ovverride SearchableContainer.getSearchableElements */
+	/**
+	 * @ovverride SearchableContainer.getSearchableElements
+	 */
 	public Iterable<RenderableBlock> getSearchableElements() {
 		return getBlocks();
 	}
 
-	/** @ovverride SearchableContainer.updateContainerSearchResults */
+	/**
+	 * @ovverride SearchableContainer.updateContainerSearchResults
+	 */
 	public void updateContainsSearchResults(boolean containsSearchResults) {
 		// Do nothing, at least for now
 	}
@@ -748,8 +805,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		NodeList pageChildren = pageNode.getChildNodes();
 		Node pageChild;
 		ArrayList<RenderableBlock> loadedBlocks = new ArrayList<RenderableBlock>();
-		HashMap<Long, Long> idMapping = importingPage ? new HashMap<Long, Long>()
-				: null;
+		HashMap<Long, Long> idMapping = importingPage
+				? new HashMap<Long, Long>() : null;
 		if (importingPage)
 			reset();
 		for (int i = 0; i < pageChildren.getLength(); i++) {
@@ -760,14 +817,16 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 				for (int j = 0; j < blocks.getLength(); j++) {
 					blockNode = blocks.item(j);
 					try {
-						RenderableBlock rb = RenderableBlock.loadBlockNode(
-								blockNode, this, idMapping);
+						RenderableBlock rb = RenderableBlock
+								.loadBlockNode(blockNode, this, idMapping);
 						// save the loaded blocks to add later
 						loadedBlocks.add(rb);
 					} catch (Exception ex) {
-						throw new RuntimeException("error happened: "
-								+ blockNode.getNodeName() + " value: "
-								+ blockNode.getNodeValue());
+						throw new RuntimeException(ex.getMessage()
+								+ "error happened: " + blockNode.getNodeName()
+								+ " value: " + blockNode.getNodeValue()
+								+ " type: " + blockNode.getNodeName()
+								+ "content: " + blockNode.getTextContent());
 					}
 				}
 
@@ -805,7 +864,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 	public void addLoadedBlocks(Collection<RenderableBlock> loadedBlocks,
 			boolean importingPage) {
-		
+
 		for (RenderableBlock rb : loadedBlocks) {
 			if (rb != null) {
 				//add graphically
@@ -813,9 +872,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 				rb.setHighlightParent(this.getRBParent());
 				//System.out.println("loading rb to canvas: "+rb+" at: "+rb.getBounds());
 				//add internallly
-				Workspace.getInstance().notifyListeners(
-						new WorkspaceEvent(this, rb.getBlockID(),
-								WorkspaceEvent.BLOCK_ADDED));
+				Workspace.getInstance().notifyListeners(new WorkspaceEvent(this,
+						rb.getBlockID(), WorkspaceEvent.BLOCK_ADDED));
 				if (importingPage) {
 					Block.getBlock(rb.getBlockID()).setFocus(false);
 					rb.resetHighlight();
@@ -835,8 +893,19 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		//now we need to redraw all the blocks now that all renderable blocks 
 		//within this page have been loaded, to update the socket dimensions of 
 		//blocks, etc.
-		for (RenderableBlock rb : this.getTopLevelBlocks()) {
-			rb.redrawFromTop();
+		//		for (RenderableBlock rb : this.getTopLevelBlocks()) {
+		//			if (rb.isCollapsed()) {
+		//				rb.callBlockCollapse();
+		//				//This insures that blocks connected to a collapsed top level block
+		//				//are located properly and have the proper visibility set.
+		//				//This doesn't work until all blocks are loaded and dimensions are set.
+		//				rb.updateCollapse();
+		//			}
+		//			rb.redrawFromTop();
+		//		}
+
+		//上の処理を同様に抽象化ブロックでも行う
+		for (RenderableBlock rb : getBlocks()) {
 			if (rb.isCollapsed()) {
 				rb.callBlockCollapse();
 				//This insures that blocks connected to a collapsed top level block
@@ -844,7 +913,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 				//This doesn't work until all blocks are loaded and dimensions are set.
 				rb.updateCollapse();
 			}
+			rb.redrawFromTop();
 		}
+
 		this.pageJComponent.revalidate();
 		this.pageJComponent.repaint();
 	}
@@ -857,14 +928,24 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 				.replaceAll(">", "&gt;");
 	}
 
+	public String getSuperClassName() {
+		return this.superClass;
+	}
+
+	public void setSuperClassName(String name) {
+		this.superClass = name;
+	}
+
 	public String getSaveString() {
 		StringBuffer buf = new StringBuffer();
 
 		buf.append("<Page ");
 		appendAttribute("page-name", this.getPageName(), buf);
-		appendAttribute("page-color", this.getPageColor().getRed() + " "
-				+ this.getPageColor().getGreen() + " "
-				+ this.getPageColor().getBlue(), buf);
+		appendAttribute("page-color",
+				this.getPageColor().getRed() + " "
+						+ this.getPageColor().getGreen() + " "
+						+ this.getPageColor().getBlue(),
+				buf);
 		appendAttribute("page-width", (int) this.getAbstractWidth() + "", buf);
 		if (fullview) {
 			appendAttribute("page-infullview", "yes", buf);
@@ -923,7 +1004,9 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		public Map<Long, Object> renderableBlocks = new HashMap<Long, Object>();
 	}
 
-	/** @override ISupportMomento.getState */
+	/**
+	 * @override ISupportMomento.getState
+	 */
 	public Object getState() {
 		PageState state = new PageState();
 		//Populate basic page information
@@ -938,9 +1021,11 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		return state;
 	}
 
-	/** @override ISupportMomento.loadState() */
+	/**
+	 * @override ISupportMomento.loadState()
+	 */
 	public void loadState(Object memento) {
-		assert (memento instanceof PageState) : "ISupportMemento contract violated in Page";
+		assert(memento instanceof PageState) : "ISupportMemento contract violated in Page";
 		if (memento instanceof PageState) {
 			PageState state = (PageState) memento;
 			//load basic page information
@@ -960,8 +1045,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 			for (RenderableBlock existingBlock : getBlocks()) {
 				Long existingBlockID = existingBlock.getBlockID();
 				if (renderableBlockStates.containsKey(existingBlockID)) {
-					existingBlock.loadState(renderableBlockStates
-							.get(existingBlockID));
+					existingBlock.loadState(
+							renderableBlockStates.get(existingBlockID));
 					unloadedRenderableBlockStates.remove(existingBlockID);
 					loadedBlocks.add(existingBlockID);
 				}
@@ -983,7 +1068,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 			//Finally, add all the remaining blocks that weren't there before
 			ArrayList<RenderableBlock> blocksToAdd = new ArrayList<RenderableBlock>();
 			for (Long newBlockID : unloadedRenderableBlockStates) {
-				RenderableBlock newBlock = new RenderableBlock(this, newBlockID);
+				RenderableBlock newBlock = new RenderableBlock(this,
+						newBlockID);
 				newBlock.loadState(renderableBlockStates.get(newBlockID));
 				blocksToAdd.add(newBlock);
 			}
@@ -996,10 +1082,10 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		private static final long serialVersionUID = 328149080273L;
 		//To get the shadow effect the text must be displayed multiple times at
 		//multiple locations.  x represents the center, white label.
-		// o is color values (0,0,0,0.5f) and �ｽ�ｽ is black.
+		// o is color values (0,0,0,0.5f) and ?ｽ?ｽ is black.
 		//			  o o
-		//			o x �ｽ�ｽ o
-		//			o �ｽ�ｽ o
+		//			o x ?ｽ?ｽ o
+		//			o ?ｽ?ｽ o
 		//			  o
 		//offsetArrays representing the translation movement needed to get from
 		// the center location to a specific offset location given in {{x,y},{x,y}....}
@@ -1007,8 +1093,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 		private final int[][] shadowPositionArray = { { 0, -1 }, { 1, -1 },
 				{ -1, 0 }, { 2, 0 }, { -1, 1 }, { 1, 1 }, { 0, 2 }, { 1, 0 },
 				{ 0, 1 } };
-		private final float[] shadowColorArray = { 0.5f, 0.5f, 0.5f, 0.5f,
-				0.5f, 0.5f, 0.5f, 0, 0 };
+		private final float[] shadowColorArray = { 0.5f, 0.5f, 0.5f, 0.5f, 0.5f,
+				0.5f, 0.5f, 0, 0 };
 		private double offsetSize = 1;
 		private String[] charSet;
 		private int FONT_SIZE = 12;
@@ -1073,14 +1159,14 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 					int dx = shadowPositionArray[i][0];
 					int dy = shadowPositionArray[i][1];
 					g2.setColor(new Color(0, 0, 0, shadowColorArray[i]));
-					g2.drawString(c, x + (int) ((dx) * offsetSize), y
-							+ (int) ((dy) * offsetSize));
+					g2.drawString(c, x + (int) ((dx) * offsetSize),
+							y + (int) ((dy) * offsetSize));
 				}
 				g2.setColor(col);
 				g2.drawString(c, x, y);
 			}
-			g2.drawRoundRect(3, 3, w - 6, w - 6 + charSet.length
-					* (FONT_SIZE + 3), 3, 3);
+			g2.drawRoundRect(3, 3, w - 6,
+					w - 6 + charSet.length * (FONT_SIZE + 3), 3, 3);
 		}
 
 		public void paintComponent(Graphics g) {
@@ -1106,14 +1192,15 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 					paintCollapsed(g);
 					if (pressed) {
 						g.setColor(Color.blue.darker());
-						g.fillRoundRect(3, 3, w - 6, w - 6 + charSet.length
-								* (FONT_SIZE + 3), 3, 3);
+						g.fillRoundRect(3, 3, w - 6,
+								w - 6 + charSet.length * (FONT_SIZE + 3), 3, 3);
 						paintCollapsed(g);
 					} else {
 						if (focus) {
 							g.setColor(new Color(51, 153, 255)); //light blue
-							g.fillRoundRect(3, 3, w - 6, w - 6 + charSet.length
-									* (FONT_SIZE + 3), 3, 3);
+							g.fillRoundRect(3, 3, w - 6,
+									w - 6 + charSet.length * (FONT_SIZE + 3), 3,
+									3);
 							paintCollapsed(g);
 						}
 					}
@@ -1130,8 +1217,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 		private void loadBounds(boolean fullview) {
 			if (!fullview) {
-				this.setBounds(0, 0, COLLAPSED_WIDTH, charSet.length
-						* (FONT_SIZE + 3) + COLLAPSED_WIDTH);
+				this.setBounds(0, 0, COLLAPSED_WIDTH,
+						charSet.length * (FONT_SIZE + 3) + COLLAPSED_WIDTH);
 			} else {
 				this.setBounds(0, 0, COLLAPSED_WIDTH, COLLAPSED_WIDTH);
 			}
@@ -1141,8 +1228,8 @@ public class Page implements WorkspaceWidget, SearchableContainer,
 
 			if ((!Page.this.hideMinimize)) {
 				if (fullview) {
-					this.setBounds(0, 0, COLLAPSED_WIDTH, charSet.length
-							* (FONT_SIZE + 3) + COLLAPSED_WIDTH);
+					this.setBounds(0, 0, COLLAPSED_WIDTH,
+							charSet.length * (FONT_SIZE + 3) + COLLAPSED_WIDTH);
 				} else {
 					this.setBounds(0, 0, COLLAPSED_WIDTH, COLLAPSED_WIDTH);
 				}
@@ -1196,6 +1283,7 @@ public class Page implements WorkspaceWidget, SearchableContainer,
  */
 class PageJComponent extends JLayeredPane implements RBParent {
 	private static final long serialVersionUID = 83982193213L;
+	private static final Integer ARROW_LAYER = new Integer(2);
 	private static final Integer BLOCK_LAYER = new Integer(1);
 	private static final Integer HIGHLIGHT_LAYER = new Integer(0);
 	private static final int IMAGE_WIDTH = 60;
@@ -1212,6 +1300,36 @@ class PageJComponent extends JLayeredPane implements RBParent {
 
 	public Image getImage() {
 		return image;
+	}
+
+	public void clearArrow(Object arrow) {
+		Component[] allComponents = getComponents();
+		Object[] arrows = getAllArrow();
+		for (Object o : arrows) {
+			if (o.equals(arrow)) {
+				remove((Component) o);
+				break;
+			}
+		}
+	}
+
+	public void clearArrowLayer() {
+		Component[] allComponents = getComponents();
+		Object[] arrows = getAllArrow();
+		for (Object arrow : arrows) {
+			remove((Component) arrow);
+		}
+	}
+
+	public Object[] getAllArrow() {
+		Component[] allComponents = getComponents();
+		List<Component> arrows = new ArrayList<Component>();
+		for (Component cmp : allComponents) {
+			if (cmp instanceof ArrowObject) {
+				arrows.add(cmp);
+			}
+		}
+		return arrows.toArray();
 	}
 
 	/**
@@ -1237,10 +1355,10 @@ class PageJComponent extends JLayeredPane implements RBParent {
 			g.drawString(this.getName(), xpos, getHeight() / 4);
 			g.drawString(this.getName(), xpos, getHeight() * 3 / 4);
 
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-					0.33F));
-			int imageX = (int) (this.getWidth() / 2 - IMAGE_WIDTH / 2
-					* Page.zoom);
+			g2.setComposite(
+					AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.33F));
+			int imageX = (int) (this.getWidth() / 2
+					- IMAGE_WIDTH / 2 * Page.zoom);
 			int imageWidth = (int) (IMAGE_WIDTH * Page.zoom);
 			g.drawImage(this.getImage(), imageX, getHeight() / 2 + 5,
 					imageWidth, imageWidth, null);
@@ -1248,8 +1366,8 @@ class PageJComponent extends JLayeredPane implements RBParent {
 					imageWidth, imageWidth, null);
 			g.drawImage(this.getImage(), imageX, getHeight() * 3 / 4 + 5,
 					imageWidth, imageWidth, null);
-			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
-					1));
+			g2.setComposite(
+					AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
 		}
 
 	}
@@ -1258,13 +1376,21 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	//RBParent implemented methods	//
 	//////////////////////////////////
 
-	/** @override RBParent.addToBlockLayer() */
+	/**
+	 * @override RBParent.addToBlockLayer()
+	 */
 	public void addToBlockLayer(Component c) {
 		this.add(c, BLOCK_LAYER);
-
 	}
 
-	/** @override RBParent.addToHighlightLayer() */
+	public void addToArrowLayer(Component c) {
+		this.add(c);
+		this.setLayer(c, ARROW_LAYER);
+	}
+
+	/**
+	 * @override RBParent.addToHighlightLayer()
+	 */
 	public void addToHighlightLayer(Component c) {
 		this.add(c, HIGHLIGHT_LAYER);
 	}
@@ -1285,8 +1411,8 @@ class BlockStackSorterUtil {
 	 * (relative to x=0 axis)
 	 */
 	private static final TreeSet<RenderableBlock> blocksToArrange = new TreeSet<RenderableBlock>(
-	// ria for now they are ordered in y-coor order
-	//this naive ordering will also fail if two blocks have the same coordinates
+			// ria for now they are ordered in y-coor order
+			//this naive ordering will also fail if two blocks have the same coordinates
 			new Comparator<RenderableBlock>() {
 				public int compare(RenderableBlock rb1, RenderableBlock rb2) {
 					if (rb1 == rb2)
@@ -1294,10 +1420,10 @@ class BlockStackSorterUtil {
 					else {
 						//translate points to a common reference: the parent of rb1
 						Point pt1 = rb1.getLocation();
-						Point pt2 = SwingUtilities.convertPoint(rb2
-								.getParentWidget().getJComponent(), rb2
-								.getLocation(), rb1.getParentWidget()
-								.getJComponent());
+						Point pt2 = SwingUtilities.convertPoint(
+								rb2.getParentWidget().getJComponent(),
+								rb2.getLocation(),
+								rb1.getParentWidget().getJComponent());
 						if (pt1.getY() < pt2.getY())
 							return -1;
 						else
@@ -1341,8 +1467,8 @@ class BlockStackSorterUtil {
 
 			//sets the x and y position for when workspace is unzoomed
 			block.setUnzoomedX(block.calculateUnzoomedX(positioningBounds.x));
-			block.setUnzoomedY(block
-					.calculateUnzoomedY(positioningBounds.height));
+			block.setUnzoomedY(
+					block.calculateUnzoomedY(positioningBounds.height));
 			block.moveConnectedBlocks();
 
 			//update positioning bounds
@@ -1354,8 +1480,7 @@ class BlockStackSorterUtil {
 			if (positioningBounds.x + positioningBounds.width > page
 					.getJComponent().getWidth()) {
 				//resize page to the difference
-				page.addPixelWidth(positioningBounds.x
-						+ positioningBounds.width
+				page.addPixelWidth(positioningBounds.x + positioningBounds.width
 						- page.getJComponent().getWidth());
 			}
 		}

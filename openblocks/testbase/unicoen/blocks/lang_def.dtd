@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+    Document   : lang_def.dtd
+    Description:
+        This defines the language and initial workspace setup.
+-->
+
+
+<!ELEMENT BlockLangDef (BlockGenuses)>
+
+<!ELEMENT BlockGenuses (BlockGenus*)>
+<!--This defines a single block genus-->
+<!ELEMENT BlockGenus (description?, BlockConnectors?,Stubs?, Images?, LangSpecProperties?)>
+<!ATTLIST BlockGenus name CDATA #REQUIRED>
+<!ATTLIST BlockGenus initlabel CDATA #REQUIRED>
+<!-- the kind of a genus can affect the rendering of a block.  relevant kinds are: 
+    - command: performs an operation and may take in more than one input 
+    - data: returns primitive values such as number, string, boolean
+    - function: takes in an input and performs an operation to produce an ouput
+-->
+<!ATTLIST BlockGenus kind CDATA #REQUIRED>
+<!ATTLIST BlockGenus color CDATA #REQUIRED>
+<!ATTLIST BlockGenus editable-label (yes|no) "no">
+<!ATTLIST BlockGenus label-unique (yes|no) "no">
+<!ATTLIST BlockGenus is-label-value (yes|no) "no">
+<!ATTLIST BlockGenus label-prefix CDATA #IMPLIED>
+<!ATTLIST BlockGenus label-suffix CDATA #IMPLIED>
+<!ATTLIST BlockGenus page-label-enabled (yes|no) "no">
+<!--is-starter and is-terminator only apply to blocks of kind: command -->
+<!ATTLIST BlockGenus is-starter (yes|no) "no">
+<!ATTLIST BlockGenus is-terminator (yes|no) "no">
+
+
+<!--This defines a block description and the description of its block arguments-->
+<!ELEMENT arg EMPTY>
+<!ATTLIST arg n CDATA #REQUIRED name CDATA #IMPLIED>
+
+<!ELEMENT description (text, arg-description*)>
+<!ELEMENT text (#PCDATA|note|em|i|br|arg)*>
+<!ELEMENT arg-description (#PCDATA)>
+<!ATTLIST arg-description n CDATA #REQUIRED name CDATA #REQUIRED>
+<!ELEMENT note (#PCDATA|arg|i)*>
+<!ELEMENT em (#PCDATA)>
+<!ELEMENT i (#PCDATA)>
+<!ELEMENT br (#PCDATA)>
+
+<!--BlockConnectors are where blocks get connected-->
+<!ELEMENT BlockConnectors (BlockConnector*)>
+<!ELEMENT BlockConnector (DefaultArg?)>
+<!ATTLIST BlockConnector label CDATA #IMPLIED>
+<!ATTLIST BlockConnector label-editable (yes|no) "no">
+<!-- Order matters with socket connectors and at most one plug is allowed (no multiple return types) -->
+<!ATTLIST BlockConnector connector-kind (plug|socket) #REQUIRED>
+<!-- for connector-type use the shape-type values specified in block connectors-->
+<!ATTLIST BlockConnector connector-type CDATA #REQUIRED>  
+<!ATTLIST BlockConnector position-type (single|mirror|bottom) "single"> 
+<!ATTLIST BlockConnector is-expandable (yes|no) "no">  
+
+<!ELEMENT DefaultArg EMPTY>
+<!ATTLIST DefaultArg genus-name CDATA #REQUIRED> 
+<!ATTLIST DefaultArg label CDATA #IMPLIED>
+
+<!ELEMENT Stubs (Stub*)>
+<!--This defines a stub of a block, so that the block can exist as a single entity and have mini-references to it-->
+<!ELEMENT Stub  (LangSpecProperties)>
+<!ATTLIST Stub scope CDATA #IMPLIED>
+<!ATTLIST Stub stub-genus (getter|setter|caller|agent|inc) #REQUIRED>
+
+<!-- Defines the images that are drawn on the block itself. 
+     Note: For now, only one image is enabled and wrap-text and image-editable have no effect.
+     Note: make sure FileLocation specified is relative to workspace directory -->
+<!ELEMENT Images (Image)>
+<!ELEMENT Image (FileLocation)>
+<!ATTLIST Image wrap-text (yes|no) "no">
+<!ATTLIST Image image-editable (yes|no) "no">
+<!ATTLIST Image block-location (center|east|west|north|south|southeast|southwest|northeast|northwest) "center">
+<!ATTLIST Image width CDATA #IMPLIED>
+<!ATTLIST Image height CDATA #IMPLIED>
+<!ELEMENT FileLocation (#PCDATA)>
+
+
+<!ELEMENT LangSpecProperties (LangSpecProperty*)>
+<!ELEMENT LangSpecProperty (#PCDATA)>
+<!ATTLIST LangSpecProperty key CDATA #REQUIRED>
+<!ATTLIST LangSpecProperty value CDATA #REQUIRED>
+
+<!ENTITY lang_def_menu_cui SYSTEM "lang_def_menu_cui.xml">
+<!ENTITY lang_def_connectorshapes SYSTEM "lang_def_connectorshapes.xml">
+<!ENTITY lang_def_genuses SYSTEM "lang_def_genuses.xml">
+<!ENTITY lang_def_genuses_obprogui SYSTEM "lang_def_genuses_obprogui.xml">
+<!ENTITY lang_def_genuses_obprogui SYSTEM "lang_def_genuses_obprocui.xml">
+<!ENTITY lang_def_genuses_stubs SYSTEM "lang_def_genuses_stubs.xml">
+<!ENTITY lang_def_genuses_datatypes SYSTEM "lang_def_genuses_datatypes.xml">
+<!ENTITY lang_def_genuses_variable SYSTEM "lang_def_genuses_variable.xml">
+<!ENTITY lang_def_genuses_calc SYSTEM "lang_def_genuses_calc.xml">
+<!ENTITY lang_def_genuses_procedure SYSTEM "lang_def_genuses_procedure.xml">
+<!ENTITY lang_def_genuses_object SYSTEM "lang_def_genuses_object.xml">
+<!ENTITY lang_def_genuses_math SYSTEM "lang_def_genuses_math.xml">
+<!ENTITY lang_def_genuses_cui SYSTEM "lang_def_genuses_cui.xml">
+<!ENTITY lang_def_genuses_turtle SYSTEM "lang_def_genuses_turtle.xml">
+<!ENTITY lang_def_families SYSTEM "lang_def_families.xml">
+<!ENTITY lang_def_etc SYSTEM "lang_def_etc.xml">

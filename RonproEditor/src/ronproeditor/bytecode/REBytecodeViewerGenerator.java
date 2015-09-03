@@ -142,7 +142,7 @@ public class REBytecodeViewerGenerator {
 			commands.add("-nopc"); // Omit pc label before mnemonic.
 			commands.add(classFile.getName());
 			RECommandExecuter.executeCommandWait(commands,
-					classFile.getParentFile(), frame.getConsole());
+					classFile.getParentFile(), frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 		}
 
 		return target;
@@ -167,7 +167,7 @@ public class REBytecodeViewerGenerator {
 		commands.add(target.getName());
 		commands.add(jasminName);
 		RECommandExecuter.executeCommandWait(commands, classFile.getParentFile(),
-				frame.getConsole());
+				frame.getConsole(),frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 		return target;
 	}
 }

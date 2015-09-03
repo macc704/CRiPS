@@ -27,10 +27,10 @@ import codeblockutil.LabelWidget;
  * edited. The location and font of a BlockLabel is specified in BlockShape and
  * the text displayed is specified by a Block, BlockLabel is the gateway for
  * text to be rendered and modified.
- * 
+ *
  * The key nature of a BlockLabel is that it is a JLabel when being viewed, and
  * a JTextField when it is being edited.
- * 
+ *
  * During mouse move, entered and exited events a white border is toggled around
  * the label for particular blocks. This white border helps to suggest editable
  * labels for blocks that have this enabled.
@@ -106,11 +106,13 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 				return textValid(text);
 			}
 		};
+
 		widget.setNumeric(Block.getBlock(this.blockID).getGenusName()
 				.equals("number"));
 		// arranged by sakai lab 2011/10
 		widget.setVariable(Block.getBlock(this.blockID).getGenusName()
-				.indexOf("-var-") != -1);
+				.indexOf("-var-") != -1 || Block.getBlock(this.blockID).getGenusName()
+				.indexOf("proc-param-") != -1);
 		widget.setProcedure(Block.getBlock(this.blockID).getGenusName()
 				.equals("procedure"));
 		widget.setNewObject(Block.getBlock(this.blockID).getGenusName()
@@ -139,20 +141,38 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 		}
 		if (Block.getBlock(blockID).hasSiblings()) {
 			// Map<String, String> siblings = new HashMap<String, String>();
-			List<String> siblingsNames = Block.getBlock(blockID)
-					.getSiblingsList();
-			String[][] siblings = new String[siblingsNames.size() + 1][2];
-			siblings[0] = new String[] {
-					Block.getBlock(blockID).getGenusName(),
-					Block.getBlock(blockID).getInitialLabel() };
-			for (int i = 0; i < siblingsNames.size(); i++) {
-				siblings[i + 1] = new String[] {
-						siblingsNames.get(i),
-						BlockGenus.getGenusWithName(siblingsNames.get(i))
-								.getInitialLabel() };
+			if (labelType.equals(BlockLabel.Type.HEADER_LABEL)) {
+				List<String> siblingsNames = Block.getBlock(blockID)
+						.getSiblingsList();
+				String[][] siblings = new String[siblingsNames.size() + 1][2];
+				siblings[0] = new String[] {
+						Block.getBlock(blockID).getGenusName(),
+						Block.getBlock(blockID).getHeaderLabel() };
+				for (int i = 0; i < siblingsNames.size(); i++) {
+					siblings[i + 1] = new String[] {
+							siblingsNames.get(i),
+							BlockGenus.getGenusWithName(siblingsNames.get(i))
+									.getInitHeaderLabel() };
+				}
+				widget.setSiblings(hasComboPopup
+						&& Block.getBlock(blockID).hasSiblings(), siblings);
+			} else {
+				// Map<String, String> siblings = new HashMap<String, String>();
+				List<String> siblingsNames = Block.getBlock(blockID)
+						.getSiblingsList();
+				String[][] siblings = new String[siblingsNames.size() + 1][2];
+				siblings[0] = new String[] {
+						Block.getBlock(blockID).getGenusName(),
+						Block.getBlock(blockID).getInitialLabel() };
+				for (int i = 0; i < siblingsNames.size(); i++) {
+					siblings[i + 1] = new String[] {
+							siblingsNames.get(i),
+							BlockGenus.getGenusWithName(siblingsNames.get(i))
+									.getInitialLabel() };
+				}
+				widget.setSiblings(hasComboPopup
+						&& Block.getBlock(blockID).hasSiblings(), siblings);
 			}
-			widget.setSiblings(hasComboPopup
-					&& Block.getBlock(blockID).hasSiblings(), siblings);
 		}
 
 		widget.addMouseListenerToLabel(this);
@@ -216,7 +236,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 	}
 
 	public void setText(String text) {
-		if (text != null && !text.equals(widget.getText())) {//2012.10.23 —]Œv‚ÈBLOCK_CHANGEDƒCƒxƒ“ƒg‚ª”ò‚ÔD #matsuzawa
+		if (text != null && !text.equals(widget.getText())) {//2012.10.23 ä½™è¨ˆãªBLOCK_CHANGEDã‚¤ãƒ™ãƒ³ãƒˆãŒé£›ã¶ï¼Ž #matsuzawa
 			widget.setText(text);
 		}
 	}
@@ -235,6 +255,10 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 
 	public void showMenuIcon(boolean show) {
 		widget.showMenuIcon(show);
+	}
+
+	public void setMenuIconLocation(int x, int y) {
+		widget.setMenuLocation(x, y);
 	}
 
 	public JComponent getJComponent() {
@@ -267,6 +291,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 	}
 
 	protected void textChanged(String text) {
+
 		if ((this.labelType.equals(BlockLabel.Type.NAME_LABEL) || this.labelType
 				.equals(BlockLabel.Type.PORT_LABEL))
 				&& Block.getBlock(blockID).isLabelEditable()) {
@@ -319,7 +344,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener,
 	}
 
 	protected boolean textValid(String text) {
-		// TODO ‹ó•¶Žš—ñ‚à“ü—Í‰Â”\‚É‚µ‚½
+		// TODO ç©ºæ–‡å­—åˆ—ã‚‚å…¥åŠ›å¯èƒ½ã«ã—ãŸ
 		return /* !text.equals("") && */BlockUtilities.isLabelValid(blockID,
 				text);
 	}

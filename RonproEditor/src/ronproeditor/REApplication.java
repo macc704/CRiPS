@@ -16,6 +16,19 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+
+import ch.util.CHBlockEditorController;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileElement;
+import clib.common.filesystem.CFileFilter;
+import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CFilename;
+import clib.common.filesystem.CPath;
+import clib.common.system.CJavaSystem;
+import clib.preference.app.CPreferenceManager;
+import clib.view.dialogs.CErrorDialog;
 import nd.com.sun.tools.example.debug.gui.CommandInterpreter;
 import nd.com.sun.tools.example.debug.gui.GUI;
 import nd.novicedebugger.NDebuggerListener;
@@ -33,6 +46,10 @@ import ronproeditor.dialogs.REDirtyOptionDialog;
 import ronproeditor.dialogs.RERefactoringFileNameDialog;
 import ronproeditor.dialogs.RERefactoringProjectNameDialog;
 import ronproeditor.ext.REBlockEditorManager;
+import ronproeditor.ext.REBlockEditorManager2;
+import ronproeditor.ext.RECheCoProManager;
+import ronproeditor.ext.RECocoViewerManager;
+import ronproeditor.ext.RECreateCocoDataManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
@@ -43,18 +60,6 @@ import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.views.DummyConsole;
 import ronproeditor.views.REFrame;
 import ronproeditor.views.RESourceEditor;
-import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileElement;
-import clib.common.filesystem.CFileFilter;
-import clib.common.filesystem.CFileSystem;
-import clib.common.filesystem.CFilename;
-import clib.common.filesystem.CPath;
-import clib.common.system.CJavaSystem;
-import clib.preference.app.CPreferenceManager;
-import clib.view.dialogs.CErrorDialog;
-
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /*
  * Ronpro Editor Application
@@ -266,6 +271,29 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 2013/12/19 version 2.24.0 matsuzawa		・git参照のこと Cocoviewer巻き戻し
  * 2014/01/08 version 2.25.0 matsuzawa		・git参照のこと
  * 
+ * 2014/10/01 version 2.27.0 ohata			・2014プログラミング社会学科用
+ * 2014/10/11 version 2.27.1 ohata			・軽微なバグを修正
+ * 
+<<<<<<< HEAD
+ * 2014/10/01 version 2.27.2 ohata			・コンソールのフォントをエディタのフォントと統一
+=======
+ * 2014/10/18 version 2.27.2 ohata			・コンソールのフォントをエディタのフォントと統一
+>>>>>>> ronpro_plugin_master
+ * 											・フォントの文字幅によるエラー指摘メッセージのズレを修正
+ * 2014/10/24 version 2.27.3 ohata			・sizeメソッドのBlock>>Java変換のエラーを修正
+ * 											・Turtleを継承した自作クラスブロックを右クリックしたときのコンテキストメニューに，タートルメニューを追加
+ * 											・List,Image,TextTurtleなどのメソッド呼び出しブロックを隠蔽
+ * 2014/10/24 version 2.27.4 ohata			・コンテキストメニュー変更
+ * 2014/10/24 version 2.27.5 ohata			・メソッドコール矢印の描画処理を修正
+ * 											・Block>>Javaのエラーを修正 
+ * 2014/10/24 version 2.27.6 ohata			・メソッドコール矢印の修正,テスト
+ * 											・参照ブロックのハイライト処理を修正
+ * 2014/10/24 version 2.28.0 ohata			・メソッドコール矢印のリリース
+ * 2014/10/24 version 2.28.1 ohata			・メソッドコール矢印の修正
+ * 2014/10/24 version 2.28.2 ohata			・再帰対応を一時停止
+ * 2014/10/24 version 2.28.3 ohata			・BEの再帰バグを修正，その他メソッド定義のバグを修正 
+ * 2015/01/14 version 2.29.0 kato           ・CheCoProリリース
+ * 2015/01/14 version 2.29.1 kato           ・CheCoPro pullログ修正
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
  * ・"}"を押したときのスマートインデント
@@ -282,10 +310,10 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.25.0";
-	public static final String BUILD_DATE = "2014/01/08";
+	public static final String VERSION = "2.29.1";
+	public static final String BUILD_DATE = "2014/11/10";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
-	public static final String COPYRIGHT = "Copyright(c) 2007-2013 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
+	public static final String COPYRIGHT = "Copyright(c) 2007-2014 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
 	public static final String SRC_ENCODING = "SJIS";
 	// public static final String SRC_ENCODING = "UTF-8"; // for test
@@ -320,8 +348,7 @@ public class REApplication implements ICFwApplication {
 
 	private RESourceManager sourceManager = new RESourceManager();
 	private RELibraryManager libraryManager = new RELibraryManager(LIB_FOLDER);
-	private RESourceTemplateManager templateManager = new RESourceTemplateManager(
-			TEMPLATE_FOLDER);
+	private RESourceTemplateManager templateManager = new RESourceTemplateManager(TEMPLATE_FOLDER);
 	private CPreferenceManager preferenceManager;
 
 	private REFrame frame;
@@ -335,10 +362,14 @@ public class REApplication implements ICFwApplication {
 
 	private PresProjectManager presManager;
 	private REBlockEditorManager blockManager;
+	private REBlockEditorManager2 newBlockManager;
 	private REFlowViewerManager flowManager;
 	private REGeneRefManager generefManager;
 	private REPresVisualizerManager ppvManager;
+	private RECheCoProManager checoproManager; // CheCoPro(kato)
 	private GUI deno;
+	private RECreateCocoDataManager createCocoDataManager;
+	private RECocoViewerManager cocoViewerManager;
 
 	/***********************
 	 * Construct & Start
@@ -347,21 +378,27 @@ public class REApplication implements ICFwApplication {
 	private void main() {
 		initializeLookAndFeel();
 		initializeCommands();
-		prepareRootDirectory();
+		initializeAndOpen(DEFAULT_ROOT);
+	}
+
+	private void initializeAndOpen(String rootDirName) {
+		prepareRootDirectory(rootDirName);
 		createAndOpenWindow();
 		prepareDialogs();
 
 		presManager = new PresProjectManager();
 		presManager.initialize();
 		blockManager = new REBlockEditorManager(this);
+		newBlockManager = new REBlockEditorManager2(this);
 		flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
 		ppvManager = new REPresVisualizerManager(this);
+		createCocoDataManager = new RECreateCocoDataManager(this);
+		cocoViewerManager = new RECocoViewerManager(this);
+		checoproManager = new RECheCoProManager(this);
 
-		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER(
-				"*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
-				"*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3",
-				"*.csv"));
+		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER("*.java", "*.hcp", "*.c", "*.cpp",
+				"Makefile", "*.oil", "*.rb", "*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
 		// this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*",
 		// "CVS", "bin"));
 		// @TODO きちんと実装すること 2011/11/22
@@ -381,15 +418,13 @@ public class REApplication implements ICFwApplication {
 		if (CJavaSystem.getInstance().hasCommand("java")) {
 			this.runCommand = "java";
 		} else {
-			JOptionPane.showMessageDialog(frame, "javaコマンドが見つかりません",
-					"起動時チェックにひっかかりました", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "javaコマンドが見つかりません", "起動時チェックにひっかかりました", JOptionPane.ERROR_MESSAGE);
 			// System.exit(0);
 		}
 
 		this.compileCommand = CJavaSystem.getInstance().getJavacCommand();
 		if (this.compileCommand == null) {
-			JOptionPane.showMessageDialog(frame, "javacコマンドが見つかりません",
-					"起動時チェックに引っかかりました", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "javacコマンドが見つかりません", "起動時チェックに引っかかりました", JOptionPane.ERROR_MESSAGE);
 			// System.exit(0);
 		}
 	}
@@ -404,19 +439,17 @@ public class REApplication implements ICFwApplication {
 		copyFileNameDialog.setTitle("ファイル（クラス）のコピー");
 	}
 
-	private void prepareRootDirectory() {
-		File root = new File(DEFAULT_ROOT);
+	private void prepareRootDirectory(String rootDirName) {
+		File root = new File(rootDirName);
 		if (!root.exists()) {
 			root.mkdir();
 		}
 		sourceManager.setRootDirectory(root);
 
-		sourceManager.setFileFilter(CFileFilter
-				.ACCEPT_BY_EXTENSION_FILTER("java"));
+		sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_EXTENSION_FILTER("java"));
 		sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
 
-		CFile preferenceFile = CFileSystem.findDirectory(DEFAULT_ROOT)
-				.findOrCreateFile(".pref/preference");
+		CFile preferenceFile = CFileSystem.findDirectory(DEFAULT_ROOT).findOrCreateFile(".pref/preference");
 		preferenceManager = new CPreferenceManager(preferenceFile);
 	}
 
@@ -463,8 +496,7 @@ public class REApplication implements ICFwApplication {
 
 		createProjectDialog.open();
 		if (createProjectDialog.getState() == RECreateNameDialog.State.INPUTTED) {
-			getSourceManager().createProject(
-					createProjectDialog.getInputtedName());
+			getSourceManager().createProject(createProjectDialog.getInputtedName());
 		}
 	}
 
@@ -472,22 +504,20 @@ public class REApplication implements ICFwApplication {
 		doClose();
 
 		if (getSourceManager().getProjectDirectory() == null) {
-			JOptionPane.showMessageDialog(frame, "プロジェクトが選択されていません",
-					"ファイル（クラス）を作れません", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "プロジェクトが選択されていません", "ファイル（クラス）を作れません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		createFileDialog.open();
 		if (createFileDialog.getState() == RECreateNameDialog.State.INPUTTED) {
-			getSourceManager().createFile(createFileDialog.getInputtedName(),
-					createFileDialog.getSelectedTemplate());
+			getSourceManager().createFile(createFileDialog.getInputtedName(), createFileDialog.getSelectedTemplate());
 		}
 	}
 
 	public void doOpen(File file) {
 		doClose();
 
-		if (file.getName().endsWith("java")) {// @TODO きちんと実装すること 2011/11/22
+		if (file.getName().endsWith("java") || file.getName().endsWith("js") || file.getName().endsWith("dlt")) {// @TODO きちんと実装すること 2011/11/22
 			getSourceManager().open(file);
 		}
 	}
@@ -497,7 +527,8 @@ public class REApplication implements ICFwApplication {
 			getFrame().getEditor().doSave();
 
 			blockManager.doCompileBlock(); // 要：ファイル削除の前に実行
-
+			newBlockManager.doCompileBlock(); // 要：ファイル削除の前に実行
+			
 			deleteRunnable(getSourceManager().getCurrentFile());
 
 			// TODO
@@ -519,6 +550,9 @@ public class REApplication implements ICFwApplication {
 
 			// TODO 上と重複
 			flowManager.refreshChart();
+
+			checoproManager.sendText();
+			checoproManager.sendFiles();
 		}
 	}
 
@@ -532,37 +566,29 @@ public class REApplication implements ICFwApplication {
 
 	private void doRefactorProjectName() {
 		if (getSourceManager().getProjectDirectory() == null) {
-			JOptionPane.showMessageDialog(frame, "プロジェクトが選択されていません",
-					"プロジェクト名を変更できません", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "プロジェクトが選択されていません", "プロジェクト名を変更できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		if (getSourceManager().hasCurrentFile()
-				&& getFrame().getEditor().isDirty()) {
-			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-					"プロジェクト名を変更できません", JOptionPane.ERROR_MESSAGE);
+		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
+			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません", "プロジェクト名を変更できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		doClose();
 
-		refactorProjectNameDialog
-				.open(getSourceManager().getProjectDirectory());
+		refactorProjectNameDialog.open(getSourceManager().getProjectDirectory());
 		if (refactorProjectNameDialog.getState() == RECreateNameDialog.State.INPUTTED) {
-			getSourceManager().refactorProjectName(
-					refactorProjectNameDialog.getInputtedName());
+			getSourceManager().refactorProjectName(refactorProjectNameDialog.getInputtedName());
 		}
 	}
 
 	private void doRefactorFileName() {
 		if (!getSourceManager().hasCurrentFile()) {
-			JOptionPane.showMessageDialog(frame, "ソースが選択されていません",
-					"ファイル名を変更できません", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ソースが選択されていません", "ファイル名を変更できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		if (getSourceManager().hasCurrentFile()
-				&& getFrame().getEditor().isDirty()) {
-			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-					"ファイル名を変更できません", JOptionPane.ERROR_MESSAGE);
+		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
+			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません", "ファイル名を変更できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -572,21 +598,17 @@ public class REApplication implements ICFwApplication {
 
 		refactorFileNameDialog.open(file);
 		if (refactorFileNameDialog.getState() == RECreateNameDialog.State.INPUTTED) {
-			getSourceManager().refactorFileName(file,
-					refactorFileNameDialog.getInputtedName());
+			getSourceManager().refactorFileName(file, refactorFileNameDialog.getInputtedName());
 		}
 	}
 
 	public void doFileCopy() {
 		if (!getSourceManager().hasCurrentFile()) {
-			JOptionPane.showMessageDialog(frame, "ソースが選択されていません",
-					"ファイルをコピーできません", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ソースが選択されていません", "ファイルをコピーできません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		if (getSourceManager().hasCurrentFile()
-				&& getFrame().getEditor().isDirty()) {
-			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-					"ファイルをコピーできません", JOptionPane.ERROR_MESSAGE);
+		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
+			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません", "ファイルをコピーできません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -594,13 +616,11 @@ public class REApplication implements ICFwApplication {
 
 		doClose();
 
-		File recommendedFile = new File(file.getParentFile(), "CopyOf"
-				+ FileSystemUtil.cutExtension(file));
+		File recommendedFile = new File(file.getParentFile(), "CopyOf" + FileSystemUtil.cutExtension(file));
 
 		copyFileNameDialog.open(recommendedFile);
 		if (copyFileNameDialog.getState() == RECreateNameDialog.State.INPUTTED) {
-			getSourceManager().copyFile(file,
-					copyFileNameDialog.getInputtedProject(),
+			getSourceManager().copyFile(file, copyFileNameDialog.getInputtedProject(),
 					copyFileNameDialog.getInputtedName());
 		}
 	}
@@ -615,39 +635,34 @@ public class REApplication implements ICFwApplication {
 
 	private void doDeleteProject() {
 		if (getSourceManager().getProjectDirectory() == null) {
-			JOptionPane.showMessageDialog(frame, "プロジェクトが選択されていません",
-					"プロジェクトを削除できません", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "プロジェクトが選択されていません", "プロジェクトを削除できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		int res = JOptionPane.showConfirmDialog(frame, "本当に"
-				+ getSourceManager().getProjectDirectory().getName()
-				+ "を削除してよいですか？ 以下のファイルもすべて削除されます", "最終確認",
+		int res = JOptionPane.showConfirmDialog(frame,
+				"本当に" + getSourceManager().getProjectDirectory().getName() + "を削除してよいですか？ 以下のファイルもすべて削除されます", "最終確認",
 				JOptionPane.WARNING_MESSAGE);
 		if (res == JOptionPane.OK_OPTION) {
 			doClose();
 			File file = getSourceManager().getProjectDirectory();
-			file.renameTo(new File(getSourceManager().makeTrashFolder(), file
-					.getName()));
+			file.renameTo(new File(getSourceManager().makeTrashFolder(), file.getName()));
 			getSourceManager().fireRefreshedEvent();
 		}
 	}
 
 	private void doDeleteFile() {
 		if (!getSourceManager().hasCurrentFile()) {
-			JOptionPane.showMessageDialog(frame, "ソースが選択されていません",
-					"ファイルを削除できません", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ソースが選択されていません", "ファイルを削除できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		File file = getSourceManager().getCurrentFile();
 
-		int res = JOptionPane.showConfirmDialog(frame, "本当に" + file.getName()
-				+ "を削除してよいですか？", "最終確認", JOptionPane.WARNING_MESSAGE);
+		int res = JOptionPane.showConfirmDialog(frame, "本当に" + file.getName() + "を削除してよいですか？", "最終確認",
+				JOptionPane.WARNING_MESSAGE);
 		if (res == JOptionPane.OK_OPTION) {
 			doClose();
-			file.renameTo(new File(getSourceManager().makeTrashFolder(), file
-					.getName()));
+			file.renameTo(new File(getSourceManager().makeTrashFolder(), file.getName()));
 			getSourceManager().fireRefreshedEvent();
 		}
 	}
@@ -660,8 +675,7 @@ public class REApplication implements ICFwApplication {
 	}
 
 	private void dirtyCheck() {
-		if (getSourceManager().hasCurrentFile()
-				&& getFrame().getEditor().isDirty()) {
+		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
 			dirtyOptionDialog.open();
 		}
 	}
@@ -750,10 +764,8 @@ public class REApplication implements ICFwApplication {
 	private void doCompile(boolean blocking) {
 		// doSaveCompileLog(); turkeyのコード
 
-		if (getSourceManager().hasCurrentFile()
-				&& getFrame().getEditor().isDirty()) {
-			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-					"コンパイルできません", JOptionPane.ERROR_MESSAGE);
+		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
+			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません", "コンパイルできません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -764,15 +776,14 @@ public class REApplication implements ICFwApplication {
 
 		frame.getConsole().setText("");
 
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager()
-				.getRootDirectory(), getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
+				getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add(compileCommand);
 		if (CJavaSystem.getInstance().isMac()) {
-			commands.add("-J-Dfile.encoding="
-					+ RECommandExecuter.commandEncoding);
+			commands.add("-J-Dfile.encoding=" + RECommandExecuter.commandEncoding);
 		}
 		commands.add("-g");
 		commands.add("-encoding");
@@ -785,7 +796,7 @@ public class REApplication implements ICFwApplication {
 													// BlockEditorの時もコンパイルログが記録されてしまう．
 
 		// if (blocking) {
-		// // （BlockEditorのためのコンパイル）　ブロッキングする．
+		// // （BlockEditorのためのコンパイル） ブロッキングする．
 		// try {
 		// CommandExecuter.executeCommandWait(commands, env.dir,
 		// frame.getConsole());
@@ -793,11 +804,13 @@ public class REApplication implements ICFwApplication {
 		// ex.printStackTrace();
 		// }
 		// } else {
-		// // 通常コンパイル．　ブロッキングしない．
+		// // 通常コンパイル． ブロッキングしない．
 		// CommandExecuter.executeCommand(commands, env.dir,
 		// frame.getConsole());
 		// }
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole());
+
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(),
+				frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 
 		generefManager.handleCompileDone();
 	}
@@ -808,16 +821,13 @@ public class REApplication implements ICFwApplication {
 	 * @return
 	 */
 	public String doCompile2(boolean verbose) {
-		JavaEnv env = FileSystemUtil.createJavaEnv(
-				sourceManager.getRootDirectory(),
-				sourceManager.getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(sourceManager.getRootDirectory(), sourceManager.getCurrentFile());
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add(compileCommand);
 		if (CJavaSystem.getInstance().isMac()) {
-			commands.add("-J-Dfile.encoding="
-					+ RECommandExecuter.commandEncoding);
+			commands.add("-J-Dfile.encoding=" + RECommandExecuter.commandEncoding);
 		}
 		commands.add("-g");
 		if (verbose) {
@@ -834,7 +844,8 @@ public class REApplication implements ICFwApplication {
 		console.setErr(new PrintStream(out));
 
 		try {
-			RECommandExecuter.executeCommandWait(commands, env.dir, console);
+			RECommandExecuter.executeCommandWait(commands, env.dir, console,
+					getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -853,8 +864,7 @@ public class REApplication implements ICFwApplication {
 			} else {
 				lastFile = file;
 			}
-			CPath path = file.getRelativePath(getSourceManager()
-					.getCCurrentProject());
+			CPath path = file.getRelativePath(getSourceManager().getCCurrentProject());
 			PRLog log = new PRCommandLog(subType, path, args);
 			writePresLog(log);
 		} catch (Exception ex) {
@@ -862,11 +872,9 @@ public class REApplication implements ICFwApplication {
 		}
 	}
 
-	public void writePresTextEditLog(PRTextEditLog.SubType subType, int offset,
-			int len, String text) {
+	public void writePresTextEditLog(PRTextEditLog.SubType subType, int offset, int len, String text) {
 		try {
-			CPath path = getSourceManager().getCCurrentFile().getRelativePath(
-					getSourceManager().getCCurrentProject());
+			CPath path = getSourceManager().getCCurrentFile().getRelativePath(getSourceManager().getCCurrentProject());
 			PRLog log = new PRTextEditLog(subType, path, offset, len, text);
 			writePresLog(log);
 		} catch (Exception ex) {
@@ -876,8 +884,7 @@ public class REApplication implements ICFwApplication {
 
 	public void writePresLog(PRLog log) {
 		try {
-			presManager.getRecordingProject(
-					getSourceManager().getCCurrentProject()).record(log);
+			presManager.getRecordingProject(getSourceManager().getCCurrentProject()).record(log);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -886,13 +893,12 @@ public class REApplication implements ICFwApplication {
 	public void doRun() {
 		File target = getSourceManager().getCurrentFile();
 		if (!hasRunnableFile(target)) {
-			JOptionPane.showMessageDialog(frame, "コンパイルに成功していません", "実行できません",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "コンパイルに成功していません", "実行できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager()
-				.getRootDirectory(), getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
+				getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add(runCommand);
@@ -900,7 +906,8 @@ public class REApplication implements ICFwApplication {
 		commands.add(cp);
 		commands.add(env.runnable);
 
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole());
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(),
+				frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 		writePresLog(PRCommandLog.SubType.START_RUN);// TODO
 	}
 
@@ -908,22 +915,20 @@ public class REApplication implements ICFwApplication {
 
 		File target = getSourceManager().getCurrentFile();
 		if (!hasRunnableFile(target)) {
-			JOptionPane.showMessageDialog(frame, "コンパイルに成功していません", "実行できません",
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "コンパイルに成功していません", "実行できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		if (deno != null && deno.isRunning()) {
-			JOptionPane.showMessageDialog(frame, "前のデバッグ画面が開きっぱなしです",
-					"実行できません", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "前のデバッグ画面が開きっぱなしです", "実行できません", JOptionPane.ERROR_MESSAGE);
 			return;
 			// CFrameUtils.toFront(deno.getFrame());
 			// return;
 		}
 
 		// パス等取得
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager()
-				.getRootDirectory(), getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
+				getSourceManager().getCurrentFile());
 		String args[] = new String[6];
 		// ソースパス
 		args[0] = "-sourcepath";
@@ -931,8 +936,7 @@ public class REApplication implements ICFwApplication {
 		// クラスパス
 		args[2] = "-classpath";
 		String libString = libraryManager.getLibString();
-		libString = env.dir.getAbsolutePath() + FileSystemUtil.PATH_SEPARATOR
-				+ libString;
+		libString = env.dir.getAbsolutePath() + FileSystemUtil.PATH_SEPARATOR + libString;
 		if (CJavaSystem.getInstance().isWindows()) {
 			libString = "\"" + libString + "\"";
 		}
@@ -1033,8 +1037,7 @@ public class REApplication implements ICFwApplication {
 			throw new IllegalArgumentException();
 		}
 		File dir = source.getParentFile();
-		File runnableFile = new File(dir, FileSystemUtil.cutExtension(source)
-				+ "." + RUNNABLE_EXTENSION);
+		File runnableFile = new File(dir, FileSystemUtil.cutExtension(source) + "." + RUNNABLE_EXTENSION);
 		return runnableFile;
 	}
 
@@ -1053,21 +1056,17 @@ public class REApplication implements ICFwApplication {
 
 	public void doShowBytecode() {
 		if (!getSourceManager().hasCurrentFile()) {
-			JOptionPane.showMessageDialog(frame, "ソースが選択されていません",
-					"バイトコードを閲覧できません", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "ソースが選択されていません", "バイトコードを閲覧できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		if (getSourceManager().hasCurrentFile()
-				&& getFrame().getEditor().isDirty()) {
-			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
-					"バイトコードを閲覧できません", JOptionPane.ERROR_MESSAGE);
+		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
+			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません", "バイトコードを閲覧できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
 		File target = getSourceManager().getCurrentFile();
 		if (!hasRunnableFile(target)) {
-			JOptionPane.showMessageDialog(frame, "コンパイルに成功していません",
-					"バイトコードを閲覧できません", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "コンパイルに成功していません", "バイトコードを閲覧できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
@@ -1107,15 +1106,13 @@ public class REApplication implements ICFwApplication {
 		try {
 			CDirectory project = getSourceManager().getCCurrentProject();
 			if (project == null) {
-				JOptionPane.showMessageDialog(frame, "プロジェクトが選択されていません",
-						"Exportできません", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(frame, "プロジェクトが選択されていません", "Exportできません", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
 			if (!COMMENT) {// CONFIRM ONLY
 				int res = 0;
-				res = JOptionPane.showConfirmDialog(frame,
-						"「" + project.getName() + "」" + "をExportします．よろしいですね？",
+				res = JOptionPane.showConfirmDialog(frame, "「" + project.getName() + "」" + "をExportします．よろしいですね？",
 						"プロジェクト名確認", JOptionPane.OK_CANCEL_OPTION);
 				if (res != JFileChooser.APPROVE_OPTION) {
 					return;
@@ -1123,8 +1120,7 @@ public class REApplication implements ICFwApplication {
 			} else {// COMMENT
 				RECommentInputDialog input = new RECommentInputDialog(project);
 				int res = 0;
-				res = JOptionPane.showConfirmDialog(frame, input,
-						"プロジェクト名確認とコメント入力", JOptionPane.OK_CANCEL_OPTION);
+				res = JOptionPane.showConfirmDialog(frame, input, "プロジェクト名確認とコメント入力", JOptionPane.OK_CANCEL_OPTION);
 				input.save();
 				if (res != JFileChooser.APPROVE_OPTION) {
 					return;
@@ -1134,8 +1130,8 @@ public class REApplication implements ICFwApplication {
 			// datファイルのコピー
 			copyDatFileToProject();
 
-			chooser.setSelectedFile(new File(CFileSystem.getExecuteDirectory()
-					.getAbsolutePath() + "/" + project.getName() + ".zip"));
+			chooser.setSelectedFile(
+					new File(CFileSystem.getExecuteDirectory().getAbsolutePath() + "/" + project.getName() + ".zip"));
 			int res = chooser.showSaveDialog(getFrame());
 			if (res != JFileChooser.APPROVE_OPTION) {
 				return;
@@ -1144,15 +1140,12 @@ public class REApplication implements ICFwApplication {
 			File f = chooser.getSelectedFile();
 			CFilename name = new CFilename(f.getName());
 			name.setExtension("zip");
-			CDirectory dir = CFileSystem.findDirectory(f.getParentFile()
-					.getAbsolutePath());
+			CDirectory dir = CFileSystem.findDirectory(f.getParentFile().getAbsolutePath());
 			CFile zip = dir.findOrCreateFile(name);
 			NewZipUtil.createZip(zip, project, project);
 
-			JOptionPane
-					.showConfirmDialog(frame, name.toString()
-							+ "としてzipファイルをExportしました．", "成功しました",
-							JOptionPane.OK_OPTION);
+			JOptionPane.showConfirmDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました",
+					JOptionPane.OK_OPTION);
 
 		} catch (Exception ex) {
 			ex.printStackTrace(frame.getConsole().getErr());
@@ -1171,11 +1164,23 @@ public class REApplication implements ICFwApplication {
 	}
 
 	public void doOpenBlockEditor() {
+		// for test
+		// chBlockEditorController = new CHBlockEditorController("");
+		// chBlockEditorController.setFileOpened(true);
+		// checoproManager.openBlockEditorForCH(chBlockEditorController,
+		// getResourceRepository().getCCurrentFile().toJavaFile()
+		// ,
+		// getResourceRepository().getCCurrentProject().getAbsolutePath().toString()
+		// + "/lang_def_project.xml");
 		blockManager.doOpenBlockEditor();
-		// 20130926 DENOがBEを直接参照する　暫定対応
+		// 20130926 DENOがBEを直接参照する 暫定対応
 		if (deno != null && deno.isRunning()) {
 			deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
 		}
+	}
+
+	public void doOpenNewBlockEditor() {
+		newBlockManager.doOpenBlockEditor();
 	}
 
 	public void doOpenFlowViewer() {
@@ -1186,9 +1191,14 @@ public class REApplication implements ICFwApplication {
 		generefManager.openGeneRefBrowser();
 	}
 
+	// CheCoPro(kato)
+	public void doStartCheCoPro() {
+		checoproManager.startCheCoPro();
+	}
+
 	private void copyDatFileToProject() {
 		try {
-			// TODO 応急処置　macだとNullPointerExceptionが出る
+			// TODO 応急処置 macだとNullPointerExceptionが出る
 			generefManager.copyDatFileToProject();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1210,6 +1220,56 @@ public class REApplication implements ICFwApplication {
 			ex.printStackTrace();
 			CErrorDialog.show(frame, "OpenPPV中にエラーが発生しました．", ex);
 		}
+	}
+
+	public void doCreateCocoData() {
+		try {
+			createCocoDataManager.createCocoData();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Create CocoData中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doOpenCocoViewer() {
+		try {
+			cocoViewerManager.openCocoViewer(createCocoDataManager.getPPProjectSet());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Open CocoViewer中にエラーが発生しました．", ex);
+		}
+	}
+
+	public void doOpenClearCash() {
+		try {
+			ppvManager.clearCash();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			CErrorDialog.show(frame, "Clear Cash中にエラーが発生しました．", ex);
+		}
+	}
+
+	private CHBlockEditorController chBlockEditorController;
+
+	public CHBlockEditorController getChBlockEditorController() {
+		return chBlockEditorController;
+	}
+
+	public void setChBlockEditorController(CHBlockEditorController chBlockEditorController) {
+		this.chBlockEditorController = chBlockEditorController;
+	}
+
+	public REApplication doOpenNewRE(String dirPath) {
+		REApplication application = new REApplication();
+		File dir = new File(dirPath);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		application.initializeLookAndFeel();
+		application.initializeCommands();
+		application.initializeAndOpen(dirPath);
+		// 返り値追加（kato）
+		return application;
 	}
 
 	// private void sourceColoringTest(){

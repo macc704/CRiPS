@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<cb:CODEBLOCKS xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://education.mit.edu/openblocks/ns http://education.mit.edu/openblocks/codeblocks.xsd"
+	xmlns:cb="http://education.mit.edu/openblocks/ns">
+	<Pages collapsible-pages="no">
+		<Page page-color="40 40 40" page-drawer="" page-infullview="yes"
+			page-name="" page-width="1366">
+			<PageBlocks>
+				<Block genus-name="Turtle-print[@string]" id="2139" kind="command">
+					<Label>コンソールに出力する</Label>
+					<Name>print</Name>
+					<Location>
+						<X>240</X>
+						<Y>236</Y>
+					</Location>
+					<BeforeBlockId>2137</BeforeBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector con-block-id="2141" connector-kind="socket"
+							connector-type="string" init-type="string" label=""
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="string" id="2141" kind="data">
+					<Label>Bye World</Label>
+					<Location>
+						<X>382</X>
+						<Y>239</Y>
+					</Location>
+					<Plug>
+						<BlockConnector con-block-id="2139" connector-kind="plug"
+							connector-type="string" init-type="string" label=""
+							position-type="mirror" />
+					</Plug>
+				</Block>
+				<Block genus-name="Turtle-print[@string]" id="2137" kind="command">
+					<Label>コンソールに出力する</Label>
+					<Name>print</Name>
+					<Location>
+						<X>240</X>
+						<Y>206</Y>
+					</Location>
+					<BeforeBlockId>4136</BeforeBlockId>
+					<AfterBlockId>2139</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector con-block-id="2138" connector-kind="socket"
+							connector-type="string" init-type="string" label=""
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="string" id="2138" kind="data">
+					<Label>Hello World</Label>
+					<Location>
+						<X>382</X>
+						<Y>209</Y>
+					</Location>
+					<Plug>
+						<BlockConnector con-block-id="2137" connector-kind="plug"
+							connector-type="string" init-type="string" label=""
+							position-type="mirror" />
+					</Plug>
+				</Block>
+				<Block genus-name="true" id="3137" kind="data">
+					<Label>真</Label>
+					<Location>
+						<X>243</X>
+						<Y>177</Y>
+					</Location>
+					<Plug>
+						<BlockConnector con-block-id="4136" connector-kind="plug"
+							connector-type="boolean" init-type="boolean" label=""
+							position-type="mirror" />
+					</Plug>
+				</Block>
+				<Block genus-name="procedure" id="4140" kind="procedure">
+					<Label>start</Label>
+					<Location>
+						<X>119</X>
+						<Y>144</Y>
+					</Location>
+					<AfterBlockId>4136</AfterBlockId>
+					<Sockets num-sockets="1">
+						<BlockConnector connector-kind="socket"
+							connector-type="poly" init-type="poly" is-expandable="yes" label=""
+							position-type="single" />
+					</Sockets>
+				</Block>
+				<Block genus-name="ifelse" id="4136" kind="command">
+					<Label>分岐</Label>
+					<Location>
+						<X>119</X>
+						<Y>174</Y>
+					</Location>
+					<BeforeBlockId>4140</BeforeBlockId>
+					<Sockets num-sockets="3">
+						<BlockConnector con-block-id="3137" connector-kind="socket"
+							connector-type="boolean" init-type="boolean" label="かどうか調べて"
+							position-type="single" />
+						<BlockConnector con-block-id="2137" connector-kind="socket"
+							connector-type="cmd" init-type="cmd" label="真のとき" position-type="single" />
+						<BlockConnector connector-kind="socket"
+							connector-type="cmd" init-type="cmd" label="偽のとき" position-type="single" />
+					</Sockets>
+				</Block>
+			</PageBlocks>
+		</Page>
+	</Pages>
+</cb:CODEBLOCKS>

@@ -2,11 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Junicoen"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CommonLibrary"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PresCore"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CSwing"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BlockEditor"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/BlockConverter"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/FlowViewer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CPreferenceFW"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CompileErrorAnalytics"/>
@@ -16,5 +16,9 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/CTable"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CTimeLineView"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/PresVisualizer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CocoViewer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/CheCoPro"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/openblocks"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BlockConverter"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

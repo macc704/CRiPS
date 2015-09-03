@@ -1,0 +1,10 @@
+build/
+target/
+.classpath
+.idea
+.settings
+.project
+openblocks.iml
+/bin/
+testbase/MyProjects
+testbase/oldext

@@ -9,299 +9,345 @@ import controller.WorkspaceController;
 /*
  * BlockEditor Application
  * 
- * 2011/10/25 version 1.0.0 �����[�X
- * 2011/10/25 version 1.0.1 �_�v���G�f�B�^��Project��I�������Ƃ��A �t���[���̖��O�ɈȑO�I�����Ă���Java�t�@�C�����\�������s����C���B
- * 2011/10/25 version 1.0.2 �_�v���G�f�B�^��Project��I�������Ƃ��ABlockEditor����Save�{�^����������Run�{�^�����������Ƃ�NullPointer�̃G���[���\�������s����C���B 
- * 2011/10/25 version 1.0.3 �_�v���G�f�B�^��Java�̃R���p�C�������s�����Ƃ��ABlockEditor�̃^�C�g����Java�̃R���p�C�������s�������Ƃ�\������悤�ɂ����B
- * 2011/10/25 version 1.0.4 �A������Ă��Ȃ��u���b�N��Block�G���[������Ƃ��ɂ��G���[���\������Ă��܂��s����C���B
- * 2011/10/25 version 1.0.5 Block��Syntax�G���[������Ƃ��ɕ\�������_�C�A���O�̕������C���B 
- * 2011/10/25 version 1.0.6 ���g���Ȃ��߂����Ƃ��AJava����Block�ɕϊ�����Ȃ��s����C���B 
- * 2011/10/25 version 1.0.7 Block����Java�\�[�X�ɕϊ����邽�тɁA��s�������Ă����s����C���B 
- * 2011/10/25 version 1.0.8 BlockEditor�́u�i�߂�v�u���b�N�Ɓu�߂��v�u���b�N�̏����l��50�ɏC���B 
- * 2011/10/25 version 1.0.9 BlockEditor�́u�߂��v�u���b�N�̃��x�����u�߂�v�ɏC���B 
- * 2011/10/25 version 1.0.10 BlockEditor�́u�E�։��v�u���b�N�Ɓu���։񂷁v�u���b�N�̃p���b�g�̈ʒu���C���B 
- * 2011/10/25 version 1.0.11 BlockEditor�́u�E�։��v�u���b�N�̃��x�����u�E���񂷁v�ɏC���B 
- * 2011/10/25 version 1.0.12 BlockEditor�́u�y���̐F��ς���v�u���b�N�̈����̃��x�����u�F�v�ɂ����B 
- * 2011/10/25 version 1.0.13 BlockEditor�́u�y���̐F��ς���v�u���b�N�̏����l�̃��x�����p��ɂȂ��Ă���̂��C���B 
- * 2011/10/25 version 1.0.14 BlockEditor�́u�R���\�[���ɏo�͂���v�u���b�N�̏����l�̃��x�����u�����������v�ɏC���B 
- * 2011/10/25 version 1.0.15 BlockEditor�́uSave�v�{�^�����uSave��Java�o�́v�ɁA�uRun�v�{�^�����uSave��Java�o�͂��Ď��s�v�ɏC���B
- * 2011/10/25 version 1.0.16 Java����Block�ɕϊ������Ƃ��A�u���b�N�̈ʒu���E�Ɋ�肷���Ă���̂��C���B
- * 2011/10/25 version 1.0.17 BlockEditor�̃��[�N�X�y�[�X�ɂ���Overview���\���ɂ����B 
- * 2011/10/25 version 1.1.18 �u�y���̐F��ς���v�u���b�N�ɐF�w��ȊO�̃u���b�N������Ȃ��悤�ɂ����B 
- * 2011/10/25 version 1.1.0 BlockEditor�̕���u���b�N�iif�j�͎g��Ȃ��悤�ɏC���BJava����Block�ɕϊ���Aelse�߂��g�������Ȃ�\�������邽�߁B
- * 2011/10/25 version 1.1.1 BlockEditor�̕ϐ��̑���u���b�N�ő������l��Java�\�[�X�R�[�h�ɔ��f����Ȃ������C���B
- * 2011/10/25 version 1.1.2 Java����Block�ɕϊ�����Ƃ��A�}�C�i�X�̒l���ϊ�����Ȃ������C���B 
- * 2011/10/25 version 1.1.3 Java����Block�ɕϊ�����Ƃ��Arandom�֐��̌`�����������Ȃ���ƁA�������u���b�N������Ȃ������C���B
- * 2011/10/25 version 1.1.4 Java����Block�ɕϊ�����Ƃ��Aelse if(�E�E�E)����͂���Ȃ������C���B
- * 2011/10/25 version 1.1.5 BlockEditor�̃{�^���ŁA�uSave��Java�o�́v���uJava�o�́v�ɁA�uSave��Java�o�͂��Ď��s�v���uJava�o�͂��Ď��s�v�ɂ���
- * 2011/10/25 version 1.1.6 �t�@�N�g���[�̃J�e�S���ŁA�u�ϐ��v���폜���A�u�ϐ��̒�`�v�Ɓu�ϐ��̓ǂݏ����v��ǉ������B
- * 2011/10/25 version 1.1.7 ��r�u���b�N�ŁA�u���b�N�����S�ɑg�܂�Ă��Ȃ��Ƃ��̃G���[�_�C�A���O�̕������\������Ȃ������C�������B
- * 2011/10/25 version 1.1.8 Java����Block�ɕϊ�����Ƃ��ABlockEditor�Ń��[�J���ϐ��u���b�N�̌��ɂ���u���b�N����������Ȃ������C�������B 
- * 2011/10/25 version 1.2.0 Postfix�u���b�N�i�u�ϐ��v�𑝂₷�u���b�N�j��ǉ������B 
- * 2011/10/25 version 1.2.1 remainder�u���b�N��java�ɕϊ�����Ȃ������C�������B 
- * 2011/10/29 version 1.3.0 �u���b�N�̐܂肽���݋@�\�ǉ��B
- * 2011/10/29 version 1.3.1 �u���b�N�̕����@�\�ǉ��B
- * 2011/10/29 version 1.3.2 ��ȏ�̏����������ݒ�ł���悤�ɏC���B 
- * 2011/10/29 version 1.3.3 �ϐ����ɋ󔒁A�L�����g���Ȃ��悤�ɏC���B
- * 2011/10/29 version 1.3.4 ������Ɂw'�x�A�w"�x�A�w\�x������ƃG�X�P�[�v����悤�ɏC���B
- * 2011/11/17 version 1.3.5 �u���b�N�̕����@�\�̕s��C���B
- * 2011/11/18 version 1.3.6 �ϐ��̒l�u���b�N��ϐ���`�u���b�N���琶������悤�ɏC���B
- * 2011/11/18 version 1.3.7 �ϐ��u���b�N���C���B
- * 2011/11/19 version 1.4.0 �I�u�W�F�N�g�ϐ��u���b�N��ǉ��B
- * 2011/11/19 version 1.4.1 �I�u�W�F�N�g�����u���b�N��ǉ��B
- * 2011/11/20 version 1.4.2 �I�u�W�F�N�g�̃��\�b�h�Q�ƃu���b�N��ǉ��B
- * 2011/11/23 version 1.5.0 �_�v���G�f�B�^�ɑg�ݍ���
- * 2011/11/23 version 1.5.1 ���Ƃł̂�������
- * 2012/09/27 version 2.0.0 �o�O�C��(���V)
- * 							�V�@�\�ǉ��D(elseif���̃��o�[�X�Cfor���̃��o�[�X)
- * 2012/09/27 version 2.0.1 �����R�[�h����mac�œ����Ȃ������C����
- * 2012/10/03 version 2.1.0 �����R�[�h��������
- * 							BlockEditor <--> Converter�Ԃ�XML�t�@�C����UTF-8�œ��ꂷ��DJava�t�@�C���͔C�ӂŁC�O������ݒ肷��D
- * 2012/10/03 version 2.1.1 �����R�[�h���̃o�O��fix <-�C������Ă��Ȃ�
- * 							CommentGetter�ōs���𐔂���ۂ̋@��ˑ����s�R�[�h�̖�� 
- * 2012/10/03 version 2.1.2 �E�C���h�E�^�C�g�������̕s����C���i���j
- * 2012/10/03 version 2.1.3 �����R�[�h���̃o�O����fix CommentGetter�̃A���S���Y����ύX
- * 2012/10/03 version 2.1.4 �����R�[�h���̃o�O���āXfix block->Java��XML��ǂݍ��ލۂ̕����R�[�h�w��Y��
- * 2012/10/03 version 2.1.5 �����R�[�h���̃o�O���3fix �����R�[�h�w����@�ύX �iMountain Lion, JDK1.7�̑g�ݍ��킹�œ��삵�Ȃ��j
- * 							mac�ŕϐ����o�Ȃ����͉��������D
- * 2012/10/03 version 2.1.6 lightGray, darkGray�ŃG���[���o������C���D
- * 2012/10/03 version 2.1.7 �ڑ������d�Ȃ����Ƃ��ɏ����Ă��܂��o�O���C���D�iSound�N���X�j
+ * 2011/10/25 version 1.0.0 リリース
+ * 2011/10/25 version 1.0.1 論プロエディタでProjectを選択したとき、 フレームの名前に以前選択していたJavaファイルが表示される不具合を修正。
+ * 2011/10/25 version 1.0.2 論プロエディタでProjectを選択したとき、BlockEditorｓのSaveボタンもしくはRunボタンを押したときNullPointerのエラーが表示される不具合を修正。 
+ * 2011/10/25 version 1.0.3 論プロエディタでJavaのコンパイルが失敗したとき、BlockEditorのタイトルにJavaのコンパイルが失敗したことを表示するようにした。
+ * 2011/10/25 version 1.0.4 連結されていないブロックにBlockエラーがあるときにもエラーが表示されてしまう不具合を修正。
+ * 2011/10/25 version 1.0.5 BlockにSyntaxエラーがあるときに表示されるダイアログの文言を修正。 
+ * 2011/10/25 version 1.0.6 中身がない節をもつとき、JavaからBlockに変換されない不具合を修正。 
+ * 2011/10/25 version 1.0.7 BlockからJavaソースに変換するたびに、空行が増えていく不具合を修正。 
+ * 2011/10/25 version 1.0.8 BlockEditorの「進める」ブロックと「戻す」ブロックの初期値を50に修正。 
+ * 2011/10/25 version 1.0.9 BlockEditorの「戻す」ブロックのラベルを「戻る」に修正。 
+ * 2011/10/25 version 1.0.10 BlockEditorの「右へ回る」ブロックと「左へ回す」ブロックのパレットの位置を修正。 
+ * 2011/10/25 version 1.0.11 BlockEditorの「右へ回る」ブロックのラベルを「右を回す」に修正。 
+ * 2011/10/25 version 1.0.12 BlockEditorの「ペンの色を変える」ブロックの引数のラベルを「色」にした。 
+ * 2011/10/25 version 1.0.13 BlockEditorの「ペンの色を変える」ブロックの初期値のラベルが英語になっているのを修正。 
+ * 2011/10/25 version 1.0.14 BlockEditorの「コンソールに出力する」ブロックの初期値のラベルを「あいうえお」に修正。 
+ * 2011/10/25 version 1.0.15 BlockEditorの「Save」ボタンを「Save→Java出力」に、「Run」ボタンを「Save→Java出力して実行」に修正。
+ * 2011/10/25 version 1.0.16 JavaからBlockに変換したとき、ブロックの位置が右に寄りすぎているのを修正。
+ * 2011/10/25 version 1.0.17 BlockEditorのワークスペースにあるOverviewを非表示にした。 
+ * 2011/10/25 version 1.1.18 「ペンの色を変える」ブロックに色指定以外のブロックが入らないようにした。 
+ * 2011/10/25 version 1.1.0 BlockEditorの分岐ブロック（if）は使わないように修正。JavaからBlockに変換後、else節を使いたくなる可能性があるため。
+ * 2011/10/25 version 1.1.1 BlockEditorの変数の代入ブロックで代入する値がJavaソースコードに反映されない問題を修正。
+ * 2011/10/25 version 1.1.2 JavaからBlockに変換するとき、マイナスの値が変換されない問題を修正。 
+ * 2011/10/25 version 1.1.3 JavaからBlockに変換するとき、random関数の形がおかしくなる問題と、引数がブロック化されない問題を修正。
+ * 2011/10/25 version 1.1.4 JavaからBlockに変換するとき、else if(・・・)が解析されない問題を修正。
+ * 2011/10/25 version 1.1.5 BlockEditorのボタンで、「Save→Java出力」を「Java出力」に、「Save→Java出力して実行」を「Java出力して実行」にする
+ * 2011/10/25 version 1.1.6 ファクトリーのカテゴリで、「変数」を削除し、「変数の定義」と「変数の読み書き」を追加した。
+ * 2011/10/25 version 1.1.7 比較ブロックで、ブロックが完全に組まれていないときのエラーダイアログの文言が表示されない問題を修正した。
+ * 2011/10/25 version 1.1.8 JavaからBlockに変換するとき、BlockEditorでローカル変数ブロックの後ろにあるブロックが生成されない問題を修正した。 
+ * 2011/10/25 version 1.2.0 Postfixブロック（「変数」を増やすブロック）を追加した。 
+ * 2011/10/25 version 1.2.1 remainderブロックがjavaに変換されない問題を修正した。 
+ * 2011/10/29 version 1.3.0 ブロックの折りたたみ機能追加。
+ * 2011/10/29 version 1.3.1 ブロックの複製機能追加。
+ * 2011/10/29 version 1.3.2 二つ以上の初期引数が設定できるように修正。 
+ * 2011/10/29 version 1.3.3 変数名に空白、記号が使えないように修正。
+ * 2011/10/29 version 1.3.4 文字列に『'』、『"』、『\』があるとエスケープするように修正。
+ * 2011/11/17 version 1.3.5 ブロックの複製機能の不具合修正。
+ * 2011/11/18 version 1.3.6 変数の値ブロックを変数定義ブロックから生成するように修正。
+ * 2011/11/18 version 1.3.7 変数ブロックを修正。
+ * 2011/11/19 version 1.4.0 オブジェクト変数ブロックを追加。
+ * 2011/11/19 version 1.4.1 オブジェクト生成ブロックを追加。
+ * 2011/11/20 version 1.4.2 オブジェクトのメソッド参照ブロックを追加。
+ * 2011/11/23 version 1.5.0 論プロエディタに組み込み
+ * 2011/11/23 version 1.5.1 授業でのお試し版
+ * 2012/09/27 version 2.0.0 バグ修正(松澤)
+ * 							新機能追加．(elseif文のリバース，for文のリバース)
+ * 2012/09/27 version 2.0.1 文字コード問題でmacで動かない問題を修正中
+ * 2012/10/03 version 2.1.0 文字コード問題を解決
+ * 							BlockEditor <--> Converter間のXMLファイルはUTF-8で統一する．Javaファイルは任意で，外部から設定する．
+ * 2012/10/03 version 2.1.1 文字コード問題のバグをfix <-修正されていない
+ * 							CommentGetterで行数を数える際の機種依存改行コードの問題 
+ * 2012/10/03 version 2.1.2 ウインドウタイトル生成の不具合を修正（松）
+ * 2012/10/03 version 2.1.3 文字コード問題のバグを再fix CommentGetterのアルゴリズムを変更
+ * 2012/10/03 version 2.1.4 文字コード問題のバグを再々fix block->JavaでXMLを読み込む際の文字コード指定忘れ
+ * 2012/10/03 version 2.1.5 文字コード問題のバグを第3fix 文字コード指定方法変更 （Mountain Lion, JDK1.7の組み合わせで動作しない）
+ * 							macで変数が出ない問題は解決した．
+ * 2012/10/03 version 2.1.6 lightGray, darkGrayでエラーが出る問題を修正．
+ * 2012/10/03 version 2.1.7 接続音が重なったときに消えてしまうバグを修正．（Soundクラス）
  * 2012/10/03 version 2.1.8 
- * ���1�@j->b���ău���b�N���u���b�N�Ԃɑ}������Ɨ�O���ł���̉��}���u�D
+ * 問題1　j->bしてブロックをブロック間に挿入すると例外がでる問題の応急処置．
  * Exception in thread "AWT-EventQueue-0" java.lang.RuntimeException: trying to link a plug that's already connected somewhere.
 	at codeblocks.BlockLink.connect(BlockLink.java:159)
-�@�@ ����=>2��ڈȍ~�̍\�z�ŁC�ԂɃu���b�N��}�����悤�Ƃ���Əo��D
-   blockEditor.resetWorkspace();�͌Ă΂�Ă�
+　　 現象=>2回目以降の構築で，間にブロックを挿入しようとすると出る．
+   blockEditor.resetWorkspace();は呼ばれてる
    // blockEditor.resetLanguage();
    // blockEditor.setLangDefDirty(true);
-      ���ĂԂƁC�P��ڂ���o��D
-   workspace��listener����������Ă��炸�C  resetLanguage()�ŁC�Q�߂̃n���h�����o�^����Ă��܂����Ƃ����D
- *�@���2 �v���_�E�����j���[���h���b�O����Ɨ�O�C->�͂��Ȃ��悤�ɉ��}���u
- * 2012/10/07 version 2.1.9 ���ۉ��u���b�N������Ƃ��ɐe�̑傫�����ς��Ȃ����̏C���D
- * 	�E��̒��ۉ��u���b�N���J�����Ƃ��̓�����C�����ꂽ�D
+      を呼ぶと，１回目から出る．
+   workspaceのlistenerが消去されておらず，  resetLanguage()で，２つめのハンドラが登録されてしまうことが問題．
+ *　問題2 プルダウンメニューをドラッグすると例外，->はかないように応急処置
+ * 2012/10/07 version 2.1.9 抽象化ブロックを閉じたときに親の大きさが変わらない問題の修正．
+ * 	・空の抽象化ブロックを開いたときの動作も修正された．
  * 2012.10.10 version 2.1.10
- * �EJava�ŃR�����g�ɃX�y�[�X�������\������D
- * 		XML�͂n�j�CBlock�܂łn�j�CBlockLabel�܂łn�j�CBlockWidgetOK
- * 	    LabelWidget#updateLabelText() �ɂĉ���
- * �E���ۉ��u���b�N�̊J��Ԃ����ɂ��ǂ�D
- * 	Block#getSaveString�R�����g�A�E�g����Ă����D����
+ * ・Javaでコメントにスペースがあると\が入る．
+ * 		XMLはＯＫ，BlockまでＯＫ，BlockLabelまでＯＫ，BlockWidgetOK
+ * 	    LabelWidget#updateLabelText() にて解決
+ * ・抽象化ブロックの開閉状態が元にもどる．
+ * 	Block#getSaveStringコメントアウトされていた．解決
  * 	2012.10.10 version 2.1.11
- * 		�ȉ��̃o�O���C��
- * 		�Ecolor(java.awt.Color.lightGray);�@�i�F�̕ύX�j�@�������ԂŁAOpenBlockEditor������ƐF�u���b�N�����܂����f����Ȃ��iint�^�̒l�u���b�N�ɂȂ�j
- * 		�Eboolean�^�̕ϐ������E�E�E�Ƃ����u���b�N���g�p����ƃf�t�H���g�œ����Ă��鏉���l��true�i�l�u���b�N���Ɛ^�U�j
- *�@	2012.10.16 version 2.1.12
- * 		�E �I�H�Ȃǂ̋L��������悤�ɂ���
- * 		�ELabelWidget#BlockLabelTextField
+ * 		以下のバグを修正
+ * 		・color(java.awt.Color.lightGray);　（色の変更）　がある状態で、OpenBlockEditorをすると色ブロックがうまく反映されない（int型の値ブロックになる）
+ * 		・boolean型の変数を作り・・・というブロックを使用するとデフォルトで入っている初期値がtrue（値ブロックだと真偽）
+ *　	2012.10.16 version 2.1.12
+ * 		・ ！？などの記号が入るようにする
+ * 		・LabelWidget#BlockLabelTextField
  *  2012.10.18 version 2.2.0
- *  	�E���ƒ��ɔ����@�������ۉ��u���b�N�̒��̃u���b�N�ɁC���̒��ۉ��u���b�N���������Ă��܂��o�O���C��
- * 		�EBlockLinkChecker#getLink
+ *  	・授業中に発見　閉じた抽象化ブロックの中のブロックに，他の抽象化ブロックがくっついてしまうバグを修正
+ * 		・BlockLinkChecker#getLink
  *  2012.10.21 version 2.3.0
- *  	�E�X�N���[���V���b�g�@�\
+ *  	・スクリーンショット機能
  *  2012.10.21 version 2.3.1
- *  	�E�X�y�[�X����n�܂钊�ۉ��u���b�NLabel��ύX�ł��Ȃ������C��
+ *  	・スペースから始まる抽象化ブロックLabelを変更できない問題を修正
  *  2012.10.21 version 2.3.2
- *  	�E�X�N���[���V���b�g�@�\�C�u���b�N����Ă���Ƃ����C���g���X�y�[�X�v�Z���Ă��܂������C��
+ *  	・スクリーンショット機能，ブロックを閉じているときも，中身をスペース計算してしまう問題を修正
  *  2012.10.23 version 2.4.0
- *  	�EtoJavaRun��p�~ compile��ʌɍ쐬
- *  	�EtoJava�ŃR���p�C�����Ă����̂�p�~
+ *  	・toJavaRunを廃止 compileを別個に作成
+ *  	・toJavaでコンパイルしていたのを廃止
  *  2012.10.23 version 2.4.1
- *  	�Eif(); while(); �̏����@�i�r���j
+ *  	・if(); while(); の処理　（途中）
  *  2012.10.23 version 2.5.0
- *  	�E while();���o���Ă��Ȃ����������C���D
- *    	�Edirty��Ԃ̒ǉ��i���j�C�ϐ��̏����l���x�����C�ω����Ȃ������Ƃ���notify���������C���D
- *    	�E�ϐ����錾����Ă��Ȃ��G���[�ŁC���O���l�����Ă��Ȃ������̂ŏC���D
+ *  	・ while();が出来ていなかった問題を修正．
+ *    	・dirty状態の追加（仮），変数の初期値ラベルが，変化しなかったときもnotifyされる問題を修正．
+ *    	・変数が宣言されていないエラーで，名前を考慮していなかったので修正．
  *  2012.10.29 version 2.6.0
- *  	�Einstance��method call���CJ->B�Őڑ������������Ȃ�����C�� ExCallMethodModel#print()�@
+ *  	・instanceのmethod call時，J->Bで接続がおかしくなる問題を修正 ExCallMethodModel#print()　
  *  2012.10.29 version 2.6.1
- *  	�E lang_def.xml���I�u�W�F�N�g�w���łɏC���D
+ *  	・ lang_def.xmlをオブジェクト指向版に修正．
  *  2012.10.30 2.6.2
- *  	�E �I�u�W�F�N�g�u���b�N�̃R���e�L�X�g���j���[�̕����ύX
+ *  	・ オブジェクトブロックのコンテキストメニューの文言変更
  *  2012.10.31 2.6.3
- *  	�ESS���j���[�ŕ���
+ *  	・SSメニューで復活
  *  2012.11.1 2.7.0
- *  	�E J->B ConnectorType�����̕ύX�Cint�ȊO�̐ڑ��R�l�N�^�����������Ȃ�bugfix
- *  	�EObject�̉E���j���[�N���b�N�ŏ������݁C�l
- *  	�Elang_def.xml�����������iObject�̏������݁C�l�j�ɑΉ��Clooks�Ή�
+ *  	・ J->B ConnectorType実装の変更，int以外の接続コネクタがおかしくなるbugfix
+ *  	・Objectの右メニュークリックで書き込み，値
+ *  	・lang_def.xmlを書き換え（Objectの書き込み，値）に対応，looks対応
  *  2012.11.4 2.8.0
- *  	�E���\�b�h�ďo���̖߂�l�̌v�Z�̐V�݌v�i���܂ł�number�^�݂̂������j
+ *  	・メソッド呼出しの戻り値の計算の新設計（今まではnumber型のみだった）
  *  2012.11.4 2.8.1
- *  	�E���\�b�h�o�^
+ *  	・メソッド登録
  *  2012.11.4 2.8.2
- *  	�Esignature�̈قȂ郁�\�b�h�̈����C�����̐��őΉ�
+ *  	・signatureの異なるメソッドの扱い，引数の数で対応
  *  2012.11.6 2.9.0
- *  	�EBlock->Java�ɑΉ��D�啝�ȕύX�i�A�h�z�b�N�Ȏ���������j
- *  	�EJava->Block��number�ȊO�̖߂�l�ɑΉ��D�啝�ȕύX(CallGetterMethodModel)�i�A�h�z�b�N�Ȏ���������j
+ *  	・Block->Javaに対応．大幅な変更（アドホックな実装もあり）
+ *  	・Java->Blockのnumber以外の戻り値に対応．大幅な変更(CallGetterMethodModel)（アドホックな実装もあり）
  *  2012.11.6 2.9.1
- *  	�ESoundTurtle�ɑΉ�
+ *  	・SoundTurtleに対応
  *  2012.11.6 2.9.2
- *  	�E�����̕s����C���C�u���b�N�J�e�S���̐���
+ *  	・多くの不具合を修正，ブロックカテゴリの整理
  *  2012.11.7 2.9.3
- *  	�E���ۉ��u���b�N�̒��ɂ���ϐ����R�s�[�����Ƃ��̖��̉���i���{�I�ł͂Ȃ��j
- *  	�Ett.text(tt.getText());�ŁC�ŏ���CallGetterMethodModel�̃R�l�N�^�����������Ȃ���̏C�� (CallGetterMethod#getType()���\�b�h�̏C��)
- *  	�E�u���b�N�J�e�S���̒���
+ *  	・抽象化ブロックの中にある変数をコピーしたときの問題の回避（根本的ではない）
+ *  	・tt.text(tt.getText());で，最初のCallGetterMethodModelのコネクタがおかしくなる問題の修正 (CallGetterMethod#getType()メソッドの修正)
+ *  	・ブロックカテゴリの調整
  *  2012.11.7 2.9.4
- *  	�ESpecialBlock�ɑΉ�
+ *  	・SpecialBlockに対応
  *  2012.11.7 2.9.5
- *  	�E9, 10�͂̃e�X�g�ɂ�����o�O�C��
- *  		�EisShow, show���̉��P setShow�ǉ�
- *  		�Ewarp(mouseX())�ŃG���[�̃o�O���C��
+ *  	・9, 10章のテストにおけるバグ修正
+ *  		・isShow, show問題の改善 setShow追加
+ *  		・warp(mouseX())でエラーのバグを修正
  *  2012.11.7 2.9.6
- *  	�EB->J�ŃG���[���o���Ƃ��̃_�C�A���O��ύX(Description��������)
- *  	�E�R���X�g���N�^�����������Ƃ��̖����G���[�i�G���[���o���C�����𖳎����邵�悤�ɂ������C��������ĂȂ��G���[�̕����ǂ����j
- *  	�ESoundTurtle�̂��ׂẴ��\�b�h�ɑΉ��D
- *  2012.11.8 2.9.7�@���ƒ�
- *  	�Eelse if�u���b�N�ŏo�͂ł���悤�ɉ��ǁD
- *  2012.11.13 2.10.0 CUI�ւ̑Ή�
- *  	�ESpecial-Expression�u���b�N
- *  	�Edouble�^�̓���
- *  	�E�e��ϊ��u���b�N
- *  2012.11.13 2.10.1 CUI�ւ̑Ή�(2)
- *  	�ECUI�J�e�S���CSysout�Ȃǂ̃u���b�N�ƕϊ�
- *  	�EScanner�u���b�N�ƕϊ�
- *  2012.11.13 2.10.2 CUI�ւ̑Ή�(3)
- *  	�Ecast��J->B�����܂��ł��Ă��Ȃ������̂ŏC��
- *  	�EScanner�u���b�N�ƕϊ�
- *  2012.11.13 2.10.2 CUI�ւ̑Ή�(4)
- *  	�Edouble�̉��Z�u���b�N��ǉ�
- *  2012.11.14 2.10.3 CUI�ւ̑Ή�(5)
- *  	�E�S�̓I�ȃo�O�C��
- *  	�ESystem.out.println()���̓��ʑΉ�
- *  	�Escanner.getInt()�̎���
- *  2012.11.14 2.10.4 CUI�ւ̑Ή�(6)
- *  	�Et.fd(100)��forward�����Ƃ��C�]�v��;�����D  ->�C��
- *		�Ewindow.warp()��߂��Ɨ]�v�ȁG��warp������D  ->�C��
- *		�E;�i��u���b�N�j������ƁC�����D  ->�C��
- *	2012.11.14 2.10.6 CUI�ւ̑Ή�(6)
- *		�E xml�t�@�C������->Turtle, CUI�����ϊ�
- *		�Escanner.nextString()�ł͂Ȃ��Cnext()->�Ή�
- *		�E������ɕϊ��Cpoly�ł΃��j���[�Ɏc���Ă����D
- *		�E���w�֐��ɑ����Ή��D
- *	2012.11.14 2.10.7 CUI�ւ̑Ή�(7)
- *		�E �L���X�g��J->B�ɑΉ�
- *	2012.11.14 2.10.8 CUI�ւ̑Ή�(8)
- *		�E������ւ̃L���X�g����double�^���������������̂��C���iElementModel��type�����v���O�����̃o�O�j
- *		�Enext()�ł͂Ȃ��CnextLine()�D nextDouble()�ǉ��ŋ��ȏ��ɑΉ��D
- *		�E���\�b�h���s�u���b�N�idouble�^�j��ǉ�
- *	2012.11.14 2.10.9 CUI�ւ̑Ή�(9)
- *		�E���������Z���ł��Ă��Ȃ����������C��
- *		�Edouble�^�ւ̕ϊ����܂ޒ��u���Z���ł��Ȃ����������C���D
- *		�E������A�����ւ̗U��(ExInfixModel)�̕s����C��
- *	2012.11.14 2.10.10 CUI�ւ̑Ή�(9)
- *		�E�J�e�S���̐���
- *	2012.11.14 2.10.11 CUI�ւ̑Ή�(10)
- *		�E<=���łȂ��D<���������łȂ��@����
- *		�Edouble�^�̃C���N�������g���Z�q�@Block->Java, Java->Block�@���ł��Ȃ� ����
- *	2012.11.14 2.10.12 CUI�ւ̑Ή�(11)
- *		�E�f�t�H���g��ID�ԍ������肸�C���A�s�\�ȃG���[�ƂȂ�����C��
- *	2012.11.14 2.10.13 CUI�ւ̑Ή�(12)
- *		�EcallDoubleMethod()����������Ă��炸�Cscanner.nextDouble()��B->J���o���Ȃ���������
- *	2012.11.23 2.10.14 CUI��T�� 
- *		�ECUI�J�e�S���ɁCCUI�ł͗��p�ł��Ȃ�random()���������̂ō폜�D
- *		�Egenus�֌W��xml��`�t�@�C���̐���
- *		�EhashCode()�̎���
- *	2012.11.23 2.10.15 CUI��T�� 
- *		�ENot�@(!) �̎���
- *		�ESpecialExpression�̍쐬�ꏊ��ύX���CStatement�������̗�O�ł͂Ȃ��CExpression�������̗�O����SpecialExpression�ɂ���悤�ɂ����D
- *	2012.11.23 2.10.16 CUI��T�� 
- *		�Eequals-boolean, not-equals-boolean �̎���
- *		�Eequals-string �̎����Dequals�Ŕ�r����悤�ɍH�v���Ă���D
- *  2012.11.23 2.11.0 ���\�b�h
- *  	�E�R���e�L�X�g���j���[�̃N���G�C�^�[�n�̐����ƃR�[�h���ʉ�
- *  	�E���\�b�h�֌W�̃u���b�N�̐���
- *  	�E���\�b�h���Ăяo����R���e�L�X�g���j���[
- *  	�E�������Q�Ƃł���R���e�L�X�g���j���[
- *  	�E�����̓f���o���C�V�������\�b�h�̓f���o��
- *  2012.11.24 2.11.1 ���\�b�h
- *  	�E�����ɏ������݂��ł���悤�ɂ����i�s���A��j
- *  	�E���\�b�h�i�����j����̋A����o����悤�ɂ����D
- *  2012.11.24 2.11.2 ���\�b�h
- *  	�E���������ꍇ��J->B���o���Ă��Ȃ������̂�bugfix
- *  	�E�߂�l�ɑΉ��i�s���A��n�j�j
- *  2012.11.24 2.11.3 ���\�b�h
- *  	�E���\�b�h�̈ʒu 100�h�b�g���E�ɂ��炷
- *  2012.11.24 2.11.4 ���\�b�h
- *  	�E���\�b�h���������Ƃ��CJava�������D
- *  2012.11.24 2.11.5 ���\�b�h
- *  	�Ebugfix ���\�b�h���������Ƃ��CJava�������D �ŁCstatic main�������Ă��܂��Ă����D
- *  	�Ebugfix B->J�Ń��[�U���\�b�h��Expression�Ƃ��ČĂ񂾏ꍇ��;�����Ă��܂��D
- *  	�E������J->B�ň������������Ă��܂�(2.11.4�ő΍􂵂����肾�������Ȃ����)
- *  2012.11.24 2.11.6 ��A�e�X�g�Ńo�O���
- *  	�Ebugfix StringToDouble�̌^������Ă����D�P���~�X
- *  	�Ebugfix ������A�����S�R�o���Ȃ��Ȃ��Ă����D==, !=���͂˂�R�[�h��+�ł������Ă��܂��Ă����D 
- *  	�Ebugfix double�^�ւ̃L���X�g��()�����Ă��炸�CB->J�ňӖ����ς���Ă��܂��Ă����D
- *  	�Ebugfix scanner->next()�œ����Ă��Ȃ�����
+ *  	・B->Jでエラーが出たときのダイアログを変更(Descriptionが見られる)
+ *  	・コンストラクタ引数が無いときの無名エラー（エラーが出ず，引数を無視するしようにしたが，完成されてないエラーの方が良いか）
+ *  	・SoundTurtleのすべてのメソッドに対応．
+ *  2012.11.8 2.9.7　授業中
+ *  	・else ifブロックで出力できるように改良．
+ *  2012.11.13 2.10.0 CUIへの対応
+ *  	・Special-Expressionブロック
+ *  	・double型の導入
+ *  	・各種変換ブロック
+ *  2012.11.13 2.10.1 CUIへの対応(2)
+ *  	・CUIカテゴリ，Sysoutなどのブロックと変換
+ *  	・Scannerブロックと変換
+ *  2012.11.13 2.10.2 CUIへの対応(3)
+ *  	・castのJ->Bがうまくできていなかったので修正
+ *  	・Scannerブロックと変換
+ *  2012.11.13 2.10.2 CUIへの対応(4)
+ *  	・doubleの演算ブロックを追加
+ *  2012.11.14 2.10.3 CUIへの対応(5)
+ *  	・全体的なバグ修正
+ *  	・System.out.println()等の特別対応
+ *  	・scanner.getInt()の実装
+ *  2012.11.14 2.10.4 CUIへの対応(6)
+ *  	・t.fd(100)をforwardしたとき，余計な;がつく．  ->修正
+ *		・window.warp()を戻すと余計な；とwarpが入る．  ->修正
+ *		・;（空ブロック）があると，乱れる．  ->修正
+ *	2012.11.14 2.10.6 CUIへの対応(6)
+ *		・ xmlファイル分割->Turtle, CUI自動変換
+ *		・scanner.nextString()ではなく，next()->対応
+ *		・文字列に変換，poly版ばメニューに残っていた．
+ *		・数学関数に多少対応．
+ *	2012.11.14 2.10.7 CUIへの対応(7)
+ *		・ キャストのJ->Bに対応
+ *	2012.11.14 2.10.8 CUIへの対応(8)
+ *		・文字列へのキャスト時にdouble型がおかしかったのを修正（ElementModelのtype解決プログラムのバグ）
+ *		・next()ではなく，nextLine()． nextDouble()追加で教科書に対応．
+ *		・メソッド実行ブロック（double型）を追加
+ *	2012.11.14 2.10.9 CUIへの対応(9)
+ *		・多項式演算ができていなかった問題を修正
+ *		・double型への変換を含む中置演算ができなかった問題を修正．
+ *		・文字列連結式への誘導(ExInfixModel)の不具合を修正
+ *	2012.11.14 2.10.10 CUIへの対応(9)
+ *		・カテゴリの整理
+ *	2012.11.14 2.10.11 CUIへの対応(10)
+ *		・<=がでない．<だけしかでない　解決
+ *		・double型のインクリメント演算子　Block->Java, Java->Block　ができない 解決
+ *	2012.11.14 2.10.12 CUIへの対応(11)
+ *		・デフォルトのID番号が足りず，復帰不可能なエラーとなる問題を修正
+ *	2012.11.14 2.10.13 CUIへの対応(12)
+ *		・callDoubleMethod()が実装されておらず，scanner.nextDouble()のB->Jが出来ない問題を解決
+ *	2012.11.23 2.10.14 CUI二週目 
+ *		・CUIカテゴリに，CUIでは利用できないrandom()があったので削除．
+ *		・genus関係のxml定義ファイルの整理
+ *		・hashCode()の実装
+ *	2012.11.23 2.10.15 CUI二週目 
+ *		・Not　(!) の実装
+ *		・SpecialExpressionの作成場所を変更し，Statement処理時の例外ではなく，Expression処理時の例外時にSpecialExpressionにするようにした．
+ *	2012.11.23 2.10.16 CUI二週目 
+ *		・equals-boolean, not-equals-boolean の実装
+ *		・equals-string の実装．equalsで比較するように工夫してある．
+ *  2012.11.23 2.11.0 メソッド
+ *  	・コンテキストメニューのクリエイター系の整理とコード共通化
+ *  	・メソッド関係のブロックの整備
+ *  	・メソッドを呼び出せるコンテキストメニュー
+ *  	・引数が参照できるコンテキストメニュー
+ *  	・引数の吐き出し，新しいメソッドの吐き出し
+ *  2012.11.24 2.11.1 メソッド
+ *  	・引数に書き込みができるようにした（行き帰り）
+ *  	・メソッド（引数）からの帰りを出来るようにした．
+ *  2012.11.24 2.11.2 メソッド
+ *  	・引数が内場合のJ->Bが出来ていなかったのでbugfix
+ *  	・戻り値に対応（行き帰りＯＫ）
+ *  2012.11.24 2.11.3 メソッド
+ *  	・メソッドの位置 100ドットずつ右にずらす
+ *  2012.11.24 2.11.4 メソッド
+ *  	・メソッドを消したとき，Javaも消す．
+ *  2012.11.24 2.11.5 メソッド
+ *  	・bugfix メソッドを消したとき，Javaも消す． で，static mainも消えてしまっていた．
+ *  	・bugfix B->JでユーザメソッドをExpressionとして呼んだ場合も;がついてしまう．
+ *  	・引数のJ->Bで引数名が消えてしまう(2.11.4で対策したつもりだが動かない状態)
+ *  2012.11.24 2.11.6 回帰テストでバグ取り
+ *  	・bugfix StringToDoubleの型が違っていた．単純ミス
+ *  	・bugfix 文字列連結が全然出来なくなっていた．==, !=をはねるコードが+でも効いてしまっていた． 
+ *  	・bugfix double型へのキャストに()がついておらず，B->Jで意味が変わってしまっていた．
+ *  	・bugfix scanner->next()で動いていなかった
  *  2012.11.24 2.11.7 
- *  	�Ebugfix �F���g���Ȃ��Ȃ��Ă����̂ŏC���D
- *  	�EFlowViewer�o������悤�� getLabel()������
+ *  	・bugfix 色が使えなくなっていたので修正．
+ *  	・FlowViewer出見えるように getLabel()を実装
  *  2012.11.25 2.11.8 
- *  	�Ebugfix double�^�̈������o�͂���Ȃ������C��
- *  	�Ebugfix "a" + "b" .hashCode()���o���Ȃ������C��
- *  	�Ebugfix CUI��turtle��random����������C��
+ *  	・bugfix double型の引数が出力されない問題を修正
+ *  	・bugfix "a" + "b" .hashCode()が出来ない問題を修正
+ *  	・bugfix CUIにturtleのrandomがある問題を修正
  *  2013.01.08 2.11.9
- *  	�EListTurtle�Ȃǂ̃p�����^���C�Y�h�N���X�ɏ��Ή�
- *  	�EListTurtle�ɑΉ���
+ *  	・ListTurtleなどのパラメタライズドクラスに準対応
+ *  	・ListTurtleに対応中
  *  2013.01.09 2.12.0
- *  	�EListTurtle�ɑΉ�
- *  	�E�I�u�W�F�N�g�V�X�e����啝���V
+ *  	・ListTurtleに対応
+ *  	・オブジェクトシステムを大幅刷新
  *  2013.01.09 2.13.0
- *  	�EdoWhile, break, continue�ɑΉ��@
+ *  	・doWhile, break, continueに対応　
  *  2013.01.09 2.13.1
- *  	�E�u���₷�v�̒l����ԃo�O�̏C���C
- *  	�EListTurtle�̂قƂ�ǂ̃��\�b�h�ɑΉ�
- *  	�ECardTurtle�̃��\�b�h�ɑΉ��@
+ *  	・「増やす」の値が飛ぶバグの修正，
+ *  	・ListTurtleのほとんどのメソッドに対応
+ *  	・CardTurtleのメソッドに対応　
  *  2013.09.26 2.14.0 Ohata
- *  	�E�C���X�^���X�ϐ��̒ǉ�
- *  	�E�ʒu���̒ǉ�
- *  	�E���\�b�h�̊J��Ԃ̒ǉ��i�����@�o�O����j
- *  	�E�ϐ��n�C���C�g�̒ǉ�
- *  	�E�Q�b�^�[/�Z�b�^�[/�R���X�g���N�^�̒ǉ�
+ *  	・インスタンス変数の追加
+ *  	・位置情報の追加
+ *  	・メソッドの開閉状態の追加（未完　バグあり）
+ *  	・変数ハイライトの追加
+ *  	・ゲッター/セッター/コンストラクタの追加
  *  2013.09.28 2.14.1 Ohata
- *  	�E�n�C���C�g����Ȃ��u���b�N��������������C��
- *  	�E���ۉ��u���b�N��������Null Pointer Exception��������������C��
- * 	 	�Ejava����u���b�N�𐶐����Aprivate�ϐ��̃��C���i���o�[��xml�ɏ����o���ۂ̖����C��
+ *  	・ハイライトされないブロックが発生する問題を修正
+ *  	・抽象化ブロック生成時にNull Pointer Exceptionが発生する問題を修正
+ * 	 	・javaからブロックを生成時、private変数のラインナンバーをxmlに書き出す際の問題を修正
  *  2013.10.01 2.14.2 Ohata
- *  	�E�n�C���C�g�Ώۂ��������݃u���b�N�A�Q�ƃu���b�N�݂̂ɕύX
- *  	�E�C���X�^���X�ϐ��A�I�u�W�F�N�g�ϐ��̉B��			
+ *  	・ハイライト対象を書き込みブロック、参照ブロックのみに変更
+ *  	・インスタンス変数、オブジェクト変数の隠蔽			
  *  2013.10.05 2.14.3 Ohata	
- *  	�E�n�C���C�g�̑Ώۂ�ǉ�
- *  		�E�������݃u���b�N�A�l�u���b�N�̎Q�ƌ����n�C���C�g�Ώۂɒǉ�
- *  	�E�֐��𒴂������[�J���ϐ��̗��p���\�������̂�s�\��
- *  	�E�A�j���[�V��������Ώۂ�ǉ�	
- *  		�E�X�R�[�v�O�̕ϐ��̏������݃u���b�N�A�l�u���b�N�𗘗p���悤�Ƃ����ꍇ	
+ *  	・ハイライトの対象を追加
+ *  		・書き込みブロック、値ブロックの参照元をハイライト対象に追加
+ *  	・関数を超えたローカル変数の利用が可能だったのを不可能に
+ *  	・アニメーション動作対象を追加	
+ *  		・スコープ外の変数の書き込みブロック、値ブロックを利用しようとした場合	
  *  2013.10.09 2.14.4 Ohata
- *  	�E�X�R�[�v�`�F�b�N�̒ǉ��̓r��
- *  	�E�A�j���[�V��������i�c�ړ��j�̒ǉ�
- *  	�E�n�C���C�g����̒ǉ��i�ُ�u���b�N�̐ԃn�C���C�g�j
- *  	�E�A�j���[�V��������̔������i�u���b�N�̑傫���ł̈ړ����A�萔�ɕύX�j
+ *  	・スコープチェックの追加の途中
+ *  	・アニメーション動作（縦移動）の追加
+ *  	・ハイライト動作の追加（異常ブロックの赤ハイライト）
+ *  	・アニメーション動作の微調整（ブロックの大きさでの移動を、定数に変更）
  *  2013.10.10 2.14.5 Ohata
- *  	�E�֐��̈������ЂƂ̌^�����錾�ł��Ȃ��Ȃ����s����C��
+ *  	・関数の引数がひとつの型しか宣言できなくなった不具合を修正
  *  2013.10.12 2.15.0 Ohata
- *  	�E�X�R�[�v�`�F�b�N�@�\�̒ǉ�
+ *  	・スコープチェック機能の追加
  *  2013.10.12 2.15.1 Ohata
- *  	�E�X�R�[�v�`�F�b�N�@�����Ă���u���b�N���̍ŏ��ŕϐ��錾����Ă���ꍇ�ɐ����������ł��Ȃ������C��
+ *  	・スコープチェック　持っているブロック内の最初で変数宣言されている場合に正しく結合できない問題を修正
  *  2013.10.21 2.15.2 Ohata
- *  	�E�X�R�[�v�`�F�b�N�@��b�e�X�g�I����
- *  
- * <TODO>
- * �E�R�����g��xml�̃^�O������ƃG���[�D
- * �E�����̎g�p���ɃX�R�[�v�̃`�F�b�N
- * �EObject�̈���
- * �E������J->B�ň������������Ă��܂�(2.11.4�ő΍􂵂����肾�������Ȃ����)
+ *  	・スコープチェック　基礎テスト終了版
+ *  2014.04.08 3.0.0 Ohata
+ *  	・OOP対応版
+ *  2014.05.01 3.0.1　Ohata
+ *  	・配列要素の参照ブロックの修正
+ *  2014.05.02 3.0.1 Ohata
+ *  	・配列要素への書き込みブロックの修正
+ *  2014.05.15 3.1.0 Ohata
+ *  	・引数ブロックの配列，obproライブラリ対応
+ *  2014.05.15 3.1.1 Ohata
+ *  	・整数型引数のインクリメントがJava>>Block変換できなかった問題を修正
+ *  2014.06.19 3.1.3 ohata
+ *  	・Listのコンテキストメニューからaddを作成した際に変換できない問題を修正
+ *  2014.06.20 3.1.4 ohata
+ *  	・クラスインスタンス生成ブロックの変換処理を修正　同一プロジェクト内のクラスインスタンス生成モデルを利用した変換を行うように変更
+ *  2014.06.27 3.2.0 ohata
+ *  	・継承機能を追加
+ *  	・ブロックの多重登録を修正
+ *  	・thisキーワードの複製の問題を修正
+ *  	・superメソッドブロックの作成処理を追加
+ *  2014.10.24 3.2.1 ohata
+ *  	・コンテキストメニューの変更（タートル継承した自作クラスオブジェクトにタートルのメニューを表示する）
+ *  	・List,Image,TextTurtleなどのメソッド呼び出しブロックを隠蔽
+ *  2014.10.24 3.2.2 ohata
+ *  	・コンテキストメニューの変更（クラス型変数へのメソッド参照を，変数名へ命令するというメニューに変更）
+ *  	・ブロックファクトリを1年生用に変更（自作クラス型変数の配列，プライベート変数を作成しない）
+ *  2014.11.04 3.2.3 ohata
+ *  	・メソッド矢印再描画処理を修正
+ *  	・スコープチェッカを修正 
+ *  2014.11.04 3.2.4 ohata
+ *  	・メソッド矢印を修正　閉じた状態でBlock化した際に矢印が表示されていた問題を修正
+ *  	・島を動かした際に，島中のブロックの矢印の透明度を変更するように修正
+ *  2014.11.04 3.2.5 ohata
+ *  	・メソッド矢印を修正，テスト
+ *  	・ハイライターの修正
+ *  2014.11.04 3.2.6 ohata
+ *  	・ゴミ箱，抽象化ブロック等の処理を追加　テストパス
+ *  	・ハイライターの修正
+ *  2014.11.04 3.3.0 ohata
+ *  	・メソッド矢印正式リリース
+ *  	・その他バグシュウセイ
+ *  2014.11.04 3.3.1 ohata
+ *  	・矢印修正
+ *  	・多点矢印に変更 再帰に対応
+ *  2014.11.04 3.3.3 ohata
+ *  	・矢印修正
+ *  	・多点矢印に変更 再帰バグを修正　その他メソッド定義に関するバグを修正
  * 
- * �E ExCallMethodModel#print() getConnectorId()����̃R�[�h���C�����邱�ƁD�T�O�𐮗�����K�v������D
- * �Eif(); while(); �̏����i���S�Ɂj ->��̂n�j
- * �Edirty��Ԃ̒ǉ��i���S�Ɂj ->��̂n�j
- * �E�����R�[�h�֘A�C�p�b�P�[�W�Ԉˑ��ƃN���X�\�����������������邱��
- * �E�����֌W�̓���`�F�b�N���邱�ƁD 
- * �Ejava version "1.6.0_35"�@���{��̕��������i�v���O�������E�G���[�{���j�͂���܂���ł����B
- * �Ejava version "1.7.0_07"�@���{��̕��������� RonproEditor.jar ���_�u���N���b�N���ċN�������Ƃ��Ɍ����܂����B�R�}���h�v�����v�g������s�����Ƃ��͕����������܂���ł����B
+ * <TODO>
+ * ・コメントにxmlのタグが入るとエラー．
+ * ・引数の使用時にスコープのチェック
+ * ・Objectの引数
+ * ・引数のJ->Bで引数名が消えてしまう(2.11.4で対策したつもりだが動かない状態)
+ * 
+ * ・ ExCallMethodModel#print() getConnectorId()周りのコードを修正すること．概念を整理する必要があり．
+ * ・if(); while(); の処理（完全に） ->大体ＯＫ
+ * ・dirty状態の追加（完全に） ->大体ＯＫ
+ * ・文字コード関連，パッケージ間依存とクラス構成もう少し整理すること
+ * ・複製関係の動作チェックすること． 
+ * ・java version "1.6.0_35"　日本語の文字化け（プログラム内・エラー本文）はありませんでした。
+ * ・java version "1.7.0_07"　日本語の文字化けは RonproEditor.jar をダブルクリックして起動したときに見られました。コマンドプロンプトから実行したときは文字化けしませんでした。
  * 
  */
 public class SBlockEditor {
 
 	// frame name and version infomation
 	public final static String APP_NAME = "Block Editor";
-	public final static String VERSION = "2.15.1";
+	public final static String VERSION = "3.3.2";
 
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;

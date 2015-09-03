@@ -1,0 +1,23 @@
+/**
+ * プログラム名：
+ * 作成者： 
+ * 作成日： 日付
+ */
+public class CLASSNAME extends Turtle {
+
+	//起動処理
+	public static void main(String[] args) {
+		Turtle.startTurtle(new CLASSNAME(), args);
+	}
+
+	//タートルを動かす処理
+	public void start() {
+	}
+
+}
+
+
+
+
+
+

@@ -1,6 +1,7 @@
 package ronproeditor.helpers;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.InputMethodEvent;
@@ -45,6 +46,7 @@ public class ConsoleTextPane extends JTextPane implements IConsole {
 	 */
 	public ConsoleTextPane() {
 		this.initialize();
+		this.setFont(new Font(Font.MONOSPACED , Font.PLAIN, 12));
 		in.refresh();
 	}
 
@@ -79,7 +81,7 @@ public class ConsoleTextPane extends JTextPane implements IConsole {
 	private void initialize() {
 		CTextPaneUtils
 				.setTabs(this, REApplication.WHITESPACE_COUNT_FOR_TAB * 2);// コンパイラのエラーの出し方にあわせる
-
+		
 		// キーによる、カーソルの移動を阻止する
 		this.addKeyListener(new KeyAdapter() {
 			public void keyPressed(KeyEvent e) {

@@ -1,3 +1,4 @@
+
 /*
  * Turtle.java
  * 
@@ -144,13 +145,15 @@ import common.resource.CResourceFinder;
  *      ・DefaultTurtleのgetX()などの動作がおかしい問題をfix
  *      ・debuggerでupdate()が反映されるように，waitrepaintモードを追加
  *      ・ListTurtleのautoupdateモードを追加(defaultはfalse)
+ * version 1.5.27 2015/08/14
+ * 		・createTurtle()メソッドの追加 for SSS JUnicoenデモ
  *      
  * @author macchan
  * @version $Id: Turtle.java,v 1.11 2007/12/21 11:13:42 macchan Exp $
  */
 public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 
-	private static final String version = "1.5.26 (2013/12/15)";
+	private static final String version = "1.5.27 (2015/08/14)";
 
 	static {
 		System.out.println("Turtle Version: " + version);
@@ -200,8 +203,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 			} else if (o instanceof Turtle) {
 				startTurtle((Turtle) o, argv);
 			} else {
-				System.out.println(classname
-						+ " is not a subclass of Turtle class.");
+				System.out.println(classname + " is not a subclass of Turtle class.");
 			}
 		} catch (Exception e) {
 			System.out.println(classname + " クラスが見つかりません。コンパイルは通りましたか？");
@@ -446,6 +448,14 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
+	 * for Turtle 2.0
+	 ****************************************************/
+
+	public Turtle createTurtle() {
+		return new Turtle();
+	}
+
+	/***************************************************
 	 * Looks関連
 	 ****************************************************/
 
@@ -492,7 +502,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	}
 
 	/***************************************************
-	 * shape(形状) locus(軌跡)　関連
+	 * shape(形状) locus(軌跡) 関連
 	 ****************************************************/
 
 	protected LineList shape() {
@@ -1271,8 +1281,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 		if (intersection.isEmpty()) {
 			return false;
 		}
-		return this.intersectsBounds(intersection)
-				&& target.intersectsBounds(intersection);
+		return this.intersectsBounds(intersection) && target.intersectsBounds(intersection);
 	}
 
 	public boolean contains(double x, double y) {
@@ -1451,8 +1460,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 
 	public boolean leftMouseClicked() {
 		inputCaptured = true;
-		return mouseEvent == null ? false
-				: mouseEvent.getButton() == MouseEvent.BUTTON1;
+		return mouseEvent == null ? false : mouseEvent.getButton() == MouseEvent.BUTTON1;
 	}
 
 	public boolean leftMouseDown() {
@@ -1461,8 +1469,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 
 	public boolean rightMouseClicked() {
 		inputCaptured = true;
-		return mouseEvent == null ? false
-				: mouseEvent.getButton() == MouseEvent.BUTTON3;
+		return mouseEvent == null ? false : mouseEvent.getButton() == MouseEvent.BUTTON3;
 	}
 
 	public boolean rightMouseDown() {
@@ -1601,8 +1608,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 			if (enc == null) {
 				br = new BufferedReader(new InputStreamReader(url.openStream()));
 			} else {
-				br = new BufferedReader(new InputStreamReader(url.openStream(),
-						enc));
+				br = new BufferedReader(new InputStreamReader(url.openStream(), enc));
 			}
 			StringBuffer buf = new StringBuffer();
 			String line = "";
@@ -1690,8 +1696,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 
 		if (looks instanceof ImageTurtle) {
 			ImageTurtle it = (ImageTurtle) looks;
-			g.drawImage(it.image(), it.createTransformOp(theta(), width(),
-					height(), rotatedWidth(), rotatedHeight()),
+			g.drawImage(it.image(), it.createTransformOp(theta(), width(), height(), rotatedWidth(), rotatedHeight()),
 					(int) rotatedMinX(), (int) rotatedMinY());
 			return;
 		}
@@ -1768,8 +1773,7 @@ public class Turtle implements KeyListener, MouseListener, MouseMotionListener {
 	 * Listに入れられるように，imageを取ってこれるようにする．(2012/01/08)
 	 ****************************************************/
 
-	private static final BufferedImage nullImage = new BufferedImage(1, 1,
-			BufferedImage.TYPE_4BYTE_ABGR);
+	private static final BufferedImage nullImage = new BufferedImage(1, 1, BufferedImage.TYPE_4BYTE_ABGR);
 
 	public BufferedImage image() {
 		if (delegator != null) {

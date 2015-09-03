@@ -1,21 +1,34 @@
 package bc.apps;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
+import org.eclipse.jdt.core.dom.Name;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import bc.BCSystem;
+import bc.classblockfilewriters.MethodAnalyzer;
 import bc.j2b.analyzer.JavaCommentManager;
 import bc.utils.ASTParserWrapper;
 import bc.utils.FileReader;
@@ -33,24 +46,40 @@ public class OutputSourceModel {
 																							// added
 	private Map<String, String> privateRequests = new LinkedHashMap<String, String>();// ohata
 																						// added
+	private String superClassName;
 
 	public OutputSourceModel(File file, String enc, String[] classpaths) {
 		this.file = file;
 		this.enc = enc;
 		this.classpaths = classpaths;
+	}
 
+	public void setSuperClassName(String superClassName) {
+		this.superClassName = superClassName;
 	}
 
 	public void save() throws Exception {
-		// #ohata ƒvƒ‰ƒCƒx[ƒg•Ï”‚Ìì¬‚Æ•ÏŠ·
+		replaceSuperClass(superClassName);
+		// #ohata ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆå¤‰æ•°ã®ä½œæˆã¨å¤‰æ›
 		createPrivateValues();
 		replacePrivateValues();
-		// 2013.09.10 #ohata —\’è‚Å‚Í‚±‚±‚ÅƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ìì¬‚Æ•ÏŠ·‚ğs‚¤—\’è
+		// 2013.09.10 #ohata äºˆå®šã§ã¯ã“ã“ã§ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ä½œæˆã¨å¤‰æ›ã‚’è¡Œã†äºˆå®š
 		// createConstructors();
 		// replaceConstructors();
-		// 2013.09.10 #ohata Œ»ó‚Í‚±‚±‚ÅƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ìì¬A•ÏŠ·‚ğs‚Á‚Ä‚¢‚é
-		createNewMethods();// ‚Ü‚¸C‚È‚¢ƒƒ\ƒbƒh‚Íì‚é
+		// 2013.09.10 #ohata ç¾çŠ¶ã¯ã“ã“ã§ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ä½œæˆã€å¤‰æ›ã‚’è¡Œã£ã¦ã„ã‚‹
+		createNewMethods();// ã¾ãšï¼Œãªã„ãƒ¡ã‚½ãƒƒãƒ‰ã¯ä½œã‚‹
 		replace();
+	}
+
+	public void replaceSuperClass(String newSuperClassName)
+			throws FileNotFoundException, UnsupportedEncodingException {
+		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
+		SuperClassParser parser = new SuperClassParser(newSuperClassName);
+		unit.accept(parser);
+		PrintStream ps = new PrintStream(file, enc);
+		ps.print(unit.toString());
+		ps.close();
+
 	}
 
 	// #ohata added
@@ -67,13 +96,13 @@ public class OutputSourceModel {
 			String name = getPrivateValueName(privateValue.fragments().get(0)
 					.toString());
 			if (privateRequests.containsKey(name)) {
-				// “ü‘Ö
+				// å…¥æ›¿
 				String blockString = privateRequests.get(name).substring(0,
 						privateRequests.get(name).length() - 1);
 				String oldString = getOldPrivateString(name, src);
 				src = src.replace(oldString, blockString);
 			} else {
-				// Á‹
+				// æ¶ˆå»
 				String blockString = "";
 				String oldString = getOldPrivateString(name, src);
 				src = src.replace(oldString, blockString);
@@ -88,33 +117,52 @@ public class OutputSourceModel {
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		String src = FileReader.readFile(file, enc);
 
-		// "¡‚ ‚é‡‚Ì"@Œã‚ë‚©‚ç’u‚«Š·‚¦ˆ— (‚µ‚È‚¢‚ÆCŒã‚Ìƒƒ\ƒbƒhˆÊ’u‚ª“s“xŒã•û‚Ö‚¸‚ê‚é‚½‚ß)
+		// "ä»Šã‚ã‚‹é †ã®"ã€€å¾Œã‚ã‹ã‚‰ç½®ãæ›ãˆå‡¦ç† (ã—ãªã„ã¨ï¼Œå¾Œã®ãƒ¡ã‚½ãƒƒãƒ‰ä½ç½®ãŒéƒ½åº¦å¾Œæ–¹ã¸ãšã‚Œã‚‹ãŸã‚)
 		List<MethodDeclaration> methods = getMethods();
+
 		Collections.reverse(methods);
 		for (MethodDeclaration method : methods) {
-			String name = method.getName().toString();
+			String name = convertMethodNameToBlockMethodName(method);
 			if ((method.getModifiers() & Modifier.STATIC) == Modifier.STATIC) {
 				continue;
 			}
 			if (requests.containsKey(name)) {
-				// “ü‘Ö
+				// å…¥æ›¿
 				String blockString = requests.get(name);
 				String oldString = getOldString(name, src);
 				src = src.replace(oldString, blockString);
 			} else {
-				// Á‹
+				// æ¶ˆå»
 				String blockString = "";
 				String oldString = getOldString(name, src);
 				src = src.replace(oldString, blockString);
 			}
 		}
 
-		// private•Ï”‚ÌƒŠƒXƒg‚ğæ‚Á‚Ä‚­‚é
-		// ‚·‚×‚Ä‚ÌƒŠƒXƒg—v‘f‚É‘Î‚µAƒƒ\ƒbƒh“¯—l‚É“ü‚ê‘Ö‚¦ˆ—‚ğs‚¤
+		// privateå¤‰æ•°ã®ãƒªã‚¹ãƒˆã‚’å–ã£ã¦ãã‚‹
+		// ã™ã¹ã¦ã®ãƒªã‚¹ãƒˆè¦ç´ ã«å¯¾ã—ã€ãƒ¡ã‚½ãƒƒãƒ‰åŒæ§˜ã«å…¥ã‚Œæ›¿ãˆå‡¦ç†ã‚’è¡Œã†
 		PrintStream ps = new PrintStream(file, enc);
 		BCSystem.out.println("print src:" + src + "at output source model");
 		ps.print(src);
 		ps.close();
+	}
+
+	private String convertMethodNameToBlockMethodName(MethodDeclaration method) {
+		String fullName = method.getName().toString() + "[";
+		for (int i = 0; i < method.parameters().size(); i++) {
+			SingleVariableDeclaration param = (SingleVariableDeclaration) method
+					.parameters().get(i);
+			String paramType = param.getType().toString();
+			if (paramType.equals("double")) {
+				paramType = "int";
+			}
+			fullName += "@"
+					+ MethodAnalyzer.convertBlockConnectorType(paramType);
+
+		}
+		fullName += "]";
+
+		return fullName;
 	}
 
 	private void createPrivateValues() throws Exception {// #ohata added
@@ -124,14 +172,13 @@ public class OutputSourceModel {
 		if (newNames.size() <= 0) {
 			return;
 		}
-
 		createNewPrivateValue(newNames);
 	}
 
 	private void createNewMethods() throws Exception {
 		this.unit = ASTParserWrapper.parse(file, enc, classpaths);
 		// check
-		List<String> newNames = calcNewNames();
+		Map<String, String> newNames = calcNewNames();
 
 		if (newNames.size() <= 0) {
 			return;
@@ -154,6 +201,7 @@ public class OutputSourceModel {
 
 		PrintStream ps = new PrintStream(file, enc);
 		ps.print(src);
+		this.unit = ASTParserWrapper.parse(file, enc, classpaths);// cash
 		ps.close();
 	}
 
@@ -166,6 +214,24 @@ public class OutputSourceModel {
 			cursor = getFirstMethodBeginPosition();
 		} else {
 			cursor = privateValues.get(0).getStartPosition();
+		}
+		return cursor;
+	}
+
+	private int getLastPrivateVariableEndPosition() {// #ohata added
+		int cursor;
+
+		List<FieldDeclaration> privateValues = getPrivateValues();
+
+		if (privateValues.size() == 0) {
+			return -1;
+		} else {
+			VariableDeclarationFragment var = (VariableDeclarationFragment) (privateValues
+					.get(privateValues.size() - 1).fragments().get(0));
+			cursor = privateValues.get(privateValues.size() - 1)
+					.getStartPosition()
+					+ privateRequests.get(var.getName().toString()).length()
+					- 1;
 		}
 		return cursor;
 	}
@@ -184,13 +250,26 @@ public class OutputSourceModel {
 	 * 
 	 * }
 	 */
-	private void createNewMethods(List<String> newNames) throws Exception {
+	private void createNewMethods(Map<String, String> newNames)
+			throws Exception {
 		String src = FileReader.readFile(file, enc);
 
 		int cursor = getLastMethodFinishPosition();
 
-		for (String newName : newNames) {
-			String newStub = "\n\n" + "void " + newName + "(){}";
+		for (String key : newNames.keySet()) {
+			List<String> parameters = getParameters(key);
+
+			String newStub = "\n\n" + "void " + newNames.get(key) + "(";
+			// ä¸€æ™‚çš„ãªå¼•æ•°ã‚’ã¤ã‘ã‚‹å‡¦ç†
+			for (int i = 0; i < parameters.size(); i++) {
+				String param = parameters.get(i) + " s" + String.valueOf(i);
+				newStub += param;
+				if (i + 1 < parameters.size()) {
+					newStub += ",";
+				}
+			}
+			newStub += "){}";
+
 			String newSrc = src.substring(0, cursor) + newStub
 					+ src.substring(cursor);
 			src = newSrc;
@@ -201,35 +280,93 @@ public class OutputSourceModel {
 		ps.close();
 	}
 
-	private int getFirstMethodBeginPosition() {
-		List<MethodDeclaration> methods = getMethods();
-		if (methods.size() <= 0) {// Œ»ó‚Ìd—l‚Å‚ÍCƒƒ\ƒbƒh‚ªˆê‚ÂˆÈã‚È‚¢‚Æ‚¢‚¯‚È‚¢
-			throw new RuntimeException("no any method found.");
+	private String restoreParameter(String parameter) {
+		String param;
+
+		if ("number".equals(parameter)) {
+			param = "int";
+		} else if ("boolean".equals(parameter)) {
+			param = "boolean";
+		} else if ("string".equals(parameter)) {
+			param = "String";
+		} else {
+			param = "Object";
 		}
 
-		MethodDeclaration last = methods.get(0);
+		return param;
+	}
 
-		int start = last.getStartPosition();
+	private List<String> getParameters(String method) {
+		Pattern p = Pattern.compile("@[a-z]+");
+		List<String> parameters = new LinkedList<String>();
+		while (true) {
+			Matcher m = p.matcher(method);
+			if (m.find()) {
+				parameters.add(restoreParameter(m.group().substring(1)));
+				method = method.substring(method.indexOf(m.group())
+						+ m.group().length());
+			} else {
+				break;
+			}
+		}
+
+		return parameters;
+	}
+
+	private int getFirstMethodBeginPosition() {
+		List<MethodDeclaration> methods = getMethods();
+		int start;
+		if (methods.size() <= 0) {
+			start = getLastPrivateVariableEndPosition();
+			if (start == -1) {// privateå¤‰æ•°ãŒç„¡ã„
+				Pattern p = Pattern
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?[" + System.getProperty("line.separator") + "]?");
+				String src = FileReader.readFile(file, enc);
+
+				Matcher m = p.matcher(src);
+				if (m.find()) {
+					start = src.indexOf(m.group()) + m.group().length() + 1; 
+				} else {
+					throw new RuntimeException("Class Declaration Not Found.");
+				}
+			}
+		} else {
+			MethodDeclaration last = methods.get(0);
+
+			start = last.getStartPosition();
+		}
 		return start;
 	}
 
 	private int getLastMethodFinishPosition() {
 		List<MethodDeclaration> methods = getMethods();
-
-		if (methods.size() <= 0) {// Œ»ó‚Ìd—l‚Å‚ÍCƒƒ\ƒbƒh‚ªˆê‚ÂˆÈã‚È‚¢‚Æ‚¢‚¯‚È‚¢
-			throw new RuntimeException("no any method found.");
+		int end;
+		if (methods.size() <= 0) {
+			end = getLastPrivateVariableEndPosition();
+			if (end == -1) {
+				Pattern p = Pattern
+						.compile("(public)?[ ]+class[ ]+(extends[ ]+)?.+[ ]?[{][ ]?[" + System.getProperty("line.separator") + "]?");
+				String src = FileReader.readFile(file, enc);
+				Matcher m = p.matcher(src);
+				if (m.find()) {
+					end = m.group().length()-1;
+				} else {
+					throw new RuntimeException("Class Declaration Not Found.");
+				}
+			}
+		} else {
+			MethodDeclaration last = methods.get(methods.size() - 1);
+			int start = last.getStartPosition();
+			int len = last.getLength();
+			end = start + len;
 		}
 
-		MethodDeclaration last = methods.get(methods.size() - 1);
-		int start = last.getStartPosition();
-		int len = last.getLength();
-		int end = start + len;
 		// the last position
 		return end;
 	}
 
 	private List<String> calcNewPrivateValueNames() {
-		BCSystem.out.println("calc newPrivateNames");
+		
 		List<String> newNames = new ArrayList<String>();
 
 		for (String privateRequest : privateRequests.keySet()) {
@@ -237,23 +374,20 @@ public class OutputSourceModel {
 				newNames.add(privateRequest);
 			}
 		}
-		BCSystem.out.println("calc New Names return :" + newNames);
+
 		return newNames;
 	}
 
-	private List<String> calcNewNames() {
-		BCSystem.out.println("calc newNames");
-		List<String> newNames = new ArrayList<String>();
+	private Map<String, String> calcNewNames() {
+		Map<String, String> newNames = new HashMap<String, String>();
 		List<String> names = new ArrayList<String>(requests.keySet());
 
 		for (String name : names) {
-			BCSystem.out.println("name:" + name);
 			if (findMethod(name) == null) {
-				newNames.add(name);
+				newNames.put(name, name.substring(0, name.indexOf("[")));
 			}
 		}
 
-		BCSystem.out.println("calc New Names return :" + newNames);
 		return newNames;
 	}
 
@@ -272,9 +406,7 @@ public class OutputSourceModel {
 			throw new RuntimeException(
 					"More than two Class Declaration has been Found.");
 		}
-		BCSystem.out.println("types.get(0).getMethods:"
-				+ types.get(0).getMethods());
-		BCSystem.out.println("get(0) end");
+
 		return Arrays.asList(types.get(0).getMethods());
 	}
 
@@ -307,33 +439,22 @@ public class OutputSourceModel {
 
 	private FieldDeclaration findPrivateValue(String name) {
 
-		String value = privateRequests.get(name);
 		for (FieldDeclaration privateValue : getPrivateValues()) {
-			String fragmentsValue = getFragmentsValue(privateValue.fragments()
-					.get(0).toString());
-			BCSystem.out.println("fragmentsValue:" + fragmentsValue + "value:"
-					+ value);
-			BCSystem.out
-					.println("getPrivateValueName(variable.fragments().get(0).toString()):"
-							+ getPrivateValueName(privateValue.fragments()
-									.get(0).toString()));
-			BCSystem.out.println("name:" + name);
 			if (getPrivateValueName(privateValue.fragments().get(0).toString())
 					.equals(name)) {
-				BCSystem.out.println("find same private value:" + name);
 				return privateValue;
 			}
 		}
 		return null;
 	}
 
-	private String getFragmentsValue(String fragment) {
-		int index = fragment.indexOf("=");
-		if (index == -1) {
-			return null;
-		}
-		return fragment.substring(index + 1, fragment.length());
-	}
+	// private String getFragmentsValue(String fragment) {
+	// int index = fragment.indexOf("=");
+	// if (index == -1) {
+	// return null;
+	// }
+	// return fragment.substring(index + 1, fragment.length());
+	// }
 
 	private String getPrivateValueName(String fragment) {
 		int index = fragment.indexOf("=");
@@ -345,7 +466,7 @@ public class OutputSourceModel {
 
 	private MethodDeclaration findMethod(String name) {
 		for (MethodDeclaration method : getMethods()) {
-			if (method.getName().toString().equals(name)) {
+			if (convertMethodNameToBlockMethodName(method).equals(name)) {
 				return method;
 			}
 		}
@@ -373,7 +494,7 @@ public class OutputSourceModel {
 		String oldPrivateString = "";
 
 		JavaCommentManager jcm = new JavaCommentManager(file, enc);
-		// ƒtƒB[ƒ‹ƒh•Ï”I—¹ƒ|ƒWƒVƒ‡ƒ“‚©‚ç‰üs‚Ü‚Å‚ÌŠÔ‚ÉƒRƒƒ“ƒg‚ª‚ ‚é‚©Šm”F‚µAƒRƒƒ“ƒg‚ª‚ ‚éê‡‚ÍƒRƒƒ“ƒg‚Ì•¶š—ñ‚ğæ“¾‚·‚é
+		// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å¤‰æ•°çµ‚äº†ãƒã‚¸ã‚·ãƒ§ãƒ³ã‹ã‚‰æ”¹è¡Œã¾ã§ã®é–“ã«ã‚³ãƒ¡ãƒ³ãƒˆãŒã‚ã‚‹ã‹ç¢ºèªã—ã€ã‚³ãƒ¡ãƒ³ãƒˆãŒã‚ã‚‹å ´åˆã¯ã‚³ãƒ¡ãƒ³ãƒˆè¾¼ã®æ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹
 		if (jcm.getLineCommentPosition(end) != -1) {
 			String comment = jcm
 					.getLineComment(jcm.getLineCommentPosition(end));
@@ -397,7 +518,7 @@ public class OutputSourceModel {
 		String oldString = "";
 
 		JavaCommentManager jcm = new JavaCommentManager(file, enc);
-		// ƒtƒB[ƒ‹ƒh•Ï”I—¹ƒ|ƒWƒVƒ‡ƒ“‚©‚ç‰üs‚Ü‚Å‚ÌŠÔ‚ÉƒRƒƒ“ƒg‚ª‚ ‚é‚©Šm”F‚µAƒRƒƒ“ƒg‚ª‚ ‚éê‡‚ÍƒRƒƒ“ƒg‚Ì•¶š—ñ‚ğæ“¾‚·‚é
+		// ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰å¤‰æ•°çµ‚äº†ãƒã‚¸ã‚·ãƒ§ãƒ³ã‹ã‚‰æ”¹è¡Œã¾ã§ã®é–“ã«ã‚³ãƒ¡ãƒ³ãƒˆãŒã‚ã‚‹ã‹ç¢ºèªã—ã€ã‚³ãƒ¡ãƒ³ãƒˆãŒã‚ã‚‹å ´åˆã¯ã‚³ãƒ¡ãƒ³ãƒˆè¾¼ã®æ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹
 		if (jcm.getLineCommentPosition(end) != -1) {
 			String comment = jcm
 					.getLineComment(jcm.getLineCommentPosition(end));
@@ -420,8 +541,41 @@ public class OutputSourceModel {
 		constructorRequests.put(name, blockString);
 	}
 
-	public void replacePrivateValue(String name, String blockString) {// private•Ï”–¼‚ğ•Û‘¶‚µ‚Æ‚­@
+	public void replacePrivateValue(String name, String blockString) {// privateå¤‰æ•°åã‚’ä¿å­˜ã—ã¨ãã€€
 		privateRequests.put(name, blockString);
+	}
+
+}
+
+class SuperClassParser extends ASTVisitor {
+
+	private String className;
+
+	public SuperClassParser(String newClassName) {
+		this.className = newClassName;
+	}
+
+	public boolean visit(TypeDeclaration node) {
+		setClassName(node, className);
+		return super.visit(node);
+	}
+
+	private void setClassName(TypeDeclaration node, String name) {
+
+		if (name == null || name.equals("") || "null".equals(name)) {
+			// è¦ªã‚¯ãƒ©ã‚¹ãªã—ã«æ›¸æ›
+			if (node.getSuperclassType() != null) {
+				node.getSuperclassType().delete();
+			}
+		} else {
+			// æŒ‡å®šã‚¯ãƒ©ã‚¹ã‚’è¦ªã«æ›¸æ›
+			AST ast = node.getAST();
+			if (ast != null) {
+				Name newName = ast.newName(name);
+				Type superClassType = ast.newSimpleType(newName);
+				node.setSuperclassType(superClassType);
+			}
+		}
 	}
 
 }

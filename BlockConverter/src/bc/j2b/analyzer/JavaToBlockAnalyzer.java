@@ -2,10 +2,14 @@ package bc.j2b.analyzer;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.ArrayAccess;
+import org.eclipse.jdt.core.dom.ArrayCreation;
 import org.eclipse.jdt.core.dom.Assignment;
 import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.BlockComment;
@@ -18,15 +22,19 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.ContinueStatement;
 import org.eclipse.jdt.core.dom.DoStatement;
 import org.eclipse.jdt.core.dom.EmptyStatement;
+import org.eclipse.jdt.core.dom.EnhancedForStatement;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.ExpressionStatement;
+import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ForStatement;
 import org.eclipse.jdt.core.dom.IfStatement;
 import org.eclipse.jdt.core.dom.InfixExpression;
+import org.eclipse.jdt.core.dom.InstanceofExpression;
 import org.eclipse.jdt.core.dom.LineComment;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.MethodInvocation;
+import org.eclipse.jdt.core.dom.NullLiteral;
 import org.eclipse.jdt.core.dom.NumberLiteral;
 import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.ParenthesizedExpression;
@@ -38,9 +46,11 @@ import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.StringLiteral;
+import org.eclipse.jdt.core.dom.SuperConstructorInvocation;
+import org.eclipse.jdt.core.dom.SuperMethodInvocation;
+import org.eclipse.jdt.core.dom.ThisExpression;
 import org.eclipse.jdt.core.dom.Type;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.eclipse.jdt.core.dom.VariableDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationExpression;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
@@ -50,6 +60,7 @@ import bc.BlockConverter;
 import bc.j2b.model.ClassModel;
 import bc.j2b.model.CompilationUnitModel;
 import bc.j2b.model.ElementModel;
+import bc.j2b.model.ExArrayInstanceCreationModel;
 import bc.j2b.model.ExCallActionMethodModel;
 import bc.j2b.model.ExCallActionMethodModel2;
 import bc.j2b.model.ExCallGetterMethodModel;
@@ -62,6 +73,7 @@ import bc.j2b.model.ExLeteralModel;
 import bc.j2b.model.ExNotModel;
 import bc.j2b.model.ExPostfixModel;
 import bc.j2b.model.ExSpecialExpressionModel;
+import bc.j2b.model.ExTypeModel;
 import bc.j2b.model.ExVariableGetterModel;
 import bc.j2b.model.ExVariableSetterModel;
 import bc.j2b.model.ExpressionModel;
@@ -76,6 +88,9 @@ import bc.j2b.model.StLocalVariableModel;
 import bc.j2b.model.StMethodDeclarationModel;
 import bc.j2b.model.StPrivateVariableDeclarationModel;
 import bc.j2b.model.StReturnModel;
+import bc.j2b.model.StSuperConstructorInvocationModel;
+import bc.j2b.model.StSuperVariableModel;
+import bc.j2b.model.StThisVariableModel;
 import bc.j2b.model.StVariableDeclarationModel;
 import bc.j2b.model.StWhileModel;
 import bc.j2b.model.StatementModel;
@@ -88,20 +103,67 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private IdCounter idCounter = new IdCounter(FIRST_ID_COUNTER);
 	private VariableResolver variableResolver = new VariableResolver();
 	private MethodResolver methodResolver = new MethodResolver();
+	private List<String> projectClasses = new LinkedList<String>();
 
 	private CompilationUnitModel currentCompilationUnit;
 	private CompilationUnit compilationUnit;
 	// private ClassModel currentClass;
 
-	// ’ŠÛ‰»ƒuƒƒbƒN‚ÌƒRƒƒ“ƒg
+	// æŠ½è±¡åŒ–ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚³ãƒ¡ãƒ³ãƒˆ
 	private HashMap<Integer, String> abstractionComments = new HashMap<Integer, String>();
 	private JavaCommentManager commentGetter;
 
 	/** created by sakai lab 2011/11/22 */
 	// private AbstractionBlockByTagParser abstParser;
-
 	public JavaToBlockAnalyzer(File file, String enc) {
 		this.commentGetter = new JavaCommentManager(file, enc);
+		createThisModel();
+	}
+
+	public JavaToBlockAnalyzer(File file, String enc,
+			Map<String, String> addedMethods) {
+		this.commentGetter = new JavaCommentManager(file, enc);
+		createThisModel();
+		createSuperModel();
+		for (String method : addedMethods.keySet()) {
+			methodResolver
+					.addMethodReturnType(method, addedMethods.get(method));
+		}
+
+		for (String name : file.getParentFile().list()) {
+			if (name.endsWith(".java")) {
+				projectClasses.add(name.substring(0, name.indexOf(".java")));
+			}
+		}
+
+		// arranged by sakai lab 2011/11/22
+		// abstParser = new AbstractionBlockByTagParser(file);
+		// StGlobalVariableModel variable = new StGlobalVariableModel();
+		// variable.setName("window");
+		// variable.setType("TurtleFrame");
+		// variableResolver.addGlobalVariable(variable);
+	}
+
+	public JavaToBlockAnalyzer(File file, String enc,
+			Map<String, String> addedMethods,
+			Map<String, String> addedMethodsJavaType, List<String> addedClasses) {
+		this.commentGetter = new JavaCommentManager(file, enc);
+		createThisModel();
+		createSuperModel();
+		for (String method : addedMethods.keySet()) {
+			methodResolver
+					.addMethodReturnType(method, addedMethods.get(method));
+		}
+
+		for (String method : addedMethodsJavaType.keySet()) {
+			methodResolver.addMethodJavaReturnType(method,
+					addedMethodsJavaType.get(method));
+		}
+
+		for (String name : addedClasses) {
+			projectClasses.add(name);
+		}
+
 		// arranged by sakai lab 2011/11/22
 		// abstParser = new AbstractionBlockByTagParser(file);
 		// StGlobalVariableModel variable = new StGlobalVariableModel();
@@ -143,10 +205,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * Class‚Ì‰ğÍ
+	 * Classã®è§£æ
 	 * 
 	 * @param node
-	 *            :TypeDeclarationƒm[ƒh
+	 *            :TypeDeclarationãƒãƒ¼ãƒ‰
 	 */
 	@Override
 	public boolean visit(TypeDeclaration node) {
@@ -161,13 +223,19 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		currentCompilationUnit.addClass(model);
 		// this.currentClass = model;
 
-		// 2ƒpƒX•K—v #matsuzawa 2012.11.24
+		// 2ãƒ‘ã‚¹å¿…è¦ #matsuzawa 2012.11.24
 
 		for (MethodDeclaration method : node.getMethods()) {
 			createStub(method);
 		}
 
-		// #ohata replaced
+		addFieldsAndMethods(model, node);
+
+		return true;
+	}
+
+	private void addFieldsAndMethods(ClassModel model, TypeDeclaration node) {
+		// #ohata added
 		int x = 50;
 		int y = 50;
 		for (FieldDeclaration fieldValue : node.getFields()) {
@@ -179,45 +247,44 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		for (MethodDeclaration method : node.getMethods()) {
-			if (x > 1000) {// ‚Æ‚è‚ ‚¦‚¸®”‚Å...
+			if (x > 1000) {// ã¨ã‚Šã‚ãˆãšæ•´æ•°ã§...
 				x = 50;
 				y += 200;
 			}
 
 			if (method.isConstructor()) {
-				if (addConstructorModel(model, method, x, y)) {
-					if (model.getConstructors()
-							.get(model.getConstructors().size() - 1).getPosX() == x) {
-						x += 200;
-					}
+				if (addConstructorModel(model, method, x, y)
+						&& model.getConstructors()
+								.get(model.getConstructors().size() - 1).getPosX() == x) {
+					x += 200;
 				}
 			} else {
-				if (addMethodModel(model, method, x, y)) {
-					if (model.getMethods().get(model.getMethods().size() - 1)
-							.getPosX() == x) {
-						x += 200;
-					}
+				if (addMethodModel(model, method, x, y)
+						&& model.getMethods()
+								.get(model.getMethods().size() - 1).getPosX() == x) {
+					x += 200;
 				}
 			}
 		}
-		return true;
 	}
 
 	private boolean addPrivateVariableDeclarationModel(ClassModel model,
 			FieldDeclaration fieldValue, int x, int y) {
-
 		StPrivateVariableDeclarationModel privateVariableModel = analyzePrivateValue(fieldValue);
 
 		int index = commentGetter.getLineCommentPosition(fieldValue
 				.getStartPosition() + fieldValue.getLength());
 
 		if (privateVariableModel != null) {
+			if (checkIsProjectClasses(privateVariableModel)) {
+				privateVariableModel.setProjectObject(true);
+			}
 			String lineComment = commentGetter.getLineComment(index);
 			String position = getPositionFromLineComment(lineComment);
 			// set position
 			privateVariableModel.setPosX(getX(position, x));
 			privateVariableModel.setPosY(getY(position, y));
-			// ƒRƒƒ“ƒg‚Ì’Ç‰Á
+			// ã‚³ãƒ¡ãƒ³ãƒˆã®è¿½åŠ 
 			privateVariableModel.setComment(lineComment.substring(0,
 					getCommentEndIndex(lineComment)));
 			model.addPrivateVariable(privateVariableModel);
@@ -236,9 +303,24 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 	}
 
+	private boolean checkIsProjectClasses(StVariableDeclarationModel model) {
+		String className = model.getType().toString();
+
+		if (className.indexOf("[]") != -1) {
+			className = className.substring(0, className.indexOf("[]"));
+		}
+
+		if (projectClasses.contains(className)) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
 	private boolean getOpenCloseInfoFromLineComment(String lineComment) {
 		// #ohata added default:open
-		// V‚µ‚­ƒNƒ‰ƒX‚ğì‚Á‚ÄˆÚA—\’è
+		// æ–°ã—ãã‚¯ãƒ©ã‚¹ã‚’ä½œã£ã¦ç§»æ¤äºˆå®š
 		if (lineComment.indexOf("[close]") != -1) {
 			return true;
 		} else if (lineComment.indexOf("[open]") != -1) {
@@ -262,7 +344,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	private String getPositionFromLineComment(String lineComment) {
 		// #ohata added
-		// V‚µ‚­ƒNƒ‰ƒX‚ğì‚Á‚ÄˆÚA
+		// æ–°ã—ãã‚¯ãƒ©ã‚¹ã‚’ä½œã£ã¦ç§»æ¤
 		int state = 0;
 		int start = 0;
 
@@ -286,7 +368,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				}
 				break;
 			case 2:
-				if (lineComment.charAt(i) == ' ') {// ‹ó”’•¶š‚Í‘f’Ê‚è
+				if (lineComment.charAt(i) == ' ') {// ç©ºç™½æ–‡å­—ã¯ç´ é€šã‚Š
 				} else if (Character.isDigit(lineComment.charAt(i))) {
 					state = 3;
 				} else {
@@ -335,17 +417,17 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		StConstructorDeclarationModel constructorModel = analyzeConstructor(method);
 
 		int index = commentGetter.getLineCommentPosition(method
-				.getStartPosition() + method.getLength());// ‚±‚±‚Å-1‚ª‹A‚Á‚Ä‚­‚é‚ÆA
+				.getStartPosition() + method.getLength());// ã“ã“ã§-1ãŒå¸°ã£ã¦ãã‚‹ã¨ã€
 
 		if (constructorModel != null) {
 			String lineComment = commentGetter.getLineComment(index);
 			String position = getPositionFromLineComment(lineComment);
-			// À•W‚Ìw’è
+			// åº§æ¨™ã®æŒ‡å®š
 			constructorModel.setPosX(getX(position, x));
 			constructorModel.setPosY(getY(position, y));
 			// comment set
 			constructorModel.setComment(lineComment.substring(0,
-					getCommentEndIndex(lineComment)));// ‚±‚Á‚¿‚Å‚Ö‚ñ‚ÈêŠ‚ğ‚Æ‚Á‚¿‚á‚¤
+					getCommentEndIndex(lineComment)));// ã“ã£ã¡ã§ã¸ã‚“ãªå ´æ‰€ã‚’ã¨ã£ã¡ã‚ƒã†
 			// open/close set
 			constructorModel
 					.setCollapsed(getOpenCloseInfoFromLineComment(lineComment));
@@ -377,7 +459,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 					.setCollapsed(getOpenCloseInfoFromLineComment(lineComment));
 			model.addMethod(methodModel);
 			return true;
-			// open/close
 		}
 		return false;
 	}
@@ -447,38 +528,88 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	private StPrivateVariableDeclarationModel analyzePrivateValue(
 			FieldDeclaration node) {
-		StPrivateVariableDeclarationModel model = new StPrivateVariableDeclarationModel();
-		int index = node.fragments().get(0).toString().indexOf("=");
-
-		model.setType(node.getType().toString());
-		model.setId(idCounter.getNextId());
-		model.setName(node.fragments().get(0).toString()
-				.substring(0, node.fragments().get(0).toString().length()));
-
-		// initializeƒ‰ƒxƒ‹‚Ì“\‚è•t‚¯
-		if (index != -1) {
-			model.setName(node
-					.fragments()
-					.get(0)
-					.toString()
-					.substring(0,
-							node.fragments().get(0).toString().indexOf("=")));
-			VariableDeclaration val = ((VariableDeclaration) node.fragments()
-					.get(0));
-			model.setInitializer(parseExpression(val.getInitializer()));
+		if (node.fragments().size() > 1) {
+			throw new RuntimeException(
+					"Two or more do not make a variable declaration simultaneously. ");
 		}
 
+		boolean isArray = false;
+		boolean isFinal = false;
+		if (node.getType().isArrayType()) {
+			isArray = true;
+		}
+
+		for (Object modifer : node.modifiers()) {
+			if (modifer.toString().equals("final")) {
+				isFinal = true;
+			}
+		}
+
+		StPrivateVariableDeclarationModel model;
+		if (node.getType().isParameterizedType()) {// Type< Type{, TYpe}>
+			ParameterizedType type = ((ParameterizedType) node.getType());
+
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
+					.fragments().get(0);
+			String variableType = type.getType().toString();
+			String variableName = fragment.getName().toString();
+
+			model = createPrivateVariable(variableType, variableName,
+					compilationUnit.getLineNumber(node.getStartPosition()),
+					fragment, isArray, isFinal);
+			// parameterizedtypeã®ä»˜ä¸
+			for (Object parameterizedType : type.typeArguments()) {
+				((StPrivateVariableDeclarationModel) (model))
+						.setParameterizedType(parameterizedType.toString());
+			}
+		} else {
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
+					.fragments().get(0);
+			String variableType = node.getType().toString();
+			String variableName = fragment.getName().toString();
+
+			model = createPrivateVariable(variableType, variableName,
+					compilationUnit.getLineNumber(node.getStartPosition()),
+					fragment, isArray, isFinal);
+		}
+		model.setJavaVariableType(node.getType().toString());
 		variableResolver.addGlobalVariable(model);
 
 		return model;
 
 	}
 
+	StPrivateVariableDeclarationModel createPrivateVariable(String type,
+			String name, int lineNumber, VariableDeclarationFragment variable,
+			boolean isArrayType, boolean isFinal) {
+		StPrivateVariableDeclarationModel model = new StPrivateVariableDeclarationModel();
+		model.setType(type);
+		model.setId(idCounter.getNextId());
+		model.setName(name);
+		model.setLineNumber(lineNumber);
+		if (variable.getInitializer() != null) {
+			model.setInitializer(parseExpression(variable.getInitializer()));
+		}
+
+		if (isArrayType) {
+			model.setArray(true);
+		}
+
+		if (projectClasses.contains(type)) {
+			model.setProjectObject(true);
+		}
+
+		if (isFinal) {
+			model.setModifer("final-");
+		}
+		return model;
+	}
+
 	// /**
-	// * ƒƒ\ƒbƒh’è‹`‚Ì‰ğÍ
+	// * ãƒ¡ã‚½ãƒƒãƒ‰å®šç¾©ã®è§£æ
 	// *
 	// * @param node
-	// * :MethodDeclarationƒm[ƒh
+	// * :MethodDeclarationãƒãƒ¼ãƒ‰
 	// * @return
 	// */
 	// @Override
@@ -490,12 +621,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		variableResolver.resetLocalVariable();
 
-		// ƒƒ\ƒbƒhˆø”‚Ìˆ—
+		// ãƒ¡ã‚½ãƒƒãƒ‰å¼•æ•°ã®å‡¦ç†
 		for (Object o : node.parameters()) {
 			SingleVariableDeclaration arg = ((SingleVariableDeclaration) o);
+			boolean isArray = false;
+			if (arg.getType().isArrayType()) {
+				isArray = true;
+			}
 			StLocalVariableModel argModel = createLocalVariableModel(arg
 					.getType().toString(), arg.getName().toString(),
-					arg.getInitializer(), true);
+					arg.getInitializer(), true, isArray);
 			model.addArgument(argModel);
 		}
 
@@ -505,7 +640,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 		// currentClass.addMethod(model);
 
-		// ƒRƒ“ƒXƒgƒ‰ƒNƒ^‚Ì’†g
+		// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã®ä¸­èº«
 		StBlockModel body = parseBlockStatement(node.getBody());
 		body.setParent(model);
 		model.setBody(body);
@@ -516,20 +651,29 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	private StMethodDeclarationModel analyzeMethod(MethodDeclaration node) {
-		if ("main".equals(node.getName().toString())) {
+		if ("main".equals(node.getName().toString())
+				&& !node.parameters().isEmpty()
+				&& node.parameters().get(0).toString().equals("String[] args")) {
 			// return false;
 			return null;
 		}
 
 		variableResolver.resetLocalVariable();
 
-		StMethodDeclarationModel model = new StMethodDeclarationModel();
-		// ƒƒ\ƒbƒhˆø”‚Ìˆ—
+		StMethodDeclarationModel model = new StMethodDeclarationModel(
+				ElementModel.getConnectorType(node.getReturnType2().toString()));
+		// ãƒ¡ã‚½ãƒƒãƒ‰å¼•æ•°ã®å‡¦ç†
 		for (Object o : node.parameters()) {
 			SingleVariableDeclaration arg = ((SingleVariableDeclaration) o);
+			boolean isArray = false;
+			if (arg.getType().isArrayType()) {
+				isArray = true;
+			}
+
 			StLocalVariableModel argModel = createLocalVariableModel(arg
 					.getType().toString(), arg.getName().toString(),
-					arg.getInitializer(), true);
+					arg.getInitializer(), true, isArray);
+
 			argModel.setLineNumber(compilationUnit.getLineNumber(arg
 					.getStartPosition()));
 			model.addArgument(argModel);
@@ -541,7 +685,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				.getStartPosition()));
 		// currentClass.addMethod(model);
 
-		// ƒƒ\ƒbƒh‚Ì’†g
+		for (Object modifer : node.modifiers()) {
+			if ("abstract".equals(modifer.toString())) {
+				return model;
+			}
+		}
+
+		// ãƒ¡ã‚½ãƒƒãƒ‰ã®ä¸­èº«
 		StBlockModel body = parseBlockStatement(node.getBody());
 		body.setParent(model);
 		model.setBody(body);
@@ -551,15 +701,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/************************************************************
-	 * ˆÈ‰ºCStatement‚Ì‰ğÍŒn
+	 * ä»¥ä¸‹ï¼ŒStatementã®è§£æç³»
 	 ************************************************************/
 
 	/**
-	 * ŠeStatement‚Ö‚ÌŒo—RŠÖ”
+	 * å„Statementã¸ã®çµŒç”±é–¢æ•°
 	 * 
 	 * @param stmt
-	 *            FStatementƒm[ƒh
-	 * @return ŠeStatement‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šStatementãƒãƒ¼ãƒ‰
+	 * @return å„Statementã®è§£æçµæœ
 	 */
 	public StatementModel parseStatement(Statement stmt) {
 		try {
@@ -575,6 +725,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseDoStatement((DoStatement) stmt);
 			} else if (stmt instanceof ForStatement) {
 				return parseForStatement((ForStatement) stmt);
+			} else if (stmt instanceof EnhancedForStatement) {
+				return parseEnhancedForStatement((EnhancedForStatement) stmt);
 			} else if (stmt instanceof ExpressionStatement) {
 				return parseExpressionStatement((ExpressionStatement) stmt);
 			} else if (stmt instanceof VariableDeclarationStatement) {
@@ -591,16 +743,18 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				empty.setLineNumber(compilationUnit.getLineNumber(stmt
 						.getStartPosition()));
 				return empty;
+			} else if (stmt instanceof SuperConstructorInvocation) {
+				return analyzeSuperConstructorInvocation((SuperConstructorInvocation) stmt);
 			}
 			throw new RuntimeException(
 					"The stmt type has not been supported yet stmt: "
 							+ stmt.getClass() + ", " + stmt.toString());
 		} catch (Exception ex) {
 			throw new RuntimeException(ex);
-			// Expression‚Ì•û‚Å‘Î‰ 2012.11.23 #matsuzawa 2.10.15
+			// Expressionã®æ–¹ã§å¯¾å¿œ 2012.11.23 #matsuzawa 2.10.15
 			// // StSpecialBlockModel special = new
 			// // StSpecialBlockModel(stmt.toString());
-			// // #matsuzawa SpExpression‚É“‡ 2012.11.12
+			// // #matsuzawa SpExpressionã«çµ±åˆ 2012.11.12
 			// ExSpecialExpressionModel special = new ExSpecialExpressionModel(
 			// stmt.toString());
 			// special.setId(idCounter.getNextId());
@@ -608,6 +762,209 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			// stex.setId(idCounter.getNextId());
 			// return stex;
 		}
+	}
+
+	private StatementModel parseEnhancedForStatement(EnhancedForStatement node) {
+		// Initializer
+		StAbstractionBlockModel block = new StAbstractionBlockModel();
+		block.setCommnent("for each");
+		block.setId(idCounter.getNextId());
+		block.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+
+		// counter
+		StatementModel counter = createLocalVariableModel("int", "counter",
+				null, false, false);
+		ExLeteralModel initValue = new ExLeteralModel();
+		initValue.setType("number");
+		initValue.setValue("0");
+		initValue.setId(idCounter.getNextId());
+		initValue.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		initValue.setParent(counter);
+		((StLocalVariableModel) counter).setInitializer(initValue);
+		block.addChild(counter);
+
+		// endIndex initializer
+		ExpressionModel testClause = parseExpression(node.getExpression());
+		ExCallMethodModel indexEndInitializer = new ExCallMethodModel();
+		indexEndInitializer.setType("int");
+		indexEndInitializer.setName("size");
+		indexEndInitializer.setId(idCounter.getNextId());
+		indexEndInitializer.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		ExCallActionMethodModel2 callActionMethodModel = createExCallActionBlock2(
+				testClause, indexEndInitializer, node.getStartPosition());
+
+		// endIndex
+		StLocalVariableModel endIndex = createLocalVariableModel("int",
+				"endIndex", null, false, false);
+		endIndex.setInitializer(callActionMethodModel);
+		block.addChild(endIndex);
+
+		{// While æœ¬ä½“
+			// æ¡ä»¶å¼
+			ExInfixModel condition = new ExInfixModel();
+			condition.setOperator("<");
+			condition.setId(idCounter.getNextId());
+			condition.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			// æ¡ä»¶å¼ã®rightexpression
+			ExVariableGetterModel sizeBlock = new ExVariableGetterModel();
+			sizeBlock.setVariable(variableResolver.resolve("endIndex"));
+			sizeBlock.setId(idCounter.getNextId());
+			sizeBlock.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			condition.setRightExpression(sizeBlock);
+			sizeBlock.setParent(condition);
+			// left
+			ExVariableGetterModel counterGetter = new ExVariableGetterModel();
+			counterGetter.setVariable(variableResolver.resolve("counter"));
+			counterGetter.setId(idCounter.getNextId());
+			counterGetter.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+
+			condition.setLeftExpression(counterGetter);
+			counterGetter.setParent(condition);
+
+			// body
+			// receiver
+			ExVariableGetterModel listReceiver = new ExVariableGetterModel();
+			listReceiver.setId(idCounter.getNextId());
+			listReceiver.setVariable(variableResolver.resolve(node
+					.getExpression().toString()));
+			listReceiver.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+
+			// method
+			ExCallMethodModel getMethod = new ExCallMethodModel();
+			getMethod.setType(node.getParameter().getType().toString());
+			getMethod.setName("get");
+			getMethod.setId(idCounter.getNextId());
+			getMethod.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+
+			// counter
+			ExVariableGetterModel index = new ExVariableGetterModel();
+			index.setVariable(variableResolver.resolve("counter"));
+			index.setId(idCounter.getNextId());
+			getMethod.addArgument(index);
+
+			// size
+			ExCallActionMethodModel2 callMethodModel = createExCallActionBlock2(
+					listReceiver, getMethod, node.getStartPosition());
+			// element = list.get(counter)
+			SingleVariableDeclaration param = node.getParameter();
+			StatementModel model = createLocalVariableModel(param.getType()
+					.toString(), param.getName().toString(), null, false, false);
+
+			((StLocalVariableModel) model).setInitializer(callMethodModel);
+
+			Statement bodyClause = node.getBody();
+			StWhileModel whileModel = createWhileStatement(
+					node.getExpression(), bodyClause, model);
+			whileModel.setTestClause(condition);
+
+			// updater
+			ExVariableSetterModel increment = createExVariableSetterModel("counter");
+			ExInfixModel incrementLeft = createExInfixModel(
+					createExVariableGetterModel("counter"),
+					createExLeteralModel("1"), "+");
+			increment.setRightExpression(incrementLeft);
+
+			StExpressionModel incrementModel = new StExpressionModel(increment);
+
+			whileModel.getBodyClause().addElement(incrementModel);
+
+			block.addChild(whileModel);
+		}
+
+		return block;
+
+	}
+
+	private ExInfixModel createExInfixModel(ExpressionModel left,
+			ExpressionModel right, String operator) {
+		ExInfixModel model = new ExInfixModel();
+		model.setOperator(operator);
+		model.setId(idCounter.getNextId());
+		model.setRightExpression(right);
+		model.setLeftExpression(left);
+		return model;
+	}
+
+	private ExLeteralModel createExLeteralModel(String value) {
+		ExLeteralModel model = new ExLeteralModel();
+		model.setId(idCounter.getNextId());
+		model.setValue("1");
+		return model;
+	}
+
+	private ExVariableGetterModel createExVariableGetterModel(String name) {
+		ExVariableGetterModel model = new ExVariableGetterModel();
+		model.setId(idCounter.getNextId());
+		model.setVariable(variableResolver.resolve(name));
+		return model;
+	}
+
+	private ExVariableSetterModel createExVariableSetterModel(String name) {
+		ExVariableSetterModel model = new ExVariableSetterModel();
+		model.setId(idCounter.getNextId());
+		model.setVariable(variableResolver.resolve(name));
+		return model;
+	}
+
+	private ExCallActionMethodModel2 createExCallActionBlock2(
+			ExpressionModel receiver, ExpressionModel callMethod,
+			int startPosition) {
+		ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(startPosition);
+
+		model.setReceiver(receiver);
+		model.setCallMethod(callMethod);
+
+		return model;
+	}
+
+	private StatementModel analyzeSuperConstructorInvocation(
+			SuperConstructorInvocation stmt) {
+		StSuperConstructorInvocationModel model = new StSuperConstructorInvocationModel();
+
+		String genusName = "super";
+
+		if (stmt.arguments() != null) {
+			genusName += "[";
+		}
+
+		for (Object parameter : stmt.arguments()) {
+			ExpressionModel param = parseExpression((Expression) parameter);
+			param.setId(idCounter.getNextId());
+			param.setLineNumber(compilationUnit.getLineNumber(stmt
+					.getStartPosition()));
+			param.setParent(model);
+			model.addParameter(param);
+
+			String paramType = param.getType();
+			if (paramType.equals("double-number")) {
+				paramType = "number";
+			}
+
+			genusName += "@"
+					+ ElementModel.convertJavaTypeToBlockGenusName(param
+							.getType());
+		}
+
+		if (!"super".equals(genusName)) {
+			genusName += "]";
+		}
+
+		model.setGenusName(genusName);
+
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(stmt
+				.getStartPosition()));
+		return model;
 	}
 
 	private StatementModel analyzeReturnStatement(ReturnStatement stmt) {
@@ -638,17 +995,17 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ƒuƒƒbƒN‚Ì’†g‚Ì‰ğÍi"{" ‚Æ "}"‚ÅˆÍ‚Ü‚ê‚½Statementj
+	 * ãƒ–ãƒ­ãƒƒã‚¯ã®ä¸­èº«ã®è§£æï¼ˆ"{" ã¨ "}"ã§å›²ã¾ã‚ŒãŸStatementï¼‰
 	 * 
 	 * @param block
-	 *            FBlockƒm[ƒh
-	 * @return Block‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šBlockãƒãƒ¼ãƒ‰
+	 * @return Blockã®è§£æçµæœ
 	 */
 	private StBlockModel parseBlockStatement(Block block) {
 		StBlockModel model = new StBlockModel();
 
 		List<?> statements = block.statements();
-		// ‚·‚×‚Ä‚Ìƒƒ\ƒbƒh“à‚ÌƒXƒe[ƒgƒƒ“ƒg‚É‘Î‚µ‚Ä‰ğÍ‚µAƒXƒe[ƒgƒƒ“ƒgƒuƒƒbƒNƒ‚ƒfƒ‹‚Ö‰Á‚¦‚é
+		// ã™ã¹ã¦ã®ãƒ¡ã‚½ãƒƒãƒ‰å†…ã®ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆã«å¯¾ã—ã¦è§£æã—ã€ã‚¹ãƒ†ãƒ¼ãƒˆãƒ¡ãƒ³ãƒˆãƒ–ãƒ­ãƒƒã‚¯ãƒ¢ãƒ‡ãƒ«ã¸åŠ ãˆã‚‹
 		for (Object each : statements) {
 			Statement child = (Statement) each;
 			model.addElement(parseStatement(child));
@@ -657,7 +1014,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ’ŠÛ‰»ƒuƒƒbƒN‚Ì‰ğÍ
+	 * æŠ½è±¡åŒ–ãƒ–ãƒ­ãƒƒã‚¯ã®è§£æ
 	 * 
 	 * @param block
 	 * @return
@@ -671,10 +1028,10 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			if (abstractionComments.get(block.getStartPosition() + i) != null) {
 				String aComments = abstractionComments.get(block
 						.getStartPosition() + i);
-				if (aComments.startsWith(BlockConverter.COLLAPSED_BLOCK_LABEL)) {
-					aComments = aComments
-							.substring(BlockConverter.COLLAPSED_BLOCK_LABEL
-									.length());
+				if (aComments.contains(BlockConverter.COLLAPSED_BLOCK_LABEL)) {
+					aComments = aComments.substring(aComments
+							.indexOf(BlockConverter.COLLAPSED_BLOCK_LABEL)
+							+ BlockConverter.COLLAPSED_BLOCK_LABEL.length());
 					model.setCollapsed(true);
 				}
 				model.setCommnent(aComments);
@@ -692,11 +1049,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * If•¶‚Ì‰ğÍ
+	 * Ifæ–‡ã®è§£æ
 	 * 
 	 * @param node
-	 *            FIfStatementƒm[ƒh
-	 * @return IfStatement‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šIfStatementãƒãƒ¼ãƒ‰
+	 * @return IfStatementã®è§£æçµæœ
 	 */
 	public StIfElseModel parseIfStatement(IfStatement node) {
 		StIfElseModel model = new StIfElseModel();
@@ -709,13 +1066,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 		Statement thenClause = node.getThenStatement();
 		if (thenClause != null) {
-			// #matsuzawa 2012.10.23 •¡•¶C’P•¶‚É‘Î‰
+			// #matsuzawa 2012.10.23 è¤‡æ–‡ï¼Œå˜æ–‡ã«å¯¾å¿œ
 			model.setThenClause(getStBlock(parseStatement(thenClause)));
 		}
 		Statement elseClause = node.getElseStatement();
 		if (elseClause != null) {
 			// model.setElseClause((StBlockModel) parseStatement(elseClause));
-			// 2012.09.25 #matsuzawa else if•¶‚É‘Î‰
+			// 2012.09.25 #matsuzawa else ifæ–‡ã«å¯¾å¿œ
 			model.setElseClause(getStBlock(parseStatement(elseClause)));
 		}
 
@@ -750,7 +1107,35 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		return model;
 	}
 
-	// ’P•¶‚à•¡•¶‚à•¡•¶‚É•ÏŠ·‚·‚é
+	private StWhileModel createWhileStatement(Expression testClause,
+			Statement bodyClause, StatementModel initializer) {
+		StWhileModel model = new StWhileModel(false);
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(testClause
+				.getStartPosition()));
+
+		StBlockModel body = new StBlockModel();
+		body.addElement(initializer);
+		if (testClause != null) {
+			model.setTestClause(parseExpression(testClause));
+		}
+
+		if (bodyClause != null) {
+			Block bodyBlock = (Block) bodyClause;
+			List<?> statements = bodyBlock.statements();
+
+			for (Object statement : statements) {
+				Statement child = (Statement) statement;
+				body.addElement(parseStatement(child));
+			}
+
+			model.setBodyClause(body);
+		}
+
+		return model;
+	}
+
+	// å˜æ–‡ã‚‚è¤‡æ–‡ã‚‚è¤‡æ–‡ã«å¤‰æ›ã™ã‚‹
 	private StBlockModel getStBlock(StatementModel model) {
 		if (model instanceof StBlockModel) {
 			return (StBlockModel) model;
@@ -762,17 +1147,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * For•¶‚Ì‰ğÍ
+	 * Foræ–‡ã®è§£æ
 	 * 
 	 * @param stmt
 	 *            :ForStatement
-	 * @return ForStatement‚Ì‰ğÍŒ‹‰Ê
+	 * @return ForStatementã®è§£æçµæœ
 	 */
 	// private StBlockModel parseForStatement(ForStatement node) {
 	private StatementModel parseForStatement(ForStatement node) {
 		// StBlockModel block = new StBlockModel();
 		// block.setId(idCounter.getNextId());
-
 		StAbstractionBlockModel block = new StAbstractionBlockModel();
 		block.setCommnent("for");
 		block.setId(idCounter.getNextId());
@@ -781,12 +1165,29 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// Initializer
 		for (Object o : node.initializers()) {
 			Expression exp = (Expression) o;
-			StVariableDeclarationModel vmodel = parseVariableDeclarationExpression((VariableDeclarationExpression) exp);
-			block.addChild(vmodel);
+			if (exp instanceof Assignment) {
+				StExpressionModel initializer = new StExpressionModel(
+						parseExpression(exp));
+				block.addChild(initializer);
+			} else {
+				StVariableDeclarationModel vmodel = parseVariableDeclarationExpression((VariableDeclarationExpression) exp);
+				block.addChild(vmodel);
+			}
+			// if (exp instanceof VariableDeclarationExpression) {
+			// StVariableDeclarationModel vmodel =
+			// parseVariableDeclarationExpression((VariableDeclarationExpression)
+			// exp);
+			// block.addChild(vmodel);
+			// // } else if (exp instanceof Expression) {
+			// Expression model
+			// ExpressionModel initializer = parseExpression(exp);
+			// block.addChild(initializer);
+			// }
+
 		}
 
 		{
-			// While –{‘Ì
+			// While æœ¬ä½“
 			Expression testClause = node.getExpression();
 			Statement bodyClause = node.getBody();
 			StWhileModel whileModel = createWhileStatement(testClause,
@@ -864,22 +1265,22 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ®i•¶‚Æ‚µ‚Äj‚Ì‰ğÍ
+	 * å¼ï¼ˆæ–‡ã¨ã—ã¦ï¼‰ã®è§£æ
 	 * 
 	 * @param stmt
-	 *            FExpressionƒm[ƒh
-	 * @return ExpressionStatement‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šExpressionãƒãƒ¼ãƒ‰
+	 * @return ExpressionStatementã®è§£æçµæœ
 	 */
 	private StExpressionModel parseExpressionStatement(ExpressionStatement stmt) {
 		return new StExpressionModel(parseExpression(stmt.getExpression()));
 	}
 
 	/**
-	 * •Ï”éŒ¾‚Ì‰ğÍ
+	 * å¤‰æ•°å®£è¨€ã®è§£æ
 	 * 
 	 * @param node
-	 *            FVariableDeclarationStatementƒm[ƒh
-	 * @return j2b.model:VariableDeclarationStatement‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šVariableDeclarationStatementãƒãƒ¼ãƒ‰
+	 * @return j2b.model:VariableDeclarationStatementã®è§£æçµæœ
 	 */
 	public StatementModel parseVariableDeclarationStatement(
 			VariableDeclarationStatement node) {
@@ -887,20 +1288,55 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			throw new RuntimeException(
 					"Two or more do not make a variable declaration simultaneously. ");
 		}
-
-		// // int i,j,k; ‚Ì‚æ‚¤‚È‘‚«•û‚ğƒp[ƒX‚·‚é
+		// // int i,j,k; ã®ã‚ˆã†ãªæ›¸ãæ–¹ã‚’ãƒ‘ãƒ¼ã‚¹ã™ã‚‹
 		// BlockStatementModel block = new BlockStatementModel();
 		// List<?> fragments = node.fragments();
 		// for (int i = 0; i < fragments.size(); i++) {
-
 		String typeString = typeString(node.getType());
-		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
-				.fragments().get(0);
-		StatementModel model = createLocalVariableModel(typeString, fragment
-				.getName().toString(), fragment.getInitializer(), false);
-		model.setLineNumber(compilationUnit.getLineNumber(node
-				.getStartPosition()));
-		return model;
+
+		if (node.getType().isArrayType()) {// Type i[]
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
+					.fragments().get(0);
+
+			StatementModel model = createLocalVariableModel(typeString,
+					fragment.getName().toString(), fragment.getInitializer(),
+					false, true);
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+
+			return model;
+		} else if (node.getType().isParameterizedType()) {// Type< Type{, TYpe}>
+			ParameterizedType type = ((ParameterizedType) node.getType());
+
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
+					.fragments().get(0);
+
+			StatementModel model = createLocalVariableModel(type.getType()
+					.toString(), fragment.getName().toString(),
+					fragment.getInitializer(), false, false);
+			for (Object parameterizedType : type.typeArguments()) {
+				((StLocalVariableModel) (model))
+						.setParameterizedType(parameterizedType.toString());
+			}
+
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			return model;
+			// ((ParameterizedType)node.getType()).typeArguments()
+		} else if (node.getType().isPrimitiveType()
+				|| node.getType().isSimpleType()) {
+			VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
+					.fragments().get(0);
+			StatementModel model = createLocalVariableModel(typeString,
+					fragment.getName().toString(), fragment.getInitializer(),
+					false, false);
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			return model;
+		} else {
+			throw new IllegalArgumentException("ã¾ã æœªå¯¾å¿œã® AST node type ã‚’è§£æã—ã¾ã—ãŸ.");
+		}
+
 	}
 
 	private StLocalVariableModel parseVariableDeclarationExpression(
@@ -911,10 +1347,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		String typeString = typeString(node.getType());
-		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node
-				.fragments().get(0);
-		StLocalVariableModel model = createLocalVariableModel(typeString,
-				fragment.getName().toString(), fragment.getInitializer(), false);
+		VariableDeclarationFragment fragment = (VariableDeclarationFragment) node.fragments().get(0);
+
+		boolean isArray = false;
+		if (node.getType().isArrayType()) {
+			isArray = true;
+		}
+
+		StLocalVariableModel model = createLocalVariableModel(typeString, fragment.getName().toString(), fragment.getInitializer(), false, isArray);
+
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 		return model;
@@ -923,9 +1364,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	private String typeString(Type type) {
 		String typeString = type.toString();
 		if (type instanceof ParameterizedType) {
-			typeString = typeString.replaceAll("<", "ƒ");
-			typeString = typeString.replaceAll(">", "„");
-			// ‚Ğ‚Æ‚Ü‚¸Cˆê’i‚Ì‚İ
+			typeString = typeString.replaceAll("<", "ï¼œ");
+			typeString = typeString.replaceAll(">", "ï¼");
+			// ã²ã¨ã¾ãšï¼Œä¸€æ®µã®ã¿
 			// ParameterizedType pType = ((ParameterizedType) type);
 			// Type baseType = pType.getType();
 			// typeString = baseType.toString();
@@ -934,33 +1375,94 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	private StLocalVariableModel createLocalVariableModel(String type,
-			String name, Expression initializer, boolean argument) {
+			String name, Expression initializer, boolean argument, boolean array) {
 		// create local variable
 		StLocalVariableModel model = new StLocalVariableModel(argument);
+
+		model.setArray(array);
+
+		model.setJavaVariableType(type);
+
 		model.setId(idCounter.getNextId());
 		// String name = fragment.getName().toString();
 		model.setName(name);
-		model.setType(type);
-		model.setId(idCounter.getNextId());
+		model.setType(convertBlockType(type));
+
+		if (checkIsProjectClasses(model)) {
+			model.setProjectObject(true);
+		}
+
 		variableResolver.addLocalVariable(model);
 
-		// int x = 3;‚Ì‚æ‚¤‚ÉCinitializer‚ª‚Â‚¢‚Ä‚¢‚éê‡
+		// int x = 3;ã®ã‚ˆã†ã«ï¼ŒinitializerãŒã¤ã„ã¦ã„ã‚‹å ´åˆ
 		if (initializer != null) {
 			model.setInitializer(parseExpression(initializer));
 		}
 
+		// // é…åˆ—ã‚µã‚¤ã‚ºåˆ†ã®ãƒ­ãƒ¼ã‚«ãƒ«å¤‰æ•°ã‚’ãƒªã‚¾ãƒ«ãƒã«è¿½åŠ 
+		// if(model.getInitializer() instanceof ExArrayInstanceCreationModel){
+		// //é…åˆ—ã‚µã‚¤ã‚ºåˆ†ãƒªã‚¾ãƒ«ãƒã«ç™»éŒ²
+		// int index =
+		// ((ExArrayInstanceCreationModel)model.getInitializer()).getSize();
+		//
+		// for(int i=0;i<index;i++){
+		// StLocalVariableModel element = new StLocalVariableModel(argument);
+		// element.setArray(false);
+		// String elementName = name + "[" + i + "]";
+		// element.setName(elementName);
+		// System.out.println(element.getName());
+		// model.setJavaVariableType(((ExArrayInstanceCreationModel)model.getInitializer()).getType());
+		// model.setType(((ExArrayInstanceCreationModel)model.getInitializer()).getElementType());
+		// variableResolver.addLocalVariable(element);
+		// }
+		// }
+
 		return model;
 	}
 
+	private String convertBlockType(String type) {
+		if ("int".equals(type)) {
+			return "number";
+		} else if ("String".equals(type)) {
+			return "string";
+		} else if ("double".equals(type)) {
+			return "double-number";
+		} else if ("boolean".equals(type)) {
+			return "boolean";
+		} else {
+			return type;
+		}
+	}
+
+	private void createThisModel() {
+		// create local variable
+		StThisVariableModel model = new StThisVariableModel();
+		model.setType("object");
+		model.setName("è‡ªåˆ†");
+		model.setJavaVariableType(commentGetter.getSourceName());
+
+		model.setId(idCounter.getNextId());
+		variableResolver.setThisValue(model);
+	}
+
+	private void createSuperModel() {
+		StSuperVariableModel model = new StSuperVariableModel();
+		model.setType("object");
+		model.setName("è¦ªã‚¯ãƒ©ã‚¹");
+
+		model.setId(idCounter.getNextId());
+		variableResolver.setSuperValue(model);
+	}
+
 	/************************************************************
-	 * ˆÈ‰ºCExpression‚Ì‰ğÍŒn
+	 * ä»¥ä¸‹ï¼ŒExpressionã®è§£æç³»
 	 ************************************************************/
 	/**
-	 * ŠeExpression‚Ö‚ÌŒo—RŠÖ”
+	 * å„Expressionã¸ã®çµŒç”±é–¢æ•°
 	 * 
 	 * @param node
-	 *            FExpressionƒm[ƒh
-	 * @return ŠeExpression‚Ì‰ğÍŒ‹‰Ê
+	 *            ï¼šExpressionãƒãƒ¼ãƒ‰
+	 * @return å„Expressionã®è§£æçµæœ
 	 */
 	public ExpressionModel parseExpression(Expression node) {
 		try {
@@ -968,10 +1470,12 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return (ExpressionModel) parseInfixExpression((InfixExpression) node);
 			} else if (node instanceof NumberLiteral
 					|| node instanceof BooleanLiteral
-					|| node instanceof StringLiteral) {
+					|| node instanceof StringLiteral
+					|| node instanceof NullLiteral) {
 				return (ExpressionModel) parseLeteralExpression(node);
-			} else if (node instanceof SimpleName) {
-				ExpressionModel model = (ExpressionModel) parseVariableGetterExpression(((SimpleName) node)
+			} else if (node instanceof SimpleName
+					|| node instanceof ThisExpression) {
+				ExpressionModel model = (ExpressionModel) parseVariableGetterExpression(node
 						.toString());
 				model.setLineNumber(compilationUnit.getLineNumber(node
 						.getStartPosition()));
@@ -980,6 +1484,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseAssignementExpression((Assignment) node);
 			} else if (node instanceof MethodInvocation) {
 				return parseMethodInvocationExpression((MethodInvocation) node);
+			} else if (node instanceof SuperMethodInvocation) {
+				return parseMethodInvocationExpression((SuperMethodInvocation) node);
 			} else if (node instanceof PostfixExpression) {
 				return (ExpressionModel) parsePostfixExpression((PostfixExpression) node);
 			} else if (node instanceof PrefixExpression) {
@@ -992,6 +1498,14 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return (ExpressionModel) parseClassInstanceCreation((ClassInstanceCreation) node);
 			} else if (node instanceof CastExpression) {
 				return (ExpressionModel) parseCastExpression((CastExpression) node);
+			} else if (node instanceof ArrayCreation) {
+				return (ExpressionModel) parseArrayInstanceCreation((ArrayCreation) node);
+			} else if (node instanceof FieldAccess) {
+				return (ExpressionModel) parseFieldAccess(((FieldAccess) node));
+			} else if (node instanceof ArrayAccess) {
+				return (ExpressionModel) parseArrayAccess((ArrayAccess) node);
+			} else if (node instanceof InstanceofExpression) {
+				return (ExpressionModel) parseInstanceofExpression((InstanceofExpression) node);
 			}
 			throw new RuntimeException(
 					"The node type has not been supported yet node: "
@@ -1007,35 +1521,233 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 	}
 
+	private ExpressionModel parseInstanceofExpression(InstanceofExpression node) {
+		String oparator = "instanceof";
+		// String type = infixTypeChecker(node);
+
+		ExInfixModel model = new ExInfixModel();
+		model.setOperator(oparator);
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		model.setLeftExpression(parseExpression(node.getLeftOperand()));
+
+		ExTypeModel typeModel = new ExTypeModel();
+		typeModel.setId(idCounter.getNextId());
+		typeModel.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		typeModel.setType(node.getRightOperand().toString());
+		typeModel.setLabel(node.getRightOperand().toString());
+		typeModel.setParent(model);
+
+		model.setRightExpression(typeModel);
+
+		model.setType("boolean");
+
+		return model;
+
+	}
+
 	/**
-	 * ‘ã“ü®‚Ì‰ğÍ
+	 * ä»£å…¥å¼ã®è§£æ
 	 * 
 	 * @param node
-	 *            :Assignmentƒm[ƒh
-	 * @return Assignment‚Ì‰ğÍŒ‹‰Ê
+	 *            :Assignmentãƒãƒ¼ãƒ‰
+	 * @return Assignmentã®è§£æçµæœ
 	 */
 	private ExpressionModel parseAssignementExpression(Assignment node) {
+
 		ExVariableSetterModel model = new ExVariableSetterModel();
 		ExpressionModel rightExpression = parseExpression(node
 				.getRightHandSide());
+		// operatorãƒã‚§ãƒƒã‚¯
+		if ("+=".equals(node.getOperator().toString())) {
+			rightExpression = setOperator("+", node, rightExpression);
+		} else if ("-=".equals(node.getOperator().toString())) {
+			rightExpression = setOperator("-", node, rightExpression);
+		} else if ("*=".equals(node.getOperator().toString())) {
+			rightExpression = setOperator("*", node, rightExpression);
+		} else if ("/=".equals(node.getOperator().toString())) {
+			rightExpression = setOperator("/", node, rightExpression);
+		}
+
 		model.setRightExpression(rightExpression);
 		if (node.getRightHandSide() instanceof Assignment) {
 			throw new RuntimeException("not supported two or more substitution");
 		}
-		String name = node.getLeftHandSide().toString();
-		model.setVariable(variableResolver.resolve(name));
-		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node
+
+		// +=ãªã‚‰ã€å·¦è¾ºã®å€¤ãƒ–ãƒ­ãƒƒã‚¯ã¨ã€+ãƒ–ãƒ­ãƒƒã‚¯
+		// -=
+		// *=
+		// /=
+		Expression leftExpression = node.getLeftHandSide();
+		// å·¦è¾ºã®expressionã‚‚è§£æã™ã‚‹
+		ExpressionModel setterModel = parseLeftExpression(leftExpression, model);
+		return setterModel;
+
+		// if (name.contains("this.")) {
+		// ExCallActionMethodModel2 thisSetterModel = new
+		// ExCallActionMethodModel2();
+		// thisSetterModel.setId(idCounter.getNextId());
+		// thisSetterModel.setLineNumber(compilationUnit.getLineNumber(node
+		// .getStartPosition()));
+		// // ExCallMethodModel callMethod = new ExCallMethodModel();
+		// ExpressionModel thisModel = (ExpressionModel)
+		// parseVariableGetterExpression("this");
+		// thisModel.setType("object");
+		//
+		// name = name.substring(name.indexOf(".") + 1, name.length());
+		// model.setVariable(variableResolver.resolve(name));
+		// model.setId(idCounter.getNextId());
+		// model.setLineNumber(compilationUnit.getLineNumber(node
+		// .getStartPosition()));
+		//
+		// thisSetterModel.setReceiver(thisModel);
+		// thisSetterModel.setCallMethod(model);
+		// return thisSetterModel;
+		// } else if (name.contains("[")) {
+		// // é…åˆ—ã®å‡¦ç†
+		// ExCallMethodModel arraySetter = new ExCallMethodModel();
+		// // ã¨ã‚Šã‚ãˆãšç„¡ç†ã‚„ã‚Šå¤‰æ•°ã‚’å–ã‚‹
+		// Expression left = node.getLeftHandSide();
+		// if (left instanceof ) {
+		// System.out.println("hoge");
+		// }
+		//
+		// String index = name.substring(name.indexOf("[", name.indexOf("]")));
+		//
+		// arraySetter.addArgument(rightExpression);
+		// // æ›¸ãè¾¼ã¿ãƒ–ãƒ­ãƒƒã‚¯ã‚’ä½œæˆ
+		//
+		// }
+
+	}
+
+	private ExpressionModel setOperator(String operator, Assignment node,
+			ExpressionModel model) {
+		ExInfixModel operatorModel = new ExInfixModel();
+		operatorModel.setOperator(operator);
+		operatorModel.setId(idCounter.getNextId());
+		operatorModel.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		return model;
+		ExpressionModel left = parseExpression(node.getLeftHandSide());
+
+		operatorModel.setType("number");
+		operatorModel.setLeftExpression(left);
+		operatorModel.setRightExpression(model);
+		return operatorModel;
+	}
+
+	private ExpressionModel parseLeftExpression(Expression node,
+			ExVariableSetterModel model) {
+		try {
+			if (node instanceof SimpleName) {
+				model.setVariable(variableResolver.resolve(node.toString()));
+				model.setId(idCounter.getNextId());
+				model.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+				return model;
+			} else if (node instanceof ArrayAccess) {
+				ArrayAccess arrayNode = (ArrayAccess) node;
+				model.setVariable(variableResolver.resolve(arrayNode.getArray()
+						.toString()));
+				model.setId(idCounter.getNextId());
+				model.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+
+				// index.setConnectorId(model.getId());
+				// model.setIndexModel(index);
+				// index.setParent(model);
+
+				ExpressionModel variable = parseExpression(arrayNode.getIndex());
+				variable.setConnectorId(model.getId());
+				variable.setParent(model);
+				model.setIndexModel(variable);
+
+				// ArrayAccess arrayNode = (ArrayAccess) node;
+				// // ãƒ¡ã‚½ãƒƒãƒ‰å‘¼ã³å‡ºã—ãƒ¢ãƒ‡ãƒ«ä½œæˆ
+				// ExCallMethodModel arraySetter = new ExCallMethodModel();
+				// arraySetter.setId(idCounter.getNextId());
+				// // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®è§£æ
+				// ExpressionModel variable =
+				// parseExpression(arrayNode.getIndex());
+				// variable.setId(idCounter.getNextId());
+				//
+				// String scope = variableResolver.resolve(
+				// arrayNode.getArray().toString()).getGenusName();
+				//
+				// if (scope.startsWith("local")) {
+				// scope = "local";
+				// } else {
+				// scope = "private";
+				// }
+				//
+				// if (variableResolver.resolve(arrayNode.getArray().toString())
+				// .getType().contains("int")
+				// || variableResolver
+				// .resolve(arrayNode.getArray().toString())
+				// .getType().contains("number")) {
+				// arraySetter.setName("setter-" + scope
+				// + "-numberarrayelement");
+				// } else if (variableResolver
+				// .resolve(arrayNode.getArray().toString()).getType()
+				// .contains("String")) {
+				// arraySetter.setName("setter-" + scope
+				// + "-stringarrayelement");
+				// } else if (variableResolver
+				// .resolve(arrayNode.getArray().toString()).getType()
+				// .contains("double")) {
+				// arraySetter.setName("setter-" + scope
+				// + "-doublearrayelement");
+				// } else {
+				// arraySetter.setName("setter-" + scope
+				// + "-objectarrayelement");
+				// }
+				// arraySetter
+				// .setLabel(((ArrayAccess) node).getArray().toString());
+				// arraySetter.addArgument(variable);
+				// arraySetter.addArgument(model.getRightExpression());
+				return model;
+			} else if (node instanceof FieldAccess) {
+				ExCallActionMethodModel2 thisSetterModel = new ExCallActionMethodModel2();
+				thisSetterModel.setId(idCounter.getNextId());
+				thisSetterModel.setLineNumber(compilationUnit
+						.getLineNumber(node.getStartPosition()));
+
+				ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
+				thisModel.setType("object");
+
+				String name = node.toString();
+				name = name.substring(name.indexOf(".") + 1, name.length());
+				model.setVariable(variableResolver.resolveThisGetter(name));
+				model.setId(idCounter.getNextId());
+				model.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+
+				thisSetterModel.setReceiver(thisModel);
+				thisSetterModel.setCallMethod(model);
+				return thisSetterModel;
+			}
+			throw new RuntimeException(
+					"The node type has not been supported yet node: "
+							+ node.getClass() + ", " + node.toString());
+		} catch (Exception ex) {
+			// ex.printStackTrace();
+			ExSpecialExpressionModel special = new ExSpecialExpressionModel(
+					node.getParent().toString());
+			special.setId(idCounter.getNextId());
+			special.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			return special;
+		}
 	}
 
 	/**
-	 * ƒCƒ“ƒNƒŠƒƒ“ƒgAƒfƒNƒŠƒƒ“ƒg‚ğ‰ğÍ
+	 * ã‚¤ãƒ³ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã€ãƒ‡ã‚¯ãƒªãƒ¡ãƒ³ãƒˆã‚’è§£æ
 	 * 
 	 * @param node
-	 *            :PostfixExpressionƒm[ƒh
-	 * @return PostfixExpression‚Ì‰ğÍŒ‹‰Ê
+	 *            :PostfixExpressionãƒãƒ¼ãƒ‰
+	 * @return PostfixExpressionã®è§£æçµæœ
 	 */
 	private ElementModel parsePostfixExpression(PostfixExpression node) {
 		ExPostfixModel model = new ExPostfixModel();
@@ -1061,7 +1773,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ƒ}ƒCƒiƒX‚Ì”’l‚Ì‰ğÍ
+	 * ãƒã‚¤ãƒŠã‚¹ã®æ•°å€¤ã®è§£æ
 	 * 
 	 * @param node
 	 * @return
@@ -1075,13 +1787,36 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setExpression(parseExpression(node.getOperand()));
 			return model;
 		}
-		if (node.getOperator().toString().equals("-")) {
-			ExLeteralModel model = new ExLeteralModel();
+		if (node.getOperator().toString().equals("-")) {// -expression ãªã©
+			ExpressionModel model = parseExpression((Expression) node
+					.getOperand());
 			model.setId(idCounter.getNextId());
 			model.setLineNumber(compilationUnit.getLineNumber(node
 					.getStartPosition()));
-			model.setType(getLeteralType(node.getOperand()));
-			model.setValue("-" + node.getOperand());
+
+			model.setType(model.getType());
+
+			if (model instanceof ExLeteralModel) {
+				((ExLeteralModel) model).setValue("-"
+						+ ((ExLeteralModel) model).getValue());
+			} else {
+				ExInfixModel minusModel = new ExInfixModel();
+				minusModel.setOperator("*");
+				minusModel.setId(idCounter.getNextId());
+				minusModel.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+				ExLeteralModel minus = new ExLeteralModel();
+				minus.setValue("-1");
+				minus.setType("number");
+				minus.setId(idCounter.getNextId());
+				minus.setLineNumber(compilationUnit.getLineNumber(node
+						.getStartPosition()));
+				minusModel.setType(model.getType());
+				minusModel.setLeftExpression(minus);
+				minusModel.setRightExpression(model);
+				return minusModel;
+			}
+
 			return model;
 		}
 
@@ -1089,9 +1824,47 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	public ExpressionModel parseMethodInvocationExpression(MethodInvocation node) {
-		// —áŠO
+		// ExpressionModel object = parseExpression(node.getExpression());
+		// <Type{,Type}>
+		// node.typeArguments()
+		// identifer
+		ExpressionModel identifer = parseMethodInvocationIdentifer(node);
+
+		// if (object != null) {
+		// // // excallãƒ–ãƒ­ãƒƒã‚¯ä½œæˆ
+		// ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
+		// model.setId(idCounter.getNextId());
+		// model.setLineNumber(compilationUnit.getLineNumber(node
+		// .getStartPosition()));
+		// model.setReceiver(object);
+		// model.setCallMethod(identifer);
+		//
+		// return model;
+		// } else {
+		return identifer;
+		// }
+	}
+
+	public ExpressionModel parseMethodInvocationExpression(
+			SuperMethodInvocation node) {
+		ExpressionModel superVariable = (ExpressionModel) parseVariableGetterExpression("super");
+		superVariable.setType("object");
+		superVariable.setId(idCounter.getNextId());
+		superVariable.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+
+		ExCallMethodModel callMethod = parseMethodCallExpression(node);
+
+		ExCallActionMethodModel2 model = createExCallActionBlock2(
+				superVariable, callMethod,
+				compilationUnit.getLineNumber(node.getStartPosition()));
+		// model.setReceiver(thisModel);
+		return model;
+	}
+
+	public ExpressionModel parseMethodInvocationIdentifer(MethodInvocation node) {
 		String fullName = node.toString();
-		// System.out.println("recv: " + fullName);
+		// String siName = node.getName().getIdentifier();
 		if (fullName.startsWith("System.out.print(")) {
 			ExCallMethodModel callMethod = parseMethodCallExpression(node);
 			callMethod.setName("cui-print");
@@ -1135,6 +1908,26 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			callMethod.setType("double");
 			callMethod.setName("toRadians");
 			return callMethod;
+		} else if (fullName.startsWith("Math.ceil(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("double");
+			callMethod.setName("ceil");
+			return callMethod;
+		} else if (fullName.startsWith("Math.max(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("double");
+			callMethod.setName("max");
+			return callMethod;
+		} else if (fullName.startsWith("Math.min(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("double");
+			callMethod.setName("min");
+			return callMethod;
+		} else if (fullName.startsWith("Math.floor(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("double");
+			callMethod.setName("floor");
+			return callMethod;
 		} else if (fullName.startsWith("Integer.parseInt(")) {
 			ExCallMethodModel callMethod = parseMethodCallExpression(node);
 			callMethod.setType("int");
@@ -1155,6 +1948,31 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			callMethod.setType("string");
 			callMethod.setName("toStringFromDouble");
 			return callMethod;
+		} else if (fullName.startsWith("Input.getInt(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("number");
+			callMethod.setName("input-getInt");
+			return callMethod;
+		} else if (fullName.startsWith("Input.getString(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("string");
+			callMethod.setName("input-getString");
+			return callMethod;
+		} else if (fullName.startsWith("Input.getDouble(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("double");
+			callMethod.setName("input-getDouble");
+			return callMethod;
+		} else if (fullName.startsWith("Input.isInteger(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("boolean");
+			callMethod.setName("input-isInteger");
+			return callMethod;
+		} else if (fullName.startsWith("Input.isDouble(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setType("boolean");
+			callMethod.setName("input-isDouble");
+			return callMethod;
 		} else if (fullName.endsWith("hashCode()")) {
 			Expression receiver = node.getExpression();
 			if (receiver != null) {
@@ -1165,8 +1983,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				callMethod.setName("hashCode");
 				return callMethod;
 			}
+		} else if (fullName.startsWith("BSound.play(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setName("play[@string]");
+			return callMethod;
+		} else if (fullName.startsWith("BSound.load(")) {
+			ExCallMethodModel callMethod = parseMethodCallExpression(node);
+			callMethod.setName("loadOnMemory[@string]");
+			return callMethod;
 		} else if (fullName.indexOf(".equals(") != -1
-				&& node.arguments().size() == 1) {// ‚Ğ‚Æ‚Ü‚¸CstringŒ^‚¾‚Æv‚¤‚±‚Æ‚É‚·‚éDƒIƒuƒWƒFƒNƒgŒ^‚ÍŒã‰ñ‚µiª–{“I‚È‰ğŒˆ‚ª•K—vjD#matsuzawa
+				&& node.arguments().size() == 1) {// ã²ã¨ã¾ãšï¼Œstringå‹ã ã¨æ€ã†ã“ã¨ã«ã™ã‚‹ï¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‹ã¯å¾Œå›ã—ï¼ˆæ ¹æœ¬çš„ãªè§£æ±ºãŒå¿…è¦ï¼‰ï¼#matsuzawa
 													// 2012.11.23
 			Expression receiver = node.getExpression();
 			Expression arg = (Expression) node.arguments().get(0);
@@ -1179,7 +2005,8 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model.setRightExpression(parseExpression(arg));
 			return model;
 		}
-
+		
+		//methodResolverã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã¯ï¼Œå¯¾å¿œã™ã‚‹ãƒ–ãƒ­ãƒƒã‚¯ãŒå­˜åœ¨ã™ã‚‹ãŸã‚è§£æã™ã‚‹
 		if (methodResolver.isRegistered(node)) {
 			// System.out.println("methodinvoke: " + node.toString());
 			Expression receiver = node.getExpression();
@@ -1187,67 +2014,213 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				return parseMethodCallExpression(node);
 			}
 
-			// ƒRƒR‚à‰‹}ˆ’u
+			// ã‚³ã‚³ã‚‚å¿œæ€¥å‡¦ç½®
 			if (receiver instanceof MethodInvocation) {
 				ExpressionModel receiverModel = parseMethodInvocationExpression((MethodInvocation) receiver);
 				return parseCallActionMethodExpression2(node, receiverModel);
 			}
+			if (receiver instanceof ThisExpression) {
+				// thisã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ãƒ–ãƒ­ãƒƒã‚¯ä½œæˆ
+				ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
+				thisModel.setType("object");
 
-			ExVariableGetterModel receiverModel = null;
-			StVariableDeclarationModel variable = variableResolver
-					.resolve(receiver.toString());
-			if (variable != null) {
-				receiverModel = parseVariableGetterExpression(variable
-						.getName());
-				receiverModel.setLineNumber(compilationUnit
-						.getLineNumber(receiver.getStartPosition()));
+				// model.setReceiver(thisModel);
+				return parseCallActionMethodExpression2(node, thisModel);
+				// methodResolver.getReturnType(node);
+			} else {
+				// Listã®getãªã©ã¯ã€listã®å‹ã«åˆã‚ã›ã¦å¤‰å½¢ã™ã‚‹
+				ExpressionModel receiverModel = null;
+				receiverModel = parseExpression(receiver);
+
+				if (receiverModel != null) {
+					ExCallActionMethodModel2 model = parseCallActionMethodExpression2(
+							node, receiverModel);
+
+					return model;
+				}
+				return parseMethodCallExpression(node);
 			}
-			return parseCallActionMethodExpression2(node, receiverModel);
-
-			// if (methodResolver.getReturnType(node) == ExpressionModel.VOID) {
-			// return parseCallActionMethodExpression(node);
-			// } else {
-			// return parseCallGetterMethodExpression(node);
-			// }
 		}
 
 		// This method is not registered.
-		ExSpecialExpressionModel sp = new ExSpecialExpressionModel(
-				node.toString());
-		// sp.setType(getType(node));
-		sp.setId(idCounter.getNextId());
-		sp.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
+		return makeSpecialExpressionModel(node);
+	}
+
+	private ExSpecialExpressionModel makeSpecialExpressionModel(
+			MethodInvocation node) {
+		String expression = node.getExpression().toString();
+		if (expression != null) {
+			expression += ".";
+		}
+		String typeArguments = "";
+		if (node.typeArguments().size() > 0) {
+			typeArguments = "&lt;" + node.typeArguments().toString() + "&gt;";
+		}
+		ExSpecialExpressionModel sp;
+		if (node.arguments().size() > 0) {
+			sp = new ExSpecialExpressionModel(expression + typeArguments
+					+ node.getName());
+			sp.setId(idCounter.getNextId());
+			sp.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+			for (Object param : node.arguments()) {
+				if (param instanceof ExSpecialExpressionModel) {
+					ExSpecialExpressionModel spblock = new ExSpecialExpressionModel(
+							node.toString());
+					spblock.setId(idCounter.getNextId());
+					spblock.setLineNumber(compilationUnit.getLineNumber(node
+							.getStartPosition()));
+					return spblock;
+				}
+				ExpressionModel paramModel = parseExpression((Expression) param);
+				paramModel.setParent(sp);
+				sp.addParameter(paramModel);
+			}
+		} else {
+			sp = new ExSpecialExpressionModel(node.toString());
+			sp.setId(idCounter.getNextId());
+			sp.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+		}
 		return sp;
 	}
 
-	// private String getType(Expression exp) {
-	// System.out.println("resolveTypeBinding(): " + exp.resolveTypeBinding());
-	// // System.out.println(exp.resolveTypeBinding().getElementType());
-	// return exp.resolveTypeBinding().getElementType().getName();
-	// }
+	private ExCallMethodModel transformBlock(ExCallMethodModel callerModel,
+			ExpressionModel receiverModel) {
+		// ãƒ¡ã‚½ãƒƒãƒ‰åç¢ºèªã€€transformã®å¿…è¦æ€§ã®ã‚ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰ã¯å¤‰å½¢ã™ã‚‹
+		if (receiverModel.getType().equals("List")
+				&& callerModel.getName().equals("get")) {
+			StVariableDeclarationModel parentVariableModel = variableResolver
+					.resolve(receiverModel.getLabel());
+
+			callerModel.setType(ElementModel
+					.getConnectorType(parentVariableModel
+							.getParameterizedType().get(0)));
+		}
+		return callerModel;
+	}
 
 	/**
 	 * 
 	 * @param node
-	 *            :MethodInvocationƒm[ƒh
-	 * @return MethodInvocation‚Ì‰ğÍŒ‹‰Ê
+	 *            :MethodInvocationãƒãƒ¼ãƒ‰
+	 * @return MethodInvocationã®è§£æçµæœ
 	 */
 	public ExCallMethodModel parseMethodCallExpression(MethodInvocation node) {
 		ExCallMethodModel model;
-		if (methodResolver.isRegisteredAsUserMethod(node)) {
+		String name;
+		Expression caller = node.getExpression();
+		String analyzingSourceName = this.commentGetter.getSourceName();
+
+		if (methodResolver.isRegisteredAsUserMethod(node)
+				&& (caller == null || caller.toString().equals("this") || isThisClassCaller(
+						caller, analyzingSourceName))) {
 			model = new ExCallUserMethodModel();
 			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+			name = calcMethodName(node);
+			model.setJavaType(methodResolver.getMethodJavaReturnType(name));
+			name = node.getName().toString();
+		} else if (methodResolver.isRegisteredAsProjectMethod(node)) {
+			model = new ExCallMethodModel();
+			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+			name = calcMethodName(node);
+			model.setLabel(node.getName().toString());
+			model.setJavaLabel(node.getName().toString());
+			model.setJavaType(methodResolver.getMethodJavaReturnType(name));
 		} else {
 			model = new ExCallMethodModel();
+			name = node.getName().toString();
 		}
 
-		String name = node.getName().toString();
 		model.setName(name);
-		model.setType(methodResolver.getReturnType(node));
+		model.setType(ElementModel.getConnectorType(methodResolver
+				.getReturnType(node)));
+
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		// ˆø”
+
+		// å¼•æ•°
+		for (int i = 0; i < node.arguments().size(); i++) {
+			ExpressionModel arg = parseExpression((Expression) node.arguments()
+					.get(i));
+
+			// if ("print".equals(model.getName()) &&
+			// numberRelationChecker(arg)) {
+			// arg = typeChangeModelCreater(arg);
+			// }
+			model.addArgument(arg);
+		}
+		return model;
+	}
+
+	private String calcMethodName(MethodInvocation node){
+		String name = node.getName().toString() + "[";
+		for (Object param : node.arguments()) {
+			String paramType = ElementModel
+					.getConnectorType(parseExpression(((Expression) param))
+							.getType());
+			if (paramType.equals("double-number")) {
+				paramType = "number";
+			}
+			name += ("@" + paramType);
+		}
+		name += "]";
+
+		return name;
+	}
+	
+	private boolean isThisClassCaller(Expression caller,
+			String analyzingSourceName) {
+		return variableResolver.resolve(caller.toString()) != null
+				&& variableResolver.resolve(caller.toString())
+						.getJavaVariableType().equals(analyzingSourceName);
+	}
+
+	public ExCallMethodModel parseMethodCallExpression(
+			SuperMethodInvocation node) {
+
+		ExCallMethodModel model;
+		String name;
+		if (methodResolver.isRegisteredAsUserMethod(node)) {
+			model = new ExCallUserMethodModel();
+			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+			name = node.getName().toString();
+		} else if (methodResolver.isRegisteredAsProjectMethod(node)) {
+			model = new ExCallMethodModel();
+			model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+			name = node.getName().toString() + "[";
+			for (Object param : node.arguments()) {
+				String paramType = ElementModel
+						.getConnectorType(parseExpression(((Expression) param))
+								.getType());
+				if (paramType.equals("double-number")) {
+					paramType = "number";
+				}
+				name += ("@" + paramType);
+			}
+			name += "]";
+			model.setLabel(node.getName().toString());
+			model.setJavaLabel(node.getName().toString());
+		} else {
+			model = new ExCallMethodModel();
+			name = node.getName().toString();
+		}
+		// ExCallMethodModel model;
+		// if (methodResolver.isRegisteredAsUserMethod(node)) {
+		// model = new ExCallUserMethodModel();
+		// model.setArgumentLabels(methodResolver.getArgumentLabels(node));
+		// } else {
+		// model = new ExCallMethodModel();
+		// }
+
+		model.setName(name);
+		model.setType(ElementModel.getConnectorType(methodResolver
+				.getReturnType(node)));
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		// å¼•æ•°
 		for (int i = 0; i < node.arguments().size(); i++) {
 			ExpressionModel arg = parseExpression((Expression) node.arguments()
 					.get(i));
@@ -1276,22 +2249,24 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			variable.setName(receiver.toString());
 			variable.setType("void");
 		}
+
 		model.setVariable(variable);
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		// #matsuzawa 2012.11.13 ‚±‚±ª–{“I‚È¡—Ã‚ª•K—vI
+		// #matsuzawa 2012.11.13 ã“ã“æ ¹æœ¬çš„ãªæ²»ç™‚ãŒå¿…è¦ï¼
 		StBlockModel block = new StBlockModel();
 		block.setId(model.getId());
 		block.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
+
 		// if (node.getExpression() instanceof QualifiedName) {
 		// throw new RuntimeException("not supported two or more substitution");
 		// }
 		block.addElement(parseMethodCallExpression(node));
 		model.setCallMethod(block);
 
-		// // ˆÈ‰ºC¼àV‚ª‰ü•Ï
+		// // ä»¥ä¸‹ï¼Œæ¾æ¾¤ãŒæ”¹å¤‰
 		// if (node.getExpression() instanceof QualifiedName) {
 		// throw new RuntimeException("not supported two or more substitution");
 		// }
@@ -1299,7 +2274,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		// CallMethodModel method = parseMethodCallExpression(node);
 		// method.setId(model.getId());
 		// model.setCallMethod(method);
-		// // ˆÈãC¼àV‚ª‰ü•Ï
+		// // ä»¥ä¸Šï¼Œæ¾æ¾¤ãŒæ”¹å¤‰
 		return model;
 	}
 
@@ -1310,14 +2285,16 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
 		ExCallMethodModel callMethod = parseMethodCallExpression(node);
+		callMethod = transformBlock(callMethod, receiverModel);
+
 		model.setReceiver(receiverModel);
 		model.setCallMethod(callMethod);
-		// æ‚Écallmethod‚Ìplug‚ÌŒ^‚ğƒZƒbƒg‚µ‚Æ‚­
+
+		// å…ˆã«callmethodã®plugã®å‹ã‚’ã‚»ãƒƒãƒˆã—ã¨ã
 		if (callMethod instanceof ExpressionModel
 				&& !((ExpressionModel) callMethod).getType().equals("void")) {
 			model.setType(ElementModel
-					.convertJavaTypeToBlockType(((ExpressionModel) callMethod)
-							.getType()));
+					.getConnectorType(((ExpressionModel) callMethod).getType()));
 		}
 		return model;
 	}
@@ -1344,15 +2321,15 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	// /**
 	// *
-	// * @param MethodInvocationƒm[ƒh
-	// * @return MethodInvocationƒm[ƒh‚Ì‰ğÍŒ‹‰Ê
+	// * @param MethodInvocationãƒãƒ¼ãƒ‰
+	// * @return MethodInvocationãƒãƒ¼ãƒ‰ã®è§£æçµæœ
 	// */
 	// public ExAssignmentCallMethodModel parseAssignmentCallExpression(
 	// MethodInvocation node) {
 	// ExAssignmentCallMethodModel model = new ExAssignmentCallMethodModel();
 	// model.setName(node.getName().toString());
 	// model.setId(idCounter.getNextId());
-	// // ˆø”
+	// // å¼•æ•°
 	// for (int i = 0; i < node.arguments().size(); i++) {
 	// ExpressionModel arg = parseExpression((Expression) node.arguments()
 	// .get(i));
@@ -1362,28 +2339,36 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	// }
 
 	/**
-	 * ’è”‚Ì‰ğÍ
+	 * å®šæ•°ã®è§£æ
 	 * 
 	 * @param node
-	 *            :Expressionƒm[ƒh
-	 * @return Expression‚Ì‰ğÍŒ‹‰Ê
+	 *            :Expressionãƒãƒ¼ãƒ‰
+	 * @return Expressionã®è§£æçµæœ
 	 */
 	public ExLeteralModel parseLeteralExpression(Expression node) {
 		ExLeteralModel model = new ExLeteralModel();
-		model.setType(getLeteralType(node));
-		model.setValue(node.toString());
-		model.setId(idCounter.getNextId());
-		model.setLineNumber(compilationUnit.getLineNumber(node
-				.getStartPosition()));
+		if (node instanceof NullLiteral) {
+			model.setType("poly");
+			model.setValue("null");
+			model.setId(idCounter.getNextId());
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+		} else {
+			model.setType(getLeteralType(node));
+			model.setValue(node.toString());
+			model.setId(idCounter.getNextId());
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+		}
 		return model;
 	}
 
 	/**
-	 * ’è”‚ÌŒ^‚Ì‰ğÍ
+	 * å®šæ•°ã®å‹ã®è§£æ
 	 * 
 	 * @param leteral
-	 *            :Experssionƒm[ƒh
-	 * @return ‰ğÍ‚µ‚½’è”‚ÌŒ^
+	 *            :Experssionãƒãƒ¼ãƒ‰
+	 * @return è§£æã—ãŸå®šæ•°ã®å‹
 	 */
 	private String getLeteralType(Expression leteral) {
 		if (leteral instanceof NumberLiteral) {
@@ -1403,11 +2388,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * ŒvZ®‚Ì‰ğÍ
+	 * è¨ˆç®—å¼ã®è§£æ
 	 * 
 	 * @param node
-	 *            :InfixExpressionƒm[ƒh
-	 * @return InfixExpression‚Ì‰ğÍŒ‹‰Ê
+	 *            :InfixExpressionãƒãƒ¼ãƒ‰
+	 * @return InfixExpressionã®è§£æçµæœ
 	 */
 	public ExInfixModel parseInfixExpression(InfixExpression node) {
 		String oparator = node.getOperator().toString();
@@ -1423,7 +2408,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setLeftExpression(parseExpression(node.getLeftOperand()));
 		model.setRightExpression(parseExpression(node.getRightOperand()));
 
-		// ‘½€®@’Ç‰Á•ª
+		// å¤šé …å¼ã€€è¿½åŠ åˆ†
 		for (Object o : node.extendedOperands()) {
 			Expression exp = (Expression) o;
 			ExInfixModel newmodel = new ExInfixModel();
@@ -1438,7 +2423,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model = newmodel;
 		}
 
-		// string ‚Ì == ”äŠrƒ`ƒFƒbƒN
+		// string ã® == æ¯”è¼ƒãƒã‚§ãƒƒã‚¯
 		if (model.getSocketType().equals("string")
 				&& (model.getOperator().equals("==") || model.getOperator()
 						.equals("!="))) {
@@ -1476,7 +2461,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	// return false;
 	// }
 
-	// ˆÈ‰ºC‚±‚±‚Å‚â‚éd–‚¶‚á‚È‚¢‚Ì‚Åíœ #matsuzawa 2012.11.14
+	// ä»¥ä¸‹ï¼Œã“ã“ã§ã‚„ã‚‹ä»•äº‹ã˜ã‚ƒãªã„ã®ã§å‰Šé™¤ #matsuzawa 2012.11.14
 	// private ExpressionModel numberToStringConverter(String type,
 	// ExpressionModel initializer) {
 	// if (("String".equals(type) || "string".equals(type))
@@ -1525,13 +2510,13 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	// ExCastModel model = new ExCastModel();
 	// model.setType("toString");
 	// model.setId(idCounter.getNextId());
-	// // ˆø”
+	// // å¼•æ•°
 	// model.addArgument(argument);
 	// return model;
 	// }
 
 	/**
-	 * ŠÛŠ‡ŒÊ‚Ì‰ğÍ
+	 * ä¸¸æ‹¬å¼§ã®è§£æ
 	 * 
 	 * @param node
 	 * @return
@@ -1542,15 +2527,22 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	/**
-	 * •Ï”ŒÄ‚Ño‚µ‚Ì‰ğÍ
+	 * å¤‰æ•°å‘¼ã³å‡ºã—ã®è§£æ
 	 * 
 	 * @param node
-	 *            :SimpleNameƒm[ƒh
-	 * @return SimpleNameƒm[ƒh‚Ì‰ğÍ
+	 *            :SimpleNameãƒãƒ¼ãƒ‰
+	 * @return SimpleNameãƒãƒ¼ãƒ‰ã®è§£æ
 	 */
 	public ExVariableGetterModel parseVariableGetterExpression(String name) {
 		ExVariableGetterModel model = new ExVariableGetterModel();
 		model.setVariable(variableResolver.resolve(name));
+		model.setId(idCounter.getNextId());
+		return model;
+	}
+
+	public ExVariableGetterModel parseThisVariableGetterExpression(String name) {
+		ExVariableGetterModel model = new ExVariableGetterModel();
+		model.setVariable(variableResolver.resolveThisGetter(name));
 		model.setId(idCounter.getNextId());
 		return model;
 	}
@@ -1597,18 +2589,78 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	 */
 	private ExpressionModel parseClassInstanceCreation(
 			ClassInstanceCreation node) {
-		ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
+
+//		if (node.getType().isParameterizedType()) {
+//			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
+//			ParameterizedType type = (ParameterizedType) node.getType();
+//			model.setValue(type.getType().toString());
+//
+//			model.setId(idCounter.getNextId());
+//			model.setLineNumber(compilationUnit.getLineNumber(node
+//					.getStartPosition()));
+//			for (Object argument : type.typeArguments()) {
+//				// å‹ãƒ–ãƒ­ãƒƒã‚¯ã‚’ä½œæˆã™ã‚‹
+//				ExTypeModel typeModel = new ExTypeModel();
+//				typeModel.setId(idCounter.getNextId());
+//				typeModel.setLineNumber(compilationUnit.getLineNumber(node
+//						.getStartPosition()));
+//				typeModel.setType(argument.toString());
+//				typeModel.setLabel(argument.toString());
+//				typeModel.setParent(model);
+//				model.addArgument(typeModel);
+//			}
+//			return model;
+//		} else {
+			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
+			model.setValue(typeString(node.getType()));
+			model.setId(idCounter.getNextId());
+			model.setLineNumber(compilationUnit.getLineNumber(node
+					.getStartPosition()));
+
+			String tmpName = "new-" + typeString(node.getType()).toLowerCase()
+					+ "[";
+
+			// å¼•æ•°
+			for (int i = 0; i < node.arguments().size(); i++) {
+				ExpressionModel arg = parseExpression((Expression) node
+						.arguments().get(i));
+				model.addArgument(arg);
+
+				tmpName += "@"
+						+ ElementModel.convertJavaTypeToBlockGenusName(arg
+								.getType());
+			}
+
+			tmpName += "]";
+
+			if (methodResolver.getMethodJavaReturnType(tmpName) != null) {
+				model.setGenusName(tmpName);
+			}
+
+			return model;
+		
+	}
+
+	// ohata
+	private ExpressionModel parseArrayInstanceCreation(ArrayCreation node) {
+		ExArrayInstanceCreationModel model = new ExArrayInstanceCreationModel();
 		model.setValue(typeString(node.getType()));
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		// ˆø”
-		for (int i = 0; i < node.arguments().size(); i++) {
-			ExpressionModel arg = parseExpression((Expression) node.arguments()
-					.get(i));
+
+		// å¼•æ•°
+		for (int i = 0; i < node.dimensions().size(); i++) {
+			ExpressionModel arg = parseExpression((Expression) node
+					.dimensions().get(i));
 			model.addArgument(arg);
 		}
+
+		model.setSize(node.getLength());
+		model.setType(node.getType().getElementType().toString());
+
 		return model;
+
 	}
 
 	/**
@@ -1618,12 +2670,69 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	 */
 	private ExpressionModel parseCastExpression(CastExpression node) {
 		ExCastModel model = new ExCastModel();
+
+		if (projectClasses.contains(node.getType().toString())) {
+			model.setIsProjectObject(true);
+		}
 		model.setType(node.getType().toString());
 		model.setId(idCounter.getNextId());
 		model.setLineNumber(compilationUnit.getLineNumber(node
 				.getStartPosition()));
-		// ˆø”
+		// å¼•æ•°
 		model.addArgument(parseExpression(node.getExpression()));
+		return model;
+	}
+
+	private ExpressionModel parseArrayAccess(ArrayAccess node) {
+		// callmethodãƒ¢ãƒ‡ãƒ«ã‚’ä½œæˆ
+		ExVariableGetterModel model = createExVariableGetterModel(node
+				.getArray().toString());
+		ExpressionModel index = parseExpression(node.getIndex());
+		index.setConnectorId(model.getId());
+		model.setIndexModel(index);
+		index.setParent(model);
+
+		return model;
+	}
+
+	private ExpressionModel parseFieldAccess(FieldAccess node) {
+		// å³è¾ºã®thisã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰è§£æ
+		// ExcallActionãƒ–ãƒ­ãƒƒã‚¯ã‚’ä½œæˆ
+		ExCallActionMethodModel2 model = new ExCallActionMethodModel2();
+		model.setId(idCounter.getNextId());
+		model.setLineNumber(compilationUnit.getLineNumber(node
+				.getStartPosition()));
+		// ExCallMethodModel callMethod = new ExCallMethodModel();
+		// thisã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ãƒ–ãƒ­ãƒƒã‚¯ä½œæˆ
+		ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
+		thisModel.setType("object");
+
+		// å¤‰æ•°åã‚’è§£æã—ãŸãƒ¢ãƒ‡ãƒ«ã¨thisã‚’ExCallActionãƒ–ãƒ­ãƒƒã‚¯ã«ã‚»ãƒƒãƒˆ
+		model.setReceiver(thisModel);
+		if (variableResolver.resolve(node.getName().toString()) == null) {
+		} else {
+			model.setCallMethod(parseThisVariableGetterExpression(node
+					.getName().toString()));
+			model.setType(parseVariableGetterExpression(
+					node.getName().toString()).getType());
+		}
+
+		// model.setCallMethod();
+
+		// ExCallGetterMethodModel model = new ExCallGetterMethodModel();
+		// String name = node.getExpression().toString();
+		// model.setVariable(variableResolver.resolve(name));
+		// model.setId(idCounter.getNextId());
+		// model.setLineNumber(compilationUnit.getLineNumber(node
+		// .getStartPosition()));
+		// if (node.getExpression() instanceof QualifiedName) {
+		// throw new RuntimeException("not supported two or more substitution");
+		// }
+		//
+		// model.setArgument((ExpressionModel)
+		// parseVariableGetterExpression(node
+		// .toString().substring(node.toString().indexOf("this."),
+		// node.toString().length())));
 		return model;
 	}
 }

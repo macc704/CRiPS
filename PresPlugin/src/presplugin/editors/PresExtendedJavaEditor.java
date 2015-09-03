@@ -68,6 +68,11 @@ public class PresExtendedJavaEditor extends CompilationUnitEditor implements
 	}
 
 	private IDocument doc;
+
+	public IDocument getDoc() {
+		return doc;
+	}
+
 	private IDocumentListener docListener = new IDocumentListener() {
 		public void documentChanged(DocumentEvent event) {
 			/*

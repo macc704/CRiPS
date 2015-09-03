@@ -1,0 +1,37 @@
+import java.util.*;
+
+/**
+ * プログラム名： おうむ返しのプログラム
+ * 作成者： Yoshiaki Matsuzawa
+ * 作成日： 2007/09/22
+ */
+public class CLASSNAME{
+
+	//起動処理
+	public static void main(String[] args) {
+		CLASSNAME main = new CLASSNAME();
+		main.run();
+	}
+
+	//おうむ返しをする
+	public void run() {
+		//前処理
+		Scanner scanner = new Scanner(System.in);//入力を受け取るためのスキャナ
+	
+		//入力を受けとる
+		System.out.print("好きな文字を入力>>");
+		String text = scanner.nextLine();
+		
+		//出力を行う
+		String reply = "あなたの入力したのは" + text + "ですね";
+		System.out.println(reply);
+	}
+
+}
+
+
+
+
+
+
+

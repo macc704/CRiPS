@@ -28,6 +28,7 @@ import javax.swing.text.Highlighter;
 
 import ronproeditor.REApplication;
 import ronproeditor.source.NonWrappingTextPane;
+import clib.view.textpane.CJavaCodeKit;
 import clib.view.textpane.CTextPaneUtils;
 
 public class RESourceViewer extends JPanel {
@@ -36,6 +37,7 @@ public class RESourceViewer extends JPanel {
 
 	private JTextPane textPane;
 	private LineNumberView lineNumberView;
+	private JScrollPane scroll;
 
 	public RESourceViewer() {
 		this("");
@@ -55,10 +57,10 @@ public class RESourceViewer extends JPanel {
 		// this.textArea = new JTextArea();
 		// textArea.getDocument().putProperty(PlainDocument.tabSizeAttribute,
 		// new Integer(4));
-		textPane.setEditorKit(new REJavaCodeKit());
+		textPane.setEditorKit(new CJavaCodeKit());
 		this.lineNumberView = new LineNumberView(textPane);
 
-		JScrollPane scroll = new JScrollPane(textPane);
+		scroll = new JScrollPane(textPane);
 		scroll.setRowHeaderView(lineNumberView);
 		this.add(BorderLayout.CENTER, scroll);
 	}
@@ -84,6 +86,10 @@ public class RESourceViewer extends JPanel {
 
 	public LineNumberView getLineNumberView() {
 		return lineNumberView;
+	}
+
+	public JScrollPane getScroll() {
+		return scroll;
 	}
 
 	/**
@@ -186,7 +192,6 @@ public class RESourceViewer extends JPanel {
 			fontHeight = fontMetrics.getHeight();
 			fontAscent = fontMetrics.getAscent();
 			topInset = text.getInsets().top;
-			setFont(font);
 		}
 
 		public FontMetrics getFontMetrics() {
@@ -233,9 +238,9 @@ public class RESourceViewer extends JPanel {
 				g.drawString(text, x, y);
 			}
 
-			int buttonSize = 10;
-			@SuppressWarnings("unused")
-			int topMargin = topInset + fontAscent - buttonSize;
+//			int buttonSize = 10;
+
+//			int topMargin = topInset + fontAscent - buttonSize;
 			g.setColor(Color.black);
 			g.drawLine(DEBUG_BUTTON_MARGIN, 0, DEBUG_BUTTON_MARGIN,
 					text.getHeight());

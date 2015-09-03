@@ -1,5 +1,6 @@
 package ronproeditor.helpers;
 
+import java.awt.FontMetrics;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -48,11 +49,11 @@ public class RECommandExecuter {
 	}
 
 	public static void executeCommand(final List<String> commands,
-			final File dir, final IConsole console) {
+			final File dir, final IConsole console, final FontMetrics font) {
 		new Thread() {
 			public void run() {
 				try {
-					RECommandExecuter.run(commands, dir, console);
+					RECommandExecuter.run(commands, dir, console, font);
 				} catch (Exception ex) {
 					ex.printStackTrace(console.getErr());
 				}
@@ -61,11 +62,11 @@ public class RECommandExecuter {
 	}
 
 	public static void executeCommandWait(final List<String> commands,
-			final File dir, final IConsole console) throws Exception {
-		run(commands, dir, console);
+			final File dir, final IConsole console, FontMetrics font) throws Exception {
+		run(commands, dir, console, font);
 	}
 
-	public static void run(List<String> commands, File dir, IConsole console)
+	public static void run(List<String> commands, File dir, IConsole console, FontMetrics fontMetrics)
 			throws Exception {
 		console.toLast();
 
@@ -75,9 +76,12 @@ public class RECommandExecuter {
 						+ getCommandString(commands));
 
 		Process p = rt.exec(listToStringArray(commands), null, dir);
+
 		processes.add(p);
-		createPrintStreamThread(p.getInputStream(), console.getOut()).start();
-		createPrintStreamThread(p.getErrorStream(), console.getErr()).start();
+		
+		createPrintStreamThread(p.getInputStream(), console.getOut(), fontMetrics).start();
+		createPrintStreamThread(p.getErrorStream(), console.getErr(), fontMetrics).start();
+
 		console.setConsoleToStream(new PrintStream(p.getOutputStream()));
 		InputStream in = console.getIn();
 		if (in instanceof JTextAreaInputStream) {
@@ -113,7 +117,7 @@ public class RECommandExecuter {
 	}
 
 	private static Thread createPrintStreamThread(final InputStream in,
-			final PrintStream out) {
+			final PrintStream out, final FontMetrics fontMetrics) {
 		return new Thread() {
 			public void run() {
 				try {
@@ -124,13 +128,50 @@ public class RECommandExecuter {
 					while ((n = reader.read(buf)) > 0) {
 						char[] text = new char[n];
 						System.arraycopy(buf, 0, text, 0, text.length);
-						out.print(text);
+						out.print(fixErrorMessage(String.valueOf(text),fontMetrics));
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
 			}
 		};
+	}
+
+	private static String fixErrorMessage(String message, FontMetrics fontMetrics) {
+		// 2行目のエラー箇所を抽出する
+		String[] messages = message.split(System.getProperty("line.separator"));
+		if (messages.length < 3) {
+			// 変換の必要性がないのでそのまま返す
+			return message;
+		}
+		
+		//エラー原因箇所のtabキー,スペースキーを一度取り除く
+		String tmpErrorMessage = messages[1].replaceAll("\t", " ");
+		String tmpPointoutMessage = messages[2].replaceAll("\t", " ");		
+		
+		if(tmpPointoutMessage.indexOf("^") == -1){
+			return message;
+		}
+		
+		//エラーメッセージのピクセル数を取得する
+		int errorMessagePixel = fontMetrics.stringWidth(tmpErrorMessage.substring(0, tmpPointoutMessage.indexOf("^")));
+		
+		//ピクセル数を調整する
+		while(fontMetrics.stringWidth(tmpPointoutMessage) < errorMessagePixel){
+			tmpPointoutMessage = " " + tmpPointoutMessage;
+		}
+		
+		//新しいメッセージを作成する
+		String newMessage = "";
+		
+		messages[1]= tmpErrorMessage;
+		messages[2] = tmpPointoutMessage;
+		
+		for (int i = 0; i < messages.length; i++) {
+			newMessage += messages[i] + System.getProperty("line.separator");
+		}
+		
+		return newMessage;
 	}
 
 	// private static String[] getEnv() {

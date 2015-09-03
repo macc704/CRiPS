@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="RonproPlugins"
+      label="RonproPlugins"
+      version="2.3.6"
+      provider-name="Salai laboratory">
+
+   <description url="http://www.example.com/description">
+      [論プロプラグインは,Computational thinkingを育成するためのプログラミング教育環境を構築するためのツールです.
+オブジェクト指向に対応したビジュアルーJava相互変換可能なプログラミング環境「BlockEditor Hinoki」,コンパイルエラー修正履歴一覧システム「CocoViewer」が利用できます.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <url>
+      <update url="http://Ohata1016.github.com/RonproEditorPluginSite/"/>
+   </url>
+
+   <includes
+         id="info.matsuzawalab.PresPlugin"
+         version="3.7.4"/>
+
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.ide" version="3.5.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.ui" version="3.5.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.debug" version="3.5.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.debug.ui" version="3.5.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jdt.core" version="3.5.2" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.jdt.launching"/>
+      <import plugin="org.junit"/>
+   </requires>
+
+   <plugin
+         id="jp.ac.shizuoka.inf.ce.cs.pres.core"
+         download-size="0"
+         install-size="0"
+         version="3.7.3"
+         unpack="false"/>
+
+   <plugin
+         id="jp.ac.shizuoka.inf.cs.ce.pres.eclipseui"
+         download-size="0"
+         install-size="0"
+         version="3.7.4"
+         unpack="false"/>
+
+   <plugin
+         id="jp.ac.shizuoka.inf.ce.cs.commonlibrary"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="jp.ac.shizuoka.inf.ce.cs.ronproEditorPlugin"
+         download-size="0"
+         install-size="0"
+         version="2.3.6"
+         unpack="false"/>
+
+</feature>

@@ -10,7 +10,8 @@ import framework.DropStrategy;
 
 public class FileNameTranslatorStrategy implements DropStrategy {
 
-	private static String PATH = "./lecture/";
+	// private static String PATH = "./lecture/";
+	private static String path = "./lecture/";
 
 	private File zipFile = null;
 	private File csvFile = null;
@@ -50,9 +51,17 @@ public class FileNameTranslatorStrategy implements DropStrategy {
 	public void transFileName() throws Exception {
 		NameList nameList = new NameList(csvFile);
 		SourceFile sourceFile = new SourceFile(zipFile);
+		
+		// zipファイルと同じフォルダにリネームされたzipファイルを収めたフォルダを作る
+		if(zipFile.getParent() != null) {
+			path = zipFile.getParent() + File.separator + "lecture" + File.separator;
+		} else {
+			path = "./lecture/";
+		}
 
+		System.out.println(path);
 		// dir作成
-		File dir = new File(PATH);
+		File dir = new File(path);
 		dir.mkdir();
 
 		for (@SuppressWarnings("unchecked")
@@ -69,7 +78,7 @@ public class FileNameTranslatorStrategy implements DropStrategy {
 			}
 			// 課題番号取得
 			// ファイル名変換
-			File after = new File(PATH + File.separator + studentId + ".zip");
+			File after = new File(path + File.separator + studentId + ".zip");
 			// 既に存在している場合は削除して置き換え
 			if (after.exists()) {
 				after.delete();
