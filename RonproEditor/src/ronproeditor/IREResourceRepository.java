@@ -6,7 +6,7 @@ import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileFilter;
 
-public interface ICFwResourceRepository {
+public interface IREResourceRepository {
 
 	public static final String DOCUMENT_CLOSED = "documentClosed";
 	public static final String PREPARE_DOCUMENT_CLOSE = "prepareDocumentClose";

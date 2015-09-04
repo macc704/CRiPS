@@ -11,13 +11,13 @@ import pres.core.PRThreadRecordingProject;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
 
-public class PresProjectManager {
+public class REPresProjectManager {
 
 	private Map<String, IPRRecordingProject> rprojects;
 
 	private static final IPRRecordingProject NULL_PROJECT = new PRNullRecordingProject();
 
-	public PresProjectManager() {
+	public REPresProjectManager() {
 		initialize();
 	}
 

@@ -3,7 +3,7 @@ package ronproeditor.ext;
 import clib.common.filesystem.CPath;
 import pres.core.model.PRFileLog;
 
-public class BlockEditorLog extends PRFileLog {
+public class REBlockEditorLog extends PRFileLog {
 	public static enum Type implements PRLogType {
 		BLOCK_COMMAND_RECORD
 	};
@@ -15,7 +15,7 @@ public class BlockEditorLog extends PRFileLog {
 	/**
 	 * Constructor
 	 */
-	public BlockEditorLog(SubType subType, CPath path, Object[] args) {
+	public REBlockEditorLog(SubType subType, CPath path, Object[] args) {
 		super(Type.BLOCK_COMMAND_RECORD, subType, path, args);
 	}
 }

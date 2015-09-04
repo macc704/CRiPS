@@ -304,15 +304,13 @@ import edu.mit.blocks.controller.WorkspaceController;
  * 2014/10/24 version 2.28.3 ohata			・BEの再帰バグを修正，その他メソッド定義のバグを修正
  * 2015/01/14 version 2.29.0 kato           ・CheCoProリリース
  * 2015/01/14 version 2.29.1 kato           ・CheCoPro pullログ修正
+ * 2015/09/04 version 2.30.1 matsuzawa		・REApplication　リファクタリング
+ *
  * ＜懸案事項＞
  * ・doCompile2()の設計が冗長なので再設計すること．
  * ・"}"を押したときのスマートインデント
- * ・manager群のinitializeの位置，割れ窓修正すること
- *　・フォルダをクリックしたとき，下記のエラーがでている．
- *at ronproeditor.REApplication.writePresLog(REApplication.java:647)
- *at ronproeditor.views.RESourceEditor$2.focusLost(RESourceEditor.java:93)
  */
-public class REApplication implements ICFwApplication {
+public class REApplication {
 
 	/***********************
 	 * Static Variables.
@@ -320,8 +318,8 @@ public class REApplication implements ICFwApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.29.1";
-	public static final String BUILD_DATE = "2014/11/10";
+	public static final String VERSION = "2.30.1";
+	public static final String BUILD_DATE = "2015/9/4";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2014 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
@@ -353,15 +351,26 @@ public class REApplication implements ICFwApplication {
 	 * Variables.
 	 ***********************/
 
+	private REFrame frame;
+
 	private String compileCommand;
 	private String runCommand;
 
-	private RESourceManager sourceManager = new RESourceManager();
-	private RELibraryManager libraryManager = new RELibraryManager(LIB_FOLDER);
-	private RESourceTemplateManager templateManager = new RESourceTemplateManager(TEMPLATE_FOLDER);
+	private RESourceManager sourceManager;
+	private RELibraryManager libraryManager;
+	private RESourceTemplateManager templateManager;
 	private CPreferenceManager preferenceManager;
-
-	private REFrame frame;
+	private REPresProjectManager presManager;
+	private REBlockEditorManager blockManager;
+	private REBlockEditorManager2 newBlockManager;
+	private REBlockEditorManager2 semiNewBlockManager;
+	private REFlowViewerManager flowManager;
+	private REGeneRefManager generefManager;
+	private REPresVisualizerManager ppvManager;
+	private RECheCoProManager checoproManager;
+	private GUI deno;
+	private RECreateCocoDataManager createCocoDataManager;
+	private RECocoViewerManager cocoViewerManager;
 
 	private RECreateFileNameDialogWithType createFileDialog;
 	private RECreateProjectNameDialog createProjectDialog;
@@ -370,18 +379,6 @@ public class REApplication implements ICFwApplication {
 	private RERefactoringFileNameDialog refactorFileNameDialog;
 	private RECreateFileNameDialogForCopy copyFileNameDialog;
 
-	private PresProjectManager presManager;
-	private REBlockEditorManager blockManager;
-	private REBlockEditorManager2 newBlockManager;
-	private REBlockEditorManager2 semiNewBlockManager;
-	private REFlowViewerManager flowManager;
-	private REGeneRefManager generefManager;
-	private REPresVisualizerManager ppvManager;
-	private RECheCoProManager checoproManager; // CheCoPro(kato)
-	private GUI deno;
-	private RECreateCocoDataManager createCocoDataManager;
-	private RECocoViewerManager cocoViewerManager;
-
 	/***********************
 	 * Construct & Start
 	 ***********************/
@@ -389,30 +386,16 @@ public class REApplication implements ICFwApplication {
 	private void main() {
 		initializeLookAndFeel();
 		initializeCommands();
-		initializeAndOpen(DEFAULT_ROOT);
+		openApplication(DEFAULT_ROOT);
 	}
 
-	private void initializeAndOpen(String rootDirName) {
-		prepareRootDirectory(rootDirName);
+	private void openApplication(String rootDirName) {
+		File root = prepareRootDirectory(DEFAULT_ROOT);
+		initializeManagers(root);
 		createAndOpenWindow();
-		prepareDialogs();
 
-		presManager = new PresProjectManager();
-		presManager.initialize();
-		blockManager = new REBlockEditorManager(this);
-		newBlockManager = new REBlockEditorManager2(this);
-		semiNewBlockManager = new REBlockEditorManager2(this);
-		flowManager = new REFlowViewerManager(this);
-		generefManager = new REGeneRefManager(this);
-		ppvManager = new REPresVisualizerManager(this);
-		createCocoDataManager = new RECreateCocoDataManager(this);
-		cocoViewerManager = new RECocoViewerManager(this);
-		checoproManager = new RECheCoProManager(this);
+		initializeDialogs();
 
-		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER("*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb", "*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
-		// this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*",
-		// "CVS", "bin"));
-		// @TODO きちんと実装すること 2011/11/22
 	}
 
 	private void initializeLookAndFeel() {
@@ -430,17 +413,49 @@ public class REApplication implements ICFwApplication {
 			this.runCommand = "java";
 		} else {
 			JOptionPane.showMessageDialog(frame, "javaコマンドが見つかりません", "起動時チェックにひっかかりました", JOptionPane.ERROR_MESSAGE);
-			// System.exit(0);
 		}
 
 		this.compileCommand = CJavaSystem.getInstance().getJavacCommand();
 		if (this.compileCommand == null) {
 			JOptionPane.showMessageDialog(frame, "javacコマンドが見つかりません", "起動時チェックに引っかかりました", JOptionPane.ERROR_MESSAGE);
-			// System.exit(0);
 		}
 	}
 
-	private void prepareDialogs() {
+	private File prepareRootDirectory(String rootDirName) {
+		File root = new File(rootDirName);
+		if (!root.exists()) {
+			root.mkdir();
+		}
+		return root;
+	}
+
+	private void initializeManagers(File root) {
+		this.sourceManager = new RESourceManager();
+		this.sourceManager.setRootDirectory(root);
+		this.sourceManager.setFileFilter(
+				CFileFilter.ACCEPT_BY_NAME_FILTER("*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
+						"*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
+		this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
+
+		CFile preferenceFile = CFileSystem.findDirectory(DEFAULT_ROOT).findOrCreateFile(".pref/preference");
+		this.preferenceManager = new CPreferenceManager(preferenceFile);
+
+		this.libraryManager = new RELibraryManager(LIB_FOLDER);
+		this.templateManager = new RESourceTemplateManager(TEMPLATE_FOLDER);
+		this.presManager = new REPresProjectManager();
+		this.presManager.initialize();
+		this.blockManager = new REBlockEditorManager(this);
+		this.newBlockManager = new REBlockEditorManager2(this);
+		this.semiNewBlockManager = new REBlockEditorManager2(this);
+		this.flowManager = new REFlowViewerManager(this);
+		this.generefManager = new REGeneRefManager(this);
+		this.ppvManager = new REPresVisualizerManager(this);
+		this.createCocoDataManager = new RECreateCocoDataManager(this);
+		this.cocoViewerManager = new RECocoViewerManager(this);
+		this.checoproManager = new RECheCoProManager(this);
+	}
+
+	private void initializeDialogs() {
 		createProjectDialog = new RECreateProjectNameDialog(this);
 		createFileDialog = new RECreateFileNameDialogWithType(this);
 		dirtyOptionDialog = new REDirtyOptionDialog(this);
@@ -448,20 +463,6 @@ public class REApplication implements ICFwApplication {
 		refactorFileNameDialog = new RERefactoringFileNameDialog(this);
 		copyFileNameDialog = new RECreateFileNameDialogForCopy(this);
 		copyFileNameDialog.setTitle("ファイル（クラス）のコピー");
-	}
-
-	private void prepareRootDirectory(String rootDirName) {
-		File root = new File(rootDirName);
-		if (!root.exists()) {
-			root.mkdir();
-		}
-		sourceManager.setRootDirectory(root);
-
-		sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_EXTENSION_FILTER("java"));
-		sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
-
-		CFile preferenceFile = CFileSystem.findDirectory(DEFAULT_ROOT).findOrCreateFile(".pref/preference");
-		preferenceManager = new CPreferenceManager(preferenceFile);
 	}
 
 	private void createAndOpenWindow() {
@@ -1100,7 +1101,7 @@ public class REApplication implements ICFwApplication {
 		}
 	}
 
-	public ICFwResourceRepository getResourceRepository() {
+	public IREResourceRepository getResourceRepository() {
 		return sourceManager;
 	}
 
@@ -1319,7 +1320,7 @@ public class REApplication implements ICFwApplication {
 		}
 		application.initializeLookAndFeel();
 		application.initializeCommands();
-		application.initializeAndOpen(dirPath);
+		application.openApplication(dirPath);
 		// 返り値追加（kato）
 		return application;
 	}

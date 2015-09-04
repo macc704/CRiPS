@@ -23,11 +23,11 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import ronproeditor.ICFwApplication;
-import ronproeditor.ICFwResourceRepository;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileElement;
 import clib.common.filesystem.CFileFilter;
+import ronproeditor.IREResourceRepository;
+import ronproeditor.REApplication;
 
 /**
  * Class REFileTreeNavigator
@@ -36,13 +36,12 @@ import clib.common.filesystem.CFileFilter;
  * @version $Id: REFileTreeNavigator.java,v 1.1 2007/09/22 08:25:02 macchan Exp
  *          $
  */
-public class REFileTreeNavigator extends JTree implements
-		TreeSelectionListener, PropertyChangeListener {
+public class REFileTreeNavigator extends JTree implements TreeSelectionListener, PropertyChangeListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private ICFwResourceRepository repository;
-	private ICFwApplication application;
+	private IREResourceRepository repository;
+	private REApplication application;
 
 	private HashMap<CFileElement, FileTreeNode> table = new HashMap<CFileElement, FileTreeNode>();
 	private FileTreeNode root;
@@ -50,7 +49,7 @@ public class REFileTreeNavigator extends JTree implements
 	/**
 	 * Constructor for REFileTreeNavigator
 	 */
-	public REFileTreeNavigator(ICFwApplication application) {
+	public REFileTreeNavigator(REApplication application) {
 		this.application = application;
 		this.repository = application.getResourceRepository();
 		initializeView();
@@ -58,8 +57,7 @@ public class REFileTreeNavigator extends JTree implements
 	}
 
 	private void initializeView() {
-		getSelectionModel().setSelectionMode(
-				TreeSelectionModel.SINGLE_TREE_SELECTION);
+		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		// setRootVisible(false);
 		addTreeSelectionListener(this);
 		repository.addPropertyChangeListener(this);
@@ -77,15 +75,14 @@ public class REFileTreeNavigator extends JTree implements
 			return;
 		}
 		if (getSelectionPath().getLastPathComponent() == root) {
-			application.doSetProjectDirectory(null);
+			application.doSetProjectDirectory((CDirectory)null);
 			return;
 		}
 		changeModule(evt);
 	}
 
 	private void changeModule(TreeSelectionEvent evt) {
-		CFileElement file = ((FileTreeNode) evt.getPath()
-				.getLastPathComponent()).getFileElement();
+		CFileElement file = ((FileTreeNode) evt.getPath().getLastPathComponent()).getFileElement();
 		if (file.isFile()) {
 			application.doOpen(file);
 		} else {
@@ -102,17 +99,13 @@ public class REFileTreeNavigator extends JTree implements
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
 		removeTreeSelectionListener(this);
-		if (evt.getPropertyName()
-				.equals(ICFwResourceRepository.DOCUMENT_OPENED)) {
+		if (evt.getPropertyName().equals(IREResourceRepository.DOCUMENT_OPENED)) {
 			refreshSelection();
-		} else if (evt.getPropertyName().equals(
-				ICFwResourceRepository.DOCUMENT_CLOSED)) {
+		} else if (evt.getPropertyName().equals(IREResourceRepository.DOCUMENT_CLOSED)) {
 			refreshSelection();
-		} else if (evt.getPropertyName().equals(
-				ICFwResourceRepository.MODEL_REFRESHED)) {
+		} else if (evt.getPropertyName().equals(IREResourceRepository.MODEL_REFRESHED)) {
 			refreshModel();
-		} else if (evt.getPropertyName().equals(
-				ICFwResourceRepository.PROJECT_REFRESHED)) {
+		} else if (evt.getPropertyName().equals(IREResourceRepository.PROJECT_REFRESHED)) {
 			refreshSelection();
 		}
 		addTreeSelectionListener(this);
