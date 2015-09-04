@@ -836,43 +836,6 @@ public class REApplication {
 		return out.toString();
 	}
 
-	private CFile lastFile;
-
-	// TODO
-	public void writePresLog(PRCommandLog.SubType subType, Object... args) {
-		try {
-			CFile file = getSourceManager().getCCurrentFile();
-			if (file == null) {
-				file = lastFile;
-			} else {
-				lastFile = file;
-			}
-			CPath path = file.getRelativePath(getSourceManager().getCCurrentProject());
-			PRLog log = new PRCommandLog(subType, path, args);
-			writePresLog(log);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	public void writePresTextEditLog(PRTextEditLog.SubType subType, int offset, int len, String text) {
-		try {
-			CPath path = getSourceManager().getCCurrentFile().getRelativePath(getSourceManager().getCCurrentProject());
-			PRLog log = new PRTextEditLog(subType, path, offset, len, text);
-			writePresLog(log);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	public void writePresLog(PRLog log) {
-		try {
-			presManager.getRecordingProject(getSourceManager().getCCurrentProject()).record(log);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
 	public void doRun() {
 		File target = getSourceManager().getCurrentFile();
 		if (!hasRunnableFile(target)) {
@@ -1290,4 +1253,43 @@ public class REApplication {
 		return application;
 	}
 
+	/*********************
+	 * PRES関係
+	 *********************/
+
+	private CFile lastFile;
+
+	public void writePresLog(PRCommandLog.SubType subType, Object... args) {
+		try {
+			CFile file = getSourceManager().getCCurrentFile();
+			if (file == null) {
+				file = lastFile;
+			} else {
+				lastFile = file;
+			}
+			CPath path = file.getRelativePath(getSourceManager().getCCurrentProject());
+			PRLog log = new PRCommandLog(subType, path, args);
+			writePresLog(log);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void writePresTextEditLog(PRTextEditLog.SubType subType, int offset, int len, String text) {
+		try {
+			CPath path = getSourceManager().getCCurrentFile().getRelativePath(getSourceManager().getCCurrentProject());
+			PRLog log = new PRTextEditLog(subType, path, offset, len, text);
+			writePresLog(log);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void writePresLog(PRLog log) {
+		try {
+			presManager.getRecordingProject(getSourceManager().getCCurrentProject()).record(log);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 }
