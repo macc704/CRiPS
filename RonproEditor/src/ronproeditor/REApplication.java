@@ -331,8 +331,8 @@ public class REApplication {
 	public static final String RUNNABLE_EXTENSION = "class";
 	public static final String DEFAULT_ROOT = "MyProjects";
 	public static final String TEMPLATE_FOLDER = "templates";
-	public static final String LIB_FOLDER = "lib";
-	public static final String EXTENSION_FOLDER = "ext";
+	private static final String LIB_FOLDER = "lib";
+	private static final String EXTENSION_FOLDER = "ext";
 	public static final String TRASH_FOLDER = ".Trash";
 
 	public static final int WHITESPACE_COUNT_FOR_TAB = 2;
@@ -351,6 +351,8 @@ public class REApplication {
 	 ***********************/
 
 	private REFrame frame;
+
+	private CDirectory extDir;
 
 	private String compileCommand;
 	private String runCommand;
@@ -390,6 +392,7 @@ public class REApplication {
 
 	private void openApplication(String rootDirName) {
 		File root = prepareRootDirectory(DEFAULT_ROOT);
+		this.extDir = CFileSystem.getExecuteDirectory().findOrCreateDirectory(EXTENSION_FOLDER);
 		initializeManagers(root);
 		createAndOpenWindow();
 
@@ -496,6 +499,10 @@ public class REApplication {
 
 	public CPreferenceManager getPreferenceManager() {
 		return preferenceManager;
+	}
+
+	public CDirectory getExtensionDirectory() {
+		return this.extDir;
 	}
 
 	/***********************
@@ -724,47 +731,9 @@ public class REApplication {
 		}
 	}
 
-	// public void doMakeLogArchive() {
-	// try {
-	// String zipName = "log_"
-	// + ronproeditor.helpers.TimeUtil.getDateString() + ".zip";
-	// ronproeditor.helpers.ZipUtil.createZip(zipName, new String[] {
-	// "log", "MyProjects" });
-	// } catch (IOException e) {
-	// e.printStackTrace(frame.getConsole().err);
-	// frame.getConsole().setText(
-	// frame.getConsole().getText() + "申し訳ありませんがエラーが発生しました。\n");
-	// frame.getConsole().setText(
-	// frame.getConsole().getText() + "開発者まで御連絡下さい。\n");
-	// }
-	// }
-
-	// turkeyのコード
-	// public void doSaveCompileLog() {
-	//
-	// File logRoot = new File("log");
-	// if (logRoot.exists() == false)
-	// logRoot.mkdir();
-	//
-	// File project = new File(logRoot, sourceManager.getProjectDirectory()
-	// .getName());
-	// if (project.exists() == false)
-	// project.mkdir();
-	//
-	// String name = getSourceManager().getCurrentFile().getName();
-	// File file = new File(project, name + "."
-	// + ronproeditor.helpers.TimeUtil.getNowString());
-	// FileSystemUtil.save(file, getFrame().getEditor().getText());
-	//
-	// }
-
 	public void doCompile() {
 		doCompileNonBlocking();
 	}
-
-	// public void doCompileBlocking() {
-	// doCompile(true);
-	// }
 
 	public void doCompileNonBlocking() {
 		doCompile(false);
@@ -777,7 +746,6 @@ public class REApplication {
 	 *            コンパイルをブロッキングするか
 	 */
 	private void doCompile(boolean blocking) {
-		// doSaveCompileLog(); turkeyのコード
 
 		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
 			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません", "コンパイルできません", JOptionPane.ERROR_MESSAGE);
@@ -1330,51 +1298,5 @@ public class REApplication {
 		// 返り値追加（kato）
 		return application;
 	}
-
-	// private void sourceColoringTest(){
-	// try {
-	// List<JTextPane> panes = new ArrayList<JTextPane>();
-	// DefaultStyledDocument doc = (DefaultStyledDocument) (getFrame()
-	// .getEditor().getViewer().getTextPane().getDocument());
-	// int len = doc.getLength();
-	// String text = doc.getText(0, len);
-	// int start = 0;
-	// for (int i = 0; i < len; i++) {
-	// char c = text.charAt(i);
-	// if (c == '\n') {
-	// int end = i;
-	// DefaultStyledDocument copy = CCopyUtil.copyDeep(doc);
-	// copy.remove(end, len - end);// 順番重要
-	// copy.remove(0, start);// 順番重要
-	// JTextPane pane = new JTextPane(copy);
-	// panes.add(pane);
-	// start = i + 1;
-	// }
-	// }
-	//
-	// JFrame f = new JFrame();
-	// f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	// f.setVisible(true);
-	// JList<JTextPane> list = new JList<JTextPane>(new Vector<JTextPane>(
-	// panes));
-	// list.setCellRenderer(new ListCellRenderer<JTextPane>() {
-	// /*
-	// * (non-Javadoc)
-	// *
-	// * @see
-	// * javax.swing.ListCellRenderer#getListCellRendererComponent
-	// * (javax.swing.JList, java.lang.Object, int, boolean, boolean)
-	// */
-	// public Component getListCellRendererComponent(
-	// JList<? extends JTextPane> list, JTextPane value,
-	// int index, boolean isSelected, boolean cellHasFocus) {
-	// return value;
-	// }
-	// });
-	// f.getContentPane().add(list);
-	// } catch (Exception ex) {
-	// ex.printStackTrace();
-	// }
-	// }
 
 }
