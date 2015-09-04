@@ -26,7 +26,7 @@ import net.unicoen.mapper.JavaScriptMapper;
 import net.unicoen.node.UniClassDec;
 import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRLog;
-import ronproeditor.ICFwResourceRepository;
+import ronproeditor.IREResourceRepository;
 import ronproeditor.REApplication;
 import ronproeditor.helpers.CFrameUtils;
 
@@ -53,7 +53,7 @@ public class REBlockEditorManager2 {
 				if (/*
 					 * ICFwResourceRepository.PREPARE_DOCUMENT_CLOSE
 					 * .equals(evt.getPropertyName()) ||
-					 */ICFwResourceRepository.DOCUMENT_OPENED.equals(evt.getPropertyName())
+					 */IREResourceRepository.DOCUMENT_OPENED.equals(evt.getPropertyName())
 				/*
 				 * || ICFwResourceRepository.MODEL_REFRESHED
 				 * .equals(evt.getPropertyName())
@@ -80,24 +80,24 @@ public class REBlockEditorManager2 {
 		blockEditor.addBlockEditorListener(new edu.inf.shizuoka.blocks.extent.SBlockEditorListener() {
 
 			public void blockConverted(File file) {
-				writeBlockEditingLog(BlockEditorLog.SubType.BLOCK_TO_JAVA);
+				writeBlockEditingLog(REBlockEditorLog.SubType.BLOCK_TO_JAVA);
 				app.doRefreshCurrentEditor();
 				app.doFormat();
 				app.doBlockToJavaSave();
 			}
 
 			public void blockDebugRun() {
-				writeBlockEditingLog(BlockEditorLog.SubType.DEBUGRUN);
+				writeBlockEditingLog(REBlockEditorLog.SubType.DEBUGRUN);
 				app.doDebugRun();
 			}
 
 			public void blockRun() {
-				writeBlockEditingLog(BlockEditorLog.SubType.RUN);
+				writeBlockEditingLog(REBlockEditorLog.SubType.RUN);
 				app.doRun();
 			}
 
 			public void blockCompile() {
-				writeBlockEditingLog(BlockEditorLog.SubType.COMPILE);
+				writeBlockEditingLog(REBlockEditorLog.SubType.COMPILE);
 				app.doCompile();
 			}
 
@@ -106,7 +106,7 @@ public class REBlockEditorManager2 {
 			}
 
 			public void toggleTraceLines(String state) {
-				writeBlockEditingLog(BlockEditorLog.SubType.TOGGLE_TRACELINES, state);
+				writeBlockEditingLog(REBlockEditorLog.SubType.TOGGLE_TRACELINES, state);
 			}
 
 			@Override
@@ -128,7 +128,7 @@ public class REBlockEditorManager2 {
 		// writeBlockEditingLog(BlockEditorLog.SubType.FOCUS_GAINED);
 		// }
 		// });
-		writeBlockEditingLog(BlockEditorLog.SubType.OPENED);
+		writeBlockEditingLog(REBlockEditorLog.SubType.OPENED);
 		// blockEditor.getFrame().addWindowStateListener(new
 		// WindowStateListener() {
 		// public void windowStateChanged(WindowEvent e) {
@@ -167,7 +167,7 @@ public class REBlockEditorManager2 {
 					return;
 				}
 
-				writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK);
+				writeBlockEditingLog(REBlockEditorLog.SubType.JAVA_TO_BLOCK);
 				// app.doCompileBlocking(false);
 
 				String message = "";
@@ -180,7 +180,7 @@ public class REBlockEditorManager2 {
 				}
 
 				if (message.length() != 0) {// has compile error
-					writeBlockEditingLog(BlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
+					writeBlockEditingLog(REBlockEditorLog.SubType.JAVA_TO_BLOCK_ERROR);
 					doCompileErrorBlockEditor(target);
 					return;
 				}
@@ -213,7 +213,7 @@ public class REBlockEditorManager2 {
 
 			public void doTask() {
 				try {
-					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
+					writeBlockEditingLog(REBlockEditorLog.SubType.LOADING_START);
 
 					// Converter 1
 					// String[] libs = app.getLibraryManager().getLibsAsArray();
@@ -238,7 +238,7 @@ public class REBlockEditorManager2 {
 						@Override
 						public void run() {
 							blockEditor.loadProjectFromPath(xmlFilePath);
-							writeBlockEditingLog(BlockEditorLog.SubType.LOADING_END);
+							writeBlockEditingLog(REBlockEditorLog.SubType.LOADING_END);
 						}
 					});
 
@@ -323,7 +323,7 @@ public class REBlockEditorManager2 {
 		return blockEditorFile.toString();
 	}
 
-	private void writeBlockEditingLog(BlockEditorLog.SubType subType, String... texts) {
+	private void writeBlockEditingLog(REBlockEditorLog.SubType subType, String... texts) {
 		try {
 			if (!app.getSourceManager().hasCurrentFile()) {
 				return;
@@ -331,7 +331,7 @@ public class REBlockEditorManager2 {
 
 			CPath path = app.getSourceManager().getCCurrentFile()
 					.getRelativePath(app.getSourceManager().getCCurrentProject());
-			PRLog log = new BlockEditorLog(subType, path, texts);
+			PRLog log = new REBlockEditorLog(subType, path, texts);
 			app.writePresLog(log);
 		} catch (Exception ex) {
 			ex.printStackTrace();

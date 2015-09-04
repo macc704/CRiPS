@@ -41,7 +41,7 @@ import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import ronproeditor.ICFwResourceRepository;
+import ronproeditor.IREResourceRepository;
 import ronproeditor.REApplication;
 import ronproeditor.views.REFrame;
 import ch.conn.framework.CHConnection;
@@ -480,7 +480,7 @@ public class RECheCoProManager {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
 						setCHTitleBar(chApplication, user);
-						if (evt.getPropertyName().equals(ICFwResourceRepository.DOCUMENT_OPENED)) {
+						if (evt.getPropertyName().equals(IREResourceRepository.DOCUMENT_OPENED)) {
 							initializeCHKeyListener(chApplication, user);
 							JToggleButton connButton = (JToggleButton) chApplication
 									.getFrame().getJMenuBar().getComponent(5);

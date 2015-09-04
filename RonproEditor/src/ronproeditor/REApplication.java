@@ -302,7 +302,7 @@ import ronproeditor.views.RESourceEditor;
  *at ronproeditor.REApplication.writePresLog(REApplication.java:647)
  *at ronproeditor.views.RESourceEditor$2.focusLost(RESourceEditor.java:93)
  */
-public class REApplication implements ICFwApplication {
+public class REApplication {
 
 	/***********************
 	 * Static Variables.
@@ -360,7 +360,7 @@ public class REApplication implements ICFwApplication {
 	private RERefactoringFileNameDialog refactorFileNameDialog;
 	private RECreateFileNameDialogForCopy copyFileNameDialog;
 
-	private PresProjectManager presManager;
+	private REPresProjectManager presManager;
 	private REBlockEditorManager blockManager;
 	private REBlockEditorManager2 newBlockManager;
 	private REFlowViewerManager flowManager;
@@ -386,7 +386,7 @@ public class REApplication implements ICFwApplication {
 		createAndOpenWindow();
 		prepareDialogs();
 
-		presManager = new PresProjectManager();
+		presManager = new REPresProjectManager();
 		presManager.initialize();
 		blockManager = new REBlockEditorManager(this);
 		newBlockManager = new REBlockEditorManager2(this);
@@ -397,8 +397,9 @@ public class REApplication implements ICFwApplication {
 		cocoViewerManager = new RECocoViewerManager(this);
 		checoproManager = new RECheCoProManager(this);
 
-		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER("*.java", "*.hcp", "*.c", "*.cpp",
-				"Makefile", "*.oil", "*.rb", "*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
+		this.sourceManager.setFileFilter(
+				CFileFilter.ACCEPT_BY_NAME_FILTER("*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
+						"*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
 		// this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*",
 		// "CVS", "bin"));
 		// @TODO きちんと実装すること 2011/11/22
@@ -517,7 +518,9 @@ public class REApplication implements ICFwApplication {
 	public void doOpen(File file) {
 		doClose();
 
-		if (file.getName().endsWith("java") || file.getName().endsWith("js") || file.getName().endsWith("dlt")) {// @TODO きちんと実装すること 2011/11/22
+		if (file.getName().endsWith("java") || file.getName().endsWith("js") || file.getName().endsWith("dlt")) {// @TODO
+																													// きちんと実装すること
+																													// 2011/11/22
 			getSourceManager().open(file);
 		}
 	}
@@ -528,7 +531,7 @@ public class REApplication implements ICFwApplication {
 
 			blockManager.doCompileBlock(); // 要：ファイル削除の前に実行
 			newBlockManager.doCompileBlock(); // 要：ファイル削除の前に実行
-			
+
 			deleteRunnable(getSourceManager().getCurrentFile());
 
 			// TODO
@@ -1096,7 +1099,7 @@ public class REApplication implements ICFwApplication {
 		}
 	}
 
-	public ICFwResourceRepository getResourceRepository() {
+	public IREResourceRepository getResourceRepository() {
 		return sourceManager;
 	}
 

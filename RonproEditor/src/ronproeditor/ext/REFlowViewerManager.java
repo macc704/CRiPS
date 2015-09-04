@@ -13,7 +13,7 @@ import javax.swing.KeyStroke;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
-import ronproeditor.ICFwResourceRepository;
+import ronproeditor.IREResourceRepository;
 import ronproeditor.REApplication;
 import ronproeditor.helpers.CFrameUtils;
 import bc.j2b.analyzer.JavaToBlockAnalyzer;
@@ -40,7 +40,7 @@ public class REFlowViewerManager {
 						if (/*
 							 * ICFwResourceRepository.PREPARE_DOCUMENT_CLOSE
 							 * .equals(evt.getPropertyName()) ||
-							 */ICFwResourceRepository.DOCUMENT_OPENED
+							 */IREResourceRepository.DOCUMENT_OPENED
 								.equals(evt.getPropertyName())
 						/*
 						 * || ICFwResourceRepository.MODEL_REFRESHED

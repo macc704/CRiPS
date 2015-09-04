@@ -25,7 +25,7 @@ import clib.common.filesystem.CPath;
  * @author macchan
  * @version $Id: RESourceManager.java,v 1.2 2007/12/14 15:40:45 macchan Exp $
  */
-public class RESourceManager implements ICFwResourceRepository {
+public class RESourceManager implements IREResourceRepository {
 
 	private PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(
 			this);
