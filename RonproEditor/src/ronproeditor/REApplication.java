@@ -851,21 +851,18 @@ public class REApplication {
 	}
 
 	public void doDebugRun() {
-
+		// 起動できるかチェック
 		File target = getSourceManager().getCurrentFile();
 		if (!hasRunnableFile(target)) {
 			JOptionPane.showMessageDialog(frame, "コンパイルに成功していません", "実行できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
 		if (deno != null && deno.isRunning()) {
 			JOptionPane.showMessageDialog(frame, "前のデバッグ画面が開きっぱなしです", "実行できません", JOptionPane.ERROR_MESSAGE);
 			return;
-			// CFrameUtils.toFront(deno.getFrame());
-			// return;
 		}
 
-		// パス等取得
+		// コマンド作成
 		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
 				getSourceManager().getCurrentFile());
 		String args[] = new String[6];
@@ -880,21 +877,27 @@ public class REApplication {
 			libString = "\"" + libString + "\"";
 		}
 		args[3] = libString;
-		// クラス名
-		args[4] = env.runnable;
-		// waitrepaint
-		args[5] = "waitrepaint";
+		args[4] = env.runnable;// クラス名
+		args[5] = "waitrepaint";// waitrepaint
 
-		// xml
-		// String[] libs = getLibraryManager().getLibsAsArray();
-		// try {
-		// new JavaToBlockMain().run(getSourceManager().getCurrentFile(),
-		// REApplication.SRC_ENCODING, libs);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// CErrorDialog.show(getFrame(), "Block変換時のエラー", e);
-		// }
+		hookDENOListener();
 
+		deno = new GUI();
+		deno.run(args);
+		deno.getFrame().addWindowFocusListener(new WindowFocusListener() {
+			public void windowLostFocus(WindowEvent e) {
+				writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
+			}
+
+			public void windowGainedFocus(WindowEvent e) {
+				writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
+			}
+		});
+		CommandInterpreter commandInterpreter = new CommandInterpreter(deno.getEnv());
+		commandInterpreter.executeCommand("run");
+	}
+
+	private void hookDENOListener() {
 		NDebuggerManager.registerListener(new NDebuggerListener() {
 			public void stepPressed() {
 				writePresLog(PRCommandLog.SubType.STEP);
@@ -936,26 +939,12 @@ public class REApplication {
 				writePresLog(PRCommandLog.SubType.DEBUG_CHANGEMODE, mode);
 			}
 		});
-		deno = new GUI();
-		deno.run(args);
-		deno.getFrame().addWindowFocusListener(new WindowFocusListener() {
-			public void windowLostFocus(WindowEvent e) {
-				writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
-			}
-
-			public void windowGainedFocus(WindowEvent e) {
-				writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
-			}
-		});
-		CommandInterpreter cmdint = new CommandInterpreter(deno.getEnv());
-		// deno.getEnv().setBlockEditor(blockManager.getBlockEditor());
-		// if(blockManager.getBlockEditor() != null) {
-		// deno.beMode();
-		// }
-		cmdint.executeCommand("run");
 	}
 
-	// Helper
+	/*******************************
+	 * Helpers
+	 *******************************/
+
 	public boolean hasRunnableFile(File source) {
 		if (source == null) {
 			return false;
