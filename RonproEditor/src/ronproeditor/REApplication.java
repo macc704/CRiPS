@@ -21,6 +21,21 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+
+import bc.apps.JavaToBlockMain;
+import ch.util.CHBlockEditorController;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileElement;
+import clib.common.filesystem.CFileFilter;
+import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CFilename;
+import clib.common.filesystem.CPath;
+import clib.common.system.CJavaSystem;
+import clib.preference.app.CPreferenceManager;
+import clib.view.dialogs.CErrorDialog;
+import edu.mit.blocks.controller.WorkspaceController;
 import nd.com.sun.tools.example.debug.gui.CommandInterpreter;
 import nd.com.sun.tools.example.debug.gui.GUI;
 import nd.novicedebugger.NDebuggerListener;
@@ -54,22 +69,6 @@ import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.views.DummyConsole;
 import ronproeditor.views.REFrame;
 import ronproeditor.views.RESourceEditor;
-import bc.apps.JavaToBlockMain;
-import ch.util.CHBlockEditorController;
-import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileElement;
-import clib.common.filesystem.CFileFilter;
-import clib.common.filesystem.CFileSystem;
-import clib.common.filesystem.CFilename;
-import clib.common.filesystem.CPath;
-import clib.common.system.CJavaSystem;
-import clib.preference.app.CPreferenceManager;
-import clib.view.dialogs.CErrorDialog;
-
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-
-import edu.mit.blocks.controller.WorkspaceController;
 
 /*
  * Ronpro Editor Application
@@ -537,37 +536,31 @@ public class REApplication {
 	}
 
 	public void doSave() {
-		if (getSourceManager().hasCurrentFile()) {
-			getFrame().getEditor().doSave();
-
-			blockManager.doCompileBlock(); // 要：ファイル削除の前に実行
-			newBlockManager.doCompileBlock(); // 要：ファイル削除の前に実行
-			semiNewBlockManager.doCompileBlock(); // 要：ファイル削除の前に実行
-
-			deleteRunnable(getSourceManager().getCurrentFile());
-
-			// TODO
-			writePresLog(PRCommandLog.SubType.SAVE);// TODO
-
-			// blockManager.doRefleshBlock();
-			flowManager.refreshChart();
-
-		}
+		doSave(true);
 	}
 
 	public void doBlockToJavaSave() {
+		doSave(false);
+	}
+
+	private void doSave(boolean fromText) {
 		if (getSourceManager().hasCurrentFile()) {
 			getFrame().getEditor().doSave();
-			deleteRunnable(getSourceManager().getCurrentFile());
 
-			// TODO
-			writePresLog(PRCommandLog.SubType.SAVE);// TODO
-
-			// TODO 上と重複
+			if (fromText) {
+				blockManager.doCompileBlock(); // 要：ファイル削除の前に実行
+				newBlockManager.doCompileBlock(); // 要：ファイル削除の前に実行
+				semiNewBlockManager.doCompileBlock(); // 要：ファイル削除の前に実行
+			}
+			// blockManager.doRefleshBlock(); //TODO オブジェクト指向対応のため？
 			flowManager.refreshChart();
+			if (fromText) {
+				checoproManager.sendText();
+				checoproManager.sendFiles();
+			}
 
-			checoproManager.sendText();
-			checoproManager.sendFiles();
+			deleteRunnable(getSourceManager().getCurrentFile());
+			writePresLog(PRCommandLog.SubType.SAVE);
 		}
 	}
 
@@ -635,7 +628,8 @@ public class REApplication {
 
 		copyFileNameDialog.open(recommendedFile);
 		if (copyFileNameDialog.getState() == RECreateNameDialog.State.INPUTTED) {
-			getSourceManager().copyFile(file, copyFileNameDialog.getInputtedProject(), copyFileNameDialog.getInputtedName());
+			getSourceManager().copyFile(file, copyFileNameDialog.getInputtedProject(),
+					copyFileNameDialog.getInputtedName());
 		}
 	}
 
@@ -653,7 +647,9 @@ public class REApplication {
 			return;
 		}
 
-		int res = JOptionPane.showConfirmDialog(frame, "本当に" + getSourceManager().getProjectDirectory().getName() + "を削除してよいですか？ 以下のファイルもすべて削除されます", "最終確認", JOptionPane.WARNING_MESSAGE);
+		int res = JOptionPane.showConfirmDialog(frame,
+				"本当に" + getSourceManager().getProjectDirectory().getName() + "を削除してよいですか？ 以下のファイルもすべて削除されます", "最終確認",
+				JOptionPane.WARNING_MESSAGE);
 		if (res == JOptionPane.OK_OPTION) {
 			doClose();
 			File file = getSourceManager().getProjectDirectory();
@@ -670,7 +666,8 @@ public class REApplication {
 
 		File file = getSourceManager().getCurrentFile();
 
-		int res = JOptionPane.showConfirmDialog(frame, "本当に" + file.getName() + "を削除してよいですか？", "最終確認", JOptionPane.WARNING_MESSAGE);
+		int res = JOptionPane.showConfirmDialog(frame, "本当に" + file.getName() + "を削除してよいですか？", "最終確認",
+				JOptionPane.WARNING_MESSAGE);
 		if (res == JOptionPane.OK_OPTION) {
 			doClose();
 			file.renameTo(new File(getSourceManager().makeTrashFolder(), file.getName()));
@@ -691,9 +688,16 @@ public class REApplication {
 		}
 	}
 
-	public void doSetProjectDirectory(File file) {
-		doClose();
+	public void doSetProjectDirectory(CDirectory directory) {
+		if (directory == null) {
+			this.doSetProjectDirectory((File) null);
+		} else {
+			this.doSetProjectDirectory(directory.toJavaFile());
+		}
+	}
 
+	private void doSetProjectDirectory(File file) {
+		doClose();
 		getSourceManager().setProjectDirectory(file);
 	}
 
@@ -787,7 +791,8 @@ public class REApplication {
 
 		frame.getConsole().setText("");
 
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(), getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
+				getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
@@ -819,7 +824,8 @@ public class REApplication {
 		// frame.getConsole());
 		// }
 
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(),
+				frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 
 		generefManager.handleCompileDone();
 	}
@@ -853,7 +859,8 @@ public class REApplication {
 		console.setErr(new PrintStream(out));
 
 		try {
-			RECommandExecuter.executeCommandWait(commands, env.dir, console, getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
+			RECommandExecuter.executeCommandWait(commands, env.dir, console,
+					getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -905,7 +912,8 @@ public class REApplication {
 			return;
 		}
 
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(), getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
+				getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add(runCommand);
@@ -913,7 +921,8 @@ public class REApplication {
 		commands.add(cp);
 		commands.add(env.runnable);
 
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(),
+				frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 		writePresLog(PRCommandLog.SubType.START_RUN);// TODO
 	}
 
@@ -933,7 +942,8 @@ public class REApplication {
 		}
 
 		// パス等取得
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(), getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
+				getSourceManager().getCurrentFile());
 		String args[] = new String[6];
 		// ソースパス
 		args[0] = "-sourcepath";
@@ -1093,14 +1103,6 @@ public class REApplication {
 		this.doOpen(file.toJavaFile());
 	}
 
-	public void doSetProjectDirectory(CDirectory directory) {
-		if (directory == null) {
-			this.doSetProjectDirectory((File) null);
-		} else {
-			this.doSetProjectDirectory(directory.toJavaFile());
-		}
-	}
-
 	public IREResourceRepository getResourceRepository() {
 		return sourceManager;
 	}
@@ -1117,7 +1119,8 @@ public class REApplication {
 
 			if (!COMMENT) {// CONFIRM ONLY
 				int res = 0;
-				res = JOptionPane.showConfirmDialog(frame, "「" + project.getName() + "」" + "をExportします．よろしいですね？", "プロジェクト名確認", JOptionPane.OK_CANCEL_OPTION);
+				res = JOptionPane.showConfirmDialog(frame, "「" + project.getName() + "」" + "をExportします．よろしいですね？",
+						"プロジェクト名確認", JOptionPane.OK_CANCEL_OPTION);
 				if (res != JFileChooser.APPROVE_OPTION) {
 					return;
 				}
@@ -1134,7 +1137,8 @@ public class REApplication {
 			// datファイルのコピー
 			copyDatFileToProject();
 
-			chooser.setSelectedFile(new File(CFileSystem.getExecuteDirectory().getAbsolutePath() + "/" + project.getName() + ".zip"));
+			chooser.setSelectedFile(
+					new File(CFileSystem.getExecuteDirectory().getAbsolutePath() + "/" + project.getName() + ".zip"));
 			int res = chooser.showSaveDialog(getFrame());
 			if (res != JFileChooser.APPROVE_OPTION) {
 				return;
@@ -1147,7 +1151,8 @@ public class REApplication {
 			CFile zip = dir.findOrCreateFile(name);
 			NewZipUtil.createZip(zip, project, project);
 
-			JOptionPane.showConfirmDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました", JOptionPane.OK_OPTION);
+			JOptionPane.showConfirmDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました",
+					JOptionPane.OK_OPTION);
 
 		} catch (Exception ex) {
 			ex.printStackTrace(frame.getConsole().getErr());
@@ -1182,7 +1187,7 @@ public class REApplication {
 	}
 
 	public void doOpenNewBlockEditor() {
-		//Java->Block変換処理
+		// Java->Block変換処理
 		BiFunction<File, REApplication, String> convertAction = (javaFile, app) -> {
 			File srcfile = app.getSourceManager().getCurrentFile();
 			File dir = srcfile.getParentFile();
@@ -1190,7 +1195,8 @@ public class REApplication {
 			File xmlfile = new File(dir.getAbsolutePath() + "/" + classDec.className + ".xml");
 			try {
 				xmlfile.createNewFile();
-				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, "UTF-8");
+				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false,
+						"UTF-8");
 				BlockGenerator blockParser = new BlockGenerator(out, WorkspaceController.langDefRootPath);
 				blockParser.parse(classDec);
 			} catch (IOException e) {
@@ -1200,7 +1206,7 @@ public class REApplication {
 		};
 
 		// Managerの初期化処理
-		Supplier<WorkspaceController> initAction = ()->{
+		Supplier<WorkspaceController> initAction = () -> {
 			WorkspaceController blockEditor = new WorkspaceController();
 			blockEditor.setLangDefFilePath(REBlockEditorManager2.LANG_DEF_PATH);
 			blockEditor.loadFreshWorkspace();
@@ -1212,10 +1218,10 @@ public class REApplication {
 	}
 
 	public void doOpenSemiNewBlockEditor() {
-		//Java->Block変換処理
+		// Java->Block変換処理
 		BiFunction<File, REApplication, String> convertAction = (javaFile, app) -> {
-			 String[] libs = app.getLibraryManager().getLibsAsArray();
-			 String xmlFilePath = "noxml";
+			String[] libs = app.getLibraryManager().getLibsAsArray();
+			String xmlFilePath = "noxml";
 			try {
 				xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
 			} catch (Exception e) {
@@ -1225,7 +1231,7 @@ public class REApplication {
 		};
 
 		// Managerの初期化処理
-		Supplier<WorkspaceController> initAction = ()->{
+		Supplier<WorkspaceController> initAction = () -> {
 			WorkspaceController blockEditor = new WorkspaceController();
 			blockEditor.setLangDefFilePath(REBlockEditorManager.LANG_DEF_PATH);
 			blockEditor.loadFreshWorkspace();
