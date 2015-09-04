@@ -285,11 +285,7 @@ import ronproeditor.views.RESourceEditor;
  * 2014/10/01 version 2.27.0 ohata			・2014プログラミング社会学科用
  * 2014/10/11 version 2.27.1 ohata			・軽微なバグを修正
  *
- <<<<<<< HEAD
- * 2014/10/01 version 2.27.2 ohata			・コンソールのフォントをエディタのフォントと統一
- =======
  * 2014/10/18 version 2.27.2 ohata			・コンソールのフォントをエディタのフォントと統一
- >>>>>>> ronpro_plugin_master
  * 											・フォントの文字幅によるエラー指摘メッセージのズレを修正
  * 2014/10/24 version 2.27.3 ohata			・sizeメソッドのBlock>>Java変換のエラーを修正
  * 											・Turtleを継承した自作クラスブロックを右クリックしたときのコンテキストメニューに，タートルメニューを追加
@@ -354,6 +350,7 @@ public class REApplication {
 	 ***********************/
 
 	private REFrame frame;
+	private JFileChooser chooser = new JFileChooser();
 
 	private CDirectory extDir;
 
@@ -504,6 +501,10 @@ public class REApplication {
 		return preferenceManager;
 	}
 
+	public IREResourceRepository getResourceRepository() {
+		return sourceManager;
+	}
+
 	public CDirectory getExtensionDirectory() {
 		return this.extDir;
 	}
@@ -533,6 +534,10 @@ public class REApplication {
 		if (createFileDialog.getState() == RECreateNameDialog.State.INPUTTED) {
 			getSourceManager().createFile(createFileDialog.getInputtedName(), createFileDialog.getSelectedTemplate());
 		}
+	}
+
+	public void doOpen(CFileElement file) {
+		this.doOpen(file.toJavaFile());
 	}
 
 	public void doOpen(File file) {
@@ -941,39 +946,6 @@ public class REApplication {
 		});
 	}
 
-	/*******************************
-	 * Helpers
-	 *******************************/
-
-	public boolean hasRunnableFile(File source) {
-		if (source == null) {
-			return false;
-		}
-		File file = getRunnableFile(source);
-		return file != null && file.exists();
-	}
-
-	public boolean deleteRunnable(File source) {
-		if (hasRunnableFile(source)) {
-			return getRunnableFile(source).delete();
-		}
-		return false;
-	}
-
-	private File getRunnableFile(File source) {
-		if (source == null) {
-			throw new IllegalArgumentException();
-		}
-		File dir = source.getParentFile();
-		File runnableFile = new File(dir, FileSystemUtil.cutExtension(source) + "." + RUNNABLE_EXTENSION);
-		return runnableFile;
-	}
-
-	// Java -version
-	// CommandExecuter.executeCommandWait("java -version",
-	// getSourceManager().getProjectDirectory(), frame
-	// .getConsole());
-
 	public void doKillAll() {
 		RECommandExecuter.killAll();
 	}
@@ -1008,19 +980,13 @@ public class REApplication {
 		}
 	}
 
-	/****************************
-	 * 一時の繋ぎ
-	 ****************************/
-
-	public void doOpen(CFileElement file) {
-		this.doOpen(file.toJavaFile());
+	public void doOpenFlowViewer() {
+		flowManager.doOpenFlowViewer();
 	}
 
-	public IREResourceRepository getResourceRepository() {
-		return sourceManager;
+	public void doOpenGeneRefBrowser() {
+		generefManager.openGeneRefBrowser();
 	}
-
-	private JFileChooser chooser = new JFileChooser();
 
 	public void doExport() {
 		try {
@@ -1047,7 +1013,7 @@ public class REApplication {
 				}
 			}
 
-			// datファイルのコピー
+			// datファイルのコピー(generef)
 			copyDatFileToProject();
 
 			chooser.setSelectedFile(
@@ -1070,18 +1036,38 @@ public class REApplication {
 		} catch (Exception ex) {
 			ex.printStackTrace(frame.getConsole().getErr());
 			CErrorDialog.show(frame, "Export中にエラーが発生しました．", ex);
-			// JOptionPane.showConfirmDialog(frame, "Export中にエラーが発生しました．",
-			// "エラー",
-			// JOptionPane.ERROR_MESSAGE);
 		} finally {
-			// コピーしたdatファイルを削除
+			// コピーしたdatファイルを削除(generef)
 			deleteDatFileFromProject();
+		}
+	}
+
+	private void copyDatFileToProject() {
+		try {
+			// TODO 応急処置 macだとNullPointerExceptionが出る
+			generefManager.copyDatFileToProject();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void deleteDatFileFromProject() {
+		try {
+			generefManager.deleteDatFileFromProject();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
 	public void doOpenPreferencePage() {
 		this.preferenceManager.openPreferenceFrame();
 	}
+
+	/***************************
+	 * 以下，BlockEditor関係 TODO Managerの初期化処理，は，単なる引数ではダメなの？
+	 * LANG_DEF_PATHが違うだけのように見えるのだけど（松）
+	 * あと，これらの処理は，BlockManager2の中に持って行きましょう．二つ違うメソッドがあってOK（松）
+	 ***************************/
 
 	public void doOpenBlockEditor() {
 		blockManager.doOpenBlockEditor();
@@ -1147,35 +1133,9 @@ public class REApplication {
 		semiNewBlockManager.doOpenBlockEditor(initAction, convertAction);
 	}
 
-	public void doOpenFlowViewer() {
-		flowManager.doOpenFlowViewer();
-	}
-
-	public void doOpenGeneRefBrowser() {
-		generefManager.openGeneRefBrowser();
-	}
-
-	// CheCoPro(kato)
-	public void doStartCheCoPro() {
-		checoproManager.startCheCoPro();
-	}
-
-	private void copyDatFileToProject() {
-		try {
-			// TODO 応急処置 macだとNullPointerExceptionが出る
-			generefManager.copyDatFileToProject();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private void deleteDatFileFromProject() {
-		try {
-			generefManager.deleteDatFileFromProject();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	/*********************
+	 * 以下，coco関係 TODO 整理せよ
+	 *********************/
 
 	public void doOpenPPV() {
 		try {
@@ -1213,6 +1173,15 @@ public class REApplication {
 		}
 	}
 
+	/*********************
+	 * 以下，checopro関係 TODO 整理せよ
+	 *********************/
+
+	// CheCoPro(kato)
+	public void doStartCheCoPro() {
+		checoproManager.startCheCoPro();
+	}
+
 	private CHBlockEditorController chBlockEditorController;
 
 	public CHBlockEditorController getChBlockEditorController() {
@@ -1233,6 +1202,34 @@ public class REApplication {
 		application.initializeCommands();
 		application.openApplication(dirPath);
 		return application;
+	}
+
+	/*******************************
+	 * Helpers
+	 *******************************/
+
+	public boolean hasRunnableFile(File source) {
+		if (source == null) {
+			return false;
+		}
+		File file = getRunnableFile(source);
+		return file != null && file.exists();
+	}
+
+	public boolean deleteRunnable(File source) {
+		if (hasRunnableFile(source)) {
+			return getRunnableFile(source).delete();
+		}
+		return false;
+	}
+
+	private File getRunnableFile(File source) {
+		if (source == null) {
+			throw new IllegalArgumentException();
+		}
+		File dir = source.getParentFile();
+		File runnableFile = new File(dir, FileSystemUtil.cutExtension(source) + "." + RUNNABLE_EXTENSION);
+		return runnableFile;
 	}
 
 	/*********************
