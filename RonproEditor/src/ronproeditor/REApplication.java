@@ -1139,14 +1139,6 @@ public class REApplication {
 	}
 
 	public void doOpenBlockEditor() {
-		// for test
-		// chBlockEditorController = new CHBlockEditorController("");
-		// chBlockEditorController.setFileOpened(true);
-		// checoproManager.openBlockEditorForCH(chBlockEditorController,
-		// getResourceRepository().getCCurrentFile().toJavaFile()
-		// ,
-		// getResourceRepository().getCCurrentProject().getAbsolutePath().toString()
-		// + "/lang_def_project.xml");
 		blockManager.doOpenBlockEditor();
 		// 20130926 DENOがBEを直接参照する 暫定対応
 		if (deno != null && deno.isRunning()) {
@@ -1295,7 +1287,6 @@ public class REApplication {
 		application.initializeLookAndFeel();
 		application.initializeCommands();
 		application.openApplication(dirPath);
-		// 返り値追加（kato）
 		return application;
 	}
 
