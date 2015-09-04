@@ -541,6 +541,7 @@ public class REApplication implements ICFwApplication {
 
 			blockManager.doCompileBlock(); // 要：ファイル削除の前に実行
 			newBlockManager.doCompileBlock(); // 要：ファイル削除の前に実行
+			semiNewBlockManager.doCompileBlock(); // 要：ファイル削除の前に実行
 
 			deleteRunnable(getSourceManager().getCurrentFile());
 
@@ -1206,7 +1207,7 @@ public class REApplication implements ICFwApplication {
 			return blockEditor;
 		};
 
-		semiNewBlockManager.doOpenBlockEditor(initAction, convertAction);
+		newBlockManager.doOpenBlockEditor(initAction, convertAction);
 	}
 
 	public void doOpenSemiNewBlockEditor() {
