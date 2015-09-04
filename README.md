@@ -10,6 +10,6 @@ CRiPS
 1. Browse... > Choose CRiPS > Finish
 1. Repeat same procedure for commonlibrary and Junicoen
 
-![import](import.png)
+![import](img/import.png)
 
-![browse](projectBrowse.png)
+![browse](img/projectBrowse.png)
