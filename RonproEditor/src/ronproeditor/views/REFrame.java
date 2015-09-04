@@ -192,6 +192,7 @@ public class REFrame extends JFrame {
 	private JMenu menuTools;
 	private Action actionOpenBlockEditor;
 	private Action actionOpenNewBlockEditor;
+	private Action actionOpenSemiNewBlockEditor;
 	private Action actionOpenFlowViewer;
 	private Action actionOpenGeneRefBrowser;
 	// private JCheckBoxMenuItem useRSSystem;
@@ -296,6 +297,7 @@ public class REFrame extends JFrame {
 		// アクションの追加
 		menuTools.add(actionOpenBlockEditor);
 		menuTools.add(actionOpenNewBlockEditor);
+		menuTools.add(actionOpenSemiNewBlockEditor);
 		menuTools.add(actionOpenFlowViewer);
 		menuTools.add(actionOpenGeneRefBrowser);
 		// menuTools.add(useRSSystem);
@@ -564,6 +566,15 @@ public class REFrame extends JFrame {
 		actionOpenNewBlockEditor.putValue(Action.NAME, "Open New BlockEditor");
 		actionOpenNewBlockEditor.putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_F12, CTRL_MASK));
 		actionOpenNewBlockEditor.setEnabled(true);
+
+		// --SemiNewBlockEditor
+		actionOpenSemiNewBlockEditor = new AbstractAction() {
+			public void actionPerformed(ActionEvent e) {
+				application.doOpenSemiNewBlockEditor();
+			}
+		};
+		actionOpenSemiNewBlockEditor.putValue(Action.NAME, "Open Semi New BlockEditor");
+		actionOpenSemiNewBlockEditor.setEnabled(true);
 
 		// --Flowchart
 		actionOpenFlowViewer = new AbstractAction() {

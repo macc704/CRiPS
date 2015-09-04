@@ -7,32 +7,26 @@ package ronproeditor;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-
-import ch.util.CHBlockEditorController;
-import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileElement;
-import clib.common.filesystem.CFileFilter;
-import clib.common.filesystem.CFileSystem;
-import clib.common.filesystem.CFilename;
-import clib.common.filesystem.CPath;
-import clib.common.system.CJavaSystem;
-import clib.preference.app.CPreferenceManager;
-import clib.view.dialogs.CErrorDialog;
 import nd.com.sun.tools.example.debug.gui.CommandInterpreter;
 import nd.com.sun.tools.example.debug.gui.GUI;
 import nd.novicedebugger.NDebuggerListener;
 import nd.novicedebugger.NDebuggerManager;
+import net.unicoen.node.UniClassDec;
+import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRCommandLog;
 import pres.core.model.PRLog;
 import pres.core.model.PRTextEditLog;
@@ -60,49 +54,65 @@ import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.views.DummyConsole;
 import ronproeditor.views.REFrame;
 import ronproeditor.views.RESourceEditor;
+import bc.apps.JavaToBlockMain;
+import ch.util.CHBlockEditorController;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileElement;
+import clib.common.filesystem.CFileFilter;
+import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CFilename;
+import clib.common.filesystem.CPath;
+import clib.common.system.CJavaSystem;
+import clib.preference.app.CPreferenceManager;
+import clib.view.dialogs.CErrorDialog;
+
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+
+import edu.mit.blocks.controller.WorkspaceController;
 
 /*
  * Ronpro Editor Application
- * 
- * 
- * 2007/09/21 version 1.0.0 リリース 
- * 2007/09/21 version 1.0.1 -cp が動かない環境があるのを修正 -classpathに 
+ *
+ *
+ * 2007/09/21 version 1.0.0 リリース
+ * 2007/09/21 version 1.0.1 -cp が動かない環境があるのを修正 -classpathに
  * 2007/09/21 version 1.0.2 コンパイル時にコンソールをクリアするように修正
- * 2007/09/21 version 1.0.3 Mac Runtime#exec() でclasspathに""をつけると動かない問題を修正 
- * 2007/09/21 version 1.0.4 コンソールでCtrl-Rで起動したときの入力の不具合解消 
- * 2007/09/21 version 1.1.0 コンソールのErrを赤く表示（テキストペインに変更） 
- * 2007/09/22 version 1.2.0 キーワードハイライト追加, エディタをテキストペインに変更 
+ * 2007/09/21 version 1.0.3 Mac Runtime#exec() でclasspathに""をつけると動かない問題を修正
+ * 2007/09/21 version 1.0.4 コンソールでCtrl-Rで起動したときの入力の不具合解消
+ * 2007/09/21 version 1.1.0 コンソールのErrを赤く表示（テキストペインに変更）
+ * 2007/09/22 version 1.2.0 キーワードハイライト追加, エディタをテキストペインに変更
  * 2007/09/22 version 1.3.0 フォーマットをタブ主体に切り替え , テキストペインのタブ4文字に
- * 2007/09/22 version 1.4.0 削除機能を追加，リファクタリング方法の統一化 
- * 2007/09/22 version 1.5.0 TreeViewerで，ルートが見えるようにして，使い勝手を良くする デフォルトルートをMyProjectに変更 
+ * 2007/09/22 version 1.4.0 削除機能を追加，リファクタリング方法の統一化
+ * 2007/09/22 version 1.5.0 TreeViewerで，ルートが見えるようにして，使い勝手を良くする デフォルトルートをMyProjectに変更
  * 2007/09/22 version 1.5.1 ダイアログの見た目の修正
- * 2007/09/22 version 1.5.2 サンプルテンプレートを拡充 
- * 2007/09/22 version 1.5.3 TreeがScrollになっていなくて多くなるとしたが切れてしまったのでScrollバーをつけた 
- * 2007/09/22 version 1.5.4 Treeが何も選択されていないときにもう一度選択してしまうと例外が出ていたのを修正 
+ * 2007/09/22 version 1.5.2 サンプルテンプレートを拡充
+ * 2007/09/22 version 1.5.3 TreeがScrollになっていなくて多くなるとしたが切れてしまったのでScrollバーをつけた
+ * 2007/09/22 version 1.5.4 Treeが何も選択されていないときにもう一度選択してしまうと例外が出ていたのを修正
  * 2007/09/22 version 1.6.0 パッケージを利用できるようにした．（RonproEditor自身をコンパイルしたかったので）
- * 2007/09/22 version 1.6.1 Macでスペースが使えない問題をcommand発行の仕組みを変えることで修正 
- * 2007/09/22 version 1.6.2 MacでCtrlキーがAppleキーにならない問題を修正 
- * 2007/09/22 version 1.6.3 MacでCtrl-Qが終了してしまうのでコンパイルのショートカットをCtrl-Eに変更 
- * 2007/10/03 version 1.6.4 Windowsでスペースが使えない問題を修正（「"」をつけなくてよかった） 
- * 2007/10/07 version 1.6.5 テンプレートにCVS（フォルダ）が表示されてしまっていて，選択するとエラーになってしまうのを修正 
- * 2007/10/08 version 1.6.6 ライブラリをblib.jarに変更．テンプレートをデフォルトパッケージののTurtle.javaを使うように変更 
- * 2007/10/08 version 1.6.7 ライブラリのバージョンアップ→blib101.jar 
+ * 2007/09/22 version 1.6.1 Macでスペースが使えない問題をcommand発行の仕組みを変えることで修正
+ * 2007/09/22 version 1.6.2 MacでCtrlキーがAppleキーにならない問題を修正
+ * 2007/09/22 version 1.6.3 MacでCtrl-Qが終了してしまうのでコンパイルのショートカットをCtrl-Eに変更
+ * 2007/10/03 version 1.6.4 Windowsでスペースが使えない問題を修正（「"」をつけなくてよかった）
+ * 2007/10/07 version 1.6.5 テンプレートにCVS（フォルダ）が表示されてしまっていて，選択するとエラーになってしまうのを修正
+ * 2007/10/08 version 1.6.6 ライブラリをblib.jarに変更．テンプレートをデフォルトパッケージののTurtle.javaを使うように変更
+ * 2007/10/08 version 1.6.7 ライブラリのバージョンアップ→blib101.jar
  * 2007/12/14 version 1.7.0 ファイルコピー機能を追加
  * 2007/12/14 version 1.7.1 コンパイルに成功しないと，実行できないように変更（コンパイル時にクラスファイルを削除)
- * 2007/12/14 version 1.8.0 バイトコード学習機能の追加(Beta Windowsのみ) 
- * 2007/12/14 version 1.8.1 保存したときに，クラスファイルを削除するように仕様変更 
- * 2007/12/20 version 1.8.2 .jarファイル(Macで自動的に作成される)を読まないように修正, 一旦バイトコード学習機能を無効化 
- * 2007/12/21 version 1.8.3 コンパイラのエラーの出し方にあわせて，コンソールのタブのサイズを調整（コンパイルエラーの位置がずれないようにした） 
+ * 2007/12/14 version 1.8.0 バイトコード学習機能の追加(Beta Windowsのみ)
+ * 2007/12/14 version 1.8.1 保存したときに，クラスファイルを削除するように仕様変更
+ * 2007/12/20 version 1.8.2 .jarファイル(Macで自動的に作成される)を読まないように修正, 一旦バイトコード学習機能を無効化
+ * 2007/12/21 version 1.8.3 コンパイラのエラーの出し方にあわせて，コンソールのタブのサイズを調整（コンパイルエラーの位置がずれないようにした）
  * 2007/12/21 version 1.8.4 ライブラリのバージョンアップ→blib105.jar, japa.jar(version1)に変更，バイトコード学習機能有効化
- * 2007/12/26 version 1.8.5 コマンド実行時にそのコマンドがないとエラーを出力するように修正（javacのパスが通ってない場合への対処） 
- * 2008/11/11 version 1.8.6 ファイル読み込みで化ける場合があり，読み込み方法をJISAutoDetectに変更 
- * 2008/11/17 version 1.8.7 ファイル読み込みで化ける場合があり，書き込み方法をSJISに変更 
- * 2009/11/17 version 1.8.8 コンパイルごとにファイルをlogフォルダに保存する機能、logフォルダをzipでまとめる機能を追加（by turkey） 
+ * 2007/12/26 version 1.8.5 コマンド実行時にそのコマンドがないとエラーを出力するように修正（javacのパスが通ってない場合への対処）
+ * 2008/11/11 version 1.8.6 ファイル読み込みで化ける場合があり，読み込み方法をJISAutoDetectに変更
+ * 2008/11/17 version 1.8.7 ファイル読み込みで化ける場合があり，書き込み方法をSJISに変更
+ * 2009/11/17 version 1.8.8 コンパイルごとにファイルをlogフォルダに保存する機能、logフォルダをzipでまとめる機能を追加（by turkey）
  * 2010/01/06 version 1.8.9 MacOS10.5環境でコンパイル失敗するので、javacオプションに -encoding SJIS を追加（by turkey）
  * 2010/01/07 version 未定 コンソールで日本語入力すると、次からフォーカスが得られなくなるバグを修正（by turkey）
  * 2010/11/05 version 1.9.1 PRES機能追加
  * 2010/11/05 version 1.9.2 .から始まるテンプレートを読み込まないようにする
- * 2011/09/29 version 2.0.0 静岡大学情報学部対応版（ソースwarning修正のみ） 
+ * 2011/09/29 version 2.0.0 静岡大学情報学部対応版（ソースwarning修正のみ）
  * 2011/10/10 version 2.1.0 BlockEditorを組み込み
  * 2011/10/10 version 2.1.1 batファイルを同梱（静大授業で，起動できない学生がいたため）
  * 2011/10/15 version 2.1.2 プロジェクト越しのファイルコピー機能追加
@@ -113,7 +123,7 @@ import ronproeditor.views.RESourceEditor;
  * 2011/10/22 version 2.1.5 blibを120へ入替
  * 2011/10/23 version 2.1.6 Formatアルゴリズムの変更（{{→{\n{にする）
  * 							スマートインデントアルゴリズムを変更し、{はいくつあってもインデント進めは１つまで，}はインデント戻し無し．
- * 
+ *
  * 2011/12/18 version 2.1.7 ・BlockEditorがバージョンアップ（保井）
  * 							・kana/FlowViewer作成開始
  * 							・blibを128へ入替
@@ -126,10 +136,10 @@ import ronproeditor.views.RESourceEditor;
  * 2012/09/28 version 2.2.2 ・blibを123->129
  * 							・updaterを組込
  * 2012/10/02 version 2.2.3 sakakibara
- * 							・GeneRefをバージョンアップ 
+ * 							・GeneRefをバージョンアップ
  * 							・compileとrun時にコマンド実行時間を表示させるよう変更
  * 2012/10/03 version 2.2.4 matsuzawa	・BlockEditor2.1.0
- * 							・BlockEditorの文字コード問題を解決 
+ * 							・BlockEditorの文字コード問題を解決
  * 2012/10/03 version 2.2.5 matsuzawa	・updater.jarのバージョンを1.1.0に
  * 2012/10/03 version 2.2.6 matsuzawa	・BlockEditor2.1.1
  * 2012/10/03 version 2.2.7 matsuzawa	・BlockEditor2.1.3
@@ -164,7 +174,7 @@ import ronproeditor.views.RESourceEditor;
  * 2012/10/18 version 2.5.0 matsuzawa ・コメント機能追加
  * 2012/10/22 version 2.5.1 sakakibara	・BEを開いた状態だとGeneRefが表示されないバグを修正
  * 									・BEを開いた時、開いた状態でファイルを変更した時、セーブをした時のコンパイル動作を非表示に変更
- * 2012/10/23 version 2.5.2 matsuzawa　・BE 2.5.0 -SS, BEのdirty状態を反映，他BEバグ修正		
+ * 2012/10/23 version 2.5.2 matsuzawa　・BE 2.5.0 -SS, BEのdirty状態を反映，他BEバグ修正
  * 2012/10/24 version 2.5.3 sakakibara  ・コンパイル処理を通常とBE，GeneRef用に分割
  * 										・GeneRef 1.1.0
  * 2012/10/29 version 2.6.1 matsuzawa  ・BE 2.6.1
@@ -186,10 +196,10 @@ import ronproeditor.views.RESourceEditor;
  * 2012/11/13 version 2.10.2  matsuzawa  ・BE 2.10.2
  * 2012/11/14 version 2.10.3  matsuzawa  ・BE 2.10.3
  * 2012/11/14 version 2.10.4  matsuzawa  ・Format時のUndoがまとめてできない問題を修正
- * 2012/11/14 version 2.10.5  matsuzawa	・BE 2.10.5 
+ * 2012/11/14 version 2.10.5  matsuzawa	・BE 2.10.5
  * 										・CUI, Turtleでメニューが切り替わるように設定
- * 2012/11/14 version 2.10.7  matsuzawa	・BE 2.10.7 
- * 2012/11/14 version 2.10.9  matsuzawa	・BE 2.10.9 
+ * 2012/11/14 version 2.10.7  matsuzawa	・BE 2.10.7
+ * 2012/11/14 version 2.10.9  matsuzawa	・BE 2.10.9
  * 2012/11/14 version 2.10.10  matsuzawa	・BE 2.10.10
  * 2012/11/15 version 2.10.11  matsuzawa	・BE 2.10.11 授業中
  * 2012/11/15 version 2.10.12  matsuzawa	・BE 2.10.12 授業中
@@ -238,16 +248,16 @@ import ronproeditor.views.RESourceEditor;
  * 											・MacでデフォルトのFontをOsakaにする．
  * 2013/04/13 version 2.16.7 matsuzawa		・mac snow leopardでのjavac文字化け問題を解消していなかった問題を解決
  * 											（jarファイルクリックで起動時，file.encodingがUS-ASCIIになってしまうのを強引に上書）
- * 2013/04/13 version 2.16.8 matsuzawa		・16.7でうまくいっていなかったので，解決  
+ * 2013/04/13 version 2.16.8 matsuzawa		・16.7でうまくいっていなかったので，解決
  * 2013/04/18 version 2.16.9 matsuzawa		・macでのデバッガの文字化け．file.encodingを起動してからかえるのは無意味．
- * 											.command起動ファイル導入により根本的な解決を図る．  
- * 
+ * 											.command起動ファイル導入により根本的な解決を図る．
+ *
  * 2013/09/26 version 2.17.0 hakamata		・DENO version0.2.0と統合
- * 
+ *
  * 2013/09/26 version 2.18.0 ohata			・BE version 2.14.0と結合
- * 
+ *
  * 2013/10/11 version 2.18.1 hakamata		・DENO version0.2.4と統合
- * 											・DENOのBreakpoint, 実行位置表示モードの切り替え, cont, Focusのログ書き出し 
+ * 											・DENOのBreakpoint, 実行位置表示モードの切り替え, cont, Focusのログ書き出し
  * 2013/10/16 version 2.19.0 matsuzawa		・上記新バージョンを統合したweek3用バージョン．
  * 2013/10/22 version 2.19.1 matsuzawa		・ファイルコピーの不具合修正
  * 											・BE スコープ判定機能
@@ -270,28 +280,28 @@ import ronproeditor.views.RESourceEditor;
  * 2013/12/17 version 2.23.1 matsuzawa		・git参照のこと 19日バージョン
  * 2013/12/19 version 2.24.0 matsuzawa		・git参照のこと Cocoviewer巻き戻し
  * 2014/01/08 version 2.25.0 matsuzawa		・git参照のこと
- * 
+ *
  * 2014/10/01 version 2.27.0 ohata			・2014プログラミング社会学科用
  * 2014/10/11 version 2.27.1 ohata			・軽微なバグを修正
- * 
-<<<<<<< HEAD
+ *
+ <<<<<<< HEAD
  * 2014/10/01 version 2.27.2 ohata			・コンソールのフォントをエディタのフォントと統一
-=======
+ =======
  * 2014/10/18 version 2.27.2 ohata			・コンソールのフォントをエディタのフォントと統一
->>>>>>> ronpro_plugin_master
+ >>>>>>> ronpro_plugin_master
  * 											・フォントの文字幅によるエラー指摘メッセージのズレを修正
  * 2014/10/24 version 2.27.3 ohata			・sizeメソッドのBlock>>Java変換のエラーを修正
  * 											・Turtleを継承した自作クラスブロックを右クリックしたときのコンテキストメニューに，タートルメニューを追加
  * 											・List,Image,TextTurtleなどのメソッド呼び出しブロックを隠蔽
  * 2014/10/24 version 2.27.4 ohata			・コンテキストメニュー変更
  * 2014/10/24 version 2.27.5 ohata			・メソッドコール矢印の描画処理を修正
- * 											・Block>>Javaのエラーを修正 
+ * 											・Block>>Javaのエラーを修正
  * 2014/10/24 version 2.27.6 ohata			・メソッドコール矢印の修正,テスト
  * 											・参照ブロックのハイライト処理を修正
  * 2014/10/24 version 2.28.0 ohata			・メソッドコール矢印のリリース
  * 2014/10/24 version 2.28.1 ohata			・メソッドコール矢印の修正
  * 2014/10/24 version 2.28.2 ohata			・再帰対応を一時停止
- * 2014/10/24 version 2.28.3 ohata			・BEの再帰バグを修正，その他メソッド定義のバグを修正 
+ * 2014/10/24 version 2.28.3 ohata			・BEの再帰バグを修正，その他メソッド定義のバグを修正
  * 2015/01/14 version 2.29.0 kato           ・CheCoProリリース
  * 2015/01/14 version 2.29.1 kato           ・CheCoPro pullログ修正
  * ＜懸案事項＞
@@ -363,6 +373,7 @@ public class REApplication implements ICFwApplication {
 	private PresProjectManager presManager;
 	private REBlockEditorManager blockManager;
 	private REBlockEditorManager2 newBlockManager;
+	private REBlockEditorManager2 semiNewBlockManager;
 	private REFlowViewerManager flowManager;
 	private REGeneRefManager generefManager;
 	private REPresVisualizerManager ppvManager;
@@ -390,6 +401,7 @@ public class REApplication implements ICFwApplication {
 		presManager.initialize();
 		blockManager = new REBlockEditorManager(this);
 		newBlockManager = new REBlockEditorManager2(this);
+		semiNewBlockManager = new REBlockEditorManager2(this);
 		flowManager = new REFlowViewerManager(this);
 		generefManager = new REGeneRefManager(this);
 		ppvManager = new REPresVisualizerManager(this);
@@ -397,8 +409,7 @@ public class REApplication implements ICFwApplication {
 		cocoViewerManager = new RECocoViewerManager(this);
 		checoproManager = new RECheCoProManager(this);
 
-		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER("*.java", "*.hcp", "*.c", "*.cpp",
-				"Makefile", "*.oil", "*.rb", "*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
+		this.sourceManager.setFileFilter(CFileFilter.ACCEPT_BY_NAME_FILTER("*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb", "*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
 		// this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*",
 		// "CVS", "bin"));
 		// @TODO きちんと実装すること 2011/11/22
@@ -517,7 +528,9 @@ public class REApplication implements ICFwApplication {
 	public void doOpen(File file) {
 		doClose();
 
-		if (file.getName().endsWith("java") || file.getName().endsWith("js") || file.getName().endsWith("dlt")) {// @TODO きちんと実装すること 2011/11/22
+		if (file.getName().endsWith("java") || file.getName().endsWith("js") || file.getName().endsWith("dlt")) {// @TODO
+																													// きちんと実装すること
+																													// 2011/11/22
 			getSourceManager().open(file);
 		}
 	}
@@ -528,7 +541,7 @@ public class REApplication implements ICFwApplication {
 
 			blockManager.doCompileBlock(); // 要：ファイル削除の前に実行
 			newBlockManager.doCompileBlock(); // 要：ファイル削除の前に実行
-			
+
 			deleteRunnable(getSourceManager().getCurrentFile());
 
 			// TODO
@@ -620,8 +633,7 @@ public class REApplication implements ICFwApplication {
 
 		copyFileNameDialog.open(recommendedFile);
 		if (copyFileNameDialog.getState() == RECreateNameDialog.State.INPUTTED) {
-			getSourceManager().copyFile(file, copyFileNameDialog.getInputtedProject(),
-					copyFileNameDialog.getInputtedName());
+			getSourceManager().copyFile(file, copyFileNameDialog.getInputtedProject(), copyFileNameDialog.getInputtedName());
 		}
 	}
 
@@ -639,9 +651,7 @@ public class REApplication implements ICFwApplication {
 			return;
 		}
 
-		int res = JOptionPane.showConfirmDialog(frame,
-				"本当に" + getSourceManager().getProjectDirectory().getName() + "を削除してよいですか？ 以下のファイルもすべて削除されます", "最終確認",
-				JOptionPane.WARNING_MESSAGE);
+		int res = JOptionPane.showConfirmDialog(frame, "本当に" + getSourceManager().getProjectDirectory().getName() + "を削除してよいですか？ 以下のファイルもすべて削除されます", "最終確認", JOptionPane.WARNING_MESSAGE);
 		if (res == JOptionPane.OK_OPTION) {
 			doClose();
 			File file = getSourceManager().getProjectDirectory();
@@ -658,8 +668,7 @@ public class REApplication implements ICFwApplication {
 
 		File file = getSourceManager().getCurrentFile();
 
-		int res = JOptionPane.showConfirmDialog(frame, "本当に" + file.getName() + "を削除してよいですか？", "最終確認",
-				JOptionPane.WARNING_MESSAGE);
+		int res = JOptionPane.showConfirmDialog(frame, "本当に" + file.getName() + "を削除してよいですか？", "最終確認", JOptionPane.WARNING_MESSAGE);
 		if (res == JOptionPane.OK_OPTION) {
 			doClose();
 			file.renameTo(new File(getSourceManager().makeTrashFolder(), file.getName()));
@@ -757,7 +766,7 @@ public class REApplication implements ICFwApplication {
 
 	/**
 	 * コンパイルをします
-	 * 
+	 *
 	 * @param blocking
 	 *            コンパイルをブロッキングするか
 	 */
@@ -776,8 +785,7 @@ public class REApplication implements ICFwApplication {
 
 		frame.getConsole().setText("");
 
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
-				getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(), getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 
 		ArrayList<String> commands = new ArrayList<String>();
@@ -809,15 +817,14 @@ public class REApplication implements ICFwApplication {
 		// frame.getConsole());
 		// }
 
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(),
-				frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 
 		generefManager.handleCompileDone();
 	}
 
 	/*
 	 * BlockEditorとGeneRefのためのコンパイル処理 2012.12.04 この設計は仮なので再設計せよ
-	 * 
+	 *
 	 * @return
 	 */
 	public String doCompile2(boolean verbose) {
@@ -844,8 +851,7 @@ public class REApplication implements ICFwApplication {
 		console.setErr(new PrintStream(out));
 
 		try {
-			RECommandExecuter.executeCommandWait(commands, env.dir, console,
-					getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
+			RECommandExecuter.executeCommandWait(commands, env.dir, console, getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -897,8 +903,7 @@ public class REApplication implements ICFwApplication {
 			return;
 		}
 
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
-				getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(), getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add(runCommand);
@@ -906,8 +911,7 @@ public class REApplication implements ICFwApplication {
 		commands.add(cp);
 		commands.add(env.runnable);
 
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(),
-				frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
+		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(), frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
 		writePresLog(PRCommandLog.SubType.START_RUN);// TODO
 	}
 
@@ -927,8 +931,7 @@ public class REApplication implements ICFwApplication {
 		}
 
 		// パス等取得
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
-				getSourceManager().getCurrentFile());
+		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(), getSourceManager().getCurrentFile());
 		String args[] = new String[6];
 		// ソースパス
 		args[0] = "-sourcepath";
@@ -1112,8 +1115,7 @@ public class REApplication implements ICFwApplication {
 
 			if (!COMMENT) {// CONFIRM ONLY
 				int res = 0;
-				res = JOptionPane.showConfirmDialog(frame, "「" + project.getName() + "」" + "をExportします．よろしいですね？",
-						"プロジェクト名確認", JOptionPane.OK_CANCEL_OPTION);
+				res = JOptionPane.showConfirmDialog(frame, "「" + project.getName() + "」" + "をExportします．よろしいですね？", "プロジェクト名確認", JOptionPane.OK_CANCEL_OPTION);
 				if (res != JFileChooser.APPROVE_OPTION) {
 					return;
 				}
@@ -1130,8 +1132,7 @@ public class REApplication implements ICFwApplication {
 			// datファイルのコピー
 			copyDatFileToProject();
 
-			chooser.setSelectedFile(
-					new File(CFileSystem.getExecuteDirectory().getAbsolutePath() + "/" + project.getName() + ".zip"));
+			chooser.setSelectedFile(new File(CFileSystem.getExecuteDirectory().getAbsolutePath() + "/" + project.getName() + ".zip"));
 			int res = chooser.showSaveDialog(getFrame());
 			if (res != JFileChooser.APPROVE_OPTION) {
 				return;
@@ -1144,8 +1145,7 @@ public class REApplication implements ICFwApplication {
 			CFile zip = dir.findOrCreateFile(name);
 			NewZipUtil.createZip(zip, project, project);
 
-			JOptionPane.showConfirmDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました",
-					JOptionPane.OK_OPTION);
+			JOptionPane.showConfirmDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました", JOptionPane.OK_OPTION);
 
 		} catch (Exception ex) {
 			ex.printStackTrace(frame.getConsole().getErr());
@@ -1180,7 +1180,58 @@ public class REApplication implements ICFwApplication {
 	}
 
 	public void doOpenNewBlockEditor() {
-		newBlockManager.doOpenBlockEditor();
+		//Java->Block変換処理
+		BiFunction<File, REApplication, String> convertAction = (javaFile, app) -> {
+			File srcfile = app.getSourceManager().getCurrentFile();
+			File dir = srcfile.getParentFile();
+			UniClassDec classDec = semiNewBlockManager.convertJavaToUni(srcfile);
+			File xmlfile = new File(dir.getAbsolutePath() + "/" + classDec.className + ".xml");
+			try {
+				xmlfile.createNewFile();
+				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, "UTF-8");
+				BlockGenerator blockParser = new BlockGenerator(out, WorkspaceController.langDefRootPath);
+				blockParser.parse(classDec);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return xmlfile.getAbsolutePath();
+		};
+
+		// Managerの初期化処理
+		Supplier<WorkspaceController> initAction = ()->{
+			WorkspaceController blockEditor = new WorkspaceController();
+			blockEditor.setLangDefFilePath(REBlockEditorManager2.LANG_DEF_PATH);
+			blockEditor.loadFreshWorkspace();
+			blockEditor.createAndShowGUI();
+			return blockEditor;
+		};
+
+		semiNewBlockManager.doOpenBlockEditor(initAction, convertAction);
+	}
+
+	public void doOpenSemiNewBlockEditor() {
+		//Java->Block変換処理
+		BiFunction<File, REApplication, String> convertAction = (javaFile, app) -> {
+			 String[] libs = app.getLibraryManager().getLibsAsArray();
+			 String xmlFilePath = "noxml";
+			try {
+				xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return xmlFilePath;
+		};
+
+		// Managerの初期化処理
+		Supplier<WorkspaceController> initAction = ()->{
+			WorkspaceController blockEditor = new WorkspaceController();
+			blockEditor.setLangDefFilePath(REBlockEditorManager.LANG_DEF_PATH);
+			blockEditor.loadFreshWorkspace();
+			blockEditor.createAndShowGUI();
+			return blockEditor;
+		};
+
+		semiNewBlockManager.doOpenBlockEditor(initAction, convertAction);
 	}
 
 	public void doOpenFlowViewer() {

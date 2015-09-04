@@ -27,11 +27,11 @@ import ronproeditor.helpers.CFrameUtils;
 
 /**
  * @author macchan
- * 
+ *
  */
 public class REBlockEditorManager {
 
-	private static final String LANG_DEF_PATH = "ext/block/lang_def.xml";
+	public static final String LANG_DEF_PATH = "ext/block/lang_def.xml";
 	// private static final String LANG_DEF_TURTLE_PATH =
 	// "ext/block/lang_def_turtle.xml";
 	private static final String IMAGES_PATH = "ext/block/images/";
@@ -249,7 +249,7 @@ public class REBlockEditorManager {
 					// lang def ファイル
 					/*
 					 * if (isTurtle()) { // lang_def.dtdの書き換え // 最後尾に要素を追加
-					 * 
+					 *
 					 * // menuの書き換え
 					 * blockEditor.setLangDefFilePath(LANG_DEF_TURTLE_PATH); }
 					 * else { // lang_def.dtdの書き換え // menuの書き換え

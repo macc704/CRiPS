@@ -7,13 +7,19 @@ package ronproeditor.ext;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import javax.swing.SwingUtilities;
 
+import net.unicoen.mapper.JavaMapper;
+import net.unicoen.mapper.JavaScriptMapper;
+import net.unicoen.node.UniClassDec;
+import pres.core.model.PRLog;
+import ronproeditor.ICFwResourceRepository;
+import ronproeditor.REApplication;
+import ronproeditor.helpers.CFrameUtils;
 import bc.BlockConverter;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
@@ -21,30 +27,23 @@ import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
 import clib.view.dialogs.CErrorDialog;
 import edu.mit.blocks.controller.WorkspaceController;
-import net.unicoen.mapper.JavaMapper;
-import net.unicoen.mapper.JavaScriptMapper;
-import net.unicoen.node.UniClassDec;
-import net.unicoen.parser.blockeditor.BlockGenerator;
-import pres.core.model.PRLog;
-import ronproeditor.ICFwResourceRepository;
-import ronproeditor.REApplication;
-import ronproeditor.helpers.CFrameUtils;
 
 /**
  * for New BlockEditor 2015.08.14
- * 
+ *
  * @author macchan
- * 
+ *
  */
 public class REBlockEditorManager2 {
 
-	private static final String LANG_DEF_PATH = "ext/block2/lang_def.xml";
+	public static final String LANG_DEF_PATH = "ext/block2/lang_def.xml";
+
 	private REApplication app;
 	private WorkspaceController blockEditor;
+	private BiFunction<File, REApplication, String> convertionAction;
 
 	public REBlockEditorManager2(REApplication app) {
 		this.app = app;
-
 		man.start();
 		man.setPriority(Thread.currentThread().getPriority() - 1);
 
@@ -67,16 +66,13 @@ public class REBlockEditorManager2 {
 		});
 	}
 
-	public void doOpenBlockEditor() {
+	public void doOpenBlockEditor(Supplier<WorkspaceController> initAction, BiFunction<File, REApplication, String> convertionAction) {
 		if (isWorkspaceOpened()) { // already opened
 			CFrameUtils.toFront(blockEditor.getFrame());
 			return;
 		}
-
-		blockEditor = new WorkspaceController();
-		blockEditor.setLangDefFilePath(LANG_DEF_PATH);
-		blockEditor.loadFreshWorkspace();
-		blockEditor.createAndShowGUI();
+		blockEditor = initAction.get();
+		this.convertionAction = convertionAction;
 		blockEditor.addBlockEditorListener(new edu.inf.shizuoka.blocks.extent.SBlockEditorListener() {
 
 			public void blockConverted(File file) {
@@ -215,24 +211,12 @@ public class REBlockEditorManager2 {
 				try {
 					writeBlockEditingLog(BlockEditorLog.SubType.LOADING_START);
 
-					// Converter 1
-					// String[] libs = app.getLibraryManager().getLibsAsArray();
-					// String xmlFilePath = new JavaToBlockMain().run(javaFile,
-					// REApplication.SRC_ENCODING, libs);
+					String xmlFilePath = (String) convertionAction.apply(javaFile, app);
 
-					// Converter 2
-					File srcfile = app.getSourceManager().getCurrentFile();
-					File dir = srcfile.getParentFile();
-					UniClassDec classDec = convertJavaToUni(srcfile);
-					File xmlfile = new File(dir.getAbsolutePath() + "/" + classDec.className + ".xml");
-					xmlfile.createNewFile();
-					PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false,
-							"UTF-8");
-					BlockGenerator blockParser = new BlockGenerator(out, WorkspaceController.langDefRootPath);
-					blockParser.parse(classDec);
-					final String xmlFilePath = xmlfile.getAbsolutePath();
+					if(xmlFilePath.equals("noxml")){
+						throw new RuntimeException();
+					}
 
-					// blockEditor.resetWorkspace();//必要ないっぽい
 					blockEditor.setSelectedFile(new File(xmlFilePath));
 					SwingUtilities.invokeAndWait(new Runnable() {
 						@Override
@@ -253,7 +237,7 @@ public class REBlockEditorManager2 {
 	/*
 	 * JavaをUnicoenモデルへ変換して返す
 	 */
-	private UniClassDec convertJavaToUni(File file) {
+	public UniClassDec convertJavaToUni(File file) {
 		if (file.getPath().endsWith(".java")) {
 			JavaMapper mapper = new JavaMapper();
 			Object node = mapper.parseFile(file.getPath());
@@ -274,7 +258,6 @@ public class REBlockEditorManager2 {
 				return null;
 			}
 		}
-
 		throw new RuntimeException("unknown file type");
 	}
 
