@@ -13,13 +13,6 @@ import java.util.function.Supplier;
 
 import javax.swing.SwingUtilities;
 
-import net.unicoen.mapper.JavaMapper;
-import net.unicoen.mapper.JavaScriptMapper;
-import net.unicoen.node.UniClassDec;
-import pres.core.model.PRLog;
-import ronproeditor.IREResourceRepository;
-import ronproeditor.REApplication;
-import ronproeditor.helpers.CFrameUtils;
 import bc.BlockConverter;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
@@ -27,6 +20,13 @@ import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
 import clib.view.dialogs.CErrorDialog;
 import edu.mit.blocks.controller.WorkspaceController;
+import net.unicoen.mapper.JavaMapper;
+import net.unicoen.mapper.JavaScriptMapper;
+import net.unicoen.node.UniClassDec;
+import pres.core.model.PRLog;
+import ronproeditor.IREResourceRepository;
+import ronproeditor.REApplication;
+import ronproeditor.helpers.CFrameUtils;
 
 /**
  * for New BlockEditor 2015.08.14
@@ -66,7 +66,8 @@ public class REBlockEditorManager2 {
 		});
 	}
 
-	public void doOpenBlockEditor(Supplier<WorkspaceController> initAction, BiFunction<File, REApplication, String> convertionAction) {
+	public void doOpenBlockEditor(Supplier<WorkspaceController> initAction,
+			BiFunction<File, REApplication, String> convertionAction) {
 		if (isWorkspaceOpened()) { // already opened
 			CFrameUtils.toFront(blockEditor.getFrame());
 			return;
@@ -169,7 +170,7 @@ public class REBlockEditorManager2 {
 				String message = "";
 				if (app.getSourceManager().getCCurrentFile().getName().getExtension().equals("java")) {
 					try {
-						message = app.doCompile2(false);
+						message = app.doCompileInternally(false);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -213,7 +214,7 @@ public class REBlockEditorManager2 {
 
 					String xmlFilePath = (String) convertionAction.apply(javaFile, app);
 
-					if(xmlFilePath.equals("noxml")){
+					if (xmlFilePath.equals("noxml")) {
 						throw new RuntimeException();
 					}
 

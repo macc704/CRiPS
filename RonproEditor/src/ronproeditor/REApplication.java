@@ -33,6 +33,7 @@ import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CFilename;
 import clib.common.filesystem.CPath;
 import clib.common.system.CJavaSystem;
+import clib.common.thread.ICTask;
 import clib.preference.app.CPreferenceManager;
 import clib.view.dialogs.CErrorDialog;
 import edu.mit.blocks.controller.WorkspaceController;
@@ -63,6 +64,7 @@ import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
 import ronproeditor.helpers.FileSystemUtil;
+import ronproeditor.helpers.IConsole;
 import ronproeditor.helpers.JavaEnv;
 import ronproeditor.helpers.NewZipUtil;
 import ronproeditor.helpers.RECommandExecuter;
@@ -304,9 +306,10 @@ import ronproeditor.views.RESourceEditor;
  * 2015/01/14 version 2.29.0 kato           ・CheCoProリリース
  * 2015/01/14 version 2.29.1 kato           ・CheCoPro pullログ修正
  * 2015/09/04 version 2.30.1 matsuzawa		・REApplication　リファクタリング
+ * 2015/09/04 version 2.30.2 matsuzawa		doCompile2()の設計が冗長なので再設計した
  *
  * ＜懸案事項＞
- * ・doCompile2()の設計が冗長なので再設計すること．
+ * ・
  * ・"}"を押したときのスマートインデント
  */
 public class REApplication {
@@ -317,7 +320,7 @@ public class REApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.30.1";
+	public static final String VERSION = "2.30.2";
 	public static final String BUILD_DATE = "2015/9/4";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2014 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
@@ -731,82 +734,59 @@ public class REApplication {
 		}
 	}
 
-	public void doCompile() {
-		doCompileNonBlocking();
-	}
-
-	public void doCompileNonBlocking() {
-		doCompile(false);
-	}
-
 	/**
 	 * コンパイルをします
-	 *
-	 * @param blocking
-	 *            コンパイルをブロッキングするか
 	 */
-	private void doCompile(boolean blocking) {
-
+	public void doCompile() {
+		// セーブチェック
 		if (getSourceManager().hasCurrentFile() && getFrame().getEditor().isDirty()) {
 			JOptionPane.showMessageDialog(frame, "ソースがセーブされていません", "コンパイルできません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
+		// 前回成功時のクラスファイルを消去（コンパイルが成功しなかった時に，以前のものが実行されてしまうのを防ぐ）
 		File target = getSourceManager().getCurrentFile();
 		if (hasRunnableFile(target)) {
 			deleteRunnable(target);
 		}
 
+		// クリア
 		frame.getConsole().setText("");
 
-		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
-				getSourceManager().getCurrentFile());
-		String cp = libraryManager.getLibString();
+		// 記録
+		writePresLog(PRCommandLog.SubType.COMPILE);
 
-		ArrayList<String> commands = new ArrayList<String>();
-		commands.add(compileCommand);
-		if (CJavaSystem.getInstance().isMac()) {
-			commands.add("-J-Dfile.encoding=" + RECommandExecuter.commandEncoding);
-		}
-		commands.add("-g");
-		commands.add("-encoding");
-		commands.add(REApplication.SRC_ENCODING);
-		commands.add("-classpath");
-		commands.add(cp);
-		commands.add(env.source);
+		// コンパイル実行
+		executeCompile(false, frame.getConsole(), false, new ICTask() {
+			@Override
+			public void doTask() {
+				generefManager.handleCompileDone();
+			}
+		});
 
-		writePresLog(PRCommandLog.SubType.COMPILE);// TODO
-													// BlockEditorの時もコンパイルログが記録されてしまう．
-
-		// if (blocking) {
-		// // （BlockEditorのためのコンパイル） ブロッキングする．
-		// try {
-		// CommandExecuter.executeCommandWait(commands, env.dir,
-		// frame.getConsole());
-		// } catch (Exception ex) {
-		// ex.printStackTrace();
-		// }
-		// } else {
-		// // 通常コンパイル． ブロッキングしない．
-		// CommandExecuter.executeCommand(commands, env.dir,
-		// frame.getConsole());
-		// }
-
-		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(),
-				frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
-
-		generefManager.handleCompileDone();
 	}
 
-	/*
-	 * BlockEditorとGeneRefのためのコンパイル処理 2012.12.04 この設計は仮なので再設計せよ
-	 *
+	/**
+	 * 内部的にコンパイルするための処理 (現状，BlockEditorとGeneRefが利用している）
+	 * 
 	 * @return
 	 */
-	public String doCompile2(boolean verbose) {
-		JavaEnv env = FileSystemUtil.createJavaEnv(sourceManager.getRootDirectory(), sourceManager.getCurrentFile());
-		String cp = libraryManager.getLibString();
+	public String doCompileInternally(boolean verbose) {
+		// メモリ保存用コンソール作成
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		DummyConsole console = new DummyConsole();
+		console.setErr(new PrintStream(out));
 
+		// コンパイル実行
+		executeCompile(verbose, console, true, null);
+		return out.toString();
+	}
+
+	private void executeCompile(boolean verbose, IConsole console, boolean wait, ICTask finishedHandler) {
+		JavaEnv env = FileSystemUtil.createJavaEnv(sourceManager.getRootDirectory(), sourceManager.getCurrentFile());
+
+		// コマンド作成
+		String cp = libraryManager.getLibString();
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add(compileCommand);
 		if (CJavaSystem.getInstance().isMac()) {
@@ -822,27 +802,32 @@ public class REApplication {
 		commands.add(cp);
 		commands.add(env.source);
 
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		DummyConsole console = new DummyConsole();
-		console.setErr(new PrintStream(out));
-
-		try {
-			RECommandExecuter.executeCommandWait(commands, env.dir, console,
-					getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
-		} catch (Exception e) {
-			e.printStackTrace();
+		// コンパイル実行
+		if (wait) {// blocking
+			try {
+				RECommandExecuter.executeCommandWait(commands, env.dir, console,
+						getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {// non blocking
+			RECommandExecuter.executeCommand(commands, env.dir, console,
+					getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()), finishedHandler);
 		}
-
-		return out.toString();
 	}
 
+	/**
+	 * 実行します
+	 */
 	public void doRun() {
+		// コンパイル成功チェック
 		File target = getSourceManager().getCurrentFile();
 		if (!hasRunnableFile(target)) {
 			JOptionPane.showMessageDialog(frame, "コンパイルに成功していません", "実行できません", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
+		// コマンド作成
 		JavaEnv env = FileSystemUtil.createJavaEnv(getSourceManager().getRootDirectory(),
 				getSourceManager().getCurrentFile());
 		String cp = libraryManager.getLibString();
@@ -852,9 +837,17 @@ public class REApplication {
 		commands.add(cp);
 		commands.add(env.runnable);
 
+		// 記録
+		writePresLog(PRCommandLog.SubType.START_RUN);
+
+		// 実行
 		RECommandExecuter.executeCommand(commands, env.dir, frame.getConsole(),
-				frame.getConsole().getFontMetrics(frame.getConsole().getFont()));
-		writePresLog(PRCommandLog.SubType.START_RUN);// TODO
+				frame.getConsole().getFontMetrics(frame.getConsole().getFont()), new ICTask() {
+					@Override
+					public void doTask() {
+						writePresLog(PRCommandLog.SubType.STOP_RUN);
+					}
+				});
 	}
 
 	public void doDebugRun() {

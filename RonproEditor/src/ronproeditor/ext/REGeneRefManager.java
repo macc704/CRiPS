@@ -1,13 +1,5 @@
 package ronproeditor.ext;
 
-import generef.compileerror.RSCompileHistory;
-import generef.compileerror.RSCompileHistoryList;
-import generef.compileerror.RSErrorMessage;
-import generef.knowledge.RSFKWritingPoint;
-import generef.knowledge.RSFailureKnowledge;
-import generef.knowledge.RSFailureKnowledgeRepository;
-import generef.knowledge.RSFailureKnowledgeRepositoryDAO;
-
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GraphicsEnvironment;
@@ -27,13 +19,20 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import clib.common.compiler.CCompileResult;
+import clib.common.compiler.CDiagnostic;
+import clib.preference.model.CAbstractPreferenceCategory;
+import generef.compileerror.RSCompileHistory;
+import generef.compileerror.RSCompileHistoryList;
+import generef.compileerror.RSErrorMessage;
+import generef.knowledge.RSFKWritingPoint;
+import generef.knowledge.RSFailureKnowledge;
+import generef.knowledge.RSFailureKnowledgeRepository;
+import generef.knowledge.RSFailureKnowledgeRepositoryDAO;
 import ronproeditor.REApplication;
 import ronproeditor.ext.rss.RSFailureKnowledgeHistoryBrowser;
 import ronproeditor.ext.rss.RSReflectionDialog;
 import tea.analytics.model.TCompileErrorHistory;
-import clib.common.compiler.CCompileResult;
-import clib.common.compiler.CDiagnostic;
-import clib.preference.model.CAbstractPreferenceCategory;
 
 /*
  * GeneRef
@@ -90,14 +89,12 @@ public class REGeneRefManager {
 
 	public REGeneRefManager(REApplication application) {
 		this.application = application;
-		this.height = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getMaximumWindowBounds().height - 25;
+		this.height = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height - 25;
 		initialize();
 	}
 
 	private void initialize() {
-		application.getPreferenceManager().putCategory(
-				new GeneRefPreferenceCategory());
+		application.getPreferenceManager().putCategory(new GeneRefPreferenceCategory());
 
 		// create directory
 		File dir = new File(DIR_PATH);
@@ -125,13 +122,11 @@ public class REGeneRefManager {
 	 **************************************************************************/
 
 	public void openReflectionDialog(RSFKWritingPoint point) {
-		new RSReflectionDialog(this, width, height).open(
-				point.getKnowledgeList(), fkRepository);
+		new RSReflectionDialog(this, width, height).open(point.getKnowledgeList(), fkRepository);
 	}
 
 	public void openGeneRefBrowser() {
-		RSFailureKnowledgeHistoryBrowser historyBrowser = new RSFailureKnowledgeHistoryBrowser(
-				fkRepository, this);
+		RSFailureKnowledgeHistoryBrowser historyBrowser = new RSFailureKnowledgeHistoryBrowser(fkRepository, this);
 		historyBrowser.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		historyBrowser.setBounds(100, 100, 200, 200);
 		historyBrowser.setVisible(true);
@@ -169,9 +164,7 @@ public class REGeneRefManager {
 
 	@SuppressWarnings("resource")
 	public void copyDatFileToProject() {
-		String targetFilePath = application.getSourceManager()
-				.getProjectDirectory().toString()
-				+ "/" + FILE_NAME;
+		String targetFilePath = application.getSourceManager().getProjectDirectory().toString() + "/" + FILE_NAME;
 
 		File sourceFile = new File(FILE_PATH);
 		File targetFile = new File(targetFilePath);
@@ -180,12 +173,9 @@ public class REGeneRefManager {
 				if (!targetFile.exists()) {
 					targetFile.createNewFile();
 				}
-				FileChannel sourceChannel = new FileInputStream(sourceFile)
-						.getChannel();
-				FileChannel targetChannel = new FileOutputStream(targetFile)
-						.getChannel();
-				sourceChannel
-						.transferTo(0, sourceChannel.size(), targetChannel);
+				FileChannel sourceChannel = new FileInputStream(sourceFile).getChannel();
+				FileChannel targetChannel = new FileOutputStream(targetFile).getChannel();
+				sourceChannel.transferTo(0, sourceChannel.size(), targetChannel);
 				sourceChannel.close();
 				targetChannel.close();
 			} catch (IOException e) {
@@ -195,9 +185,7 @@ public class REGeneRefManager {
 	}
 
 	public void deleteDatFileFromProject() {
-		String targetFilePath = application.getSourceManager()
-				.getProjectDirectory().toString()
-				+ "/" + FILE_NAME;
+		String targetFilePath = application.getSourceManager().getProjectDirectory().toString() + "/" + FILE_NAME;
 		File file = new File(targetFilePath);
 		if (file.exists()) {
 			file.delete();
@@ -226,8 +214,7 @@ public class REGeneRefManager {
 
 	private void doReflectionProcess() throws Exception {
 
-		RSErrorMessage message = new RSErrorMessage(
-				application.doCompile2(true));
+		RSErrorMessage message = new RSErrorMessage(application.doCompileInternally(true));
 		this.result = message.getCompileResult();
 		this.compileSourceNames = message.getCompileFileNames();
 
@@ -245,19 +232,16 @@ public class REGeneRefManager {
 	}
 
 	private void addNewCompileHistory(CCompileResult result) {
-		String projectName = application.getSourceManager()
-				.getCCurrentProject().toString();
+		String projectName = application.getSourceManager().getCCurrentProject().toString();
 		for (CDiagnostic error : result.getDiagnostics()) {
 			if (!historyList.containsHistory(error.getNoPathSourceName())) {
-				historyList.addHistory(new RSCompileHistory(projectName, error
-						.getNoPathSourceName()));
+				historyList.addHistory(new RSCompileHistory(projectName, error.getNoPathSourceName()));
 			}
 		}
 	}
 
 	private void refreshPrevCompileFile(List<String> sourceNames) {
-		String projectPath = application.getSourceManager()
-				.getCCurrentProject().getAbsolutePath().toString();
+		String projectPath = application.getSourceManager().getCCurrentProject().getAbsolutePath().toString();
 		historyList.setCurrentCompileFiles(projectPath, sourceNames);
 	}
 
@@ -266,10 +250,8 @@ public class REGeneRefManager {
 		int sec = (int) writingReflectionTime / 1000;
 		int num = historyList.getFixedCompileErrorHistory().size();
 
-		for (TCompileErrorHistory history : this.historyList
-				.getFixedCompileErrorHistory()) {
-			correctionTime = (long) ((double) (history.getCorrectionTime()
-					.getTime() / 1000) - (double) sec / num);
+		for (TCompileErrorHistory history : this.historyList.getFixedCompileErrorHistory()) {
+			correctionTime = (long) ((double) (history.getCorrectionTime().getTime() / 1000) - (double) sec / num);
 			if (correctionTime > threshold - 1) {
 				historys.add(history);
 			} else {
@@ -279,26 +261,22 @@ public class REGeneRefManager {
 		return historys;
 	}
 
-	private List<RSFailureKnowledge> getInputFailureKnowledges(
-			List<TCompileErrorHistory> historys) {
+	private List<RSFailureKnowledge> getInputFailureKnowledges(List<TCompileErrorHistory> historys) {
 		List<RSFailureKnowledge> knowledges = new ArrayList<RSFailureKnowledge>();
 
 		for (TCompileErrorHistory history : historys) {
-			CDiagnostic error = history.getSegments().getLast()
-					.getCompileError();
+			CDiagnostic error = history.getSegments().getLast().getCompileError();
 			RSCompileHistory rsHistory = historyList.getRSHistory(history);
 			File unFixedFile = rsHistory.getPrevCompileFile();
 			File fixedFile = rsHistory.getCurrentCompileFile();
 
-			String currentProject = application.getSourceManager()
-					.getCCurrentProject().toString();
-			String unFixedFilePath = unFixedFile.getAbsolutePath().substring(
-					unFixedFile.getAbsolutePath().indexOf(currentProject));
-			String fixedFilePath = fixedFile.getAbsolutePath().substring(
-					fixedFile.getAbsolutePath().indexOf(currentProject));
+			String currentProject = application.getSourceManager().getCCurrentProject().toString();
+			String unFixedFilePath = unFixedFile.getAbsolutePath()
+					.substring(unFixedFile.getAbsolutePath().indexOf(currentProject));
+			String fixedFilePath = fixedFile.getAbsolutePath()
+					.substring(fixedFile.getAbsolutePath().indexOf(currentProject));
 
-			knowledges.add(new RSFailureKnowledge(error, "/" + unFixedFilePath,
-					"/" + fixedFilePath, threshold));
+			knowledges.add(new RSFailureKnowledge(error, "/" + unFixedFilePath, "/" + fixedFilePath, threshold));
 		}
 		return knowledges;
 	}
@@ -332,13 +310,11 @@ public class REGeneRefManager {
 
 		public void load() {
 			if (getRepository().exists(ACTIVE_LABEL)) {
-				active = Boolean
-						.parseBoolean(getRepository().get(ACTIVE_LABEL));
+				active = Boolean.parseBoolean(getRepository().get(ACTIVE_LABEL));
 				checkbox.setSelected(active);
 			}
 			if (getRepository().exists(THRESHOLD_LABEL)) {
-				threshold = Integer.parseInt(getRepository().get(
-						THRESHOLD_LABEL));
+				threshold = Integer.parseInt(getRepository().get(THRESHOLD_LABEL));
 			}
 			slider.setValue(threshold);
 		}

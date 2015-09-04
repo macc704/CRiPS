@@ -11,6 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import clib.common.system.CJavaSystem;
+import clib.common.thread.ICTask;
 
 /**
  * CommandExecuter.java
@@ -48,12 +49,21 @@ public class RECommandExecuter {
 		}
 	}
 
-	public static void executeCommand(final List<String> commands,
-			final File dir, final IConsole console, final FontMetrics font) {
+	// public static void executeCommand(final List<String> commands, final File
+	// dir, final IConsole console,
+	// final FontMetrics font) {
+	// executeCommand(commands, dir, console, font, null);
+	// }
+
+	public static void executeCommand(final List<String> commands, final File dir, final IConsole console,
+			final FontMetrics font, ICTask handler) {
 		new Thread() {
 			public void run() {
 				try {
 					RECommandExecuter.run(commands, dir, console, font);
+					if (handler != null) {
+						handler.doTask();
+					}
 				} catch (Exception ex) {
 					ex.printStackTrace(console.getErr());
 				}
@@ -61,8 +71,8 @@ public class RECommandExecuter {
 		}.start();
 	}
 
-	public static void executeCommandWait(final List<String> commands,
-			final File dir, final IConsole console, FontMetrics font) throws Exception {
+	public static void executeCommandWait(final List<String> commands, final File dir, final IConsole console,
+			FontMetrics font) throws Exception {
 		run(commands, dir, console, font);
 	}
 
@@ -71,14 +81,12 @@ public class RECommandExecuter {
 		console.toLast();
 
 		Runtime rt = Runtime.getRuntime();
-		console.getOut().println(
-				"コマンド実行(" + new Date(System.currentTimeMillis()) + "):"
-						+ getCommandString(commands));
+		console.getOut().println("コマンド実行(" + new Date(System.currentTimeMillis()) + "):" + getCommandString(commands));
 
 		Process p = rt.exec(listToStringArray(commands), null, dir);
 
 		processes.add(p);
-		
+
 		createPrintStreamThread(p.getInputStream(), console.getOut(), fontMetrics).start();
 		createPrintStreamThread(p.getErrorStream(), console.getErr(), fontMetrics).start();
 
@@ -91,9 +99,7 @@ public class RECommandExecuter {
 		p.waitFor();
 		console.setConsoleToStream(null);
 		processes.remove(p);
-		console.getOut().println(
-				"コマンド終了(" + new Date(System.currentTimeMillis()) + "):"
-						+ getCommandString(commands));
+		console.getOut().println("コマンド終了(" + new Date(System.currentTimeMillis()) + "):" + getCommandString(commands));
 	}
 
 	private static String getCommandString(List<String> list) {
@@ -116,19 +122,18 @@ public class RECommandExecuter {
 		return array;
 	}
 
-	private static Thread createPrintStreamThread(final InputStream in,
-			final PrintStream out, final FontMetrics fontMetrics) {
+	private static Thread createPrintStreamThread(final InputStream in, final PrintStream out,
+			final FontMetrics fontMetrics) {
 		return new Thread() {
 			public void run() {
 				try {
-					InputStreamReader reader = new InputStreamReader(in,
-							commandEncoding);
+					InputStreamReader reader = new InputStreamReader(in, commandEncoding);
 					char[] buf = new char[1024];
 					int n;
 					while ((n = reader.read(buf)) > 0) {
 						char[] text = new char[n];
 						System.arraycopy(buf, 0, text, 0, text.length);
-						out.print(fixErrorMessage(String.valueOf(text),fontMetrics));
+						out.print(fixErrorMessage(String.valueOf(text), fontMetrics));
 					}
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -144,33 +149,33 @@ public class RECommandExecuter {
 			// 変換の必要性がないのでそのまま返す
 			return message;
 		}
-		
-		//エラー原因箇所のtabキー,スペースキーを一度取り除く
+
+		// エラー原因箇所のtabキー,スペースキーを一度取り除く
 		String tmpErrorMessage = messages[1].replaceAll("\t", " ");
-		String tmpPointoutMessage = messages[2].replaceAll("\t", " ");		
-		
-		if(tmpPointoutMessage.indexOf("^") == -1){
+		String tmpPointoutMessage = messages[2].replaceAll("\t", " ");
+
+		if (tmpPointoutMessage.indexOf("^") == -1) {
 			return message;
 		}
-		
-		//エラーメッセージのピクセル数を取得する
+
+		// エラーメッセージのピクセル数を取得する
 		int errorMessagePixel = fontMetrics.stringWidth(tmpErrorMessage.substring(0, tmpPointoutMessage.indexOf("^")));
-		
-		//ピクセル数を調整する
-		while(fontMetrics.stringWidth(tmpPointoutMessage) < errorMessagePixel){
+
+		// ピクセル数を調整する
+		while (fontMetrics.stringWidth(tmpPointoutMessage) < errorMessagePixel) {
 			tmpPointoutMessage = " " + tmpPointoutMessage;
 		}
-		
-		//新しいメッセージを作成する
+
+		// 新しいメッセージを作成する
 		String newMessage = "";
-		
-		messages[1]= tmpErrorMessage;
+
+		messages[1] = tmpErrorMessage;
 		messages[2] = tmpPointoutMessage;
-		
+
 		for (int i = 0; i < messages.length; i++) {
 			newMessage += messages[i] + System.getProperty("line.separator");
 		}
-		
+
 		return newMessage;
 	}
 

@@ -177,7 +177,7 @@ public class REBlockEditorManager {
 
 				String message = "default";
 				try {
-					message = app.doCompile2(false);
+					message = app.doCompileInternally(false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
