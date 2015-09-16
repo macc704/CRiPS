@@ -302,7 +302,7 @@ public class BlockConnector implements ISupportMemento {
      * @param node the Node containing the desired information
      * @return BlockConnector instance with the loaded information
      */
-    public static BlockConnector loadBlockConnector(Workspace workspace, Node node, HashMap<Long, Long> idMapping) {
+    public static BlockConnector loadBlockConnector(Workspace workspace, Node node, HashMap<Long, Long> idMapping, String initLabel) {
         Pattern attrExtractor = Pattern.compile("\"(.*)\"");
         Matcher nameMatcher;
 
@@ -311,7 +311,7 @@ public class BlockConnector implements ISupportMemento {
         String initKind = null;
         String kind = null;
         Long idConnected = Block.NULL;
-        String label = "";
+        String label = initLabel;
         boolean isExpandable = false;
         boolean isLabelEditable = false;
         String expandGroup = "";
@@ -328,7 +328,7 @@ public class BlockConnector implements ISupportMemento {
                 kind = nameMatcher.group(1);
             }
             nameMatcher = attrExtractor.matcher(node.getAttributes().getNamedItem("label").toString());
-            if (nameMatcher.find()) {
+            if (nameMatcher.find() && !"".equals(nameMatcher.group(1))) {
                 label = nameMatcher.group(1);
             }
             //load optional items

@@ -3,9 +3,9 @@ package bc.j2b.model;
 import java.io.PrintStream;
 
 /**
- * 
+ *
  * @author Administrator
- * 
+ *
  */
 public class StIfElseModel extends StatementModel {
 

@@ -583,6 +583,13 @@ public class BlockGenus {
 		return this.type;
 	}
 
+	public String getSocketsLabel(int i) {
+		if (i >= sockets.size()) {
+			return "";
+		}
+		return sockets.get(i).getLabel();
+	}
+
 	public String getName() {
 		return this.name;
 	}
