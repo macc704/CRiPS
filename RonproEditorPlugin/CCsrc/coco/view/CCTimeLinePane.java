@@ -35,6 +35,8 @@ import clib.view.timeline.pane.CAbstractTimeLinePane;
 /*
  * 問題　順番を入れ替えたときに，編集インディケータが表示されなくなる．
  */
+
+// TODO: ファイルマージなどの機能削除
 public class CCTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 
 	private static final long serialVersionUID = 1L;
@@ -73,12 +75,6 @@ public class CCTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 		// name label
 		JPanel namePanel = new JPanel(new BorderLayout());
 		namePanel.setOpaque(false);
-		// namePanel.addMouseListener(new MouseAdapter() {
-		// @Override
-		// public void mouseClicked(MouseEvent e) {
-		// System.out.println("Hello World!");
-		// }
-		// });
 
 		final JLabel label = new JLabel(model.getName());
 		namePanel.add(label);
@@ -243,13 +239,6 @@ public class CCTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 							emptyPanel.getComponentAt(e.getX(), e.getY()),
 							e.getX(), e.getY());
 
-					// renameMenu.addMouseListener(new MouseAdapter() {
-					// @Override
-					// public void mouseClicked(MouseEvent e) {
-					// // super.mouseClicked(e);
-					// System.out.println("Hello World!");
-					// }
-					// });
 				}
 			}
 		});
@@ -347,10 +336,5 @@ public class CCTimeLinePane extends CAbstractTimeLinePane<IPLUnit> {
 		String result = JOptionPane.showInputDialog(null, "ファイル名を入力してください。",
 				"ファイル名の変更", JOptionPane.OK_CANCEL_OPTION);
 		return result;
-
-		// JFrame frame = new JFrame();
-		// frame.setTitle("まいたきゃわわ");
-		// frame.setBounds(point.x, point.y, 300, 400);
-		// frame.setVisible(true);
 	}
 }
