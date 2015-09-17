@@ -106,7 +106,7 @@ public class CCGraphFrame extends JFrame {
 		// rootPanel.setLayout(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(width, height);
-		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - "
+		setTitle(CCMainFrame.APP_NAME + " " + CCMainFrame.VERSION + " - "
 				+ list.getMessage() + " の詳細");
 
 		addWindowListener(new WindowAdapter() {

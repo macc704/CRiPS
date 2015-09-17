@@ -6,7 +6,7 @@ import coco.controller.CCCompileErrorKindLoader;
 import coco.controller.CCCompileErrorLoader;
 import coco.controller.CCMetricsLoader;
 import coco.model.CCCompileErrorManager;
-import coco.view.CCMainFrame2;
+import coco.view.CCMainFrame;
 
 public class CCViewerStart {
 
@@ -29,7 +29,7 @@ public class CCViewerStart {
 		// debug
 		// manager = setPPVdata(manager);
 
-		CCMainFrame2 frame = new CCMainFrame2(manager);
+		CCMainFrame frame = new CCMainFrame(manager);
 		frame.setVisible(true);
 	}
 

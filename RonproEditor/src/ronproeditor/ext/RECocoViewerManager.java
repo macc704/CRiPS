@@ -4,7 +4,7 @@ import coco.controller.CCCompileErrorKindLoader;
 import coco.controller.CCCompileErrorLoader;
 import coco.controller.CCMetricsLoader;
 import coco.model.CCCompileErrorManager;
-import coco.view.CCMainFrame2;
+import coco.view.CCMainFrame;
 import ppv.app.datamanager.PPProjectSet;
 import ronproeditor.REApplication;
 import clib.common.filesystem.CDirectory;
@@ -32,7 +32,7 @@ public class RECocoViewerManager {
 		manager.setLibDir(libDir);
 		manager.setPPProjectSet(ppProjectSet);
 
-		new CCMainFrame2(manager).setVisible(true);
+		new CCMainFrame(manager).setVisible(true);
 	}
 
 	private void loadData(CCCompileErrorManager manager) {
