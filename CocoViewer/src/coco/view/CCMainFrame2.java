@@ -74,39 +74,19 @@ public class CCMainFrame2 extends JFrame {
 	}
 
 	private void initialize() {
-		// rootPanel のレイアウトをリセットする
-		// rootPanel.setLayout(null);
 		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
 		rootPanel.setSize(new Dimension(width, height));
 
-		// titleなどの設定
 		frameSetting();
 
-		// window上部
+		// add all compile error data and time range button
 		setHeader();
 
-		// window下部・ボタン配置
-		setButtonsPanel();
+		// window
+		setTablePanel();
 
-		// レイアウトした配置でコンテンツを追加
+		// put rootpanel on dialog
 		getContentPane().add(rootPanel, BorderLayout.CENTER);
-		// TODO: Windowサイズ変更に対応できるようにすること
-		// this.addWindowListener(new WindowAdapter() {
-		// public void windowStateChanged(WindowEvent e) {
-		//
-		// }
-		// });
-	}
-
-	private void setHeader() {
-		JPanel headerpanel = new JPanel();
-		headerpanel.setLayout(new BorderLayout());
-		headerpanel.setMaximumSize(new Dimension(width, height / 24));
-
-		setCompileErrorNumber(headerpanel);
-		setChangeGraphRangeButton(headerpanel);
-
-		rootPanel.add(headerpanel, BorderLayout.NORTH);
 	}
 
 	private void frameSetting() {
@@ -125,6 +105,17 @@ public class CCMainFrame2 extends JFrame {
 		});
 	}
 
+	private void setHeader() {
+		JPanel headerpanel = new JPanel();
+		headerpanel.setLayout(new BorderLayout());
+		headerpanel.setMaximumSize(new Dimension(width, height / 24));
+
+		setCompileErrorNumber(headerpanel);
+		setChangeGraphRangeButton(headerpanel);
+
+		rootPanel.add(headerpanel, BorderLayout.NORTH);
+	}
+	
 	private void setCompileErrorNumber(JPanel panel) {
 		JLabel label = new JLabel();
 
@@ -148,10 +139,6 @@ public class CCMainFrame2 extends JFrame {
 		label.setText(string);
 		label.setMaximumSize(new Dimension(width, height / 24));
 		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
-
-		// label の背景を設定する場合は背景を不透明にする処理を加えること
-		// label.setBackground(Color.yellow);
-		// label.setOpaque(true);
 
 		LineBorder lineborder = new LineBorder(Color.YELLOW, 2, true);
 		label.setBorder(lineborder);
@@ -192,9 +179,8 @@ public class CCMainFrame2 extends JFrame {
 		panel.add(comboBox, BorderLayout.EAST);
 	}
 
-	private void setButtonsPanel() {
+	private void setTablePanel() {
 
-		// エラーIDごとの数値を書き込み、ボタンを実装する
 		for (CCCompileErrorKind list : manager.getAllKinds()) {
 			CCErrorElementButton2 button = new CCErrorElementButton2(manager,
 					list, buttonWidth, buttonHeight);
@@ -204,7 +190,6 @@ public class CCMainFrame2 extends JFrame {
 		JPanel buttonsEreaPanel = new JPanel();
 		buttonsEreaPanel.setLayout(new GridLayout((height * 15 / 16)
 				/ buttonHeight, width / buttonWidth));
-		// ボタンを配置する
 		int i = 1;
 		int errorkindsCount = manager.getAllKinds().size();
 		for (int x = 0; x < Math.sqrt(errorkindsCount); x++) {
@@ -227,7 +212,7 @@ public class CCMainFrame2 extends JFrame {
 		rootPanel.add(scrollPanel, BorderLayout.SOUTH);
 	}
 
-	// クリックできないボタンを作成
+	// TODO: クリック出来ないボタンの作成は，CCErrorElementButton2内のほうが良い
 	private JButton setEmptyButton(CCCompileErrorKind list) {
 		String message = "";
 		if (list != null) {

@@ -66,6 +66,7 @@ public class CCErrorElementButton2 extends JButton {
 		makeGraph();
 	}
 
+	// TODO: グラフ用のクラス
 	private void makeGraph() {
 		// グラフデータ設定
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
