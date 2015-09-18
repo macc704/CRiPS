@@ -12,18 +12,24 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
-import pres.loader.logmodel.PRCocoViewerLog;
+import clib.common.compiler.CJavaCompilerFactory;
 import coco.model.CCCompileErrorKind;
 import coco.model.CCCompileErrorManager;
+import pres.loader.logmodel.PRCocoViewerLog;
 
 /*
  * 
@@ -62,7 +68,10 @@ public class CCMainFrame extends JFrame {
 	// For GUI
 	private JPanel rootPanel = new JPanel();
 	private ArrayList<CCErrorElementButton> buttons = new ArrayList<CCErrorElementButton>();
-
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu menu;
+	private Action actionCreateCocoData;
+	
 	public CCMainFrame(CCCompileErrorManager manager) {
 		this.manager = manager;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -103,6 +112,43 @@ public class CCMainFrame extends JFrame {
 				manager.writePresLog(PRCocoViewerLog.SubType.COCOVIEWER_CLOSE);
 			}
 		});
+		
+		setMenuBarInit();
+	}
+	
+	private void setMenuBarInit() {
+		setJMenuBar(menuBar);
+		menu = new JMenu("Menu");
+		
+		{
+			Action action = new AbstractAction() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				public void actionPerformed(ActionEvent e) {
+					createData();
+				}
+			};
+			action.putValue(Action.NAME, "Create CocoData");
+			action.setEnabled(true);
+			actionCreateCocoData = action;
+		}
+		
+		menu.add(actionCreateCocoData);
+		menuBar.add(menu);		
+	}
+	
+	private void createData() {
+		if (!CJavaCompilerFactory.hasEmbededJavaCompiler()) {
+			int res = JOptionPane.showConfirmDialog(null,
+					"JDKを利用していない場合，予期しない動作や処理時間が長くなる可能性があります．よろしいでしょうか？", "コンパイラのチェック",
+					JOptionPane.OK_CANCEL_OPTION);
+			if (res != JOptionPane.OK_OPTION) {
+				return;
+			}
+		}
 	}
 
 	private void setHeader() {
