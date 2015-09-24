@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
 import clib.common.compiler.CJavaCompilerFactory;
+import coco.action.CCCreateCocodata;
 import coco.model.CCCompileErrorKind;
 import coco.model.CCCompileErrorManager;
 import pres.loader.logmodel.PRCocoViewerLog;
@@ -71,6 +72,9 @@ public class CCMainFrame extends JFrame {
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu menu;
 	private Action actionCreateCocoData;
+	
+	// For CompileAction
+	private CCCreateCocodata createCocodata;
 	
 	public CCMainFrame(CCCompileErrorManager manager) {
 		this.manager = manager;
@@ -137,7 +141,7 @@ public class CCMainFrame extends JFrame {
 		}
 		
 		menu.add(actionCreateCocoData);
-		menuBar.add(menu);		
+		menuBar.add(menu);
 	}
 	
 	private void createData() {
