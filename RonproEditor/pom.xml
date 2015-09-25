@@ -3,6 +3,8 @@
   <groupId>info.matsuzawalab</groupId>
   <artifactId>RonproEditor</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  
+  
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -14,8 +16,71 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      
+      <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-assembly-plugin</artifactId>
+		<version>2.5.3</version>
+		<configuration>
+			<descriptorRefs>
+				<descriptorRef>jar-with-dependencies</descriptorRef>
+			</descriptorRefs>
+		    <archive>
+                <manifest>
+                    <addClasspath>true</addClasspath>
+                    <classpathPrefix>.</classpathPrefix>
+                    <mainClass>ronproeditor.REApplication</mainClass>
+                </manifest>
+            </archive>
+		</configuration>
+		<executions>
+			<execution>
+				<id>make-assembly</id>
+				<phase>package</phase>
+				<goals>
+					<goal>attached</goal>
+				</goals>
+			</execution>
+		</executions>
+	</plugin>
+      
+      <!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+            <archive>
+                <manifest>
+                    <addClasspath>true</addClasspath>
+                    <classpathPrefix>.</classpathPrefix>
+                    <mainClass>ronproeditor.REApplication</mainClass>
+                </manifest>
+            </archive>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+            <execution>
+                <id>copy</id>
+                <phase>package</phase>
+                <goals>
+                    <goal>copy-dependencies</goal>
+                </goals>
+                <configuration>
+                    <outputDirectory>
+                      ${project.build.directory}/lib
+                    </outputDirectory>
+                </configuration>
+            </execution>
+        </executions>
+      </plugin>
+      -->
     </plugins>
   </build>
+  
   <dependencies>
   	<dependency>
   		<groupId>info.matsuzawalab</groupId>
@@ -52,5 +117,7 @@
   		<artifactId>CPreferenceFW</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
+  	
   </dependencies>
+
 </project>
