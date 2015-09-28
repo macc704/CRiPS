@@ -7,42 +7,19 @@ package ronproeditor;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.function.BiFunction;
-import java.util.function.Supplier;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-
-import bc.apps.JavaToBlockMain;
-import ch.util.CHBlockEditorController;
-import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileElement;
-import clib.common.filesystem.CFileFilter;
-import clib.common.filesystem.CFileSystem;
-import clib.common.filesystem.CFilename;
-import clib.common.filesystem.CPath;
-import clib.common.system.CJavaSystem;
-import clib.common.thread.ICTask;
-import clib.preference.app.CPreferenceManager;
-import clib.view.dialogs.CErrorDialog;
-import edu.mit.blocks.controller.WorkspaceController;
 import nd.com.sun.tools.example.debug.gui.CommandInterpreter;
 import nd.com.sun.tools.example.debug.gui.GUI;
 import nd.novicedebugger.NDebuggerListener;
 import nd.novicedebugger.NDebuggerManager;
-import net.unicoen.node.UniClassDec;
-import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRCommandLog;
 import pres.core.model.PRLog;
 import pres.core.model.PRTextEditLog;
@@ -71,6 +48,20 @@ import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.views.DummyConsole;
 import ronproeditor.views.REFrame;
 import ronproeditor.views.RESourceEditor;
+import ch.util.CHBlockEditorController;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileElement;
+import clib.common.filesystem.CFileFilter;
+import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CFilename;
+import clib.common.filesystem.CPath;
+import clib.common.system.CJavaSystem;
+import clib.common.thread.ICTask;
+import clib.preference.app.CPreferenceManager;
+import clib.view.dialogs.CErrorDialog;
+
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /*
  * Ronpro Editor Application
@@ -773,7 +764,7 @@ public class REApplication {
 
 	/**
 	 * 内部的にコンパイルするための処理 (現状，BlockEditorとGeneRefが利用している）
-	 * 
+	 *
 	 * @return
 	 */
 	public String doCompileInternally(boolean verbose) {
@@ -1078,59 +1069,11 @@ public class REApplication {
 	}
 
 	public void doOpenNewBlockEditor() {
-		// Java->Block変換処理
-		BiFunction<File, REApplication, String> convertAction = (javaFile, app) -> {
-			File srcfile = app.getSourceManager().getCurrentFile();
-			File dir = srcfile.getParentFile();
-			UniClassDec classDec = semiNewBlockManager.convertJavaToUni(srcfile);
-			File xmlfile = new File(dir.getAbsolutePath() + "/" + classDec.className + ".xml");
-			try {
-				xmlfile.createNewFile();
-				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false,
-						"UTF-8");
-				BlockGenerator blockParser = new BlockGenerator(out, WorkspaceController.langDefRootPath);
-				blockParser.parse(classDec);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return xmlfile.getAbsolutePath();
-		};
-
-		// Managerの初期化処理
-		Supplier<WorkspaceController> initAction = () -> {
-			WorkspaceController blockEditor = new WorkspaceController();
-			blockEditor.setLangDefFilePath(REBlockEditorManager2.LANG_DEF_PATH);
-			blockEditor.loadFreshWorkspace();
-			blockEditor.createAndShowGUI();
-			return blockEditor;
-		};
-
-		newBlockManager.doOpenBlockEditor(initAction, convertAction);
+		newBlockManager.doOpenNewBlockEditor();
 	}
 
 	public void doOpenSemiNewBlockEditor() {
-		// Java->Block変換処理
-		BiFunction<File, REApplication, String> convertAction = (javaFile, app) -> {
-			String[] libs = app.getLibraryManager().getLibsAsArray();
-			String xmlFilePath = "noxml";
-			try {
-				xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return xmlFilePath;
-		};
-
-		// Managerの初期化処理
-		Supplier<WorkspaceController> initAction = () -> {
-			WorkspaceController blockEditor = new WorkspaceController();
-			blockEditor.setLangDefFilePath(REBlockEditorManager.LANG_DEF_PATH);
-			blockEditor.loadFreshWorkspace();
-			blockEditor.createAndShowGUI();
-			return blockEditor;
-		};
-
-		semiNewBlockManager.doOpenBlockEditor(initAction, convertAction);
+		semiNewBlockManager.doOpenSemiNewBlockEditor();
 	}
 
 	/*********************

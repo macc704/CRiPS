@@ -1820,21 +1820,25 @@ public class Block implements ISupportMemento {
 					NodeList plugs = child.getChildNodes(); // there should only
 															// one child
 					Node plugNode;
+					int plugNum = 0;
 					for (int j = 0; j < plugs.getLength(); j++) {
 						plugNode = plugs.item(j);
 						if (plugNode.getNodeName().equals("BlockConnector")) {
-							plug = BlockConnector.loadBlockConnector(workspace,
-									plugNode, idMapping);
+							BlockGenus genus = workspace.getEnv().getGenusWithName(genusName);
+							plug = BlockConnector.loadBlockConnector(workspace, plugNode, idMapping, genus.getSocketsLabel(plugNum));
+							plugNum++;
 						}
 					}
 				} else if (child.getNodeName().equals("Sockets")) {
 					NodeList socketNodes = child.getChildNodes();
 					Node socketNode;
+					int socketNum = 0;
 					for (int k = 0; k < socketNodes.getLength(); k++) {
 						socketNode = socketNodes.item(k);
 						if (socketNode.getNodeName().equals("BlockConnector")) {
-							sockets.add(BlockConnector.loadBlockConnector(
-									workspace, socketNode, idMapping));
+							BlockGenus genus = workspace.getEnv().getGenusWithName(genusName);
+							sockets.add(BlockConnector.loadBlockConnector(workspace, socketNode, idMapping,genus.getSocketsLabel(socketNum)));
+							socketNum++;
 						}
 					}
 				} else if(child.getNodeName().equals("Name")){

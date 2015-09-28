@@ -7,13 +7,18 @@ package ronproeditor.ext;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import javax.swing.SwingUtilities;
 
 import bc.BlockConverter;
+import bc.apps.JavaToBlockMain;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
@@ -23,6 +28,7 @@ import edu.mit.blocks.controller.WorkspaceController;
 import net.unicoen.mapper.JavaMapper;
 import net.unicoen.mapper.JavaScriptMapper;
 import net.unicoen.node.UniClassDec;
+import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRLog;
 import ronproeditor.IREResourceRepository;
 import ronproeditor.REApplication;
@@ -41,6 +47,62 @@ public class REBlockEditorManager2 {
 	private REApplication app;
 	private WorkspaceController blockEditor;
 	private BiFunction<File, REApplication, String> convertionAction;
+
+	public void doOpenNewBlockEditor(){
+		// Java->Block変換処理
+		BiFunction<File, REApplication, String> convertAction = (javaFile, app) -> {
+			File srcfile = app.getSourceManager().getCurrentFile();
+			File dir = srcfile.getParentFile();
+			UniClassDec classDec = convertJavaToUni(srcfile);
+			File xmlfile = new File(dir.getAbsolutePath() + "/" + classDec.className + ".xml");
+			try {
+				xmlfile.createNewFile();
+				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false,
+						"UTF-8");
+				BlockGenerator blockParser = new BlockGenerator(out, WorkspaceController.langDefRootPath);
+				blockParser.parse(classDec);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return xmlfile.getAbsolutePath();
+		};
+
+		// Managerの初期化処理
+		Supplier<WorkspaceController> initBlockEditorAction = () -> {
+			WorkspaceController blockEditor = new WorkspaceController();
+			blockEditor.setLangDefFilePath(REBlockEditorManager2.LANG_DEF_PATH);
+			blockEditor.loadFreshWorkspace();
+			blockEditor.createAndShowGUI();
+			return blockEditor;
+		};
+
+		doOpenBlockEditor(initBlockEditorAction, convertAction);
+	}
+
+	public void doOpenSemiNewBlockEditor() {
+		// Java->Block変換処理
+		BiFunction<File, REApplication, String> convertAction = (javaFile, app) -> {
+			String[] libs = app.getLibraryManager().getLibsAsArray();
+			String xmlFilePath = "noxml";
+			try {
+				xmlFilePath = new JavaToBlockMain().run(javaFile, REApplication.SRC_ENCODING, libs);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return xmlFilePath;
+		};
+
+		// Managerの初期化処理
+		Supplier<WorkspaceController> initBlockEditorAction = () -> {
+			WorkspaceController blockEditor = new WorkspaceController();
+			blockEditor.setLangDefFilePath(REBlockEditorManager.LANG_DEF_PATH);
+			blockEditor.loadFreshWorkspace();
+			blockEditor.createAndShowGUI();
+			return blockEditor;
+		};
+
+		doOpenBlockEditor(initBlockEditorAction, convertAction);
+	}
 
 	public REBlockEditorManager2(REApplication app) {
 		this.app = app;
