@@ -524,15 +524,15 @@ public class Workspace extends JLayeredPane implements ISupportMemento,
 	/**
 	 * Adds the specified WorkspaceListener
 	 */
-	public void addWorkspaceListener(WorkspaceListener listener) {
-		if (listener != null) {
+	public void addWorkspaceListener(WorkspaceListener workspaceListener) {
+		if (workspaceListener != null) {
 			// warn of duplicate adds
-			assert (!workspaceListeners.contains(listener)) : "WorkspaceListener "
-					+ listener.toString() + " has already been added.";
-			workspaceListeners.add(listener);
+			assert (!workspaceListeners.contains(workspaceListener)) : "WorkspaceListener "
+					+ workspaceListener.toString() + " has already been added.";
+			workspaceListeners.add(workspaceListener);
 			//#added by matsuzawa
 			if (loadingBlockLanguage) {
-				listenersForBlockLanguage.add(listener);
+				listenersForBlockLanguage.add(workspaceListener);
 			}
 		}
 	}
