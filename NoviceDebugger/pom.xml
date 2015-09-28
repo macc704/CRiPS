@@ -1,29 +1,44 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>info.matsuzawalab</groupId>
-  <artifactId>NoviceDebugger</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <build>
-    <sourceDirectory>src</sourceDirectory>
-    <resources>
-      <resource>
-        <directory>src</directory>
-        <excludes>
-          <exclude>**/*.java</exclude>
-        </excludes>
-      </resource>
-    </resources>
-  </build>
-  <dependencies>
-  	<dependency>
-  		<groupId>info.matsuzawalab</groupId>
-  		<artifactId>CSwing</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>info.matsuzawalab</groupId>
-  		<artifactId>BlockEditor</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>info.matsuzawalab</groupId>
+	<artifactId>NoviceDebugger</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<repositories>
+		<repository>
+			<id>cripsrepository</id>
+			<name>commonlib</name>
+			<url>http://ohata1016.github.io/CRiPSLibraryRepository/</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>info.matsuzawalab</groupId>
+			<artifactId>CSwing</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>info.matsuzawalab</groupId>
+			<artifactId>BlockEditor</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>novicedebugger</groupId>
+			<artifactId>tools1.7.0_mac</artifactId>
+			<version>1.7.0_mac</version>
+		</dependency>
+	</dependencies>
 </project>
