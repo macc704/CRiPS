@@ -5,7 +5,6 @@
 	<artifactId>RonproEditor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -17,52 +16,46 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.3</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<appendAssemblyId>false</appendAssemblyId>
-					<finalName>RonproEditor</finalName>
-				</configuration>
-				<executions>
-					<execution>
-						<id>make-assembly</id>
-						<phase>package</phase>
-						<goals>
-							<goal>attached</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.5.3</version>
-				<configuration>
-					<descriptors>
-						<descriptor>descriptor-zip.xml</descriptor>
-					</descriptors>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<classpathPrefix>.</classpathPrefix>
-							<mainClass>ronproeditor.REApplication</mainClass>
-						</manifest>
-					</archive>
-					<finalName>RonproEditor-${timestamp}</finalName>
-				</configuration>
 				<executions>
 					<execution>
-						<id>make-assembly</id>
-						<phase>verify</phase>
+						<id>make-jar</id>
+						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							<appendAssemblyId>false</appendAssemblyId>
+							<archive>
+								<manifest>
+									<addClasspath>true</addClasspath>
+									<classpathPrefix>.</classpathPrefix>
+									<mainClass>ronproeditor.REApplication</mainClass>
+								</manifest>
+							</archive>
+							<finalName>RonproEditor</finalName>
+						</configuration>
+					</execution>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>descriptor-zip.xml</descriptor>
+							</descriptors>
+							<appendAssemblyId>false</appendAssemblyId>
+							<finalName>RonproEditor-${timestamp}</finalName>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -79,7 +72,7 @@
 						</goals>
 						<configuration>
 							<source>
-								def timestamp = new Date().format('yyyyMMddHHmmss')
+								def timestamp = new Date().format('yyyyMMddHHmm')
 								project.properties.setProperty('timestamp', timestamp)
 							</source>
 						</configuration>
@@ -98,7 +91,8 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
