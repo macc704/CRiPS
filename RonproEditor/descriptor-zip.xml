@@ -7,10 +7,11 @@
 	<formats>
 		<format>zip</format>
 	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
 	<fileSets>
 		<fileSet>
 			<directory>target/</directory>
-			<outputDirectory>.</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<includes>
 				<include>RonproEditor.jar</include>
 			</includes>
@@ -29,7 +30,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>package</directory>
-			<outputDirectory>.</outputDirectory>
+			<outputDirectory></outputDirectory>
 		</fileSet>
 	</fileSets>
 </assembly>
