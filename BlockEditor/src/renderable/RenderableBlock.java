@@ -40,6 +40,7 @@ import workspace.ContextMenu;
 import workspace.FactoryManager;
 import workspace.ISupportMemento;
 import workspace.MiniMap;
+import workspace.Page;
 import workspace.RBParent;
 import workspace.SearchableElement;
 import workspace.Workspace;
@@ -1791,8 +1792,12 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 		Component oldParent = renderable.getParent();
 
-		//		Workspace.getInstance().addToBlockLayer(renderable);
-		//		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
+
+		if(!(renderable.getParentWidget() instanceof Page)){
+			Workspace.getInstance().addToBlockLayer(renderable);
+			renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
+		}
+
 
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(Block.getBlock(renderable.blockID))) {
