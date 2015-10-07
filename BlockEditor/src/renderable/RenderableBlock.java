@@ -2078,8 +2078,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 		Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, link,
 				WorkspaceEvent.BLOCKS_CONNECTED));
-		Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, link,
-				WorkspaceEvent.BLOCKS_CONNECTED2));
+		if (!nearByLink) {
+			Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget,
+					link, WorkspaceEvent.BLOCKS_CONNECTED2));
+		}
 	}
 
 	private void checkScope4Dragging() {
