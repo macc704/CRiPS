@@ -561,8 +561,7 @@ public class REApplication {
 			// blockManager.doRefleshBlock(); //TODO オブジェクト指向対応のため？
 			flowManager.refreshChart();
 			if (fromText) {
-				checoproManager.sendText();
-				checoproManager.sendFiles();
+				checoproManager.send();
 			}
 
 			deleteRunnable(getSourceManager().getCurrentFile());
@@ -1122,7 +1121,7 @@ public class REApplication {
 
 	// CheCoPro(kato)
 	public void doStartCheCoPro() {
-		checoproManager.startCheCoPro();
+		checoproManager.start();
 	}
 
 	private CHBlockEditorController chBlockEditorController;

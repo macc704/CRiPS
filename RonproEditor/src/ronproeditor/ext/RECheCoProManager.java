@@ -64,6 +64,8 @@ import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.util.CHBlockEditorController;
+import ch.util.CHEvent;
+import ch.util.CHListener;
 import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
 import ch.view.CHPullDialog;
@@ -186,6 +188,11 @@ public class RECheCoProManager {
 		}
 		
 		return null;
+	}
+	
+	public void send() {
+		sendFiles();
+		sendText();
 	}
 	
 	public void sendFiles() {
@@ -604,7 +611,7 @@ public class RECheCoProManager {
 	 * クライアントメイン動作
 	 ********************/
 
-	public void startCheCoPro() {
+	public void start() {
 		
 		logWriter = new CHUserLogWriter(user);
 		// if (user.equals("")) {
@@ -688,6 +695,17 @@ public class RECheCoProManager {
 	 * 受信したコマンド別の処理
 	 **********************/
 
+	CHListener chListener = new CHListener() {
+		
+		@Override
+		public void processChanged(CHEvent e) {
+			String process = e.getMessage();
+			if (process.equals("LoginResultReceived")) {
+				// TODO REのリスナの初期化
+			}
+		}
+	};
+	
 	private void processLoginResult(CHLoginResult result) {
 		if (result.isResult() == CHLoginCheck.FAILURE) {
 			conn.close();
