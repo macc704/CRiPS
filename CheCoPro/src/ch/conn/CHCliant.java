@@ -7,6 +7,9 @@ import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHProcessManager;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.library.CHFileSystem;
+import ch.util.CHComponent;
+import ch.util.CHEvent;
+import ch.util.CHListener;
 
 public class CHCliant {
 	
@@ -23,6 +26,7 @@ public class CHCliant {
 	private Color color = DEFAULT_COLOR;
 	
 	private CHConnection conn;
+	private CHComponent component = new CHComponent();
 	
 	public CHCliant(int port, String user, String password, Color color) {
 		this.port = port;
@@ -34,7 +38,8 @@ public class CHCliant {
 	public void start() {
 		
 		// TODO 一時的にログ機能切断
-
+		addCHListeners();
+		
 		new Thread() {
 			public void run() {
 				connectServer();
@@ -62,8 +67,10 @@ public class CHCliant {
 			// TODO アプリケーションのリフレッシュ
 		}
 
+		CHProcessManager processManager = new CHProcessManager(user, password, color, conn);
+		processManager.setComponent(component);
+		
 		try {
-			CHProcessManager processManager = new CHProcessManager(user, password, color, conn);
 			while (conn.established()) {		
 				processManager.doProcess(readFromServer());
 			}
@@ -88,6 +95,22 @@ public class CHCliant {
 	
 	private void connectionKilled() {
 
+	}
+	
+	public void addCHListeners() {
+		component.addCHListener(new CHListener() {
+			
+			@Override
+			public void processChanged(CHEvent e) {
+			}
+			
+			@Override
+			public void memberSelectorChanged(CHEvent e) {
+				if (e.getMessage().equals("WindowClosing")){
+					conn.close();
+				}
+			}
+		});
 	}
 	
 	public static void main(String[] args) {

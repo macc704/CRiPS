@@ -23,7 +23,7 @@ import ch.view.CHMemberSelectorFrame;
 public class CHProcessManager {
 
 	private Object process;
-	private CHComponent component = new CHComponent();
+	private CHComponent component;
 	
 	private String user;
 	private String password;
@@ -102,6 +102,7 @@ public class CHProcessManager {
 		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
 			// TODO ログ
 			memberSelector = new CHMemberSelectorFrame(user);
+			memberSelector.setComponent(component);
 			memberSelector.open();
 		}
 	}
@@ -151,5 +152,9 @@ public class CHProcessManager {
 
 	private void processFilesizeNotice(CHFilesizeNotice notice) {
 
+	}
+	
+	public void setComponent(CHComponent component) {
+		this.component = component;
 	}
 }

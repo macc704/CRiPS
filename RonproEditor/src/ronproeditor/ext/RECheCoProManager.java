@@ -704,6 +704,10 @@ public class RECheCoProManager {
 				// TODO REのリスナの初期化
 			}
 		}
+
+		@Override
+		public void memberSelectorChanged(CHEvent e) {
+		}
 	};
 	
 	private void processLoginResult(CHLoginResult result) {

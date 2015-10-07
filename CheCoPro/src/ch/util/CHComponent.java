@@ -4,6 +4,9 @@ import javax.swing.event.EventListenerList;
 
 public class CHComponent {
 	
+	public static final int PROCESS_EVENT = 0;
+	public static final int MEMBERSELECTOR_EVENT = 1;
+	
 	private EventListenerList listenerList = new EventListenerList();
 	
 	public void addCHListener(CHListener listener) {
@@ -14,50 +17,65 @@ public class CHComponent {
 		listenerList.remove(CHListener.class, listener);
 	}
 
+	/*****************
+	 * PROCESS_EVENTS
+	 *****************/
 	public void fireLoginResult() {
-		setMessage("LoginResultReceived");
+		setMessage("LoginResultReceived", PROCESS_EVENT);
 	}
 	
 	public void fireEntryResult() {
-		setMessage("EntryResultReceived");
+		setMessage("EntryResultReceived", PROCESS_EVENT);
 	}
 	
 	public void fireLoginMemberChanged() {
-		setMessage("LoginMemberChanged");
+		setMessage("LoginMemberChanged", PROCESS_EVENT);
 	}
 	
 	public void fireSourceChanged() {
-		setMessage("SourceChanged");
+		setMessage("SourceChanged", PROCESS_EVENT);
 	}
 	
 	public void fireLoguoutResult() {
-		setMessage("LogoutResultReceived");
+		setMessage("LogoutResultReceived", PROCESS_EVENT);
 	}
 	
 	public void fireFileRequest() {
-		setMessage("FileRequestReceived");
+		setMessage("FileRequestReceived", PROCESS_EVENT);
 	}
 	
 	public void fireFileResponse() {
-		setMessage("FileResponseReceived");
+		setMessage("FileResponseReceived", PROCESS_EVENT);
 	}
 	
 	public void fireFileListRequest() {
-		setMessage("FileListRequestReceived");
+		setMessage("FileListRequestReceived", PROCESS_EVENT);
 	}
 	
 	public void fireFileListResponse() {
-		setMessage("FileListResponseReceived");
+		setMessage("FileListResponseReceived", PROCESS_EVENT);
 	}
 	
 	public void fireFileSizeNotice() {
-		setMessage("FileSizeNotieReceived");
+		setMessage("FileSizeNotieReceived", PROCESS_EVENT);
 	}
 	
-	public void setMessage(String message) {
+	/***********************
+	 * MEMBERSELECTOR_EVENTS
+	 ***********************/
+	
+	public void fireWindowClosing() {
+		setMessage("WindowClosing", MEMBERSELECTOR_EVENT);
+	}
+	
+	public void setMessage(String message, int eventType) {
 		CHEvent e = new CHEvent(message);
 		for(CHListener listener : listenerList.getListeners(CHListener.class)){
-			listener.processChanged(e);
+			if (eventType == PROCESS_EVENT) {
+				listener.processChanged(e);	
+			} else if (eventType == MEMBERSELECTOR_EVENT) {
+				listener.memberSelectorChanged(e);
+			}
 		}
 	}
 }

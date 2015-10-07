@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ch.conn.framework.CHUserState;
+import ch.util.CHComponent;
 
 public class CHMemberSelectorFrame extends JFrame {
 
@@ -24,6 +25,7 @@ public class CHMemberSelectorFrame extends JFrame {
 	private String user;
 	private List<JButton> buttons = new ArrayList<JButton>();
 	private List<String> editorOpens = new ArrayList<String>();
+	private CHComponent component;
 
 	public CHMemberSelectorFrame(String user) {
 		this.user = user;
@@ -109,7 +111,9 @@ public class CHMemberSelectorFrame extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				// TODO 開いているCHエディタを閉じる
+				editorOpens.clear();
 				// TODO コネクションを切る
+				component.fireWindowClosing();
 			}
 		});
 	}
@@ -132,6 +136,10 @@ public class CHMemberSelectorFrame extends JFrame {
 	
 	public void removeEditorOpens(String user) {
 		editorOpens.remove(user);
+	}
+	
+	public void setComponent(CHComponent component) {
+		this.component = component;
 	}
 
 	public static void main(String[] args) {
