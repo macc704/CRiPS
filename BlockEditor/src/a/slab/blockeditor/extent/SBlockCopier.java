@@ -31,6 +31,9 @@ public class SBlockCopier {
 	public void doWork(ActionEvent e) {
 		// System.out.println("block copy");
 		copy(rb);
+		Workspace.getInstance().notifyListeners(
+				new WorkspaceEvent(rb.getParentWidget(), rb.getBlockID(),
+						WorkspaceEvent.BLOCK_COPYED));
 	}
 
 	private static RenderableBlock copy(RenderableBlock srcRBlock) {
