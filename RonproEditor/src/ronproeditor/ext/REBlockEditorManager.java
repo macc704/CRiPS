@@ -60,8 +60,8 @@ public class REBlockEditorManager {
 
 			@Override
 			public void workspaceEventOccurred(WorkspaceEvent event) {
-				if (event.getEventType() == 6 || event.getEventType() == 22 || event.getEventType() == 23
-						|| event.getEventType() == 24 || event.getEventType() == 25) {
+				if (event.getEventType() == 22 || event.getEventType() == 23 || event.getEventType() == 24
+						|| event.getEventType() == 25 || event.getEventType() == 26) {
 					writeBlockEditingLog(REBlockEditorLog.SubType.ANY, event.toString());
 
 				}

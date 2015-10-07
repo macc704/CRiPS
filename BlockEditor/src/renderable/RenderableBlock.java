@@ -2202,7 +2202,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					nearByLink = true;
 					// NOTIFY WORKSPACE LISTENERS OF DISCONNECTION
 					we = new WorkspaceEvent(widget, link,
-							WorkspaceEvent.BLOCKS_DISCONNECTED);
+							WorkspaceEvent.BLOCKS_DISCONNECTED2);
 				}
 				checkScope4Dragging();// スコープ範囲の表示
 				BlockHIlighter.catchBlockSetHighlight(this, widget);
