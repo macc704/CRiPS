@@ -4,32 +4,25 @@ import java.awt.Color;
 import java.net.Socket;
 
 import ch.conn.framework.CHConnection;
-import ch.conn.framework.packets.CHEntryResult;
-import ch.conn.framework.packets.CHFileRequest;
-import ch.conn.framework.packets.CHFileResponse;
-import ch.conn.framework.packets.CHFilelistRequest;
-import ch.conn.framework.packets.CHFilelistResponse;
-import ch.conn.framework.packets.CHFilesizeNotice;
-import ch.conn.framework.packets.CHLoginMemberChanged;
+import ch.conn.framework.CHProcessManager;
 import ch.conn.framework.packets.CHLoginRequest;
-import ch.conn.framework.packets.CHLoginResult;
-import ch.conn.framework.packets.CHLogoutResult;
-import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
-import ch.util.CHComponent;
 
 public class CHCliant {
 	
-	public static final String IP = "163.43.140.82";
+	public static final String DEFAULT_NAME = "";
+	public static final String DEFAULT_PASSWAOD = "";
+	public static final Color DEFAULT_COLOR = Color.WHITE;
+	public static final int DEFAULT_PORT = 20000;
+	public static final String IP = "localhost";
+	public static final int DEFAULT_LANGUAGE = 0;
 	
-	private int port;
-	private String user;
-	private String password;
-	private Color color;
+	private int port = DEFAULT_PORT;
+	private String user = DEFAULT_NAME;
+	private String password = DEFAULT_PASSWAOD;
+	private Color color = DEFAULT_COLOR;
 	
 	private CHConnection conn;
-	private CHComponent component = new CHComponent();
-	
 	
 	public CHCliant(int port, String user, String password, Color color) {
 		this.port = port;
@@ -70,8 +63,9 @@ public class CHCliant {
 		}
 
 		try {
-			while (conn.established()) {
-				readFromServer();
+			CHProcessManager processManager = new CHProcessManager(user, password, color, conn);
+			while (conn.established()) {		
+				processManager.doProcess(readFromServer());
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -87,91 +81,18 @@ public class CHCliant {
 		return conn.established();
 	}
 	
-	private void readFromServer() {
+	private Object readFromServer() {
 
-		Object obj = conn.read();
-
-		if (obj instanceof CHLoginResult) {
-			processLoginResult((CHLoginResult) obj);
-			component.fireLoginResult();
-		} else if (obj instanceof CHEntryResult) {
-			processEntryResult((CHEntryResult) obj);
-			component.fireEntryResult();
-		} else if (obj instanceof CHLoginMemberChanged) {
-			processLoginMemberChanged((CHLoginMemberChanged) obj);
-			component.fireLoginMemberChanged();
-		} else if (obj instanceof CHSourceChanged) {
-			processSourceChanged((CHSourceChanged) obj);
-			component.fireSourceChanged();
-		} else if (obj instanceof CHLogoutResult) {
-			processLogoutResult((CHLogoutResult) obj);
-			component.fireLoguoutResult();
-		} else if (obj instanceof CHFileRequest) {
-			processFileRequest((CHFileRequest) obj);
-			component.fireFileRequest();
-		} else if (obj instanceof CHFileResponse) {
-			processFileResponse((CHFileResponse) obj);
-			component.fireFileResponse();
-		} else if (obj instanceof CHFilelistRequest) {
-			processFilelistRequest((CHFilelistRequest) obj);
-			component.fireFileListRequest();
-		} else if (obj instanceof CHFilelistResponse) {
-			processFilelistResponse((CHFilelistResponse) obj);
-			component.fireFileListResponse();
-		} else if (obj instanceof CHFilesizeNotice) {
-			processFilesizeNotice((CHFilesizeNotice) obj);
-			component.fireFileSizeNotice();
-		}
-	}
-	
-	/**********************
-	 * 受信したコマンド別の処理
-	 **********************/
-
-	private void processLoginResult(CHLoginResult result) {
-
-	}
-
-	private void processEntryResult(CHEntryResult result) {
-
-	}
-
-	private void processLoginMemberChanged(CHLoginMemberChanged result) {
-
-	}
-
-	private void processSourceChanged(CHSourceChanged response) {
-
-	}
-
-	private void processLogoutResult(CHLogoutResult result) {
-
-	}
-
-	private void processFileRequest(CHFileRequest request) {
-
-	}
-
-	private void processFileResponse(CHFileResponse response) {
-
-	}
-
-	private void processFilelistResponse(CHFilelistResponse response) {
-
-	}
-
-	private void processFilelistRequest(CHFilelistRequest request) {
-
-	}
-
-	private void processFilesizeNotice(CHFilesizeNotice notice) {
-
+		return conn.read();
 	}
 	
 	private void connectionKilled() {
 
 	}
 	
-	
+	public static void main(String[] args) {
+		new CHCliant(DEFAULT_PORT, "Taro", "joho315", Color.BLUE).start();
+		new CHCliant(DEFAULT_PORT, "Hanako", "joho315", Color.RED).start();
+	}
 	
 }

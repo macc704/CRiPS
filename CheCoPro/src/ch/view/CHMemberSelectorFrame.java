@@ -2,6 +2,10 @@ package ch.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +23,10 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	private String user;
 	private List<JButton> buttons = new ArrayList<JButton>();
+	private List<String> editorOpens = new ArrayList<String>();
 
-	public CHMemberSelectorFrame(String myName) {
-		this.user = myName;
+	public CHMemberSelectorFrame(String user) {
+		this.user = user;
 	}
 
 	public void open() {
@@ -71,6 +76,43 @@ public class CHMemberSelectorFrame extends JFrame {
 		this.getContentPane().validate();
 
 	}
+	
+	public void initListener() {
+		initButtonListener();
+		initWindowListener();
+	}
+	
+	private void initButtonListener() {
+		List<JButton> buttons = new ArrayList<JButton>(getButtons());
+		for (JButton aButton : buttons) {
+			aButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String user = e.getActionCommand();
+
+					if (user.equals(getUser())) { // 自分の名前
+						// TODO RE前面に
+					} else if (editorOpens.contains(user)) { // メンバーのエディタ開かれていたら
+						// TODO そのメンバーのCHエディタを前面に
+					} else if (!editorOpens.contains(user)) { // 開かれていなかったら
+						// TODO そのメンバのCHエディタを開く
+						addEditorOpens(user);
+					}
+				}
+			});
+		}
+	}
+	
+	private void initWindowListener() {
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO 開いているCHエディタを閉じる
+				// TODO コネクションを切る
+			}
+		});
+	}
 
 	public List<JButton> getButtons() {
 		return buttons;
@@ -82,6 +124,14 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	public void setUser(String user) {
 		this.user = user;
+	}
+	
+	public void addEditorOpens(String user) {
+		editorOpens.add(user);
+	}
+	
+	public void removeEditorOpens(String user) {
+		editorOpens.remove(user);
 	}
 
 	public static void main(String[] args) {
