@@ -696,6 +696,8 @@ public class Page
 					oldParent, block.getBlockID(), WorkspaceEvent.BLOCK_MOVED));
 			Workspace.getInstance().notifyListeners(new WorkspaceEvent(this,
 					block.getBlockID(), WorkspaceEvent.BLOCK_ADDED, true));
+			Workspace.getInstance().notifyListeners(new WorkspaceEvent(this,
+					block.getBlockID(), WorkspaceEvent.BLOCK_ADDED2, true));
 		}
 
 		// if the block is off the edge, shift everything or grow as needed to fully show it

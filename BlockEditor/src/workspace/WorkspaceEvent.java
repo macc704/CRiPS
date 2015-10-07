@@ -38,8 +38,15 @@ public class WorkspaceEvent {
 
     //caller created
     public final static int BLOCKS_PICKED_UP = 21;
-
-
+    
+    // work VisualScopeChecker
+    public final static int BLOCKS_CONNECT_MISSED = 22;
+    
+    // Block is added from Factory to Canvas.
+    public final static int BLOCK_ADDED2 = 23;// Screenshotの撮影のためのイベント
+    public final static int BLOCK_COPY = 24;
+    public final static int BLOCKS_CONNECTED2 = 25;// Screenshotの撮影のためのイベント
+    
     //workspace specific event
     public final static int WORKSPACE_FINISHED_LOADING = 100;
 
@@ -195,12 +202,16 @@ public class WorkspaceEvent {
             return "WorkspaceEvent(PAGE_ADDED: " + widget + ")";
         case PAGE_REMOVED:
             return "WorkspaceEvent(PAGE_REMOVED: " + widget +")";
+        case BLOCK_ADDED2:
         case BLOCK_ADDED:
             return "WorkspaceEvent(BLOCK_ADDED: " + Block.getBlock(blockID) + ")";
         case BLOCK_REMOVED:
             return "WorkspaceEvent(BLOCK_REMOVED: " + Block.getBlock(blockID) + ")";
+        case BLOCKS_CONNECTED2:
         case BLOCKS_CONNECTED:
             return "WorkspaceEvent(BLOCKS_CONNECTED: " + link + ")";
+        case BLOCKS_CONNECT_MISSED:
+            return "WorkspaceEvent(BLOCKS_CONNECT_MISSED: " + link + ")";
         case BLOCKS_DISCONNECTED:
             return "WorkspaceEvent(BLOCKS_DISCONNECTED: " + link + ")";
         case BLOCK_STACK_COMPILED:

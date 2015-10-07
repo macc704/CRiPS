@@ -162,6 +162,9 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	private boolean linkedDefArgsBefore = false;
 	private boolean isLoading = false;
 	private boolean outScope = false;
+	private boolean nearByLink = false;
+	private Point dragStartPoint = new Point(0, 0);
+	private WorkspaceEvent we;
 
 	// /////////////////////////
 	// Sockets and Labels
@@ -1792,12 +1795,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 		Component oldParent = renderable.getParent();
 
-
-		if(!(renderable.getParentWidget() instanceof Page)){
+		if (!(renderable.getParentWidget() instanceof Page)) {
 			Workspace.getInstance().addToBlockLayer(renderable);
-			renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), Workspace.getInstance()));
+			renderable.setLocation(SwingUtilities.convertPoint(oldParent,
+					renderable.getLocation(), Workspace.getInstance()));
 		}
-
 
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(Block.getBlock(renderable.blockID))) {
@@ -2051,6 +2053,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					.getY()
 					+ RenderableBlock.getRenderableBlock(blockID).getWidth(),
 					"down");
+			Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget,
+					link, WorkspaceEvent.BLOCKS_CONNECT_MISSED));
 			return;
 		}
 		//		else if(link.getPlug().getKind().equals("object") && link.getSocket().getKind().equals("object")){
@@ -2074,6 +2078,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 
 		Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, link,
 				WorkspaceEvent.BLOCKS_CONNECTED));
+		Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, link,
+				WorkspaceEvent.BLOCKS_CONNECTED2));
 	}
 
 	private void checkScope4Dragging() {
@@ -2193,18 +2199,23 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					// socket is expandable
 					RenderableBlock.getRenderableBlock(parent.getBlockID())
 							.blockDisconnected(socket);
-
+					nearByLink = true;
 					// NOTIFY WORKSPACE LISTENERS OF DISCONNECTION
-					Workspace.getInstance().notifyListeners(new WorkspaceEvent(
-							widget, link, WorkspaceEvent.BLOCKS_DISCONNECTED));
+					we = new WorkspaceEvent(widget, link,
+							WorkspaceEvent.BLOCKS_DISCONNECTED);
 				}
 				checkScope4Dragging();// スコープ範囲の表示
 				BlockHIlighter.catchBlockSetHighlight(this, widget);
+				dragStartPoint.setLocation(getX(), getY());
 				startDragging(this, widget);
 				//イベントを飛ばす
 				//				Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, getBlockID(), WorkspaceEvent.BLOCKS_PICKED_UP));
 			}
-
+			if (dragStartPoint.distance(getX(), getY()) > 20
+					&& nearByLink == true) {
+				Workspace.getInstance().notifyListeners(we);
+				nearByLink = false;
+			}
 			// drag this block and all attached to it
 			drag(this, dragHandler.dragDX, dragHandler.dragDY, widget, true);
 

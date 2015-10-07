@@ -294,6 +294,7 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 2015/01/14 version 2.29.1 kato           ・CheCoPro pullログ修正
  * 2015/09/04 version 2.30.1 matsuzawa		・REApplication　リファクタリング
  * 2015/09/04 version 2.30.2 matsuzawa		doCompile2()の設計が冗長なので再設計した
+ * 2015/10/07 version 2.31.0 tanaka			・BlockEditor上の画像を保存するように機能を追加
  *
  * ＜懸案事項＞
  * ・
@@ -307,7 +308,7 @@ public class REApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.30.2";
+	public static final String VERSION = "2.31.0";
 	public static final String BUILD_DATE = "2015/9/4";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2014 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";

@@ -13,6 +13,7 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import a.slab.blockeditor.SBlockEditorListener;
+import a.slab.blockeditor.extent.SAutoSSTaker;
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
 import clib.common.filesystem.CPath;
@@ -24,6 +25,9 @@ import pres.core.model.PRLog;
 import ronproeditor.IREResourceRepository;
 import ronproeditor.REApplication;
 import ronproeditor.helpers.CFrameUtils;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
+import workspace.WorkspaceListener;
 
 /**
  * @author macchan
@@ -51,6 +55,19 @@ public class REBlockEditorManager {
 		// event.toString());
 		// }
 		// });
+
+		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
+
+			@Override
+			public void workspaceEventOccurred(WorkspaceEvent event) {
+				if (event.getEventType() == 6 || event.getEventType() == 22 || event.getEventType() == 23
+						|| event.getEventType() == 24 || event.getEventType() == 25) {
+					writeBlockEditingLog(REBlockEditorLog.SubType.ANY, event.toString());
+
+				}
+
+			}
+		});
 
 		app.getSourceManager().addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
@@ -334,6 +351,11 @@ public class REBlockEditorManager {
 
 			CPath path = app.getSourceManager().getCCurrentFile()
 					.getRelativePath(app.getSourceManager().getCCurrentProject());
+			if (subType == REBlockEditorLog.SubType.ANY) {
+				Long timeStamp = System.currentTimeMillis();
+				SAutoSSTaker taker = new SAutoSSTaker();
+				taker.takeSS(timeStamp);
+			}
 			PRLog log = new REBlockEditorLog(subType, path, texts);
 			app.writePresLog(log);
 		} catch (Exception ex) {
