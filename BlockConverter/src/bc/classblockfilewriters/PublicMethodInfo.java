@@ -4,6 +4,9 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import bc.classblockfilewriters.model.BasicModel;
 
 public class PublicMethodInfo extends BasicModel {
@@ -11,10 +14,14 @@ public class PublicMethodInfo extends BasicModel {
 	private String methodName;
 	private String modifier;
 	private String returnType;// メソッドの返り値　ただし、ここでのreturnTypeはコネクターの形の5種類になっている
-	private String fullName;
+	private String genusName;
 	private List<String> parameters = new ArrayList<String>();
 	private String javaType;// こちらをメソッドの素の返り値の型とする
 	private List<String> parameterJavaTypes = new ArrayList<String>();
+
+	public static String METHOD_NAME = "name";
+	public static String RETURN_TYPE = "return-type";
+	public static String PARAM_NUM = "param-num";
 
 	public PublicMethodInfo() {
 		setColor("255 0 0");
@@ -47,7 +54,7 @@ public class PublicMethodInfo extends BasicModel {
 	}
 
 	public void setFullName(String fullName) {
-		this.fullName = fullName;
+		this.genusName = fullName;
 	}
 
 	public void setParameters(List<String> parameters) {
@@ -67,7 +74,7 @@ public class PublicMethodInfo extends BasicModel {
 	}
 
 	public String getFullName() {
-		return this.fullName;
+		return this.genusName;
 	}
 
 	public String getModifier() {
@@ -97,5 +104,23 @@ public class PublicMethodInfo extends BasicModel {
 		}
 		makeIndent(out, --lineNum);
 		out.println("</MethodProperty>");
+	}
+
+	public String getKeyForResolver(){
+		String paramSize = Integer.toString(getParameters().size());
+		if (paramSize.equals("0")) {
+			paramSize = "";
+		}
+
+		return getName() + "(" + paramSize + ")";
+	}
+
+	public Element createMethodElement(Document doc){
+		Element methodElement = doc.createElement("Method");
+		methodElement.setAttribute(METHOD_NAME, methodName);
+		methodElement.setAttribute(RETURN_TYPE, returnType);
+		methodElement.setAttribute(PARAM_NUM, String.valueOf(parameters.size()));
+
+		return methodElement;
 	}
 }

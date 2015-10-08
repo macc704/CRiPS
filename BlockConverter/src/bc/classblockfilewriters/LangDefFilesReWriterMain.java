@@ -50,8 +50,6 @@ public class LangDefFilesReWriterMain {
 
 		// TODO 以下はシリアライズする
 		langDefFilesRewriter.printProjectClassInfo();
-		this.addedMethods = langDefFilesRewriter.getAddedMethods();
-		this.addedMethodsJavaType = langDefFilesRewriter.getAddedMethodsJavaType();
 	}
 
 	private void copyLangDefFiles() {

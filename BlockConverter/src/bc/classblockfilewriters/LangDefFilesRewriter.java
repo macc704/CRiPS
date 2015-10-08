@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import bc.classblockfilewriters.model.ConvertBlockModel;
 import bc.classblockfilewriters.model.ObjectArrayBlockModel;
@@ -28,8 +31,7 @@ public class LangDefFilesRewriter {
 	private List<ObjectBlockModel> requestObjectBlock = new LinkedList<ObjectBlockModel>();
 	private FileInputStream ldfReader;
 	private String javaFileName;
-	private Map<String, String> addedMethods = new HashMap<String, String>();
-	private Map<String, String> addedMethodsJavaType = new HashMap<String, String>();
+
 	private List<ConvertBlockModel> requestConvertBlockModel = new LinkedList<ConvertBlockModel>();
 	private List<ParameterBlockModel> requestParameterBlockModel = new LinkedList<ParameterBlockModel>();
 
@@ -208,29 +210,37 @@ public class LangDefFilesRewriter {
 
 	}
 
-	public void printProjectClassInfo() {
-		Map<String, PublicMethodInfo> addedMethodsCash = new HashMap<String, PublicMethodInfo>();
-		for (ObjectBlockModel selDefClass : requestObjectBlock) {
-			if (selDefClass.getMethods() != null) {
-				addProjectMethodBlock(selDefClass, addedMethodsCash);
+	public void printProjectClassInfo(){
+		try {
+			ProjectInfoSerializer piSerializer = new ProjectInfoSerializer();
+
+			List<String> addedMethodsCash = new ArrayList<String>();
+			for (ObjectBlockModel selDefClass : requestObjectBlock) {
+				if (selDefClass.getMethods() != null) {
+					piSerializer.addAddedMethods(getAddedMethodsInfo(selDefClass, addedMethodsCash));
+				}
 			}
+			piSerializer.print(file.getParentFile().getPath());
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private void addProjectMethodBlock(ObjectBlockModel selDefClass, Map<String, PublicMethodInfo> addedMethodsCash) {
+	private List<PublicMethodInfo> getAddedMethodsInfo(ObjectBlockModel selDefClass, List<String> addedMethodsCash) {
+		List<PublicMethodInfo> methods = new ArrayList<PublicMethodInfo>();
 		for (String key : selDefClass.getMethods().keySet()) {
 			for (PublicMethodInfo method : selDefClass.getMethods().get(key)) {
-				if (addedMethodsCash.get(method.getFullName()) == null) {
-					String paramSize = Integer.toString(method.getParameters().size());
-					if (paramSize.equals("0")) {
-						paramSize = "";
-					}
-					String addedMethodName = method.getName() + "(" + paramSize + ")";
-					this.addedMethods.put(addedMethodName, method.getReturnType());
-					this.addedMethodsJavaType.put(method.getFullName(), method.getJavaType());
+				if (addedMethodsCash.indexOf(method.getFullName()) == -1) {
+					methods.add(method);
+					addedMethodsCash.add(method.getFullName());
 				}
 			}
 		}
+		return methods;
 	}
 
 	private void addInheritanceMethodBlocksToMenu(PrintStream ps, int lineNum) {
@@ -302,14 +312,6 @@ public class LangDefFilesRewriter {
 		fullName += "]";
 
 		return fullName;
-	}
-
-	public Map<String, String> getAddedMethods() {
-		return this.addedMethods;
-	}
-
-	public Map<String, String> getAddedMethodsJavaType() {
-		return this.addedMethodsJavaType;
 	}
 
 	public void makeIndent(PrintStream out, int number) {
