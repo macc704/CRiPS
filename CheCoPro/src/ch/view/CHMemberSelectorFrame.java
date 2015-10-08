@@ -94,11 +94,11 @@ public class CHMemberSelectorFrame extends JFrame {
 					String user = e.getActionCommand();
 
 					if (user.equals(getUser())) { // 自分の名前
-						// TODO RE前面に
+						component.fireMyNameClicked();
 					} else if (editorOpens.contains(user)) { // メンバーのエディタ開かれていたら
-						// TODO そのメンバーのCHエディタを前面に
+						component.fireAlreadyOpened(user);
 					} else if (!editorOpens.contains(user)) { // 開かれていなかったら
-						// TODO そのメンバのCHエディタを開く
+						component.fireNewOpened(user);
 						addEditorOpens(user);
 					}
 				}

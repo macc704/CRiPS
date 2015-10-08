@@ -26,7 +26,7 @@ public class CHCliant {
 	private Color color = DEFAULT_COLOR;
 	
 	private CHConnection conn;
-	private CHComponent component = new CHComponent();
+	private CHComponent component;
 	
 	public CHCliant(int port, String user, String password, Color color) {
 		this.port = port;
@@ -113,6 +113,14 @@ public class CHCliant {
 		});
 	}
 	
+	public CHComponent getComponent() {
+		return component;
+	}
+
+	public void setComponent(CHComponent component) {
+		this.component = component;
+	}
+
 	public static void main(String[] args) {
 		new CHCliant(DEFAULT_PORT, "Taro", "joho315", Color.BLUE).start();
 		new CHCliant(DEFAULT_PORT, "Hanako", "joho315", Color.RED).start();

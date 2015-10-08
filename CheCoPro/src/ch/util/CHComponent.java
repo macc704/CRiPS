@@ -9,6 +9,8 @@ public class CHComponent {
 	
 	private EventListenerList listenerList = new EventListenerList();
 	
+	private String user;
+	
 	public void addCHListener(CHListener listener) {
 		listenerList.add(CHListener.class, listener);
 	}
@@ -20,6 +22,7 @@ public class CHComponent {
 	/*****************
 	 * PROCESS_EVENTS
 	 *****************/
+	
 	public void fireLoginResult() {
 		setMessage("LoginResultReceived", PROCESS_EVENT);
 	}
@@ -64,9 +67,27 @@ public class CHComponent {
 	 * MEMBERSELECTOR_EVENTS
 	 ***********************/
 	
+	public void fireMyNameClicked() {
+		setMessage("MyNameClicked", MEMBERSELECTOR_EVENT);
+	}
+	
+	public void fireAlreadyOpened(String user) {
+		setUser(user);
+		setMessage("AlreadyOpened", MEMBERSELECTOR_EVENT);
+	}
+	
+	public void fireNewOpened(String user) {
+		setUser(user);
+		setMessage("NewOpened", MEMBERSELECTOR_EVENT);
+	}
+	
 	public void fireWindowClosing() {
 		setMessage("WindowClosing", MEMBERSELECTOR_EVENT);
 	}
+
+	/**************
+	 * sendMessage
+	 **************/
 	
 	public void setMessage(String message, int eventType) {
 		CHEvent e = new CHEvent(message);
@@ -77,5 +98,17 @@ public class CHComponent {
 				listener.memberSelectorChanged(e);
 			}
 		}
+	}
+	
+	/********************
+	 * setter and getter
+	 ********************/
+	
+	public String getUser() {
+		return user;
+	}
+	
+	public void setUser(String user) {
+		this.user = user;
 	}
 }

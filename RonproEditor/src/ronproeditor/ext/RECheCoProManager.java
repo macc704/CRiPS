@@ -21,7 +21,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,6 +43,7 @@ import javax.swing.SwingUtilities;
 import ronproeditor.IREResourceRepository;
 import ronproeditor.REApplication;
 import ronproeditor.views.REFrame;
+import ch.conn.CHCliant;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
 import ch.conn.framework.CHLoginCheck;
@@ -64,6 +64,7 @@ import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.util.CHBlockEditorController;
+import ch.util.CHComponent;
 import ch.util.CHEvent;
 import ch.util.CHListener;
 import ch.view.CHEntryDialog;
@@ -83,7 +84,7 @@ public class RECheCoProManager {
 	public static final String DEFAULT_PASSWAOD = "";
 	public static final Color DEFAULT_COLOR = Color.WHITE;
 	public static final int DEFAULT_PORT = 20000;
-	public static final String IP = "163.43.140.82";
+	public static final String IP = "localhost";
 	public static final int DEFAULT_LANGUAGE = 0;
 
 	private static int CTRL_MASK = InputEvent.CTRL_MASK;
@@ -104,6 +105,7 @@ public class RECheCoProManager {
 	private int language = DEFAULT_LANGUAGE;
 	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
 	private CHUserLogWriter logWriter;
+	private HashMap<String, RECheCoProViewer> chViewers = new HashMap<String, RECheCoProViewer>();
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -115,7 +117,7 @@ public class RECheCoProManager {
 	}
 
 	public RECheCoProManager() {
-		connectServer();
+		start();
 	}
 
 	private void initializePreference() {
@@ -611,104 +613,44 @@ public class RECheCoProManager {
 	 * クライアントメイン動作
 	 ********************/
 
-	public void start() {
-		
-		logWriter = new CHUserLogWriter(user);
-		// if (user.equals("")) {
-		// application.doOpenPreferencePage();
-		// application.getPreferenceManager().saveToFile();
-		// }
-
-		new Thread() {
-			public void run() {
-				connectServer();
+	public void start() {		
+		CHCliant client = new CHCliant(port, user, password, color);
+		client.setComponent(addCHListener());
+		client.start();
+	}
+	
+	private CHComponent addCHListener() {
+		CHComponent component = new CHComponent();
+		component.addCHListener(new CHListener() {
+			
+			@Override
+			public void processChanged(CHEvent e) {
+				// プロセスの変化を受け取る
 			}
-		}.start();
-	}
-
-	private void connectServer() {
-
-		try (Socket sock = new Socket(IP, port)) {
-			conn = new CHConnection(sock);
-			newConnectionOpened(conn);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	private void newConnectionOpened(CHConnection conn) {
-
-		conn.shakehandForClient();
-
-		if (login()) {
-			System.out.println("client established");
-			CHFileSystem.getFinalProjectDir();
-			application.doRefresh();
-		}
-
-		try {
-			while (conn.established()) {
-				readFromServer();
+			
+			@Override
+			public void memberSelectorChanged(CHEvent e) {
+				String message = e.getMessage();
+				if (message.equals("MyNameClicked")) {
+					// 自分の名前がクリックされたら論プロを前面に
+					application.getFrame().toFront();
+				} else if (message.equals("AlreadyOpened")) {
+					// 既に開いているメンバだったら前面に
+					chViewers.get(component.getUser()).getApplication().getFrame().toFront();
+				} else if (message.equals("NewOpened")) {
+					// 開いていなかったら開く
+					RECheCoProViewer chViewer = new RECheCoProViewer(component.getUser());
+					chViewer.doOpenNewCH(application);
+					chViewers.put(component.getUser(), chViewer);
+				}
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-		conn.close();
-		connectionKilled();
-		System.out.println("client closed");
-
-	}
-
-	private boolean login() {
-		conn.write(new CHLoginRequest(user, password, color));
-		return conn.established();
-	}
-
-	private void readFromServer() {
-
-		Object obj = conn.read();
-
-		if (obj instanceof CHLoginResult) {
-			processLoginResult((CHLoginResult) obj);
-		} else if (obj instanceof CHEntryResult) {
-			processEntryResult((CHEntryResult) obj);
-		} else if (obj instanceof CHLoginMemberChanged) {
-			processLoginMemberChanged((CHLoginMemberChanged) obj);
-		} else if (obj instanceof CHSourceChanged) {
-			processSourceChanged((CHSourceChanged) obj);
-		} else if (obj instanceof CHLogoutResult) {
-			processLogoutResult((CHLogoutResult) obj);
-		} else if (obj instanceof CHFileRequest) {
-			processFileRequest((CHFileRequest) obj);
-		} else if (obj instanceof CHFileResponse) {
-			processFileResponse((CHFileResponse) obj);
-		} else if (obj instanceof CHFilelistRequest) {
-			processFilelistRequest((CHFilelistRequest) obj);
-		} else if (obj instanceof CHFilelistResponse) {
-			processFilelistResponse((CHFilelistResponse) obj);
-		} else if (obj instanceof CHFilesizeNotice) {
-			processFilesizeNotice((CHFilesizeNotice) obj);
-		}
+		});
+		return component;
 	}
 
 	/**********************
 	 * 受信したコマンド別の処理
 	 **********************/
-
-	CHListener chListener = new CHListener() {
-		
-		@Override
-		public void processChanged(CHEvent e) {
-			String process = e.getMessage();
-			if (process.equals("LoginResultReceived")) {
-				// TODO REのリスナの初期化
-			}
-		}
-
-		@Override
-		public void memberSelectorChanged(CHEvent e) {
-		}
-	};
 	
 	private void processLoginResult(CHLoginResult result) {
 		if (result.isResult() == CHLoginCheck.FAILURE) {
