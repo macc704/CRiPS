@@ -17,10 +17,14 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import bc.classblockfilewriters.model.ConvertBlockModel;
+import bc.classblockfilewriters.model.ObjectArrayBlockModel;
+import bc.classblockfilewriters.model.ObjectBlockModel;
+import bc.classblockfilewriters.model.ParameterBlockModel;
+
 public class LangDefFilesRewriter {
 
 	private File file;
-	// private String[] classpaths;
 	private List<ObjectBlockModel> requestObjectBlock = new LinkedList<ObjectBlockModel>();
 	private FileInputStream ldfReader;
 	private String javaFileName;
@@ -172,15 +176,6 @@ public class LangDefFilesRewriter {
 			makeIndent(ps, --lineNum);
 			ps.println("</BlockDrawer>");
 
-//			makeIndent(ps, ++lineNum);
-//
-//			ps.println("<BlockDrawer name=\"Project-Methods\" type=\"factory\" button-color=\"255 155 64\">");
-//
-//			addProjectMethodBlocksToMenu(ps, lineNum);
-//
-//			makeIndent(ps, --lineNum);
-//			ps.println("</BlockDrawer>");
-
 			makeIndent(ps, lineNum++);
 			ps.println("<BlockDrawer name=\"継承メソッド\" type=\"factory\" button-color=\"255 155 64\">");
 
@@ -211,6 +206,31 @@ public class LangDefFilesRewriter {
 			}
 		}
 
+	}
+
+	public void printProjectClassInfo() {
+		Map<String, PublicMethodInfo> addedMethodsCash = new HashMap<String, PublicMethodInfo>();
+		for (ObjectBlockModel selDefClass : requestObjectBlock) {
+			if (selDefClass.getMethods() != null) {
+				addProjectMethodBlock(selDefClass, addedMethodsCash);
+			}
+		}
+	}
+
+	private void addProjectMethodBlock(ObjectBlockModel selDefClass, Map<String, PublicMethodInfo> addedMethodsCash) {
+		for (String key : selDefClass.getMethods().keySet()) {
+			for (PublicMethodInfo method : selDefClass.getMethods().get(key)) {
+				if (addedMethodsCash.get(method.getFullName()) == null) {
+					String paramSize = Integer.toString(method.getParameters().size());
+					if (paramSize.equals("0")) {
+						paramSize = "";
+					}
+					String addedMethodName = method.getName() + "(" + paramSize + ")";
+					this.addedMethods.put(addedMethodName, method.getReturnType());
+					this.addedMethodsJavaType.put(method.getFullName(), method.getJavaType());
+				}
+			}
+		}
 	}
 
 	private void addInheritanceMethodBlocksToMenu(PrintStream ps, int lineNum) {
@@ -298,3 +318,4 @@ public class LangDefFilesRewriter {
 		}
 	}
 }
+

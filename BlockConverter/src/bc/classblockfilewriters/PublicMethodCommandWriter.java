@@ -2,6 +2,8 @@ package bc.classblockfilewriters;
 
 import java.io.PrintStream;
 
+import bc.classblockfilewriters.model.BasicModel;
+
 public class PublicMethodCommandWriter extends BasicModel {
 
 	private PublicMethodInfo method;

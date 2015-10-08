@@ -30,53 +30,45 @@ public class LangDefFilesReWriterMain {
 		this.classpaths = classpaths;
 	}
 
+	/*
+	 * 自作クラスを利用可能にするために，メニュー，ブロック定義ファイルを書き換えて生成する
+	 */
 	public void rewrite() throws Exception {
-		// オブジェクト変数ブロックの定義されたxmlファイルを作成する
 		File classDefFile = new File(file.getParentFile().getPath() + "/lang_def_genuses_project.xml");
-		// メニューの定義されたxmlを作成、（or追加)
 		File projectMenuFile = new File(file.getParentFile().getPath() + "/lang_def_menu_project.xml");
 		// 言語定義ファイルを書き換えるインスタンスを作成
-		LangDefFilesRewriter selfDefModel = new LangDefFilesRewriter(classDefFile, this.file.getName());
+		LangDefFilesRewriter langDefFilesRewriter = new LangDefFilesRewriter(classDefFile, this.file.getName());
+		parseDirectry(langDefFilesRewriter);
 
-		// 同じディレクトリ内のすべてのjavaファイルをパースし、モデルに追加する
-		parseDirectry(selfDefModel);
+		copyLangDefFiles();
 
+		// メニューの出力
+		printMenu(langDefFilesRewriter, projectMenuFile);
+
+		// プロジェクトのオブジェクトブロック情報を出力する
+		langDefFilesRewriter.printGenus();
+
+		// TODO 以下はシリアライズする
+		langDefFilesRewriter.printProjectClassInfo();
+		this.addedMethods = langDefFilesRewriter.getAddedMethods();
+		this.addedMethodsJavaType = langDefFilesRewriter.getAddedMethodsJavaType();
+	}
+
+	private void copyLangDefFiles() {
 		// // 継承関係にあるブロック達をファミリーに出力
-		printLangDefFamilies();
+		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
+		langDefFamilies.print(file);
 
 		// langDefファイルを作成する
 		Copier langDefXml = new LangDefFileCopier();
-		Copier langDefDtd = new LangDefFileDtdCopier();
 		langDefXml.print(file);
+
+		Copier langDefDtd = new LangDefFileDtdCopier();
 		langDefDtd.print(file);
 
 		// genuseファイルを作成する　その際にprojectファイルの場所を追記する
 		Copier genusCopier = new LangDefGenusesCopier();
 		genusCopier.print(file);
-
-		FileReader reader = new FileReader(file);
-
-		br = new BufferedReader(reader);
-		String str;
-
-		while ((str = br.readLine()) != null) {
-			if (str.contains(" extends Turtle")) {
-				File turtleMenu = new File(System.getProperty("user.dir"), "ext/block/lang_def_menu_turtle.xml");
-				selfDefModel.printMenu(projectMenuFile, turtleMenu);
-				selfDefModel.printGenus();
-				this.addedMethods = selfDefModel.getAddedMethods();
-				this.addedMethodsJavaType = selfDefModel.getAddedMethodsJavaType();
-				return;
-			}
-		}
-		// メニューの出力
-		printMenu(selfDefModel, projectMenuFile);
-
-		// プロジェクトのオブジェクトブロック情報を出力する
-		selfDefModel.printGenus();
-		// 追加済みのメソッド，返り値の型を追加する
-		this.addedMethods = selfDefModel.getAddedMethods();
-		this.addedMethodsJavaType = selfDefModel.getAddedMethodsJavaType();
 	}
 
 	private void parseDirectry(LangDefFilesRewriter selfDefModel) throws IOException {
@@ -107,19 +99,25 @@ public class LangDefFilesReWriterMain {
 		}
 	}
 
-	private void printMenu(LangDefFilesRewriter selfDefModel, File projectMenuFile) {
+	private void printMenu(LangDefFilesRewriter langDefFilesRewriter, File projectMenuFile) throws IOException {
+		FileReader reader = new FileReader(file);
+		br = new BufferedReader(reader);
+		String str;
+		// 親クラスがタートルならメニューをコピー
+		while ((str = br.readLine()) != null) {
+			if (str.contains(" extends Turtle")) {
+				File turtleMenu = new File(System.getProperty("user.dir"), "ext/block/lang_def_menu_turtle.xml");
+				langDefFilesRewriter.printMenu(projectMenuFile, turtleMenu);
+				return;
+			}
+		}
 		File cuiMenu = new File(System.getProperty("user.dir"), "ext/block/lang_def_menu_cui.xml");
-		selfDefModel.printMenu(projectMenuFile, cuiMenu);
+		langDefFilesRewriter.printMenu(projectMenuFile, cuiMenu);
 	}
 
+	// TODO シリアライズ
 	public List<String> getAddedClasses() {
 		return this.addedClasses;
-	}
-
-	private void printLangDefFamilies() {
-		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
-
-		langDefFamilies.print(file);
 	}
 
 	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name, File file, String childName) throws IOException {

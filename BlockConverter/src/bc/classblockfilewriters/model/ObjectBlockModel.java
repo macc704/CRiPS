@@ -1,10 +1,13 @@
-package bc.classblockfilewriters;
+package bc.classblockfilewriters.model;
 
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import bc.classblockfilewriters.PublicMethodCommandWriter;
+import bc.classblockfilewriters.PublicMethodInfo;
 
 public class ObjectBlockModel extends BasicModel {
 

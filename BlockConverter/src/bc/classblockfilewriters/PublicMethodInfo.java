@@ -4,6 +4,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import bc.classblockfilewriters.model.BasicModel;
+
 public class PublicMethodInfo extends BasicModel {
 
 	private String methodName;

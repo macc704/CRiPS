@@ -1,4 +1,4 @@
-package bc.classblockfilewriters;
+package bc.classblockfilewriters.model;
 
 import java.io.PrintStream;
 

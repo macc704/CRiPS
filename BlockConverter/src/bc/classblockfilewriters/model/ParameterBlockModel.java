@@ -1,10 +1,12 @@
-package bc.classblockfilewriters;
+package bc.classblockfilewriters.model;
 
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+
+import bc.classblockfilewriters.PublicMethodInfo;
 
 public class ParameterBlockModel extends BasicModel {
 

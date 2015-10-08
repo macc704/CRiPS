@@ -17,19 +17,13 @@ public class LangDefFileDtdCopier implements Copier {
 	BufferedReader br;
 
 	public void print(File file) {
-		// TODO Auto-generated method stub
 		try {
 			FileInputStream ldfReader = new FileInputStream(
 					System.getProperty("user.dir") + "/ext/block/lang_def.dtd");
 
-			// FileReader ldfReader = new FileReader(
-			// "ext/block/lang_def_menu_turtle.xml");
-
 			InputStreamReader ldfISR = new InputStreamReader(ldfReader,
 					"ISO-8859-1");
 			br = new BufferedReader(ldfISR);
-
-			// File ldf = new File("/ext/block/lang_def.dtd");
 
 			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
 			PrintStream ps = new PrintStream(turtleByteArray);
@@ -44,7 +38,7 @@ public class LangDefFileDtdCopier implements Copier {
 			// TODO 相対パスを計算する
 			File tmp = new File(file.getPath());
 			String home = "";
-			
+
 			while (!hasExtFolder(tmp)) {
 				tmp = tmp.getParentFile();
 				home = home + "../";
