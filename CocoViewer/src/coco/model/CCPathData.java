@@ -9,18 +9,18 @@ public class CCPathData {
 	/************************
 	 * FilePath
 	 ************************/
-	private String KindsFilePath = "ext/cocoviewer/ErrorKinds.csv";
-	private String OriginalDataFilePath = "CompileError.csv";
-	private String DataFilePath = "CompileErrorLog.csv";
-	private String MetricsFilePath = "FileMetrics.csv";
+	private String KindsFilePath;
+	private String OriginalDataFilePath;
+	private String DataFilePath;
+	private String MetricsFilePath;
 
 	/************************
 	 * Directory
 	 ************************/
-	private CDirectory ppvRootDir = new CDirectory(new CPath(".ppv"));// MyProjects/.ppvフォルダに展開する
-	private CDirectory ppvLibDir = new CDirectory(new CPath("lib"));
-	private String ppvTempDir = "tmp";// zipファイルを展開するための一時フォルダ /.ppv中
-	private String ppvProjectSetName = "hoge";// projectset名
+	private CDirectory ppvRootDir;// MyProjects/.ppvフォルダに展開する
+	private CDirectory ppvLibDir;
+	private CDirectory ppvTempDir;// zipファイルを展開するための一時フォルダ /.ppv中
+	private CDirectory ppvProjectSetNameDir;// projectset名
 
 
 	public CCPathData() {
@@ -47,15 +47,52 @@ public class CCPathData {
 		return ppvRootDir;
 	}
 
-	public String getPPVTempDir() {
-		return ppvTempDir;
-	}
-
 	public CDirectory getPPVLibDir() {
 		return ppvLibDir;
 	}
 
-	public String getPPVProjectSetName() {
-		return ppvProjectSetName;
+	public CDirectory getPPVTempDir() {
+		return ppvTempDir;
 	}
+
+	public CDirectory getPPVProjectSetName() {
+		return ppvProjectSetNameDir;
+	}
+	
+	
+	/*******************************
+	 * Setters
+	 ******************************/
+	public void setKindsFilePath(String filepath) {
+		KindsFilePath = filepath;
+	}
+
+	public void setOriginalDataFilePath(String filepath) {
+		OriginalDataFilePath = filepath;
+	}
+
+	public void setDataFilePath(String filepath) {
+		DataFilePath = filepath;
+	}
+
+	public void setMetricsFilePath(String filepath) {
+		MetricsFilePath = filepath;
+	}
+	
+	public void setPPVRootDir(CDirectory dir) {
+		ppvRootDir = dir;
+	}
+
+	public void setPPVLibDir(CDirectory dir) {
+		ppvLibDir  = dir;
+	}
+
+	public void setPPVTempDir(CDirectory dir) {
+		ppvTempDir = dir;
+	}
+
+
+	public void setPPVProjectSetName(CDirectory dir) {
+		ppvProjectSetNameDir = dir;
+	}	
 }

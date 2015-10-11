@@ -151,6 +151,10 @@ public class CCCompileErrorManager {
 	public PPDataManager getPPDataManager() {
 		return ppDataManager;
 	}
+	
+	public CCPathData getCCPathdata() {
+		return pathdata;
+	}
 
 	/************************
 	 * Setters
@@ -186,5 +190,9 @@ public class CCCompileErrorManager {
 
 	public void setPPDataManager(PPDataManager ppDataManager) {
 		this.ppDataManager = ppDataManager;
+	}
+	
+	public void setCCPathData(CCPathData pathdata) {
+		this.pathdata = pathdata;
 	}
 }

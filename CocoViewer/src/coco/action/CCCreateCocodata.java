@@ -19,6 +19,8 @@ import coco.model.CCCompileErrorManager;
 import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
 
+
+// TODO: pathとdirを変えた部分があるので，再度調整する
 public class CCCreateCocodata {
 
 	private CCCompileErrorManager ccManager;
@@ -83,7 +85,7 @@ public class CCCreateCocodata {
 
 		ppDataManager = new PPDataManager(ppvRoot);
 		CDirectory ppvRootDir = ppDataManager.getBaseDir();
-		final CDirectory tmpDir = ppvRootDir.findOrCreateDirectory(ccManager.getPathdata().getPPVTempDir());
+		final CDirectory tmpDir = ccManager.getPathdata().getPPVTempDir();
 
 		monitor.setWorkTitle("Zip Exporting...");
 		monitor.doTaskWithDialog(new ICTask() {
@@ -148,9 +150,8 @@ public class CCCreateCocodata {
 		CIOUtils.zip(project, zipfile);
 	}
 
-	private void importAllProjects(String projectSetName, CDirectory tmpDir) {
-		CDirectory projectSetDir = ppDataManager.getDataDir()
-				.findOrCreateDirectory(projectSetName);
+	private void importAllProjects(CDirectory projectSetNameDir, CDirectory tmpDir) {
+		CDirectory projectSetDir = projectSetNameDir;
 		List<CFile> zipfiles = tmpDir.getFileChildren();
 		for (CFile zipfile : zipfiles) {
 			importOneProject(projectSetDir, zipfile);
