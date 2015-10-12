@@ -122,8 +122,12 @@ public class CHCliant {
 	}
 
 	public static void main(String[] args) {
-		new CHCliant(DEFAULT_PORT, "Taro", "joho315", Color.BLUE).start();
-		new CHCliant(DEFAULT_PORT, "Hanako", "joho315", Color.RED).start();
+		CHCliant cliant1 = new CHCliant(DEFAULT_PORT, "Taro", "joho315", Color.BLUE);
+		cliant1.setComponent(new CHComponent());
+		cliant1.start();
+		CHCliant cliant2 = new CHCliant(DEFAULT_PORT, "Hanako", "joho315", Color.RED);
+		cliant2.setComponent(new CHComponent());
+		cliant2.start();
 	}
 	
 }

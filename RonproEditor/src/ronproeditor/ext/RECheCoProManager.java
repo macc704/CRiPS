@@ -301,7 +301,7 @@ public class RECheCoProManager {
 		msFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				closeCHEditor();
+				closeCHEditors();
 				conn.write(new CHLogoutRequest(user));
 			}
 		});
@@ -642,6 +642,9 @@ public class RECheCoProManager {
 					RECheCoProViewer chViewer = new RECheCoProViewer(component.getUser());
 					chViewer.doOpenNewCH(application);
 					chViewers.put(component.getUser(), chViewer);
+				} else if (message.equals("WindowClosing")) {
+					// TODO 開いているCHEditorを閉じる
+					closeCHEditors();
 				}
 			}
 		});
@@ -794,7 +797,7 @@ public class RECheCoProManager {
 		logWriter.addRowToTable();
 		logWriter.saveTableToFile();
 		resetMenubar();
-		closeCHEditor();
+		closeCHEditors();
 		if (msFrame != null) {
 			msFrame.dispose();
 		}
@@ -820,13 +823,12 @@ public class RECheCoProManager {
 		application.getFrame().setJMenuBar(menubar);
 	}
 
-	private void closeCHEditor() {
+	private void closeCHEditors() {
 		for (CHUserState userState : userStates) {
-			if (chFrameMap.containsKey(userState.getUser())) {
-				chFrameMap.get(userState.getUser()).getFrame()
-						.setVisible(false);
-				closeCHBlockEditor(chFrameMap.get(userState.getUser()));
-				chFrameMap.remove(userState.getUser());
+			if (chViewers.containsKey(userState.getUser())) {
+				chViewers.get(userState.getUser()).getApplication().getFrame().setVisible(false);
+				// TODO BlockEditorも閉じる
+				chViewers.remove(userState.getUser());
 			}
 		}
 	}
