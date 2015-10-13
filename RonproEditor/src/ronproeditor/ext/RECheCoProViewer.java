@@ -2,10 +2,14 @@ package ronproeditor.ext;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JToggleButton;
 
+import ch.conn.framework.CHUserState;
 import ronproeditor.REApplication;
 
 public class RECheCoProViewer {
@@ -20,6 +24,7 @@ public class RECheCoProViewer {
 	
 	private REApplication application;
 	private String user;
+	private List<CHUserState> userStates = new ArrayList<CHUserState>();
 	
 	public RECheCoProViewer(String user) {
 		this.user = user;
@@ -67,7 +72,38 @@ public class RECheCoProViewer {
 		}
 		// TODO BlockEditor
 		
+		menuBar.add(initSyncButton());
 		application.getFrame().setJMenuBar(menuBar);
+	}
+	
+	private JToggleButton initSyncButton() {
+		String syncLabel = "同期中";
+		String asyncLabel = "非同期中";
+		JToggleButton syncButton = new JToggleButton(syncLabel, true);
+		
+		for (CHUserState aUserState : userStates) {
+			if (user.equals(aUserState.getUser()) && !aUserState.isLogin()) {
+				syncButton.doClick();
+				syncButton.setEnabled(false);
+				syncButton.setText(asyncLabel);
+			}
+		}
+		
+		syncButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (syncButton.isSelected()) {
+					// TODO ファイルリストリクエスト
+					syncButton.setText(syncLabel);
+				} else {
+					syncButton.setText(asyncLabel);
+				}
+				// TODO テキストエリアの編集の可否の調整
+				// TODO メニューバーの調整
+			}
+		});
+		return syncButton;
 	}
 	
 	public REApplication doOpenNewCH(REApplication application) {
@@ -80,10 +116,6 @@ public class RECheCoProViewer {
 		return application;
 	}
 
-	public void setApplication(REApplication application) {
-		this.application = application;
-	}
-
 	public String getUser() {
 		return user;
 	}
@@ -92,5 +124,8 @@ public class RECheCoProViewer {
 		this.user = user;
 	}
 	
+	public void setUserStates(List<CHUserState> userStates) {
+		this.userStates = userStates;
+	}
 	
 }

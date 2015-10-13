@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.sync.CFileHashList;
 import ch.conn.framework.packets.CHEntryRequest;
 import ch.conn.framework.packets.CHEntryResult;
 import ch.conn.framework.packets.CHFileRequest;
@@ -16,6 +18,7 @@ import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
+import ch.library.CHFileSystem;
 import ch.util.CHComponent;
 import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
@@ -131,27 +134,41 @@ public class CHProcessManager {
 	}
 
 	private void processLogoutResult(CHLogoutResult result) {
-
+		if (user.equals(result.getUser())) {
+			// TODO ログ
+			conn.close();
+			// TODO リスナのリムーブ
+		}
 	}
 
 	private void processFileRequest(CHFileRequest request) {
-
+		List<CHFile> files = CHFileSystem.getCHFiles(
+				request.getRequestFilePaths(),
+				CHFileSystem.getFinalProjectDir());
+		conn.write(new CHFileResponse(user, files));
 	}
 
 	private void processFileResponse(CHFileResponse response) {
-
+		CHFileSystem.saveFiles(response.getFiles(),
+				CHFileSystem.getUserDirForClient(response.getUser()));
+		// TODO 対象のCHEditorが開いていたらリフレッシュ
 	}
 
 	private void processFilelistResponse(CHFilelistResponse response) {
-
+		String user = response.getUser();
+		CDirectory copyDir = CHFileSystem.getUserDirForClient(user);
+		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
+				response.getFileList(), copyDir);
+		conn.write(new CHFileRequest(user, requestFilePaths));
 	}
 
 	private void processFilelistRequest(CHFilelistRequest request) {
-
+		CFileHashList fileList = CHFileSystem.getFinalProjectFileList();
+		conn.write(new CHFilelistResponse(user, fileList));
 	}
 
 	private void processFilesizeNotice(CHFilesizeNotice notice) {
-
+		// TODO ひとまずいらない？
 	}
 	
 	public void setComponent(CHComponent component) {

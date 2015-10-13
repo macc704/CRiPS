@@ -640,6 +640,7 @@ public class RECheCoProManager {
 				} else if (message.equals("NewOpened")) {
 					// 開いていなかったら開く
 					RECheCoProViewer chViewer = new RECheCoProViewer(component.getUser());
+					chViewer.setUserStates(userStates);
 					chViewer.doOpenNewCH(application);
 					chViewers.put(component.getUser(), chViewer);
 				} else if (message.equals("WindowClosing")) {
@@ -824,6 +825,7 @@ public class RECheCoProManager {
 	}
 
 	private void closeCHEditors() {
+		// TODO userState正しい？
 		for (CHUserState userState : userStates) {
 			if (chViewers.containsKey(userState.getUser())) {
 				chViewers.get(userState.getUser()).getApplication().getFrame().setVisible(false);
