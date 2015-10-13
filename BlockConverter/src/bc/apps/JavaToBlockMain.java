@@ -24,6 +24,7 @@ public class JavaToBlockMain {
 
 	private boolean isNewOpenBlocks = false;
 	public static String LANG_DEF_PATH = "ext/block/lang_def.xml";
+	public static String LANG_DEF_BASE_DIR = "ext/block/";
 
 	public JavaToBlockMain() {
 
@@ -53,7 +54,7 @@ public class JavaToBlockMain {
 
 	public void process(File file, String enc, PrintStream out, String[] classpaths) throws Exception {
 		// 言語定義ファイルの上書き
-		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(file,enc, classpaths);
+		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(file,enc, classpaths, LANG_DEF_BASE_DIR);
 		rewriter.rewrite();
 
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);

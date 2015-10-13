@@ -336,7 +336,6 @@ public class LangDefFilesRewriter {
 
 	public void printMenu(File projectMenuFile) throws IOException {
 		FileReader reader = new FileReader(file);
-		@SuppressWarnings("resource")
 		BufferedReader br = new BufferedReader(reader);
 		String str;
 		// 親クラスがタートルならメニューをコピー
@@ -344,12 +343,14 @@ public class LangDefFilesRewriter {
 			if (str.contains(" extends Turtle")) {
 				File turtleMenu = new File(System.getProperty("user.dir"), "ext/block/lang_def_menu_turtle.xml");
 				printMenu(projectMenuFile, turtleMenu);
+				br.close();
 				return;
 			}
 		}
 		File cuiMenu = new File(System.getProperty("user.dir"), "ext/block/lang_def_menu_cui.xml");
 		printMenu(projectMenuFile, cuiMenu);
 		br.close();
+		reader.close();
 	}
 
 	public void parseDirectry(String enc, String[] classpaths) throws IOException {

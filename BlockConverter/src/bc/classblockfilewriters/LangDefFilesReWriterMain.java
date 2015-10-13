@@ -13,12 +13,15 @@ public class LangDefFilesReWriterMain {
 	private String[] classpaths;
 
 	private List<String> addedClasses = new LinkedList<String>();// 追加済みクラス
-	LangDefFilesRewriter langDefFilesRewriter;
+	private LangDefFilesRewriter langDefFilesRewriter;
 
-	public LangDefFilesReWriterMain(File file, String enc, String[] classpaths) {
+	private String copyFilesBaseDir;
+
+	public LangDefFilesReWriterMain(File file, String enc, String[] classpaths, String baseDir) {
 		this.file = file;
 		this.enc = enc;
 		this.classpaths = classpaths;
+		this.copyFilesBaseDir = baseDir;
 	}
 
 	/*
@@ -44,18 +47,18 @@ public class LangDefFilesReWriterMain {
 
 	private void copyLangDefFiles() {
 		// // 継承関係にあるブロック達をファミリーに出力
-		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier();
+		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier(this.copyFilesBaseDir);
 		langDefFamilies.print(file);
 
 		// langDefファイルを作成する
-		Copier langDefXml = new LangDefFileCopier();
+		Copier langDefXml = new LangDefFileCopier(this.copyFilesBaseDir);
 		langDefXml.print(file);
 
-		Copier langDefDtd = new LangDefFileDtdCopier();
+		Copier langDefDtd = new LangDefFileDtdCopier(this.copyFilesBaseDir);
 		langDefDtd.print(file);
 
 		// genuseファイルを作成する　その際にprojectファイルの場所を追記する
-		Copier genusCopier = new LangDefGenusesCopier();
+		Copier genusCopier = new LangDefGenusesCopier(this.copyFilesBaseDir);
 		genusCopier.print(file);
 	}
 

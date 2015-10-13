@@ -1,28 +1,25 @@
 package bc.classblockfilewriters;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 
 import javax.swing.JOptionPane;
 
-public class LangDefFileCopier implements Copier {
+public class LangDefFileCopier extends Copier {
 
-	private BufferedReader br;
+	private static String LANG_DEF_TURTLE_FILE = "lang_def_turtle.xml";
+	private static String LANG_DEF_PROJECT_FILE = "lang_def_project.xml";
+
+	public LangDefFileCopier(String baseDir) {
+		super(baseDir);
+	}
 
 	public void print(File file) {
 		try {
-			FileInputStream ldfReader = new FileInputStream(
-					System.getProperty("user.dir") + "/ext/block/lang_def_turtle.xml");
-
-			InputStreamReader ldfISR = new InputStreamReader(ldfReader, "SJIS");
-			br = new BufferedReader(ldfISR);
+			BufferedReader br = createBufferReader(LANG_DEF_TURTLE_FILE);
 
 			ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
 			PrintStream turtlePs = new PrintStream(turtleByteArray);
@@ -39,16 +36,10 @@ public class LangDefFileCopier implements Copier {
 				}
 			}
 
-			String ldfString = turtleByteArray.toString();
+			printDOM(turtleByteArray.toString(), new FileOutputStream(file.getParentFile().getPath() + "/" + LANG_DEF_PROJECT_FILE));
 
-			FileOutputStream ldfOS = new FileOutputStream(file.getParentFile().getPath() + "/lang_def_project.xml");
-
-			OutputStreamWriter ldfFOS = new OutputStreamWriter(ldfOS, "SJIS");
-			BufferedWriter ldfWriter = new BufferedWriter(ldfFOS);
-
-			ldfWriter.write(ldfString);
-			ldfWriter.flush();
-			ldfWriter.close();
+			br.close();
+			turtlePs.close();
 		} catch (Exception e) {
 			int res = JOptionPane.showConfirmDialog(null,
 					"言語定義ファイル出力時にエラーが発生しました：lang_def_file message:" + e.getStackTrace().toString(), "警告",
