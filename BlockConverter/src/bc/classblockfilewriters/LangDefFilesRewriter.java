@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -20,10 +21,13 @@ import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.eclipse.jdt.core.dom.CompilationUnit;
+
 import bc.classblockfilewriters.model.ConvertBlockModel;
 import bc.classblockfilewriters.model.ObjectArrayBlockModel;
 import bc.classblockfilewriters.model.ObjectBlockModel;
 import bc.classblockfilewriters.model.ParameterBlockModel;
+import bc.utils.ASTParserWrapper;
 
 public class LangDefFilesRewriter {
 
@@ -35,9 +39,18 @@ public class LangDefFilesRewriter {
 	private List<ConvertBlockModel> requestConvertBlockModel = new LinkedList<ConvertBlockModel>();
 	private List<ParameterBlockModel> requestParameterBlockModel = new LinkedList<ParameterBlockModel>();
 
-	public LangDefFilesRewriter(File file, String javaFileName) {
+	private Map<String, String> addedMethods = new HashMap<String,String>();
+	private Map<String, String> addedMethodsJavaType = new HashMap<String,String>();
+	private List<String> addedClasses = new ArrayList<String>();
+
+	private String enc;
+	private String[] classPaths;
+
+	public LangDefFilesRewriter(File file, String javaFileName, String enc, String[] classPaths) {
 		this.file = file;
 		this.javaFileName = javaFileName.substring(0, javaFileName.indexOf(".java"));
+		this.enc = enc;
+		this.classPaths = classPaths;
 	}
 
 	public void setSelDefClassModel(List<ObjectBlockModel> models) {
@@ -210,15 +223,13 @@ public class LangDefFilesRewriter {
 
 	}
 
-	public void printProjectClassInfo(){
+	public void setProjectClassInfo(){
 		try {
 			ProjectInfoSerializer piSerializer = new ProjectInfoSerializer();
 
 			List<String> addedMethodsCash = new ArrayList<String>();
 			for (ObjectBlockModel selDefClass : requestObjectBlock) {
-				if (selDefClass.getMethods() != null) {
-					piSerializer.addAddedMethods(getAddedMethodsInfo(selDefClass, addedMethodsCash));
-				}
+				setMethodInfo(selDefClass, addedMethodsCash);
 			}
 			piSerializer.print(file.getParentFile().getPath());
 		} catch (ParserConfigurationException e) {
@@ -230,17 +241,20 @@ public class LangDefFilesRewriter {
 		}
 	}
 
-	private List<PublicMethodInfo> getAddedMethodsInfo(ObjectBlockModel selDefClass, List<String> addedMethodsCash) {
-		List<PublicMethodInfo> methods = new ArrayList<PublicMethodInfo>();
-		for (String key : selDefClass.getMethods().keySet()) {
+	public void setMethodInfo(ObjectBlockModel selDefClass, List<String> addedMethodsCash){
+		for(String key : selDefClass.getMethods().keySet()){
 			for (PublicMethodInfo method : selDefClass.getMethods().get(key)) {
 				if (addedMethodsCash.indexOf(method.getFullName()) == -1) {
-					methods.add(method);
-					addedMethodsCash.add(method.getFullName());
+					String paramSize = Integer.toString(method.getParameters().size());
+					if (paramSize.equals("0")) {
+						paramSize = "";
+					}
+					String addedMethodName = method.getName() + "(" + paramSize + ")";
+					this.addedMethods.put(addedMethodName, method.getReturnType());
+					this.addedMethodsJavaType.put(method.getFullName(), method.getJavaType());
 				}
 			}
 		}
-		return methods;
 	}
 
 	private void addInheritanceMethodBlocksToMenu(PrintStream ps, int lineNum) {
@@ -318,6 +332,104 @@ public class LangDefFilesRewriter {
 		for (int i = 0; i < number; i++) {
 			out.print("\t");
 		}
+	}
+
+	public void printMenu(File projectMenuFile) throws IOException {
+		FileReader reader = new FileReader(file);
+		@SuppressWarnings("resource")
+		BufferedReader br = new BufferedReader(reader);
+		String str;
+		// 親クラスがタートルならメニューをコピー
+		while ((str = br.readLine()) != null) {
+			if (str.contains(" extends Turtle")) {
+				File turtleMenu = new File(System.getProperty("user.dir"), "ext/block/lang_def_menu_turtle.xml");
+				printMenu(projectMenuFile, turtleMenu);
+				return;
+			}
+		}
+		File cuiMenu = new File(System.getProperty("user.dir"), "ext/block/lang_def_menu_cui.xml");
+		printMenu(projectMenuFile, cuiMenu);
+		br.close();
+	}
+
+	public void parseDirectry(String enc, String[] classpaths) throws IOException {
+		for (String name : file.getParentFile().list()) {
+			if (name.endsWith(".java")) {
+				// javaファイル生成
+				File javaFile = new File(file.getParentFile().getPath() + "/" + name);
+				name = name.substring(0, name.indexOf(".java"));
+				// javaファイルを解析
+				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(name, javaFile, name);
+				// 親クラス名を取得し，各モデルに追加する
+				String superClassName = getSuperClassName(javaFile);
+				// ローカル変数ブロックのモデルを追加
+				setLocalVariableBlockModel(name, methods, superClassName);// メソッドリストを引数に追加
+				// // インスタンス変数ブロックのモデルを追加
+				setInstanceVariableBlockMode(name, methods, superClassName);
+
+				// 型変換ブロックモデルの追加
+				setConvertBlockModel(name);
+				// 引数ブロックモデルの追加
+				setParameterBlockModel(name, methods);
+				// //配列ブロックモデルの追加
+				setArrayParameterBlockModel(name, methods);
+
+				// キャッシュに登録済みクラスを追加する
+				addedClasses.add(name);
+			}
+		}
+	}
+
+	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name, File file, String childName) throws IOException {
+		// javaファイル解析して、クラス名とメソッドのセットを取得する
+		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classPaths);
+		MethodAnalyzer visitor = new MethodAnalyzer();
+		unit.accept(visitor);
+
+		Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
+		String superClassName = visitor.getSuperClassName();
+
+		// 親クラスのクラス名と，メソッド情報を取得し，先に登録する
+		if (superClassName != null && existCurrentDirectry(superClassName + ".java")) {
+			methods = analyzeJavaFile(superClassName, new File(file.getParentFile().getPath() + "/" + superClassName + ".java"), childName);
+		}
+		// 最後に，自クラス名とメソッド情報を登録して返す
+		methods.put(name, visitor.getMethods());
+
+		return methods;
+	}
+
+	private Boolean existCurrentDirectry(String fileName) {
+		for (String name : file.getParentFile().list()) {
+			if (name.equals(fileName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public String getSuperClassName(File file) {
+		// javaファイル解析
+		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classPaths);
+		MethodAnalyzer visitor = new MethodAnalyzer();
+
+		// 継承チェック
+		unit.accept(visitor);
+		return visitor.getSuperClassName();
+	}
+
+	/*
+	 * return addedMethods(key: )
+	 */
+	public Map<String, String> getAddedMethodsType(){
+		return this.addedMethods;
+	}
+
+	/*
+	 * return addedMethodJavaType(key:methodfullname, value:java)
+	 */
+	public  Map<String, String> getAddedJavaMethodsJavaType(){
+		return this.addedMethodsJavaType;
 	}
 }
 

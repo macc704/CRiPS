@@ -99,6 +99,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 	// private static final int FIRST_ID_COUNTER = 245;
 	private static final int FIRST_ID_COUNTER = 1000;
+	public static String LANG_DEF_PATH = "ext/block/lang_def.xml";
 
 	private IdCounter idCounter = new IdCounter(FIRST_ID_COUNTER);
 	private VariableResolver variableResolver = new VariableResolver();
@@ -135,13 +136,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		for (String name : addedClasses) {
 			projectClasses.add(name);
 		}
-
-		// arranged by sakai lab 2011/11/22
-		// abstParser = new AbstractionBlockByTagParser(file);
-		// StGlobalVariableModel variable = new StGlobalVariableModel();
-		// variable.setName("window");
-		// variable.setType("TurtleFrame");
-		// variableResolver.addGlobalVariable(variable);
 	}
 
 	public CompilationUnitModel getCompilationUnit() {

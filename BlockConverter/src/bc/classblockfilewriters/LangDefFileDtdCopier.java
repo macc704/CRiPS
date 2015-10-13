@@ -35,7 +35,6 @@ public class LangDefFileDtdCopier implements Copier {
 				}
 			}
 
-			// TODO 相対パスを計算する
 			File tmp = new File(file.getPath());
 			String home = "";
 
