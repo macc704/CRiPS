@@ -1,6 +1,7 @@
 package ch.conn.framework;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,13 +125,14 @@ public class CHProcessManager {
 
 	private void processLoginMemberChanged(CHLoginMemberChanged result) {
 		userStates = result.getUserStates();
+		component.setUserStates(userStates);
 		memberSelector.setMembers(result.getUserStates());
 		memberSelector.initListener();
 		// TODO CHエディタの同期操作
 	}
 
 	private void processSourceChanged(CHSourceChanged response) {
-
+		component.setScPakcet(response);
 	}
 
 	private void processLogoutResult(CHLogoutResult result) {
@@ -169,6 +171,12 @@ public class CHProcessManager {
 
 	private void processFilesizeNotice(CHFilesizeNotice notice) {
 		// TODO ひとまずいらない？
+	}
+	
+	public void sendText(String source, String currentFileName, Point point) {
+		if(conn != null && conn.established()) {
+			conn.write(new CHSourceChanged(user, source, currentFileName, point));
+		}
 	}
 	
 	public void setComponent(CHComponent component) {

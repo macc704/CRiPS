@@ -1,5 +1,6 @@
 package ronproeditor.ext;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -8,8 +9,10 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 
 import ch.conn.framework.CHUserState;
+import ch.conn.framework.packets.CHSourceChanged;
 import ronproeditor.REApplication;
 
 public class RECheCoProViewer {
@@ -110,6 +113,23 @@ public class RECheCoProViewer {
 		this.application = application.doOpenNewRE(CH_DIR_PATH + "/" + user);
 		init();
 		return this.application;
+	}
+	
+	public void setText(CHSourceChanged scPacket) {
+		String sender = scPacket.getUser();
+		String source = scPacket.getSource();
+		String currentFileName = scPacket.getCurrentFileName();
+		Point point = scPacket.getPoint();
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				if (user.equals(sender)) {
+					application.getFrame().getEditor().setText(source);
+				}
+			}
+		});
 	}
 
 	public REApplication getApplication() {

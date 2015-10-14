@@ -3,7 +3,6 @@ package ronproeditor.ext;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -38,7 +37,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 
 import ronproeditor.IREResourceRepository;
 import ronproeditor.REApplication;
@@ -46,19 +44,15 @@ import ronproeditor.views.REFrame;
 import ch.conn.CHCliant;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
-import ch.conn.framework.CHLoginCheck;
 import ch.conn.framework.CHUserLogWriter;
 import ch.conn.framework.CHUserState;
-import ch.conn.framework.packets.CHEntryRequest;
 import ch.conn.framework.packets.CHEntryResult;
 import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHFilelistResponse;
 import ch.conn.framework.packets.CHFilesizeNotice;
-import ch.conn.framework.packets.CHLoginMemberChanged;
 import ch.conn.framework.packets.CHLoginRequest;
-import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
@@ -67,7 +61,6 @@ import ch.util.CHBlockEditorController;
 import ch.util.CHComponent;
 import ch.util.CHEvent;
 import ch.util.CHListener;
-import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
 import ch.view.CHPullDialog;
 import clib.common.filesystem.CDirectory;
@@ -95,6 +88,7 @@ public class RECheCoProManager {
 	}
 
 	private REApplication application;
+	private CHCliant cliant;
 	private CHConnection conn;
 	private CHMemberSelectorFrame msFrame;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
@@ -204,14 +198,11 @@ public class RECheCoProManager {
 	}
 	
 	public void sendText() {
-		
-		if (conn != null && isConnect()) {
-			conn.write(new CHSourceChanged(user, application.getFrame()
+		cliant.getProcessManager().sendText(application.getFrame()
 				.getEditor().getViewer().getText(), application
 				.getSourceManager().getCurrentFile().getName(), 
 				application.getFrame().getEditor().getViewer().getScroll()
-				.getViewport().getViewPosition()));
-		}
+				.getViewport().getViewPosition());
 	}
 
 	private ActionListener copyListener = new ActionListener() {
@@ -613,10 +604,10 @@ public class RECheCoProManager {
 	 * クライアントメイン動作
 	 ********************/
 
-	public void start() {		
-		CHCliant client = new CHCliant(port, user, password, color);
-		client.setComponent(addCHListener());
-		client.start();
+	public void start() {	
+		cliant = new CHCliant(port, user, password, color);
+		cliant.setComponent(addCHListener());
+		cliant.start();
 	}
 	
 	private CHComponent addCHListener() {
@@ -626,56 +617,68 @@ public class RECheCoProManager {
 			@Override
 			public void processChanged(CHEvent e) {
 				// プロセスの変化を受け取る
+				String message = e.getMessage();
+				if (message.equals("LoginResultReceived")) {
+					processLoginResult();
+				} else if (message.equals("LoginMemberChanged")) {
+					processLoginMemberChanged(component.getUserStates());
+				} else if (message.equals("SourceChanged")) {
+					processSourceChanged(component.getScPacket());
+				}
 			}
 			
 			@Override
 			public void memberSelectorChanged(CHEvent e) {
-				String message = e.getMessage();
-				if (message.equals("MyNameClicked")) {
-					// 自分の名前がクリックされたら論プロを前面に
-					application.getFrame().toFront();
-				} else if (message.equals("AlreadyOpened")) {
-					// 既に開いているメンバだったら前面に
-					chViewers.get(component.getUser()).getApplication().getFrame().toFront();
-				} else if (message.equals("NewOpened")) {
-					// 開いていなかったら開く
-					RECheCoProViewer chViewer = new RECheCoProViewer(component.getUser());
-					chViewer.setUserStates(userStates);
-					chViewer.doOpenNewCH(application);
-					chViewers.put(component.getUser(), chViewer);
-				} else if (message.equals("WindowClosing")) {
-					// TODO 開いているCHEditorを閉じる
-					closeCHEditors();
-				}
+				processMemberSelectorChanged(component, e.getMessage());
 			}
 		});
 		return component;
+	}
+	
+	private void processMemberSelectorChanged(CHComponent component, String message) {
+		if (message.equals("MyNameClicked")) {
+			// 自分の名前がクリックされたら論プロを前面に
+			application.getFrame().toFront();
+		} else if (message.equals("AlreadyOpened")) {
+			// 既に開いているメンバだったら前面に
+			chViewers.get(component.getUser()).getApplication().getFrame().toFront();
+		} else if (message.equals("NewOpened")) {
+			// 開いていなかったら開く
+			RECheCoProViewer chViewer = new RECheCoProViewer(component.getUser());
+			chViewer.setUserStates(userStates);
+			chViewer.doOpenNewCH(application);
+			chViewers.put(component.getUser(), chViewer);
+		} else if (message.equals("WindowClosing")) {
+			// TODO 開いているCHEditorを閉じる
+			closeCHEditors();
+		}
 	}
 
 	/**********************
 	 * 受信したコマンド別の処理
 	 **********************/
 	
-	private void processLoginResult(CHLoginResult result) {
-		if (result.isResult() == CHLoginCheck.FAILURE) {
-			conn.close();
-		} else if (result.isResult() == CHLoginCheck.NEW_ENTRY) {
-			CHEntryDialog entryDialog = new CHEntryDialog(user, password);
-			entryDialog.open();
-			user = entryDialog.getUser();
-			password = entryDialog.getPassword();
-			if (!user.equals("")) {
-				conn.write(new CHEntryRequest(user, password));
-			} else {
-				conn.close();
-			}
-		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
-			logWriter.writeCommand(CHUserLogWriter.LOGIN);
-			logWriter.addRowToTable();
-			initializeREListener();
-			msFrame = new CHMemberSelectorFrame(user);
-			msFrame.open();
-		}
+	private void processLoginResult() {
+		initializeREListener();
+//		if (result.isResult() == CHLoginCheck.FAILURE) {
+//			conn.close();
+//		} else if (result.isResult() == CHLoginCheck.NEW_ENTRY) {
+//			CHEntryDialog entryDialog = new CHEntryDialog(user, password);
+//			entryDialog.open();
+//			user = entryDialog.getUser();
+//			password = entryDialog.getPassword();
+//			if (!user.equals("")) {
+//				conn.write(new CHEntryRequest(user, password));
+//			} else {
+//				conn.close();
+//			}
+//		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
+//			logWriter.writeCommand(CHUserLogWriter.LOGIN);
+//			logWriter.addRowToTable();
+//			initializeREListener();
+//			msFrame = new CHMemberSelectorFrame(user);
+//			msFrame.open();
+//		}
 	}
 
 	private void processEntryResult(CHEntryResult result) {
@@ -689,16 +692,16 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void processLoginMemberChanged(CHLoginMemberChanged result) {
-		userStates = result.getUserStates();
-		msFrame.setMembers(result.getUserStates());
-		setMemberSelectorListner();
-		for (CHUserState aUserState : userStates) {
-			if (chFrameMap.containsKey(aUserState.getUser())) {
-				controlSync(chFrameMap.get(aUserState.getUser()),
-						aUserState.isLogin());
-			}
-		}
+	private void processLoginMemberChanged(List<CHUserState> userStates) {
+		this.userStates = userStates;
+//		msFrame.setMembers(result.getUserStates());
+//		setMemberSelectorListner();
+//		for (CHUserState aUserState : userStates) {
+//			if (chFrameMap.containsKey(aUserState.getUser())) {
+//				controlSync(chFrameMap.get(aUserState.getUser()),
+//						aUserState.isLogin());
+//			}
+//		}
 	}
 
 	private void controlSync(REApplication chApplication, boolean login) {
@@ -718,30 +721,33 @@ public class RECheCoProManager {
 	}
 
 	private void processSourceChanged(CHSourceChanged response) {
-		final String sender = response.getUser();
-		final String source = response.getSource();
-		final String senderCurrentFile = response.getCurrentFileName();
-		final Point point = response.getPoint();
-
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				if (shouldPrintSource(sender, senderCurrentFile)) {
-					chFrameMap.get(sender).getFrame().getEditor()
-							.setText(source);
-					chFrameMap.get(sender).doSave();
-					chFrameMap.get(sender).getFrame().setTitle(sender + "-" + APP_NAME + " Editor");
-					SwingUtilities.invokeLater(new Runnable() {
-						
-						@Override
-						public void run() {
-							chFrameMap.get(sender).getFrame().getEditor()
-							.getViewer().getScroll().getViewport()
-							.setViewPosition(point);
-						}
-					});
-				}
-			}
-		});
+		
+		chViewers.get(response.getUser()).setText(response);
+		
+//		final String sender = response.getUser();
+//		final String source = response.getSource();
+//		final String senderCurrentFile = response.getCurrentFileName();
+//		final Point point = response.getPoint();
+//		
+//		SwingUtilities.invokeLater(new Runnable() {
+//			public void run() {
+//				if (shouldPrintSource(sender, senderCurrentFile)) {
+//					chFrameMap.get(sender).getFrame().getEditor()
+//							.setText(source);
+//					chFrameMap.get(sender).doSave();
+//					chFrameMap.get(sender).getFrame().setTitle(sender + "-" + APP_NAME + " Editor");
+//					SwingUtilities.invokeLater(new Runnable() {
+//						
+//						@Override
+//						public void run() {
+//							chFrameMap.get(sender).getFrame().getEditor()
+//							.getViewer().getScroll().getViewport()
+//							.setViewPosition(point);
+//						}
+//					});
+//				}
+//			}
+//		});
 	}
 
 	private void processLogoutResult(CHLogoutResult result) {
@@ -780,8 +786,7 @@ public class RECheCoProManager {
 	}
 
 	private void processFilelistRequest(CHFilelistRequest request) {
-		CFileHashList fileList = CHFileSystem.getFinalProjectFileList();
-		conn.write(new CHFilelistResponse(user, fileList));
+		cliant.getProcessManager().doProcess(request);
 	}
 
 	private void processFilesizeNotice(CHFilesizeNotice notice) {

@@ -1,6 +1,12 @@
 package ch.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.event.EventListenerList;
+
+import ch.conn.framework.CHUserState;
+import ch.conn.framework.packets.CHSourceChanged;
 
 public class CHComponent {
 	
@@ -10,6 +16,8 @@ public class CHComponent {
 	private EventListenerList listenerList = new EventListenerList();
 	
 	private String user;
+	private List<CHUserState> userStates = new ArrayList<CHUserState>();
+	private CHSourceChanged scPacket;
 	
 	public void addCHListener(CHListener listener) {
 		listenerList.add(CHListener.class, listener);
@@ -110,5 +118,21 @@ public class CHComponent {
 	
 	public void setUser(String user) {
 		this.user = user;
+	}
+	
+	public List<CHUserState> getUserStates() {
+		return  userStates;
+	}
+	
+	public void setUserStates(List<CHUserState> userStates) {
+		this.userStates = userStates;
+	}
+	
+	public CHSourceChanged getScPacket() {
+		return scPacket;
+	}
+	
+	public void setScPakcet(CHSourceChanged scPacket) {
+		this.scPacket = scPacket;
 	}
 }

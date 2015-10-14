@@ -25,6 +25,7 @@ public class CHCliant {
 	private String password = DEFAULT_PASSWAOD;
 	private Color color = DEFAULT_COLOR;
 	
+	private CHProcessManager processManager;
 	private CHConnection conn;
 	private CHComponent component;
 	
@@ -67,7 +68,7 @@ public class CHCliant {
 			// TODO アプリケーションのリフレッシュ
 		}
 
-		CHProcessManager processManager = new CHProcessManager(user, password, color, conn);
+		processManager = new CHProcessManager(user, password, color, conn);
 		processManager.setComponent(component);
 		
 		try {
@@ -111,6 +112,14 @@ public class CHCliant {
 				}
 			}
 		});
+	}
+	
+	public CHProcessManager getProcessManager() {
+		return processManager;
+	}
+	
+	public CHConnection getConn() {
+		return conn;
 	}
 	
 	public CHComponent getComponent() {
