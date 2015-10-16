@@ -4,6 +4,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -23,8 +25,52 @@ public class PublicMethodInfo extends BasicModel {
 	public static String RETURN_TYPE = "return-type";
 	public static String PARAM_NUM = "param-num";
 
-	public PublicMethodInfo() {
+	public PublicMethodInfo(MethodDeclaration node) {
+
+		setMethodName(node);
+
+		setMethodParameterInfo(node);
+
 		setColor("255 0 0");
+	}
+
+	public void setMethodParameterInfo(MethodDeclaration node) {
+		List<String> parameters = new ArrayList<String>();
+		String genusName = calcGenusName(node, getVcCommandName());
+
+		setgenusName(genusName);
+
+		setParameterJavaType(parameters);
+
+		setParameters(parameters);
+	}
+
+	public String calcGenusName(MethodDeclaration node, String genusHederName) {
+		String genusName = genusHederName + "[";
+		for (int i = 0; i < node.parameters().size(); i++) {
+			SingleVariableDeclaration param = (SingleVariableDeclaration) node.parameters().get(i);
+			String paramType = param.getType().toString();
+			if (paramType.equals("double")) {
+				paramType = "int";
+			}
+			genusName += "@" + MethodAnalyzer.convertBlockConnectorType(paramType);
+		}
+		genusName += "]";
+		return genusName;
+	}
+
+	public void setMethodName(MethodDeclaration node) {
+		setInitialLabel(node.getName().toString());
+		setReturnType("object");
+		setJavaType(node.getName().toString());
+		setName(node.getName().getFullyQualifiedName());
+
+		// オーバーロード対応版のメソッドの名前をセット
+		setModifier("public");
+		if (node.getReturnType2() != null) {
+			setReturnType(MethodAnalyzer.convertBlockConnectorType(node.getReturnType2().toString()));
+			setJavaType(node.getReturnType2().toString());
+		}
 	}
 
 	public void setJavaType(String returnType) {
@@ -53,7 +99,7 @@ public class PublicMethodInfo extends BasicModel {
 		this.modifier = modifier;
 	}
 
-	public void setFullName(String fullName) {
+	public void setgenusName(String fullName) {
 		this.genusName = fullName;
 	}
 
@@ -73,7 +119,7 @@ public class PublicMethodInfo extends BasicModel {
 		return returnType;
 	}
 
-	public String getFullName() {
+	public String getGenusName() {
 		return this.genusName;
 	}
 
@@ -85,6 +131,10 @@ public class PublicMethodInfo extends BasicModel {
 		return methodName;
 	}
 
+	public String getVcCommandName(){
+		return this.methodName;
+	}
+
 	public void print(PrintStream out, int lineNum) {
 		makeIndent(out, lineNum);
 		out.println("<Method>");
@@ -94,7 +144,7 @@ public class PublicMethodInfo extends BasicModel {
 		out.println("</Method>");
 	}
 
-	private void printMethods(PrintStream out, int lineNum) {
+	public void printMethods(PrintStream out, int lineNum) {
 		makeIndent(out, ++lineNum);
 		out.println("<MethodProperty name=\"" + methodName + "\" modifer=\"" + modifier + "\" returnType=\"" + returnType + "\" returnJavaType=\"" + javaType + "\">");
 		lineNum++;

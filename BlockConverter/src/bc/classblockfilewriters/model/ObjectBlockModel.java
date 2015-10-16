@@ -138,8 +138,8 @@ public class ObjectBlockModel extends BasicModel {
 		List<PublicMethodInfo> methods = this.methods.get(className);
 		if (methods != null) {
 			for (PublicMethodInfo method : methods) {
-				if (method.getFullName().startsWith("new-")) {
-					return method.getFullName();
+				if (method.getGenusName().startsWith("new-")) {
+					return method.getGenusName();
 				}
 			}
 		}

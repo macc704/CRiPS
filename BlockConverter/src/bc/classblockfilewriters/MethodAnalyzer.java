@@ -8,7 +8,6 @@ import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.Modifier;
-import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
@@ -17,7 +16,6 @@ public class MethodAnalyzer extends ASTVisitor {
 	private List<PublicMethodInfo> methods = new ArrayList<PublicMethodInfo>();
 	private String superClassName = "Object";
 	private List<String> interfacesNames = new LinkedList<String>();
-	private List<String> classes = new LinkedList<String>();
 	private List<ClassVariable> instanceVariables = new ArrayList<ClassVariable>();
 
 	public String getSuperClassName() {
@@ -28,16 +26,7 @@ public class MethodAnalyzer extends ASTVisitor {
 		return this.interfacesNames;
 	}
 
-	public List<String> getClasses() {
-		return this.classes;
-	}
-
-	public List<ClassVariable> getinstanceVariables(){
-		return this.instanceVariables;
-	}
-
 	public boolean visit(TypeDeclaration node) {
-		classes.add(node.getName().toString());
 		if (node.getSuperclassType() != null) {
 			this.superClassName = node.getSuperclassType().toString();
 			for (int i = 0; i < node.superInterfaceTypes().size(); i++) {
@@ -50,8 +39,8 @@ public class MethodAnalyzer extends ASTVisitor {
 		return super.visit(node);
 	}
 
-	public void parseFieldVariable(FieldDeclaration[] fields){
-		for(FieldDeclaration field : fields){
+	public void parseFieldVariable(FieldDeclaration[] fields) {
+		for (FieldDeclaration field : fields) {
 			VariableDeclarationFragment fragment = (VariableDeclarationFragment) field.fragments().get(0);
 			String variableType = field.getType().toString();
 			String variableName = fragment.getName().toString();
@@ -65,63 +54,17 @@ public class MethodAnalyzer extends ASTVisitor {
 		}
 	}
 
-
-
 	public boolean visit(MethodDeclaration node) {
-
 		// publicメソッドをmethodsに登録する
 		if (!node.getName().toString().equals("main") && !(node.getModifiers() == Modifier.PRIVATE)) {
 			// メソッドのモデルに情報を登録する
-
-			PublicMethodInfo model = new PublicMethodInfo();
-			// メソッド名をセットする
-			setMethodName(model, node);
-			// メソッドのパラメータ情報をも出るに登録する
-			setMethodParameterInfo(model, node);
-
-			setMethod(model);
-
+			if(node.isConstructor()){
+				methods.add(new ConstructorInfo(node));
+			}else{
+				methods.add(new PublicMethodInfo(node));
+			}
 		}
 		return super.visit(node);
-	}
-
-	public void setMethodName(PublicMethodInfo model, MethodDeclaration node) {
-		if (node.isConstructor()) {
-			model.setName("new-" + node.getName().toString().toLowerCase());
-			model.setInitialLabel(node.getName().toString());
-			model.setReturnType("object");
-			model.setJavaType(node.getName().toString());
-		} else {
-			model.setName(node.getName().toString());
-		}
-
-		// オーバーロード対応版のメソッドの名前をセット
-		model.setModifier("public");
-		if (node.getReturnType2() != null) {
-			model.setReturnType(convertBlockConnectorType(node.getReturnType2().toString()));
-			model.setJavaType(node.getReturnType2().toString());
-		}
-	}
-
-	public void setMethodParameterInfo(PublicMethodInfo model, MethodDeclaration node) {
-		List<String> parameters = new ArrayList<String>();
-		String fullName = model.getName() + "[";
-		for (int i = 0; i < node.parameters().size(); i++) {
-			parameters.add(node.parameters().get(i).toString());
-			SingleVariableDeclaration param = (SingleVariableDeclaration) node.parameters().get(i);
-			String paramType = param.getType().toString();
-			if (paramType.equals("double")) {
-				paramType = "int";
-			}
-			fullName += "@" + convertBlockConnectorType(paramType);
-		}
-		fullName += "]";
-
-		model.setFullName(fullName);
-
-		model.setParameters(parameters);
-
-		model.setParameterJavaType(parameters);
 	}
 
 	public static String convertBlockConnectorType(String s) {
@@ -143,8 +86,4 @@ public class MethodAnalyzer extends ASTVisitor {
 		return methods;
 	}
 
-	public void setMethod(PublicMethodInfo method) {
-		methods.add(method);
-	}
 }
-

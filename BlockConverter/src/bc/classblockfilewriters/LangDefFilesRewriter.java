@@ -244,14 +244,14 @@ public class LangDefFilesRewriter {
 	public void setMethodInfo(ObjectBlockModel selDefClass, List<String> addedMethodsCash){
 		for(String key : selDefClass.getMethods().keySet()){
 			for (PublicMethodInfo method : selDefClass.getMethods().get(key)) {
-				if (addedMethodsCash.indexOf(method.getFullName()) == -1) {
+				if (addedMethodsCash.indexOf(method.getGenusName()) == -1) {
 					String paramSize = Integer.toString(method.getParameters().size());
 					if (paramSize.equals("0")) {
 						paramSize = "";
 					}
 					String addedMethodName = method.getName() + "(" + paramSize + ")";
 					this.addedMethods.put(addedMethodName, method.getReturnType());
-					this.addedMethodsJavaType.put(method.getFullName(), method.getJavaType());
+					this.addedMethodsJavaType.put(method.getGenusName(), method.getJavaType());
 				}
 			}
 		}
@@ -269,11 +269,11 @@ public class LangDefFilesRewriter {
 		if (request != null && request.getMethods() != null) {
 			for (String key : request.getMethods().keySet()) {
 				for (PublicMethodInfo method : request.getMethods().get(key)) {
-					if (addedMethods.get(method.getFullName()) == null && !key.equals(javaFileName)) {
+					if (addedMethods.get(method.getGenusName()) == null && !key.equals(javaFileName)) {
 						PublicMethodCommandWriter writer = new PublicMethodCommandWriter();
 						writer.setMethods(method);
 						writer.printMenuItem(ps, lineNum);
-						addedMethods.put(method.getFullName(), method);
+						addedMethods.put(method.getGenusName(), method);
 
 						// superの追加
 						if (method.getName().startsWith("new-") && key.equals(request.getSuperClassName())) {
@@ -282,7 +282,7 @@ public class LangDefFilesRewriter {
 							superConstructorCaller.setColor("\"255 0 0\"");
 
 							superConstructorCaller.setName("super");
-							superConstructorCaller.setFullName(calcFullName("super", method.getParameters()));
+							superConstructorCaller.setgenusName(calcFullName("super", method.getParameters()));
 							superConstructorCaller.setReturnType("void");
 
 							superConstructors.add(superConstructorCaller);

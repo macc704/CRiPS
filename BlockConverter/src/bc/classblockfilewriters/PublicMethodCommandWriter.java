@@ -28,7 +28,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 			kind = "data";
 		}
 		// genusの出力
-		out.println("<BlockGenus name=\"" + method.getFullName() + "\" kind=\"" + kind + "\" initlabel=\"" + method.getName() + "\" color=\"255 0 0\">");
+		out.println("<BlockGenus name=\"" + method.getGenusName() + "\" kind=\"" + kind + "\" initlabel=\"" + method.getName() + "\" color=\"255 0 0\">");
 
 		makeIndent(out, lineNum + 1);
 		out.println("<JavaLabel>" + method.getName() + "</JavaLabel>");
@@ -48,20 +48,15 @@ public class PublicMethodCommandWriter extends BasicModel {
 
 			for (int i = 0; i < method.getParameters().size(); i++) {
 				String parameter = method.getParameters().get(i);
-//				String paramType = method.getParameterJavaTypes().get(i);
+
 				// xxのような型＋変数名の形で保持されていることに注意
 				String parameterType = convertParameterType(parameter.substring(0, parameter.indexOf(" ")));
 				String parameterName = parameter.substring(parameter.substring(0, parameter.indexOf(" ")).length() + 1, parameter.length());
 				makeIndent(out, lineNum);
-//				if("object".equals(parameterType)){
-//					out.println("<BlockConnector label=\"" + parameterName + "(" + paramType + "型)"+ "\" connector-kind=\"socket\" connector-type=\"" + parameterType + "\" connector-javatype=\"" + parameter.substring(0, parameter.indexOf(" ")) + "\">");
-//				}else{
 					out.println("<BlockConnector label=\"" + parameterName +  "\" connector-kind=\"socket\" connector-type=\"" + parameterType + "\" connector-javatype=\"" + parameter.substring(0, parameter.indexOf(" ")) + "\">");
-//				}
 
 				makeIndent(out, lineNum);
 				out.println("</BlockConnector>");
-				// 引数の設定
 			}
 			makeIndent(out, --lineNum);
 			out.println("</BlockConnectors>");
@@ -85,7 +80,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 	private void printConstructor(int lineNum, PrintStream out) {
 		// コンストラクターを出力する
 		String kind = "function";
-		out.println("<BlockGenus name=\"" + method.getFullName() + "\" editable-label=\"yes\"" + " kind=\"" + kind + "\" initlabel=\"" + method.getInitialLabel() + "\" header-label=\"新しく\"  footer-label=\"を作る\"" + " color=\"16 240 27\">");
+		out.println("<BlockGenus name=\"" + method.getGenusName() + "\" editable-label=\"yes\"" + " kind=\"" + kind + "\" initlabel=\"" + method.getInitialLabel() + "\" header-label=\"新しく\"  footer-label=\"を作る\"" + " color=\"16 240 27\">");
 		++lineNum;
 		if (method.getParameters() != null) {
 			makeIndent(out, lineNum++);
@@ -125,7 +120,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 
 	public void printMenuItem(PrintStream out, int lineNumber) {
 		makeIndent(out, lineNumber);
-		out.println("<BlockGenusMember>" + method.getFullName() + "</BlockGenusMember>");
+		out.println("<BlockGenusMember>" + method.getGenusName() + "</BlockGenusMember>");
 	}
 
 	private String convertParameterType(String parameterType) {
