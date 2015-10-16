@@ -1,7 +1,6 @@
 package bc.classblockfilewriters;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -34,32 +33,11 @@ public class LangDefFilesReWriterMain {
 		langDefFilesRewriter = new LangDefFilesRewriter(classDefFile, this.file.getName(),enc, classpaths);
 		langDefFilesRewriter.parseDirectry(enc, classpaths);
 
-		copyLangDefFiles();
-
+		langDefFilesRewriter.copyLangDefFiles(copyFilesBaseDir);
 		// メニューの出力
 		langDefFilesRewriter.printMenu(projectMenuFile);
-
-		// プロジェクトのオブジェクトブロック情報を出力する
-		langDefFilesRewriter.printGenus();
-
+		langDefFilesRewriter.printGenuses();
 		langDefFilesRewriter.setProjectClassInfo();
-	}
-
-	private void copyLangDefFiles() {
-		// // 継承関係にあるブロック達をファミリーに出力
-		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier(this.copyFilesBaseDir);
-		langDefFamilies.print(file);
-
-		// langDefファイルを作成する
-		Copier langDefXml = new LangDefFileCopier(this.copyFilesBaseDir);
-		langDefXml.print(file);
-
-		Copier langDefDtd = new LangDefFileDtdCopier(this.copyFilesBaseDir);
-		langDefDtd.print(file);
-
-		// genuseファイルを作成する　その際にprojectファイルの場所を追記する
-		Copier genusCopier = new LangDefGenusesCopier(this.copyFilesBaseDir);
-		genusCopier.print(file);
 	}
 
 	public List<String> getAddedClasses() {
@@ -72,18 +50,5 @@ public class LangDefFilesReWriterMain {
 
 	public Map<String, String> getAddedMethodsJavaType() {
 		return langDefFilesRewriter.getAddedJavaMethodsJavaType();
-	}
-
-	class Family {
-		List<String> familyList = new ArrayList<String>();
-
-		protected void addFamilyMember(String member) {
-			familyList.add(member);
-		}
-
-		protected List<String> getFamilyMember() {
-			return this.familyList;
-		}
-
 	}
 }

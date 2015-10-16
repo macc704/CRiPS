@@ -32,13 +32,13 @@ import bc.utils.ASTParserWrapper;
 public class LangDefFilesRewriter {
 
 	private File file;
-	private List<ObjectBlockModel> requestObjectBlock = new LinkedList<ObjectBlockModel>();
-	private FileInputStream ldfReader;
-	private String javaFileName;
 
+	private List<ObjectBlockModel> requestObjectBlock = new LinkedList<ObjectBlockModel>();
 	private List<ConvertBlockModel> requestConvertBlockModel = new LinkedList<ConvertBlockModel>();
 	private List<ParameterBlockModel> requestParameterBlockModel = new LinkedList<ParameterBlockModel>();
 
+	private FileInputStream ldfReader;
+	private String javaFileName;
 	private Map<String, String> addedMethods = new HashMap<String,String>();
 	private Map<String, String> addedMethodsJavaType = new HashMap<String,String>();
 	private List<String> addedClasses = new ArrayList<String>();
@@ -74,7 +74,6 @@ public class LangDefFilesRewriter {
 		classObjectArrayModel.setMethods(methods);
 		classObjectArrayModel.setClassName(fileName + "[]");
 		requestObjectBlock.add(classObjectArrayModel);
-
 	}
 
 	public void setConvertBlockModel(String className) {
@@ -111,10 +110,9 @@ public class LangDefFilesRewriter {
 		requestObjectBlock.add(classObjectArrayModel);
 	}
 
-	public void printGenus() throws Exception {
+	public void printGenuses() throws Exception {
 		ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(byteArray);
-
 		ps.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 
 		for (ObjectBlockModel selDefClass : requestObjectBlock) {
@@ -130,9 +128,7 @@ public class LangDefFilesRewriter {
 		}
 
 		String blockString = byteArray.toString();
-
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
-
 		bw.write(blockString);
 		bw.flush();
 		bw.close();
@@ -353,6 +349,10 @@ public class LangDefFilesRewriter {
 		reader.close();
 	}
 
+
+	/*
+	 * ディレクトリを解析して追加するブロックモデルを
+	 */
 	public void parseDirectry(String enc, String[] classpaths) throws IOException {
 		for (String name : file.getParentFile().list()) {
 			if (name.endsWith(".java")) {
@@ -431,6 +431,23 @@ public class LangDefFilesRewriter {
 	 */
 	public  Map<String, String> getAddedJavaMethodsJavaType(){
 		return this.addedMethodsJavaType;
+	}
+
+	public void copyLangDefFiles(String copyFilesBaseDir) {
+		// // 継承関係にあるブロック達をファミリーに出力
+		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier(copyFilesBaseDir);
+		langDefFamilies.print(file);
+
+		// langDefファイルを作成する
+		Copier langDefXml = new LangDefFileCopier(copyFilesBaseDir);
+		langDefXml.print(file);
+
+		Copier langDefDtd = new LangDefFileDtdCopier(copyFilesBaseDir);
+		langDefDtd.print(file);
+
+		// genuseファイルを作成する　その際にprojectファイルの場所を追記する
+		Copier genusCopier = new LangDefGenusesCopier(copyFilesBaseDir);
+		genusCopier.print(file);
 	}
 }
 
