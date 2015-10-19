@@ -1,5 +1,6 @@
 package ronproeditor.ext;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
@@ -31,8 +33,9 @@ public class RECheCoProViewer {
 	private REApplication application;
 	private String user;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
+	
 	private boolean synchronizing;
-	private String property;
+	private String property = "";
 	
 	public RECheCoProViewer(String user) {
 		this.user = user;
@@ -42,6 +45,7 @@ public class RECheCoProViewer {
 		initializeFrame();
 		initializeListeners();
 		initializeMenuBer();
+		setEnabledForMenuBar(!synchronizing);
 	}
 	
 	private void initializeFrame() {
@@ -63,6 +67,7 @@ public class RECheCoProViewer {
 		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			property = evt.getPropertyName();
+			setEnabledForTextPane(!synchronizing);
 		}
 	};
 	
@@ -75,22 +80,22 @@ public class RECheCoProViewer {
 		JMenuBar menuBar = application.getFrame().getJMenuBar();
 		
 		// Fileメニューの初期化
-		int itemCount = menuBar.getMenu(MENU_INDEX_FILE).getItemCount() - 1;
+		int itemCount = getMenu(MENU_INDEX_FILE).getItemCount() - 1;
 		for ( ; itemCount >= 0; itemCount--) {
 			if (itemCount != 8 && itemCount != 12) {
-				menuBar.getMenu(MENU_INDEX_FILE).remove(itemCount);
+				getMenu(MENU_INDEX_FILE).remove(itemCount);
 			}
 		}
-		menuBar.getMenu(MENU_INDEX_FILE).insertSeparator(1);
+		getMenu(MENU_INDEX_FILE).insertSeparator(1);
 		
 		// Editメニューの初期化
-		menuBar.getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_CUT).addActionListener(copyListener);
-		menuBar.getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_COPY).addActionListener(copyListener);
+		getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_CUT).addActionListener(copyListener);
+		getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_COPY).addActionListener(copyListener);
 		
 		// Toolsメニューの初期化
-		itemCount = menuBar.getMenu(MENU_INDEX_TOOLS).getItemCount() - 1;
+		itemCount = getMenu(MENU_INDEX_TOOLS).getItemCount() - 1;
 		for ( ; itemCount >= 0; itemCount--) {
-			menuBar.getMenu(MENU_INDEX_TOOLS).remove(itemCount);
+			getMenu(MENU_INDEX_TOOLS).remove(itemCount);
 		}
 		// TODO BlockEditor
 		
@@ -125,7 +130,7 @@ public class RECheCoProViewer {
 					syncButton.setText(asyncLabel);
 					synchronizing = false;
 				}
-				setEnabledForTextPane(synchronizing);
+				setEnabledForTextPane(!synchronizing);
 				setEnabledForMenuBar(!synchronizing);
 				
 			}
@@ -178,10 +183,16 @@ public class RECheCoProViewer {
 	}
 	
 	public void setEnabledForMenuBar(boolean enabled) {
-		int menuCount = application.getFrame().getJMenuBar().getComponentCount();
-		for (int i = 0; i < menuCount; i++) {
+		for (int i = 0; i < getMenuCount() - 1; i++) {
 			application.getFrame().getJMenuBar().getMenu(i).setEnabled(enabled);
 		}
+	}
+	
+	public void setEnabledForSyncButton(boolean enabled) {
+		if (!enabled && getSyngButton().getText().equals("同期中")) {
+				getSyngButton().doClick();
+		}
+		getSyngButton().setEnabled(enabled);
 	}
 	
 	/**
@@ -212,6 +223,30 @@ public class RECheCoProViewer {
 	
 	public void setUserStates(List<CHUserState> userStates) {
 		this.userStates = userStates;
+	}
+	
+	public int getMenuCount() {
+		return application.getFrame().getJMenuBar().getMenuCount();
+	}
+	
+	public JMenu getMenu(int index) {
+		return application.getFrame().getJMenuBar().getMenu(index);
+	}
+	
+	public Component getComponent(int index) {
+		return application.getFrame().getJMenuBar().getComponent(index);
+	}
+	
+	public JToggleButton getSyngButton() {
+		for (int i = 0; i <= getMenuCount(); i++) {
+			if (getComponent(i) instanceof JToggleButton) {
+				JToggleButton button = (JToggleButton) getComponent(i);
+				if (button.getText().equals("同期中") || button.getText().equals("非同期中")) {
+					return button;
+				}
+			}
+		}
+		return null;
 	}
 	
 }

@@ -300,14 +300,6 @@ public class RECheCoProManager {
 		});
 	}
 
-	public void doOpenNewCH(String user) {
-		REApplication chApplication = application.doOpenNewRE("MyProjects/.CH/"
-				+ user);
-		chApplication.setChBlockEditorController(new CHBlockEditorController(user));
-		initializeCHEditor(chApplication, user);
-		chFrameMap.put(user, chApplication);
-	}
-
 	private void initializeCHEditor(REApplication chApplication, String user) {
 		chApplication.getFrame().setTitle(user + "-" + APP_NAME + " Editor");
 		chApplication.getFrame().setDefaultCloseOperation(
@@ -646,14 +638,25 @@ public class RECheCoProManager {
 			chViewers.get(component.getUser()).getApplication().getFrame().toFront();
 		} else if (message.equals("NewOpened")) {
 			// 開いていなかったら開く
-			RECheCoProViewer chViewer = new RECheCoProViewer(component.getUser());
-			chViewer.setUserStates(userStates);
-			chViewer.doOpenNewCH(application);
-			chViewers.put(component.getUser(), chViewer);
+			doOpenNewCH(component.getUser());
 		} else if (message.equals("WindowClosing")) {
 			// TODO 開いているCHEditorを閉じる
 			closeCHEditors();
 		}
+	}
+	
+	public void doOpenNewCH(String user) {
+		RECheCoProViewer chViewer = new RECheCoProViewer(user);
+		chViewer.setUserStates(userStates);
+		chViewer.doOpenNewCH(application);
+		chViewer.getApplication().getFrame().addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				chViewers.remove(user);
+			}
+		});
+		chViewers.put(user, chViewer);
 	}
 
 	/**********************
@@ -696,14 +699,12 @@ public class RECheCoProManager {
 
 	private void processLoginMemberChanged(List<CHUserState> userStates) {
 		this.userStates = userStates;
-//		msFrame.setMembers(result.getUserStates());
-//		setMemberSelectorListner();
-//		for (CHUserState aUserState : userStates) {
-//			if (chFrameMap.containsKey(aUserState.getUser())) {
-//				controlSync(chFrameMap.get(aUserState.getUser()),
-//						aUserState.isLogin());
-//			}
-//		}
+		for (CHUserState aUserState : userStates) {
+			if (chViewers.containsKey(aUserState.getUser())) {
+				// ログイン状態に合わせて同期ボタン操作
+				chViewers.get(aUserState.getUser()).setEnabledForSyncButton(aUserState.isLogin());
+			}
+		}
 	}
 
 	private void controlSync(REApplication chApplication, boolean login) {
