@@ -31,13 +31,14 @@ public class LangDefFilesReWriterMain2 {
 	 */
 	public void rewrite() throws Exception {
 		File classDefFile = new File(file.getParent() + "/" + CREATED_GENUS_FILE);
+		File projectMenuFile = new File(file.getParent() + "/" + CREATED_MENU_FILE);
 		// 言語定義ファイルを書き換えるインスタンスを作成
 		langDefFilesRewriter = new LangDefFilesRewriter(classDefFile, this.file.getName(),enc, classpaths);
 		langDefFilesRewriter.parseDirectry(enc, classpaths);
 
 		langDefFilesRewriter.copyLangDefFiles(copyFilesBaseDir);
 		// メニューの出力
-		langDefFilesRewriter.printMenu(file);
+		langDefFilesRewriter.printMenu(projectMenuFile, copyFilesBaseDir);
 		langDefFilesRewriter.printGenusesForUni();
 		langDefFilesRewriter.setProjectClassInfo();
 	}

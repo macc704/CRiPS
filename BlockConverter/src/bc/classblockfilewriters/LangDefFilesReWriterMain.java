@@ -36,7 +36,7 @@ public class LangDefFilesReWriterMain {
 
 		langDefFilesRewriter.copyLangDefFiles(copyFilesBaseDir);
 		// メニューの出力
-		langDefFilesRewriter.printMenu(projectMenuFile);
+		langDefFilesRewriter.printMenu(projectMenuFile, copyFilesBaseDir);
 		langDefFilesRewriter.printGenuses();
 		langDefFilesRewriter.setProjectClassInfo();
 	}

@@ -189,7 +189,7 @@ public class ObjectBlockModel extends BasicModel {
 					method.print(out, lineNumber);
 				}
 				makeIndent(out, --lineNumber);
-				out.println("</ClassName>");
+				out.println("</CategoryName>");
 			}
 			makeIndent(out, --lineNumber);
 			out.println("</ClassMethods>");
