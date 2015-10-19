@@ -3,6 +3,8 @@ package ronproeditor.ext;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import javax.swing.SwingUtilities;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHSourceChanged;
 import ronproeditor.REApplication;
+import ronproeditor.RESourceManager;
 
 public class RECheCoProViewer {
 
@@ -28,17 +31,20 @@ public class RECheCoProViewer {
 	private REApplication application;
 	private String user;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
+	private boolean synchronizing;
+	private String property;
 	
 	public RECheCoProViewer(String user) {
 		this.user = user;
 	}
 
-	public void init() {
-		initCHFrame();
-		initCHMenuBer();
+	public void initialize() {
+		initializeFrame();
+		initializeListeners();
+		initializeMenuBer();
 	}
 	
-	private void initCHFrame() {
+	private void initializeFrame() {
 		application.getFrame().setTitle(user + "-" + APP_NAME);
 		// TODO CHEditor閉じたら論プロも閉じる不具合要修正
 		application.getFrame().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -52,7 +58,20 @@ public class RECheCoProViewer {
 		}
 	};
 	
-	private void initCHMenuBer() {
+	private PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
+		
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			property = evt.getPropertyName();
+		}
+	};
+	
+	
+	private void initializeListeners() {
+		application.getSourceManager().addPropertyChangeListener(propertyChangeListener);
+	}
+	
+	private void initializeMenuBer() {
 		JMenuBar menuBar = application.getFrame().getJMenuBar();
 		
 		// Fileメニューの初期化
@@ -75,20 +94,22 @@ public class RECheCoProViewer {
 		}
 		// TODO BlockEditor
 		
-		menuBar.add(initSyncButton());
+		menuBar.add(initializeSyncButton());
 		application.getFrame().setJMenuBar(menuBar);
 	}
 	
-	private JToggleButton initSyncButton() {
+	private JToggleButton initializeSyncButton() {
 		String syncLabel = "同期中";
 		String asyncLabel = "非同期中";
 		JToggleButton syncButton = new JToggleButton(syncLabel, true);
+		synchronizing = true;
 		
 		for (CHUserState aUserState : userStates) {
 			if (user.equals(aUserState.getUser()) && !aUserState.isLogin()) {
 				syncButton.doClick();
 				syncButton.setEnabled(false);
 				syncButton.setText(asyncLabel);
+				synchronizing = false;
 			}
 		}
 		
@@ -99,11 +120,14 @@ public class RECheCoProViewer {
 				if (syncButton.isSelected()) {
 					// TODO ファイルリストリクエスト
 					syncButton.setText(syncLabel);
+					synchronizing = true;
 				} else {
 					syncButton.setText(asyncLabel);
+					synchronizing = false;
 				}
-				// TODO テキストエリアの編集の可否の調整
-				// TODO メニューバーの調整
+				setEnabledForTextPane(synchronizing);
+				setEnabledForMenuBar(!synchronizing);
+				
 			}
 		});
 		return syncButton;
@@ -111,12 +135,15 @@ public class RECheCoProViewer {
 	
 	public REApplication doOpenNewCH(REApplication application) {
 		this.application = application.doOpenNewRE(CH_DIR_PATH + "/" + user);
-		init();
+		initialize();
 		return this.application;
 	}
 	
+	/**
+	 * 受け取ったテキストをViewerに表示
+	 * @param scPacket
+	 */
 	public void setText(CHSourceChanged scPacket) {
-		String sender = scPacket.getUser();
 		String source = scPacket.getSource();
 		String currentFileName = scPacket.getCurrentFileName();
 		Point point = scPacket.getPoint();
@@ -125,11 +152,50 @@ public class RECheCoProViewer {
 			
 			@Override
 			public void run() {
-				if (user.equals(sender)) {
+				if (canSetText(currentFileName)) {
 					application.getFrame().getEditor().setText(source);
+					application.doSave();
+					application.getFrame().setTitle(user + "-" + APP_NAME);
+					SwingUtilities.invokeLater(new Runnable() {
+						
+						@Override
+						public void run() {
+							// スクロールバー位置設定
+							application.getFrame().getEditor().getViewer().getScroll()
+							.getViewport().setViewPosition(point);
+						}
+					});
 				}
 			}
 		});
+	}
+	
+	
+	public void setEnabledForTextPane(boolean enabled) {
+		if (property.equals(RESourceManager.DOCUMENT_OPENED)) {
+			application.getFrame().getEditor().getViewer().getTextPane().setEditable(enabled);
+		}
+	}
+	
+	public void setEnabledForMenuBar(boolean enabled) {
+		int menuCount = application.getFrame().getJMenuBar().getComponentCount();
+		for (int i = 0; i < menuCount; i++) {
+			application.getFrame().getJMenuBar().getMenu(i).setEnabled(enabled);
+		}
+	}
+	
+	/**
+	 * 受け取ったテキストをViewerに表示できるか判定
+	 * @param currentFileName
+	 * @return 判定結果
+	 */
+	public boolean canSetText(String currentFileName) {
+		if (property.equals(RESourceManager.DOCUMENT_CLOSED)) {
+			return false;
+		} else {
+			return application.getSourceManager().getCurrentFile()
+				.getName().equals(currentFileName) && synchronizing;
+		}
 	}
 
 	public REApplication getApplication() {

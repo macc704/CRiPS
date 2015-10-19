@@ -561,7 +561,8 @@ public class REApplication {
 			// blockManager.doRefleshBlock(); //TODO オブジェクト指向対応のため？
 			flowManager.refreshChart();
 			if (fromText) {
-				checoproManager.send();
+				// TODO 一時的に退避
+				// checoproManager.send();
 			}
 
 			deleteRunnable(getSourceManager().getCurrentFile());

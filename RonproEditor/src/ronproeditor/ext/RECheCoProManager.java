@@ -3,6 +3,7 @@ package ronproeditor.ext;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -198,11 +199,12 @@ public class RECheCoProManager {
 	}
 	
 	public void sendText() {
-		cliant.getProcessManager().sendText(application.getFrame()
-				.getEditor().getViewer().getText(), application
-				.getSourceManager().getCurrentFile().getName(), 
-				application.getFrame().getEditor().getViewer().getScroll()
-				.getViewport().getViewPosition());
+		String source = application.getFrame().getEditor().getViewer().getText();
+		String currentFileName = application.getSourceManager().getCurrentFile().getName();
+		Point point = application.getFrame().getEditor().getViewer()
+				.getScroll().getViewport().getViewPosition();
+		
+		cliant.getProcessManager().sendText(source, currentFileName, point);
 	}
 
 	private ActionListener copyListener = new ActionListener() {
@@ -721,33 +723,9 @@ public class RECheCoProManager {
 	}
 
 	private void processSourceChanged(CHSourceChanged response) {
-		
-		chViewers.get(response.getUser()).setText(response);
-		
-//		final String sender = response.getUser();
-//		final String source = response.getSource();
-//		final String senderCurrentFile = response.getCurrentFileName();
-//		final Point point = response.getPoint();
-//		
-//		SwingUtilities.invokeLater(new Runnable() {
-//			public void run() {
-//				if (shouldPrintSource(sender, senderCurrentFile)) {
-//					chFrameMap.get(sender).getFrame().getEditor()
-//							.setText(source);
-//					chFrameMap.get(sender).doSave();
-//					chFrameMap.get(sender).getFrame().setTitle(sender + "-" + APP_NAME + " Editor");
-//					SwingUtilities.invokeLater(new Runnable() {
-//						
-//						@Override
-//						public void run() {
-//							chFrameMap.get(sender).getFrame().getEditor()
-//							.getViewer().getScroll().getViewport()
-//							.setViewPosition(point);
-//						}
-//					});
-//				}
-//			}
-//		});
+		if (chViewers.containsKey(response.getUser())) {
+			chViewers.get(response.getUser()).setText(response);
+		}
 	}
 
 	private void processLogoutResult(CHLogoutResult result) {
