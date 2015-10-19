@@ -18,8 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
@@ -39,8 +37,8 @@ public class LangDefFilesRewriter {
 
 	private FileInputStream ldfReader;
 	private String javaFileName;
-	private Map<String, String> addedMethods = new HashMap<String,String>();
-	private Map<String, String> addedMethodsJavaType = new HashMap<String,String>();
+	private Map<String, String> addedMethods = new HashMap<String, String>();
+	private Map<String, String> addedMethodsJavaType = new HashMap<String, String>();
 	private List<String> addedClasses = new ArrayList<String>();
 
 	private String enc;
@@ -110,6 +108,32 @@ public class LangDefFilesRewriter {
 		requestObjectBlock.add(classObjectArrayModel);
 	}
 
+	public void printGenusesForUni() throws Exception {
+		ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
+		PrintStream ps = new PrintStream(byteArray);
+
+		ps.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+
+		for (ObjectBlockModel selDefClass : requestObjectBlock) {
+			selDefClass.printForUni(ps, 0);
+		}
+
+		for (ConvertBlockModel model : requestConvertBlockModel) {
+			model.print(ps, 0);
+		}
+
+		for (ParameterBlockModel model : requestParameterBlockModel) {
+			model.print(ps, 0);
+		}
+
+		String blockString = byteArray.toString();
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+		bw.write(blockString);
+		bw.flush();
+		bw.close();
+		ps.close();
+	}
+
 	public void printGenuses() throws Exception {
 		ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
 		PrintStream ps = new PrintStream(byteArray);
@@ -132,7 +156,6 @@ public class LangDefFilesRewriter {
 		bw.write(blockString);
 		bw.flush();
 		bw.close();
-
 		ps.close();
 	}
 
@@ -219,26 +242,15 @@ public class LangDefFilesRewriter {
 
 	}
 
-	public void setProjectClassInfo(){
-		try {
-			ProjectInfoSerializer piSerializer = new ProjectInfoSerializer();
-
-			List<String> addedMethodsCash = new ArrayList<String>();
-			for (ObjectBlockModel selDefClass : requestObjectBlock) {
-				setMethodInfo(selDefClass, addedMethodsCash);
-			}
-			piSerializer.print(file.getParentFile().getPath());
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
+	public void setProjectClassInfo() {
+		List<String> addedMethodsCash = new ArrayList<String>();
+		for (ObjectBlockModel selDefClass : requestObjectBlock) {
+			setMethodInfo(selDefClass, addedMethodsCash);
 		}
 	}
 
-	public void setMethodInfo(ObjectBlockModel selDefClass, List<String> addedMethodsCash){
-		for(String key : selDefClass.getMethods().keySet()){
+	public void setMethodInfo(ObjectBlockModel selDefClass, List<String> addedMethodsCash) {
+		for (String key : selDefClass.getMethods().keySet()) {
 			for (PublicMethodInfo method : selDefClass.getMethods().get(key)) {
 				if (addedMethodsCash.indexOf(method.getGenusName()) == -1) {
 					String paramSize = Integer.toString(method.getParameters().size());
@@ -272,12 +284,12 @@ public class LangDefFilesRewriter {
 						addedMethods.put(method.getGenusName(), method);
 
 						// superの追加
-						if (method.getName().startsWith("new-") && key.equals(request.getSuperClassName())) {
+						if (method.getGenusName().startsWith("new-") && key.equals(request.getSuperClassName())) {
 							// モデルを追加
 							PublicMethodInfo superConstructorCaller = method;
 							superConstructorCaller.setColor("\"255 0 0\"");
 
-							superConstructorCaller.setName("super");
+							superConstructorCaller.setGenusName("super");
 							superConstructorCaller.setgenusName(calcFullName("super", method.getParameters()));
 							superConstructorCaller.setReturnType("void");
 
@@ -349,7 +361,6 @@ public class LangDefFilesRewriter {
 		reader.close();
 	}
 
-
 	/*
 	 * ディレクトリを解析して追加するブロックモデルを
 	 */
@@ -379,6 +390,10 @@ public class LangDefFilesRewriter {
 				addedClasses.add(name);
 			}
 		}
+	}
+
+	public List<String> getAddedClasses(){
+		return this.addedClasses;
 	}
 
 	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name, File file, String childName) throws IOException {
@@ -422,14 +437,14 @@ public class LangDefFilesRewriter {
 	/*
 	 * return addedMethods(key: )
 	 */
-	public Map<String, String> getAddedMethodsType(){
+	public Map<String, String> getAddedMethodsType() {
 		return this.addedMethods;
 	}
 
 	/*
 	 * return addedMethodJavaType(key:methodfullname, value:java)
 	 */
-	public  Map<String, String> getAddedJavaMethodsJavaType(){
+	public Map<String, String> getAddedJavaMethodsJavaType() {
 		return this.addedMethodsJavaType;
 	}
 
@@ -450,4 +465,3 @@ public class LangDefFilesRewriter {
 		genusCopier.print(file);
 	}
 }
-

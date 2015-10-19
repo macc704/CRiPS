@@ -23,8 +23,7 @@ public class ConvertBlockModel extends BasicModel {
 	}
 
 	public void print(PrintStream out, int lineNumber) throws Exception {
-
-		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"" + " color=\"" + getColor() + "\">");
+		out.println("<BlockGenus" + " " + "name=" + "\"" + getGenusName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"" + " color=\"" + getColor() + "\">");
 
 		printBlockConnectors(out, lineNumber);
 
@@ -32,7 +31,17 @@ public class ConvertBlockModel extends BasicModel {
 		out.println("<JavaType>" + javaType + "</JavaType>");
 
 		out.println("</BlockGenus>");
+	}
 
+	public void printForUni(PrintStream out, int lineNumber) throws Exception {
+		out.println("<BlockGenus" + " " + "name=" + "\"" + getGenusName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"" + " color=\"" + getColor() + "\">");
+
+		printBlockConnectors(out, lineNumber);
+
+		makeIndent(out, lineNumber);
+		out.println("<Type>" + javaType + "</Type>");
+
+		out.println("</BlockGenus>");
 	}
 
 }

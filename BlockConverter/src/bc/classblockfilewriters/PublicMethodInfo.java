@@ -63,7 +63,7 @@ public class PublicMethodInfo extends BasicModel {
 		setInitialLabel(node.getName().toString());
 		setReturnType("object");
 		setJavaType(node.getName().toString());
-		setName(node.getName().getFullyQualifiedName());
+		setGenusName(node.getName().getFullyQualifiedName());
 
 		// オーバーロード対応版のメソッドの名前をセット
 		setModifier("public");
@@ -91,7 +91,7 @@ public class PublicMethodInfo extends BasicModel {
 		return this.javaType;
 	}
 
-	public void setName(String name) {
+	public void setGenusName(String name) {
 		this.methodName = name;
 	}
 
@@ -162,7 +162,7 @@ public class PublicMethodInfo extends BasicModel {
 			paramSize = "";
 		}
 
-		return getName() + "(" + paramSize + ")";
+		return getGenusName() + "(" + paramSize + ")";
 	}
 
 	public Element createMethodElement(Document doc){

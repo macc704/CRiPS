@@ -207,7 +207,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 
 		for (MethodDeclaration method : node.getMethods()) {
-			if (x > 1000) {// とりあえず整数で...
+			if (x > 1000) {// とりあえず整数で
 				x = 50;
 				y += 200;
 			}
@@ -230,7 +230,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		int index = commentGetter.getLineCommentPosition(fieldValue.getStartPosition() + fieldValue.getLength());
 
 		if (privateVariableModel != null) {
-			if (checkIsProjectClasses(privateVariableModel)) {
+			if (checkIsProjectClasses(privateVariableModel.getType().toString())) {
 				privateVariableModel.setProjectObject(true);
 			}
 			String lineComment = commentGetter.getLineComment(index);
@@ -256,9 +256,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		}
 	}
 
-	private boolean checkIsProjectClasses(StVariableDeclarationModel model) {
-		String className = model.getType().toString();
-
+	private boolean checkIsProjectClasses(String className) {
 		if (className.indexOf("[]") != -1) {
 			className = className.substring(0, className.indexOf("[]"));
 		}
@@ -1247,7 +1245,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setName(name);
 		model.setType(convertBlockType(type));
 
-		if (checkIsProjectClasses(model)) {
+		if (checkIsProjectClasses(model.getType().toString())) {
 			model.setProjectObject(true);
 		}
 

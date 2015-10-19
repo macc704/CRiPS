@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class BasicModel {
 
-	private String name;
+	private String genusName;
 	private String kind;
 	private String initialLabel;
 	private String headerLabel;
@@ -21,7 +21,7 @@ public class BasicModel {
 
 	public BasicModel(String name, String kind, String initialLabel,
 			String headerLabel, String footerLabel, String color) {
-		this.name = name;
+		this.genusName = name;
 		this.kind = kind;
 		this.initialLabel = initialLabel;
 		this.headerLabel = headerLabel;
@@ -30,8 +30,8 @@ public class BasicModel {
 		this.connectors = new HashMap<String, HashSet<String>>();
 	}
 
-	public void setName(String str) {
-		name = str;
+	public void setGenusName(String str) {
+		genusName = str;
 	}
 
 	public void setKind(String str) {
@@ -50,8 +50,8 @@ public class BasicModel {
 		footerLabel = str;
 	}
 
-	public String getName() {
-		return name;
+	public String getGenusName() {
+		return genusName;
 	}
 
 	public void makeIndent(PrintStream out, int number) {
@@ -94,7 +94,7 @@ public class BasicModel {
 
 	public void printMenuItem(PrintStream out, int lineNumber) {
 		makeIndent(out, lineNumber);
-		out.println("<BlockGenusMember>" + getName() + "</BlockGenusMember>");
+		out.println("<BlockGenusMember>" + getGenusName() + "</BlockGenusMember>");
 	}
 
 	protected void printBlockConnectors(PrintStream out, int lineNumber) {
@@ -143,8 +143,7 @@ public class BasicModel {
 		out.println("</Stub>");
 	}
 
-	protected void printStubs(String stub, String property1, String property2,
-			String property3, PrintStream out, int lineNumber) {
+	protected void printStubs(String stub, String property1, String property2,String property3, PrintStream out, int lineNumber) {
 		makeIndent(out, ++lineNumber);
 		out.println(stub);
 
@@ -178,7 +177,6 @@ public class BasicModel {
 		if (name.contains(">")) {
 			s = s.replaceAll(">", "&gt;");
 		}
-
 		return s;
 	}
 

@@ -1440,9 +1440,7 @@ public class BlockGenus {
 						loadStubs(genusChild.getChildNodes(), newGenus);
 					} else if (genusChild.getNodeName().equals("ClassMethods")) {
 						//メソッドの読み込み
-
 						loadClassMethods(genusChild.getChildNodes(), newGenus);
-
 					} else if (genusChild.getNodeName().equals("JavaLabel")) {
 						newGenus.javaLabel = genusChild.getTextContent();
 					} else if (genusChild.getNodeName().equals("JavaType")) {

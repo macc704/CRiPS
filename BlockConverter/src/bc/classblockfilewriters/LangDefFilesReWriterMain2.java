@@ -5,12 +5,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class LangDefFilesReWriterMain {
+public class LangDefFilesReWriterMain2 {
 
 	private File file;
 	private String enc;
 	private String[] classpaths;
 
+	private List<String> addedClasses = new LinkedList<String>();// 追加済みクラス
 	private LangDefFilesRewriter langDefFilesRewriter;
 
 	private String copyFilesBaseDir;
@@ -18,7 +19,7 @@ public class LangDefFilesReWriterMain {
 	private static String CREATED_GENUS_FILE = "lang_def_genuses_project.xml";
 	private static String CREATED_MENU_FILE = "lang_def_menu_project.xml";
 
-	public LangDefFilesReWriterMain(File file, String enc, String[] classpaths, String copyFilesBaseDir) {
+	public LangDefFilesReWriterMain2(File file, String enc, String[] classpaths, String copyFilesBaseDir) {
 		this.file = file;
 		this.enc = enc;
 		this.classpaths = classpaths;
@@ -38,12 +39,12 @@ public class LangDefFilesReWriterMain {
 		langDefFilesRewriter.copyLangDefFiles(copyFilesBaseDir);
 		// メニューの出力
 		langDefFilesRewriter.printMenu(projectMenuFile);
-		langDefFilesRewriter.printGenuses();
+		langDefFilesRewriter.printGenusesForUni();
 		langDefFilesRewriter.setProjectClassInfo();
 	}
 
 	public List<String> getAddedClasses() {
-		return langDefFilesRewriter.getAddedClasses();
+		return this.addedClasses;
 	}
 
 	public Map<String, String> getAddedMethods() {

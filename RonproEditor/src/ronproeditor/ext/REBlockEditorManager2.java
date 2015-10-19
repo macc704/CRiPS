@@ -13,18 +13,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.function.BiFunction;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 import javax.swing.SwingUtilities;
 
-import bc.BlockConverter;
-import bc.apps.JavaToBlockMain;
-import clib.common.filesystem.CFileSystem;
-import clib.common.filesystem.CPath;
-import clib.common.thread.CTaskManager;
-import clib.common.thread.ICTask;
-import clib.view.dialogs.CErrorDialog;
-import edu.mit.blocks.controller.WorkspaceController;
 import net.unicoen.mapper.JavaMapper;
 import net.unicoen.mapper.JavaScriptMapper;
 import net.unicoen.node.UniClassDec;
@@ -33,6 +25,15 @@ import pres.core.model.PRLog;
 import ronproeditor.IREResourceRepository;
 import ronproeditor.REApplication;
 import ronproeditor.helpers.CFrameUtils;
+import bc.BlockConverter;
+import bc.apps.JavaToBlockMain;
+import bc.classblockfilewriters.LangDefFilesReWriterMain;
+import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CPath;
+import clib.common.thread.CTaskManager;
+import clib.common.thread.ICTask;
+import clib.view.dialogs.CErrorDialog;
+import edu.mit.blocks.controller.WorkspaceController;
 
 /**
  * for New BlockEditor 2015.08.14
@@ -43,6 +44,7 @@ import ronproeditor.helpers.CFrameUtils;
 public class REBlockEditorManager2 {
 
 	public static final String LANG_DEF_PATH = "ext/block2/lang_def.xml";
+	public static final String LANG_DEF_BASE_DIR = "ext/block2/";
 
 	private REApplication app;
 	private WorkspaceController blockEditor;
@@ -57,8 +59,7 @@ public class REBlockEditorManager2 {
 			File xmlfile = new File(dir.getAbsolutePath() + "/" + classDec.className + ".xml");
 			try {
 				xmlfile.createNewFile();
-				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false,
-						"UTF-8");
+				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, "UTF-8");
 				BlockGenerator blockParser = new BlockGenerator(out, WorkspaceController.langDefRootPath);
 				blockParser.parse(classDec);
 			} catch (IOException e) {
@@ -68,7 +69,14 @@ public class REBlockEditorManager2 {
 		};
 
 		// Managerの初期化処理
-		Supplier<WorkspaceController> initBlockEditorAction = () -> {
+		Function<File, WorkspaceController> initBlockEditorAction = (javaFile) -> {
+			//プロジェクトを解析して、言語定義ファイルを書き換える
+			LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(javaFile, REApplication.SRC_ENCODING, new String[]{}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
+			try {
+				rewriter.rewrite();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			WorkspaceController blockEditor = new WorkspaceController();
 			blockEditor.setLangDefFilePath(REBlockEditorManager2.LANG_DEF_PATH);
 			blockEditor.loadFreshWorkspace();
@@ -93,7 +101,7 @@ public class REBlockEditorManager2 {
 		};
 
 		// Managerの初期化処理
-		Supplier<WorkspaceController> initBlockEditorAction = () -> {
+		Function<File, WorkspaceController> initBlockEditorAction = (javaFile) -> {
 			WorkspaceController blockEditor = new WorkspaceController();
 			blockEditor.setLangDefFilePath(REBlockEditorManager.LANG_DEF_PATH);
 			blockEditor.loadFreshWorkspace();
@@ -128,13 +136,13 @@ public class REBlockEditorManager2 {
 		});
 	}
 
-	public void doOpenBlockEditor(Supplier<WorkspaceController> initAction,
+	public void doOpenBlockEditor(Function<File, WorkspaceController> initAction,
 			BiFunction<File, REApplication, String> convertionAction) {
 		if (isWorkspaceOpened()) { // already opened
 			CFrameUtils.toFront(blockEditor.getFrame());
 			return;
 		}
-		blockEditor = initAction.get();
+		blockEditor = initAction.apply(app.getSourceManager().getCurrentFile());
 		this.convertionAction = convertionAction;
 		blockEditor.addBlockEditorListener(new edu.inf.shizuoka.blocks.extent.SBlockEditorListener() {
 
@@ -161,7 +169,6 @@ public class REBlockEditorManager2 {
 			}
 
 			public void chengeInheritance() {
-				// TODO Auto-generated method stub
 			}
 
 			public void toggleTraceLines(String state) {

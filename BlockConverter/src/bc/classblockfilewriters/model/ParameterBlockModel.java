@@ -31,7 +31,7 @@ public class ParameterBlockModel extends BasicModel {
 
 	public void print(PrintStream out, int lineNumber) throws Exception {
 
-		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"" + " header-label=\"" + getHeaderLabel() + "\"" + " footer-label=\"" + getFooterLabel() + "\"" + " editable-label=\"yes\" " + "is-starter=\"yes\" is-terminator=\"yes\"" + " color=\"" + getColor() + "\">");
+		out.println("<BlockGenus" + " " + "name=" + "\"" + getGenusName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"" + " header-label=\"" + getHeaderLabel() + "\"" + " footer-label=\"" + getFooterLabel() + "\"" + " editable-label=\"yes\" " + "is-starter=\"yes\" is-terminator=\"yes\"" + " color=\"" + getColor() + "\">");
 		lineNumber++;
 		printBlockConnectors(out, lineNumber);
 		makeIndent(out, lineNumber);
@@ -81,7 +81,7 @@ public class ParameterBlockModel extends BasicModel {
 		printStubs("<Stub stub-genus=\"getter\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-" + scope + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + scope + "\"></LangSpecProperty>", "<LangSpecProperty key=\"stack-type\" value=\"" + "breed-procedure" + "\"></LangSpecProperty>", out, lineNumber);
 		printStub("<Stub stub-genus=\"setter\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set" + scope + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + scope + "\"></LangSpecProperty>", out, lineNumber);
 
-		if (getName().contains("arrayobject")) {
+		if (getGenusName().contains("arrayobject")) {
 			printStub("<Stub stub-genus=\"setter-arrayelement\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
 			printStub("<Stub stub-genus=\"getter-arrayelement\">", "<LangSpecProperty key=\"vm-cmd-name\" value=\"eval-set" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", "<LangSpecProperty key=\"scope\" value=\"" + langSpecProperties.get("scope") + "\"></LangSpecProperty>", out, lineNumber);
 		}

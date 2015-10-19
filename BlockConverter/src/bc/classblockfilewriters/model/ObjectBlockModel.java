@@ -54,7 +54,7 @@ public class ObjectBlockModel extends BasicModel {
 
 	public void print(PrintStream out, int lineNumber) throws Exception {
 
-		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"");
+		out.println("<BlockGenus" + " " + "name=" + "\"" + getGenusName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"");
 		makeIndent(out, ++lineNumber);
 		out.println(" header-label=" + "\"" + getHeaderLabel() + "\" " + "footer-label=" + "\"" + getFooterLabel() + "\" " + "editable-label=\"yes\" " + "label-unique=\"yes\" " + "color=\"" + getColor() + "\">");
 
@@ -115,6 +115,87 @@ public class ObjectBlockModel extends BasicModel {
 		}
 		makeIndent(out, lineNumber);
 		out.println("<JavaType>" + className + "</JavaType>");
+		out.println("<SuperClassName>" + superClassName + "</SuperClassName>");
+
+		out.println("</BlockGenus>");
+		out.println();
+		// コマンドブロック情報の書き出し
+		if (!className.contains("[]")) {
+			PublicMethodCommandWriter commandWriter = new PublicMethodCommandWriter();
+			if (methods != null) {
+				for (String key : methods.keySet()) {
+					for (PublicMethodInfo method : methods.get(key)) {
+						commandWriter.setMethods(method);
+						commandWriter.printCommand(out);
+					}
+				}
+			}
+		}
+		out.println();
+	}
+
+	public void printForUni(PrintStream out, int lineNumber) throws Exception {
+
+		out.println("<BlockGenus" + " " + "name=" + "\"" + getGenusName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"");
+		makeIndent(out, ++lineNumber);
+		out.println(" header-label=" + "\"" + getHeaderLabel() + "\" " + "footer-label=" + "\"" + getFooterLabel() + "\" " + "editable-label=\"yes\" " + "label-unique=\"yes\" " + "color=\"" + getColor() + "\">");
+
+		makeIndent(out, lineNumber);
+		out.println("<description>");
+
+		makeIndent(out, ++lineNumber);
+		out.println("<text>");
+
+		makeIndent(out, ++lineNumber);
+		out.println("disctiption");
+
+		makeIndent(out, --lineNumber);
+		out.println("</text>");
+
+		makeIndent(out, --lineNumber);
+		out.println("</description>");
+
+		// コンストラクタを求める
+		String constructor = getConstructorName();
+		if (constructor != null) {
+			printBlockConnectors(out, lineNumber + 1, "socket", "object", constructor, getClassName());
+		} else {
+			if (className.contains("[]")) {
+				printBlockConnectors(out, lineNumber + 1, "socket", "object", "new-arrayobject-objectarray", getClassName());
+			} else {
+				printBlockConnectors(out, lineNumber + 1, "socket", "object", "new-object", getClassName());
+			}
+		}
+
+		printStubs(out, lineNumber);
+
+		makeIndent(out, lineNumber);
+		out.println("<LangSpecProperties>");
+
+		for (String langSpecProperty : langSpecProperties.keySet()) {
+			printLangSpecProperty(out, lineNumber + 1, langSpecProperty, langSpecProperties.get(langSpecProperty));
+		}
+
+		makeIndent(out, lineNumber);
+		out.println("</LangSpecProperties>");
+		if (methods != null) {
+			makeIndent(out, lineNumber++);
+			out.println("<ClassMethods>");
+			for (String key : methods.keySet()) {
+				makeIndent(out, lineNumber++);
+				out.println("<CategoryName name=\"" + key + "\">");
+
+				for (PublicMethodInfo method : methods.get(key)) {
+					method.print(out, lineNumber);
+				}
+				makeIndent(out, --lineNumber);
+				out.println("</ClassName>");
+			}
+			makeIndent(out, --lineNumber);
+			out.println("</ClassMethods>");
+		}
+		makeIndent(out, lineNumber);
+		out.println("<Type>" + className + "</Type>");
 		out.println("<SuperClassName>" + superClassName + "</SuperClassName>");
 
 		out.println("</BlockGenus>");

@@ -15,7 +15,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 	public void printCommand(PrintStream out) {
 		int lineNum = 0;
 		makeIndent(out, lineNum);
-		if (method.getName().startsWith("new-")) {
+		if (method.getGenusName().startsWith("new-")) {
 			printConstructor(lineNum, out);
 		} else {
 			printMethod(lineNum, out);
@@ -28,10 +28,10 @@ public class PublicMethodCommandWriter extends BasicModel {
 			kind = "data";
 		}
 		// genusの出力
-		out.println("<BlockGenus name=\"" + method.getGenusName() + "\" kind=\"" + kind + "\" initlabel=\"" + method.getName() + "\" color=\"255 0 0\">");
+		out.println("<BlockGenus name=\"" + method.getGenusName() + "\" kind=\"" + kind + "\" initlabel=\"" + method.getGenusName() + "\" color=\"255 0 0\">");
 
 		makeIndent(out, lineNum + 1);
-		out.println("<JavaLabel>" + method.getName() + "</JavaLabel>");
+		out.println("<JavaLabel>" + method.getGenusName() + "</JavaLabel>");
 		makeIndent(out, lineNum + 1);
 		out.println("<JavaType>" + method.getJavaType() + "</JavaType>");
 
@@ -65,7 +65,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 		makeIndent(out, lineNum);
 		out.println("<LangSpecProperties>");
 		makeIndent(out, ++lineNum);
-		out.println("<LangSpecProperty key=\"vm-cmd-name\" value=\"" + method.getName() + "\"></LangSpecProperty>");
+		out.println("<LangSpecProperty key=\"vm-cmd-name\" value=\"" + method.getGenusName() + "\"></LangSpecProperty>");
 		makeIndent(out, lineNum);
 		out.println("<LangSpecProperty key=\"stack-type\" value=\"breed\"></LangSpecProperty>");
 
