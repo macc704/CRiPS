@@ -27,7 +27,7 @@ import ronproeditor.REApplication;
 import ronproeditor.helpers.CFrameUtils;
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
-import bc.classblockfilewriters.LangDefFilesReWriterMain;
+import bc.classblockfilewriters.LangDefFilesReWriterMain2;
 import clib.common.filesystem.CFileSystem;
 import clib.common.filesystem.CPath;
 import clib.common.thread.CTaskManager;
@@ -71,14 +71,14 @@ public class REBlockEditorManager2 {
 		// Managerの初期化処理
 		Function<File, WorkspaceController> initBlockEditorAction = (javaFile) -> {
 			//プロジェクトを解析して、言語定義ファイルを書き換える
-			LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(javaFile, REApplication.SRC_ENCODING, new String[]{}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
+			LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(javaFile, REApplication.SRC_ENCODING, new String[]{}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
 			try {
 				rewriter.rewrite();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			WorkspaceController blockEditor = new WorkspaceController();
-			blockEditor.setLangDefFilePath(REBlockEditorManager2.LANG_DEF_PATH);
+			blockEditor.setLangDefFilePath(javaFile.getParent() + "/" + "lang_def_project.xml");
 			blockEditor.loadFreshWorkspace();
 			blockEditor.createAndShowGUI();
 			return blockEditor;

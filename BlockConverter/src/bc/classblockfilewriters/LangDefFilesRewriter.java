@@ -29,7 +29,7 @@ import bc.utils.ASTParserWrapper;
 
 public class LangDefFilesRewriter {
 
-	private File file;
+	private File langDefGenusesFile;
 
 	private List<ObjectBlockModel> requestObjectBlock = new LinkedList<ObjectBlockModel>();
 	private List<ConvertBlockModel> requestConvertBlockModel = new LinkedList<ConvertBlockModel>();
@@ -45,7 +45,7 @@ public class LangDefFilesRewriter {
 	private String[] classPaths;
 
 	public LangDefFilesRewriter(File file, String javaFileName, String enc, String[] classPaths) {
-		this.file = file;
+		this.langDefGenusesFile = file;
 		this.javaFileName = javaFileName.substring(0, javaFileName.indexOf(".java"));
 		this.enc = enc;
 		this.classPaths = classPaths;
@@ -127,7 +127,7 @@ public class LangDefFilesRewriter {
 		}
 
 		String blockString = byteArray.toString();
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(langDefGenusesFile), "UTF-8"));
 		bw.write(blockString);
 		bw.flush();
 		bw.close();
@@ -152,7 +152,7 @@ public class LangDefFilesRewriter {
 		}
 
 		String blockString = byteArray.toString();
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(langDefGenusesFile), "UTF-8"));
 		bw.write(blockString);
 		bw.flush();
 		bw.close();
@@ -343,7 +343,7 @@ public class LangDefFilesRewriter {
 	}
 
 	public void printMenu(File projectMenuFile) throws IOException {
-		FileReader reader = new FileReader(file);
+		FileReader reader = new FileReader(new File(langDefGenusesFile.getParent() + "/" + javaFileName  + ".java"));
 		BufferedReader br = new BufferedReader(reader);
 		String str;
 		// 親クラスがタートルならメニューをコピー
@@ -365,10 +365,10 @@ public class LangDefFilesRewriter {
 	 * ディレクトリを解析して追加するブロックモデルを
 	 */
 	public void parseDirectry(String enc, String[] classpaths) throws IOException {
-		for (String name : file.getParentFile().list()) {
+		for (String name : langDefGenusesFile.getParentFile().list()) {
 			if (name.endsWith(".java")) {
 				// javaファイル生成
-				File javaFile = new File(file.getParentFile().getPath() + "/" + name);
+				File javaFile = new File(langDefGenusesFile.getParentFile().getPath() + "/" + name);
 				name = name.substring(0, name.indexOf(".java"));
 				// javaファイルを解析
 				Map<String, List<PublicMethodInfo>> methods = analyzeJavaFile(name, javaFile, name);
@@ -416,7 +416,7 @@ public class LangDefFilesRewriter {
 	}
 
 	private Boolean existCurrentDirectry(String fileName) {
-		for (String name : file.getParentFile().list()) {
+		for (String name : langDefGenusesFile.getParentFile().list()) {
 			if (name.equals(fileName)) {
 				return true;
 			}
@@ -451,17 +451,17 @@ public class LangDefFilesRewriter {
 	public void copyLangDefFiles(String copyFilesBaseDir) {
 		// // 継承関係にあるブロック達をファミリーに出力
 		LangDefFamiliesCopier langDefFamilies = new LangDefFamiliesCopier(copyFilesBaseDir);
-		langDefFamilies.print(file);
+		langDefFamilies.print(langDefGenusesFile);
 
 		// langDefファイルを作成する
 		Copier langDefXml = new LangDefFileCopier(copyFilesBaseDir);
-		langDefXml.print(file);
+		langDefXml.print(langDefGenusesFile);
 
 		Copier langDefDtd = new LangDefFileDtdCopier(copyFilesBaseDir);
-		langDefDtd.print(file);
+		langDefDtd.print(langDefGenusesFile);
 
 		// genuseファイルを作成する　その際にprojectファイルの場所を追記する
 		Copier genusCopier = new LangDefGenusesCopier(copyFilesBaseDir);
-		genusCopier.print(file);
+		genusCopier.print(langDefGenusesFile);
 	}
 }

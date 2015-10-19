@@ -30,15 +30,14 @@ public class LangDefFilesReWriterMain2 {
 	 * 自作クラスを利用可能にするために，メニュー，ブロック定義ファイルを書き換えて生成する
 	 */
 	public void rewrite() throws Exception {
-		File classDefFile = new File(file.getParentFile().getPath() + "/" + CREATED_GENUS_FILE);
-		File projectMenuFile = new File(file.getParentFile().getPath() + "/" + CREATED_MENU_FILE);
+		File classDefFile = new File(file.getParent() + "/" + CREATED_GENUS_FILE);
 		// 言語定義ファイルを書き換えるインスタンスを作成
 		langDefFilesRewriter = new LangDefFilesRewriter(classDefFile, this.file.getName(),enc, classpaths);
 		langDefFilesRewriter.parseDirectry(enc, classpaths);
 
 		langDefFilesRewriter.copyLangDefFiles(copyFilesBaseDir);
 		// メニューの出力
-		langDefFilesRewriter.printMenu(projectMenuFile);
+		langDefFilesRewriter.printMenu(file);
 		langDefFilesRewriter.printGenusesForUni();
 		langDefFilesRewriter.setProjectClassInfo();
 	}
