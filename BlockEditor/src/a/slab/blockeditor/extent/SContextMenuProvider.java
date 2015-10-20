@@ -377,8 +377,8 @@ public class SContextMenuProvider {
 		if (rb.getBlock().isObjectTypeVariableDeclBlock()
 				|| rb.getBlock().getGenusName().contains("listobject")) {
 
-			for (String key : rb.getMethods().keySet()) {
-				methodMenu.add(createClassMethodsCategory(key + "のメソッド", rb.getMethods().get(key)));
+			for (String key : BlockGenus.getGenusWithName(rb.getGenus()).getMethods().keySet()) {
+				methodMenu.add(createClassMethodsCategory(key + "のメソッド", BlockGenus.getGenusWithName(rb.getGenus()).getMethods().get(key)));
 			}
 
 			if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
@@ -586,46 +586,8 @@ public class SContextMenuProvider {
 			menu.add(createBlockCopyMenu());
 			menu.addSeparator();
 		}
-
-		//		if (!rb.getBlock().isProcedureDeclBlock()) {
-		//			menu.add(createImportMenu());
-		//			menu.add(createPasteMenu());
-		//			menu.addSeparator();
-		//		}
-
-		//
-		//		//古いオブジェクト実行ブロックの互換性のために残してあります．
-		//		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
-		//			menu.add(createCallActionMethodBlockMenu());
-		//			menu.add(createCallGetterMethodBlockMenu());
-		//			menu.add(createCallDoubleMethodBlockMenu());
-		//			menu.add(createCallBooleanMethodBlockMenu());
-		//			menu.add(createCallStringMethodBlockMenu());
-		//			menu.addSeparator();
-		//		}
 		return menu;
 	}
-
-	//
-	//	private JMenuItem createActionBlockMenu() {
-	//		JMenuItem item = new JMenuItem("「実行」ブロック作成");
-	//		item.addActionListener(new ActionListener() {
-	//			public void actionPerformed(ActionEvent e) {
-	//				createActionGetterBlock(rb, "callActionMethod2");
-	//			}
-	//		});
-	//		return item;
-	//	}
-	//
-	//	private JMenuItem createGetterBlockMenu() {
-	//		JMenuItem item = new JMenuItem("「実行値」ブロック作成");
-	//		item.addActionListener(new ActionListener() {
-	//			public void actionPerformed(ActionEvent e) {
-	//				createActionGetterBlock(rb, "callGetterMethod2");
-	//			}
-	//		});
-	//		return item;
-	//	}
 
 	private JMenuItem createCallClassMethodMenu(
 			final Map<String, List<String>> method) {

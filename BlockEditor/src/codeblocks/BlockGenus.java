@@ -1237,7 +1237,6 @@ public class BlockGenus {
 				genus.methods.put(className, methodList);
 			}
 		}
-
 	}
 
 	/**

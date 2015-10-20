@@ -194,11 +194,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	// #ohata added
 	private String loadComment;
 
-	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
-
-	public Map<String, List<Map<String, List<String>>>> getMethods() {
-		return methods;
-	}
 
 	/**
 	 * Constructs a new RenderableBlock instance with the specified parent
@@ -317,9 +312,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		highlighter = new RBHighlightHandler(this);
 
 		String blockDescription = getBlock().getBlockDescription();
-
-		// ohata added method info
-		this.methods = getBlock().getMethods();
 
 		if (blockDescription != null) {
 			setBlockToolTip(getBlock().getBlockDescription().trim());
