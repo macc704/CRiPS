@@ -22,6 +22,16 @@ public class PublicMethodCommandWriter extends BasicModel {
 		}
 	}
 
+	public void printCommandForUni(PrintStream out) {
+		int lineNum = 0;
+		makeIndent(out, lineNum);
+		if (method.getGenusName().startsWith("new-")) {
+			printConstructor(lineNum, out);
+		} else {
+			printMethodForUni(lineNum, out);
+		}
+	}
+
 	private void printMethod(int lineNum, PrintStream out) {
 		String kind = "command";
 		if (method.getReturnType() != null && !method.getReturnType().equals("void")) {
@@ -34,6 +44,59 @@ public class PublicMethodCommandWriter extends BasicModel {
 		out.println("<JavaLabel>" + method.getGenusName() + "</JavaLabel>");
 		makeIndent(out, lineNum + 1);
 		out.println("<JavaType>" + method.getJavaType() + "</JavaType>");
+
+		makeIndent(out, ++lineNum);
+		if (method.getParameters() != null) {
+			out.println("<BlockConnectors>");
+
+			++lineNum;
+
+			if (method.getReturnType() != null && !method.getReturnType().equals("void")) {
+				makeIndent(out, lineNum);
+				out.println("<BlockConnector label=\"" + method.getReturnType() + "\" " + "connector-kind=\"plug\" connector-type=\"" + method.getReturnType() + "\" connector-javatype=\"" + method.getJavaType() + "\"></BlockConnector>");
+			}
+
+			for (int i = 0; i < method.getParameters().size(); i++) {
+				String parameter = method.getParameters().get(i);
+
+				// xxのような型＋変数名の形で保持されていることに注意
+				String parameterType = convertParameterType(parameter.substring(0, parameter.indexOf(" ")));
+				String parameterName = parameter.substring(parameter.substring(0, parameter.indexOf(" ")).length() + 1, parameter.length());
+				makeIndent(out, lineNum);
+					out.println("<BlockConnector label=\"" + parameterName +  "\" connector-kind=\"socket\" connector-type=\"" + parameterType + "\" connector-javatype=\"" + parameter.substring(0, parameter.indexOf(" ")) + "\">");
+
+				makeIndent(out, lineNum);
+				out.println("</BlockConnector>");
+			}
+			makeIndent(out, --lineNum);
+			out.println("</BlockConnectors>");
+		}
+
+		makeIndent(out, lineNum);
+		out.println("<LangSpecProperties>");
+		makeIndent(out, ++lineNum);
+		out.println("<LangSpecProperty key=\"vm-cmd-name\" value=\"" + method.getGenusName() + "\"></LangSpecProperty>");
+		makeIndent(out, lineNum);
+		out.println("<LangSpecProperty key=\"stack-type\" value=\"breed\"></LangSpecProperty>");
+
+		makeIndent(out, --lineNum);
+		out.println("</LangSpecProperties>");
+
+		makeIndent(out, --lineNum);
+		out.println("</BlockGenus>");
+		out.println();
+	}
+
+	private void printMethodForUni(int lineNum, PrintStream out) {
+		String kind = "command";
+		if (method.getReturnType() != null && !method.getReturnType().equals("void")) {
+			kind = "data";
+		}
+		// genusの出力
+		out.println("<BlockGenus name=\"" +  method.getClassName() + "-" + method.getGenusName() + "\" kind=\"" + kind + "\" initlabel=\"" + method.getName() + "\" color=\"255 0 0\">");
+
+		makeIndent(out, lineNum + 1);
+		out.println("<Type>" + method.getJavaType() + "</Type>");
 
 		makeIndent(out, ++lineNum);
 		if (method.getParameters() != null) {

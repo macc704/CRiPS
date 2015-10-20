@@ -135,7 +135,6 @@ public class ObjectBlockModel extends BasicModel {
 	}
 
 	public void printForUni(PrintStream out, int lineNumber) throws Exception {
-
 		out.println("<BlockGenus" + " " + "name=" + "\"" + getGenusName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"");
 		makeIndent(out, ++lineNumber);
 		out.println(" header-label=" + "\"" + getHeaderLabel() + "\" " + "footer-label=" + "\"" + getFooterLabel() + "\" " + "editable-label=\"yes\" " + "label-unique=\"yes\" " + "color=\"" + getColor() + "\">");
@@ -186,7 +185,7 @@ public class ObjectBlockModel extends BasicModel {
 				out.println("<CategoryName name=\"" + key + "\">");
 
 				for (PublicMethodInfo method : methods.get(key)) {
-					method.print(out, lineNumber);
+					method.printForUni(out, lineNumber);
 				}
 				makeIndent(out, --lineNumber);
 				out.println("</CategoryName>");
@@ -207,7 +206,7 @@ public class ObjectBlockModel extends BasicModel {
 				for (String key : methods.keySet()) {
 					for (PublicMethodInfo method : methods.get(key)) {
 						commandWriter.setMethods(method);
-						commandWriter.printCommand(out);
+						commandWriter.printCommandForUni(out);
 					}
 				}
 			}

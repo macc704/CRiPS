@@ -95,7 +95,7 @@ public class ParameterBlockModel extends BasicModel {
 				out.println("<CategoryName name=\"" + key + "\">");
 
 				for (PublicMethodInfo method : methods.get(key)) {
-					method.print(out, lineNumber);
+					method.printForUni(out, lineNumber);
 				}
 				makeIndent(out, --lineNumber);
 				out.println("</CategoryName>");

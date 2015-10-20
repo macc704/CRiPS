@@ -4,8 +4,10 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.SingleVariableDeclaration;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -25,13 +27,26 @@ public class PublicMethodInfo extends BasicModel {
 	public static String RETURN_TYPE = "return-type";
 	public static String PARAM_NUM = "param-num";
 
+	private String className = "";
+
 	public PublicMethodInfo(MethodDeclaration node) {
+		className = getClassNameFromMethodInvocation(node);
 
 		setMethodName(node);
-
 		setMethodParameterInfo(node);
-
 		setColor("255 0 0");
+
+	}
+
+	public String getClassNameFromMethodInvocation(MethodDeclaration node) {
+		ASTNode n = node.getParent();
+
+		while (n.getNodeType() != ASTNode.TYPE_DECLARATION) {
+			n = n.getParent();
+		}
+
+		TypeDeclaration classNode = (TypeDeclaration) n;
+		return classNode.getName().toString();
 	}
 
 	public void setMethodParameterInfo(MethodDeclaration node) {
@@ -123,6 +138,10 @@ public class PublicMethodInfo extends BasicModel {
 		return this.genusName;
 	}
 
+	public String getClassName(){
+		return this.className;
+	}
+
 	public String getModifier() {
 		return modifier;
 	}
@@ -131,7 +150,7 @@ public class PublicMethodInfo extends BasicModel {
 		return methodName;
 	}
 
-	public String getVcCommandName(){
+	public String getVcCommandName() {
 		return this.methodName;
 	}
 
@@ -142,6 +161,11 @@ public class PublicMethodInfo extends BasicModel {
 
 		makeIndent(out, lineNum);
 		out.println("</Method>");
+	}
+
+	public void printForUni(PrintStream out, int lineNum) {
+		makeIndent(out, lineNum);
+		out.println("<MethodName>" + className + "-" + genusName + "</MethodName>");
 	}
 
 	public void printMethods(PrintStream out, int lineNum) {
@@ -156,7 +180,7 @@ public class PublicMethodInfo extends BasicModel {
 		out.println("</MethodProperty>");
 	}
 
-	public String getKeyForResolver(){
+	public String getKeyForResolver() {
 		String paramSize = Integer.toString(getParameters().size());
 		if (paramSize.equals("0")) {
 			paramSize = "";
@@ -165,7 +189,7 @@ public class PublicMethodInfo extends BasicModel {
 		return getGenusName() + "(" + paramSize + ")";
 	}
 
-	public Element createMethodElement(Document doc){
+	public Element createMethodElement(Document doc) {
 		Element methodElement = doc.createElement("Method");
 		methodElement.setAttribute(METHOD_NAME, methodName);
 		methodElement.setAttribute(RETURN_TYPE, returnType);

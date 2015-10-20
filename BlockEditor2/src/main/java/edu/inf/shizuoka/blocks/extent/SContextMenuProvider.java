@@ -111,8 +111,7 @@ public class SContextMenuProvider {
 	}
 
 	private JMenuItem createWriterMenu(final String genusName) {
-		JMenuItem item = new JMenuItem(rb.getWorkspace().getEnv()
-				.getGenusWithName(genusName).getInitialLabel());
+		JMenuItem item = new JMenuItem(rb.getWorkspace().getEnv().getGenusWithName(genusName).getInitialLabel());
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				createCallMethod(genusName);
@@ -122,24 +121,19 @@ public class SContextMenuProvider {
 	}
 
 	private void createCallMethod(String name) {
-		RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(),
-				rb.getParentWidget(), name);
+		RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), name);
 
 		boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
 		if (cmd) {
-			RenderableBlock newActionRBlock = createActionGetterBlock(rb,
-					"callActionMethod2");
+			RenderableBlock newActionRBlock = createActionGetterBlock(rb, "callActionMethod2");
 			connectByBefore(newActionRBlock, 1, newCommandRBlock);
 		} else {
-			RenderableBlock newGetterRBlock = createActionGetterBlock(rb,
-					"callGetterMethod2");
+			RenderableBlock newGetterRBlock = createActionGetterBlock(rb, "callGetterMethod2");
 			connectByPlug(newGetterRBlock, 1, newCommandRBlock);
 
-			boolean returnObject = newCommandRBlock.getBlock().getPlug()
-					.getKind().equals("object");
+			boolean returnObject = newCommandRBlock.getBlock().getPlug().getKind().equals("object");
 			if (returnObject) {
-				RenderableBlock newActionRBlock = createNewBlock(rb.getWorkspace(),
-						rb.getParentWidget(), "callActionMethod2");
+				RenderableBlock newActionRBlock = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), "callActionMethod2");
 				newActionRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
 				connectByPlug(newActionRBlock, 0, newGetterRBlock);
 			}
@@ -168,8 +162,7 @@ public class SContextMenuProvider {
 	// return category;
 	// }
 
-	public JMenu createClassMethodsCategory(String className,
-			List<String> methods) {
+	public JMenu createClassMethodsCategory(String className, List<String> methods) {
 		JMenu category = new JMenu(className);
 
 		for (String methodName : methods) {
@@ -202,7 +195,7 @@ public class SContextMenuProvider {
 			menu.add(createCreateWriterMenu());
 			// menu.add(createCreateGetterMenu());
 			menu.addSeparator();
-			//メソッドの呼び出しブロックメニューの追加
+			// メソッドの呼び出しブロックメニューの追加
 
 			JMenu methodCallMenu = new JMenu(rb.getBlockName() + "に命令する");
 
@@ -211,7 +204,7 @@ public class SContextMenuProvider {
 			for (String className : methods.keySet()) {
 				methodCallMenu.add(createClassMethodsCategory(className, methods.get(className)));
 			}
-			if(methodCallMenu.getItemCount()>0){
+			if (methodCallMenu.getItemCount() > 0) {
 				menu.add(methodCallMenu);
 				menu.addSeparator();
 			}
@@ -231,16 +224,14 @@ public class SContextMenuProvider {
 		if (rb.getBlock().getGenusName().contains("arrayobject")) {// 配列
 			final String scope = getBlockScope(rb.getBlock().getGenusName());
 
-			final String type = getBlockVariableType(rb.getBlock()
-					.getGenusName());
+			final String type = getBlockVariableType(rb.getBlock().getGenusName());
 
 			// 型に応じたゲッター、セッターの追加
 			JMenuItem elementGetter = new JMenuItem("「書込ブロック（要素）」の作成");
 			// getterの作成
 			elementGetter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new SStubCreator("setter-arrayelement" + scope + type
-							+ "-arrayobject", rb).doWork(e);
+					new SStubCreator("setter-arrayelement" + scope + type + "-arrayobject", rb).doWork(e);
 				}
 			});
 			menu.add(elementGetter);
@@ -249,8 +240,7 @@ public class SContextMenuProvider {
 			JMenuItem elementSetter = new JMenuItem("「値ブロック（要素）」の作成");
 			elementSetter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					new SStubCreator("getter-arrayelement" + scope + type
-							+ "-arrayobject", rb).doWork(e);
+					new SStubCreator("getter-arrayelement" + scope + type + "-arrayobject", rb).doWork(e);
 				}
 			});
 			menu.add(elementSetter);
@@ -272,21 +262,16 @@ public class SContextMenuProvider {
 		RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), name);
 		// procedureのブロック名を変える
 		Block methodBlock = newCommandRBlock.getBlock();
-		methodBlock.setBlockLabel("get"
-				+ rb.getKeyword().toUpperCase().charAt(0)
-				+ rb.getKeyword().substring(1));
+		methodBlock.setBlockLabel("get" + rb.getKeyword().toUpperCase().charAt(0) + rb.getKeyword().substring(1));
 
-		RenderableBlock returnBlock = createNewBlock(rb.getWorkspace(),
-				rb.getParentWidget(), "return");
+		RenderableBlock returnBlock = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), "return");
 		RenderableBlock getter = SStubCreator.createStub("getter", rb);
 
 		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
 
-		returnBlock.setLocation(rb.getX() + 20,
-				rb.getY() + newCommandRBlock.getHeight() + 20); // 無理やり座標指定
+		returnBlock.setLocation(rb.getX() + 20, rb.getY() + newCommandRBlock.getHeight() + 20); // 無理やり座標指定
 
-		getter.setLocation(rb.getX() + returnBlock.getBlockWidth() + 10,
-				rb.getY() + newCommandRBlock.getHeight() + 20);
+		getter.setLocation(rb.getX() + returnBlock.getBlockWidth() + 10, rb.getY() + newCommandRBlock.getHeight() + 20);
 		// returnと値を結合
 		connectByPlug(returnBlock, 0, getter);
 
@@ -298,14 +283,11 @@ public class SContextMenuProvider {
 	}
 
 	private void createNewSetterMethod(String name) {// #ohata
-		RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(),
-				rb.getParentWidget(), name);
+		RenderableBlock newCommandRBlock = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), name);
 		newCommandRBlock.setLocation(rb.getX() + 20, rb.getY() + 20); // 新しく生成するブロックのポジション
 		// ラベル張替え
 		Block methodBlock = newCommandRBlock.getBlock();
-		methodBlock.setBlockLabel("set"
-				+ rb.getKeyword().toUpperCase().charAt(0)
-				+ rb.getKeyword().substring(1));
+		methodBlock.setBlockLabel("set" + rb.getKeyword().toUpperCase().charAt(0) + rb.getKeyword().substring(1));
 
 		RenderableBlock setter = SStubCreator.createStub("setter", rb);
 		setter.setLocation(rb.getX() + 20, rb.getY() + 40);
@@ -315,39 +297,31 @@ public class SContextMenuProvider {
 		link.connect();
 
 		if (rb.getGenus().endsWith("string")) {
-			RenderableBlock param = createNewBlock(rb.getWorkspace(),
-					rb.getParentWidget(), "proc-param-string");
+			RenderableBlock param = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), "proc-param-string");
 			connectByPlug(newCommandRBlock, 0, param);
 		} else if (rb.getGenus().endsWith("boolean")) {
-			RenderableBlock param = createNewBlock(rb.getWorkspace(),
-					rb.getParentWidget(), "proc-param-boolean");
+			RenderableBlock param = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), "proc-param-boolean");
 			connectByPlug(newCommandRBlock, 0, param);
 		} else if (rb.getGenus().endsWith("double-number")) {
-			RenderableBlock param = createNewBlock(rb.getWorkspace(),
-					rb.getParentWidget(), "proc-param-double-number");
+			RenderableBlock param = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), "proc-param-double-number");
 			connectByPlug(newCommandRBlock, 0, param);
 		} else if (rb.getGenus().endsWith("number")) {
-			RenderableBlock param = createNewBlock(rb.getWorkspace(),
-					rb.getParentWidget(), "proc-param-number");
+			RenderableBlock param = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), "proc-param-number");
 			connectByPlug(newCommandRBlock, 0, param);
 
 		} else if (rb.getGenus().endsWith("TextTurtle")) {
-			RenderableBlock param = createNewBlock(rb.getWorkspace(),
-					rb.getParentWidget(), "proc-param-TextTurtle");
+			RenderableBlock param = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), "proc-param-TextTurtle");
 			connectByPlug(newCommandRBlock, 0, param);
 
 		} else if (rb.getGenus().endsWith("Turtle")) {
-			RenderableBlock param = createNewBlock(rb.getWorkspace(),
-					rb.getParentWidget(), "proc-param-Turtle");
+			RenderableBlock param = createNewBlock(rb.getWorkspace(), rb.getParentWidget(), "proc-param-Turtle");
 			connectByPlug(newCommandRBlock, 0, param);
 		}
 	}
 
-	private static RenderableBlock createActionGetterBlock(
-			RenderableBlock parent, String genusName) {
+	private static RenderableBlock createActionGetterBlock(RenderableBlock parent, String genusName) {
 
-		RenderableBlock newCallRBlock = createNewBlock(parent.getWorkspace(),
-				parent.getParentWidget(), genusName);
+		RenderableBlock newCallRBlock = createNewBlock(parent.getWorkspace(), parent.getParentWidget(), genusName);
 
 		newCallRBlock.setLocation(parent.getX() + 20, parent.getY() + 20); // 新しく生成するブロックのポジション
 
@@ -356,70 +330,45 @@ public class SContextMenuProvider {
 			genusNameLabel += "private";
 		}
 
-		RenderableBlock newValueBlock = SStubCreator.createStub(genusNameLabel,
-				parent);
+		RenderableBlock newValueBlock = SStubCreator.createStub(genusNameLabel, parent);
 
 		connectByPlug(newCallRBlock, 0, newValueBlock);
 
 		return newCallRBlock;
 	}
 
-	public static RenderableBlock createNewBlock(Workspace workspace,
-			WorkspaceWidget widget, String genusName) {
-		for (RenderableBlock block : workspace.getFactoryManager().getBlocks()) {
-			if (block.getBlock().getGenusName().equals(genusName)) {
-				RenderableBlock newBlock = BlockUtilities.cloneBlock(block
-						.getBlock());
-				newBlock.setParentWidget(widget);
-				widget.addBlock(newBlock);
-				return newBlock;
-			}
+	public static RenderableBlock createNewBlock(Workspace workspace, WorkspaceWidget widget, String genusName) {
+		Block block = new Block(workspace, genusName);
+		try{
+		RenderableBlock newBlock = BlockUtilities.cloneBlock(block);
+		newBlock.setParentWidget(widget);
+		widget.addBlock(newBlock);
+		return newBlock;
+		}catch(Exception e){
+			throw new RuntimeException("block not found " + genusName );
 		}
-
-		throw new RuntimeException("block not found: " + genusName);
 	}
 
-	public static void connectByPlug(RenderableBlock parent, int socketIndex,
-			RenderableBlock child) {
-		BlockLink link = BlockLink.getBlockLink(parent.getWorkspace(), parent
-				.getBlock(), child.getBlock(),
-				parent.getBlock().getSocketAt(socketIndex), child.getBlock()
-						.getPlug());
+	public static void connectByPlug(RenderableBlock parent, int socketIndex, RenderableBlock child) {
+		BlockLink link = BlockLink.getBlockLink(parent.getWorkspace(), parent.getBlock(), child.getBlock(), parent.getBlock().getSocketAt(socketIndex), child.getBlock().getPlug());
 		link.connect();
 
-		parent.getWorkspace().notifyListeners(
-				new WorkspaceEvent(parent.getWorkspace(), parent
-						.getParentWidget(), link,
-						WorkspaceEvent.BLOCKS_CONNECTED));
+		parent.getWorkspace().notifyListeners(new WorkspaceEvent(parent.getWorkspace(), parent.getParentWidget(), link, WorkspaceEvent.BLOCKS_CONNECTED));
 
 	}
 
-	public static void connectByBefore(RenderableBlock parent, int socketIndex,
-			RenderableBlock child) {
-		BlockLink link = BlockLink.getBlockLink(parent.getWorkspace(), parent
-				.getBlock(), child.getBlock(),
-				parent.getBlock().getSocketAt(socketIndex), child.getBlock()
-						.getBeforeConnector());
+	public static void connectByBefore(RenderableBlock parent, int socketIndex, RenderableBlock child) {
+		BlockLink link = BlockLink.getBlockLink(parent.getWorkspace(), parent.getBlock(), child.getBlock(), parent.getBlock().getSocketAt(socketIndex), child.getBlock().getBeforeConnector());
 		link.connect();
-		parent.getWorkspace().notifyListeners(
-				new WorkspaceEvent(parent.getWorkspace(), parent
-						.getParentWidget(), link,
-						WorkspaceEvent.BLOCKS_CONNECTED));
+		parent.getWorkspace().notifyListeners(new WorkspaceEvent(parent.getWorkspace(), parent.getParentWidget(), link, WorkspaceEvent.BLOCKS_CONNECTED));
 
 	}
 
-	public static void connectBySocket(RenderableBlock parent, int socketIndex,
-			RenderableBlock child) {
-		BlockLink link = BlockLink.getBlockLink(parent.getWorkspace(), parent
-				.getBlock(), child.getBlock(),
-				parent.getBlock().getSocketAt(socketIndex), child.getBlock()
-						.getSocketAt(socketIndex));
+	public static void connectBySocket(RenderableBlock parent, int socketIndex, RenderableBlock child) {
+		BlockLink link = BlockLink.getBlockLink(parent.getWorkspace(), parent.getBlock(), child.getBlock(), parent.getBlock().getSocketAt(socketIndex), child.getBlock().getSocketAt(socketIndex));
 		link.connect();
 
-		parent.getWorkspace().notifyListeners(
-				new WorkspaceEvent(parent.getWorkspace(), parent
-						.getParentWidget(), link,
-						WorkspaceEvent.BLOCKS_CONNECTED));
+		parent.getWorkspace().notifyListeners(new WorkspaceEvent(parent.getWorkspace(), parent.getParentWidget(), link, WorkspaceEvent.BLOCKS_CONNECTED));
 	}
 
 	private String getBlockScope(String name) {
