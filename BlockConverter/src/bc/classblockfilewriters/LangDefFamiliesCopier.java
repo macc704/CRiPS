@@ -29,7 +29,7 @@ public class LangDefFamiliesCopier extends Copier {
 				printStream.println(line);
 			}
 
-			printDOM(byteArray.toString(), new FileOutputStream(file.getParentFile().getAbsolutePath() + "/" + LANG_DEF_FAMILIES_FILENAME));
+			printDOM(byteArray.toString(), new File(file.getParentFile().getAbsolutePath() + "/" + LANG_DEF_FAMILIES_FILENAME));
 
 			br.close();
 			printStream.close();

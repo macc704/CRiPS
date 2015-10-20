@@ -1,6 +1,7 @@
 package bc.classblockfilewriters;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,9 @@ public class LangDefFilesReWriterMain2 {
 		langDefFilesRewriter.parseDirectry(enc, classpaths);
 
 		langDefFilesRewriter.copyLangDefFiles(copyFilesBaseDir);
+
+		langDefFilesRewriter.copyAdditionalFileForUni(copyFilesBaseDir);
+
 		// メニューの出力
 		langDefFilesRewriter.printMenu(projectMenuFile, copyFilesBaseDir);
 		langDefFilesRewriter.printGenusesForUni();

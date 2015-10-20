@@ -52,7 +52,7 @@ public class REBlockEditorManager2 {
 
 	public void doOpenNewBlockEditor(){
 		// Java->Block変換処理
-		BiFunction<File, REApplication, String> convertAction = (javaFile, app) -> {
+		BiFunction<File, REApplication, String> convertAction = (sourceFile, app) -> {
 			File srcfile = app.getSourceManager().getCurrentFile();
 			File dir = srcfile.getParentFile();
 			UniClassDec classDec = convertJavaToUni(srcfile);
@@ -60,7 +60,7 @@ public class REBlockEditorManager2 {
 			try {
 				xmlfile.createNewFile();
 				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, "UTF-8");
-				BlockGenerator blockParser = new BlockGenerator(out, WorkspaceController.langDefRootPath);
+				BlockGenerator blockParser = new BlockGenerator(out, dir.getPath() + "/");
 				blockParser.parse(classDec);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -69,16 +69,16 @@ public class REBlockEditorManager2 {
 		};
 
 		// Managerの初期化処理
-		Function<File, WorkspaceController> initBlockEditorAction = (javaFile) -> {
+		Function<File, WorkspaceController> initBlockEditorAction = (sourceFile) -> {
 			//プロジェクトを解析して、言語定義ファイルを書き換える
-			LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(javaFile, REApplication.SRC_ENCODING, new String[]{}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
+			LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(sourceFile, REApplication.SRC_ENCODING, new String[]{}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
 			try {
 				rewriter.rewrite();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			WorkspaceController blockEditor = new WorkspaceController();
-			blockEditor.setLangDefFilePath(javaFile.getParent() + "/" + "lang_def_project.xml");
+			blockEditor.setLangDefFilePath(sourceFile.getParent() + "/" + "lang_def_project.xml");
 			blockEditor.loadFreshWorkspace();
 			blockEditor.createAndShowGUI();
 			return blockEditor;

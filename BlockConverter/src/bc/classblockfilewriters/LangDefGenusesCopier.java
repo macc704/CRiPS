@@ -3,7 +3,6 @@ package bc.classblockfilewriters;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -20,7 +19,7 @@ public class LangDefGenusesCopier extends Copier {
 	public void print(File file) {
 		// lang_def_genuses.xmlファイルを書き換える
 		try {
-			printDOM(readGenusString(), new FileOutputStream(file.getParentFile().getPath() + "/lang_def_genuses.xml"));
+			printDOM(readGenusString(), new File(file.getParentFile().getPath() + "/lang_def_genuses.xml"));
 		} catch (Exception e) {
 			int res = JOptionPane.showConfirmDialog(null, "Blockへの変換中にエラーが発生しました：lang_def_genuses message:" + e.getStackTrace().toString(), "警告", JOptionPane.DEFAULT_OPTION);
 			if (res == 1) {

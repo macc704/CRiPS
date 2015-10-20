@@ -3,7 +3,6 @@ package bc.classblockfilewriters;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -32,7 +31,7 @@ public class LangDefFileDtdCopier extends Copier {
 
 			// menu情報のコピー
 			// psに書きだしたものをすべて文字列に変換する
-			printDOM(turtleByteArray.toString(), new FileOutputStream(file.getParentFile().getPath() + "/lang_def.dtd"));
+			printDOM(turtleByteArray.toString(), new File(file.getParentFile().getPath() + "/lang_def.dtd"));
 			br.close();
 			ps.close();
 		} catch (Exception e) {

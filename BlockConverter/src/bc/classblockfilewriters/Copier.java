@@ -28,7 +28,8 @@ public class Copier {
 		return this.baseDir;
 	}
 
-	public void printDOM(String text, FileOutputStream ldfOS) throws IOException{
+	public void printDOM(String text, File file) throws IOException{
+		FileOutputStream ldfOS = new FileOutputStream(file.getPath());
 		OutputStreamWriter ldfFOS = new OutputStreamWriter(ldfOS, enc);
 		BufferedWriter ldfWriter = new BufferedWriter(ldfFOS);
 		ldfWriter.write(text);
@@ -68,5 +69,26 @@ public class Copier {
 			}
 		}
 		return false;
+	}
+
+	public void copyFile(String cpopyFilePath, String outputPath) throws IOException{
+		String text = readFile(cpopyFilePath);
+		File outputFile = new File(outputPath);
+		printDOM(text, outputFile);
+	}
+
+	public String readFile(String filePath) throws IOException{
+		BufferedReader br = createBufferReader(filePath);
+
+		ByteArrayOutputStream turtleByteArray = new ByteArrayOutputStream();
+		PrintStream ps = new PrintStream(turtleByteArray);
+
+		String line;
+		while ((line = br.readLine()) != null) {
+			ps.println(line);
+		}
+
+		br.close();
+		return turtleByteArray.toString();
 	}
 }

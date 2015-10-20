@@ -3,7 +3,6 @@ package bc.classblockfilewriters;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 import javax.swing.JOptionPane;
@@ -12,6 +11,7 @@ public class LangDefFileCopier extends Copier {
 
 	private static String LANG_DEF_TURTLE_FILE = "lang_def_turtle.xml";
 	private static String LANG_DEF_PROJECT_FILE = "lang_def_project.xml";
+	private static String LANG_DEF_PROJECT_FILE_FORUNI = "lang_def.xml";
 
 	public LangDefFileCopier(String baseDir) {
 		super(baseDir);
@@ -36,8 +36,8 @@ public class LangDefFileCopier extends Copier {
 				}
 			}
 
-			printDOM(turtleByteArray.toString(), new FileOutputStream(file.getParentFile().getPath() + "/" + LANG_DEF_PROJECT_FILE));
-
+			printDOM(turtleByteArray.toString(), new File(file.getParentFile().getPath() + "/" + LANG_DEF_PROJECT_FILE));
+			printDOM(turtleByteArray.toString(), new File(file.getParentFile().getPath() + "/" + LANG_DEF_PROJECT_FILE_FORUNI));
 			br.close();
 			turtlePs.close();
 		} catch (Exception e) {

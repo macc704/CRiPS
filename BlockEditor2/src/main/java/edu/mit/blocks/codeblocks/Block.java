@@ -1136,14 +1136,6 @@ public class Block implements ISupportMemento {
 		}
 	}
 
-	public Map<String, List<String>> getMethodList() {
-		if (this.linkToStubs) {
-			return getGenus().getMethods();
-		} else {
-			return new HashMap<String, List<String>>();
-		}
-	}
-
 	/**
 	 * Returns true is this genus has stubs (references such as getters,
 	 * setters, etc.); false otherwise FORWARDED FROM BLOCK GENUS

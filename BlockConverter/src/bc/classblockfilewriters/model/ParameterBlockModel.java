@@ -65,9 +65,45 @@ public class ParameterBlockModel extends BasicModel {
 			makeIndent(out, --lineNumber);
 			out.println("</ClassMethods>");
 		}
+		out.println("</BlockGenus>");
+	}
+
+	public void printForUni(PrintStream out, int lineNumber) throws Exception {
+
+		out.println("<BlockGenus" + " " + "name=" + "\"" + getGenusName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"" + " header-label=\"" + getHeaderLabel() + "\"" + " footer-label=\"" + getFooterLabel() + "\"" + " editable-label=\"yes\" " + "is-starter=\"yes\" is-terminator=\"yes\"" + " color=\"" + getColor() + "\">");
+		lineNumber++;
+		printBlockConnectors(out, lineNumber);
+		makeIndent(out, lineNumber);
+		out.println("<Type>" + addEscapeSequence(javaType) + "</Type>");
+
+		printStubs(out, lineNumber);
+		makeIndent(out, lineNumber);
+		out.println("<LangSpecProperties>");
+
+		for (String langSpecProperty : langSpecProperties.keySet()) {
+			printLangSpecProperty(out, lineNumber + 1, langSpecProperty, langSpecProperties.get(langSpecProperty));
+		}
 
 		makeIndent(out, lineNumber);
-		out.println("<JavaType>" + javaType + "</JavaType>");
+		out.println("</LangSpecProperties>");
+
+		if (methods != null) {
+			makeIndent(out, lineNumber++);
+			out.println("<ClassMethods>");
+			for (String key : methods.keySet()) {
+				makeIndent(out, lineNumber++);
+				out.println("<CategoryName name=\"" + key + "\">");
+
+				for (PublicMethodInfo method : methods.get(key)) {
+					method.print(out, lineNumber);
+				}
+				makeIndent(out, --lineNumber);
+				out.println("</CategoryName>");
+
+			}
+			makeIndent(out, --lineNumber);
+			out.println("</ClassMethods>");
+		}
 
 		out.println("</BlockGenus>");
 	}

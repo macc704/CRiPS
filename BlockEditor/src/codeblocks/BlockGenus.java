@@ -1147,7 +1147,6 @@ public class BlockGenus {
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
 		Node prop;
-		//		String methodDecralation;
 
 		String className = "";
 
