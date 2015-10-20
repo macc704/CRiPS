@@ -16,50 +16,29 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.KeyStroke;
 
-import ronproeditor.IREResourceRepository;
 import ronproeditor.REApplication;
-import ronproeditor.views.REFrame;
 import ch.conn.CHCliant;
 import ch.conn.framework.CHConnection;
-import ch.conn.framework.CHUserLogWriter;
 import ch.conn.framework.CHUserState;
-import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
-import ch.conn.framework.packets.CHLogoutRequest;
-import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
-import ch.library.CHFileSystem;
-import ch.util.CHBlockEditorController;
 import ch.util.CHComponent;
 import ch.util.CHEvent;
 import ch.util.CHListener;
-import ch.view.CHMemberSelectorFrame;
-import ch.view.CHPullDialog;
-import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFileFilter;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
 
@@ -71,7 +50,6 @@ public class RECheCoProManager {
 	public static final Color DEFAULT_COLOR = Color.WHITE;
 	public static final int DEFAULT_PORT = 20000;
 	public static final String IP = "localhost";
-	public static final int DEFAULT_LANGUAGE = 0;
 
 	private static int CTRL_MASK = InputEvent.CTRL_MASK;
 	static {
@@ -83,15 +61,11 @@ public class RECheCoProManager {
 	private REApplication application;
 	private CHCliant cliant;
 	private CHConnection conn;
-	private CHMemberSelectorFrame msFrame;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
 	private String user = DEFAULT_NAME;
 	private String password = DEFAULT_PASSWAOD;
 	private int port = DEFAULT_PORT;
 	private Color color = DEFAULT_COLOR;
-	private int language = DEFAULT_LANGUAGE;
-	private HashMap<String, REApplication> chFrameMap = new HashMap<String, REApplication>();
-	private CHUserLogWriter logWriter;
 	private HashMap<String, RECheCoProViewer> chViewers = new HashMap<String, RECheCoProViewer>();
 
 	public static void main(String[] args) {
@@ -197,13 +171,6 @@ public class RECheCoProManager {
 		
 		cliant.getProcessManager().sendText(source, currentFileName, point);
 	}
-
-	private ActionListener copyListener = new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-		}
-	};
 	
 	private ActionListener pasteListener = new ActionListener() {
 		
@@ -239,266 +206,6 @@ public class RECheCoProManager {
 				.removeActionListener(saveListener);
 	}
 
-	private void setMemberSelectorListner() {
-		List<JButton> buttons = new ArrayList<JButton>(msFrame.getButtons());
-		for (JButton aButton : buttons) {
-			aButton.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					String user = e.getActionCommand();
-					msFrame.setMembers(userStates);
-					setMemberSelectorListner();
-
-					if (user.equals(msFrame.getUser())) {
-						application.getFrame().toFront();
-					} else {
-						if (chFrameMap.get(user) != null) {
-							chFrameMap.get(user).getFrame().toFront();
-						} else {
-							doOpenNewCH(user);
-							conn.write(new CHFilelistRequest(user));
-						}
-					}
-				}
-			});
-		}
-
-		msFrame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				closeCHEditors();
-				conn.write(new CHLogoutRequest(user));
-			}
-		});
-	}
-
-	private void initializeCHEditor(REApplication chApplication, String user) {
-		chApplication.getFrame().setTitle(user + "-" + APP_NAME + " Editor");
-		chApplication.getFrame().setDefaultCloseOperation(
-				JFrame.DISPOSE_ON_CLOSE);
-		initializeCHListeners(chApplication, user);
-		initializeCHMenu(chApplication, user);
-	}
-
-	private void initializeCHMenu(final REApplication chApplication,
-			final String user) {
-		JMenuBar menuBar = chApplication.getFrame().getJMenuBar();
-		for (int i = 7; i >= 0; i--) {
-			menuBar.getMenu(0).remove(i);
-		}
-		menuBar.getMenu(0).remove(1);
-		menuBar.getMenu(0).remove(1);
-		menuBar.getMenu(0).remove(4);
-		
-		menuBar.getMenu(1).getItem(3).addActionListener(copyListener);
-		menuBar.getMenu(1).getItem(4).addActionListener(copyListener);
-
-		int menuCount = menuBar.getMenu(3).getItemCount() - 1;
-		for (int i = menuCount; i >= 0; i--) {
-			menuBar.getMenu(3).remove(i);
-		}
-		
-		// --BlockEditor
-		Action actionOpenBlockEditor;
-		actionOpenBlockEditor = new AbstractAction() {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				File selectedFile = null;
-				String langDefFilePath = "";
-				if (chApplication.getChBlockEditorController().isFileOpened()){
-					selectedFile = chApplication.getResourceRepository().getCCurrentFile().toJavaFile();
-					langDefFilePath = chApplication.getResourceRepository().getCCurrentProject()
-							.getAbsolutePath().toString() + "/lang_def_project.xml";
-				}
-				openBlockEditorForCH(chApplication.getChBlockEditorController(), selectedFile, langDefFilePath);
-			}
-		};
-		
-		actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
-		actionOpenBlockEditor.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_MASK));
-		actionOpenBlockEditor.setEnabled(true);
-		
-		menuBar.getMenu(3).add(actionOpenBlockEditor);
-		
-		menuBar.getMenu(4).remove(0);
-
-		for (int i = 0; i < menuBar.getMenuCount(); i++) {
-			menuBar.getMenu(i).setBackground(getUserColor(user));
-		}
-
-		final String syncLabel;
-		final String nonSyncLabel;
-		if (language == 0){
-			syncLabel = "同期中";
-			nonSyncLabel = "非同期中";
-		} else {
-			syncLabel = "sync";
-			nonSyncLabel = "async";
-		}
-		
-		final JToggleButton connButton = new JToggleButton(syncLabel, true);
-		for (CHUserState aUserState : userStates) {
-			if (user.equals(aUserState.getUser()) && !aUserState.isLogin()) {
-				connButton.doClick();
-				connButton.setEnabled(false);
-				connButton.setText(nonSyncLabel);
-			}
-		}
-
-		connButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (connButton.isSelected()) {
-					conn.write(new CHFilelistRequest(user));
-					connButton.setText(syncLabel);
-				} else {
-					connButton.setText(nonSyncLabel);
-				}
-				if (chApplication.getFrame().getEditor() != null) {
-					chApplication.getFrame().getEditor().getViewer()
-							.getTextPane()
-							.setEditable(!connButton.isSelected());
-				}
-			}
-		});
-
-		menuBar.add(connButton);
-
-		JButton pullButton = new JButton();
-		
-		if (language == 0) {
-			pullButton.setText("取り込み↓");
-		} else {
-			pullButton.setText("Import↓");
-		}
-		
-		pullButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				CHPullDialog pullDialog = new CHPullDialog(user, language);
-				boolean java = pullDialog.isJavaChecked();
-				boolean material = pullDialog.isMaterialCecked();
-				if (java || material) {
-					doPull(user, createCFileFilter(java, material));
-				}
-				application.doRefresh();
-			}
-
-		});
-
-		menuBar.add(pullButton);
-
-		menuBar.setBackground(getUserColor(user));
-		chApplication.getFrame().setJMenuBar(menuBar);
-
-	}
-
-	private void doPull(final String user, CFileFilter filter) {
-		logWriter.writeFrom(user);
-		logWriter.addRowToTable();
-		CDirectory from = CHFileSystem.getUserDirForClient(user);
-		CDirectory to = CHFileSystem.getFinalProjectDir();
-		CHFileSystem.pull(from, to, filter);
-	}
-
-	private CFileFilter createCFileFilter(boolean java, boolean material) {
-		if (java && material) {
-			logWriter.writeCommand(CHUserLogWriter.COPY_ALL_FILE);
-			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", ".*xml");
-		} else if (java && !material) {
-			logWriter.writeCommand(CHUserLogWriter.COPY_JAVA_FILE);
-			return CFileFilter.ACCEPT_BY_NAME_FILTER("*.java");
-		} else if (!java && material) {
-			logWriter.writeCommand(CHUserLogWriter.COPY_MATERIAL_FILE);
-			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml",
-					"*.java");
-		}
-		return null;
-	}
-
-	private void initializeCHListeners(final REApplication chApplication,
-			final String user) {
-
-		removeListeners(chApplication.getFrame());
-
-		chApplication.getFrame().addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-
-				chApplication.getChBlockEditorController().close();
-				chFrameMap.remove(user);
-				msFrame.setMembers(userStates);
-				setMemberSelectorListner();
-			}
-		});
-
-		chApplication.getSourceManager().addPropertyChangeListener(
-				new PropertyChangeListener() {
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						if (evt.getPropertyName().equals(IREResourceRepository.DOCUMENT_OPENED)) {
-
-							
-							chApplication.getChBlockEditorController().setFileOpened(true);
-							
-							File selectedFile = chApplication.getResourceRepository().getCCurrentFile().toJavaFile();
-							String langDefFilePath = chApplication.getResourceRepository()
-									.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
-							reloadBlockEditor(chApplication.getChBlockEditorController(), selectedFile, langDefFilePath);
-						} else {
-							chApplication.getChBlockEditorController().setFileOpened(false);
-							reloadBlockEditor(chApplication.getChBlockEditorController(), null, "");
-						}
-					}
-				});
-	}
-	
-	private void reloadBlockEditor(CHBlockEditorController bc, File selectedFile, String langDefFilePath) {
-		String xmlFilePaht = "";
-		
-		if (selectedFile != null) {
-			xmlFilePaht = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
-					application.getLibraryManager().getLibsAsArray());
-		}
-		
-		bc.reloadBlockEditor(langDefFilePath, xmlFilePaht);
-	}
-	
-	public void openBlockEditorForCH(CHBlockEditorController bc,File selectedFile, String langDefFilePath) {
-		String xmlFilePath = "";
-		
-		if (selectedFile != null) {
-			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
-					application.getLibraryManager().getLibsAsArray());
-		}
-		bc.openBlockEditor(langDefFilePath, xmlFilePath);
-	}
-
-	private void removeListeners(REFrame frame) {
-		List<WindowListener> listeners = new ArrayList<WindowListener>();
-		listeners = Arrays.asList(frame.getWindowListeners());
-		for (WindowListener aListener : listeners) {
-			frame.removeWindowListener(aListener);
-		}
-	}
-
-	private Color getUserColor(String user) {
-		for (CHUserState aUserState : userStates) {
-			if (user.equals(aUserState.getUser())) {
-				return aUserState.getColor();
-			}
-		}
-		return DEFAULT_COLOR;
-	}
-
 	/********************
 	 * クライアントメイン動作
 	 ********************/
@@ -523,6 +230,8 @@ public class RECheCoProManager {
 					processLoginMemberChanged(component.getUserStates());
 				} else if (message.equals("SourceChanged")) {
 					processSourceChanged(component.getScPacket());
+				} else if (message.equals("FileResponseReceived")) {
+					processFileResponse(component.getUser());
 				}
 			}
 			
@@ -588,21 +297,9 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void processLogoutResult(CHLogoutResult result) {
-		if (user.equals(result.getUser())) {
-			logWriter.writeCommand(CHUserLogWriter.LOGOUT);
-			logWriter.addRowToTable();
-			logWriter.saveTableToFile();
-			conn.close();
-			removeListeners();
-		}
-	}
-
-	private void processFileResponse(CHFileResponse response) {
-		CHFileSystem.saveFiles(response.getFiles(),
-				CHFileSystem.getUserDirForClient(response.getUser()));
-		if (chFrameMap.containsKey(response.getUser())) {
-			chFrameMap.get(response.getUser()).doRefresh();
+	private void processFileResponse(String user) {
+		if (chViewers.containsKey(user)) {
+			chViewers.get(user).doRefresh();
 		}
 	}
 
@@ -616,14 +313,8 @@ public class RECheCoProManager {
 	 *********/
 
 	private void connectionKilled() {
-		logWriter.writeCommand(CHUserLogWriter.LOGOUT);
-		logWriter.addRowToTable();
-		logWriter.saveTableToFile();
 		resetMenubar();
 		closeCHEditors();
-		if (msFrame != null) {
-			msFrame.dispose();
-		}
 		removeListeners();
 	}
 
@@ -677,7 +368,6 @@ public class RECheCoProManager {
 	private static final String PASSWORD_LABEL = "CheCoPro.password";
 	private static final String PORTNUMBER_LABEL = "CheCoPro.portnumber";
 	private static final String COLOR_LABEL = "CheCoPro.color";
-	private static final String LANGUAGE_LABEL = "CheCoPro.language";
 
 	class CheCoProPreferenceCategory extends CAbstractPreferenceCategory {
 
@@ -687,7 +377,6 @@ public class RECheCoProManager {
 		private JPasswordField passField = new JPasswordField(15);
 		private JComboBox<Integer> portBox = new JComboBox<Integer>();
 		private JComboBox<String> colorBox = new JComboBox<String>();
-		private JComboBox<String> languageBox = new JComboBox<String>();
 		private JPanel panel = new CheCoProPreferencePanel();
 
 		@Override
@@ -719,11 +408,6 @@ public class RECheCoProManager {
 				colorBox.setSelectedItem(getRepository().get(COLOR_LABEL));
 				changeStringToColor(getRepository().get(COLOR_LABEL));
 			}
-			if (getRepository().exists(LANGUAGE_LABEL)) {
-				languageBox.setSelectedIndex(Integer.parseInt(getRepository()
-						.get(LANGUAGE_LABEL)));
-				language = Integer.parseInt(getRepository().get(LANGUAGE_LABEL));
-			}
 
 			port += 20000;
 		}
@@ -750,7 +434,6 @@ public class RECheCoProManager {
 			password = String.valueOf(passField.getPassword());
 			port = portBox.getSelectedIndex() + 20000;
 			changeStringToColor((String) colorBox.getSelectedItem());
-			language = languageBox.getSelectedIndex();
 			
 			getRepository().put(LOGINID_LABEL, user);
 			getRepository().put(PASSWORD_LABEL, password);
@@ -758,8 +441,6 @@ public class RECheCoProManager {
 					Integer.toString(portBox.getSelectedIndex()));
 			getRepository().put(COLOR_LABEL,
 					(String) colorBox.getSelectedItem());
-			getRepository().put(LANGUAGE_LABEL, 
-					Integer.toString(languageBox.getSelectedIndex()));
 		}
 
 		class CheCoProPreferencePanel extends JPanel {
@@ -794,17 +475,10 @@ public class RECheCoProManager {
 				colorBox.addItem("CYAN");				
 				colorPanel.add(colorBox);
 				
-				JPanel languagePanel = new JPanel(flowLayout);
-				languagePanel.add(new JLabel("Language : "));
-				languageBox.addItem("日本語");
-				languageBox.addItem("English");
-				languagePanel.add(languageBox);
-				
 				this.add(namePanel, BorderLayout.CENTER);
 				this.add(passPanel, BorderLayout.CENTER);
 				this.add(portPanel, BorderLayout.CENTER);
 				this.add(colorPanel, BorderLayout.CENTER);
-				this.add(languagePanel, BorderLayout.CENTER);
 			}
 		}
 

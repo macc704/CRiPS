@@ -152,7 +152,7 @@ public class CHProcessManager {
 	private void processFileResponse(CHFileResponse response) {
 		CHFileSystem.saveFiles(response.getFiles(),
 				CHFileSystem.getUserDirForClient(response.getUser()));
-		// TODO 対象のCHEditorが開いていたらリフレッシュ
+		component.setUser(response.getUser());
 	}
 
 	private void processFilelistResponse(CHFilelistResponse response) {

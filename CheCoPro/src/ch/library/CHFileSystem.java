@@ -219,4 +219,16 @@ public class CHFileSystem {
 		table.add(header);
 		CCSVFileIO.saveByListList(table, file);
 	}
+	
+	public static CFileFilter createCFileFilterForPull(boolean java, boolean material) {
+		if (java && material) {
+			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", ".*xml");
+		} else if (java && !material) {
+			return CFileFilter.ACCEPT_BY_NAME_FILTER("*.java");
+		} else if (!java && material) {
+			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml",
+					"*.java");
+		}
+		return null;
+	}
 }

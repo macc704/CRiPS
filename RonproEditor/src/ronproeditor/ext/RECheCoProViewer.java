@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -21,10 +22,14 @@ import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFileFilter;
 import clib.common.system.CJavaSystem;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHSourceChanged;
+import ch.library.CHFileSystem;
 import ch.util.CHBlockEditorController;
+import ch.view.CHPullDialog;
 import ronproeditor.REApplication;
 import ronproeditor.RESourceManager;
 
@@ -35,6 +40,7 @@ public class RECheCoProViewer {
 	public static final int MENU_INDEX_FILE = 0;
 	public static final int MENU_INDEX_EDIT = 1;
 	public static final int MENU_INDEX_TOOLS = 3;
+	public static final int MENU_INDEX_SYNC = 5;
 	public static final int ITEM_INDEX_CUT = 3;
 	public static final int ITEM_INDEX_COPY = 4;
 	
@@ -99,7 +105,25 @@ public class RECheCoProViewer {
 	private void initializeMenuBer() {
 		JMenuBar menuBar = application.getFrame().getJMenuBar();
 		
-		// Fileメニューの初期化
+		initializeFileMenu();
+		initializeEditMenu();
+		initializeToolsMenu();
+		
+		// BlockEditorの初期化
+		getMenu(MENU_INDEX_TOOLS).add(initializeBlockEditorCommand());
+		
+		// 同期ボタンの初期化
+		menuBar.add(initializeSyncButton());
+		
+		menuBar.add(initializePullButton());
+		
+		application.getFrame().setJMenuBar(menuBar);
+	}
+	
+	/**
+	 * Fileメニューの初化
+	 */
+	private void initializeFileMenu() {
 		int itemCount = getMenu(MENU_INDEX_FILE).getItemCount() - 1;
 		for ( ; itemCount >= 0; itemCount--) {
 			if (itemCount != 8 && itemCount != 12) {
@@ -107,24 +131,57 @@ public class RECheCoProViewer {
 			}
 		}
 		getMenu(MENU_INDEX_FILE).insertSeparator(1);
-		
-		// Editメニューの初期化
+	}
+	
+	/**
+	 * Editメニューの初期化
+	 */
+	private void initializeEditMenu() {
 		getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_CUT).addActionListener(copyListener);
 		getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_COPY).addActionListener(copyListener);
-		
-		// Toolsメニューの初期化
-		itemCount = getMenu(MENU_INDEX_TOOLS).getItemCount() - 1;
+	}
+	
+	/**
+	 * Toolsメニューの初期化
+	 */
+	private void initializeToolsMenu() {
+		int itemCount = getMenu(MENU_INDEX_TOOLS).getItemCount() - 1;
 		for ( ; itemCount >= 0; itemCount--) {
 			getMenu(MENU_INDEX_TOOLS).remove(itemCount);
 		}
-		
-		// BlockEditor
-		getMenu(MENU_INDEX_TOOLS).add(initializeBlockEditorCommand());
-		
-		menuBar.add(initializeSyncButton());
-		application.getFrame().setJMenuBar(menuBar);
 	}
 	
+	/**
+	 * chViewer用BlockEditorActionの初期化
+	 * @return actionOpenBlockEditor
+	 */
+	private Action initializeBlockEditorCommand() {
+		application.setChBlockEditorController(new CHBlockEditorController(user));
+		Action actionOpenBlockEditor = new AbstractAction() {
+			
+			private static final long serialVersionUID = 1L;
+	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				File selectedFile = null;
+				String langDefFilePath = "";
+				if (application.getChBlockEditorController().isFileOpened()){
+					selectedFile = application.getResourceRepository().getCCurrentFile().toJavaFile();
+					langDefFilePath = application.getResourceRepository().getCCurrentProject()
+							.getAbsolutePath().toString() + "/lang_def_project.xml";
+				}
+				doOpenBlockEditorForCH(application.getChBlockEditorController(), selectedFile, langDefFilePath);
+			}
+		};
+		
+		actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
+		actionOpenBlockEditor.putValue(Action.ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_MASK));
+		actionOpenBlockEditor.setEnabled(true);
+		
+		return actionOpenBlockEditor;
+	}
+
 	/**
 	 * 同期ボタンの初期化
 	 * @return syncButton
@@ -165,35 +222,31 @@ public class RECheCoProViewer {
 	}
 	
 	/**
-	 * chViewer用BlockEditorActionの初期化
-	 * @return actionOpenBlockEditor
+	 * 取り込みボタンの初期化
+	 * @return pullButton
 	 */
-	private Action initializeBlockEditorCommand() {
-		application.setChBlockEditorController(new CHBlockEditorController(user));
-		Action actionOpenBlockEditor = new AbstractAction() {
-			
-			private static final long serialVersionUID = 1L;
+	private JButton initializePullButton() {
+		JButton pullButton = new JButton("取り込み↓");
+		pullButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				File selectedFile = null;
-				String langDefFilePath = "";
-				if (application.getChBlockEditorController().isFileOpened()){
-					selectedFile = application.getResourceRepository().getCCurrentFile().toJavaFile();
-					langDefFilePath = application.getResourceRepository().getCCurrentProject()
-							.getAbsolutePath().toString() + "/lang_def_project.xml";
+				CHPullDialog pullDialog = new CHPullDialog(user, 0);
+				boolean java = pullDialog.isJavaChecked();
+				boolean material = pullDialog.isMaterialCecked();
+				if (java || material) {
+					doPull(user, CHFileSystem.createCFileFilterForPull(java, material));
 				}
-				doOpenBlockEditorForCH(application.getChBlockEditorController(), selectedFile, langDefFilePath);
+				application.doRefresh();
 			}
-		};
-		
-		actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
-		actionOpenBlockEditor.putValue(Action.ACCELERATOR_KEY,
-				KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_MASK));
-		actionOpenBlockEditor.setEnabled(true);
-		
-		return actionOpenBlockEditor;
+
+		});
+		return pullButton;
 	}
+	
+	/***************
+	 * Viewer操作関連
+	 ***************/
 	
 	public REApplication doOpenNewCH(REApplication application) {
 		this.application = application.doOpenNewRE(CH_DIR_PATH + "/" + user);
@@ -201,33 +254,8 @@ public class RECheCoProViewer {
 		return this.application;
 	}
 	
-	private void doOpenBlockEditorForCH(CHBlockEditorController bc,File selectedFile, String langDefFilePath) {
-		String xmlFilePath = "";
-		
-		if (selectedFile != null) {
-			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
-					application.getLibraryManager().getLibsAsArray());
-		}
-		bc.openBlockEditor(langDefFilePath, xmlFilePath);
-	}
-	
-	private void reloadBlockEditor() {
-		CHBlockEditorController bc = application.getChBlockEditorController();
-		File selectedFile = null;
-		String langDefFilePath = "";
-		String xmlFilePath = "";
-		
-		if (property.equals(RESourceManager.DOCUMENT_OPENED)) {
-			application.getChBlockEditorController().setFileOpened(true);		
-			selectedFile = application.getResourceRepository().getCCurrentFile().toJavaFile();
-			langDefFilePath = application.getResourceRepository()
-					.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
-			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
-					application.getLibraryManager().getLibsAsArray());
-		} else {
-			application.getChBlockEditorController().setFileOpened(false);
-		}
-		bc.reloadBlockEditor(langDefFilePath, xmlFilePath);
+	public void doRefresh() {
+		application.doRefresh();
 	}
 	
 	/**
@@ -260,29 +288,90 @@ public class RECheCoProViewer {
 			}
 		});
 	}
+
+	/********************
+	 * BlockEditor操作関連
+	 ********************/
 	
-	/******************************
-	 * 状態によるviewerのenable操作関連
-	 ******************************/
+	private void doOpenBlockEditorForCH(CHBlockEditorController bc,File selectedFile, String langDefFilePath) {
+		String xmlFilePath = "";
+		
+		if (selectedFile != null) {
+			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
+					application.getLibraryManager().getLibsAsArray());
+		}
+		bc.openBlockEditor(langDefFilePath, xmlFilePath);
+	}
 	
+	private void reloadBlockEditor() {
+		CHBlockEditorController bc = application.getChBlockEditorController();
+		File selectedFile = null;
+		String langDefFilePath = "";
+		String xmlFilePath = "";
+		
+		if (property.equals(RESourceManager.DOCUMENT_OPENED)) {
+			application.getChBlockEditorController().setFileOpened(true);		
+			selectedFile = application.getResourceRepository().getCCurrentFile().toJavaFile();
+			langDefFilePath = application.getResourceRepository()
+					.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
+			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
+					application.getLibraryManager().getLibsAsArray());
+		} else {
+			application.getChBlockEditorController().setFileOpened(false);
+		}
+		bc.reloadBlockEditor(langDefFilePath, xmlFilePath);
+	}
+	
+	/*******************
+	 * 取り込みボタンの関連
+	 *******************/
+	
+	private void doPull(String user, CFileFilter filter) {
+		CDirectory from = CHFileSystem.getUserDirForClient(user);
+		CDirectory to = CHFileSystem.getFinalProjectDir();
+		CHFileSystem.pull(from, to, filter);
+	}
+	
+	/**************
+	 * setEnabled
+	 **************/
+	
+	/**
+	 * ViewerのTextPane操作の可否を設定
+	 * @param enabled
+	 */
 	public void setEnabledForTextPane(boolean enabled) {
 		if (property.equals(RESourceManager.DOCUMENT_OPENED)) {
 			application.getFrame().getEditor().getViewer().getTextPane().setEditable(enabled);
 		}
 	}
 	
+	/**
+	 * Viewerのメニューバー操作の可否を設定
+	 * @param enabled
+	 */
 	public void setEnabledForMenuBar(boolean enabled) {
-		for (int i = 0; i < getMenuCount() - 1; i++) {
-			application.getFrame().getJMenuBar().getMenu(i).setEnabled(enabled);
+		for (int i = 0; i < getMenuCount(); i++) {
+			if (i != MENU_INDEX_SYNC){
+				application.getFrame().getJMenuBar().getMenu(i).setEnabled(enabled);
+			}
 		}
 	}
 	
+	/**
+	 * Viewerの同期ボタン操作の可否を設定
+	 * @param enabled
+	 */
 	public void setEnabledForSyncButton(boolean enabled) {
 		if (!enabled && getSyngButton().getText().equals("同期中")) {
 				getSyngButton().doClick();
 		}
 		getSyngButton().setEnabled(enabled);
 	}
+	
+	/*********
+	 * 判定関連
+	 *********/
 	
 	/**
 	 * 受け取ったテキストをViewerに表示できるか判定
