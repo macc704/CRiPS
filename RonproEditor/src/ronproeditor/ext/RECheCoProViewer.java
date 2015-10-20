@@ -4,19 +4,27 @@ import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JToggleButton;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import clib.common.system.CJavaSystem;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHSourceChanged;
+import ch.util.CHBlockEditorController;
 import ronproeditor.REApplication;
 import ronproeditor.RESourceManager;
 
@@ -37,10 +45,21 @@ public class RECheCoProViewer {
 	private boolean synchronizing;
 	private String property = "";
 	
+	private static int CTRL_MASK = InputEvent.CTRL_MASK;
+	static {
+		if (CJavaSystem.getInstance().isMac()) {
+			CTRL_MASK = InputEvent.META_MASK;
+		}
+	}
+	
 	public RECheCoProViewer(String user) {
 		this.user = user;
 	}
 
+	/***********
+	 * 初期化関連
+	 ***********/
+	
 	public void initialize() {
 		initializeFrame();
 		initializeListeners();
@@ -68,6 +87,7 @@ public class RECheCoProViewer {
 		public void propertyChange(PropertyChangeEvent evt) {
 			property = evt.getPropertyName();
 			setEnabledForTextPane(!synchronizing);
+			reloadBlockEditor();
 		}
 	};
 	
@@ -97,12 +117,18 @@ public class RECheCoProViewer {
 		for ( ; itemCount >= 0; itemCount--) {
 			getMenu(MENU_INDEX_TOOLS).remove(itemCount);
 		}
-		// TODO BlockEditor
+		
+		// BlockEditor
+		getMenu(MENU_INDEX_TOOLS).add(initializeBlockEditorCommand());
 		
 		menuBar.add(initializeSyncButton());
 		application.getFrame().setJMenuBar(menuBar);
 	}
 	
+	/**
+	 * 同期ボタンの初期化
+	 * @return syncButton
+	 */
 	private JToggleButton initializeSyncButton() {
 		String syncLabel = "同期中";
 		String asyncLabel = "非同期中";
@@ -138,10 +164,70 @@ public class RECheCoProViewer {
 		return syncButton;
 	}
 	
+	/**
+	 * chViewer用BlockEditorActionの初期化
+	 * @return actionOpenBlockEditor
+	 */
+	private Action initializeBlockEditorCommand() {
+		application.setChBlockEditorController(new CHBlockEditorController(user));
+		Action actionOpenBlockEditor = new AbstractAction() {
+			
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				File selectedFile = null;
+				String langDefFilePath = "";
+				if (application.getChBlockEditorController().isFileOpened()){
+					selectedFile = application.getResourceRepository().getCCurrentFile().toJavaFile();
+					langDefFilePath = application.getResourceRepository().getCCurrentProject()
+							.getAbsolutePath().toString() + "/lang_def_project.xml";
+				}
+				doOpenBlockEditorForCH(application.getChBlockEditorController(), selectedFile, langDefFilePath);
+			}
+		};
+		
+		actionOpenBlockEditor.putValue(Action.NAME, "Open BlockEditor");
+		actionOpenBlockEditor.putValue(Action.ACCELERATOR_KEY,
+				KeyStroke.getKeyStroke(KeyEvent.VK_O, CTRL_MASK));
+		actionOpenBlockEditor.setEnabled(true);
+		
+		return actionOpenBlockEditor;
+	}
+	
 	public REApplication doOpenNewCH(REApplication application) {
 		this.application = application.doOpenNewRE(CH_DIR_PATH + "/" + user);
 		initialize();
 		return this.application;
+	}
+	
+	private void doOpenBlockEditorForCH(CHBlockEditorController bc,File selectedFile, String langDefFilePath) {
+		String xmlFilePath = "";
+		
+		if (selectedFile != null) {
+			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
+					application.getLibraryManager().getLibsAsArray());
+		}
+		bc.openBlockEditor(langDefFilePath, xmlFilePath);
+	}
+	
+	private void reloadBlockEditor() {
+		CHBlockEditorController bc = application.getChBlockEditorController();
+		File selectedFile = null;
+		String langDefFilePath = "";
+		String xmlFilePath = "";
+		
+		if (property.equals(RESourceManager.DOCUMENT_OPENED)) {
+			application.getChBlockEditorController().setFileOpened(true);		
+			selectedFile = application.getResourceRepository().getCCurrentFile().toJavaFile();
+			langDefFilePath = application.getResourceRepository()
+					.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
+			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
+					application.getLibraryManager().getLibsAsArray());
+		} else {
+			application.getChBlockEditorController().setFileOpened(false);
+		}
+		bc.reloadBlockEditor(langDefFilePath, xmlFilePath);
 	}
 	
 	/**
@@ -175,6 +261,9 @@ public class RECheCoProViewer {
 		});
 	}
 	
+	/******************************
+	 * 状態によるviewerのenable操作関連
+	 ******************************/
 	
 	public void setEnabledForTextPane(boolean enabled) {
 		if (property.equals(RESourceManager.DOCUMENT_OPENED)) {
@@ -208,6 +297,10 @@ public class RECheCoProViewer {
 				.getName().equals(currentFileName) && synchronizing;
 		}
 	}
+	
+	/********************
+	 * setter and getter
+	 ********************/
 
 	public REApplication getApplication() {
 		return application;

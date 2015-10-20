@@ -128,7 +128,6 @@ public class CHProcessManager {
 		component.setUserStates(userStates);
 		memberSelector.setMembers(result.getUserStates());
 		memberSelector.initListener();
-		// TODO CHエディタの同期操作
 	}
 
 	private void processSourceChanged(CHSourceChanged response) {

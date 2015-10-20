@@ -44,16 +44,10 @@ import ronproeditor.REApplication;
 import ronproeditor.views.REFrame;
 import ch.conn.CHCliant;
 import ch.conn.framework.CHConnection;
-import ch.conn.framework.CHFile;
 import ch.conn.framework.CHUserLogWriter;
 import ch.conn.framework.CHUserState;
-import ch.conn.framework.packets.CHEntryResult;
-import ch.conn.framework.packets.CHFileRequest;
 import ch.conn.framework.packets.CHFileResponse;
 import ch.conn.framework.packets.CHFilelistRequest;
-import ch.conn.framework.packets.CHFilelistResponse;
-import ch.conn.framework.packets.CHFilesizeNotice;
-import ch.conn.framework.packets.CHLoginRequest;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
@@ -65,9 +59,7 @@ import ch.util.CHListener;
 import ch.view.CHMemberSelectorFrame;
 import ch.view.CHPullDialog;
 import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileFilter;
-import clib.common.filesystem.sync.CFileHashList;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
 
@@ -161,8 +153,7 @@ public class RECheCoProManager {
 				if (e.getKeyCode() == KeyEvent.VK_V) {
 					if ((mod & CTRL_MASK) != 0) {
 						System.out.println("paste");
-						writePasteLog(application.getSourceManager()
-								.getCCurrentFile(), getClipbordString());
+
 					}
 				}
 			}
@@ -211,7 +202,6 @@ public class RECheCoProManager {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			writeCopyLog(application);
 		}
 	};
 	
@@ -219,7 +209,6 @@ public class RECheCoProManager {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			writePasteLog(application.getSourceManager().getCCurrentFile(), getClipbordString());
 		}
 	};
 	
@@ -248,22 +237,6 @@ public class RECheCoProManager {
 		
 		application.getFrame().getJMenuBar().getMenu(0).getItem(8)
 				.removeActionListener(saveListener);
-	}
-
-	private void writeCopyLog(REApplication application) {
-		String code = application.getFrame().getEditor().getViewer()
-				.getTextPane().getSelectedText();
-		logWriter.writeCommand(CHUserLogWriter.COPY_CODE);
-		logWriter.writeFrom(application.getSourceManager().getCCurrentFile());
-		logWriter.writeCode(code);
-		logWriter.addRowToTable();
-	}
-
-	private void writePasteLog(CFile file, String code) {
-		logWriter.writeCommand(CHUserLogWriter.PASTE_CODE);
-		logWriter.writeTo(file);
-		logWriter.writeCode(code);
-		logWriter.addRowToTable();
 	}
 
 	private void setMemberSelectorListner() {
@@ -393,7 +366,6 @@ public class RECheCoProManager {
 							.getTextPane()
 							.setEditable(!connButton.isSelected());
 				}
-				changeCHMenubar(chApplication, connButton.isSelected());
 			}
 		});
 
@@ -427,7 +399,6 @@ public class RECheCoProManager {
 		menuBar.setBackground(getUserColor(user));
 		chApplication.getFrame().setJMenuBar(menuBar);
 
-		changeCHMenubar(chApplication, connButton.isSelected());
 	}
 
 	private void doPull(final String user, CFileFilter filter) {
@@ -473,16 +444,8 @@ public class RECheCoProManager {
 				new PropertyChangeListener() {
 					@Override
 					public void propertyChange(PropertyChangeEvent evt) {
-						setCHTitleBar(chApplication, user);
 						if (evt.getPropertyName().equals(IREResourceRepository.DOCUMENT_OPENED)) {
-							initializeCHKeyListener(chApplication, user);
-							JToggleButton connButton = (JToggleButton) chApplication
-									.getFrame().getJMenuBar().getComponent(5);
-							chApplication.getFrame().getEditor().getViewer()
-									.getTextPane()
-									.setEditable(!connButton.isSelected());
-							changeCHMenubar(chApplication,
-									connButton.isSelected());
+
 							
 							chApplication.getChBlockEditorController().setFileOpened(true);
 							
@@ -519,61 +482,12 @@ public class RECheCoProManager {
 		bc.openBlockEditor(langDefFilePath, xmlFilePath);
 	}
 
-	private void initializeCHKeyListener(final REApplication chApplication, final String user) {
-		List<KeyListener> keyListeners = Arrays.asList(chApplication.getFrame()
-				.getEditor().getViewer().getTextPane().getKeyListeners());
-
-		for (KeyListener aKeyListener : keyListeners) {
-			chApplication.getFrame().getEditor().getViewer().getTextPane()
-					.removeKeyListener(aKeyListener);
-		}
-
-		chApplication.getFrame().getEditor().getViewer().getTextPane()
-				.addKeyListener(new KeyAdapter() {
-
-					@Override
-					public void keyPressed(KeyEvent e) {
-						int mod = e.getModifiers();
-						if (e.getKeyCode() == KeyEvent.VK_C
-								|| e.getKeyCode() == KeyEvent.VK_X) {
-							if ((mod & CTRL_MASK) != 0) {
-								writeCopyLog(chApplication);
-							}
-						} else if (e.getKeyCode() == KeyEvent.VK_S) {
-							if ((mod & CTRL_MASK) != 0) {
-								setCHTitleBar(chApplication, user);
-							}
-						}
-					}
-
-					@Override
-					public void keyTyped(KeyEvent e) {
-						setCHTitleBar(chApplication, user);
-					}
-
-					@Override
-					public void keyReleased(KeyEvent e) {
-						setCHTitleBar(chApplication, user);
-					}
-				});
-	}
-
 	private void removeListeners(REFrame frame) {
 		List<WindowListener> listeners = new ArrayList<WindowListener>();
 		listeners = Arrays.asList(frame.getWindowListeners());
 		for (WindowListener aListener : listeners) {
 			frame.removeWindowListener(aListener);
 		}
-	}
-
-	private void setCHTitleBar(REApplication chApplication, String user) {
-		String title = user + "-" + APP_NAME + " Editor";
-		if (chApplication.getFrame().getEditor() != null) {
-			if (chApplication.getFrame().getEditor().isDirty()) {
-				title += "*";
-			}
-		}
-		chApplication.getFrame().setTitle(title);
 	}
 
 	private Color getUserColor(String user) {
@@ -583,15 +497,6 @@ public class RECheCoProManager {
 			}
 		}
 		return DEFAULT_COLOR;
-	}
-
-	private void changeCHMenubar(REApplication chApplication, boolean isSelected) {
-		for (int i = 0; i < 7; i++) {
-			if (i != 5) {
-				chApplication.getFrame().getJMenuBar().getComponent(i)
-						.setEnabled(!isSelected);
-			}
-		}
 	}
 
 	/********************
@@ -665,36 +570,6 @@ public class RECheCoProManager {
 	
 	private void processLoginResult() {
 		initializeREListener();
-//		if (result.isResult() == CHLoginCheck.FAILURE) {
-//			conn.close();
-//		} else if (result.isResult() == CHLoginCheck.NEW_ENTRY) {
-//			CHEntryDialog entryDialog = new CHEntryDialog(user, password);
-//			entryDialog.open();
-//			user = entryDialog.getUser();
-//			password = entryDialog.getPassword();
-//			if (!user.equals("")) {
-//				conn.write(new CHEntryRequest(user, password));
-//			} else {
-//				conn.close();
-//			}
-//		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
-//			logWriter.writeCommand(CHUserLogWriter.LOGIN);
-//			logWriter.addRowToTable();
-//			initializeREListener();
-//			msFrame = new CHMemberSelectorFrame(user);
-//			msFrame.open();
-//		}
-	}
-
-	private void processEntryResult(CHEntryResult result) {
-		if (result.isResult()) {
-			// 登録成功
-			conn.write(new CHLoginRequest(user, password, color));
-		} else {
-			// 登録失敗
-			System.out.println("Entry failed");
-			conn.close();
-		}
 	}
 
 	private void processLoginMemberChanged(List<CHUserState> userStates) {
@@ -703,22 +578,6 @@ public class RECheCoProManager {
 			if (chViewers.containsKey(aUserState.getUser())) {
 				// ログイン状態に合わせて同期ボタン操作
 				chViewers.get(aUserState.getUser()).setEnabledForSyncButton(aUserState.isLogin());
-			}
-		}
-	}
-
-	private void controlSync(REApplication chApplication, boolean login) {
-		JToggleButton connButton = (JToggleButton) chApplication.getFrame()
-				.getJMenuBar().getComponent(5);
-		if (connButton.isSelected()) {
-			if (!login) {
-				connButton.doClick();
-				connButton.setEnabled(false);
-			}
-		} else {
-			if (login) {
-				connButton.setEnabled(true);
-				connButton.doClick();
 			}
 		}
 	}
@@ -739,13 +598,6 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void processFileRequest(CHFileRequest request) {
-		List<CHFile> files = CHFileSystem.getCHFiles(
-				request.getRequestFilePaths(),
-				CHFileSystem.getFinalProjectDir());
-		conn.write(new CHFileResponse(user, files));
-	}
-
 	private void processFileResponse(CHFileResponse response) {
 		CHFileSystem.saveFiles(response.getFiles(),
 				CHFileSystem.getUserDirForClient(response.getUser()));
@@ -754,24 +606,10 @@ public class RECheCoProManager {
 		}
 	}
 
-	private void processFilelistResponse(CHFilelistResponse response) {
-		String user = response.getUser();
-		CDirectory copyDir = CHFileSystem.getUserDirForClient(user);
-
-		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths(
-				response.getFileList(), copyDir);
-
-		conn.write(new CHFileRequest(user, requestFilePaths));
-	}
-
 	private void processFilelistRequest(CHFilelistRequest request) {
 		cliant.getProcessManager().doProcess(request);
 	}
 
-	private void processFilesizeNotice(CHFilesizeNotice notice) {
-		int fileSize = notice.getFileSize();
-		System.out.println("size ; " + fileSize);
-	}
 
 	/*********
 	 * 切断処理
@@ -826,26 +664,6 @@ public class RECheCoProManager {
 	/**********
 	 * 判定関係
 	 **********/
-
-	public boolean shouldPrintSource(String sender, String senderCurrentFile) {
-		if (!chFrameMap.containsKey(sender)) {
-			return false;
-		} else {
-			JToggleButton button = (JToggleButton) chFrameMap.get(sender)
-					.getFrame().getJMenuBar().getComponent(5);
-			if (!button.isSelected()) {
-				return false;
-			}
-		}
-		if (chFrameMap.get(sender).getFrame().getEditor() == null) {
-			return false;
-		}
-		if (!chFrameMap.get(sender).getSourceManager().getCurrentFile()
-				.getName().equals(senderCurrentFile)) {
-			return false;
-		}
-		return true;
-	}
 	
 	public boolean isConnect() {
 		return conn.established();
