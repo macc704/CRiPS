@@ -23,6 +23,8 @@ import bc.utils.ExtensionChanger;
 public class JavaToBlockMain {
 
 	private boolean isNewOpenBlocks = false;
+	public static String LANG_DEF_PATH = "ext/block/lang_def.xml";
+	public static String LANG_DEF_BASE_DIR = "ext/block/";
 
 	public JavaToBlockMain() {
 
@@ -39,10 +41,6 @@ public class JavaToBlockMain {
 				new String[] {});
 	}
 
-	// public String run(File file) throws Exception {
-	// return run(file, "JISAutoDetect");
-	// }
-
 	public String run(File file, String enc, String[] classpaths)
 			throws Exception {
 		String filePath = ExtensionChanger.changeToXmlExtension(file.getPath());
@@ -56,7 +54,7 @@ public class JavaToBlockMain {
 
 	public void process(File file, String enc, PrintStream out, String[] classpaths) throws Exception {
 		// 言語定義ファイルの上書き
-		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(file,enc, classpaths);
+		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(file,enc, classpaths, LANG_DEF_BASE_DIR);
 		rewriter.rewrite();
 
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classpaths);
@@ -70,29 +68,4 @@ public class JavaToBlockMain {
 		out.close();
 	}
 
-
-
-	// private JarFile getObpro(File file) {
-	// File dir = file.getParentFile();
-	// while (!(dir.isDirectory() && dir.getName().equals("testbase"))) {
-	// dir = dir.getParentFile();
-	// }
-	// for (int i = 0; i < dir.listFiles().length; i++) {
-	// if (dir.listFiles()[i].getName().equals("lib")) {
-	// dir = dir.listFiles()[i];
-	// JarFile obpro;
-	// for (int j = 0; j < dir.listFiles().length; j++) {
-	// if (dir.listFiles()[j].getName().equals("obpro.jar")) {
-	// try {
-	// obpro = new JarFile(dir.listFiles()[j]);
-	// return obpro;
-	// } catch (IOException e) {
-	// System.out.println("obpro読み込みに失敗");
-	// }
-	// }
-	// }
-	// }
-	// }
-	// return null;
-	// }
 }

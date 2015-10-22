@@ -246,8 +246,7 @@ public class Block implements ISupportMemento {
 	 *            not be linked to stubs
 	 */
 	public Block(Workspace workspace, String genusName, boolean linkToStubs) {
-		this(workspace, genusName, workspace.getEnv()
-				.getGenusWithName(genusName).getInitialLabel(), linkToStubs);
+		this(workspace, genusName, workspace.getEnv().getGenusWithName(genusName).getInitialLabel(), linkToStubs);
 	}
 
 	// /////////////////
@@ -1134,14 +1133,6 @@ public class Block implements ISupportMemento {
 			return getGenus().getStubList();
 		} else {
 			return new ArrayList<String>();
-		}
-	}
-
-	public Map<String, List<String>> getMethodList() {
-		if (this.linkToStubs) {
-			return getGenus().getMethods();
-		} else {
-			return new HashMap<String, List<String>>();
 		}
 	}
 

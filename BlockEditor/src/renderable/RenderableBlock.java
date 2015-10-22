@@ -40,7 +40,6 @@ import workspace.ContextMenu;
 import workspace.FactoryManager;
 import workspace.ISupportMemento;
 import workspace.MiniMap;
-import workspace.Page;
 import workspace.RBParent;
 import workspace.SearchableElement;
 import workspace.Workspace;
@@ -195,11 +194,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	// #ohata added
 	private String loadComment;
 
-	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
-
-	public Map<String, List<Map<String, List<String>>>> getMethods() {
-		return methods;
-	}
 
 	/**
 	 * Constructs a new RenderableBlock instance with the specified parent
@@ -319,9 +313,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		highlighter = new RBHighlightHandler(this);
 
 		String blockDescription = getBlock().getBlockDescription();
-
-		// ohata added method info
-		this.methods = getBlock().getMethods();
 
 		if (blockDescription != null) {
 			setBlockToolTip(getBlock().getBlockDescription().trim());
@@ -1798,8 +1789,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		Component oldParent = renderable.getParent();
 
 		Workspace.getInstance().addToBlockLayer(renderable);
-		renderable.setLocation(SwingUtilities.convertPoint(oldParent,
-				renderable.getLocation(), Workspace.getInstance()));
+		renderable.setLocation(SwingUtilities.convertPoint(oldParent,renderable.getLocation(), Workspace.getInstance()));
 
 		for (BlockConnector socket : BlockLinkChecker
 				.getSocketEquivalents(Block.getBlock(renderable.blockID))) {

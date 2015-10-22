@@ -85,19 +85,11 @@ public class Block implements ISupportMemento {
 	// argument descriptions
 	private ArrayList<String> argumentDescriptions;
 
-	// ohata added
-	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
-
 	private ArrayList<String> parameterizedTypes;
 
-	public Map<String, List<Map<String, List<String>>>> getMethods() {
-		return methods;
-	}
 
 	public String getJavaType() {
-
 		return this.javaType;
-
 	}
 
 	/**
@@ -157,9 +149,6 @@ public class Block implements ISupportMemento {
 			this.genusName = genusName;
 
 			this.label = label;
-
-			this.methods = genus.getMethods();// ohata added
-
 			setHeaderLabel(BlockGenus.getGenusWithName(genusName)
 					.getInitHeaderLabel());
 			setFooterLabel(BlockGenus.getGenusWithName(genusName)

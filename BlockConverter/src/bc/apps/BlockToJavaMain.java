@@ -20,7 +20,7 @@ public class BlockToJavaMain {
 		File javaFile = new File(ExtensionChanger.changeToJavaExtension(openBlockXmlFile.getPath()));
 
 		// 言語定義ファイルの上書き
-		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(javaFile, enc,classpaths);
+		LangDefFilesReWriterMain rewriter = new LangDefFilesReWriterMain(javaFile, enc,classpaths, JavaToBlockMain.LANG_DEF_BASE_DIR);
 		rewriter.rewrite();
 
 		Document document = DomParserWrapper.parse(openBlockXmlFile.getPath());

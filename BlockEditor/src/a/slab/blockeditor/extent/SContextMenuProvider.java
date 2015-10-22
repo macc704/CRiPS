@@ -172,75 +172,6 @@ public class SContextMenuProvider {
 		return createIncrementerItem;
 	}
 
-	//	private JMenuItem createCallActionMethodBlockMenu() {
-	//		if (createCallActionMethodBlockItem == null) {
-	//			createCallActionMethodBlockItem = new JMenuItem("「メソッド実行ブロック」の作成");
-	//			createCallActionMethodBlockItem
-	//					.addActionListener(new ActionListener() {
-	//						public void actionPerformed(ActionEvent e) {
-	//							new SStubCreator("callActionMethod", rb).doWork(e);
-	//						}
-	//					});
-	//		}
-	//		return createCallActionMethodBlockItem;
-	//	}
-	//
-	//	private JMenuItem createCallGetterMethodBlockMenu() {
-	//		if (createCallGetterMethodBlockItem == null) {
-	//			createCallGetterMethodBlockItem = new JMenuItem(
-	//					"「メソッド実行ブロック(整数型)」の作成");
-	//			createCallGetterMethodBlockItem
-	//					.addActionListener(new ActionListener() {
-	//						public void actionPerformed(ActionEvent e) {
-	//							new SStubCreator("callGetterMethod", rb).doWork(e);
-	//						}
-	//					});
-	//		}
-	//		return createCallGetterMethodBlockItem;
-	//	}
-	//
-	//	private JMenuItem createCallDoubleMethodBlockMenu() {
-	//		if (createCallDoubleMethodBlockItem == null) {
-	//			createCallDoubleMethodBlockItem = new JMenuItem(
-	//					"「メソッド実行ブロック(double型)」の作成");
-	//			createCallDoubleMethodBlockItem
-	//					.addActionListener(new ActionListener() {
-	//						public void actionPerformed(ActionEvent e) {
-	//							new SStubCreator("callDoubleMethod", rb).doWork(e);
-	//						}
-	//					});
-	//		}
-	//		return createCallDoubleMethodBlockItem;
-	//	}
-	//
-	//	private JMenuItem createCallBooleanMethodBlockMenu() {
-	//		if (createCallBooleanMethodBlockItem == null) {
-	//			createCallBooleanMethodBlockItem = new JMenuItem(
-	//					"「メソッド実行ブロック(真偽型)」の作成");
-	//			createCallBooleanMethodBlockItem
-	//					.addActionListener(new ActionListener() {
-	//						public void actionPerformed(ActionEvent e) {
-	//							new SStubCreator("callBooleanMethod", rb).doWork(e);
-	//						}
-	//					});
-	//		}
-	//		return createCallBooleanMethodBlockItem;
-	//	}
-	//
-	//	private JMenuItem createCallStringMethodBlockMenu() {
-	//		if (createCallStringMethodBlockItem == null) {
-	//			createCallStringMethodBlockItem = new JMenuItem(
-	//					"「メソッド実行ブロック(文字列)」の作成");
-	//			createCallStringMethodBlockItem
-	//					.addActionListener(new ActionListener() {
-	//						public void actionPerformed(ActionEvent e) {
-	//							new SStubCreator("callStringMethod", rb).doWork(e);
-	//						}
-	//					});
-	//		}
-	//		return createCallStringMethodBlockItem;
-	//	}
-
 	private JMenuItem createCallerMenu() {
 		if (createCallerItem == null) {
 			createCallerItem = new JMenuItem("「メソッド実行ブロック」の作成");
@@ -446,8 +377,8 @@ public class SContextMenuProvider {
 		if (rb.getBlock().isObjectTypeVariableDeclBlock()
 				|| rb.getBlock().getGenusName().contains("listobject")) {
 
-			for (String key : rb.getMethods().keySet()) {
-				methodMenu.add(createClassMethodsCategory(key + "のメソッド", rb.getMethods().get(key)));
+			for (String key : BlockGenus.getGenusWithName(rb.getGenus()).getMethods().keySet()) {
+				methodMenu.add(createClassMethodsCategory(key + "のメソッド", BlockGenus.getGenusWithName(rb.getGenus()).getMethods().get(key)));
 			}
 
 			if (rb.getBlock().getHeaderLabel().contains("Scanner")) {
@@ -655,46 +586,8 @@ public class SContextMenuProvider {
 			menu.add(createBlockCopyMenu());
 			menu.addSeparator();
 		}
-
-		//		if (!rb.getBlock().isProcedureDeclBlock()) {
-		//			menu.add(createImportMenu());
-		//			menu.add(createPasteMenu());
-		//			menu.addSeparator();
-		//		}
-
-		//
-		//		//古いオブジェクト実行ブロックの互換性のために残してあります．
-		//		if (rb.getBlock().isObjectTypeVariableDeclBlock()) {
-		//			menu.add(createCallActionMethodBlockMenu());
-		//			menu.add(createCallGetterMethodBlockMenu());
-		//			menu.add(createCallDoubleMethodBlockMenu());
-		//			menu.add(createCallBooleanMethodBlockMenu());
-		//			menu.add(createCallStringMethodBlockMenu());
-		//			menu.addSeparator();
-		//		}
 		return menu;
 	}
-
-	//
-	//	private JMenuItem createActionBlockMenu() {
-	//		JMenuItem item = new JMenuItem("「実行」ブロック作成");
-	//		item.addActionListener(new ActionListener() {
-	//			public void actionPerformed(ActionEvent e) {
-	//				createActionGetterBlock(rb, "callActionMethod2");
-	//			}
-	//		});
-	//		return item;
-	//	}
-	//
-	//	private JMenuItem createGetterBlockMenu() {
-	//		JMenuItem item = new JMenuItem("「実行値」ブロック作成");
-	//		item.addActionListener(new ActionListener() {
-	//			public void actionPerformed(ActionEvent e) {
-	//				createActionGetterBlock(rb, "callGetterMethod2");
-	//			}
-	//		});
-	//		return item;
-	//	}
 
 	private JMenuItem createCallClassMethodMenu(
 			final Map<String, List<String>> method) {
