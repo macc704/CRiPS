@@ -1627,7 +1627,7 @@
 			<DefaultArg genus-name="new-object" label="ListTurtle＜Turtle＞"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
-	<Type></Type>
+	<Type>ListTurtle&lt;Turtle&gt;</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>

@@ -1593,8 +1593,7 @@ public class Block implements ISupportMemento {
 	 * @param y
 	 * @return the node of this
 	 */
-	public Node getSaveNode(Document document, int x, int y, Node commentNode,
-			boolean isCollapsed) {
+	public Node getSaveNode(Document document, int x, int y, Node commentNode, boolean isCollapsed) {
 		Element blockElement = document.createElement("Block");
 
 		blockElement.setAttribute("id", Long.toString(getBlockID()));
@@ -1749,6 +1748,8 @@ public class Block implements ISupportMemento {
 		Pattern attrExtractor = Pattern.compile("\"(.*)\"");
 		Matcher nameMatcher;
 
+		String type = null;
+
 		if (node.getNodeName().equals("BlockStub")) {
 			isStubBlock = true;
 			Node blockNode = null;
@@ -1797,6 +1798,8 @@ public class Block implements ISupportMemento {
 				child = children.item(i);
 				if (child.getNodeName().equals("Label")) {
 					label = child.getTextContent();
+				}else if (child.getNodeName().equals("Type")){
+					type = child.getTextContent();
 				} else if (child.getNodeName().equals("PageLabel")) {
 					pagelabel = child.getTextContent();
 				} else if (child.getNodeName().equals("CompilerErrorMsg")) {
@@ -1915,6 +1918,10 @@ public class Block implements ISupportMemento {
 			}
 			if(name != null){
 				block.name = name;
+			}
+
+			if(type != null){
+				block.type = type;
 			}
 
 			block.hasFocus = hasFocus;
