@@ -16,8 +16,10 @@ import clib.view.progress.CPanelProcessingMonitor;
 import coco.controller.CCCompileErrorConverter;
 import coco.controller.CCCompileErrorKindLoader;
 import coco.model.CCCompileErrorManager;
+import ppv.app.datamanager.IPPVLoader;
 import ppv.app.datamanager.PPDataManager;
 import ppv.app.datamanager.PPProjectSet;
+import ppv.app.datamanager.PPRonproPPVLoader;
 
 
 // TODO: pathとdirを変えた部分があるので，再度調整する
@@ -56,12 +58,9 @@ public class CCCreateCocodata {
 			return false;
 		}
 
-
-		int res = JOptionPane.showConfirmDialog(null,
+		return JOptionPane.OK_OPTION != JOptionPane.showConfirmDialog(null,
 				"データの作成には時間がかかりますが，よろしいですか？", "データの作成",
 				JOptionPane.OK_CANCEL_OPTION);
-
-		return res == JOptionPane.OK_OPTION;
 	}
 
 	/************************
@@ -175,21 +174,20 @@ public class CCCreateCocodata {
 	 * Convert Compile error Data for CocoViewer
 	 ************************/
 	private void convertCompileErrorData() {
-		CCCompileErrorManager manager = new CCCompileErrorManager();
 		String ppvRootPath = ccManager.getPathdata().getPPVRootDir().getAbsolutePath()
 				.toString() + "/";
 
 		// エラーの種類データをロード
 		CCCompileErrorKindLoader kindloader = new CCCompileErrorKindLoader(
-				manager);
+				ccManager);
 		kindloader.load(ccManager.getPathdata().getKindsFilePath());
 
 		// CompileErrorデータをCoco用にコンバート
 		try {
 			CCCompileErrorConverter errorConverter = new CCCompileErrorConverter(
-					manager);
-			errorConverter.convertData(ppvRootPath + ccManager.getPathdata().getOriginalDataFilePath(),
-					ppvRootPath + ccManager.getPathdata().getDataFilePath());
+					ccManager);
+			errorConverter.convertData(ccManager.getPathdata().getOriginalDataFilePath(),
+					ccManager.getPathdata().getDataFilePath());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

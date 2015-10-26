@@ -6,8 +6,13 @@ import coco.controller.CCMetricsLoader;
 import coco.model.CCCompileErrorManager;
 import coco.model.CCPathData;
 import coco.view.CCMainFrame;
+import ppv.app.datamanager.IPPVLoader;
 import ppv.app.datamanager.PPProjectSet;
+import ppv.app.datamanager.PPRonproPPVLoader;
 import ronproeditor.REApplication;
+
+import java.util.List;
+
 import clib.common.filesystem.CDirectory;
 
 public class RECocoViewerManager {
@@ -90,7 +95,6 @@ public class RECocoViewerManager {
 			String filepath = application.getExtensionDirectory()
 					.findDirectory(COCOVIEWER_DIR_NAME).findFile(KINDS_FILE).getAbsolutePath().toString();
 			cocoPathData.setKindsFilePath(filepath);
-			System.out.println(filepath);
 		}
 		
 		{
@@ -99,7 +103,6 @@ public class RECocoViewerManager {
 					.toString()
 					+ "/" + DATA_FILE;
 			cocoPathData.setDataFilePath(filepath);
-			System.out.println(filepath);
 		}
 
 		{
@@ -108,7 +111,6 @@ public class RECocoViewerManager {
 					.toString()
 					+ "/" + ORIGINAL_DATA_FILE;
 			cocoPathData.setOriginalDataFilePath(filepath);
-			System.out.println(filepath);
 		}
 
 		{
@@ -117,7 +119,6 @@ public class RECocoViewerManager {
 					.toString()
 					+ "/" + METRICS_FILE;
 			cocoPathData.setMetricsFilePath(filepath);
-			System.out.println(filepath);
 		}
 
 
@@ -145,6 +146,19 @@ public class RECocoViewerManager {
 					.findOrCreateDirectory(PPV_PROJECTSET_NAME);
 			cocoPathData.setPPVProjectSetName(dir);
 		}
-		manager.setCCPathData(cocoPathData);		
+		
+		manager.setCCPathData(cocoPathData);
+		
+		// Projects set
+		{
+			List<CDirectory> projects = application.getSourceManager()
+					.getAllProjects();
+			manager.setProjects(projects);	
+		}
+		
+		// Loader set
+		{
+			manager.setPPVLoader(new PPRonproPPVLoader());
+		}
 	}
 }

@@ -17,6 +17,7 @@ import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -43,6 +44,7 @@ import pres.loader.logmodel.PRCocoViewerLog;
  * 2014/07/14 version 0.1.1 ソースコード比較画面の対象ファイルをそのファイルだけか，プロジェクトごとかを選択可能に
  * 							CCGraphFrameのソースコードをリファクタリング
  * 
+ * TODO: ファイルデータなどのリロード
  */
 
 public class CCMainFrame extends JFrame {
@@ -152,6 +154,13 @@ public class CCMainFrame extends JFrame {
 			if (res != JOptionPane.OK_OPTION) {
 				return;
 			}
+		}
+		
+		try {
+			createCocodata = new CCCreateCocodata(manager);
+			createCocodata.createData();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Coco Data作成に失敗しました", "Coco Data作成失敗", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
