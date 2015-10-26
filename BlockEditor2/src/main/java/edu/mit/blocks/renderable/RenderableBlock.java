@@ -55,7 +55,6 @@ import edu.mit.blocks.renderable.BlockImageIcon.ImageLocation;
 import edu.mit.blocks.workspace.ContextMenu;
 import edu.mit.blocks.workspace.FactoryManager;
 import edu.mit.blocks.workspace.ISupportMemento;
-import edu.mit.blocks.workspace.Page;
 import edu.mit.blocks.workspace.RBParent;
 import edu.mit.blocks.workspace.SearchableElement;
 import edu.mit.blocks.workspace.Workspace;

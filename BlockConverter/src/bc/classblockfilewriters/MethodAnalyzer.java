@@ -27,6 +27,9 @@ public class MethodAnalyzer extends ASTVisitor {
 	}
 
 	public boolean visit(TypeDeclaration node) {
+		//add default constructor
+		methods.add(new ConstructorInfo(node.getName().toString(), node.getName().toString(), "public", node.getName().toString(), node.getName().toString()));
+
 		if (node.getSuperclassType() != null) {
 			this.superClassName = node.getSuperclassType().toString();
 			for (int i = 0; i < node.superInterfaceTypes().size(); i++) {

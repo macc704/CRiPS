@@ -31,11 +31,18 @@ public class PublicMethodInfo extends BasicModel {
 
 	public PublicMethodInfo(MethodDeclaration node) {
 		className = getClassNameFromMethodInvocation(node);
-
 		setMethodName(node);
 		setMethodParameterInfo(node);
 		setColor("255 0 0");
+	}
 
+	public PublicMethodInfo(String className, String javaType, String modifier, String returnType, String methodName){
+		this.className = className;
+		this.javaType = javaType;
+		this.modifier = modifier;
+		this.returnType = returnType;
+		this.methodName = methodName;
+		setColor("255 0 0");
 	}
 
 	public String getClassNameFromMethodInvocation(MethodDeclaration node) {

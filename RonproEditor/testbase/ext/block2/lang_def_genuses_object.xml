@@ -19,23 +19,6 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-Turtle" kind="function" initlabel="Turtle"
-	editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
-	<description>
-		<text>
-			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
-		</text>
-	</description>
-	<Type>Turtle</Type>
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-	</BlockConnectors>
-	<LangSpecProperties>
-		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
-		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
-	</LangSpecProperties>
-</BlockGenus>
-
 <BlockGenus name="new-object-withtext" kind="function"
 	initlabel="Turtle" editable-label="yes" header-label="新しく"
 	footer-label="を作る" color="16 240 27">
