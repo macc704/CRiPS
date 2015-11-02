@@ -1,15 +1,18 @@
 package ppv.view.parts;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import pres.loader.model.IPLFileProvider;
 import pres.loader.model.IPLUnit;
 import pres.loader.model.PLFile;
+import clib.common.model.ICModelChangeListener;
 import clib.common.time.CTime;
 import clib.view.timeline.model.CTimeModel;
 
@@ -23,6 +26,8 @@ public class PPSourceMetricsPane extends JPanel {
 	JSplitPane split = new JSplitPane();
 	private PPSourcePane sourcePane;
 	private IPLUnit selectedUnit;
+	private PPBlockPane blockPane;
+	private JScrollPane blockPaneInSP;
 
 	/**
 	 * @param timeModel
@@ -45,7 +50,34 @@ public class PPSourceMetricsPane extends JPanel {
 				return unit.getFile(time);
 			}
 		}, timeModel);
-		split.setLeftComponent(sourcePane);
+
+		blockPane = new PPBlockPane(new IPLFileProvider() {
+			@Override
+			public PLFile getFile(CTime time) {
+				if (selectedUnit != null) {
+					return selectedUnit.getFile(time);
+				}
+				return unit.getFile(time);
+			}
+		}, timeModel);
+		FlowLayout layout = new FlowLayout();// blockpaneの配置
+		layout.setAlignment(FlowLayout.LEFT);
+		blockPane.setLayout(layout);
+
+		timeModel.addModelListener(new ICModelChangeListener() {
+
+			@Override
+			public void modelUpdated(Object... args) {
+
+				if (sourcePane.getCurrentTextEditLogTimestamp() >= blockPane.getCurrentImgStamp()) {
+					split.setLeftComponent(sourcePane);
+				} else {
+					split.setLeftComponent(blockPaneInSP);
+				}
+			}
+		});
+		blockPaneInSP = new JScrollPane(blockPane);
+		split.setLeftComponent(blockPaneInSP);
 
 		PPUtilitiesPane utilitiesPane = new PPUtilitiesPane(timeModel, unit);
 		split.setRightComponent(utilitiesPane);
@@ -63,6 +95,7 @@ public class PPSourceMetricsPane extends JPanel {
 		if (this.selectedUnit != selectedUnit) {
 			this.selectedUnit = selectedUnit;
 			sourcePane.refresh();
+			blockPane.refresh();
 		}
 	}
 

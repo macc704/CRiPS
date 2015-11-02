@@ -47,12 +47,11 @@ public class PPBlockPane extends JPanel {
 		});
 		setBackground(Color.BLACK);
 		current = timeModel.getTime();
-		blockPrintDir = new File(new File(model.getFile(current).getDir()
-				.getAbsolutePath().toString()).getParentFile(), BLOCKPRINT_DIR);
+		blockPrintDir = new File(new File(model.getFile(current).getDir().getAbsolutePath().toString()).getParentFile(),
+				BLOCKPRINT_DIR);
 		blockImages = new SearchBlockImage().searchBlockImage(blockPrintDir);
 
-		imgLabel.setIcon(new ImageIcon(new File(blockPrintDir, current
-				.getAsLong() + ".jpg").getAbsolutePath()));
+		imgLabel.setIcon(new ImageIcon(new File(blockPrintDir, current.getAsLong() + ".jpg").getAbsolutePath()));
 		imgLabel.setVerticalAlignment(JLabel.TOP);
 		imgLabel.setHorizontalAlignment(JLabel.LEFT);
 
@@ -63,16 +62,17 @@ public class PPBlockPane extends JPanel {
 	public void refresh() {
 		current = timeModel.getTime();
 
-		int imgIndex = 0;
-		for (int i = 0; i < blockImages.length; ++i) {
+		int imgIndex = -1;
+		for (int i = 0; i < blockImages.length; i++) {
 			if (blockImages[i] <= current.getAsLong()) {
 				imgIndex++;
 			}
 		}
 
-		if (imgIndex >= blockImages.length) {
-			imgIndex = blockImages.length - 1;
+		if (imgIndex == -1) {
+			imgIndex = 0;
 		}
+
 		if (blockImages[0] <= current.getAsLong()) {
 			currentImgStamp = blockImages[imgIndex];
 		} else {
@@ -99,8 +99,7 @@ class SearchBlockImage {
 		long[] fileNames = new long[files.length];
 		for (int i = 0; i < files.length; ++i) {
 			int index = files[i].indexOf(".");
-			fileNames[i] = Long.valueOf(files[i].substring(0, index))
-					.longValue();
+			fileNames[i] = Long.valueOf(files[i].substring(0, index)).longValue();
 		}
 		return fileNames;
 	}
