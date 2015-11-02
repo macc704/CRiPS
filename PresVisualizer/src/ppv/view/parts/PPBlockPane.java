@@ -60,28 +60,30 @@ public class PPBlockPane extends JPanel {
 	}
 
 	public void refresh() {
-		current = timeModel.getTime();
+		if (blockImages != null) {
+			current = timeModel.getTime();
 
-		int imgIndex = -1;
-		for (int i = 0; i < blockImages.length; i++) {
-			if (blockImages[i] <= current.getAsLong()) {
-				imgIndex++;
+			int imgIndex = -1;
+			for (int i = 0; i < blockImages.length; i++) {
+				if (blockImages[i] <= current.getAsLong()) {
+					imgIndex++;
+				}
 			}
-		}
 
-		if (imgIndex == -1) {
-			imgIndex = 0;
-		}
+			if (imgIndex == -1) {
+				imgIndex = 0;
+			}
 
-		if (blockImages[0] <= current.getAsLong()) {
-			currentImgStamp = blockImages[imgIndex];
-		} else {
-			currentImgStamp = 0;
-		}
-		File path = new File(blockPrintDir, blockImages[imgIndex] + ".jpg");
+			if (blockImages[0] <= current.getAsLong()) {
+				currentImgStamp = blockImages[imgIndex];
+			} else {
+				currentImgStamp = 0;
+			}
+			File path = new File(blockPrintDir, blockImages[imgIndex] + ".jpg");
 
-		if (path.exists()) {// いる？
-			imgLabel.setIcon(new ImageIcon(path.getAbsolutePath()));
+			if (path.exists()) {// いる？
+				imgLabel.setIcon(new ImageIcon(path.getAbsolutePath()));
+			}
 		}
 
 	}
@@ -95,6 +97,9 @@ class SearchBlockImage {
 
 	public long[] searchBlockImage(File searchDir) {
 		String[] files = searchDir.list(new MyFilter());// MyFilterでjpgとpng以外はじく
+		if (files == null) {
+			return null;
+		}
 		Arrays.sort(files);// ソート
 		long[] fileNames = new long[files.length];
 		for (int i = 0; i < files.length; ++i) {
