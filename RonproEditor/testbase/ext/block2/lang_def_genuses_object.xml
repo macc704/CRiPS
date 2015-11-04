@@ -10,6 +10,7 @@
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
 		</text>
 	</description>
+	<Type>Object</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
@@ -116,45 +117,10 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-CardTurtle" kind="function"
-	initlabel="CardTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="" connector-kind="socket"
-			connector-type="number">
-			<DefaultArg genus-name="number" label="0"></DefaultArg>
-		</BlockConnector>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="new-object-ButtonTurtle" kind="function"
-	initlabel="ButtonTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="" connector-kind="socket"
-			connector-type="string">
-			<DefaultArg genus-name="string" label="押してください"></DefaultArg>
-		</BlockConnector>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="new-object-InputTurtle" kind="function"
-	initlabel="InputTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="" connector-kind="socket"
-			connector-type="string">
-			<DefaultArg genus-name="string" label="初期テキスト"></DefaultArg>
-		</BlockConnector>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="new-object-Color" kind="function"
+<BlockGenus name="new-object-Color[@number@number@number]" kind="function"
 	initlabel="Color" editable-label="yes" header-label="新しく" footer-label="を作る"
 	color="16 240 27">
+	<Type>Color</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 		<BlockConnector label="R" connector-kind="socket"

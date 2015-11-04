@@ -50,7 +50,7 @@ public class REBlockEditorManager2 {
 	private WorkspaceController blockEditor;
 	private BiFunction<File, REApplication, String> convertionAction;
 
-	public void doOpenNewBlockEditor(){
+	public void doOpenNewBlockEditor() {
 		// Java->Block変換処理
 		BiFunction<File, REApplication, String> convertAction = (sourceFile, app) -> {
 			File srcfile = app.getSourceManager().getCurrentFile();
@@ -60,7 +60,7 @@ public class REBlockEditorManager2 {
 			try {
 				xmlfile.createNewFile();
 				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, "UTF-8");
-				BlockGenerator blockParser = new BlockGenerator(out, dir.getPath() + "/");
+				BlockGenerator blockParser = new BlockGenerator(out, LANG_DEF_BASE_DIR);
 				blockParser.parse(classDec);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -70,8 +70,8 @@ public class REBlockEditorManager2 {
 
 		// Managerの初期化処理
 		Function<File, WorkspaceController> initBlockEditorAction = (sourceFile) -> {
-			//プロジェクトを解析して、言語定義ファイルを書き換える
-			LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(sourceFile, REApplication.SRC_ENCODING, new String[]{}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
+			// プロジェクトを解析して、言語定義ファイルを書き換える
+			LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(sourceFile, REApplication.SRC_ENCODING, new String[] {}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
 			try {
 				rewriter.rewrite();
 			} catch (Exception e) {
@@ -119,25 +119,17 @@ public class REBlockEditorManager2 {
 
 		app.getSourceManager().addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
-				if (/*
-					 * ICFwResourceRepository.PREPARE_DOCUMENT_CLOSE
-					 * .equals(evt.getPropertyName()) ||
-					 */IREResourceRepository.DOCUMENT_OPENED.equals(evt.getPropertyName())
-				/*
-				 * || ICFwResourceRepository.MODEL_REFRESHED
-				 * .equals(evt.getPropertyName())
-				 */) {
+				if (IREResourceRepository.DOCUMENT_OPENED.equals(evt.getPropertyName())) {
+					if(blockEditor != null){
+						blockEditor.resetWorkspace();
+					}
 					doCompileBlock();
 				}
-				// else {
-				// // doLockBlockEditor();
-				// }
 			}
 		});
 	}
 
-	public void doOpenBlockEditor(Function<File, WorkspaceController> initAction,
-			BiFunction<File, REApplication, String> convertionAction) {
+	public void doOpenBlockEditor(Function<File, WorkspaceController> initAction, BiFunction<File, REApplication, String> convertionAction) {
 		if (isWorkspaceOpened()) { // already opened
 			CFrameUtils.toFront(blockEditor.getFrame());
 			return;
@@ -359,8 +351,7 @@ public class REBlockEditorManager2 {
 		StringBuffer blockEditorFile = new StringBuffer();
 		blockEditorFile.append("<?xml version=\"1.0\" encoding=\"" + BlockConverter.ENCODING_BLOCK_XML + "\"?>");
 		blockEditorFile.append("<CODEBLOCKS><Pages>");
-		blockEditorFile.append("<Page page-name=\"BlockEditor\"" + " page-color=\" 40 40 40\" page-width=\"4000\""
-				+ " page-infullview=\"yes\" page-drawer=\"NewClass\">");
+		blockEditorFile.append("<Page page-name=\"BlockEditor\"" + " page-color=\" 40 40 40\" page-width=\"4000\"" + " page-infullview=\"yes\" page-drawer=\"NewClass\">");
 		blockEditorFile.append("<PageBlocks></PageBlocks></Page></Pages></CODEBLOCKS>");
 		return blockEditorFile.toString();
 	}
@@ -382,8 +373,7 @@ public class REBlockEditorManager2 {
 				return;
 			}
 
-			CPath path = app.getSourceManager().getCCurrentFile()
-					.getRelativePath(app.getSourceManager().getCCurrentProject());
+			CPath path = app.getSourceManager().getCCurrentFile().getRelativePath(app.getSourceManager().getCCurrentProject());
 			PRLog log = new REBlockEditorLog(subType, path, texts);
 			app.writePresLog(log);
 		} catch (Exception ex) {
