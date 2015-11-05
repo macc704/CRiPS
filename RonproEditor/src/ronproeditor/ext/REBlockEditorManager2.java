@@ -8,9 +8,16 @@ package ronproeditor.ext;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -45,6 +52,7 @@ public class REBlockEditorManager2 {
 
 	public static final String LANG_DEF_PATH = "ext/block2/lang_def.xml";
 	public static final String LANG_DEF_BASE_DIR = "ext/block2/";
+	public static String BLOCK_ENC = "UTF-8";
 
 	private REApplication app;
 	private WorkspaceController blockEditor;
@@ -55,16 +63,21 @@ public class REBlockEditorManager2 {
 		BiFunction<File, REApplication, String> convertAction = (sourceFile, app) -> {
 			File srcfile = app.getSourceManager().getCurrentFile();
 			File dir = srcfile.getParentFile();
-			UniClassDec classDec = convertJavaToUni(srcfile);
+			File tmpSrcFile = createUTFDummyFile(srcfile);
+
+			UniClassDec classDec = convertJavaToUni(tmpSrcFile);
 			File xmlfile = new File(dir.getAbsolutePath() + "/" + classDec.className + ".xml");
 			try {
 				xmlfile.createNewFile();
-				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, "UTF-8");
+				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, BLOCK_ENC);
 				BlockGenerator blockParser = new BlockGenerator(out, LANG_DEF_BASE_DIR);
 				blockParser.parse(classDec);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
+			tmpSrcFile.delete();
+
 			return xmlfile.getAbsolutePath();
 		};
 
@@ -85,6 +98,32 @@ public class REBlockEditorManager2 {
 		};
 
 		doOpenBlockEditor(initBlockEditorAction, convertAction);
+	}
+
+	public File createUTFDummyFile(File srcfile){
+		File tmpSrcFile = new File(srcfile.getParent() + "/" + "tmp" + srcfile.getName());
+		try {
+			FileInputStream fs = new FileInputStream(srcfile);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(fs, "SJIS"));
+
+			FileOutputStream fo = new FileOutputStream(tmpSrcFile);
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fo, "UTF-8"));
+			String convertedText = "";
+			String line = reader.readLine();
+			while(line != null){
+				convertedText += new String(line.getBytes("UTF-8")) + System.lineSeparator();
+				line = reader.readLine();
+			}
+			bw.write(convertedText);
+			reader.close();
+			bw.close();
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return tmpSrcFile;
 	}
 
 	public void doOpenSemiNewBlockEditor() {

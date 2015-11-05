@@ -47,8 +47,8 @@ public class JavaToBlockMain {
 
 		File xml = new File(filePath);
 
-		PrintStream hoge = new PrintStream(xml,BlockConverter.ENCODING_BLOCK_XML);
-		process(file, enc, hoge, classpaths);
+		PrintStream ps = new PrintStream(xml,BlockConverter.ENCODING_BLOCK_XML);
+		process(file, enc, ps, classpaths);
 		return filePath;
 	}
 
