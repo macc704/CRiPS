@@ -170,7 +170,7 @@
 
 	<BlockDrawer button-color="153 0 0" name="タートル（キーとマウス）">
 		<BlockGenusMember>Turtle-key[]</BlockGenusMember>
-		<BlockGenusMember>Turtle-keyDown[]</BlockGenusMember>
+		<BlockGenusMember>Turtle-keyDown[@int]</BlockGenusMember>
 		<BlockGenusMember>Turtle-mouseX[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-mouseY[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-mouseClicked[]</BlockGenusMember>

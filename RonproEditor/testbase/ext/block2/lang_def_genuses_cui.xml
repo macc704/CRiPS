@@ -23,7 +23,7 @@
 <BlockGenus name="next[]" kind="data" initlabel="入力を受け取る（文字列型）" color="255 255 100"
 	label-suffix="">
 	<Name>next</Name>
-	<ReturnType>String</ReturnType>
+	<Type>String</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"
 			position-type="single">
@@ -35,7 +35,7 @@
 <BlockGenus name="nextInt[]" kind="function" initlabel="入力を受け取る(int型)"
 	color="255 0 0">
 	<Name>nextInt</Name>
-	<ReturnType>int</ReturnType>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number">
 		</BlockConnector>
@@ -45,7 +45,7 @@
 <BlockGenus name="nextDouble[]" kind="function" initlabel="入力を受け取る(double型)"
 	color="255 0 0">
 	<Name>nextDouble</Name>
-	<ReturnType>double</ReturnType>
+	<Type>double</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number">
 		</BlockConnector>
@@ -55,7 +55,7 @@
 <BlockGenus name="hasNextDouble[]" kind="data" initlabel="入力がdouble型か調べる"
 	color="255 0 0">
 	<Name>hasNextDouble</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean">
 		</BlockConnector>
@@ -66,7 +66,7 @@
 <BlockGenus name="hasNextInt[]" kind="data" initlabel="入力がint型か調べる"
 	color="255 0 0">
 	<Name>hasNextInt</Name>
-	<ReturnType>boolean</ReturnType>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean">
 		</BlockConnector>
@@ -143,7 +143,7 @@
 <BlockGenus name="next" kind="function" initlabel="入力を受け取る(文字列型)"
 	color="255 0 0">
 	<Name>next</Name>
-	<ReturnType>String</ReturnType>
+	<Type>String</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string">
 		</BlockConnector>

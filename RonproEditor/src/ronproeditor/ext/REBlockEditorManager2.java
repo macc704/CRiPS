@@ -14,7 +14,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -50,7 +49,6 @@ import edu.mit.blocks.controller.WorkspaceController;
  */
 public class REBlockEditorManager2 {
 
-	public static final String LANG_DEF_PATH = "ext/block2/lang_def.xml";
 	public static final String LANG_DEF_BASE_DIR = "ext/block2/";
 	public static String BLOCK_ENC = "UTF-8";
 
@@ -70,7 +68,7 @@ public class REBlockEditorManager2 {
 			try {
 				xmlfile.createNewFile();
 				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, BLOCK_ENC);
-				BlockGenerator blockParser = new BlockGenerator(out, LANG_DEF_BASE_DIR);
+				BlockGenerator blockParser = new BlockGenerator(out, sourceFile.getParent() + "/");
 				blockParser.parse(classDec);
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -101,17 +99,17 @@ public class REBlockEditorManager2 {
 	}
 
 	public File createUTFDummyFile(File srcfile){
-		File tmpSrcFile = new File(srcfile.getParent() + "/" + "tmp" + srcfile.getName());
+		File tmpSrcFile = new File(srcfile.getParent() + "/" + ".tmp" + srcfile.getName());
 		try {
 			FileInputStream fs = new FileInputStream(srcfile);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(fs, "SJIS"));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(fs, REApplication.SRC_ENCODING));
 
 			FileOutputStream fo = new FileOutputStream(tmpSrcFile);
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fo, "UTF-8"));
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fo, BLOCK_ENC));
 			String convertedText = "";
 			String line = reader.readLine();
 			while(line != null){
-				convertedText += new String(line.getBytes("UTF-8")) + System.lineSeparator();
+				convertedText += new String(line.getBytes(BLOCK_ENC)) + System.lineSeparator();
 				line = reader.readLine();
 			}
 			bw.write(convertedText);
