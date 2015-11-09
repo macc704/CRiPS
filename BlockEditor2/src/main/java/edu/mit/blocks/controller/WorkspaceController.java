@@ -15,7 +15,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -40,6 +39,12 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import net.unicoen.generator.DolittleGenerator;
+import net.unicoen.generator.JavaGeneratorForTurtle;
+import net.unicoen.generator.JavaScriptGeneratorForTurtle;
+import net.unicoen.node.UniClassDec;
+import net.unicoen.parser.blockeditor.BlockMapper;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -67,11 +72,6 @@ import edu.mit.blocks.workspace.TrashCan;
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceListener;
-import net.unicoen.generator.DolittleGenerator;
-import net.unicoen.generator.JavaGeneratorForTurtle;
-import net.unicoen.generator.JavaScriptGeneratorForTurtle;
-import net.unicoen.node.UniClassDec;
-import net.unicoen.parser.blockeditor.BlockMapper;
 
 /**
  * Example entry point to OpenBlock application creation.
@@ -375,12 +375,9 @@ public class WorkspaceController {
 			// langDefRoot
 			workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
 			workspaceLoaded = true;
-
-			setDirty(false);
-
 			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(),
 					getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
-
+			setDirty(false);
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		} catch (SAXException e) {
@@ -593,13 +590,12 @@ public class WorkspaceController {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				saveToFile(selectedFile);
-				setDirty(false);
 
 				BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
 				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
 
 				outputFileFromUni(classDec);
-
+				setDirty(false);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
