@@ -155,23 +155,23 @@ public class CCMainFrame2 extends JFrame {
 
 		String string = "";
 		string = "<html>"
-				// + properties.getProperty("all.compile.error.number")
-				// + count
-				// + " "
-				// + properties.getProperty("all.compile.error.time")
-				// + timeStr
+				 + properties.getProperty("all.compile.error.number")
+				 + count
+				 + "　　　"
+				 + properties.getProperty("all.compile.error.time")
+				 + timeStr
 				+ "<br>"
-				// + properties
-				// .getProperty("avarage.compile.error.correction.time")
-				// + avg
-				// + properties.getProperty("second")
-				+ "  "
-				// + properties.getProperty("all.working.time")
-				// + workingStr
+				 + properties
+				 .getProperty("avarage.compile.error.correction.time")
+				 + avg
+				 + properties.getProperty("second")
+				+ "　　"
+				 + properties.getProperty("all.working.time")
+				 + workingStr
 				+ "<br>"
-				// + properties
-				// .getProperty("rate.of.compile.error.correction.time")
-				// + " " + rate + "%"
+				+ properties
+				.getProperty("rate.of.compile.error.correction.time")
+				+ "" + rate + "%"
 				+ "<br>"
 				+ "</html>";
 		label.setText(string);
