@@ -155,23 +155,25 @@ public class CCMainFrame2 extends JFrame {
 
 		String string = "";
 		string = "<html>"
-				+ properties.getProperty("all.compile.error.number")
-				+ count
-				+ "　　"
-				+ properties.getProperty("all.compile.error.time")
-				+ timeStr
+				// + properties.getProperty("all.compile.error.number")
+				// + count
+				// + " "
+				// + properties.getProperty("all.compile.error.time")
+				// + timeStr
 				+ "<br>"
-				+ properties
-						.getProperty("avarage.compile.error.correction.time")
-				+ avg
-				+ properties.getProperty("second")
+				// + properties
+				// .getProperty("avarage.compile.error.correction.time")
+				// + avg
+				// + properties.getProperty("second")
 				+ "  "
-				+ properties.getProperty("all.working.time")
-				+ workingStr
-				+ "<br>  "
-				+ properties
-						.getProperty("rate.of.compile.error.correction.time")
-				+ "  " + rate + "%" + "</html>";
+				// + properties.getProperty("all.working.time")
+				// + workingStr
+				+ "<br>"
+				// + properties
+				// .getProperty("rate.of.compile.error.correction.time")
+				// + " " + rate + "%"
+				+ "<br>"
+				+ "</html>";
 		label.setText(string);
 		label.setMaximumSize(new Dimension(width, height / 24));
 		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
@@ -180,8 +182,8 @@ public class CCMainFrame2 extends JFrame {
 		// label.setBackground(Color.yellow);
 		// label.setOpaque(true);
 
-		LineBorder lineborder = new LineBorder(Color.YELLOW, 2, true);
-		label.setBorder(lineborder);
+		// LineBorder lineborder = new LineBorder(Color.YELLOW, 2, true);
+		// label.setBorder(lineborder);
 
 		panel.add(label, BorderLayout.WEST);
 	}
@@ -191,16 +193,14 @@ public class CCMainFrame2 extends JFrame {
 		long minute = (time / 60) % 60;
 		long second = time % 60;
 		String timeStr = "";
-		timeStr = hour + properties.getProperty("hour") + minute
-				+ properties.getProperty("minute") + second
+		timeStr = hour + properties.getProperty("hour") + minute + properties.getProperty("minute") + second
 				+ properties.getProperty("nosecond");
 
 		return timeStr;
 	}
 
 	private void setChangeGraphRangeButton(JPanel panel) {
-		String[] labels = { properties.getProperty("120seconds.mode"),
-				properties.getProperty("graph.curve.mode") };
+		String[] labels = { properties.getProperty("120seconds.mode"), properties.getProperty("graph.curve.mode") };
 
 		final JComboBox<String> comboBox = new JComboBox<String>(labels);
 
@@ -229,14 +229,13 @@ public class CCMainFrame2 extends JFrame {
 
 		// エラーIDごとの数値を書き込み、ボタンを実装する
 		for (CCCompileErrorKind list : manager.getAllKinds()) {
-			CCErrorElementButton2 button = new CCErrorElementButton2(manager,
-					list, buttonWidth, buttonHeight, properties);
+			CCErrorElementButton2 button = new CCErrorElementButton2(manager, list, buttonWidth, buttonHeight,
+					properties);
 			buttons.add(button);
 		}
 
 		JPanel buttonsEreaPanel = new JPanel();
-		buttonsEreaPanel.setLayout(new GridLayout((height * 15 / 16)
-				/ buttonHeight, width / buttonWidth));
+		buttonsEreaPanel.setLayout(new GridLayout((height * 15 / 16) / buttonHeight, width / buttonWidth));
 		// ボタンを配置する
 		int i = 1;
 		int errorkindsCount = manager.getAllKinds().size();
@@ -246,8 +245,7 @@ public class CCMainFrame2 extends JFrame {
 					if (manager.getKind(i).getErrors().size() > 0) {
 						buttonsEreaPanel.add(buttons.get(i - 1));
 					} else {
-						buttonsEreaPanel
-								.add(setEmptyButton(manager.getKind(i)));
+						buttonsEreaPanel.add(setEmptyButton(manager.getKind(i)));
 					}
 					i++;
 				} else {
@@ -268,15 +266,12 @@ public class CCMainFrame2 extends JFrame {
 		}
 		String rare = "";
 		if (list != null) {
-			rare = "(" + properties.getProperty("rarity")
-					+ Integer.toString(list.getRare()) + ")";
+			rare = "(" + properties.getProperty("rarity") + Integer.toString(list.getRare()) + ")";
 		}
 
 		String buttonlabel = "";
 		if (list != null) {
-			buttonlabel = "<html><center>"
-					+ properties.getProperty("inexperienced")
-					+ "</center><br/>" + message + rare + "</html>";
+			buttonlabel = "<html>" + message + rare + "</html>";
 		}
 
 		JButton emptyButton = new JButton(buttonlabel);
