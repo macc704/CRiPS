@@ -55,7 +55,7 @@ public class RESourceManager implements IREResourceRepository {
 		fireRefreshedEvent();
 	}
 
-	public void fireRefreshedEvent() {
+	protected void fireRefreshedEvent() {
 		propertyChangeSupport.firePropertyChange(MODEL_REFRESHED, null, null);
 	}
 

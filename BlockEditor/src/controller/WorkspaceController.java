@@ -71,13 +71,13 @@ import codeblocks.InfixRule;
 import codeblocks.SocketRule;
 
 /**
- * 
+ *
  * The WorkspaceController is the starting point for any program using Open
  * Blocks. It contains a Workspace (the block programming area) as well as the
  * Factories (the palettes of blocks), and is responsible for setting up and
  * laying out the overall window including loading some WorkspaceWidgets like
  * the TrashCan.
- * 
+ *
  * @author Ricarose Roque
  */
 
@@ -115,12 +115,12 @@ public class WorkspaceController {
 	private int state = PROJECT_SELECTED;
 
 	private String user = ""; // for CheCoPro
-	
-	
+
+
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
 	 * with the codeblocks.Workspace
-	 * 
+	 *
 	 */
 
 	public WorkspaceController(String imagePath) {
@@ -139,7 +139,7 @@ public class WorkspaceController {
 
 	/**
 	 * return frame
-	 * 
+	 *
 	 * @return
 	 */
 	public JFrame getFrame() {
@@ -196,7 +196,7 @@ public class WorkspaceController {
 	/**
 	 * Sets the contents of the Lang Def File to the specified String
 	 * langDefContents
-	 * 
+	 *
 	 * @param langDefContents
 	 *            String contains the specification of a language definition
 	 *            file
@@ -226,7 +226,7 @@ public class WorkspaceController {
 
 	/**
 	 * Sets the Lang Def File to the specified File langDefFile.
-	 * 
+	 *
 	 * @param langDefFile
 	 *            File contains the specification of the a language definition
 	 *            file.
@@ -260,7 +260,7 @@ public class WorkspaceController {
 	/**
 	 * Loads all the block genuses, properties, and link rules of a language
 	 * specified in the pre-defined language def file.
-	 * 
+	 *
 	 * @param root
 	 *            Loads the language specified in the Element root
 	 */
@@ -300,7 +300,7 @@ public class WorkspaceController {
 
 	/**
 	 * Resets the current language within the active Workspace.
-	 * 
+	 *
 	 */
 	public void resetLanguage() {
 		// clear shape mappings
@@ -318,7 +318,7 @@ public class WorkspaceController {
 	/**
 	 * Returns the save string for the entire workspace. This includes the block
 	 * workspace, any custom factories, canvas view state and position, pages
-	 * 
+	 *
 	 * @return the save string for the entire workspace.
 	 */
 	public String getSaveString() {
@@ -362,7 +362,7 @@ public class WorkspaceController {
 	 * Loads the programming project from the specified file path. This method
 	 * assumes that a Language Definition File has already been specified for
 	 * this programming project.
-	 * 
+	 *
 	 * @param path
 	 *            String file path of the programming project to load
 	 */
@@ -438,7 +438,7 @@ public class WorkspaceController {
 		String javaName = ChangeExtension.changeToJavaExtension(name);
 
 		String title = defaultTitle + "-" + javaName;
-		
+
 		if (!user.equals("")) {
 			title = user + "-" + title;
 		}
@@ -457,7 +457,7 @@ public class WorkspaceController {
 	 * Loads the programming project specified in the projectContents. This
 	 * method assumes that a Language Definition File has already been specified
 	 * for this programming project.
-	 * 
+	 *
 	 * @param projectContents
 	 */
 	public void loadProject(String projectContents) {
@@ -500,16 +500,16 @@ public class WorkspaceController {
 	 * which is associated with the language definition file contained in the
 	 * specified langDefContents. All the blocks contained in projectContents
 	 * must have an associted block genus defined in langDefContents.
-	 * 
+	 *
 	 * If the langDefContents have any workspace settings such as pages or
 	 * drawers and projectContents has workspace settings as well, the workspace
 	 * settings within the projectContents will override the workspace settings
 	 * in langDefContents.
-	 * 
+	 *
 	 * NOTE: The language definition contained in langDefContents does not
 	 * replace the default language definition file set by: setLangDefFilePath()
 	 * or setLangDefFile().
-	 * 
+	 *
 	 * @param projectContents
 	 * @param langDefContents
 	 *            String XML that defines the language of projectContents
@@ -597,7 +597,7 @@ public class WorkspaceController {
 
 	/**
 	 * Returns the JComponent of the entire workspace.
-	 * 
+	 *
 	 * @return the JComponent of the entire workspace.
 	 */
 	public JComponent getWorkspacePanel() {
@@ -622,7 +622,7 @@ public class WorkspaceController {
 
 	/**
 	 * Returns an unmodifiable Iterable of SearchableContainers
-	 * 
+	 *
 	 * @return an unmodifiable Iterable of SearchableContainers
 	 */
 	public Iterable<SearchableContainer> getAllSearchableContainers() {

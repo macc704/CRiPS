@@ -377,7 +377,7 @@ public class WorkspaceController {
 			workspaceLoaded = true;
 			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(),
 					getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
-			setDirty(false);
+
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
 		} catch (SAXException e) {
@@ -828,7 +828,9 @@ public class WorkspaceController {
 		// ダーティ状態付与するリスナを追加
 		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
 			public void workspaceEventOccurred(WorkspaceEvent event) {
-				setDirty(true);
+				if(event.getEventType() != WorkspaceEvent.WORKSPACE_FINISHED_LOADING || event.getEventType() != WorkspaceEvent.BLOCK_RENAMED){//TODO should fix ワークスペース読み込み後にイベントが飛ぶ問題を修正する
+					setDirty(true);
+				}
 			}
 		});
 
