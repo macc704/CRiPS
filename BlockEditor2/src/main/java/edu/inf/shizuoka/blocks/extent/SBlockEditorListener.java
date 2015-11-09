@@ -11,10 +11,10 @@ public interface SBlockEditorListener {
 	public void blockRun();
 
 	public void blockDebugRun();
-	
+
 	public void chengeInheritance();
-	
+
 	public void toggleTraceLines(String state);
-	
+
 	public void newFileCreated();
 }

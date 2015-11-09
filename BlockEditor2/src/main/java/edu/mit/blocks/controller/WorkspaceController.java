@@ -15,6 +15,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -89,7 +90,7 @@ public class WorkspaceController {
 	protected SearchBar searchBar;
 	// private static String LANG_DEF_PATH;
 
-	// private String enc = "SJIS";
+	private static String RONPRO_FILE_ENCODING = "SJIS";
 
 	private String imagePath = "../support/images/";// added by macchan
 
@@ -610,7 +611,7 @@ public class WorkspaceController {
 		File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
 		try {
 			fileCreated |= !javaFile.exists();
-			PrintStream out = new PrintStream(javaFile);
+			PrintStream out = new PrintStream(javaFile, RONPRO_FILE_ENCODING);
 			JavaGeneratorForTurtle.generate(dec, out);
 			out.close();
 
@@ -621,7 +622,7 @@ public class WorkspaceController {
 		try {
 			File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
 			fileCreated |= !jsFile.exists();
-			PrintStream out = new PrintStream(jsFile);
+			PrintStream out = new PrintStream(jsFile, RONPRO_FILE_ENCODING);
 			JavaScriptGeneratorForTurtle.generate(dec, out);
 			out.close();
 			listener.blockConverted(jsFile);
@@ -633,7 +634,7 @@ public class WorkspaceController {
 		try {
 			File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".dlt");
 			fileCreated |= !dltFile.exists();
-			PrintStream out = new PrintStream(dltFile);
+			PrintStream out = new PrintStream(dltFile, RONPRO_FILE_ENCODING);
 			DolittleGenerator.generate(dec, out);
 			out.close();
 		} catch (Exception ex) {

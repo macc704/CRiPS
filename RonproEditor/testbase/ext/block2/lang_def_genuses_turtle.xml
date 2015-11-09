@@ -649,7 +649,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-looks[]" kind="command" initlabel="見た目を変える"
+<BlockGenus name="Turtle-looks[@object]" kind="command" initlabel="見た目を変える"
 	color="255 0 0">
 	<Name>looks</Name>
 	<BlockConnectors>

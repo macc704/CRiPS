@@ -163,7 +163,7 @@
 		<BlockGenusMember>Turtle-show[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-hide[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-isShow[]</BlockGenusMember>
-		<BlockGenusMember>Turtle-looks[]</BlockGenusMember>
+		<BlockGenusMember>Turtle-looks[@object]</BlockGenusMember>
 		<BlockGenusMember>Turtle-contains[@int@int]</BlockGenusMember>
 		<BlockGenusMember>Turtle-intersects[]</BlockGenusMember>
 	</BlockDrawer>
