@@ -147,12 +147,15 @@ public class CCGraphFrame extends JFrame {
 				+ "の修正時間   レア度: " + list.getRare(), "修正回数", "修正時間", dataset,
 				PlotOrientation.VERTICAL, true, true, false);
 		} else {
-			chart = ChartFactory.createLineChart("Correction time of \"" + list.getMessage()
-					+ "\" RARITY: " + list.getRare(), "Correction Number", "Correction Time", dataset,
-					PlotOrientation.VERTICAL, true, true, false);
+//			chart = ChartFactory.createLineChart("\"" + list.getMessage()
+//					+ "\" RARITY: " + list.getRare(), "Opportunity", "Correction Time (second)", dataset,
+//					PlotOrientation.VERTICAL, true, true, false);
+			chart = ChartFactory.createLineChart("\"" + list.getMessage()
+			+ "\" RARITY: " + list.getRare(), "Opportunity", "Correction Time (second)", dataset,
+			PlotOrientation.VERTICAL, true, true, false);
 		}
 		chart.getTitle().setFont(new Font("Font2DHandle", Font.PLAIN, 20));
-		chart.getLegend().setItemFont(new Font("Font2DHandle", Font.PLAIN, 16));
+		// chart.getLegend().setItemFont(new Font("Font2DHandle", Font.PLAIN, 16));
 
 		// 背景色セット
 		chart.setBackgroundPaint(new CCGraphBackgroundColor().graphColor(list
@@ -224,7 +227,7 @@ public class CCGraphFrame extends JFrame {
 
 	private void setSourceTable(JPanel panel) {
 		// テーブルデータ作成
-		String[] columnNames = {properties.getProperty("correction.number"), 
+		String[] columnNames = {properties.getProperty("correction.opportunity"), 
 				properties.getProperty("correction.date"),
 				properties.getProperty("program.name"),
 				properties.getProperty("correction.time")
