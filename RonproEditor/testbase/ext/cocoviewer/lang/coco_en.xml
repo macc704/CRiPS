@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-	<entry key="all.compile.error.number">All compile error correction number: </entry>
-	<entry key="all.compile.error.time">All compile error correction time: </entry>
-	<entry key="avarage.compile.error.correction.time">Avarage of per compile error correction time: </entry>
-	<entry key="all.working.time">All working time:</entry>
-	<entry key="rate.of.compile.error.correction.time">Rate of compile error time:</entry>
-	<entry key="inexperienced">inexperienced</entry>	
+	<entry key="all.compile.error.number">Total of compile error occurrence:  </entry>
+	<entry key="all.compile.error.time">Total of compile error correction time: </entry>
+	<entry key="avarage.compile.error.correction.time">Average time of compile error correction:  </entry>
+	<entry key="all.working.time">Total of working time: </entry>
+	<entry key="rate.of.compile.error.correction.time">Rate of compile error correction time for working time: </entry>
+	<entry key="inexperienced">inexperienced</entry>
 	<entry key="correction.time">Correction Time</entry>
 	<entry key="correction.time2">Time</entry>
-	<entry key="correction.number">number</entry>
+	<entry key="correction.opportunity">Opportunity</entry>
 	<entry key="correction.date">Day and Time</entry>
 	<entry key="program.name">Program name</entry>
 	<entry key="hour">:</entry>
