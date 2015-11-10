@@ -278,8 +278,10 @@ public class RECheCoProManager {
 		chViewer.getApplication().getFrame().addWindowListener(new WindowAdapter() {
 			
 			@Override
-			public void windowClosing(WindowEvent e) {
-				chViewers.remove(user);
+			public void windowClosed(WindowEvent e) {
+				if (chViewers.containsKey(user)) {
+					chViewers.remove(user);
+				}
 			}
 		});
 		chViewers.put(user, chViewer);

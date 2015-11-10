@@ -359,11 +359,10 @@ public class RECheCoProViewer {
 	 * @param enabled
 	 */
 	public void setEnabledForMenuBar(boolean enabled) {
-		for (int i = 0; i < getMenuCount(); i++) {
-			if (i != MENU_INDEX_SYNC){
-				application.getFrame().getJMenuBar().getMenu(i).setEnabled(enabled);
-			}
+		for (int i = 0; i < MENU_INDEX_SYNC; i++) {
+			application.getFrame().getJMenuBar().getMenu(i).setEnabled(enabled);
 		}
+		getPullButton().setEnabled(enabled);
 	}
 	
 	/**
@@ -434,6 +433,16 @@ public class RECheCoProViewer {
 				if (button.getText().equals("同期中") || button.getText().equals("非同期中")) {
 					return button;
 				}
+			}
+		}
+		return null;
+	}
+	
+	public JButton getPullButton() {
+		for (int i = 0; i < getMenuCount(); i++) {
+			if (getComponent(i) instanceof JButton) {
+				JButton button = (JButton) getComponent(i);
+				return button;
 			}
 		}
 		return null;
