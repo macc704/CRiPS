@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
@@ -44,19 +45,19 @@ public class RECheCoProViewer {
 	public static final int ITEM_INDEX_CUT = 3;
 	public static final int ITEM_INDEX_COPY = 4;
 	
-	private REApplication application;
-	private String user;
-	private List<CHUserState> userStates = new ArrayList<CHUserState>();
-	
-	private boolean synchronizing;
-	private String property = "";
-	
 	private static int CTRL_MASK = InputEvent.CTRL_MASK;
 	static {
 		if (CJavaSystem.getInstance().isMac()) {
 			CTRL_MASK = InputEvent.META_MASK;
 		}
 	}
+	
+	private REApplication application;
+	private String user;
+	private List<CHUserState> userStates = new ArrayList<CHUserState>();
+	
+	private boolean synchronizing;
+	private String property = "";
 	
 	public RECheCoProViewer(String user) {
 		this.user = user;
@@ -75,8 +76,15 @@ public class RECheCoProViewer {
 	
 	private void initializeFrame() {
 		application.getFrame().setTitle(user + "-" + APP_NAME);
-		// TODO CHEditor閉じたら論プロも閉じる不具合要修正
+		removeWindowListeners();
 		application.getFrame().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+	
+	public void removeWindowListeners() {
+		WindowListener[] listeners = application.getFrame().getWindowListeners();
+		for (int i = 0; i <listeners.length ; i++) {
+			application.getFrame().removeWindowListener(listeners[i]);
+		}
 	}
 	
 	private ActionListener copyListener = new ActionListener() {

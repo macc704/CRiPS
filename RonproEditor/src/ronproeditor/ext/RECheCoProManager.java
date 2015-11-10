@@ -222,17 +222,7 @@ public class RECheCoProManager {
 			
 			@Override
 			public void processChanged(CHEvent e) {
-				// プロセスの変化を受け取る
-				String message = e.getMessage();
-				if (message.equals("LoginResultReceived")) {
-					processLoginResult();
-				} else if (message.equals("LoginMemberChanged")) {
-					processLoginMemberChanged(component.getUserStates());
-				} else if (message.equals("SourceChanged")) {
-					processSourceChanged(component.getScPacket());
-				} else if (message.equals("FileResponseReceived")) {
-					processFileResponse(component.getUser());
-				}
+				processConnectionChanged(component, e.getMessage());
 			}
 			
 			@Override
@@ -243,6 +233,28 @@ public class RECheCoProManager {
 		return component;
 	}
 	
+	/**
+	 * 各プロセスの処理
+	 * @param component
+	 * @param message
+	 */
+	private void processConnectionChanged(CHComponent component, String message) {
+		if (message.equals("LoginResultReceived")) {
+			processLoginResult();
+		} else if (message.equals("LoginMemberChanged")) {
+			processLoginMemberChanged(component.getUserStates());
+		} else if (message.equals("SourceChanged")) {
+			processSourceChanged(component.getScPacket());
+		} else if (message.equals("FileResponseReceived")) {
+			processFileResponse(component.getUser());
+		}
+	}
+	
+	/**
+	 * メンバセレクタの各状態の処理
+	 * @param component
+	 * @param message
+	 */
 	private void processMemberSelectorChanged(CHComponent component, String message) {
 		if (message.equals("MyNameClicked")) {
 			// 自分の名前がクリックされたら論プロを前面に
