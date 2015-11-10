@@ -160,6 +160,12 @@ public class REBlockEditorManager2 {
 					if(blockEditor != null){
 						blockEditor.resetWorkspace();
 					}
+					LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(app.getSourceManager().getCurrentFile(), REApplication.SRC_ENCODING, new String[] {}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
+					try {
+						rewriter.rewrite();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					doCompileBlock();
 				}
 			}
@@ -296,7 +302,7 @@ public class REBlockEditorManager2 {
 
 					// BlockEditorに反映
 					blockEditor.loadProject(emptyWorkSpace, emptyFactory);
-					// blockEditor.setCompileErrorTitle(target.getName());
+					blockEditor.setCompileErrorTitle(target.getName());
 				} catch (Exception ex) {
 				}
 			}

@@ -54,6 +54,7 @@ import org.xml.sax.SAXException;
 
 import clib.view.app.javainfo.CJavaInfoPanels;
 import clib.view.windowmanager.CWindowCentraizer;
+import edu.inf.shizuoka.blocks.blockeditor.SBlockEditor;
 import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
@@ -120,6 +121,7 @@ public class WorkspaceController {
 	private boolean dirty = false;
 
 	private SBlockEditorListener listener;
+
 
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
@@ -344,6 +346,16 @@ public class WorkspaceController {
 		workspace.loadWorkspaceFrom(null, langDefRoot);
 		workspaceLoaded = true;
 		setDirty(false);
+	}
+
+	private String createWindowTitle() {
+		return SBlockEditor.APP_NAME + " " + SBlockEditor.VERSION;
+	}
+
+	public void setCompileErrorTitle(String targetName) {
+		String title = createWindowTitle()
+				+ " - Javaのソースコードのコンパイルに失敗したため、ブロック化できません。";
+		frame.setTitle(title);
 	}
 
 	/**
@@ -983,4 +995,5 @@ public class WorkspaceController {
 			}
 		}
 	}
+
 }
