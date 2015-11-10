@@ -158,18 +158,29 @@ public class REBlockEditorManager2 {
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (IREResourceRepository.DOCUMENT_OPENED.equals(evt.getPropertyName())) {
 					if(blockEditor != null){
+						rewriteLangdefFile();
 						blockEditor.resetWorkspace();
-					}
-					LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(app.getSourceManager().getCurrentFile(), REApplication.SRC_ENCODING, new String[] {}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
-					try {
-						rewriter.rewrite();
-					} catch (Exception e) {
-						e.printStackTrace();
 					}
 					doCompileBlock();
 				}
 			}
 		});
+	}
+
+	public void rewriteLangdefFile(){
+		File currentFile = app.getSourceManager().getCurrentFile();
+		if(isJavaFile(currentFile)){
+			LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(currentFile, REApplication.SRC_ENCODING, new String[] {}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
+			try {
+				rewriter.rewrite();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public boolean isJavaFile(File file){
+		return file.getName().endsWith(".java");
 	}
 
 	public void doOpenBlockEditor(Function<File, WorkspaceController> initAction, BiFunction<File, REApplication, String> convertionAction) {

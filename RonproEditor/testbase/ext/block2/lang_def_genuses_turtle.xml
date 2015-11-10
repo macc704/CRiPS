@@ -1259,7 +1259,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object-TextTurtle" label="TextTurtle"></DefaultArg>
+			<DefaultArg genus-name="new-object-TextTurtle[@string]" label="TextTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>TextTurtle</Type>
@@ -1505,7 +1505,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object-Turtle" label="Turtle"></DefaultArg>
+			<DefaultArg genus-name="new-object-Turtle[]" label="Turtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>Turtle</Type>
@@ -1561,7 +1561,7 @@
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）">
 			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
 			<MethodName>Turtle-mouseX[]</MethodName>
 			<MethodName>Turtle-mouseY[]</MethodName>
 			<MethodName>Turtle-mouseClicked[]</MethodName>
@@ -1593,7 +1593,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object-withtext" label="ImageTurtle"></DefaultArg>
+			<DefaultArg genus-name="new-object-ImageTurtle[@string]" label="ImageTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>ImageTurtle</Type>
@@ -1649,7 +1649,7 @@
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）">
 			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
 			<MethodName>Turtle-mouseX[]</MethodName>
 			<MethodName>Turtle-mouseY[]</MethodName>
 			<MethodName>Turtle-mouseClicked[]</MethodName>
@@ -1690,7 +1690,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object-withtext" label="SoundTurtle"></DefaultArg>
+			<DefaultArg genus-name="new-object-SoundTurtle[@string]" label="SoundTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -1787,7 +1787,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object" label="ListTurtle＜Turtle＞"></DefaultArg>
+			<DefaultArg genus-name="new-object-ListTurtle[]" label="ListTurtle＜Turtle＞"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>ListTurtle&lt;Turtle&gt;</Type>
@@ -1843,7 +1843,7 @@
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）">
 			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
 			<MethodName>Turtle-mouseX[]</MethodName>
 			<MethodName>Turtle-mouseY[]</MethodName>
 			<MethodName>Turtle-mouseClicked[]</MethodName>
@@ -1897,7 +1897,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object" label="InputTurtle"></DefaultArg>
+			<DefaultArg genus-name="new-object-InputTurtle[]" label="InputTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>InputTurtle</Type>
@@ -1953,7 +1953,7 @@
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）">
 			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
 			<MethodName>Turtle-mouseX[]</MethodName>
 			<MethodName>Turtle-mouseY[]</MethodName>
 			<MethodName>Turtle-mouseClicked[]</MethodName>
@@ -1994,7 +1994,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object" label="CardTurtle"></DefaultArg>
+			<DefaultArg genus-name="new-object-CardTurtle[]" label="CardTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>CardTurtle</Type>
@@ -2087,7 +2087,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object" label="ButtonTurtle"></DefaultArg>
+			<DefaultArg genus-name="new-object-ButtonTurtle[]" label="ButtonTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>ButtonTurtle</Type>
@@ -2143,7 +2143,7 @@
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）">
 			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
 			<MethodName>Turtle-mouseX[]</MethodName>
 			<MethodName>Turtle-mouseY[]</MethodName>
 			<MethodName>Turtle-mouseClicked[]</MethodName>
@@ -2185,7 +2185,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object-withtext" label="TextTurtle"></DefaultArg>
+			<DefaultArg genus-name="new-object-TextTurtle[@string]" label="TextTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>TextTurtle</Type>
@@ -2217,7 +2217,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object-withtext" label="ImageTurtle"></DefaultArg>
+			<DefaultArg genus-name="new-object-ImageTurtle[@string]" label="ImageTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>ImageTurtle</Type>
@@ -2254,7 +2254,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object-withtext" label="SoundTurtle"></DefaultArg>
+			<DefaultArg genus-name="new-object-SoundTurtle[@string]" label="SoundTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>SoundTurtle</Type>
@@ -2286,7 +2286,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="poly">
-			<DefaultArg genus-name="new-object" label="ListTurtle＜Turtle＞"></DefaultArg>
+			<DefaultArg genus-name="new-object-ListTurtle[]" label="ListTurtle＜Turtle＞"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>ListTurtle&lt;Turtle&gt;</Type>
@@ -2311,5 +2311,3 @@
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
-
-
