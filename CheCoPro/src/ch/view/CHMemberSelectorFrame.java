@@ -110,9 +110,9 @@ public class CHMemberSelectorFrame extends JFrame {
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				// TODO 開いているCHエディタを閉じる
+				// 開いているCHエディタを閉じる
 				editorOpens.clear();
-				// TODO コネクションを切る
+				// コネクションを切る
 				component.fireWindowClosing();
 			}
 		});

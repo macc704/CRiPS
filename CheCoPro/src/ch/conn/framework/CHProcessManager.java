@@ -181,4 +181,8 @@ public class CHProcessManager {
 	public void setComponent(CHComponent component) {
 		this.component = component;
 	}
+	
+	public CHMemberSelectorFrame getMemberSelector() {
+		return memberSelector;
+	}
 }

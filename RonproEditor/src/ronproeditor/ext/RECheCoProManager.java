@@ -266,7 +266,7 @@ public class RECheCoProManager {
 			// 開いていなかったら開く
 			doOpenNewCH(component.getUser());
 		} else if (message.equals("WindowClosing")) {
-			// TODO 開いているCHEditorを閉じる
+			// 開いているCHEditorを閉じる
 			closeCHEditors();
 		}
 	}
@@ -278,9 +278,10 @@ public class RECheCoProManager {
 		chViewer.getApplication().getFrame().addWindowListener(new WindowAdapter() {
 			
 			@Override
-			public void windowClosed(WindowEvent e) {
+			public void windowClosing(WindowEvent e) {
 				if (chViewers.containsKey(user)) {
 					chViewers.remove(user);
+					cliant.getProcessManager().getMemberSelector().removeEditorOpens(user);
 				}
 			}
 		});
@@ -326,6 +327,7 @@ public class RECheCoProManager {
 	 * 切断処理
 	 *********/
 
+	// TODO 接続切れた時かログアウトした時に呼ぶ
 	private void connectionKilled() {
 		resetMenubar();
 		closeCHEditors();
@@ -357,13 +359,14 @@ public class RECheCoProManager {
 			if (chViewers.containsKey(userState.getUser())) {
 				chViewers.get(userState.getUser()).getApplication().getFrame().setVisible(false);
 				// TODO BlockEditorも閉じる
+				closeCHBlockEditor(chViewers.get(userState.getUser()).getApplication());
 				chViewers.remove(userState.getUser());
 			}
 		}
 	}
 	
-	private void closeCHBlockEditor(REApplication chApplication) {
-		chApplication.getChBlockEditorController().close();
+	private void closeCHBlockEditor(REApplication application) {
+		application.getChBlockEditorController().close();
 	}
 
 	/**********
