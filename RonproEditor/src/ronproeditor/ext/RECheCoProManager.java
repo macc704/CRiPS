@@ -30,6 +30,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import pres.core.model.PRCheCoProLog;
+import pres.core.model.PRLog;
 import ronproeditor.REApplication;
 import ch.conn.CHCliant;
 import ch.conn.framework.CHConnection;
@@ -39,6 +41,7 @@ import ch.conn.framework.packets.CHSourceChanged;
 import ch.util.CHComponent;
 import ch.util.CHEvent;
 import ch.util.CHListener;
+import clib.common.filesystem.CPath;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
 
@@ -294,6 +297,7 @@ public class RECheCoProManager {
 	
 	private void processLoginResult() {
 		initializeREListener();
+		writePresLog(PRCheCoProLog.SubType.LOGIN);
 	}
 
 	private void processLoginMemberChanged(List<CHUserState> userStates) {
@@ -375,6 +379,21 @@ public class RECheCoProManager {
 	
 	public boolean isConnect() {
 		return conn.established();
+	}
+	
+	/******
+	 * LOG
+	 ******/
+	
+	public void writePresLog(PRCheCoProLog.SubType subType, String... message) {
+		try {
+			CPath path = application.getSourceManager().getCCurrentFile()
+					.getRelativePath(application.getSourceManager().getCCurrentProject());
+			PRLog log = new PRCheCoProLog(subType, path, message);
+			application.writePresLog(log);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	/****************

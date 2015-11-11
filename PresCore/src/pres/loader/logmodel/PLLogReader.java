@@ -236,6 +236,21 @@ public class PLLogReader {
 
 			return log;
 
+		} else if (typeString.equals("CH_COMMAND_RECORD")) { 
+			String path = tokenizer.nextToken();
+			String message = null;
+			if (tokenizer.hasMoreTokens()) {
+				message = tokenizer.nextToken();
+			}
+			
+			checkLineStatus(time, tokenizer, typeString);
+			
+			if (message == null) {
+				return new PLCheCoProCommandLog(time, subTypeString, new CPath(path));
+			} else {
+				return new PLCheCoProCommandLog(time, subTypeString, new CPath(path), message);
+			}
+			
 		} else {
 			throw new RuntimeException("Unknown Log Type: " + typeString);
 		}
