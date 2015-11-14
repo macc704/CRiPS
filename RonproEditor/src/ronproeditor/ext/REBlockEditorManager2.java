@@ -81,17 +81,24 @@ public class REBlockEditorManager2 {
 
 		// Managerの初期化処理
 		Function<File, WorkspaceController> initBlockEditorAction = (sourceFile) -> {
-			// プロジェクトを解析して、言語定義ファイルを書き換える
-			LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(sourceFile, REApplication.SRC_ENCODING, new String[] {}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
-			try {
-				rewriter.rewrite();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 			WorkspaceController blockEditor = new WorkspaceController();
-			blockEditor.setLangDefFilePath(sourceFile.getParent() + "/" + "lang_def_project.xml");
+			if(sourceFile != null){
+				// プロジェクトを解析して、言語定義ファイルを書き換える
+				LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(sourceFile, REApplication.SRC_ENCODING, new String[] {}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
+				try {
+					rewriter.rewrite();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				blockEditor.setLangDefFilePath(sourceFile.getParent() + "/" + "lang_def_project.xml");
+			}else{
+					blockEditor.setLangDefFilePath(LANG_DEF_BASE_DIR + "lang_def.xml");
+			}
+
 			blockEditor.loadFreshWorkspace();
 			blockEditor.createAndShowGUI();
+
 			return blockEditor;
 		};
 
@@ -259,12 +266,23 @@ public class REBlockEditorManager2 {
 		return blockEditor != null && blockEditor.getFrame() != null && blockEditor.getFrame().isVisible();
 	}
 
+	private boolean isOpenableTextFile(File file){
+		if(file == null){
+			return false;
+		}
+		String ext = CFileSystem.convertToCFile(file).getName().getExtension();
+		if (!(ext.equals("java") || ext.equals("js"))) {
+			return false;
+		}
+
+		return true;
+	}
+
 	private CTaskManager man = new CTaskManager();
 
 	public void doCompileBlock() {
 		final File target = app.getSourceManager().getCurrentFile();
-		String ext = CFileSystem.convertToCFile(target).getName().getExtension();
-		if (!(ext.equals("java") || ext.equals("js"))) {
+		if(!isOpenableTextFile(target)){
 			return;
 		}
 		man.addTask(new ICTask() {
