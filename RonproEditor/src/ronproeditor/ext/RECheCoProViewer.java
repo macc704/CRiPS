@@ -63,6 +63,8 @@ public class RECheCoProViewer {
 	
 	private boolean synchronizing;
 	private String property = "";
+	private String copyFilePath = "";
+	private String copyCode = "";
 	
 	public RECheCoProViewer(String user) {
 		this.user = user;
@@ -98,9 +100,7 @@ public class RECheCoProViewer {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Copyのログを出力
-			String str = application.getFrame().getEditor().getViewer().getTextPane().getSelectedText();
-			System.out.println(str);
+			doneCopyAction();
 		}
 	};
 	
@@ -130,12 +130,11 @@ public class RECheCoProViewer {
 			mod = e.getModifiers();
 			if (e.getKeyCode() == KeyEvent.VK_C) {
 				if ((mod & CTRL_MASK) != 0) {
-					System.out.println("copy");
-
+					doneCopyAction();
 				}
 			} else if (e.getKeyCode() == KeyEvent.VK_X) {
 				if ((mod & CTRL_MASK) != 0) {
-					System.out.println("cut");
+					doneCopyAction();
 				}
 			}
 		}
@@ -456,6 +455,11 @@ public class RECheCoProViewer {
 		}
 	}
 	
+	public void doneCopyAction() {
+		copyCode = getSelectedText();
+		copyFilePath = getCurrentFileRelativePaht();
+	}
+	
 	/********************
 	 * setter and getter
 	 ********************/
@@ -474,6 +478,16 @@ public class RECheCoProViewer {
 	
 	public void setUserStates(List<CHUserState> userStates) {
 		this.userStates = userStates;
+	}
+	
+	public String getCopyCode() {
+		String copyCode = this.copyCode;
+		this.copyCode = "";
+		return copyCode;
+	}
+	
+	public String getCopyFilePath() {
+		return copyFilePath;
 	}
 	
 	public int getMenuCount() {
@@ -508,6 +522,15 @@ public class RECheCoProViewer {
 			}
 		}
 		return null;
+	}
+	
+	public String getSelectedText() {
+		return application.getFrame().getEditor().getViewer().getTextPane().getSelectedText();
+	}
+	
+	public String getCurrentFileRelativePaht() {
+		return application.getSourceManager().getCCurrentFile()
+				.getRelativePath(application.getSourceManager().getCRootDirectory()).toString();
 	}
 	
 }

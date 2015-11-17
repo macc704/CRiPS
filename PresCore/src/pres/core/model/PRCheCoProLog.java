@@ -17,6 +17,7 @@ public class PRCheCoProLog extends PRFileLog{
 	};
 	
 	// ALL_IMPORTはuser, java, resourceの順
+	// PARTIAL_IMPORTはuser, file name, source codeの順
 	public static enum SubType implements PRLogSubType {
 		LOGIN, LOGOUT, ALL_IMPORT, PARTIAL_IMPORT
 	};

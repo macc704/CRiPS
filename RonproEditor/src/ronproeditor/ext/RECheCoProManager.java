@@ -132,8 +132,7 @@ public class RECheCoProManager {
 				mod = e.getModifiers();
 				if (e.getKeyCode() == KeyEvent.VK_V) {
 					if ((mod & CTRL_MASK) != 0) {
-						System.out.println("paste");
-
+						writePartialImportLog();
 					}
 				}
 			}
@@ -141,21 +140,6 @@ public class RECheCoProManager {
 
 		application.getFrame().getEditor().getViewer().getTextPane()
 				.addKeyListener(reKeyListener);
-	}
-	
-	public String getClipbordString() {
-		Toolkit toolkit = Toolkit.getDefaultToolkit();
-		Clipboard clipboard = toolkit.getSystemClipboard();
-		
-		try {
-			return (String) clipboard.getData(DataFlavor.stringFlavor);
-		} catch (UnsupportedFlavorException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return null;
 	}
 	
 	public void send() {
@@ -185,6 +169,7 @@ public class RECheCoProManager {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			writePartialImportLog();
 		}
 	};
 	
@@ -374,7 +359,6 @@ public class RECheCoProManager {
 		for (CHUserState userState : userStates) {
 			if (chViewers.containsKey(userState.getUser())) {
 				chViewers.get(userState.getUser()).getApplication().getFrame().setVisible(false);
-				// TODO BlockEditorも閉じる
 				closeCHBlockEditor(chViewers.get(userState.getUser()).getApplication());
 				chViewers.remove(userState.getUser());
 			}
@@ -396,6 +380,58 @@ public class RECheCoProManager {
 		return conn.established();
 	}
 	
+	/**
+	 * ペーストされたコードがviewerからのものかか調べる
+	 * @param copyCode
+	 * @return
+	 */
+	public boolean isCopiedCode(String copyCode) {
+		return copyCode.equals(getClipbordString()) && !copyCode.equals("");
+	}
+	
+	/********************
+	 * getter and setter
+	 ********************/
+	
+	/**
+	 * 部分取込されたらそれに関する情報を返す
+	 * @return 部分取込元のユーザ，部分取込されたコード，部分取込されたコードがあるファイル名
+	 */
+	public List<String> getPartialImportInfo() {
+		// TODO 要テスト
+		for (CHUserState aUserState : userStates) {
+			if (chViewers.containsKey(aUserState.getUser())) {
+				if (isCopiedCode(chViewers.get(aUserState.getUser()).getCopyCode())) {
+					List<String> info = new ArrayList<String>();
+					info.add(aUserState.getUser());
+					info.add(getClipbordString());
+					info.add(chViewers.get(aUserState.getUser()).getCopyFilePath());
+					return info;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * クリップボードに格納されている文字列を返す
+	 * @return
+	 */
+	public String getClipbordString() {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Clipboard clipboard = toolkit.getSystemClipboard();
+		
+		try {
+			return (String) clipboard.getData(DataFlavor.stringFlavor);
+		} catch (UnsupportedFlavorException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 	/******
 	 * LOG
 	 ******/
@@ -411,6 +447,19 @@ public class RECheCoProManager {
 			application.writePresLog(log, CHFileSystem.getFinalProjectDir());
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 部分取込のログを書く
+	 */
+	public void writePartialImportLog() {
+		List<String> info = getPartialImportInfo();
+		if (info != null) {
+			String user = info.get(0);
+			String copyCode = info.get(1);
+			String copyFilePath = info.get(2);
+			writePresLog(PRCheCoProLog.SubType.PARTIAL_IMPORT, user, copyFilePath, copyCode);
 		}
 	}
 
