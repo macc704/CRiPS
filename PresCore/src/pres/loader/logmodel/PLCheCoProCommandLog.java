@@ -29,6 +29,8 @@ public class PLCheCoProCommandLog extends PLFileLog{
 			return "ログアウト";
 		} else if (subType.equals("ALL_IMPORT")) {
 			return "全部取込";
+		} else if (subType.equals("PARTIAL_IMPORT")) {
+			return "部分取込";
 		} else {
 			return subType;
 		}

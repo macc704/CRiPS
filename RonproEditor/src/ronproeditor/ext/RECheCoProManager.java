@@ -169,6 +169,9 @@ public class RECheCoProManager {
 		}
 	}
 	
+	/**
+	 * ソース（テキスト），開いているファイル名，スクロールバーのポイントを送る
+	 */
 	public void sendText() {
 		String source = application.getFrame().getEditor().getViewer().getText();
 		String currentFileName = application.getSourceManager().getCurrentFile().getName();
@@ -222,17 +225,23 @@ public class RECheCoProManager {
 		cliant.start();
 	}
 	
+	/**
+	 * クライアントからのイベントを受け取るリスナの追加
+	 * @return
+	 */
 	private CHComponent addCHListener() {
 		CHComponent component = new CHComponent();
 		component.addCHListener(new CHListener() {
 			
 			@Override
 			public void processChanged(CHEvent e) {
+				// クライアント状態変化
 				processConnectionChanged(component, e.getMessage());
 			}
 			
 			@Override
 			public void memberSelectorChanged(CHEvent e) {
+				// メンバセレクタの操作
 				processMemberSelectorChanged(component, e.getMessage());
 			}
 		});
@@ -372,6 +381,9 @@ public class RECheCoProManager {
 		}
 	}
 	
+	/**
+	 * Viewer用BlockEditorを閉じる
+	 */
 	private void closeCHBlockEditor(REApplication application) {
 		application.getChBlockEditorController().close();
 	}

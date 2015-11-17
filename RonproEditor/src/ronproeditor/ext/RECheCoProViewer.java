@@ -5,7 +5,9 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -83,6 +85,7 @@ public class RECheCoProViewer {
 		application.getFrame().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
+	// Viewerを閉じてもシステムが終了しないようにするため
 	public void removeWindowListeners() {
 		WindowListener[] listeners = application.getFrame().getWindowListeners();
 		for (int i = 0; i <listeners.length ; i++) {
@@ -90,11 +93,14 @@ public class RECheCoProViewer {
 		}
 	}
 	
+	// ログ用にコピーしたコード取得（メニューバー）
 	private ActionListener copyListener = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Copyのログを出力
+			String str = application.getFrame().getEditor().getViewer().getTextPane().getSelectedText();
+			System.out.println(str);
 		}
 	};
 	
@@ -105,12 +111,50 @@ public class RECheCoProViewer {
 			property = evt.getPropertyName();
 			setEnabledForTextPane(!synchronizing);
 			reloadBlockEditor();
+			
+			// エディタが開かれていたらKeyListener追加，閉じられたらリムーブ
+			if(property.equals(RESourceManager.DOCUMENT_OPENED)) {
+				addKeyListener();
+			} else if (property.equals(RESourceManager.PREPARE_DOCUMENT_CLOSE)) {
+				removeKeyListener();
+			}
 		}
 	};
 	
+	// ログ用にコピーしたコード取得（ショートカットキー）
+	private KeyListener keyListener = new KeyAdapter() {
+		int mod;
+		
+		@Override
+		public void keyPressed(KeyEvent e) {
+			mod = e.getModifiers();
+			if (e.getKeyCode() == KeyEvent.VK_C) {
+				if ((mod & CTRL_MASK) != 0) {
+					System.out.println("copy");
+
+				}
+			} else if (e.getKeyCode() == KeyEvent.VK_X) {
+				if ((mod & CTRL_MASK) != 0) {
+					System.out.println("cut");
+				}
+			}
+		}
+	};
 	
 	private void initializeListeners() {
+		initializePropertyChangeListener();
+	}
+	
+	private void initializePropertyChangeListener() {
 		application.getSourceManager().addPropertyChangeListener(propertyChangeListener);
+	}
+	
+	private void addKeyListener() {
+		application.getFrame().getEditor().getViewer().getTextPane().addKeyListener(keyListener);
+	}
+	
+	private void removeKeyListener() {
+		application.getFrame().getEditor().getViewer().getTextPane().removeKeyListener(keyListener);
 	}
 	
 	private void initializeMenuBer() {
