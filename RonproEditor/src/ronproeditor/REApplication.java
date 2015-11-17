@@ -1214,4 +1214,12 @@ public class REApplication {
 			ex.printStackTrace();
 		}
 	}
+	
+	public void writePresLog(PRLog log, CDirectory project) {
+		try {
+			presManager.getRecordingProject(project).record(log);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 }

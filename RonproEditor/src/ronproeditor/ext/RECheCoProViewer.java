@@ -23,6 +23,8 @@ import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import pres.core.model.PRCheCoProLog;
+import pres.core.model.PRLog;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
 import clib.common.system.CJavaSystem;
@@ -53,6 +55,7 @@ public class RECheCoProViewer {
 	}
 	
 	private REApplication application;
+	private REApplication baseApplication;
 	private String user;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
 	
@@ -241,11 +244,12 @@ public class RECheCoProViewer {
 			public void actionPerformed(ActionEvent e) {
 				CHPullDialog pullDialog = new CHPullDialog(user, 0);
 				boolean java = pullDialog.isJavaChecked();
-				boolean material = pullDialog.isMaterialCecked();
-				if (java || material) {
-					doPull(user, CHFileSystem.createCFileFilterForPull(java, material));
+				boolean resource = pullDialog.isResourceCecked();
+				if (java || resource) {
+					doPull(user, CHFileSystem.createCFileFilterForPull(java, resource));
 				}
 				application.doRefresh();
+				writePresLog(PRCheCoProLog.SubType.ALL_IMPORT, user, java, resource);
 			}
 
 		});
@@ -257,6 +261,7 @@ public class RECheCoProViewer {
 	 ***************/
 	
 	public REApplication doOpenNewCH(REApplication application) {
+		baseApplication = application;
 		this.application = application.doOpenNewRE(CH_DIR_PATH + "/" + user);
 		initialize();
 		return this.application;
@@ -391,6 +396,19 @@ public class RECheCoProViewer {
 		} else {
 			return application.getSourceManager().getCurrentFile()
 				.getName().equals(currentFileName) && synchronizing;
+		}
+	}
+	
+	/******
+	 * LOG
+	 ******/
+	
+	public void writePresLog(PRCheCoProLog.SubType subType, Object... args) {
+		try {
+			PRLog log = new PRCheCoProLog(subType, null, args);
+			baseApplication.writePresLog(log, CHFileSystem.getFinalProjectDir());
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 	
