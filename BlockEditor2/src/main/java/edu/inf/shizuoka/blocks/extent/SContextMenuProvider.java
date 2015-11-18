@@ -36,6 +36,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCallerItem;
 
+
 	public SContextMenuProvider(RenderableBlock rb) {
 		this.rb = rb;
 	}
@@ -152,16 +153,6 @@ public class SContextMenuProvider {
 		return createCallerItem;
 	}
 
-	// public JMenu createClassMethodsCategory(String className,
-	// List<MethodInformation> methods) {
-	// JMenu category = new JMenu(className);
-	// for (MethodInformation method : methods) {
-	// category.add(createCallClassMethodMenu(method));
-	// }
-	//
-	// return category;
-	// }
-
 	public JMenu createClassMethodsCategory(String className, List<String> methods) {
 		JMenu category = new JMenu(className);
 
@@ -171,6 +162,7 @@ public class SContextMenuProvider {
 
 		return category;
 	}
+
 
 	/**
 	 * @return
@@ -185,7 +177,6 @@ public class SContextMenuProvider {
 			menu.add(createNewGetterMenu());
 			menu.add(createCreateWriterMenu());
 			menu.add(createNewSetterMenu());
-			// menu.add(createCreateGetterMenu());
 			menu.addSeparator();
 		}
 
@@ -251,7 +242,6 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 			menu.add(createBlockCopyMenu());
 			menu.addSeparator();
-
 		}
 
 		return menu;
@@ -339,13 +329,13 @@ public class SContextMenuProvider {
 
 	public static RenderableBlock createNewBlock(Workspace workspace, WorkspaceWidget widget, String genusName) {
 		Block block = new Block(workspace, genusName);
-		try{
-		RenderableBlock newBlock = BlockUtilities.cloneBlock(block);
-		newBlock.setParentWidget(widget);
-		widget.addBlock(newBlock);
-		return newBlock;
-		}catch(Exception e){
-			throw new RuntimeException("block not found " + genusName );
+		try {
+			RenderableBlock newBlock = BlockUtilities.cloneBlock(block);
+			newBlock.setParentWidget(widget);
+			widget.addBlock(newBlock);
+			return newBlock;
+		} catch (Exception e) {
+			throw new RuntimeException("block not found " + genusName);
 		}
 	}
 

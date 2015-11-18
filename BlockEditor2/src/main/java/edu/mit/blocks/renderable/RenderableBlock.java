@@ -390,10 +390,11 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		super.setLocation(x, y);
 
 		if (hasComment() && !(dx == x && dy == y)) {
+			getComment().translatePosition(dx, dy);
 			if (getComment().getParent() != getParent()) {
 				getComment().setParent(getParent(), Workspace.DRAGGED_BLOCK_LAYER);
 			}
-			getComment().translatePosition(dx, dy);
+
 		}
 	}
 
@@ -1606,6 +1607,10 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		renderable.pickedUp = true;
 		renderable.lastDragWidget = widget;
 
+		if (renderable.hasComment()) {
+			renderable.comment.setConstrainComment(false);
+		}
+
 		Component oldParent = renderable.getParent();
 
 		workspace.addToBlockLayer(renderable);
@@ -1641,13 +1646,13 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		// stop rendering as transparent
 		renderable.dragging = false;
 		// move comment
-		// if (renderable.hasComment()) {
-		// if (renderable.getParentWidget() != null) {
-		// renderable.comment.setParent(renderable.getParentWidget()
-		// .getJComponent(), 0);
-		// } else {
-		// renderable.comment.setParent(null, renderable.getBounds());
-		// }
+		if (renderable.hasComment()) {
+			if (renderable.getParentWidget() != null) {
+				renderable.comment.setParent(renderable.getParentWidget().getJComponent(), 0);
+			} else {
+				renderable.comment.setParent(null, renderable.getBounds());
+			}
+		}
 	}
 
 	private void drag(RenderableBlock renderable, int dx, int dy, WorkspaceWidget widget, boolean isTopLevelBlock) {

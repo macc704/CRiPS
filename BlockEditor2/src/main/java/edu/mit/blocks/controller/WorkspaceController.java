@@ -95,7 +95,7 @@ public class WorkspaceController {
 
 	private static String RONPRO_FILE_ENCODING = "SJIS";
 
-	private String imagePath = "../support/images/";// added by macchan
+	private String imagePath = "ext/block2/images/";// added by macchan
 
 	public Workspace getWorkspace() {
 		return this.workspace;

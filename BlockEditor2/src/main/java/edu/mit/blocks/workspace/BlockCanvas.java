@@ -59,7 +59,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
     private final Workspace workspace;
 
     private boolean collapsible = false;
-    
+
     private static int MAX_HEIGHT = 1600;
 
     //////////////////////////////
@@ -580,12 +580,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
         }
 
         public void mouseClicked(MouseEvent e) {
-            if (SwingUtilities.isRightMouseButton(e) || e.isControlDown()) {
-                //pop up context menu
-                JPopupMenu popup = ContextMenu.getContextMenuFor(BlockCanvas.this);
-                this.add(popup);
-                popup.show(this, e.getX(), e.getY());
-            }
+
         }
 
         public void mouseDragged(MouseEvent e) {
