@@ -16,8 +16,6 @@ import java.util.Map;
 import javax.swing.BoundedRangeModel;
 import javax.swing.JComponent;
 import javax.swing.JLayeredPane;
-import javax.swing.JPopupMenu;
-import javax.swing.SwingUtilities;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

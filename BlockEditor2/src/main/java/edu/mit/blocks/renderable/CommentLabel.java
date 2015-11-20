@@ -88,7 +88,6 @@ public class CommentLabel extends BlockControlLabel {
         update();
         rb.revalidate();
         rb.repaint();
-//        workspace.getMiniMap().repaint();
     }
 
     /**
