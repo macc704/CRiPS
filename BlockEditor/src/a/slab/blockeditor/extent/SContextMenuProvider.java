@@ -231,7 +231,7 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 		}
 
-		if (rb.getBlock().getGenusName().endsWith("var-int-number")) {
+		if (rb.getBlock().isVariableDeclBlock() && rb.getBlock().getGenusName().endsWith("var-int-number")) {
 			menu.add(createCreateIncrementerMenu());
 			menu.addSeparator();
 		}

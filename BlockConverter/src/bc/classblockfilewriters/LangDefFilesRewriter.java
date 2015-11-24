@@ -58,20 +58,26 @@ public class LangDefFilesRewriter {
 	}
 
 	public void setLocalVariableBlockModel(String fileName, Map<String, List<PublicMethodInfo>> methods, String superClassName) {
+		createLocalVariableModel(superClassName, fileName, methods);
+
+//		createLocalVariableArrayModel(superClassName, fileName, methods);
+	}
+	public void createLocalVariableModel(String superClassName, String fileName, Map<String, List<PublicMethodInfo>> methods){
 		ObjectBlockModel classObjectModel = new ObjectBlockModel("local-var-object-" + fileName, "local-variable", "initname", fileName + "型の変数をつくり", "と名付ける", "230 0 255");
 		// 定義クラスブロックのプロパティをセットする
 		classObjectModel.setMethods(methods);
 		classObjectModel.setClassName(fileName);
 		requestObjectBlock.add(classObjectModel);
 		classObjectModel.setSuperClassName(superClassName);
+	}
 
+	public void createLocalVariableArrayModel(String superClassName, String fileName, Map<String, List<PublicMethodInfo>> methods){
 		// // 配列の追加
 		ObjectBlockModel classObjectArrayModel = new ObjectArrayBlockModel("local-var-object-" + fileName + "-arrayobject", "local-variable", "initname", fileName + "[]" + "型の変数をつくり", "と名付ける", "230 0 255");
 		classObjectArrayModel.setSuperClassName(superClassName);
 		// 定義クラスブロックのプロパティをセットする
 		classObjectArrayModel.setMethods(methods);
 		classObjectArrayModel.setClassName(fileName + "[]");
-		requestObjectBlock.add(classObjectArrayModel);
 	}
 
 	public void setConvertBlockModel(String className) {
@@ -159,7 +165,7 @@ public class LangDefFilesRewriter {
 		ps.close();
 	}
 
-	public void printMenu(File menuFile, File originFile) {
+	public void printMenu(File menuFile, File originFile, boolean forAD) {
 		BufferedReader br;
 		int lineNum = 0;
 		try {
@@ -188,35 +194,37 @@ public class LangDefFilesRewriter {
 			makeIndent(ps, --lineNum);
 			ps.println("</BlockDrawer>");
 
-			makeIndent(ps, ++lineNum);
+			if(forAD){
+				makeIndent(ps, ++lineNum);
 
-			ps.println("<BlockDrawer name=\"Project-Converter\" type=\"factory\" button-color=\"255 155 64\">");
+				ps.println("<BlockDrawer name=\"Project-Converter\" type=\"factory\" button-color=\"255 155 64\">");
 
-			for (ConvertBlockModel model : requestConvertBlockModel) {
-				model.printMenuItem(ps, lineNum);
+				for (ConvertBlockModel model : requestConvertBlockModel) {
+					model.printMenuItem(ps, lineNum);
+				}
+
+				makeIndent(ps, --lineNum);
+				ps.println("</BlockDrawer>");
+
+				makeIndent(ps, ++lineNum);
+
+				ps.println("<BlockDrawer name=\"Project-Parameter\" type=\"factory\" button-color=\"255 155 64\">");
+
+				for (ParameterBlockModel model : requestParameterBlockModel) {
+					model.printMenuItem(ps, lineNum);
+				}
+
+				makeIndent(ps, --lineNum);
+				ps.println("</BlockDrawer>");
+
+				makeIndent(ps, lineNum++);
+				ps.println("<BlockDrawer name=\"継承メソッド\" type=\"factory\" button-color=\"255 155 64\">");
+
+				addInheritanceMethodBlocksToMenu(ps, lineNum);
+
+				makeIndent(ps, --lineNum);
+				ps.println("</BlockDrawer>");
 			}
-
-			makeIndent(ps, --lineNum);
-			ps.println("</BlockDrawer>");
-
-			makeIndent(ps, ++lineNum);
-
-			ps.println("<BlockDrawer name=\"Project-Parameter\" type=\"factory\" button-color=\"255 155 64\">");
-
-			for (ParameterBlockModel model : requestParameterBlockModel) {
-				model.printMenuItem(ps, lineNum);
-			}
-
-			makeIndent(ps, --lineNum);
-			ps.println("</BlockDrawer>");
-
-			makeIndent(ps, lineNum++);
-			ps.println("<BlockDrawer name=\"継承メソッド\" type=\"factory\" button-color=\"255 155 64\">");
-
-			addInheritanceMethodBlocksToMenu(ps, lineNum);
-
-			makeIndent(ps, --lineNum);
-			ps.println("</BlockDrawer>");
 
 			makeIndent(ps, --lineNum);
 			ps.println("</BlockDrawerSet>");
@@ -350,13 +358,13 @@ public class LangDefFilesRewriter {
 		while ((str = br.readLine()) != null) {
 			if (str.contains(" extends Turtle")) {
 				File turtleMenu = new File(System.getProperty("user.dir"), baseDir + "lang_def_menu_turtle.xml");
-				printMenu(projectMenuFile, turtleMenu);
+				printMenu(projectMenuFile, turtleMenu, false);
 				br.close();
 				return;
 			}
 		}
 		File cuiMenu = new File(System.getProperty("user.dir"), "ext/block/lang_def_menu_cui.xml");
-		printMenu(projectMenuFile, cuiMenu);
+		printMenu(projectMenuFile, cuiMenu, false);
 		br.close();
 		reader.close();
 	}
@@ -377,14 +385,13 @@ public class LangDefFilesRewriter {
 				// ローカル変数ブロックのモデルを追加
 				setLocalVariableBlockModel(name, methods, superClassName);// メソッドリストを引数に追加
 				// // インスタンス変数ブロックのモデルを追加
-				setInstanceVariableBlockMode(name, methods, superClassName);
-
+//				setInstanceVariableBlockMode(name, methods, superClassName);
 				// 型変換ブロックモデルの追加
-				setConvertBlockModel(name);
+//				setConvertBlockModel(name);
 				// 引数ブロックモデルの追加
-				setParameterBlockModel(name, methods);
+//				setParameterBlockModel(name, methods);
 				// //配列ブロックモデルの追加
-				setArrayParameterBlockModel(name, methods);
+//				setArrayParameterBlockModel(name, methods);
 
 				// キャッシュに登録済みクラスを追加する
 				addedClasses.add(name);
