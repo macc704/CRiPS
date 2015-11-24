@@ -8,13 +8,6 @@
 		<java.version>1.8</java.version>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>jitpack.io</id>
-			<url>https://jitpack.io</url>
-		</repository>
-	</repositories>
-
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -162,11 +155,12 @@
 			<artifactId>CheCoPro</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>com.github.UnicoenProject</groupId>
-			<artifactId>Junicoen</artifactId>
-			<version>v0.0.3_prog2015</version>
-		</dependency>
+ 		<dependency>
+			<groupId>net.exkazuu</groupId>
+ 			<artifactId>Junicoen</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+ 		</dependency>
+
 		<dependency>
 			<groupId>info.matsuzawalab</groupId>
 			<artifactId>CPreferenceFW</artifactId>
