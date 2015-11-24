@@ -21,6 +21,9 @@ public class CHFileSystem {
 	public static final String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
 	public static final String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
 	
+	public static final String FINALPROJECTPATH = "MyProjects/final";
+	public static final String CHDIRPATH = "MyProjects/.CH";
+	
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
 				"CH/" + port);
@@ -31,8 +34,7 @@ public class CHFileSystem {
 	}
 
 	public static CDirectory getFinalProjectDir() {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/final");
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(FINALPROJECTPATH);
 	}
 
 	public static CDirectory getUserDirForClient(String user) {
