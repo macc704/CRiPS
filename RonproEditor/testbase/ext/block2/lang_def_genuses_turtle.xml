@@ -684,6 +684,17 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="TextTurtle-text[@int]" kind="command"
+	color="255 0 0" initlabel="テキストを設定する">
+	<Name>text</Name>
+	<BlockConnectors>
+		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="show"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
 <BlockGenus name="TextTurtle-getText[]" kind="function"
 	color="255 0 0" initlabel="テキストを取得する">
 	<Name>getText</Name>
