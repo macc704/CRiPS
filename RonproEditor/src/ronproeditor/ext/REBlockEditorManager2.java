@@ -23,14 +23,8 @@ import java.util.function.Function;
 
 import javax.swing.SwingUtilities;
 
-import net.unicoen.mapper.JavaMapper;
-import net.unicoen.mapper.JavaScriptMapper;
-import net.unicoen.node.UniClassDec;
-import net.unicoen.parser.blockeditor.BlockGenerator;
-import pres.core.model.PRLog;
-import ronproeditor.IREResourceRepository;
-import ronproeditor.REApplication;
-import ronproeditor.helpers.CFrameUtils;
+import com.google.common.collect.Lists;
+
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
 import bc.classblockfilewriters.LangDefFilesReWriterMain2;
@@ -40,6 +34,14 @@ import clib.common.thread.CTaskManager;
 import clib.common.thread.ICTask;
 import clib.view.dialogs.CErrorDialog;
 import edu.mit.blocks.controller.WorkspaceController;
+import net.unicoen.mapper.JavaMapper;
+import net.unicoen.mapper.JavaScriptMapper;
+import net.unicoen.node.UniClassDec;
+import net.unicoen.parser.blockeditor.BlockGenerator;
+import pres.core.model.PRLog;
+import ronproeditor.IREResourceRepository;
+import ronproeditor.REApplication;
+import ronproeditor.helpers.CFrameUtils;
 
 /**
  * for New BlockEditor 2015.08.14
@@ -64,7 +66,11 @@ public class REBlockEditorManager2 {
 			File tmpSrcFile = createUTFDummyFile(srcfile);
 
 			UniClassDec classDec = convertJavaToUni(tmpSrcFile);
-			File xmlfile = new File(dir.getAbsolutePath() + "/" + classDec.className + ".xml");
+			if(isTurtle()){
+				classDec.superClass = Lists.newArrayList("Turtle");
+			}
+			
+			File xmlfile = new File(dir.getPath() + "/" + classDec.className + ".xml");
 			try {
 				xmlfile.createNewFile();
 				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, BLOCK_ENC);
@@ -162,6 +168,7 @@ public class REBlockEditorManager2 {
 		man.setPriority(Thread.currentThread().getPriority() - 1);
 
 		app.getSourceManager().addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (IREResourceRepository.DOCUMENT_OPENED.equals(evt.getPropertyName())) {
 					if(blockEditor != null){
@@ -199,6 +206,7 @@ public class REBlockEditorManager2 {
 		this.convertionAction = convertionAction;
 		blockEditor.addBlockEditorListener(new edu.inf.shizuoka.blocks.extent.SBlockEditorListener() {
 
+			@Override
 			public void blockConverted(File file) {
 				writeBlockEditingLog(REBlockEditorLog.SubType.BLOCK_TO_JAVA);
 				app.doRefreshCurrentEditor();
@@ -206,24 +214,29 @@ public class REBlockEditorManager2 {
 				app.doBlockToJavaSave();
 			}
 
+			@Override
 			public void blockDebugRun() {
 				writeBlockEditingLog(REBlockEditorLog.SubType.DEBUGRUN);
 				app.doDebugRun();
 			}
 
+			@Override
 			public void blockRun() {
 				writeBlockEditingLog(REBlockEditorLog.SubType.RUN);
 				app.doRun();
 			}
 
+			@Override
 			public void blockCompile() {
 				writeBlockEditingLog(REBlockEditorLog.SubType.COMPILE);
 				app.doCompile();
 			}
 
+			@Override
 			public void chengeInheritance() {
 			}
 
+			@Override
 			public void toggleTraceLines(String state) {
 				writeBlockEditingLog(REBlockEditorLog.SubType.TOGGLE_TRACELINES, state);
 			}
@@ -287,6 +300,7 @@ public class REBlockEditorManager2 {
 		}
 		man.addTask(new ICTask() {
 
+			@Override
 			public void doTask() {
 
 				if (!isWorkspaceOpened()) {
@@ -323,6 +337,7 @@ public class REBlockEditorManager2 {
 	private void doCompileErrorBlockEditor(final File target) {
 		man.addTask(new ICTask() {
 
+			@Override
 			public void doTask() {
 				try {
 					// xmlファイル生成
@@ -341,11 +356,12 @@ public class REBlockEditorManager2 {
 	protected void doRefleshBlock(final File javaFile) {
 		man.addTask(new ICTask() {
 
+			@Override
 			public void doTask() {
 				try {
 					writeBlockEditingLog(REBlockEditorLog.SubType.LOADING_START);
 
-					String xmlFilePath = (String) convertionAction.apply(javaFile, app);
+					String xmlFilePath = convertionAction.apply(javaFile, app);
 
 					if (xmlFilePath.equals("noxml")) {
 						throw new RuntimeException();
@@ -405,6 +421,7 @@ public class REBlockEditorManager2 {
 		}
 		man.addTask(new ICTask() {
 
+			@Override
 			public void doTask() {
 				try {
 					// xmlファイル生成

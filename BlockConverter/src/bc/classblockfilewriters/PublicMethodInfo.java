@@ -113,6 +113,7 @@ public class PublicMethodInfo extends BasicModel {
 		return this.javaType;
 	}
 
+	@Override
 	public void setGenusName(String name) {
 		this.methodName = name;
 	}
@@ -141,6 +142,7 @@ public class PublicMethodInfo extends BasicModel {
 		return returnType;
 	}
 
+	@Override
 	public String getGenusName() {
 		return this.genusName;
 	}
@@ -172,7 +174,11 @@ public class PublicMethodInfo extends BasicModel {
 
 	public void printForUni(PrintStream out, int lineNum) {
 		makeIndent(out, lineNum);
-		out.println("<MethodName>" + className + "-" + genusName + "</MethodName>");
+		if(genusName.startsWith("new-")){
+			out.println("<MethodName>" + genusName + "</MethodName>");	
+		}else{
+			out.println("<MethodName>" + className + "-" + genusName + "</MethodName>");			
+		}
 	}
 
 	public void printMethods(PrintStream out, int lineNum) {

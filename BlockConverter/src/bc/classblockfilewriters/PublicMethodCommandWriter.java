@@ -184,7 +184,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 	private void printConstructorForUni(int lineNum, PrintStream out) {
 		// コンストラクターを出力する
 		String kind = "function";
-		out.println("<BlockGenus name=\"" + method.getGenusName() + "\" editable-label=\"yes\"" + " kind=\"" + kind + "\" initlabel=\"" + method.getInitialLabel() + "\" header-label=\"新しく\"  footer-label=\"を作る\"" + " color=\"16 240 27\">");
+		out.println("<BlockGenus name=\"" + method.getGenusName() + "\" editable-label=\"yes\"" + " kind=\"" + kind + "\" initlabel=\"" + method.getJavaType() + "\" header-label=\"新しく\"  footer-label=\"を作る\"" + " color=\"16 240 27\">");
 		++lineNum;
 		if (method.getParameters() != null) {
 			makeIndent(out, lineNum++);
@@ -212,6 +212,10 @@ public class PublicMethodCommandWriter extends BasicModel {
 		out.println("<Type>" + method.getJavaType() + "</Type>");
 
 		makeIndent(out, lineNum);
+		out.println("<MethodName>" + method.getGenusName() + "</MethodName>");
+
+
+		makeIndent(out, lineNum);
 		out.println("<LangSpecProperties>");
 		makeIndent(out, ++lineNum);
 		out.println("<LangSpecProperty key=\"vm-cmd-name\" value=\"" + "new-object" + "\"></LangSpecProperty>");
@@ -225,6 +229,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 		out.println("</BlockGenus>");
 	}
 
+	@Override
 	public void printMenuItem(PrintStream out, int lineNumber) {
 		makeIndent(out, lineNumber);
 		out.println("<BlockGenusMember>" + method.getGenusName() + "</BlockGenusMember>");

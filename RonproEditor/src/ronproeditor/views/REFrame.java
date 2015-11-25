@@ -97,6 +97,7 @@ public class REFrame extends JFrame {
 
 		// 閉じたときに終了するようにする
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e) {
 				application.doExit();
 			}
@@ -146,6 +147,7 @@ public class REFrame extends JFrame {
 
 	protected void initializeListeners() {
 		application.getSourceManager().addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(RESourceManager.DOCUMENT_CLOSED)) {
 					deleteEditor();
@@ -296,7 +298,7 @@ public class REFrame extends JFrame {
 
 		// アクションの追加
 		menuTools.add(actionOpenBlockEditor);
-//		menuTools.add(actionOpenNewBlockEditor);
+		menuTools.add(actionOpenNewBlockEditor);
 //		menuTools.add(actionOpenSemiNewBlockEditor);
 		menuTools.add(actionOpenFlowViewer);
 		menuTools.add(actionOpenGeneRefBrowser);
@@ -343,6 +345,7 @@ public class REFrame extends JFrame {
 	private void initializeFileAction() {
 		// -- 新規プロジェクト
 		actionCreateProject = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doCreateProject();
 			}
@@ -352,6 +355,7 @@ public class REFrame extends JFrame {
 
 		// -- 新規文書
 		actionCreateFile = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doCreateFile();
 			}
@@ -382,6 +386,7 @@ public class REFrame extends JFrame {
 
 		// -- Refactorプロジェクト
 		actionRefactoring = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doRefactoring();
 			}
@@ -392,6 +397,7 @@ public class REFrame extends JFrame {
 
 		// -- File Copy
 		actionFileCopy = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doFileCopy();
 			}
@@ -403,6 +409,7 @@ public class REFrame extends JFrame {
 
 		// -- Delete
 		actionDelete = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doDelete();
 			}
@@ -413,6 +420,7 @@ public class REFrame extends JFrame {
 
 		// -- 保存
 		actionSave = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doSave();
 			}
@@ -423,6 +431,7 @@ public class REFrame extends JFrame {
 
 		// -- Export
 		actionExport = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doExport();
 			}
@@ -434,6 +443,7 @@ public class REFrame extends JFrame {
 
 		// -- 更新
 		actionRefresh = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doRefresh();
 			}
@@ -443,6 +453,7 @@ public class REFrame extends JFrame {
 
 		// -- 終了
 		actionExit = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doExit();
 			}
@@ -459,6 +470,7 @@ public class REFrame extends JFrame {
 
 		// -- Undo
 		actionUndo = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// application.doUndo();
 				editor.doUndo();
@@ -470,6 +482,7 @@ public class REFrame extends JFrame {
 
 		// -- Redo
 		actionRedo = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				// application.doRedo();
 				editor.doRedo();
@@ -497,6 +510,7 @@ public class REFrame extends JFrame {
 	private void initializeJavaAction() {
 		// -- Compile
 		actionCompile = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doCompile();
 			}
@@ -507,6 +521,7 @@ public class REFrame extends JFrame {
 
 		// -- Run
 		actionRun = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doRun();
 			}
@@ -517,6 +532,7 @@ public class REFrame extends JFrame {
 
 		// -- DebugRun (add hakamata)
 		actionDebugRun = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doDebugRun();
 			}
@@ -527,6 +543,7 @@ public class REFrame extends JFrame {
 
 		// -- Kill
 		actionKill = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doKillAll();
 			}
@@ -537,6 +554,7 @@ public class REFrame extends JFrame {
 
 		// -- Format
 		actionFormat = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doFormat();
 			}
@@ -549,6 +567,7 @@ public class REFrame extends JFrame {
 	private void initializeToolsAction() {
 		// --BlockEditor
 		actionOpenBlockEditor = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doOpenBlockEditor();
 			}
@@ -559,6 +578,7 @@ public class REFrame extends JFrame {
 
 		// --New BlockEditor
 		actionOpenNewBlockEditor = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doOpenNewBlockEditor();
 			}
@@ -569,6 +589,7 @@ public class REFrame extends JFrame {
 
 		// --SemiNewBlockEditor
 		actionOpenSemiNewBlockEditor = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doOpenSemiNewBlockEditor();
 			}
@@ -578,6 +599,7 @@ public class REFrame extends JFrame {
 
 		// --Flowchart
 		actionOpenFlowViewer = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doOpenFlowViewer();
 			}
@@ -588,6 +610,7 @@ public class REFrame extends JFrame {
 
 		// --GeneRef
 		actionOpenGeneRefBrowser = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doOpenGeneRefBrowser();
 			}
@@ -606,6 +629,7 @@ public class REFrame extends JFrame {
 
 		{
 			Action action = new AbstractAction() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					application.doOpenPPV();
 				}
@@ -620,6 +644,7 @@ public class REFrame extends JFrame {
 		// add hirao
 		{
 			Action action = new AbstractAction() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					application.doCreateCocoData();
 				}
@@ -631,6 +656,7 @@ public class REFrame extends JFrame {
 
 		{
 			Action action = new AbstractAction() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					application.doOpenClearCash();
 				}
@@ -642,6 +668,7 @@ public class REFrame extends JFrame {
 
 		{
 			Action action = new AbstractAction() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					application.doOpenCocoViewer();
 				}
@@ -653,6 +680,7 @@ public class REFrame extends JFrame {
 
 		// --ByteCode
 		actionBytecode = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doShowBytecode();
 			}
@@ -663,6 +691,7 @@ public class REFrame extends JFrame {
 
 		// --CheCoPro
 		actionStartCheCoPro = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doStartCheCoPro();
 				// actionStartCheCoPro.setEnabled(false);
@@ -676,6 +705,7 @@ public class REFrame extends JFrame {
 		// -- Help
 
 		actionOpenPreference = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				application.doOpenPreferencePage();
 			}
@@ -683,6 +713,7 @@ public class REFrame extends JFrame {
 		actionOpenPreference.putValue(Action.NAME, "Preference");
 
 		actionAbout = new AbstractAction() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				showApplicationInformationDialog();
 			}
@@ -877,10 +908,12 @@ public class REFrame extends JFrame {
 
 		private JPanel panel = new SourceEditorPreferencePanel();
 
+		@Override
 		public String getName() {
 			return "Editor";
 		}
 
+		@Override
 		public JPanel getPage() {
 			return panel;
 		}
@@ -888,6 +921,7 @@ public class REFrame extends JFrame {
 		private static final String FONT_LABEL = "editor.font";
 		private static final String FONT_SIZE = "editor.size";
 
+		@Override
 		public void load() {
 
 			String fontName;
@@ -921,6 +955,7 @@ public class REFrame extends JFrame {
 			}
 		}
 
+		@Override
 		public void save() {
 			getRepository().put(FONT_LABEL, getSelectedFont().getName());
 			getRepository().put(FONT_SIZE, Integer.toString(getSelectedFontSize()));
