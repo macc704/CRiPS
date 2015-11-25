@@ -6,18 +6,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 
 import ch.library.CHFileSystem;
 import ch.view.CHFileTree.FileTreeNode;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CPath;
 
-public class CHFileChooser extends JFrame {
+/**
+ * 取り込みファイルの選択View
+ * @author Yuya Kato
+ *
+ */
+public class CHFileChooser extends JDialog {
 
 	/**
 	 * 
@@ -40,6 +44,9 @@ public class CHFileChooser extends JFrame {
 	
 	public void createView() {
 	    
+		setBounds(100, 100, 500, 250);
+		setResizable(false);
+		
 		userTree = new CHFileTree(userRootDir);
 		memberTree = new CHFileTree(memberRootDir);	
 		userTree.initialize();
@@ -50,6 +57,11 @@ public class CHFileChooser extends JFrame {
 	    getContentPane().add(createBottomPanel(), BorderLayout.PAGE_END);
 	}
 	
+	/**
+	 * treeを乗せるスクロールパネル
+	 * @param tree
+	 * @return
+	 */
 	private JScrollPane createScrollPane(CHFileTree tree) {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.getViewport().setView(tree);
@@ -57,6 +69,12 @@ public class CHFileChooser extends JFrame {
 		return scrollPane;
 	}
 	
+	/**
+	 * ツリーを乗せたスクロールパネルを乗せるパネル
+	 * @param tree
+	 * @param label
+	 * @return
+	 */
 	private JPanel createFileTreePanel(CHFileTree tree, JLabel label) {
 	    JPanel panel = new JPanel();
 	    panel.setPreferredSize(new Dimension(200, 150));
@@ -65,6 +83,10 @@ public class CHFileChooser extends JFrame {
 	    return panel;
 	}
 	
+	/**
+	 * ユーザとメンバーのファイルリストと移動ボタンを含むパネル
+	 * @return
+	 */
 	private JPanel createCenterPanel() {
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setPreferredSize(new Dimension(80, 70));
@@ -81,6 +103,10 @@ public class CHFileChooser extends JFrame {
 		return panel;
 	}
 	
+	/**
+	 * 選択している一つのファイルをユーザに移動するボタン
+	 * @return
+	 */
 	private JButton createSingleImportButton() {
 		JButton button = new JButton("<");
 		
@@ -98,6 +124,10 @@ public class CHFileChooser extends JFrame {
 		return button;
 	}
 	
+	/**
+	 * 全てのファイルをユーザに移動するボタン
+	 * @return
+	 */
 	private JButton createAllImportButton() {
 		JButton button = new JButton("<<");
 		
@@ -114,6 +144,10 @@ public class CHFileChooser extends JFrame {
 		return button;
 	}
 	
+	/**
+	 * OK，キャンセル，リセットボタンを含むパネル
+	 * @return
+	 */
 	private JPanel createBottomPanel() {
 		JPanel panel = new JPanel();
 		panel.add(createResetButton());
@@ -122,30 +156,53 @@ public class CHFileChooser extends JFrame {
 		return panel;
 	}
 	
+	/**
+	 * OKボタン
+	 * @return
+	 */
 	private JButton createOKButton() {
 		JButton button = new JButton("OK");
 		button.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO 取り込み処理
+				
+				if (!userTree.getOverlapesNodes().isEmpty()) {
+					CHWarningDialog dialog = doOpenWarningDialog();
+					if(dialog.isOk()) {
+						// TODO 取り込み
+					} else {
+						return;
+					}
+				} else if (!userTree.getInsertNodes().isEmpty()) {
+					// TODO 取り込み
+				}
+				doClose();
 			}
 		});
 		return button;
 	}
 	
+	/**
+	 * キャンセルボタン
+	 * @return
+	 */
 	private JButton createCancelButton() {
 		JButton button = new JButton("キャンセル");
 		button.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO キャンセル処理
+				doClose();
 			}
 		});
 		return button;
 	}
 	
+	/**
+	 * ファイルの移動を元に戻すリセットボタン
+	 * @return
+	 */
 	private JButton createResetButton() {
 		JButton button = new JButton("リセット");
 		button.addActionListener(new ActionListener() {
@@ -158,6 +215,21 @@ public class CHFileChooser extends JFrame {
 		return button;
 	}
 	
+	public void doOpen() {
+		createView();
+		setVisible(true);
+	}
+	
+	public void doClose() {
+		setVisible(false);
+	}
+	
+	public CHWarningDialog doOpenWarningDialog() {
+		CHWarningDialog dialog = new CHWarningDialog(0, userTree.getOverlapesNodes());
+		dialog.open();
+		return dialog;
+	}
+	
 	public static void main(String[] args) {
 		
 		CDirectory userRootDir = new CDirectory(new CPath(CHFileSystem.FINALPROJECTPATH));
@@ -165,9 +237,8 @@ public class CHFileChooser extends JFrame {
 		
 		CHFileChooser frame = new CHFileChooser(userRootDir, memberRootDir);
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(100, 100, 500, 250);
-		frame.createView();
-		frame.setVisible(true);
+		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		
+		frame.doOpen();
 	}
 }

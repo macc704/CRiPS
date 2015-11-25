@@ -87,13 +87,19 @@ public class CHFileTree extends JTree implements TreeSelectionListener, TreeCell
 				}
 			}
 		}
-		if (!insertedNodes.contains(node)) {
+		
+		if (!insertedNodes.contains(node)) {	
+			if (!node.isLeaf()) {
+				for (int i = 0; i < node.getChildCount(); i++) {
+					insertedNodes.add((FileTreeNode) node.getChildAt(i));
+				}
+			}
 			root.insert(node, index);
 			insertedNodes.add(node);
 		}
+		
 		model.reload();
 	}
-	
 	
 	public void removeNode(FileTreeNode node) {
 		root.remove(node);
@@ -149,6 +155,14 @@ public class CHFileTree extends JTree implements TreeSelectionListener, TreeCell
 
 	public FileTreeNode getRoot() {
 		return root;
+	}
+	
+	public List<FileTreeNode> getInsertNodes() {
+		return insertedNodes;
+	}
+	
+	public List<FileTreeNode> getOverlapesNodes() {
+		return overlapedNodes;
 	}
 
 	class FileTreeNode implements MutableTreeNode {
@@ -244,6 +258,10 @@ public class CHFileTree extends JTree implements TreeSelectionListener, TreeCell
 		@Override
 		public String toString() {
 			return fileElement.getName().toString();
+		}
+		
+		public List<FileTreeNode> getChildren() {
+			return children;
 		}
 		
 	}
