@@ -62,7 +62,6 @@ public class LangDefFilesRewriter {
 		//ライブラリリストを読み込んで、ライブラリクラスとそのブロック名のマップを作成
 		Document doc = DomParserWrapper.parse(libraryXMLPath);
 		createLibraryMethodsMap(doc.getFirstChild());
-
 	}
 	
 	public void createLibraryMethodsMap(Node node){
@@ -72,7 +71,6 @@ public class LangDefFilesRewriter {
 			public void accept(Node node) {
 				String className = DomParserWrapper.getAttribute(node, "name");
 				libaryMethod.put(className, new ArrayList<>());
-				
 				//CategoryNameタグの全ノードで行う処理の定義
 				Consumer<Node> parseCategory = new Consumer<Node>() {
 					@Override
@@ -83,7 +81,15 @@ public class LangDefFilesRewriter {
 								libaryMethod.get(className).add(t.getTextContent());
 							}
 						};
-						DomParserWrapper.doAnythingToNodeList(t, "MethodName", c);
+						
+						if("add".equals(DomParserWrapper.getAttribute(t, "command"))){
+							DomParserWrapper.doAnythingToNodeList(t, "MethodName", c);							
+						}else if("copy".equals(DomParserWrapper.getAttribute(t, "command"))){
+							List<String> methods = libaryMethod.get(DomParserWrapper.getAttribute(t, "name"));
+							for(String method : methods){
+								libaryMethod.get(className).add(method);
+							}
+						}
 					}
 				};
 				
