@@ -33,7 +33,7 @@ public class LangDefFilesReWriterMain2 {
 		File classDefFile = new File(file.getParent() + "/" + CREATED_GENUS_FILE);
 		File projectMenuFile = new File(file.getParent() + "/" + CREATED_MENU_FILE);
 		// 言語定義ファイルを書き換えるインスタンスを作成
-		langDefFilesRewriter = new LangDefFilesRewriter(classDefFile, this.file.getName(),enc, classpaths);
+		langDefFilesRewriter = new LangDefFilesRewriter(classDefFile, this.file.getName(),enc, classpaths, "ext/block2/library_list.xml");
 		langDefFilesRewriter.parseDirectry(enc, classpaths);
 
 		langDefFilesRewriter.copyLangDefFiles(copyFilesBaseDir);

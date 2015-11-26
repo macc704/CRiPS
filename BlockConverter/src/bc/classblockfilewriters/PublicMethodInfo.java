@@ -146,6 +146,15 @@ public class PublicMethodInfo extends BasicModel {
 	public String getGenusName() {
 		return this.genusName;
 	}
+	
+	public String getGenusNameForUni() {
+		if(genusName.startsWith("new-")){
+			return this.genusName;
+		}else{
+			return getClassName() + "-" + this.genusName;			
+		}
+
+	}
 
 	public String getClassName(){
 		return this.className;
@@ -177,7 +186,7 @@ public class PublicMethodInfo extends BasicModel {
 		if(genusName.startsWith("new-")){
 			out.println("<MethodName>" + genusName + "</MethodName>");	
 		}else{
-			out.println("<MethodName>" + className + "-" + genusName + "</MethodName>");			
+			out.println("<MethodName>" + getGenusNameForUni() + "</MethodName>");			
 		}
 	}
 

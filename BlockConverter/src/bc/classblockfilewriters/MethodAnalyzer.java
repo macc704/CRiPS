@@ -17,6 +17,7 @@ public class MethodAnalyzer extends ASTVisitor {
 	private String superClassName = "Object";
 	private List<String> interfacesNames = new LinkedList<String>();
 	private List<ClassVariable> instanceVariables = new ArrayList<ClassVariable>();
+	
 
 	public String getSuperClassName() {
 		return this.superClassName;
@@ -26,6 +27,7 @@ public class MethodAnalyzer extends ASTVisitor {
 		return this.interfacesNames;
 	}
 
+	@Override
 	public boolean visit(TypeDeclaration node) {
 		//add default constructor
 		methods.add(new ConstructorInfo(node.getName().toString(), node.getName().toString(), "public", node.getName().toString(), node.getName().toString()));
@@ -57,6 +59,7 @@ public class MethodAnalyzer extends ASTVisitor {
 		}
 	}
 
+	@Override
 	public boolean visit(MethodDeclaration node) {
 		// publicメソッドをmethodsに登録する
 		if (!node.getName().toString().equals("main") && !(node.getModifiers() == Modifier.PRIVATE)) {

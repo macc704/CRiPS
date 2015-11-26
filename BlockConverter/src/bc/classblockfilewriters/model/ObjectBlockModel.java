@@ -1,6 +1,7 @@
 package bc.classblockfilewriters.model;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import bc.classblockfilewriters.PublicMethodInfo;
 public class ObjectBlockModel extends BasicModel {
 
 	protected Map<String, List<PublicMethodInfo>> methods = new HashMap<String, List<PublicMethodInfo>>();
+	protected Map<String, List<String>> methodsMenu = new HashMap<>();
 	protected String className;
 	protected Map<String, String> langSpecProperties = new LinkedHashMap<String, String>();
 	protected String superClassName;
@@ -50,6 +52,10 @@ public class ObjectBlockModel extends BasicModel {
 
 	public void setMethods(Map<String, List<PublicMethodInfo>> methods) {
 		this.methods = methods;
+	}
+	
+	public void setMethodsMenu(Map<String, List<String>> methods) {
+		this.methodsMenu= methods;
 	}
 
 	public void print(PrintStream out, int lineNumber) throws Exception {
@@ -102,7 +108,7 @@ public class ObjectBlockModel extends BasicModel {
 			for (String key : methods.keySet()) {
 				makeIndent(out, lineNumber++);
 				out.println("<ClassName name=\"" + key + "\">");
-
+				
 				for (PublicMethodInfo method : methods.get(key)) {
 					method.print(out, lineNumber);
 				}
@@ -180,12 +186,12 @@ public class ObjectBlockModel extends BasicModel {
 		if (methods != null) {
 			makeIndent(out, lineNumber++);
 			out.println("<ClassMethods>");
-			for (String key : methods.keySet()) {
+			for (String key : methodsMenu.keySet()) {
 				makeIndent(out, lineNumber++);
 				out.println("<CategoryName name=\"" + key + "\">");
 
-				for (PublicMethodInfo method : methods.get(key)) {
-					method.printForUni(out, lineNumber);
+				for (String method : methodsMenu.get(key)) {
+					out.println("<MethodName>" + method + "</MethodName>");
 				}
 				makeIndent(out, --lineNumber);
 				out.println("</CategoryName>");
@@ -268,6 +274,22 @@ public class ObjectBlockModel extends BasicModel {
 
 		makeIndent(out, --lineNumber);
 		out.println("</BlockConnectors>");
+	}
+	
+	public void createMethodsMenu(Map<String, List<String>> libraryMethods){
+		for(String key : methods.keySet()){
+			if(libraryMethods.get(key) == null){
+				List<String> methodGenusNames = new ArrayList<>();
+				for(int i = 0; i < methods.get(key).size();i++){
+					PublicMethodInfo info = methods.get(key).get(i);
+					
+					methodGenusNames.add(info.getGenusNameForUni());
+				}
+				this.methodsMenu.put(key, methodGenusNames);				
+			}else{
+				this.methodsMenu.put(key, libraryMethods.get(key));
+			}
+		}
 	}
 
 }
