@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import edu.mit.blocks.controller.WorkspaceController;
 import net.unicoen.node.UniClassDec;
@@ -28,7 +29,7 @@ public class DebuggerWorkspaceController extends WorkspaceController {
 	// Reference kept to be able to update frame title with current loaded file
 	private JFrame frame;
 
-	public DebuggerWorkspaceController(UniClassDec dec, String langDefRootPath, File selectedFile) throws IOException {
+	public DebuggerWorkspaceController(UniClassDec dec, String langDefRootPath, File selectedFile) throws IOException, SAXException {
 		setLangDefFilePath(langDefRootPath);
 		loadFreshWorkspace();
 		this.selectedFile = selectedFile;
@@ -44,7 +45,7 @@ public class DebuggerWorkspaceController extends WorkspaceController {
 		runProgram(dec, generator.getAddedModels());
 	}
 
-	public UniClassDec parse() throws IOException {
+	public UniClassDec parse() throws IOException, SAXException {
 		BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
 		UniClassDec dec = mapper.parse(selectedFile);
 
@@ -81,6 +82,7 @@ public class DebuggerWorkspaceController extends WorkspaceController {
 }
 
 class NextAction implements ActionListener {
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		BlockEditorDebbugger.setFlag(true);
 	}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConvertList>
+	<Item ident="System.out.println[@int]" genus-name="cui-print[@int]" />
+	<Item ident="System.out.println[@string]" genus-name="cui-print[@string]" />
+	<Item ident="System.out.println[@object]" genus-name="cui-print[@object]" />
+	<Item ident="Math.random[]" genus-name="Math-random[]" />
+</ConvertList>

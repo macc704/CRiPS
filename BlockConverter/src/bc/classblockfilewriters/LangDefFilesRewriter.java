@@ -126,6 +126,7 @@ public class LangDefFilesRewriter {
 		classObjectArrayModel.setSuperClassName(superClassName);
 		// 定義クラスブロックのプロパティをセットする
 		classObjectArrayModel.setMethods(methods);
+		
 		classObjectArrayModel.setClassName(fileName + "[]");
 	}
 
@@ -521,12 +522,5 @@ public class LangDefFilesRewriter {
 		// genuseファイルを作成する　その際にprojectファイルの場所を追記する
 		Copier genusCopier = new LangDefGenusesCopier(copyFilesBaseDir);
 		genusCopier.print(langDefGenusesFile);
-	}
-
-	public void copyAdditionalFileForUni(String baseDir) throws IOException{
-		Copier copier = new Copier(baseDir);
-		copier.copyFile("method_lang_def.xml", baseDir + "method_lang_def.xml");
-		copier.copyFile("method_lang_def.dtd", baseDir+ "method_lang_def.dtd");
-		copier.copyFile("lang_def_genuses_turtle.xml",baseDir + "lang_def_genuses_turtle.xml");
 	}
 }

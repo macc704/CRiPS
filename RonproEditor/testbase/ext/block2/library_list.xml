@@ -60,10 +60,10 @@
 		<CategoryName name="ImageTurtle" command="add">
 			<MethodName>ImageTurtle-image[@string]</MethodName>
 		</CategoryName>
-		<CategoryName name="Turtle" command="copy"/>
+		<CategoryName name="Turtle" command="copy" />
 	</LibraryClass>
 	<LibraryClass name="SoundTurtle">
-		<CategoryName name="Turtle" command="copy"/>
+		<CategoryName name="Turtle" command="copy" />
 		<CategoryName name="SoundTurtle" command="add">
 			<MethodName>SoundTurtle-file[@string]</MethodName>
 			<MethodName>SoundTurtle-play[]</MethodName>
@@ -75,4 +75,70 @@
 			<MethodName>SoundTurtle-loadOnMemory[]</MethodName>
 		</CategoryName>
 	</LibraryClass>
+	<LibraryClass name="ListTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="ListTurtle" command="add">
+			<MethodName>ListTurtle-get[@int]</MethodName>
+			<MethodName>ListTurtle-getSize[]</MethodName>
+			<MethodName>ListTurtle-add[@int]</MethodName>
+			<MethodName>ListTurtle-addFirst[@turtle]</MethodName>
+			<MethodName>ListTurtle-addLast[@turtle]</MethodName>
+			<MethodName>ListTurtle-addAll[@listturtle]</MethodName>
+			<MethodName>ListTurtle-moveAllTo[@listturtle]</MethodName>
+			<MethodName>ListTurtle-removeFirst[]</MethodName>
+			<MethodName>ListTurtle-removeLast[]</MethodName>
+			<MethodName>ListTurtle-removeAll[]</MethodName>
+			<MethodName>ListTurtle-getCursor[]</MethodName>
+			<MethodName>ListTurtle-setCursor[@int]</MethodName>
+			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
+			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
+			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
+			<MethodName>ListTurtle-addToBeforeCursor[@turtle]</MethodName>
+			<MethodName>ListTurtle-addToAfterCursor[@turtle]</MethodName>
+			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
+			<MethodName>ListTurtle-shuffle[]</MethodName>
+			<MethodName>ListTurtle-setBgColor[@int]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="InputTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="InputTurtle" command="add">
+			<MethodName>InputTurtle-fontsize[@int]</MethodName>
+			<MethodName>InputTurtle-clearText[]</MethodName>
+			<MethodName>InputTurtle-setActive[@boolean]</MethodName>
+			<MethodName>InputTurtle-isActive[]</MethodName>
+			<MethodName>InputTurtle-toJapaneseMode[]</MethodName>
+			<MethodName>InputTurtle-toEnglishMode[]</MethodName>
+			<MethodName>InputTurtle-getText[]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="CardTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="CardTurtle" command="add">
+			<MethodName>CardTurtle-getText[]</MethodName>
+			<MethodName>CardTurtle-getNumber[]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="ButtonTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="ButtonTurtle" command="add">
+			<MethodName>ButtonTurtle-isClicked[]</MethodName>
+			<MethodName>ButtonTurtle-fontSize[@int]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="TextTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="TextTurtle" command="add">
+			<MethodName>TextTurtle-text[@string]</MethodName>
+			<MethodName>TextTurtle-text[@int]</MethodName>
+			<MethodName>TextTurtle-getText[@int]</MethodName>			
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="Random">
+		<CategoryName name="Random" command="add">
+			<MethodName>Random-nextInt[]</MethodName>
+			<MethodName>Random-nextInt[@int]</MethodName>
+			<MethodName>Random-nextDouble[]</MethodName>			
+		</CategoryName>
+	</LibraryClass>	
 </LibraryClasses>

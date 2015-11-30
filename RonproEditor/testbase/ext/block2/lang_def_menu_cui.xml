@@ -5,7 +5,7 @@
 	<BlockDrawer name="CUI" type="factory" button-color="0 102 51">
 		<BlockGenusMember>cui-print</BlockGenusMember>
 		<BlockGenusMember>cui-println</BlockGenusMember>
-		<BlockGenusMember>cui-random</BlockGenusMember>
+		<BlockGenusMember>Math-random[]</BlockGenusMember>
 		<BlockGenusMember>hashCode</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
  		<BlockGenusMember>input-isInteger</BlockGenusMember>

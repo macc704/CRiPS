@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<BlockGenus name="cui-random" kind="function" initlabel="(CUI)0から1未満の乱数を作り、その値"
+<BlockGenus name="Math-random[]" kind="function" initlabel="(CUI)0から1未満の乱数を作り、その値"
 	color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>

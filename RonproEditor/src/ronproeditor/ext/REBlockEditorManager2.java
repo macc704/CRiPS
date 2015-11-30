@@ -23,6 +23,8 @@ import java.util.function.Function;
 
 import javax.swing.SwingUtilities;
 
+import org.xml.sax.SAXException;
+
 import com.google.common.collect.Lists;
 
 import bc.BlockConverter;
@@ -77,6 +79,8 @@ public class REBlockEditorManager2 {
 				BlockGenerator blockParser = new BlockGenerator(out, sourceFile.getParent() + "/");
 				blockParser.parse(classDec);
 			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (SAXException e) {
 				e.printStackTrace();
 			}
 

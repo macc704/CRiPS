@@ -38,8 +38,6 @@ public class LangDefFilesReWriterMain2 {
 
 		langDefFilesRewriter.copyLangDefFiles(copyFilesBaseDir);
 
-		langDefFilesRewriter.copyAdditionalFileForUni(copyFilesBaseDir);
-
 		// メニューの出力
 		langDefFilesRewriter.printMenu(projectMenuFile, copyFilesBaseDir);
 		langDefFilesRewriter.printGenusesForUni();
