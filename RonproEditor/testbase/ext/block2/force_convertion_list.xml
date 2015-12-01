@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ConvertList>
-	<Item ident="System.out.println[@int]" genus-name="cui-print[@int]" />
-	<Item ident="System.out.println[@string]" genus-name="cui-print[@string]" />
-	<Item ident="System.out.println[@object]" genus-name="cui-print[@object]" />
-	<Item ident="Math.random[]" genus-name="Math-random[]" />
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>println</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>out</name>
+				<receiver unimodel="UniIdent">
+					<name>System</name>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>cui-print[@string]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>random</name>
+			<receiver unimodel="UniIdent">
+				<name>Math</name>
+			</receiver>>
+		</UniModel>>
+		<GenusName>Math-random[]</GenusName>
+	</Item>
 </ConvertList>
