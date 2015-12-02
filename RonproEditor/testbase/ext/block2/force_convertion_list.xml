@@ -15,11 +15,23 @@
 
 	<Item>
 		<UniModel unimodel="UniMethodCall">
+			<name>size</name>
+			<receiver unimodel="UniIdent">
+				<name>window</name>
+			</receiver>
+		</UniModel>
+		<GenusName>TurtleFrame-size[@int@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
 			<name>random</name>
 			<receiver unimodel="UniIdent">
 				<name>Math</name>
-			</receiver>>
-		</UniModel>>
+			</receiver>
+			>
+		</UniModel>
+		>
 		<GenusName>Math-random[]</GenusName>
 	</Item>
 </ConvertList>

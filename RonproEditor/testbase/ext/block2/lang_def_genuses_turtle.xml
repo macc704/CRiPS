@@ -1264,6 +1264,28 @@
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
+<BlockGenus name="TurtleFrame-size[@int@int]" kind="command"
+	initlabel="ウインドウサイズを指定する" color="255 0 0">
+	<description>
+		<text>プログラム実行時のウィンドウのサイズを指定します。</text>
+	</description>
+	<Name>size</Name>
+	<BlockConnectors>
+		<BlockConnector label="横幅" connector-kind="socket"
+			connector-type="number" position-type="single">
+			<DefaultArg genus-name="number" label="480"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="縦幅" connector-kind="socket"
+			connector-type="number" position-type="single">
+			<DefaultArg genus-name="number" label="420"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="pu"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
 <BlockGenus name="local-var-object-Text" kind="local-variable"
 	initlabel="tt" header-label="TextTurtle型の変数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
