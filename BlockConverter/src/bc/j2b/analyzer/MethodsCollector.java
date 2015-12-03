@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.xerces.parsers.DOMParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,7 +15,7 @@ import org.xml.sax.SAXException;
 
 import bc.apps.JavaToBlockMain;
 
-import com.sun.org.apache.xerces.internal.parsers.DOMParser;
+
 
 public class MethodsCollector {
 

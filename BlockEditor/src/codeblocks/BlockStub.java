@@ -7,10 +7,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import codeblocks.BlockConnector.PositionType;
 import renderable.RenderableBlock;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
-import codeblocks.BlockConnector.PositionType;
 
 /**
  * <code>BlockStub</code> are a special form of blocks that provide a particular
@@ -166,7 +166,7 @@ public class BlockStub extends Block {
 				// retrieve sockets from parent and set sockets accordingly
 				Iterator<BlockConnector> sockets = parent.getSockets()
 						.iterator();
-				for (int i = 0; sockets.hasNext(); i++) {
+				while (sockets.hasNext()) {
 					BlockConnector socket = sockets.next();
 					// socket labels should correspond with the socket blocks of
 					// parent
@@ -575,6 +575,7 @@ public class BlockStub extends Block {
 	/**
 	 * Overriden from Block. Can not change the genus of a Stub.
 	 */
+	@Override
 	public void changeGenusTo(String genusName) {
 		// return null;
 	}
@@ -727,6 +728,7 @@ public class BlockStub extends Block {
 	 * @return the Color of this; May return Color.Black if color was
 	 *         unspecified.
 	 */
+	@Override
 	public Color getColor() {
 		if (getParent() == null)
 			return super.getColor();
@@ -736,6 +738,7 @@ public class BlockStub extends Block {
 	/**
 	 * @returns current information about block
 	 */
+	@Override
 	public String toString() {
 		return "Block Stub +" + getBlockID() + ": " + getBlockLabel()
 				+ " with sockets: " + getSockets() + " and plug: " + getPlug();
@@ -760,6 +763,7 @@ public class BlockStub extends Block {
 	// SAVING AND LOADING //
 	// //////////////////////
 
+	@Override
 	public String getSaveString(int x, int y, String commentSaveString,
 			boolean collapsed) {
 		StringBuffer buf = new StringBuffer();
@@ -775,6 +779,7 @@ public class BlockStub extends Block {
 		return buf.toString();
 	}
 
+	@Override
 	public String getSaveString(int x, int y, String commentSaveString,
 			boolean collapsed, String comment) {
 		StringBuffer buf = new StringBuffer();
@@ -794,6 +799,7 @@ public class BlockStub extends Block {
 		return buf.toString();
 	}
 
+	@Override
 	public String getJavaType() {
 		return Block.getBlock(
 				parentNameToParentBlock.get(parentName + parentGenus))

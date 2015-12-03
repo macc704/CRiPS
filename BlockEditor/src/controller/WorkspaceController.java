@@ -42,17 +42,6 @@ import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import renderable.RenderableBlock;
-import slcodeblocks.ParamRule;
-import slcodeblocks.PolyRule;
-import util.ChangeExtension;
-import workspace.BlockCanvas;
-import workspace.SearchBar;
-import workspace.SearchableContainer;
-import workspace.TrashCan;
-import workspace.Workspace;
-import workspace.WorkspaceEvent;
-import workspace.WorkspaceListener;
 import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.SBlockEditorListener;
 import bc.apps.BlockToJavaMain;
@@ -69,6 +58,17 @@ import codeblocks.BlockStub;
 import codeblocks.CommandRule;
 import codeblocks.InfixRule;
 import codeblocks.SocketRule;
+import renderable.RenderableBlock;
+import slcodeblocks.ParamRule;
+import slcodeblocks.PolyRule;
+import util.ChangeExtension;
+import workspace.BlockCanvas;
+import workspace.SearchBar;
+import workspace.SearchableContainer;
+import workspace.TrashCan;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
+import workspace.WorkspaceListener;
 
 /**
  *
@@ -382,8 +382,6 @@ public class WorkspaceController {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder;
 		Document doc;
-		Document selDefBlock;
-		Document selDefBlockGenus;
 		try {
 			synchronized (frame.getTreeLock()) {
 				builder = factory.newDocumentBuilder();
@@ -643,6 +641,7 @@ public class WorkspaceController {
 		this.ronproEditor = ronproEditor;
 
 		Workspace.getInstance().addWorkspaceListener(new WorkspaceListener() {
+			@Override
 			public void workspaceEventOccurred(WorkspaceEvent event) {
 				// System.out.println(event);
 				setDirty(true);
@@ -662,6 +661,7 @@ public class WorkspaceController {
 		{// create save button
 			JButton saveButton = new JButton("Save as Java");
 			saveButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					wc.convertToJava(wc.getSaveString(), enc);
 				}
@@ -672,6 +672,7 @@ public class WorkspaceController {
 		{// create compile button
 			JButton runButton = new JButton("Compile");
 			runButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (dirty) {
 						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません",
@@ -687,6 +688,7 @@ public class WorkspaceController {
 		{// create run button
 			JButton runButton = new JButton("Run");
 			runButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (dirty) {
 						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません",
@@ -702,6 +704,7 @@ public class WorkspaceController {
 		{// create debug run button
 			JButton runButton = new JButton("DebugRun");
 			runButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (dirty) {
 						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません",
@@ -719,6 +722,7 @@ public class WorkspaceController {
 					"Hide MeRV");
 			showTraceLineButton.setSelected(!workspace.getMeRVManager().isActive());
 			showTraceLineButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
 						// 関数呼び出しをトレースするラインを非表示にする
@@ -745,6 +749,7 @@ public class WorkspaceController {
 				// JButton b = new JButton("SS");
 				JMenuItem item = new JMenuItem("SS");
 				item.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent e) {
 						CScreenShotTaker taker = createSSTaker();
 						String name = new CFilename(wc.getSelectedJavaFile())
@@ -804,7 +809,7 @@ public class WorkspaceController {
 		int connectorSize = -1;//ソケットは必ず一つカウントされる
 		int counterSize = 0;
 
-		for (BlockConnector connector : block.getSockets()) {
+		for (@SuppressWarnings("unused") BlockConnector connector : block.getSockets()) {
 			connectorSize++;
 		}
 
@@ -866,6 +871,7 @@ public class WorkspaceController {
 		// create save button
 		JButton saveButton = new JButton("Java出力");
 		saveButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				wc.convertToJava(wc.getSaveString(), enc);
 			}
@@ -877,6 +883,7 @@ public class WorkspaceController {
 		// create load button
 		JButton loadButton = new JButton("ソースをBlock化");
 		loadButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				File dir = new File("..\\");
 				JFileChooser filechooser = new JFileChooser(dir);
@@ -900,6 +907,7 @@ public class WorkspaceController {
 		// added by matsuzawa
 		JButton button = new JButton("Compile And Load");
 		button.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
 					File dir = new File("..\\");
@@ -939,6 +947,7 @@ public class WorkspaceController {
 		{
 			JButton b = new JButton("Save");
 			b.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
 						String saveString = wc.getSaveString();
@@ -958,6 +967,7 @@ public class WorkspaceController {
 		{
 			JButton b = new JButton("Load");
 			b.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					wc.loadProjectFromPath(new File("test.xml")
 							.getAbsolutePath());
@@ -969,6 +979,7 @@ public class WorkspaceController {
 		{
 			JButton b = new JButton("SS");
 			b.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					createSSTaker().takeToClipboard();
 				}
@@ -1089,6 +1100,7 @@ public class WorkspaceController {
 			final String imagePath) {
 
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				// Create a new WorkspaceController
 				WorkspaceController wc = new WorkspaceController(imagePath);

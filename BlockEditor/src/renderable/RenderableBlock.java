@@ -35,16 +35,6 @@ import javax.swing.SwingUtilities;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import renderable.BlockImageIcon.ImageLocation;
-import workspace.ContextMenu;
-import workspace.FactoryManager;
-import workspace.ISupportMemento;
-import workspace.MiniMap;
-import workspace.RBParent;
-import workspace.SearchableElement;
-import workspace.Workspace;
-import workspace.WorkspaceEvent;
-import workspace.WorkspaceWidget;
 import a.slab.blockeditor.SBlockEditor;
 import a.slab.blockeditor.extent.SAbstractionBlockShape;
 import bc.BCSystem;
@@ -61,6 +51,16 @@ import codeblocks.JComponentDragHandler;
 import codeblocks.rendering.BlockShapeUtil;
 import codeblockutil.CToolTip;
 import codeblockutil.GraphicsManager;
+import renderable.BlockImageIcon.ImageLocation;
+import workspace.ContextMenu;
+import workspace.FactoryManager;
+import workspace.ISupportMemento;
+import workspace.MiniMap;
+import workspace.RBParent;
+import workspace.SearchableElement;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
+import workspace.WorkspaceWidget;
 
 /**
  * RenderableBlock is responsible for all graphical rendering of a code Block.
@@ -325,6 +325,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 *
 	 * @return the Long id of this
 	 */
+	@Override
 	public Long getBlockID() {
 		return blockID;
 	}
@@ -392,6 +393,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 *            the <i>y</i>-coordinate of the new location's top-left corner
 	 *            in the parent's coordinate space
 	 */
+	@Override
 	public void setLocation(int x, int y) {
 		int dx, dy;
 		dx = x - getX();
@@ -417,6 +419,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 *            the point defining the top-left corner of the new location,
 	 *            given in the coordinate space of this component's parent
 	 */
+	@Override
 	public void setLocation(Point p) {
 		setLocation(p.x, p.y);
 	}
@@ -940,6 +943,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 *
 	 * @return the parent WorkspaceWidget containing this
 	 */
+	@Override
 	public WorkspaceWidget getParentWidget() {
 		return parent;
 	}
@@ -963,6 +967,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * @return true iff the specified coordinates are contained within the Area
 	 *         of the BlockShape
 	 */
+	@Override
 	public boolean contains(int x, int y) {
 		return blockArea.contains(x, y);
 	}
@@ -1036,7 +1041,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 					// update the socket space of at this socket
 					this.getConnectorTag(socket).setDimension(
 							new Dimension(arg.getBlockWidth()
-									- (int) BlockConnectorShape
+									- BlockConnectorShape
 											.getDataPlugWidth(socket), arg
 									.getBlockHeight()));
 					// drop each block to this parent's widget/component
@@ -1375,6 +1380,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * cleared (or yet to be created), if so then it redraws the buffer and then
 	 * draws the image on the graphics2d or else it uses the previous buffer.
 	 */
+	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		if (!isLoading) {
@@ -1600,6 +1606,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * @return true iff it has a parent, its parent is visible, and itself is
 	 *         visible; false otherwise.
 	 */
+	@Override
 	public boolean isVisible() {
 		return super.isVisible() && getParent() != null
 				&& getParent().isVisible();
@@ -1691,6 +1698,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 *
 	 * @return
 	 */
+	@Override
 	public Point getCommentLocation() {
 		Point location = this.getLocation();
 
@@ -1934,16 +1942,13 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 * Makes public the protected processMouseEvent() method from Component so
 	 * that the children within this block may pass mouse events to this
 	 */
+	@Override
 	public void processMouseEvent(MouseEvent e) {
 		super.processMouseEvent(e);
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
-		long oldParent = -1;
-		if (getBlock().getParentBlockID() != null) {
-			oldParent = getBlock().getParentBlockID();
-		}
-
 		if (SwingUtilities.isLeftMouseButton(e)) {
 
 			if (!pickedUp) {
@@ -2156,6 +2161,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		th.start();
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			if (!pickedUp) {
@@ -2222,6 +2228,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	}
 
 	// show the pulldown icon if hasComboPopup = true
+	@Override
 	public void mouseEntered(MouseEvent e) {
 		dragHandler.mouseEntered(e);
 		// !dragging: don't redraw while dragging
@@ -2244,6 +2251,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 		dragHandler.mouseExited(e);
 		// !dragging: don't redraw while dragging
@@ -2258,9 +2266,11 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mouseClicked(e);
@@ -2273,6 +2283,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		// showBlockDetailForDebug();
 		if (SwingUtilities.isLeftMouseButton(e)) {
@@ -2290,6 +2301,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	// //////////////
 	// SEARCHABLE ELEMENT
 	// //////////////
+	@Override
 	public String getKeyword() {
 		return getBlock().getBlockLabel();
 	}
@@ -2298,6 +2310,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return getBlock().getGenusName();
 	}
 
+	@Override
 	public void updateInSearchResults(boolean inSearchResults) {
 		isSearchResult = inSearchResults;
 		highlighter.setIsSearchResult(isSearchResult);
@@ -2464,6 +2477,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("RenderableBlock " + getBlockID() + ": "
@@ -2480,6 +2494,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		public int y;
 	}
 
+	@Override
 	public Object getState() {
 		RenderableBlockState blockState = new RenderableBlockState();
 		blockState.x = getX();
@@ -2487,6 +2502,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		return blockState;
 	}
 
+	@Override
 	public void loadState(Object memento) {
 		assert (memento instanceof RenderableBlockState) : "ISupportMemento contract violated in RenderableBlock";
 		if (memento instanceof RenderableBlockState) {
@@ -2653,6 +2669,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	// ///////////////
 	// Tool Tips
 	// ///////////////
+	@Override
 	public JToolTip createToolTip() {
 		return new CToolTip(new Color(255, 255, 225));
 	}
@@ -2662,6 +2679,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		this.blockLabel.setToolTipText(text);
 	}
 
+	@Override
 	protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
 			int condition, boolean pressed) {
 		switch (e.getKeyCode()) {

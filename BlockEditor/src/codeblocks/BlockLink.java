@@ -1,10 +1,10 @@
 package codeblocks;
 
+import codeblockutil.Sound;
+import codeblockutil.SoundManager;
 import renderable.RenderableBlock;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
-import codeblockutil.Sound;
-import codeblockutil.SoundManager;
 
 /**
  * A class that stores information about a potential block connection.
@@ -167,10 +167,7 @@ public class BlockLink {
 		RenderableBlock socketRB = RenderableBlock.getRenderableBlock(socketBlockID);
 		socketRB.blockConnected(socket, plugBlockID);
 		
-		RenderableBlock test = RenderableBlock.getRenderableBlock(plug.getBlockID());
-		
 		if (clickSound != null) {
-			//System.out.println("playing click sound");
 			clickSound.play();
 		}
 	}
@@ -218,6 +215,7 @@ public class BlockLink {
 		return lastLink;
 	}
 
+	@Override
 	public String toString() {
 		return "BlockLink(Plug: " + plugBlockID + ", Socket: " + socketBlockID
 				+ ")";
