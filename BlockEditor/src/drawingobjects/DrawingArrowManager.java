@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import codeblocks.Block;
+import codeblocks.BlockConnector;
+import codeblocks.BlockStub;
 import renderable.FactoryRenderableBlock;
 import renderable.RenderableBlock;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceListener;
-import codeblocks.Block;
-import codeblocks.BlockConnector;
-import codeblocks.BlockStub;
 
 public class DrawingArrowManager implements WorkspaceListener {
 
@@ -103,15 +103,14 @@ public class DrawingArrowManager implements WorkspaceListener {
 		}
 	}
 
+	@Override
 	public void workspaceEventOccurred(WorkspaceEvent event) {
 		if (event.getEventType() == WorkspaceEvent.CALLERBLOCK_CREATED || event.getEventType() == WorkspaceEvent.BLOCK_ADDED) {
 			//callerかつ表示状態ならcalleeとの矢印を作成
-			RenderableBlock sourceBlock = RenderableBlock
-					.getRenderableBlock(event.getSourceBlockID());
+			RenderableBlock sourceBlock = RenderableBlock.getRenderableBlock(event.getSourceBlockID());
 
-			if (sourceBlock.getBlock().getGenusName().equals("callerprocedure")&& !(sourceBlock instanceof FactoryRenderableBlock)) {
+			if (sourceBlock.getBlock().getGenusName().equals("callerprocedure") && !(sourceBlock instanceof FactoryRenderableBlock)) {
 				RenderableBlock calleeBlock = RenderableBlock.getRenderableBlock(((BlockStub) sourceBlock.getBlock()).getParent().getBlockID());
-
 				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock,sourceBlock.isVisible(), isActive());
 				arrows.put(sourceBlock.getBlockID(), arrow);
 				Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).addArrow(arrow);
@@ -147,8 +146,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 			}
 		}
 
-		if (event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED
-				|| event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED) {
+		if (event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_DISCONNECTED || event.getEventType() == WorkspaceEvent.BLOCKS_PICKED_UP) {
 			//矢印の濃度を変更
 			for (long id : arrows.keySet()) {
 				changeColor(Block.getBlock(id));
@@ -165,7 +163,6 @@ public class DrawingArrowManager implements WorkspaceListener {
 				arrows.get(block.getBlockID()).changeColor(true);
 			}
 		}
-
 	}
 
 	public boolean isCallerBlockIsIndependent(Block block) {

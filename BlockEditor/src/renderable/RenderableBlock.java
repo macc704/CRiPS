@@ -2208,8 +2208,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				BlockHIlighter.catchBlockSetHighlight(this, widget);
 				dragStartPoint.setLocation(getX(), getY());
 				startDragging(this, widget);
-				//イベントを飛ばす
-				//				Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, getBlockID(), WorkspaceEvent.BLOCKS_PICKED_UP));
+
+				Workspace.getInstance().notifyListeners(new WorkspaceEvent(widget, getBlockID(), WorkspaceEvent.BLOCKS_PICKED_UP));
 			}
 			if (dragStartPoint.distance(getX(), getY()) > 20
 					&& nearByLink == true) {
