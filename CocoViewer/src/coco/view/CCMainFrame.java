@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -26,7 +27,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
-import clib.common.compiler.CJavaCompilerFactory;
 import coco.action.CCCreateCocodata;
 import coco.model.CCCompileErrorKind;
 import coco.model.CCCompileErrorManager;
@@ -51,7 +51,7 @@ public class CCMainFrame extends JFrame {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = new Random().nextInt(1000000);
 
 	public static final String APP_NAME = "CoCo Viewer";
 	public static final String VERSION = "0.1.1";
@@ -148,18 +148,14 @@ public class CCMainFrame extends JFrame {
 	}
 	
 	private void createData() {
-		if (!CJavaCompilerFactory.hasEmbededJavaCompiler()) {
-			int res = JOptionPane.showConfirmDialog(null,
-					"JDKを利用していない場合，予期しない動作や処理時間が長くなる可能性があります．よろしいでしょうか？", "コンパイラのチェック",
-					JOptionPane.OK_CANCEL_OPTION);
-			if (res != JOptionPane.OK_OPTION) {
-				return;
-			}
-		}
-		
 		try {
 			createCocodata = new CCCreateCocodata(manager);
 			createCocodata.createData();
+			
+			// TODO: 元ウィンドウでリロードできるようにしたい
+			setVisible(false);
+			CCMainFrame cocoWindow = new CCMainFrame(manager);
+			cocoWindow.setVisible(true);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(this, "Coco Data作成に失敗しました", "Coco Data作成失敗", JOptionPane.ERROR_MESSAGE);
 		}

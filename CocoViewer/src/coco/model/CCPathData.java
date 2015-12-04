@@ -42,6 +42,10 @@ public class CCPathData {
 	public String getDataFilePath() {
 		return DataFilePath;
 	}
+	
+	public String getMetricsFilePath() {
+		return MetricsFilePath;
+	}	
 
 	public CDirectory getPPVRootDir() {
 		return ppvRootDir;
@@ -94,5 +98,6 @@ public class CCPathData {
 
 	public void setPPVProjectSetName(CDirectory dir) {
 		ppvProjectSetNameDir = dir;
-	}	
+	}
 }
+

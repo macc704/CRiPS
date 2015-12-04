@@ -15,6 +15,8 @@ import clib.common.thread.ICTask;
 import clib.view.progress.CPanelProcessingMonitor;
 import coco.controller.CCCompileErrorConverter;
 import coco.controller.CCCompileErrorKindLoader;
+import coco.controller.CCCompileErrorLoader;
+import coco.controller.CCMetricsLoader;
 import coco.model.CCCompileErrorManager;
 import ppv.app.datamanager.IPPVLoader;
 import ppv.app.datamanager.PPDataManager;
@@ -42,6 +44,7 @@ public class CCCreateCocodata {
 
 		// ppv を利用してデータ作製
 		// Export and Import
+		ccManager.clearData();
 		autoExportAndImport();
 
 		// Create Cash
@@ -49,6 +52,9 @@ public class CCCreateCocodata {
 
 		// Convert for Cocoviewer
 		convertCompileErrorData();
+		
+		// reload data
+		reloadData();
 	}
 
 	private boolean startCheck() {
@@ -83,7 +89,6 @@ public class CCCreateCocodata {
 		});
 
 		ppDataManager = new PPDataManager(ppvRoot);
-		CDirectory ppvRootDir = ppDataManager.getBaseDir();
 		final CDirectory tmpDir = ccManager.getPathdata().getPPVTempDir();
 
 		monitor.setWorkTitle("Zip Exporting...");
@@ -174,9 +179,6 @@ public class CCCreateCocodata {
 	 * Convert Compile error Data for CocoViewer
 	 ************************/
 	private void convertCompileErrorData() {
-		String ppvRootPath = ccManager.getPathdata().getPPVRootDir().getAbsolutePath()
-				.toString() + "/";
-
 		// エラーの種類データをロード
 		CCCompileErrorKindLoader kindloader = new CCCompileErrorKindLoader(
 				ccManager);
@@ -215,5 +217,20 @@ public class CCCreateCocodata {
 		} catch (Exception ex) {
 			throw new RuntimeException("cashが削除できませんでした．");
 		}
+	}
+	
+	/************************
+	 *  Export and Import Actions
+	 ************************/
+	
+	private void reloadData() {
+		ccManager.setPPProjectSet(ppProjectSet);
+		
+		CCCompileErrorLoader errorLoader = new CCCompileErrorLoader(ccManager);
+		errorLoader.load(ccManager.getPathdata().getDataFilePath());
+
+		CCMetricsLoader metricsLoader = new CCMetricsLoader(ccManager);
+		metricsLoader.load(ccManager.getPathdata().getMetricsFilePath());
+
 	}
 }
