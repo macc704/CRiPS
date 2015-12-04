@@ -17,7 +17,6 @@ import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -109,6 +108,7 @@ public class CCMainFrame extends JFrame {
 		setSize(width, height);
 		setTitle(APP_NAME + " " + VERSION);
 
+		// Close Event
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent e) {
@@ -116,6 +116,7 @@ public class CCMainFrame extends JFrame {
 					button.closeGraphFrame();
 				}
 				manager.writePresLog(PRCocoViewerLog.SubType.COCOVIEWER_CLOSE);
+				manager.clearData();
 			}
 		});
 		

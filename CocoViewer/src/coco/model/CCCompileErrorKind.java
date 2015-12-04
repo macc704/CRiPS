@@ -41,4 +41,8 @@ public class CCCompileErrorKind {
 	public ArrayList<CCCompileError> getErrors() {
 		return errors;
 	}
+
+	public void clearErrors() {
+		errors.clear();
+	}
 }

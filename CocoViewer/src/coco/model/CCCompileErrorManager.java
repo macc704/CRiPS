@@ -83,6 +83,13 @@ public class CCCompileErrorManager {
 		totalWorkingTime += workingTime;
 	}
 	
+	public void clearData() {
+		for(Integer id : kinds.keySet()) {
+			getKind(id).clearErrors();
+		}
+		totalWorkingTime = 0;
+	}
+	
 	/************************
 	 * Getters
 	 ************************/

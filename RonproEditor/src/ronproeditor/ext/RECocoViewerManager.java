@@ -47,13 +47,6 @@ public class RECocoViewerManager {
 	}
 
 	public void openCocoViewer(PPProjectSet ppProjectSet) {
-		if(cocoWindow != null && manager != null) {
-			// TODO: data更新とか考えるとリロードしたほうが良いので実装し直す
-			cocoWindow.setVisible(true);
-			cocoWindow.toFront();
-			return;
-		}
-		
 		manager = new CCCompileErrorManager();
 
 		loadData();
