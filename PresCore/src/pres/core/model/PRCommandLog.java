@@ -13,7 +13,7 @@ import clib.common.filesystem.CPath;
 public class PRCommandLog extends PRFileLog {
 
 	public static enum Type implements PRLogType {
-		COMMAND_RECORD
+		COMMAND_RECORD, BLOCK_COMMAND_RECORD
 	};
 
 	public static enum SubType implements PRLogSubType {

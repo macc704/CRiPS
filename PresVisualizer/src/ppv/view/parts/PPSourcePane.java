@@ -96,8 +96,7 @@ public class PPSourcePane extends JPanel {
 		}
 
 		String sourceText = target.getSource(current);
-		CTimeOrderedList<PLLog> logs = target.getOrderedLogs().select(
-				PLFile.LOG_TEXTEDIT_CHECKER);
+		CTimeOrderedList<PLLog> logs = target.getOrderedLogs().select(PLFile.LOG_TEXTEDIT_CHECKER);
 
 		List<PLTextEditLog> editLogs = searchLogs(logs);
 		if (editLogs.isEmpty()) {
@@ -141,8 +140,7 @@ public class PPSourcePane extends JPanel {
 		return editLogs;
 	}
 
-	private void doHighlight(PLTextEditLog editLog, DefaultStyledDocument doc)
-			throws Exception {
+	private void doHighlight(PLTextEditLog editLog, DefaultStyledDocument doc) throws Exception {
 		// System.out.println(editLog.getExplanation());
 
 		int offset = editLog.getOffset();
@@ -164,8 +162,7 @@ public class PPSourcePane extends JPanel {
 		textPane.setCaretPosition(offset);
 	}
 
-	private void doHighlightIns(PLTextEditLog editLog, DefaultStyledDocument doc)
-			throws BadLocationException {
+	private void doHighlightIns(PLTextEditLog editLog, DefaultStyledDocument doc) throws BadLocationException {
 		// TODO 多数行追加に対応していない．
 		int offset = editLog.getOffset();
 		int addLen = editLog.getText().length();
@@ -178,8 +175,7 @@ public class PPSourcePane extends JPanel {
 		doc.setCharacterAttributes(offset, addLen, INS, true);
 	}
 
-	private void doHighlightDel(PLTextEditLog editLog, DefaultStyledDocument doc)
-			throws BadLocationException {
+	private void doHighlightDel(PLTextEditLog editLog, DefaultStyledDocument doc) throws BadLocationException {
 		int offset = editLog.getOffset();
 		int delLen = editLog.getLength();
 		String dummy = "";
@@ -193,4 +189,21 @@ public class PPSourcePane extends JPanel {
 	// CTextPaneUtils.setTextWithoutScrolling(sourceText, textPane);
 	// }
 
+	public long getCurrentTextEditLogTimestamp() {
+		CTime current = timeModel.getTime();
+		PLFile terget = model.getFile(current);
+		long timestamp = 0;
+		if (terget == null) {
+			return timestamp;
+		}
+
+		CTimeOrderedList<PLLog> logs = terget.getOrderedLogs().select(PLFile.LOG_TEXTEDIT_CHECKER);
+		List<PLTextEditLog> editLogs = searchLogs(logs);
+
+		if (editLogs.size() != 0) {
+			timestamp = editLogs.get(editLogs.size() - 1).getTimestamp();
+		}
+		return timestamp;
+
+	}
 }
