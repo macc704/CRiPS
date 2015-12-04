@@ -400,7 +400,6 @@ public class BlockStub extends Block {
 			blockStub.setPageLabel(newPageLabel);
 			blockStub.notifyRenderable();
 		}
-
 	}
 
 	/**
