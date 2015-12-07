@@ -38,12 +38,12 @@ import ch.conn.CHCliant;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFilelistRequest;
+import ch.conn.framework.packets.CHFilelistResponse;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.util.CHComponent;
 import ch.util.CHEvent;
 import ch.util.CHListener;
-import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CPath;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
@@ -72,7 +72,6 @@ public class RECheCoProManager {
 	private String password = DEFAULT_PASSWAOD;
 	private int port = DEFAULT_PORT;
 	private Color color = DEFAULT_COLOR;
-	private String project;
 	private HashMap<String, RECheCoProViewer> chViewers = new HashMap<String, RECheCoProViewer>();
 
 	public static void main(String[] args) {
@@ -264,6 +263,7 @@ public class RECheCoProManager {
 			chViewers.get(component.getUser()).getApplication().getFrame().toFront();
 		} else if (message.equals("NewOpened")) {
 			// 開いていなかったら開く
+			cliant.getConn().write(new CHFilelistRequest(component.getUser()));
 			doOpenNewCH(component.getUser());
 		} else if (message.equals("WindowClosing")) {
 			// 開いているCHEditorを閉じる
@@ -471,7 +471,6 @@ public class RECheCoProManager {
 	private static final String PASSWORD_LABEL = "CheCoPro.password";
 	private static final String PORTNUMBER_LABEL = "CheCoPro.portnumber";
 	private static final String COLOR_LABEL = "CheCoPro.color";
-	private static final String PROJECT_LABEL = "CheCoPro.project";
 
 	class CheCoProPreferenceCategory extends CAbstractPreferenceCategory {
 
@@ -481,7 +480,6 @@ public class RECheCoProManager {
 		private JPasswordField passField = new JPasswordField(15);
 		private JComboBox<Integer> portBox = new JComboBox<Integer>();
 		private JComboBox<String> colorBox = new JComboBox<String>();
-		private JComboBox<String> projectBox = new JComboBox<String>();
 		private JPanel panel = new CheCoProPreferencePanel();
 
 		@Override
@@ -513,10 +511,6 @@ public class RECheCoProManager {
 				colorBox.setSelectedItem(getRepository().get(COLOR_LABEL));
 				changeStringToColor(getRepository().get(COLOR_LABEL));
 			}
-			if (getRepository().exists(PROJECT_LABEL)) {
-				projectBox.setSelectedItem(getRepository().get(PROJECT_LABEL));
-				project = getRepository().get(PROJECT_LABEL);
-			}
 
 			port += 20000;
 		}
@@ -543,7 +537,6 @@ public class RECheCoProManager {
 			password = String.valueOf(passField.getPassword());
 			port = portBox.getSelectedIndex() + 20000;
 			changeStringToColor((String) colorBox.getSelectedItem());
-			project = (String) projectBox.getSelectedItem();
 			
 			getRepository().put(LOGINID_LABEL, user);
 			getRepository().put(PASSWORD_LABEL, password);
@@ -551,7 +544,6 @@ public class RECheCoProManager {
 					Integer.toString(portBox.getSelectedIndex()));
 			getRepository().put(COLOR_LABEL,
 					(String) colorBox.getSelectedItem());
-			getRepository().put(PROJECT_LABEL, project);
 		}
 
 		class CheCoProPreferencePanel extends JPanel {
@@ -586,20 +578,10 @@ public class RECheCoProManager {
 				colorBox.addItem("CYAN");				
 				colorPanel.add(colorBox);
 				
-				JPanel projectPanel = new JPanel(flowLayout);
-				projectPanel.add(new JLabel("Project : "));
-				List<CDirectory> projects = new ArrayList<CDirectory>();
-				projects = application.getSourceManager().getAllProjects();
-				for (CDirectory project : projects) {
-					projectBox.addItem(project.getNameByString());
-				}
-				projectPanel.add(projectBox);
-				
 				this.add(namePanel, BorderLayout.CENTER);
 				this.add(passPanel, BorderLayout.CENTER);
 				this.add(portPanel, BorderLayout.CENTER);
 				this.add(colorPanel, BorderLayout.CENTER);
-				this.add(projectPanel, BorderLayout.CENTER);
 			}
 		}
 

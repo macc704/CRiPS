@@ -382,7 +382,7 @@ public class REApplication {
 	}
 
 	private void openApplication(String rootDirName) {
-		File root = prepareRootDirectory(DEFAULT_ROOT);
+		File root = prepareRootDirectory(rootDirName);
 		this.extDir = CFileSystem.getExecuteDirectory().findOrCreateDirectory(EXTENSION_FOLDER);
 		initializeManagers(root);
 		createAndOpenWindow();

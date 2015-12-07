@@ -34,7 +34,7 @@ import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.util.CHBlockEditorController;
-import ch.view.CHPullDialog;
+import ch.view.CHFileChooser;
 import ronproeditor.REApplication;
 import ronproeditor.RESourceManager;
 
@@ -285,14 +285,11 @@ public class RECheCoProViewer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CHPullDialog pullDialog = new CHPullDialog(user, 0);
-				boolean java = pullDialog.isJavaChecked();
-				boolean resource = pullDialog.isResourceCecked();
-				if (java || resource) {
-					doPull(user, CHFileSystem.createCFileFilterForPull(java, resource));
-				}
+				CHFileChooser fileChooser = new CHFileChooser(CHFileSystem.getFinalProjectDir(), 
+						CHFileSystem.getUserDirForClient(user));
+				fileChooser.doOpen();
+				doPull(user, fileChooser.getAcceptFilter());
 				application.doRefresh();
-				writePresLog(PRCheCoProLog.SubType.ALL_IMPORT, user, java, resource);
 			}
 
 		});

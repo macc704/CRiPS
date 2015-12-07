@@ -14,7 +14,9 @@ import javax.swing.JScrollPane;
 import ch.library.CHFileSystem;
 import ch.view.CHFileTree.FileTreeNode;
 import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFileFilter;
 import clib.common.filesystem.CPath;
+import clib.view.windowmanager.CWindowCentraizer;
 
 /**
  * 取り込みファイルの選択View
@@ -35,6 +37,8 @@ public class CHFileChooser extends JDialog {
 	private CHFileTree memberTree;
 	
 	private String member;
+	
+	private CFileFilter acceptFilter;
 
 	public CHFileChooser(CDirectory userRootDir, CDirectory memberRootDir) {
 		this.userRootDir = userRootDir;
@@ -44,8 +48,11 @@ public class CHFileChooser extends JDialog {
 	
 	public void createView() {
 	    
+		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 250);
+		setModal(true);
 		setResizable(false);
+		CWindowCentraizer.centerWindow(this);
 		
 		userTree = new CHFileTree(userRootDir);
 		memberTree = new CHFileTree(memberRootDir);	
@@ -170,12 +177,12 @@ public class CHFileChooser extends JDialog {
 				if (!userTree.getOverlapesNodes().isEmpty()) {
 					CHWarningDialog dialog = doOpenWarningDialog();
 					if(dialog.isOk()) {
-						// TODO 取り込み
+						makeAcceptFilter();
 					} else {
 						return;
 					}
 				} else if (!userTree.getInsertNodes().isEmpty()) {
-					// TODO 取り込み
+					makeAcceptFilter();
 				}
 				doClose();
 			}
@@ -228,6 +235,18 @@ public class CHFileChooser extends JDialog {
 		CHWarningDialog dialog = new CHWarningDialog(0, userTree.getOverlapesNodes());
 		dialog.open();
 		return dialog;
+	}
+	
+	public void makeAcceptFilter() {
+		String[] paths = new String[userTree.getInsertNodes().size()];
+		for (int i = 0; i < userTree.getInsertNodes().size(); i++) {
+			paths[i] = userTree.getInsertNodes().get(i).toString();
+		}
+		acceptFilter = CFileFilter.ACCEPT_BY_NAME_FILTER(paths);
+	}
+	
+	public CFileFilter getAcceptFilter() {
+		return acceptFilter;
 	}
 	
 	public static void main(String[] args) {
