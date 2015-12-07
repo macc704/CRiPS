@@ -241,6 +241,7 @@ public class CHFileChooser extends JDialog {
 		String[] paths = new String[userTree.getInsertNodes().size()];
 		for (int i = 0; i < userTree.getInsertNodes().size(); i++) {
 			paths[i] = userTree.getInsertNodes().get(i).toString();
+			System.out.println(paths[i]);
 		}
 		acceptFilter = CFileFilter.ACCEPT_BY_NAME_FILTER(paths);
 	}

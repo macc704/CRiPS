@@ -89,16 +89,21 @@ public class CHFileTree extends JTree implements TreeSelectionListener, TreeCell
 		}
 		
 		if (!insertedNodes.contains(node)) {	
-			if (!node.isLeaf()) {
-				for (int i = 0; i < node.getChildCount(); i++) {
-					insertedNodes.add((FileTreeNode) node.getChildAt(i));
-				}
-			}
 			root.insert(node, index);
-			insertedNodes.add(node);
+			addInsertedNodes(node);
 		}
 		
 		model.reload();
+	}
+	
+	public void addInsertedNodes(FileTreeNode node) {
+		if (node.isLeaf()) {
+			insertedNodes.add(node);
+		}
+		for (FileTreeNode aNode : node.getChildren()) {
+			insertedNodes.add(node);
+			addInsertedNodes(aNode);
+		}		
 	}
 	
 	public void removeNode(FileTreeNode node) {
