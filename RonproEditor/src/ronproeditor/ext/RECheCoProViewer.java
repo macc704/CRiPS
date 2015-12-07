@@ -31,6 +31,7 @@ import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
 import clib.common.system.CJavaSystem;
 import ch.conn.framework.CHConnection;
+import ch.conn.framework.CHFile;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHSourceChanged;
@@ -397,7 +398,7 @@ public class RECheCoProViewer {
 	private void doPull(String user, CFileFilter filter) {
 		CDirectory from = CHFileSystem.getUserDirForClient(user);
 		CDirectory to = CHFileSystem.getFinalProjectDir();
-		CHFileSystem.pull(from, to, filter);
+		writeAllImportLog(CHFileSystem.pull(from, to, filter));
 	}
 	
 	/**************
@@ -458,9 +459,14 @@ public class RECheCoProViewer {
 	 * LOG
 	 ******/
 	
-	public void writePresLog(PRCheCoProLog.SubType subType, Object... args) {
+	public void writeAllImportLog(List<CHFile> files) {
+		String[] paths = new String[files.size()];
+		for (int i = 0; i < files.size(); i++) {
+			paths[i] = files.get(i).getPath();
+		}
+		// TODO 上書きされるファイルが記録されていない
 		try {
-			PRLog log = new PRCheCoProLog(subType, null, args);
+			PRLog log = new PRCheCoProLog(PRCheCoProLog.SubType.ALL_IMPORT, null, paths);
 			baseApplication.writePresLog(log, CHFileSystem.getFinalProjectDir());
 		} catch (Exception ex) {
 			ex.printStackTrace();

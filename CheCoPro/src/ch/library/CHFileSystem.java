@@ -86,11 +86,12 @@ public class CHFileSystem {
 		CHFileSystem.saveFiles(files, to);
 	}
 
-	public static void pull(CDirectory from, CDirectory to, CFileFilter filter) {
+	public static List<CHFile> pull(CDirectory from, CDirectory to, CFileFilter filter) {
 		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths1(
 				createFileList(from, filter), to);
 		List<CHFile> files = CHFileSystem.getCHFiles(requestFilePaths, from);
 		CHFileSystem.saveFiles(files, to);
+		return files;
 	}
 
 	public static CFileHashList createFileList(CDirectory dir) {
