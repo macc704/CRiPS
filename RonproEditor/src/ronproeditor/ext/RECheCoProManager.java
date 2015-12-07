@@ -38,7 +38,6 @@ import ch.conn.CHCliant;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFilelistRequest;
-import ch.conn.framework.packets.CHFilelistResponse;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.util.CHComponent;
@@ -272,7 +271,7 @@ public class RECheCoProManager {
 	}
 	
 	public void doOpenNewCH(String user) {
-		RECheCoProViewer chViewer = new RECheCoProViewer(user);
+		RECheCoProViewer chViewer = new RECheCoProViewer(user, cliant.getConn());
 		chViewer.setUserStates(userStates);
 		chViewer.doOpenNewCH(application);
 		chViewer.getApplication().getFrame().addWindowListener(new WindowAdapter() {

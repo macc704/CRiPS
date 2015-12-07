@@ -30,7 +30,9 @@ import pres.core.model.PRLog;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
 import clib.common.system.CJavaSystem;
+import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHUserState;
+import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.util.CHBlockEditorController;
@@ -58,6 +60,7 @@ public class RECheCoProViewer {
 	
 	private REApplication application;
 	private REApplication baseApplication;
+	private CHConnection conn;
 	private String user;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
 	
@@ -66,8 +69,9 @@ public class RECheCoProViewer {
 	private String copyFilePath = "";
 	private String copyCode = "";
 	
-	public RECheCoProViewer(String user) {
+	public RECheCoProViewer(String user, CHConnection conn) {
 		this.user = user;
+		this.conn = conn;
 	}
 
 	/***********
@@ -82,9 +86,18 @@ public class RECheCoProViewer {
 	}
 	
 	private void initializeFrame() {
-		application.getFrame().setTitle(user + "-" + APP_NAME);
+		setTitile();
 		removeWindowListeners();
 		application.getFrame().setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	}
+	
+	private void setTitile() {
+		String title = user + "-" + APP_NAME;
+		if(property.equals(RESourceManager.DOCUMENT_OPENED)) {
+			String currentFile = application.getSourceManager().getCCurrentFile().getNameByString();
+			title = title + "-" + currentFile;
+		}
+		application.getFrame().setTitle(title);
 	}
 	
 	// Viewerを閉じてもシステムが終了しないようにするため
@@ -118,6 +131,7 @@ public class RECheCoProViewer {
 			} else if (property.equals(RESourceManager.PREPARE_DOCUMENT_CLOSE)) {
 				removeKeyListener();
 			}
+			setTitile();
 		}
 	};
 	
@@ -260,9 +274,10 @@ public class RECheCoProViewer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (syncButton.isSelected()) {
-					// TODO ファイルリストリクエスト
+					conn.write(new CHFilelistRequest(user));
 					syncButton.setText(syncLabel);
 					synchronizing = true;
+					application.doRefresh();
 				} else {
 					syncButton.setText(asyncLabel);
 					synchronizing = false;
@@ -289,7 +304,7 @@ public class RECheCoProViewer {
 						CHFileSystem.getUserDirForClient(user));
 				fileChooser.doOpen();
 				doPull(user, fileChooser.getAcceptFilter());
-				application.doRefresh();
+				baseApplication.doRefresh();
 			}
 
 		});
@@ -327,7 +342,6 @@ public class RECheCoProViewer {
 				if (canSetText(currentFileName)) {
 					application.getFrame().getEditor().setText(source);
 					application.doSave();
-					application.getFrame().setTitle(user + "-" + APP_NAME);
 					SwingUtilities.invokeLater(new Runnable() {
 						
 						@Override
@@ -335,6 +349,7 @@ public class RECheCoProViewer {
 							// スクロールバー位置設定
 							application.getFrame().getEditor().getViewer().getScroll()
 							.getViewport().setViewPosition(point);
+							setTitile();
 						}
 					});
 				}
@@ -529,5 +544,4 @@ public class RECheCoProViewer {
 		return application.getSourceManager().getCCurrentFile()
 				.getRelativePath(application.getSourceManager().getCRootDirectory()).toString();
 	}
-	
 }
