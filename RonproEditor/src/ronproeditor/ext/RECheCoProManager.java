@@ -74,6 +74,8 @@ public class RECheCoProManager {
 	private int port = CHCliant.DEFAULT_PORT;
 	private Color color = CHCliant.DEFAULT_COLOR;
 	private HashMap<String, RECheCoProViewer> chViewers = new HashMap<String, RECheCoProViewer>();
+	
+	private CheCoProPreferenceCategory pref;
 
 	public static void main(String[] args) {
 		new RECheCoProManager();
@@ -89,8 +91,9 @@ public class RECheCoProManager {
 	}
 
 	private void initializePreference() {
-		application.getPreferenceManager().putCategory(
-				new CheCoProPreferenceCategory());
+		pref = new CheCoProPreferenceCategory();
+		pref.getPage().setEnabled(true);
+		application.getPreferenceManager().putCategory(pref);
 	}
 
 	/*******************
@@ -311,6 +314,7 @@ public class RECheCoProManager {
 	private void processLoginResult() {
 		initializeREListener();
 		application.doRefresh();
+		pref.getPage().setEnabled(false);
 		writePresLog(PRCheCoProLog.SubType.LOGIN);
 	}
 
@@ -364,6 +368,7 @@ public class RECheCoProManager {
 	private void connectionKilled() {
 		closeCHEditors();
 		removeListeners();
+		pref.getPage().setEnabled(true);
 	}
 
 	private void removeListeners() {
@@ -630,6 +635,13 @@ public class RECheCoProManager {
 				this.add(passPanel, BorderLayout.CENTER);
 				this.add(portPanel, BorderLayout.CENTER);
 				this.add(colorPanel, BorderLayout.CENTER);
+			}
+			
+			public void setEnabled(boolean enabled) {
+				nameField.setEnabled(enabled);
+				passField.setEnabled(enabled);
+				portBox.setEnabled(enabled);
+				colorBox.setEnabled(enabled);
 			}
 		}
 
