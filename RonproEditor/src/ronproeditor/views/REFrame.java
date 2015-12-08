@@ -298,7 +298,7 @@ public class REFrame extends JFrame {
 
 		// アクションの追加
 		menuTools.add(actionOpenBlockEditor);
-		menuTools.add(actionOpenNewBlockEditor);
+//		menuTools.add(actionOpenNewBlockEditor);
 //		menuTools.add(actionOpenSemiNewBlockEditor);
 		menuTools.add(actionOpenFlowViewer);
 		menuTools.add(actionOpenGeneRefBrowser);
