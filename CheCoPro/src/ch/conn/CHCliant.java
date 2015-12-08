@@ -8,6 +8,7 @@ import ch.conn.framework.CHProcessManager;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.library.CHFileSystem;
 import ch.util.CHComponent;
+import ch.view.CHErrorDialog;
 
 public class CHCliant {
 	
@@ -50,6 +51,7 @@ public class CHCliant {
 			newConnectionOpened(conn);
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			connectionFailed();
 		}
 	}
 
@@ -60,6 +62,8 @@ public class CHCliant {
 		if (login()) {
 			System.out.println("client established");
 			CHFileSystem.getFinalProjectDir();
+		} else {
+			connectionFailed();
 		}
 
 		processManager = new CHProcessManager(user, password, color, conn);
@@ -70,6 +74,7 @@ public class CHCliant {
 				processManager.doProcess(readFromServer());
 			}
 		} catch (Exception ex) {
+			connectionKilled();
 			ex.printStackTrace();
 		}
 		conn.close();
@@ -83,8 +88,21 @@ public class CHCliant {
 	}
 	
 	private Object readFromServer() {
-
 		return conn.read();
+	}
+	
+	public void connectionFailed() {
+		new CHErrorDialog(CHErrorDialog.CONNECTION_FAILED).doOpen();
+	}
+	
+	public void connectionKilled() {
+		closeMemberSelector();
+		component.fireConnectionKilled();
+		new CHErrorDialog(CHErrorDialog.CONNECTION_KILLED).doOpen();
+	}
+	
+	public void closeMemberSelector() {
+		getProcessManager().getMemberSelector().doClose();
 	}
 	
 	public CHProcessManager getProcessManager() {

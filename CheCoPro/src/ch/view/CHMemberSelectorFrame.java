@@ -31,11 +31,15 @@ public class CHMemberSelectorFrame extends JFrame {
 		this.user = user;
 	}
 
-	public void open() {
+	public void doOpen() {
 		this.setTitle("CheCoProMemberSelector " + user);
 		this.setBounds(100, 100, 150, 500);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
+	}
+	
+	public void doClose() {
+		dispose();
 	}
 
 	public void setMembers(List<CHUserState> userStates) {
@@ -148,7 +152,7 @@ public class CHMemberSelectorFrame extends JFrame {
 		userStates.add(new CHUserState("user1", true, Color.CYAN));
 		userStates.add(new CHUserState("name", true, Color.LIGHT_GRAY));
 		userStates.add(new CHUserState("user2", false, Color.MAGENTA));
-		frame.open();
+		frame.doOpen();
 		frame.setMembers(userStates);
 		userStates.add(new CHUserState("user3", true, Color.YELLOW));
 		frame.setMembers(userStates);

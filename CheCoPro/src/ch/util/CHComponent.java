@@ -71,6 +71,10 @@ public class CHComponent {
 		setMessage("FileSizeNotieReceived", PROCESS_EVENT);
 	}
 	
+	public void fireConnectionKilled() {
+		setMessage("ConnectionKilled", PROCESS_EVENT);
+	}
+	
 	/***********************
 	 * MEMBERSELECTOR_EVENTS
 	 ***********************/

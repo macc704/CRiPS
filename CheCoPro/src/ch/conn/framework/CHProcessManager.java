@@ -106,7 +106,7 @@ public class CHProcessManager {
 		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
 			memberSelector = new CHMemberSelectorFrame(user);
 			memberSelector.setComponent(component);
-			memberSelector.open();
+			memberSelector.doOpen();
 		}
 	}
 

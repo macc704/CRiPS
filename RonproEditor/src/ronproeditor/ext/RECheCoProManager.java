@@ -2,6 +2,7 @@ package ronproeditor.ext;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -40,9 +41,11 @@ import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
+import ch.library.CHMatcher;
 import ch.util.CHComponent;
 import ch.util.CHEvent;
 import ch.util.CHListener;
+import ch.view.CHErrorDialog;
 import clib.common.filesystem.CPath;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.CAbstractPreferenceCategory;
@@ -204,7 +207,14 @@ public class RECheCoProManager {
 	 * クライアントメイン動作
 	 ********************/
 
-	public void start() {	
+	public void start() {
+		if (!CHMatcher.isCorrectID(user)) {
+			new CHErrorDialog(CHErrorDialog.ILLEGAL_ID).doOpen();
+			return;
+		} else if (!CHMatcher.isCorrectPass(password)) {
+			new CHErrorDialog(CHErrorDialog.ILLEGAL_PASS).doOpen();
+			return;
+		}
 		cliant = new CHCliant(port, user, password, color);
 		cliant.setComponent(addCHListener());
 		cliant.start();
@@ -249,6 +259,8 @@ public class RECheCoProManager {
 			processFileResponse(component.getUser());
 		} else if (message.equals("LogoutResultReceived")) {
 			processLogoutResult();
+		} else if (message.equals("ConnectionKilled")) {
+			connectionKilled();
 		}
 	}
 	
@@ -586,12 +598,16 @@ public class RECheCoProManager {
 				FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
 
 				JPanel namePanel = new JPanel(flowLayout);
-				namePanel.add(new JLabel("Name : "));
+				namePanel.setPreferredSize(new Dimension(300, 50));
+				namePanel.add(new JLabel("ID : "));
 				namePanel.add(nameField);
+				namePanel.add(new JLabel("例 : 70511000"));
 
 				JPanel passPanel = new JPanel(flowLayout);
+				passPanel.setPreferredSize(new Dimension(300, 50));
 				passPanel.add(new JLabel("Password : "));
 				passPanel.add(passField);
+				passPanel.add(new JLabel("4〜12文字"));
 
 				JPanel portPanel = new JPanel(flowLayout);
 				portPanel.add(new JLabel("Group : "));
