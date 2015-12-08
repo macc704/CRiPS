@@ -25,7 +25,6 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -35,9 +34,9 @@ import pres.core.model.PRLog;
 import ronproeditor.REApplication;
 import ronproeditor.RESourceManager;
 import ch.conn.CHCliant;
-import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFilelistRequest;
+import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
 import ch.util.CHComponent;
@@ -50,11 +49,11 @@ import clib.preference.model.CAbstractPreferenceCategory;
 public class RECheCoProManager {
 
 	public static final String APP_NAME = "CheCoPro";
-	public static final String DEFAULT_NAME = "";
-	public static final String DEFAULT_PASSWAOD = "";
-	public static final Color DEFAULT_COLOR = Color.WHITE;
-	public static final int DEFAULT_PORT = 20000;
-	public static final String IP = "localhost";
+	public static final int MENU_INDEX_FILE = 0;
+	public static final int MENU_INDEX_EDIT = 1;
+	public static final int ITEM_INDEX_PASTE = 5;
+	public static final int ITEM_INDEX_SAVE = 8;
+	public static final int ITEM_INDEX_REFRESH = 12;
 
 	private static int CTRL_MASK = InputEvent.CTRL_MASK;
 	static {
@@ -65,12 +64,11 @@ public class RECheCoProManager {
 
 	private REApplication application;
 	private CHCliant cliant;
-	private CHConnection conn;
 	private List<CHUserState> userStates = new ArrayList<CHUserState>();
-	private String user = DEFAULT_NAME;
-	private String password = DEFAULT_PASSWAOD;
-	private int port = DEFAULT_PORT;
-	private Color color = DEFAULT_COLOR;
+	private String user = CHCliant.DEFAULT_NAME;
+	private String password = CHCliant.DEFAULT_PASSWAOD;
+	private int port = CHCliant.DEFAULT_PORT;
+	private Color color = CHCliant.DEFAULT_COLOR;
 	private HashMap<String, RECheCoProViewer> chViewers = new HashMap<String, RECheCoProViewer>();
 
 	public static void main(String[] args) {
@@ -140,29 +138,6 @@ public class RECheCoProManager {
 				.addKeyListener(reKeyListener);
 	}
 	
-	public void send() {
-		sendFiles();
-		sendText();
-	}
-	
-	public void sendFiles() {
-		if (conn != null && isConnect()) {
-			processFilelistRequest(new CHFilelistRequest(user));
-		}
-	}
-	
-	/**
-	 * ソース（テキスト），開いているファイル名，スクロールバーのポイントを送る
-	 */
-	public void sendText() {
-		String source = application.getFrame().getEditor().getViewer().getText();
-		String currentFileName = application.getSourceManager().getCurrentFile().getName();
-		Point point = application.getFrame().getEditor().getViewer()
-				.getScroll().getViewport().getViewPosition();
-		
-		cliant.getProcessManager().sendText(source, currentFileName, point);
-	}
-	
 	private ActionListener pasteListener = new ActionListener() {
 		
 		@Override
@@ -175,27 +150,26 @@ public class RECheCoProManager {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			sendText();
+			send();
+		}
+	};
+	
+	private ActionListener refreshListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
 			processFilelistRequest(new CHFilelistRequest(user));
 		}
 	};
 	
 	private void initializeREMenuListener(final REApplication application) {
 		
-		application.getFrame().getJMenuBar().getMenu(1).getItem(5)
-				.addActionListener(pasteListener);
-		
-		application.getFrame().getJMenuBar().getMenu(0).getItem(8)
+		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_PASTE)
+				.addActionListener(pasteListener);		
+		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_FILE).getItem(ITEM_INDEX_SAVE)
 				.addActionListener(saveListener);
-	}
-	
-	private void removeREMenuListener(){
-		
-		application.getFrame().getJMenuBar().getMenu(1).getItem(5)
-				.removeActionListener(pasteListener);
-		
-		application.getFrame().getJMenuBar().getMenu(0).getItem(8)
-				.removeActionListener(saveListener);
+		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_FILE).getItem(ITEM_INDEX_REFRESH)
+				.addActionListener(refreshListener);
 	}
 
 	/********************
@@ -245,6 +219,8 @@ public class RECheCoProManager {
 			processSourceChanged(component.getScPacket());
 		} else if (message.equals("FileResponseReceived")) {
 			processFileResponse(component.getUser());
+		} else if (message.equals("LogoutResultReceived")) {
+			processLogoutResult();
 		}
 	}
 	
@@ -267,6 +243,7 @@ public class RECheCoProManager {
 		} else if (message.equals("WindowClosing")) {
 			// 開いているCHEditorを閉じる
 			closeCHEditors();
+			cliant.getConn().write(new CHLogoutRequest(user));
 		}
 	}
 	
@@ -293,6 +270,7 @@ public class RECheCoProManager {
 	
 	private void processLoginResult() {
 		initializeREListener();
+		application.doRefresh();
 		writePresLog(PRCheCoProLog.SubType.LOGIN);
 	}
 
@@ -321,15 +299,29 @@ public class RECheCoProManager {
 	private void processFilelistRequest(CHFilelistRequest request) {
 		cliant.getProcessManager().doProcess(request);
 	}
-
+	
+	private void processLogoutResult() {
+		connectionKilled();
+		writePresLog(PRCheCoProLog.SubType.LOGOUT);
+	}
+	
+	/**
+	 * textとfileを送信する
+	 */
+	public void send() {
+		String source = application.getFrame().getEditor().getViewer().getText();
+		String currentFileName = application.getSourceManager().getCurrentFile().getName();
+		Point point = application.getFrame().getEditor().getViewer()
+				.getScroll().getViewport().getViewPosition();
+		
+		cliant.getProcessManager().sendText(source, currentFileName, point);
+	}
 
 	/*********
 	 * 切断処理
 	 *********/
 
-	// TODO 接続切れた時かログアウトした時に呼ぶ
 	private void connectionKilled() {
-		resetMenubar();
 		closeCHEditors();
 		removeListeners();
 	}
@@ -347,10 +339,15 @@ public class RECheCoProManager {
 					.removeKeyListener(reKeyListener);
 		}
 	}
-
-	private void resetMenubar() {
-		JMenuBar menubar = application.getFrame().getJMenuBar();
-		application.getFrame().setJMenuBar(menubar);
+	
+	private void removeREMenuListener(){
+		
+		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_PASTE)
+				.removeActionListener(pasteListener);	
+		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_FILE).getItem(ITEM_INDEX_SAVE)
+				.removeActionListener(saveListener);
+		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_FILE).getItem(ITEM_INDEX_REFRESH)
+				.removeActionListener(refreshListener);
 	}
 
 	private void closeCHEditors() {
@@ -374,10 +371,6 @@ public class RECheCoProManager {
 	/**********
 	 * 判定関係
 	 **********/
-	
-	public boolean isConnect() {
-		return conn.established();
-	}
 	
 	/**
 	 * ペーストされたコードがviewerからのものかか調べる

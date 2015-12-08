@@ -104,7 +104,6 @@ public class CHProcessManager {
 				conn.close();
 			}
 		} else if (result.isResult() == CHLoginCheck.SUCCESS) {
-			// TODO ログ
 			memberSelector = new CHMemberSelectorFrame(user);
 			memberSelector.setComponent(component);
 			memberSelector.open();
@@ -136,9 +135,7 @@ public class CHProcessManager {
 
 	private void processLogoutResult(CHLogoutResult result) {
 		if (user.equals(result.getUser())) {
-			// TODO ログ
 			conn.close();
-			// TODO リスナのリムーブ
 		}
 	}
 
@@ -170,6 +167,17 @@ public class CHProcessManager {
 
 	private void processFilesizeNotice(CHFilesizeNotice notice) {
 		// TODO ひとまずいらない？
+	}
+	
+	public void send(String source, String currentFileName, Point point) {
+		sendFiles();
+		sendText(source, currentFileName, point);
+	}
+	
+	public void sendFiles() {
+		if (conn != null && conn.established()) {
+			processFilelistRequest(new CHFilelistRequest(user));
+		}
 	}
 	
 	public void sendText(String source, String currentFileName, Point point) {

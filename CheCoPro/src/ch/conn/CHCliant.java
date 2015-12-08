@@ -8,8 +8,6 @@ import ch.conn.framework.CHProcessManager;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.library.CHFileSystem;
 import ch.util.CHComponent;
-import ch.util.CHEvent;
-import ch.util.CHListener;
 
 public class CHCliant {
 	
@@ -37,10 +35,7 @@ public class CHCliant {
 	}
 	
 	public void start() {
-		
-		// TODO 一時的にログ機能切断
-		addCHListeners();
-		
+
 		new Thread() {
 			public void run() {
 				connectServer();
@@ -65,7 +60,6 @@ public class CHCliant {
 		if (login()) {
 			System.out.println("client established");
 			CHFileSystem.getFinalProjectDir();
-			// TODO アプリケーションのリフレッシュ
 		}
 
 		processManager = new CHProcessManager(user, password, color, conn);
@@ -79,7 +73,6 @@ public class CHCliant {
 			ex.printStackTrace();
 		}
 		conn.close();
-		connectionKilled();
 		System.out.println("client closed");
 
 	}
@@ -92,26 +85,6 @@ public class CHCliant {
 	private Object readFromServer() {
 
 		return conn.read();
-	}
-	
-	private void connectionKilled() {
-
-	}
-	
-	public void addCHListeners() {
-		component.addCHListener(new CHListener() {
-			
-			@Override
-			public void processChanged(CHEvent e) {
-			}
-			
-			@Override
-			public void memberSelectorChanged(CHEvent e) {
-				if (e.getMessage().equals("WindowClosing")){
-					conn.close();
-				}
-			}
-		});
 	}
 	
 	public CHProcessManager getProcessManager() {
