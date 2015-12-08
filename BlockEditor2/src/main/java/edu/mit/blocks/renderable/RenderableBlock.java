@@ -150,7 +150,9 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 	private boolean isLoading = false;
 	// /////////////////////////
 	// Sockets and Labels
-	/** TODO: Documentation does not exist for these components. Consult author */
+	/**
+	 * TODO: Documentation does not exist for these components. Consult author
+	 */
 	private final NameLabel blockLabel;
 	private final PageLabel pageLabel;
 	private final ConnectorTag plugTag;
@@ -1459,6 +1461,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 	 * @return true iff it has a parent, its parent is visible, and itself is
 	 *         visible; false otherwise.
 	 */
+	@Override
 	public boolean isVisible() {
 		return super.isVisible() && getParent() != null && getParent().isVisible();
 	}
@@ -1542,6 +1545,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 	 *
 	 * @return
 	 */
+	@Override
 	public Point getCommentLocation() {
 		Point location = this.getLocation();
 
@@ -1695,10 +1699,12 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 	 * Makes public the protected processMouseEvent() method from Component so
 	 * that the children within this block may pass mouse events to this
 	 */
+	@Override
 	public void processMouseEvent(MouseEvent e) {
 		super.processMouseEvent(e);
 	}
 
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			if (pickedUp) {
@@ -1783,6 +1789,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		}
 	}
 
+	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			if (pickedUp) {
@@ -1817,7 +1824,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 				// drag this block and all attached to it
 				drag(this, dragHandler.dragDX, dragHandler.dragDY, widget, true);
 
-				// バックグラウンド再描画　
+				// バックグラウンド再描画
 				getParentWidget().getJComponent().repaint();
 			}
 
@@ -1826,6 +1833,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 
 	// show the pulldown icon if hasComboPopup = true
 
+	@Override
 	public void mouseEntered(MouseEvent e) {
 		if (!dragging) {
 			balloon.show(getX() + getBlockWidth() / 2, getY());
@@ -1841,6 +1849,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		}
 	}
 
+	@Override
 	public void mouseExited(MouseEvent e) {
 		if (!dragging) {
 			balloon.myHide(this.getX() + e.getX(), this.getY() + e.getY());
@@ -1856,20 +1865,15 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		}
 	}
 
+	@Override
 	public void mouseMoved(MouseEvent e) {
 	}
 
+	@Override
 	public void mouseClicked(MouseEvent e) {
-		// if (SwingUtilities.isLeftMouseButton(e)) {
-		// dragHandler.mouseClicked(e);
-		// if (e.getClickCount() == 2 && !dragging) {
-		// workspace.notifyListeners(new WorkspaceEvent(workspace, this
-		// .getParentWidget(), this.getBlockID(),
-		// WorkspaceEvent.BLOCK_STACK_COMPILED));
-		// }
-		// }
 	}
 
+	@Override
 	public void mousePressed(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {
 			dragHandler.mousePressed(e);
@@ -1880,6 +1884,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 	// //////////////
 	// SEARCHABLE ELEMENT
 	// //////////////
+	@Override
 	public String getKeyword() {
 		if (getBlock() != null) {
 			return null;
@@ -1891,6 +1896,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		return getBlock().getGenusName();
 	}
 
+	@Override
 	public void updateInSearchResults(boolean inSearchResults) {
 		isSearchResult = inSearchResults;
 		highlighter.setIsSearchResult(isSearchResult);
@@ -1970,16 +1976,12 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 				if (child.getNodeName().equals("Location")) {
 					// extract location information
 					extractLocationInfo(child, blockLoc);
-				}
-				// else if (child.getNodeName().equals("Comment")) {
-				// rb.comment = Comment.loadComment(workspace,
-				// child.getChildNodes(), rb);
-				// if (rb.comment != null) {
-				// rb.comment.setParent(rb.getParentWidget()
-				// .getJComponent());
-				// }
-				// }
-				else if (child.getNodeName().equals("Collapsed")) {
+				} else if (child.getNodeName().equals("Comment")) {
+					rb.comment = Comment.loadComment(workspace, child.getChildNodes(), rb);
+					if (rb.comment != null) {
+						rb.comment.setParent(rb.getParentWidget().getJComponent());
+					}
+				} else if (child.getNodeName().equals("Collapsed")) {
 					rb.setCollapsed(true);
 				}
 			}
@@ -2034,6 +2036,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		}
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer buf = new StringBuffer();
 		buf.append("RenderableBlock " + getBlockID() + ": " + getBlock().getBlockLabel());
@@ -2049,6 +2052,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		public int y;
 	}
 
+	@Override
 	public Object getState() {
 		RenderableBlockState blockState = new RenderableBlockState();
 		blockState.x = getX();
@@ -2056,8 +2060,9 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		return blockState;
 	}
 
+	@Override
 	public void loadState(Object memento) {
-		assert (memento instanceof RenderableBlockState) : "ISupportMemento contract violated in RenderableBlock";
+		assert(memento instanceof RenderableBlockState) : "ISupportMemento contract violated in RenderableBlock";
 		if (memento instanceof RenderableBlockState) {
 			RenderableBlockState state = (RenderableBlockState) memento;
 			this.setLocation(state.x, state.y);
@@ -2201,6 +2206,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 	// ///////////////
 	// Tool Tips
 	// ///////////////
+	@Override
 	public JToolTip createToolTip() {
 		return new CToolTip(new Color(255, 255, 225));
 	}
@@ -2210,6 +2216,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		this.blockLabel.setToolTipText(text);
 	}
 
+	@Override
 	protected boolean processKeyBinding(KeyStroke ks, KeyEvent e, int condition, boolean pressed) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_UP:
@@ -2320,59 +2327,6 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		return x;
 	}
 
-	// private boolean checkReturnBlock(BlockLink link){
-	// updateReturnType(getWorkspace(), getParentWidget(), this.getBlockID(),
-	// link.getSocketBlockID());
-	// return
-	// getWorkspace().getPolyRule().getProcedureOutputManager().canLinkReturnBlock(getWorkspace(),
-	// getParentWidget(), this.getBlockID(), link.getSocketBlockID());
-	// }
-
-	// public void updateReturnType(Workspace ws, WorkspaceWidget w, Long block,
-	// Long socket){
-	// Long top = SLBlockProperties.getTopBlockID(ws, socket);
-	//
-	// if(top == null || !ws.getEnv().getBlock(top).isProcedureDeclBlock()){
-	// return ;
-	// }
-	// //結合ブロックの取得
-	// Block b = ws.getEnv().getBlock(block);
-	// //結合ブロックより下を全てパースし，returnだけ持ってくる
-	// List<Long> ids = getReturnBlocksBlocks(b, ws);
-	//
-	// for(Long id : ids){
-	// Block returnValue =
-	// ws.getEnv().getBlock(ws.getEnv().getBlock(id).getSocketAt(0).getBlockID());
-	// }
-	// }
-
-	// private List<Long> getReturnBlocksBlocks(Block b, Workspace ws){
-	// List<Long> ids = new ArrayList<Long>();
-	// if(b.getGenusName().equals("return")){
-	// ids.add(b.getBlockID());
-	// return ids;
-	// }
-	//
-	// //ソケットのブロックが結合可能かチェック
-	// Iterator<BlockConnector> i = b.getSockets().iterator();
-	// do{
-	// if(!i.hasNext())
-	// break;
-	// BlockConnector conn = (BlockConnector)i.next();
-	// Block b2 = ws.getEnv().getBlock(conn.getBlockID());
-	// if(b2 != null){
-	// ids.addAll(getReturnBlocksBlocks(b2, ws));
-	// }
-	// } while(true);
-	//
-	// //次のブロックが結合可能かチェック
-	// Block b2 = ws.getEnv().getBlock(b.getAfterBlockID());
-	// if(b2 != null)
-	// ids.addAll(getReturnBlocksBlocks(b2, ws));
-	//
-	// return ids;
-	// }
-
 	private boolean checkScope(BlockLink link, WorkspaceEnvironment we) {
 		boolean scopeCheck = true;
 		// 結合するブロックのもつすべてのブロックのスコープをチェックしていく
@@ -2414,7 +2368,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		return scopeCheck;
 	}
 
-	// 値ブロックのスコープをチェックする　値のスコープが正しい、またはチェックするブロックがない場合はT それ以外はF
+	// 値ブロックのスコープをチェックする 値のスコープが正しい、またはチェックするブロックがない場合はT それ以外はF
 	private boolean checkVariableBlocksScope(BlockLink link, Block checkBlock) {
 		boolean scopeCheck = true;
 		Workspace ws = checkBlock.getWorkspace();
@@ -2445,6 +2399,20 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 			BlockAnimationThread th = new BlockStubAnimetionThread(rb.getBlock(), direction);
 			th.start();
 		}
+	}
+	
+	public void hideBlock(){
+		setVisible(false);
+		for(BlockConnector con : getBlock().getSockets()){
+			RenderableBlock rb = getWorkspace().getEnv().getRenderableBlock(con.getBlockID());
+			if(rb != null){
+				rb.hideBlock();				
+			}
+		}
+		RenderableBlock afterBlock = getWorkspace().getEnv().getRenderableBlock(getBlock().getAfterBlockID());
+		if(afterBlock != null){
+			afterBlock.hideBlock();	
+		}		
 	}
 
 }

@@ -83,7 +83,7 @@ public class Block implements ISupportMemento {
 	private String type;
 	private String name;
 	private String returnType;
-
+	private boolean isMain = false;
 
 	/**
 	 * Constructs a new Block from the specified information. This class
@@ -1396,6 +1396,10 @@ public class Block implements ISupportMemento {
 	public boolean isMethodBlock() {
 		return getGenus().isMethodBlock();
 	}
+	
+	public boolean isMainMethod(){
+		return this.isMain;
+	}
 
 	/**
 	 * Returns true if this genus has expandable sockets; false otherwise
@@ -1567,7 +1571,6 @@ public class Block implements ISupportMemento {
 		} else {
 			return false;
 		}
-
 	}
 
 	/**
@@ -1725,8 +1728,7 @@ public class Block implements ISupportMemento {
 	 *            Node cantaining desired information
 	 * @return Block instance containing loaded information
 	 */
-	public static Block loadBlockFrom(Workspace workspace, Node node,
-			HashMap<Long, Long> idMapping) {
+	public static Block loadBlockFrom(Workspace workspace, Node node, HashMap<Long, Long> idMapping) {
 		Block block = null;
 		Long id = null;
 		String genusName = null;
@@ -1749,6 +1751,7 @@ public class Block implements ISupportMemento {
 		Matcher nameMatcher;
 
 		String type = null;
+		boolean isMainMethod = false;
 
 		if (node.getNodeName().equals("BlockStub")) {
 			isStubBlock = true;
@@ -1837,6 +1840,8 @@ public class Block implements ISupportMemento {
 					}
 				} else if(child.getNodeName().equals("Name")){
 					name = child.getTextContent();
+				} else if(child.getNodeName().equals("MainMethod")){ 
+					isMainMethod = true;
 				} else if (child.getNodeName().equals("LangSpecProperties")) {
 					blockLangProperties = new HashMap<String, String>();
 					NodeList propertyNodes = child.getChildNodes();
@@ -1934,6 +1939,10 @@ public class Block implements ISupportMemento {
 			if(block.getBlockID()>workspace.getEnv().getNextID()){
 				workspace.getEnv().updateNextID(block.getBlockID() + 1);
 			}
+			
+			if(isMainMethod){
+				block.isMain = true;
+			}
 
 
 			return block;
@@ -1986,6 +1995,7 @@ public class Block implements ISupportMemento {
 		public Object after;
 	}
 
+	@Override
 	public Object getState() {
 		BlockState state = new BlockState();
 
@@ -2037,6 +2047,7 @@ public class Block implements ISupportMemento {
 		return state;
 	}
 
+	@Override
 	public void loadState(Object memento) {
 		if (memento instanceof BlockState) {
 			BlockState state = (BlockState) memento;

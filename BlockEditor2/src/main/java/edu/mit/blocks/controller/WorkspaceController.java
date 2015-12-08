@@ -42,12 +42,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import net.unicoen.generator.DolittleGenerator;
-import net.unicoen.generator.JavaGeneratorForTurtle;
-import net.unicoen.generator.JavaScriptGeneratorForTurtle;
-import net.unicoen.node.UniClassDec;
-import net.unicoen.parser.blockeditor.BlockMapper;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -75,6 +69,11 @@ import edu.mit.blocks.workspace.TrashCan;
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceListener;
+import net.unicoen.generator.DolittleGenerator;
+import net.unicoen.generator.JavaGeneratorForTurtle;
+import net.unicoen.generator.JavaScriptGeneratorForTurtle;
+import net.unicoen.node.UniClassDec;
+import net.unicoen.parser.blockeditor.BlockMapper;
 
 /**
  * Example entry point to OpenBlock application creation.
@@ -371,6 +370,20 @@ public class WorkspaceController {
 		final DocumentBuilder builder;
 		final Document doc;
 		try {
+			getWorkspace().addWorkspaceListener(new WorkspaceListener() {
+				@Override
+				public void workspaceEventOccurred(WorkspaceEvent event) {
+					if(event.getEventType() == WorkspaceEvent.WORKSPACE_FINISHED_LOADING){
+						for(Block block : getWorkspace().getBlocks()){
+							if(block.isMainMethod()){
+								//全部隠す
+								getWorkspace().getEnv().getRenderableBlock(block.getBlockID()).hideBlock();
+							}
+						}
+					}
+				}
+			});
+			
 			builder = factory.newDocumentBuilder();
 			doc = builder.parse(new File(path));
 
@@ -598,10 +611,11 @@ public class WorkspaceController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
+				
 				saveToFile(selectedFile);
-
+				
 				BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
-				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
+				UniClassDec classDec = mapper.parse(selectedFile);
 
 				outputFileFromUni(classDec);
 				setDirty(false);
@@ -700,6 +714,7 @@ public class WorkspaceController {
 		{// create compile button
 			JButton runButton = new JButton("Compile");
 			runButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (dirty) {
 						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません", "コンパイルできません", JOptionPane.ERROR_MESSAGE);
@@ -714,6 +729,7 @@ public class WorkspaceController {
 		{// create run button
 			JButton runButton = new JButton("Run");
 			runButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (dirty) {
 						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません", "実行できません", JOptionPane.ERROR_MESSAGE);
@@ -729,6 +745,7 @@ public class WorkspaceController {
 			final JToggleButton showTraceLineButton = new JToggleButton("Hide MeRV");
 			showTraceLineButton.setSelected(!workspace.getMeRVManager().isActive());
 			showTraceLineButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
 						// 関数呼び出しをトレースするラインを非表示にする
@@ -782,6 +799,7 @@ public class WorkspaceController {
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
 				frame.dispose();
@@ -792,6 +810,7 @@ public class WorkspaceController {
 		help.add(CJavaInfoPanels.createJavaInformationAction());
 		JMenuItem setting = new JMenuItem("Setting");
 		setting.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				openPreferenceFrame();
 			}
@@ -835,6 +854,7 @@ public class WorkspaceController {
 		}
 		// ダーティ状態付与するリスナを追加
 		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
+			@Override
 			public void workspaceEventOccurred(WorkspaceEvent event) {
 				if (event.getEventType() != WorkspaceEvent.WORKSPACE_FINISHED_LOADING || event.getEventType() != WorkspaceEvent.BLOCK_RENAMED) {// TODO
 																																				// should
