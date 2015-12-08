@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
@@ -95,11 +96,16 @@ public class RECheCoProManager {
 
 	private PropertyChangeListener rePropertyChangeListener;
 	private KeyListener reKeyListener;
+	private WindowListener reWindowListener;
 
 	private void initializeREListener() {
 
-		initializeREMenuListener(application);
-
+		initializeREMenuListener();
+		initializeREPropertyChangeListener();
+		initializeREWindowListener();
+	}
+	
+	private void initializeREPropertyChangeListener() {
 		rePropertyChangeListener = new PropertyChangeListener() {
 
 			@Override
@@ -119,7 +125,6 @@ public class RECheCoProManager {
 	}
 
 	private void initializeREKeyListener() {
-
 		reKeyListener = new KeyAdapter() {
 			int mod;
 
@@ -136,6 +141,29 @@ public class RECheCoProManager {
 
 		application.getFrame().getEditor().getViewer().getTextPane()
 				.addKeyListener(reKeyListener);
+	}
+	
+	private void initializeREWindowListener() {
+		removeWindowListeners();
+		reWindowListener = new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if (cliant.getConn().established()) {
+					cliant.getConn().write(new CHLogoutRequest(user));
+				}
+				application.doExit();
+			}
+		};
+		
+		application.getFrame().addWindowListener(reWindowListener);
+	}
+	
+	private void removeWindowListeners() {
+		WindowListener[] listeners = application.getFrame().getWindowListeners();
+		for (int i = 0; i <listeners.length ; i++) {
+			application.getFrame().removeWindowListener(listeners[i]);
+		}
 	}
 	
 	private ActionListener pasteListener = new ActionListener() {
@@ -162,7 +190,7 @@ public class RECheCoProManager {
 		}
 	};
 	
-	private void initializeREMenuListener(final REApplication application) {
+	private void initializeREMenuListener() {
 		
 		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_PASTE)
 				.addActionListener(pasteListener);		
@@ -331,6 +359,7 @@ public class RECheCoProManager {
 				rePropertyChangeListener);
 		removeREKeyListner();
 		removeREMenuListener();
+		resetREWindowListener();
 	}
 	
 	private void removeREKeyListner() {
@@ -340,7 +369,7 @@ public class RECheCoProManager {
 		}
 	}
 	
-	private void removeREMenuListener(){
+	private void removeREMenuListener() {
 		
 		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_PASTE)
 				.removeActionListener(pasteListener);	
@@ -348,6 +377,17 @@ public class RECheCoProManager {
 				.removeActionListener(saveListener);
 		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_FILE).getItem(ITEM_INDEX_REFRESH)
 				.removeActionListener(refreshListener);
+	}
+	
+	private void resetREWindowListener() {
+		application.getFrame().removeWindowListener(reWindowListener);
+		application.getFrame().addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				application.doExit();
+			}
+		});
 	}
 
 	private void closeCHEditors() {
