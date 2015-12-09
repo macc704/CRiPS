@@ -1023,8 +1023,8 @@ public class REApplication {
 			CFile zip = dir.findOrCreateFile(name);
 			NewZipUtil.createZip(zip, project, project);
 
-			JOptionPane.showConfirmDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました",
-					JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました",
+			        JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (Exception ex) {
 			ex.printStackTrace(frame.getConsole().getErr());
