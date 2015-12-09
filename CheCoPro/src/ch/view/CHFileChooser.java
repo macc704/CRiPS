@@ -251,7 +251,7 @@ public class CHFileChooser extends JDialog {
 	
 	public static void main(String[] args) {
 		
-		CDirectory userRootDir = new CDirectory(new CPath(CHFileSystem.FINALPROJECTPATH));
+		CDirectory userRootDir = new CDirectory(new CPath(CHFileSystem.SYNCPROJECTPATH));
 		CDirectory memberRootDir = new CDirectory(new CPath(CHFileSystem.CHDIRPATH + "/Jiro/final"));
 		
 		CHFileChooser frame = new CHFileChooser(userRootDir, memberRootDir);

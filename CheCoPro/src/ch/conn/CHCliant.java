@@ -62,7 +62,7 @@ public class CHCliant {
 
 		if (login()) {
 			System.out.println("client established");
-			CHFileSystem.getFinalProjectDir();
+			CHFileSystem.getSyncProjectDir();
 		} else {
 			connectionFailed();
 		}

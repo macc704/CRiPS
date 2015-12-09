@@ -304,7 +304,7 @@ public class RECheCoProViewer {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CHFileChooser fileChooser = new CHFileChooser(CHFileSystem.getFinalProjectDir(), 
+				CHFileChooser fileChooser = new CHFileChooser(CHFileSystem.getSyncProjectDir(), 
 						CHFileSystem.getUserDirForClient(user));
 				fileChooser.doOpen();
 				doPull(user, fileChooser.getAcceptFilter());
@@ -418,7 +418,7 @@ public class RECheCoProViewer {
 	
 	private void doPull(String user, CFileFilter filter) {
 		CDirectory from = CHFileSystem.getUserDirForClient(user);
-		CDirectory to = CHFileSystem.getFinalProjectDir();
+		CDirectory to = CHFileSystem.getSyncProjectDir();
 		writeAllImportLog(CHFileSystem.pull(from, to, filter));
 	}
 	
@@ -487,7 +487,7 @@ public class RECheCoProViewer {
 		}
 		try {
 			PRLog log = new PRCheCoProLog(PRCheCoProLog.SubType.ALL_IMPORT, null, paths);
-			baseApplication.writePresLog(log, CHFileSystem.getFinalProjectDir());
+			baseApplication.writePresLog(log, CHFileSystem.getSyncProjectDir());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

@@ -21,7 +21,7 @@ public class CHFileSystem {
 	public static final String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
 	public static final String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
 	
-	public static final String FINALPROJECTPATH = "MyProjects/final";
+	public static final String SYNCPROJECTPATH = "MyProjects/winter";
 	public static final String CHDIRPATH = "MyProjects/.CH";
 	
 	private static CDirectory getBaseDir(int port) {
@@ -33,13 +33,13 @@ public class CHFileSystem {
 		return getBaseDir(port).findOrCreateDirectory(user);
 	}
 
-	public static CDirectory getFinalProjectDir() {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(FINALPROJECTPATH);
+	public static CDirectory getSyncProjectDir() {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(SYNCPROJECTPATH);
 	}
 
 	public static CDirectory getUserDirForClient(String user) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/.CH/" + user + "/final");
+				"MyProjects/.CH/" + user + "/winter");
 	}
 
 	// for plug-in
@@ -64,8 +64,8 @@ public class CHFileSystem {
 	}
 
 	// processFilelistRequest client
-	public static CFileHashList getFinalProjectFileList() {
-		return createFileList(getFinalProjectDir());
+	public static CFileHashList getSyncProjectFileList() {
+		return createFileList(getSyncProjectDir());
 	}
 
 	// for plug-in

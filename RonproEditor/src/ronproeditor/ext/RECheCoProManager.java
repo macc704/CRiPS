@@ -38,6 +38,7 @@ import ronproeditor.RESourceManager;
 import ch.conn.CHCliant;
 import ch.conn.framework.CHUserState;
 import ch.conn.framework.packets.CHFilelistRequest;
+import ch.conn.framework.packets.CHFilelistResponse;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
@@ -184,6 +185,8 @@ public class RECheCoProManager {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			cliant.getConn().write(new CHFilelistResponse(user
+					, CHFileSystem.createFileList(CHFileSystem.getSyncProjectDir())));
 			send();
 		}
 	};
@@ -493,7 +496,7 @@ public class RECheCoProManager {
 						.getRelativePath(application.getSourceManager().getCCurrentProject());
 			}
 			PRLog log = new PRCheCoProLog(subType, path, message);
-			application.writePresLog(log, CHFileSystem.getFinalProjectDir());
+			application.writePresLog(log, CHFileSystem.getSyncProjectDir());
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

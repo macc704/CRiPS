@@ -143,7 +143,7 @@ public class CHProcessManager {
 	private void processFileRequest(CHFileRequest request) {
 		List<CHFile> files = CHFileSystem.getCHFiles(
 				request.getRequestFilePaths(),
-				CHFileSystem.getFinalProjectDir());
+				CHFileSystem.getSyncProjectDir());
 		conn.write(new CHFileResponse(user, files));
 	}
 
@@ -162,7 +162,7 @@ public class CHProcessManager {
 	}
 
 	private void processFilelistRequest(CHFilelistRequest request) {
-		CFileHashList fileList = CHFileSystem.getFinalProjectFileList();
+		CFileHashList fileList = CHFileSystem.getSyncProjectFileList();
 		conn.write(new CHFilelistResponse(user, fileList));
 	}
 
