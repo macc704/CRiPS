@@ -22,8 +22,7 @@ import renderable.BlockUtilities;
 import renderable.RenderableBlock;
 import renderable.ScopeChecker;
 
-public class TrashCan extends JComponent
-		implements MouseListener, WorkspaceWidget, ComponentListener {
+public class TrashCan extends JComponent implements MouseListener, WorkspaceWidget, ComponentListener {
 	private static final long serialVersionUID = 328149080275L;
 	private Image tcImage;
 	private Image openedTcImage;
@@ -53,16 +52,16 @@ public class TrashCan extends JComponent
 			setPreferredSize(new Dimension(150, 200));
 		}
 		this.setLayout(null);
-		//Set the widget's location.
+		// Set the widget's location.
 		this.setLocation(500, 400);
 
 		addMouseListener(this);
 		Workspace.getInstance().addComponentListener(this);
 
-		//to make draggable, uncomment
-		//JComponentDragHandler dragHandler = new JComponentDragHandler(this);
-		//addMouseListener(dragHandler);
-		//addMouseMotionListener(dragHandler);
+		// to make draggable, uncomment
+		// JComponentDragHandler dragHandler = new JComponentDragHandler(this);
+		// addMouseListener(dragHandler);
+		// addMouseMotionListener(dragHandler);
 	}
 
 	public void paint(Graphics g) {
@@ -76,20 +75,29 @@ public class TrashCan extends JComponent
 	public void blockDropped(RenderableBlock block) {
 		// remove the block from the land of the living
 
-		//#ohata added reset highlight
+		// #ohata added reset highlight
 		BlockHIlighter.resetAllHilightedStubBlocks();
+		// #tanaka added reset scope range.
+		for (RenderableBlock ab : Workspace.getInstance().getBlockCanvas().getBlocks()) {
+			ab.setOutScope(false);
+		}
+		Workspace.getInstance().repaint();
 
-		//変数の場合は、参照ブロックは赤くハイライト
-		if(block.getBlock().isVariableDeclBlock()){
-			for(RenderableBlock rb : Workspace.getInstance().getBlockCanvas().getBlocks()){
-				if(rb.getBlock() instanceof BlockStub){
-					BlockStub stub = (BlockStub)rb.getBlock();
-					if(stub.getParent() != null && stub.getParent().getBlockID().equals(block.getBlock().getBlockID())){
-						RenderableBlock.getRenderableBlock(stub.getBlockID()).getHighlightHandler().setHighlightColor(Color.RED);
+		System.out.println("trashed");
+		// 変数の場合は、参照ブロックは赤くハイライト
+		if (block.getBlock().isVariableDeclBlock()) {
+			for (RenderableBlock rb : Workspace.getInstance().getBlockCanvas().getBlocks()) {
+				if (rb.getBlock() instanceof BlockStub) {
+					BlockStub stub = (BlockStub) rb.getBlock();
+					if (stub.getParent() != null
+							&& stub.getParent().getBlockID().equals(block.getBlock().getBlockID())) {
+						RenderableBlock.getRenderableBlock(stub.getBlockID()).getHighlightHandler()
+								.setHighlightColor(Color.RED);
 						stub.setParentBlockID(Block.NULL);
-						if(stub.getPlugBlockID() != BlockStub.NULL){
-							RenderableBlock.getTopBlock(ScopeChecker.purcePlugBlock(stub)).getHighlightHandler().setHighlightColor(Color.RED);
-						}else{
+						if (stub.getPlugBlockID() != BlockStub.NULL) {
+							RenderableBlock.getTopBlock(ScopeChecker.purcePlugBlock(stub)).getHighlightHandler()
+									.setHighlightColor(Color.RED);
+						} else {
 							RenderableBlock.getTopBlock(stub).getHighlightHandler().setHighlightColor(Color.RED);
 						}
 					}
@@ -158,8 +166,7 @@ public class TrashCan extends JComponent
 	}
 
 	public void componentResized(ComponentEvent e) {
-		Point location = new Point(Workspace.getInstance().getWidth(),
-				Workspace.getInstance().getHeight());
+		Point location = new Point(Workspace.getInstance().getWidth(), Workspace.getInstance().getHeight());
 		location.translate(-this.getWidth() - 50, -this.getHeight() - 50);
 		this.setLocation(location);
 	}
