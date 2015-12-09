@@ -120,7 +120,9 @@ public class CCMainFrame extends JFrame {
 			}
 		});
 		
-		setMenuBarInit();
+		// Reload時ウィンドウの全体のコンパイルエラー修正情報がおかしくなるため，
+		// 一時的にコメントアウト TODO: エラー数を正しくするように修正
+		// setMenuBarInit();
 	}
 	
 	private void setMenuBarInit() {
