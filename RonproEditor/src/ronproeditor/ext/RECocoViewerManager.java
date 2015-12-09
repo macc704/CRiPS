@@ -1,19 +1,21 @@
 package ronproeditor.ext;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
+import clib.common.filesystem.CDirectory;
 import coco.controller.CCCompileErrorKindLoader;
 import coco.controller.CCCompileErrorLoader;
 import coco.controller.CCMetricsLoader;
 import coco.model.CCCompileErrorManager;
 import coco.model.CCPathData;
 import coco.view.CCMainFrame;
-import ppv.app.datamanager.IPPVLoader;
 import ppv.app.datamanager.PPProjectSet;
 import ppv.app.datamanager.PPRonproPPVLoader;
 import ronproeditor.REApplication;
-
-import java.util.List;
-
-import clib.common.filesystem.CDirectory;
 
 public class RECocoViewerManager {
 	private REApplication application;
@@ -34,6 +36,7 @@ public class RECocoViewerManager {
 	private static String PPV_TMP_DIR = "tmp";
 	private static String PPV_DATA_DIR = "ppv.data/data";
 	private static String COCOVIEWER_DIR_NAME = "cocoviewer";
+	private String ppvRootPath = "";
 	
 	/********************
 	 * COCOVIEWER DATA
@@ -44,13 +47,17 @@ public class RECocoViewerManager {
 
 	public RECocoViewerManager(REApplication application) {
 		this.application = application;
+		this.ppvRootPath = application.getSourceManager().getCRootDirectory()
+				.findOrCreateDirectory(PPV_ROOT_DIR).getAbsolutePath()
+				.toString()
+				+ "/";
 	}
 
 	public void openCocoViewer(PPProjectSet ppProjectSet) {
 		manager = new CCCompileErrorManager();
 
 		loadData();
-		setPath(ppProjectSet);
+		setPath(ppProjectSet); // ppProjectSetなどの情報があるので，消さないでおくこと
 
 		// start cocoviewer
 		cocoWindow = new CCMainFrame(manager);
@@ -58,11 +65,9 @@ public class RECocoViewerManager {
 	}
 
 	private void loadData() {
-		String ppvRootPath = application.getSourceManager().getCRootDirectory()
-				.findOrCreateDirectory(PPV_ROOT_DIR).getAbsolutePath()
-				.toString()
-				+ "/";
-
+		// error check
+		dataFileCheck();
+		
 		CCCompileErrorKindLoader kindLoader = new CCCompileErrorKindLoader(
 				manager);
 		kindLoader.load(application.getExtensionDirectory()
@@ -75,6 +80,26 @@ public class RECocoViewerManager {
 		metricsLoader.load(ppvRootPath + METRICS_FILE);
 	}
 	
+	private void dataFileCheck() {
+		ArrayList<String> filepaths = new ArrayList<String>();
+		filepaths.add(ppvRootPath + DATA_FILE);
+		filepaths.add(ppvRootPath + METRICS_FILE);
+	
+		if(!existFilePath(filepaths)) {
+			JOptionPane.showMessageDialog(application.getFrame(), "Compile Error修正データが見つかりません", "Compile Error Cash Not Found", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	private boolean existFilePath(ArrayList<String> filepaths) {
+		for(String filepath : filepaths) {
+			File file = new File(filepath);
+			if(!file.exists()) {
+				return false;
+			}
+		}
+		return true;		
+	}
+
 	private void setPath(PPProjectSet ppProjectSet) {
 		CDirectory ppvRoot = application.getSourceManager().getCRootDirectory()
 				.findOrCreateDirectory(PPV_ROOT_DIR);
