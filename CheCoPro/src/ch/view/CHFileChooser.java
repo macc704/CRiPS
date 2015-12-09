@@ -102,10 +102,10 @@ public class CHFileChooser extends JDialog {
 		
 		JPanel panel = new JPanel();
 		panel.setPreferredSize(new Dimension(450, 200));
-		panel.add(createFileTreePanel(userTree, new JLabel("あなたのfinalプロジェクト")), BorderLayout.WEST);
+		panel.add(createFileTreePanel(userTree, new JLabel("あなた")), BorderLayout.WEST);
 		panel.add(buttonPanel, BorderLayout.CENTER);
 		panel.add(createFileTreePanel(memberTree, 
-				new JLabel(member + "さんのfinalプロジェクト")), BorderLayout.EAST);
+				new JLabel(member)), BorderLayout.EAST);
 		
 		return panel;
 	}

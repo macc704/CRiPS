@@ -227,7 +227,6 @@ public class RECheCoProViewer {
 	 * @return actionOpenBlockEditor
 	 */
 	private Action initializeBlockEditorCommand() {
-		// TODO ブロックが開いている時に同期ボタンを押せないように
 		application.setChBlockEditorController(new CHBlockEditorController(user));
 		Action actionOpenBlockEditor = new AbstractAction() {
 			
@@ -307,8 +306,10 @@ public class RECheCoProViewer {
 				CHFileChooser fileChooser = new CHFileChooser(CHFileSystem.getSyncProjectDir(), 
 						CHFileSystem.getUserDirForClient(user));
 				fileChooser.doOpen();
-				doPull(user, fileChooser.getAcceptFilter());
-				baseApplication.doRefresh();
+				if (fileChooser.getAcceptFilter() != null) {
+					doPull(user, fileChooser.getAcceptFilter());
+					baseApplication.doRefresh();
+				}
 			}
 
 		});
