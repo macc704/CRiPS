@@ -11,19 +11,26 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Random;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
-import pres.loader.logmodel.PRCocoViewerLog;
+import coco.action.CCCreateCocodata;
 import coco.model.CCCompileErrorKind;
 import coco.model.CCCompileErrorManager;
+import pres.loader.logmodel.PRCocoViewerLog;
 
 /*
  * 
@@ -36,14 +43,15 @@ import coco.model.CCCompileErrorManager;
  * 2014/07/14 version 0.1.1 ソースコード比較画面の対象ファイルをそのファイルだけか，プロジェクトごとかを選択可能に
  * 							CCGraphFrameのソースコードをリファクタリング
  * 
+ * TODO: ファイルデータなどのリロード
  */
 
-public class CCMainFrame2 extends JFrame {
+public class CCMainFrame extends JFrame {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = new Random().nextInt(1000000);
 
 	public static final String APP_NAME = "CoCo Viewer";
 	public static final String VERSION = "0.1.1";
@@ -61,9 +69,15 @@ public class CCMainFrame2 extends JFrame {
 
 	// For GUI
 	private JPanel rootPanel = new JPanel();
-	private ArrayList<CCErrorElementButton2> buttons = new ArrayList<CCErrorElementButton2>();
-
-	public CCMainFrame2(CCCompileErrorManager manager) {
+	private ArrayList<CCErrorElementButton> buttons = new ArrayList<CCErrorElementButton>();
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu menu;
+	private Action actionCreateCocoData;
+	
+	// For CompileAction
+	private CCCreateCocodata createCocodata;
+	
+	public CCMainFrame(CCCompileErrorManager manager) {
 		this.manager = manager;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		this.width = d.width * 3 / 4;
@@ -74,28 +88,79 @@ public class CCMainFrame2 extends JFrame {
 	}
 
 	private void initialize() {
-		// rootPanel のレイアウトをリセットする
-		// rootPanel.setLayout(null);
 		rootPanel.setLayout(new BoxLayout(rootPanel, BoxLayout.Y_AXIS));
 		rootPanel.setSize(new Dimension(width, height));
 
-		// titleなどの設定
 		frameSetting();
 
-		// window上部
+		// add all compile error data and time range button
 		setHeader();
 
-		// window下部・ボタン配置
-		setButtonsPanel();
+		// window
+		setTablePanel();
 
-		// レイアウトした配置でコンテンツを追加
+		// put rootpanel on dialog
 		getContentPane().add(rootPanel, BorderLayout.CENTER);
-		// TODO: Windowサイズ変更に対応できるようにすること
-		// this.addWindowListener(new WindowAdapter() {
-		// public void windowStateChanged(WindowEvent e) {
-		//
-		// }
-		// });
+	}
+
+	private void frameSetting() {
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setSize(width, height);
+		setTitle(APP_NAME + " " + VERSION);
+
+		// Close Event
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent e) {
+				for (CCErrorElementButton button : buttons) {
+					button.closeGraphFrame();
+				}
+				manager.writePresLog(PRCocoViewerLog.SubType.COCOVIEWER_CLOSE);
+				manager.clearData();
+			}
+		});
+		
+		// Reload時ウィンドウの全体のコンパイルエラー修正情報がおかしくなるため，
+		// 一時的にコメントアウト TODO: エラー数を正しくするように修正
+		// setMenuBarInit();
+	}
+	
+	private void setMenuBarInit() {
+		setJMenuBar(menuBar);
+		menu = new JMenu("Menu");
+		
+		{
+			Action action = new AbstractAction() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				public void actionPerformed(ActionEvent e) {
+					createData();
+				}
+			};
+			action.putValue(Action.NAME, "Create CocoData");
+			action.setEnabled(true);
+			actionCreateCocoData = action;
+		}
+		
+		menu.add(actionCreateCocoData);
+		menuBar.add(menu);
+	}
+	
+	private void createData() {
+		try {
+			createCocodata = new CCCreateCocodata(manager);
+			createCocodata.createData();
+			
+			// TODO: 元ウィンドウでリロードできるようにしたい
+			setVisible(false);
+			CCMainFrame cocoWindow = new CCMainFrame(manager);
+			cocoWindow.setVisible(true);
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Coco Data作成に失敗しました", "Coco Data作成失敗", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 
 	private void setHeader() {
@@ -108,23 +173,7 @@ public class CCMainFrame2 extends JFrame {
 
 		rootPanel.add(headerpanel, BorderLayout.NORTH);
 	}
-
-	private void frameSetting() {
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setSize(width, height);
-		setTitle(APP_NAME + " " + VERSION);
-
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent e) {
-				for (CCErrorElementButton2 button : buttons) {
-					button.closeGraphFrame();
-				}
-				manager.writePresLog(PRCocoViewerLog.SubType.COCOVIEWER_CLOSE);
-			}
-		});
-	}
-
+	
 	private void setCompileErrorNumber(JPanel panel) {
 		JLabel label = new JLabel();
 
@@ -149,10 +198,6 @@ public class CCMainFrame2 extends JFrame {
 		label.setMaximumSize(new Dimension(width, height / 24));
 		label.setFont(new Font("Font2DHandle", Font.BOLD, 16));
 
-		// label の背景を設定する場合は背景を不透明にする処理を加えること
-		// label.setBackground(Color.yellow);
-		// label.setOpaque(true);
-
 		LineBorder lineborder = new LineBorder(Color.YELLOW, 2, true);
 		label.setBorder(lineborder);
 
@@ -176,11 +221,11 @@ public class CCMainFrame2 extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (comboBox.getSelectedIndex() == 0) {
-					for (CCErrorElementButton2 button : buttons) {
+					for (CCErrorElementButton button : buttons) {
 						button.changeLockedRange();
 					}
 				} else if (comboBox.getSelectedIndex() == 1) {
-					for (CCErrorElementButton2 button : buttons) {
+					for (CCErrorElementButton button : buttons) {
 						button.changeAutoRange();
 					}
 				} else {
@@ -192,11 +237,10 @@ public class CCMainFrame2 extends JFrame {
 		panel.add(comboBox, BorderLayout.EAST);
 	}
 
-	private void setButtonsPanel() {
+	private void setTablePanel() {
 
-		// エラーIDごとの数値を書き込み、ボタンを実装する
 		for (CCCompileErrorKind list : manager.getAllKinds()) {
-			CCErrorElementButton2 button = new CCErrorElementButton2(manager,
+			CCErrorElementButton button = new CCErrorElementButton(manager,
 					list, buttonWidth, buttonHeight);
 			buttons.add(button);
 		}
@@ -204,7 +248,6 @@ public class CCMainFrame2 extends JFrame {
 		JPanel buttonsEreaPanel = new JPanel();
 		buttonsEreaPanel.setLayout(new GridLayout((height * 15 / 16)
 				/ buttonHeight, width / buttonWidth));
-		// ボタンを配置する
 		int i = 1;
 		int errorkindsCount = manager.getAllKinds().size();
 		for (int x = 0; x < Math.sqrt(errorkindsCount); x++) {
@@ -227,7 +270,7 @@ public class CCMainFrame2 extends JFrame {
 		rootPanel.add(scrollPanel, BorderLayout.SOUTH);
 	}
 
-	// クリックできないボタンを作成
+	// TODO: クリック出来ないボタンの作成は，CCErrorElementButton2内のほうが良い
 	private JButton setEmptyButton(CCCompileErrorKind list) {
 		String message = "";
 		if (list != null) {

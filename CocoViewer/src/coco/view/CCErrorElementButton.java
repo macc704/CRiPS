@@ -27,7 +27,7 @@ import coco.model.CCCompileErrorKind;
 import coco.model.CCCompileErrorManager;
 import pres.loader.logmodel.PRCocoViewerLog;
 
-public class CCErrorElementButton2 extends JButton {
+public class CCErrorElementButton extends JButton {
 
 	/**
 	 * minigraphを表示する chartPanelがActionListenerに対応していないので、MouseListenerで実装
@@ -46,7 +46,7 @@ public class CCErrorElementButton2 extends JButton {
 
 	private List<CCGraphFrame> graphframes = new ArrayList<CCGraphFrame>();
 
-	public CCErrorElementButton2(CCCompileErrorManager manager,
+	public CCErrorElementButton(CCCompileErrorManager manager,
 			CCCompileErrorKind list, int width, int height) {
 		this.manager = manager;
 		this.list = list;
@@ -66,6 +66,7 @@ public class CCErrorElementButton2 extends JButton {
 		makeGraph();
 	}
 
+	// TODO: グラフ用のクラス
 	private void makeGraph() {
 		// グラフデータ設定
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();

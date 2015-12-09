@@ -2,6 +2,7 @@ package ronproeditor.ext;
 
 import javax.swing.JOptionPane;
 
+import clib.common.compiler.CJavaCompilerFactory;
 import coco.controller.CCCompileErrorConverter;
 import coco.controller.CCCompileErrorKindLoader;
 import coco.model.CCCompileErrorManager;
@@ -24,8 +25,20 @@ public class RECreateCocoDataManager {
 	}
 
 	public void createCocoData() {
+		if (!CJavaCompilerFactory.hasEmbededJavaCompiler()) {
+			int res = JOptionPane.showConfirmDialog(null,
+					"<html><font color=\"red\">JDKで動作させない場合，予期しない動作や<br>"
+					+ "処理時間が長くなる場合があります．それでもよろしいですか？</font></html>",
+					"コンパイラのチェック",
+					JOptionPane.OK_CANCEL_OPTION);
+			if (res != JOptionPane.OK_OPTION) {
+				return;
+			}
+		}
+
 		int res = JOptionPane.showConfirmDialog(null,
-				"データの作成には時間がかかりますが，よろしいですか？", "データの作成",
+				"<html>データの作成には時間がかかります．<br>"
+				+ "処理中にはRonproが操作できなくなりますが，よろしいですか？</html>", "データの作成",
 				JOptionPane.OK_CANCEL_OPTION);
 		if (res != JOptionPane.OK_OPTION) {
 			return;
