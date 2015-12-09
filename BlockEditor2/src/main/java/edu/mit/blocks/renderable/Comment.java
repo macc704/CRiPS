@@ -24,6 +24,11 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.PlainDocument;
+import javax.swing.text.StyleConstants;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
@@ -80,7 +85,7 @@ public class Comment extends JPanel {
     static int MINIMUM_WIDTH = FONT_SIZE * 4;
     static int MINIMUM_HEIGHT = FONT_SIZE * 2;
     static int DEFAULT_WIDTH = 150;
-    static int DEFAULT_HEIGHT = 100;
+    static int DEFAULT_HEIGHT = 50;
     private boolean resizing = false;
     private int margin = 6;
     private int width = DEFAULT_WIDTH;
@@ -120,7 +125,11 @@ public class Comment extends JPanel {
 
         //set up editingPanel, labelPanel and their listeners
         //initialize textArea with autowrap AROUND WORDS not characters
-        textArea = new JTextArea(initText);
+        PlainDocument document = new PlainDocument();
+        document.setDocumentFilter(new LengthLimitter(20));
+
+        textArea = new JTextArea(document);
+        textArea.setText(initText);
         textArea.setFont(new Font(fontname, Font.PLAIN, (int) (FONT_SIZE * zoom)));
         textArea.setForeground(Color.BLACK);
         textArea.setBackground(background);
@@ -131,31 +140,35 @@ public class Comment extends JPanel {
         undoManager.setLimit(1000);
         textArea.getDocument().addUndoableEditListener(undoManager);
         textArea.addKeyListener(new KeyAdapter() {
-
             public void keyPressed(KeyEvent e) {
                 Comment.this.workspace.notifyListeners(new WorkspaceEvent(Comment.this.workspace, getCommentSource().getParentWidget(), WorkspaceEvent.BLOCK_COMMENT_CHANGED));
 
+                if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                	textArea.setEditable(false);
+                }else{
+                	textArea.setEditable(true);
+                }
+
                 if (e.isControlDown() || ((e.getModifiers() & Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()) != 0)) {
-                    if (e.getKeyCode() == KeyEvent.VK_Z) {
-                        try {
-                            undoManager.undo();
-                        } catch (CannotUndoException exception) {
+                	if(e.getKeyCode() != KeyEvent.VK_ENTER){
+                        if (e.getKeyCode() == KeyEvent.VK_Z) {
+                            try {
+                                undoManager.undo();
+                            } catch (CannotUndoException exception) {
+                            }
+                        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
+                            try {
+                                undoManager.redo();
+                            } catch (CannotRedoException exception) {
+                            }
                         }
-                    } else if (e.getKeyCode() == KeyEvent.VK_Y) {
-                        try {
-                            undoManager.redo();
-                        } catch (CannotRedoException exception) {
-                        }
-                    }
+                	}
                 }
             }
         });
 
         //initialize scrollPane
-        scrollPane = new CTracklessScrollPane(textArea,
-                ScrollPolicy.VERTICAL_BAR_AS_NEEDED,
-                ScrollPolicy.HORIZONTAL_BAR_NEVER,
-                10, this.borderColor, Comment.background);
+        scrollPane = new CTracklessScrollPane(textArea, ScrollPolicy.VERTICAL_BAR_NEVER, ScrollPolicy.HORIZONTAL_BAR_NEVER, 10, this.borderColor, Comment.background);
         this.add(scrollPane, 0);
 
         //set up listeners
@@ -187,6 +200,52 @@ public class Comment extends JPanel {
         this.reformComment();
 
         workspace.notifyListeners(new WorkspaceEvent(workspace, getCommentSource().getParentWidget(), WorkspaceEvent.BLOCK_COMMENT_ADDED));
+    }
+    static class LengthLimitter extends DocumentFilter {
+        private final int limit;
+
+        public LengthLimitter(int limit) {
+            this.limit = limit;
+        }
+
+        @Override
+        public void insertString(
+                FilterBypass fb,
+                int offset,
+                String string,
+                AttributeSet attr) throws BadLocationException {
+            super.insertString(
+                fb, offset, filterText(fb, string, limit, attr), attr);
+        }
+
+        @Override
+        public void replace(
+                FilterBypass fb,
+                int offset,
+                int length,
+                String text,
+                AttributeSet attrs) throws BadLocationException {
+            super.replace(
+                fb,
+                offset,
+                length,
+                filterText(fb, text, limit + length, attrs),
+                attrs);
+        }
+
+        static String filterText(
+                FilterBypass fb, String text, int limit, AttributeSet attrs) {
+            if (text == null) return text;
+            if (attrs != null
+                    && attrs.isDefined(StyleConstants.ComposedTextAttribute)) {
+                return text;
+            }
+
+            int rest = limit - fb.getDocument().getLength();
+            if (rest <= 0) return "";
+            if (text.length() > rest) text = text.substring(0, rest);
+            return text;
+        }
     }
 
     /**
@@ -234,7 +293,7 @@ public class Comment extends JPanel {
     }
 
     /**
-     * Updates the comment and commentLabel 
+     * Updates the comment and commentLabel
      */
     public void update() {
         if (commentLabel != null) {
@@ -274,7 +333,7 @@ public class Comment extends JPanel {
     }
 
     /**
-     * Recalculate the shape of this comment 
+     * Recalculate the shape of this comment
      */
     public void reformComment() {
         int w = textArea.isEditable() ? (int) (this.width * zoom) : (int) (Comment.MINIMUM_WIDTH * zoom);
@@ -324,43 +383,43 @@ public class Comment extends JPanel {
      */
     public Node getSaveNode(Document document) {
     	Element commentElement = document.createElement("Comment");
-    	
+
     	// Text
     	Element textElement = document.createElement("Text");
     	Text text = document.createTextNode(this.getText().replaceAll("`", "'"));
     	textElement.appendChild(text);
     	commentElement.appendChild(textElement);
-    	
+
     	// Location
     	Element locationElement = document.createElement("Location");
     	Element xElement = document.createElement("X");
     	xElement.appendChild(document.createTextNode(String.valueOf(descale(getLocation().getX()))));
     	locationElement.appendChild(xElement);
-    	
+
     	Element yElement = document.createElement("Y");
     	yElement.appendChild(document.createTextNode(String.valueOf(descale(getLocation().getY()))));
     	locationElement.appendChild(yElement);
-    	
+
     	commentElement.appendChild(locationElement);
-    	
+
     	// Box size
     	Element boxSizeElement = document.createElement("BoxSize");
     	Element widthElement = document.createElement("Width");
     	widthElement.appendChild(document.createTextNode(String.valueOf(descale(getWidth()))));
     	boxSizeElement.appendChild(widthElement);
-    	
+
     	Element heightElement = document.createElement("Height");
     	heightElement.appendChild(document.createTextNode(String.valueOf(descale(getHeight()))));
     	boxSizeElement.appendChild(heightElement);
-    	
+
     	commentElement.appendChild(boxSizeElement);
-    	
+
     	// Collapse
     	if (!commentLabel.isActive()) {
     		Element collapsedElement = document.createElement("Collapsed");
     		commentElement.appendChild(collapsedElement);
     	}
-    	
+
     	return commentElement;
     }
 

@@ -12,7 +12,7 @@
 		<repository>
 			<id>cripsrepository</id>
 			<name>commonlib</name>
-			<url>http://ohata1016.github.io/CRiPSLibraryRepository/</url>
+			<url>https://ohata1016.github.io/CRiPSLibraryRepository/</url>
 		</repository>
 	</repositories>
 

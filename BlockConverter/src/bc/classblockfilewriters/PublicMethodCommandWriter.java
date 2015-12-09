@@ -26,7 +26,7 @@ public class PublicMethodCommandWriter extends BasicModel {
 		int lineNum = 0;
 		makeIndent(out, lineNum);
 		if (method.getGenusName().startsWith("new-")) {
-			printConstructor(lineNum, out);
+			printConstructorForUni(lineNum, out);
 		} else {
 			printMethodForUni(lineNum, out);
 		}
@@ -181,6 +181,55 @@ public class PublicMethodCommandWriter extends BasicModel {
 		out.println("</BlockGenus>");
 	}
 
+	private void printConstructorForUni(int lineNum, PrintStream out) {
+		// コンストラクターを出力する
+		String kind = "function";
+		out.println("<BlockGenus name=\"" + method.getGenusName() + "\" editable-label=\"yes\"" + " kind=\"" + kind + "\" initlabel=\"" + method.getJavaType() + "\" header-label=\"新しく\"  footer-label=\"を作る\"" + " color=\"16 240 27\">");
+		++lineNum;
+		if (method.getParameters() != null) {
+			makeIndent(out, lineNum++);
+			out.println("<BlockConnectors>");
+			makeIndent(out, lineNum);
+			out.println("<BlockConnector connector-kind=\"plug\" connector-type=\"" + method.getReturnType() + "\"></BlockConnector>");
+
+			for (String parameter : method.getParameters()) {
+				// xxのような型＋変数名の形で保持されていることに注意されたし
+				String parameterType = convertParameterType(parameter.substring(0, parameter.indexOf(" ")));
+				String parameterName = parameter.substring(parameter.substring(0, parameter.indexOf(" ")).length() + 1, parameter.length());
+				makeIndent(out, lineNum);
+
+				out.println("<BlockConnector label=\"" + parameterName + "\" connector-kind=\"socket\" connector-type=\"" + parameterType + "\" connector-javatype=\"" + parameter.substring(0, parameter.indexOf(" ")) + "\">");
+
+				makeIndent(out, lineNum);
+				out.println("</BlockConnector>");
+				// 引数の設定
+			}
+			makeIndent(out, --lineNum);
+			out.println("</BlockConnectors>");
+		}
+
+		makeIndent(out, lineNum);
+		out.println("<Type>" + method.getJavaType() + "</Type>");
+
+		makeIndent(out, lineNum);
+		out.println("<MethodName>" + method.getGenusName() + "</MethodName>");
+
+
+		makeIndent(out, lineNum);
+		out.println("<LangSpecProperties>");
+		makeIndent(out, ++lineNum);
+		out.println("<LangSpecProperty key=\"vm-cmd-name\" value=\"" + "new-object" + "\"></LangSpecProperty>");
+		makeIndent(out, lineNum);
+		out.println("<LangSpecProperty key=\"stack-type\" value=\"breed\"></LangSpecProperty>");
+
+		makeIndent(out, --lineNum);
+		out.println("</LangSpecProperties>");
+
+		makeIndent(out, --lineNum);
+		out.println("</BlockGenus>");
+	}
+
+	@Override
 	public void printMenuItem(PrintStream out, int lineNumber) {
 		makeIndent(out, lineNumber);
 		out.println("<BlockGenusMember>" + method.getGenusName() + "</BlockGenusMember>");

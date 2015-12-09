@@ -23,12 +23,6 @@ public class ClassRelationMap {
 		this.classes.put(relation.getClassName(), relation);
 	}
 
-	public void showAllRelation(){
-		for(String key : classes.keySet()){
-			ClassInheritanceRelation relation = classes.get(key);
-		}
-	}
-
 	public boolean couldConnect(String plugType, String socketType){
 
 		if(plugType.equals(socketType)){

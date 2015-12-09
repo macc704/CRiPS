@@ -36,6 +36,7 @@ public class SContextMenuProvider {
 
 	private JMenuItem createCallerItem;
 
+
 	public SContextMenuProvider(RenderableBlock rb) {
 		this.rb = rb;
 	}
@@ -44,6 +45,7 @@ public class SContextMenuProvider {
 		if (blockCopyItem == null) {
 			blockCopyItem = new JMenuItem("複製");
 			blockCopyItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SBlockCopier(rb).doWork(e);
 				}
@@ -56,6 +58,7 @@ public class SContextMenuProvider {
 		if (createValueItem == null) {
 			createValueItem = new JMenuItem("「値ブロック」の作成");
 			createValueItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("getter", rb).doWork(e);
 				}
@@ -68,6 +71,7 @@ public class SContextMenuProvider {
 	private JMenuItem createNewGetterMenu() {
 		JMenuItem item = new JMenuItem("ゲッターメソッドの作成");
 		item.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				createNewGetterMethod("procedure");
 			}
@@ -79,6 +83,7 @@ public class SContextMenuProvider {
 	private JMenuItem createNewSetterMenu() {
 		JMenuItem item = new JMenuItem("セッターメソッドの作成");
 		item.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				createNewSetterMethod("procedure");
 			}
@@ -90,6 +95,7 @@ public class SContextMenuProvider {
 		if (createWriterItem == null) {
 			createWriterItem = new JMenuItem("「書込ブロック」の作成");
 			createWriterItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("setter", rb).doWork(e);
 				}
@@ -102,6 +108,7 @@ public class SContextMenuProvider {
 		if (createIncrementerItem == null) {
 			createIncrementerItem = new JMenuItem("「増やすブロック」の作成");
 			createIncrementerItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("inc", rb).doWork(e);
 				}
@@ -111,13 +118,17 @@ public class SContextMenuProvider {
 	}
 
 	private JMenuItem createWriterMenu(final String genusName) {
-		JMenuItem item = new JMenuItem(rb.getWorkspace().getEnv().getGenusWithName(genusName).getInitialLabel());
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				createCallMethod(genusName);
-			}
-		});
-		return item;
+		if(rb.getWorkspace().getEnv().getGenusWithName(genusName) != null){
+			JMenuItem item = new JMenuItem(rb.getWorkspace().getEnv().getGenusWithName(genusName).getInitialLabel());
+			item.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					createCallMethod(genusName);
+				}
+			});
+			return item;
+		}
+		throw new RuntimeException("cannot find " + genusName);
 	}
 
 	private void createCallMethod(String name) {
@@ -144,6 +155,7 @@ public class SContextMenuProvider {
 		if (createCallerItem == null) {
 			createCallerItem = new JMenuItem("「メソッド実行ブロック」の作成");
 			createCallerItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("caller", rb).doWork(e);
 				}
@@ -152,25 +164,22 @@ public class SContextMenuProvider {
 		return createCallerItem;
 	}
 
-	// public JMenu createClassMethodsCategory(String className,
-	// List<MethodInformation> methods) {
-	// JMenu category = new JMenu(className);
-	// for (MethodInformation method : methods) {
-	// category.add(createCallClassMethodMenu(method));
-	// }
-	//
-	// return category;
-	// }
-
 	public JMenu createClassMethodsCategory(String className, List<String> methods) {
 		JMenu category = new JMenu(className);
 
 		for (String methodName : methods) {
-			category.add(createWriterMenu(methodName));
+			if(methodName != null){
+				JMenuItem item = createWriterMenu(methodName);
+				if(item != null){
+					category.add(item);					
+				}
+	
+			}
 		}
 
 		return category;
 	}
+
 
 	/**
 	 * @return
@@ -185,7 +194,6 @@ public class SContextMenuProvider {
 			menu.add(createNewGetterMenu());
 			menu.add(createCreateWriterMenu());
 			menu.add(createNewSetterMenu());
-			// menu.add(createCreateGetterMenu());
 			menu.addSeparator();
 		}
 
@@ -230,6 +238,7 @@ public class SContextMenuProvider {
 			JMenuItem elementGetter = new JMenuItem("「書込ブロック（要素）」の作成");
 			// getterの作成
 			elementGetter.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("setter-arrayelement" + scope + type + "-arrayobject", rb).doWork(e);
 				}
@@ -239,6 +248,7 @@ public class SContextMenuProvider {
 			// setter
 			JMenuItem elementSetter = new JMenuItem("「値ブロック（要素）」の作成");
 			elementSetter.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("getter-arrayelement" + scope + type + "-arrayobject", rb).doWork(e);
 				}
@@ -251,7 +261,6 @@ public class SContextMenuProvider {
 			menu.addSeparator();
 			menu.add(createBlockCopyMenu());
 			menu.addSeparator();
-
 		}
 
 		return menu;
@@ -339,13 +348,13 @@ public class SContextMenuProvider {
 
 	public static RenderableBlock createNewBlock(Workspace workspace, WorkspaceWidget widget, String genusName) {
 		Block block = new Block(workspace, genusName);
-		try{
-		RenderableBlock newBlock = BlockUtilities.cloneBlock(block);
-		newBlock.setParentWidget(widget);
-		widget.addBlock(newBlock);
-		return newBlock;
-		}catch(Exception e){
-			throw new RuntimeException("block not found " + genusName );
+		try {
+			RenderableBlock newBlock = BlockUtilities.cloneBlock(block);
+			newBlock.setParentWidget(widget);
+			widget.addBlock(newBlock);
+			return newBlock;
+		} catch (Exception e) {
+			throw new RuntimeException("block not found " + genusName);
 		}
 	}
 

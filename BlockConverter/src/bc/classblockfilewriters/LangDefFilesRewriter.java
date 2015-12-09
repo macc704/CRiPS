@@ -16,16 +16,20 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import javax.swing.JOptionPane;
 
 import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 import bc.classblockfilewriters.model.ConvertBlockModel;
 import bc.classblockfilewriters.model.ObjectArrayBlockModel;
 import bc.classblockfilewriters.model.ObjectBlockModel;
 import bc.classblockfilewriters.model.ParameterBlockModel;
 import bc.utils.ASTParserWrapper;
+import bc.utils.DomParserWrapper;
 
 public class LangDefFilesRewriter {
 
@@ -40,7 +44,8 @@ public class LangDefFilesRewriter {
 	private Map<String, String> addedMethods = new HashMap<String, String>();
 	private Map<String, String> addedMethodsJavaType = new HashMap<String, String>();
 	private List<String> addedClasses = new ArrayList<String>();
-
+	private Map<String, List<String>> libaryMethod = new HashMap<>();
+	
 	private String enc;
 	private String[] classPaths;
 
@@ -50,7 +55,50 @@ public class LangDefFilesRewriter {
 		this.enc = enc;
 		this.classPaths = classPaths;
 	}
-
+	
+	public LangDefFilesRewriter(File file, String javaFileName, String enc, String[] classPaths, String libraryXMLPath) {
+		this(file, javaFileName, enc,classPaths);
+		
+		//ライブラリリストを読み込んで、ライブラリクラスとそのブロック名のマップを作成
+		Document doc = DomParserWrapper.parse(libraryXMLPath);
+		createLibraryMethodsMap(doc.getFirstChild());
+	}
+	
+	public void createLibraryMethodsMap(Node node){
+		//LibClassノードで行う処理の定義
+		Consumer<Node> parseLibNode = new Consumer<Node>() {
+			@Override
+			public void accept(Node node) {
+				String className = DomParserWrapper.getAttribute(node, "name");
+				libaryMethod.put(className, new ArrayList<>());
+				//CategoryNameタグの全ノードで行う処理の定義
+				Consumer<Node> parseCategory = new Consumer<Node>() {
+					@Override
+					public void accept(Node t) {
+						Consumer<Node> c = new Consumer<Node>() {
+							@Override
+							public void accept(Node t) {
+								libaryMethod.get(className).add(t.getTextContent());
+							}
+						};
+						
+						if("add".equals(DomParserWrapper.getAttribute(t, "command"))){
+							DomParserWrapper.doAnythingToNodeList(t, "MethodName", c);							
+						}else if("copy".equals(DomParserWrapper.getAttribute(t, "command"))){
+							List<String> methods = libaryMethod.get(DomParserWrapper.getAttribute(t, "name"));
+							for(String method : methods){
+								libaryMethod.get(className).add(method);
+							}
+						}
+					}
+				};
+				
+				DomParserWrapper.doAnythingToNodeList(node, "CategoryName", parseCategory);
+			}
+		};
+		DomParserWrapper.doAnythingToNodeList(node, "LibraryClass", parseLibNode);		
+	}
+	
 	public void setSelDefClassModel(List<ObjectBlockModel> models) {
 		for (ObjectBlockModel model : models) {
 			requestObjectBlock.add(model);
@@ -68,6 +116,7 @@ public class LangDefFilesRewriter {
 		classObjectModel.setMethods(methods);
 		classObjectModel.setClassName(fileName);
 		requestObjectBlock.add(classObjectModel);
+		classObjectModel.createMethodsMenu(libaryMethod);
 		classObjectModel.setSuperClassName(superClassName);
 	}
 
@@ -77,6 +126,7 @@ public class LangDefFilesRewriter {
 		classObjectArrayModel.setSuperClassName(superClassName);
 		// 定義クラスブロックのプロパティをセットする
 		classObjectArrayModel.setMethods(methods);
+		
 		classObjectArrayModel.setClassName(fileName + "[]");
 	}
 
@@ -363,7 +413,7 @@ public class LangDefFilesRewriter {
 				return;
 			}
 		}
-		File cuiMenu = new File(System.getProperty("user.dir"), "ext/block/lang_def_menu_cui.xml");
+		File cuiMenu = new File(System.getProperty("user.dir"), "ext/block2/lang_def_menu_cui.xml");
 		printMenu(projectMenuFile, cuiMenu, false);
 		br.close();
 		reader.close();
@@ -415,10 +465,12 @@ public class LangDefFilesRewriter {
 		// 親クラスのクラス名と，メソッド情報を取得し，先に登録する
 		if (superClassName != null && existCurrentDirectry(superClassName + ".java")) {
 			methods = analyzeJavaFile(superClassName, new File(file.getParentFile().getPath() + "/" + superClassName + ".java"), childName);
+		}else{
+			methods.put(superClassName, new ArrayList<>());
 		}
 		// 最後に，自クラス名とメソッド情報を登録して返す
 		methods.put(name, visitor.getMethods());
-
+		
 		return methods;
 	}
 
@@ -470,12 +522,5 @@ public class LangDefFilesRewriter {
 		// genuseファイルを作成する　その際にprojectファイルの場所を追記する
 		Copier genusCopier = new LangDefGenusesCopier(copyFilesBaseDir);
 		genusCopier.print(langDefGenusesFile);
-	}
-
-	public void copyAdditionalFileForUni(String baseDir) throws IOException{
-		Copier copier = new Copier(baseDir);
-		copier.copyFile("method_lang_def.xml", baseDir + "method_lang_def.xml");
-		copier.copyFile("method_lang_def.dtd", baseDir+ "method_lang_def.dtd");
-		copier.copyFile("lang_def_genuses_turtle.xml",baseDir + "lang_def_genuses_turtle.xml");
 	}
 }

@@ -236,12 +236,8 @@ public class PageDrawerLoadingUtils {
 									// because they will
 									// forever remain inside the drawer and
 									// never be active
-									try {
-										newBlock = new Block(workspace, genusName, false);
-										drawerRBs.add(new FactoryRenderableBlock(workspace, manager, newBlock.getBlockID()));
-									} catch (Exception e) {
-										System.out.println(genusName);
-									}
+									newBlock = new Block(workspace, genusName, false);
+									drawerRBs.add(new FactoryRenderableBlock(workspace, manager, newBlock.getBlockID()));
 								}
 							}
 							manager.addStaticBlocks(drawerRBs, drawerName);

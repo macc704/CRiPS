@@ -192,7 +192,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>int-array</Type>
+	<Type>int[]</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -233,7 +233,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>Object-array</Type>
+	<Type>Object[]</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -274,7 +274,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>double-array</Type>
+	<Type>double[]</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -315,7 +315,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
-	<Type>String-array</Type>
+	<Type>String[]</Type>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>

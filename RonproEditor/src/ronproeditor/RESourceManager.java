@@ -21,7 +21,7 @@ import clib.common.filesystem.CPath;
 
 /**
  * Class RESourceManager
- * 
+ *
  * @author macchan
  * @version $Id: RESourceManager.java,v 1.2 2007/12/14 15:40:45 macchan Exp $
  */

@@ -12,8 +12,6 @@ public class ScopeChecker {
 		//before　結合先のブロック
 
 		//callActionの場合は、参照元をソケットが持ってるので、そのための処理が必要
-		Block originBlock = beforeBlock;//結合する場所の直前のブロック
-
 		String compareBlockName;
 		Block compareBlock = cmpBlock;
 		//参照ブロック、private変数ブロックでない場合はスコープを確認
@@ -21,7 +19,6 @@ public class ScopeChecker {
 			//直前のブロックがプラグを持っている場合、そちらが直前のブロックになる
 			if (Block.getBlock(beforeBlock.getPlugBlockID()) != null) {
 				beforeBlock = purcePlugBlock(beforeBlock);
-				originBlock = beforeBlock;
 			}
 
 			//離れ小島のブロックの場合はtrueを返す
@@ -125,17 +122,12 @@ public class ScopeChecker {
 	//引数　スコープを確認するブロック:cmpblock 結合先の一番前のブロック:beforelock
 	private static boolean confirmCompareBlockIsBelongable(Block cmpBlock,
 			Block beforeBlock, String originBlockName) {
-
-		Block checkBlock = cmpBlock;
-
 		if (cmpBlock.getPlugBlockID() != -1 ) {
 			while (cmpBlock.getPlugBlockID() != -1) {
 				cmpBlock = Block.getBlock(cmpBlock.getPlugBlockID());
 			}
 		}
 
-
-		Block lastBlock = null;
 		//持ってるブロックから前のブロックをすべてチェックする
 		while (cmpBlock != null) {
 			if (cmpBlock.getBlockLabel().equals(originBlockName)) {
@@ -153,7 +145,6 @@ public class ScopeChecker {
 					}
 				}
 			}
-			lastBlock = cmpBlock;
 			cmpBlock = Block.getBlock(cmpBlock.getBeforeBlockID());
 		}
 
@@ -175,8 +166,6 @@ public class ScopeChecker {
 					}
 				}
 			}
-
-			lastBlock = cmpBlock;
 			cmpBlock = Block.getBlock(cmpBlock.getBeforeBlockID());
 		}
 

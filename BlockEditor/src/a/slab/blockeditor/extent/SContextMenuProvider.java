@@ -14,15 +14,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import bc.j2b.model.ElementModel;
+import codeblocks.Block;
+import codeblocks.BlockGenus;
+import codeblocks.BlockLink;
 import renderable.BlockUtilities;
 import renderable.RenderableBlock;
 import workspace.Workspace;
 import workspace.WorkspaceEvent;
 import workspace.WorkspaceWidget;
-import bc.j2b.model.ElementModel;
-import codeblocks.Block;
-import codeblocks.BlockGenus;
-import codeblocks.BlockLink;
 
 /**
  * @author macchan
@@ -46,6 +46,7 @@ public class SContextMenuProvider {
 		if (blockCopyItem == null) {
 			blockCopyItem = new JMenuItem("複製");
 			blockCopyItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SBlockCopier(rb).doWork(e);
 				}
@@ -58,6 +59,7 @@ public class SContextMenuProvider {
 		if (createValueItem == null) {
 			createValueItem = new JMenuItem("「値ブロック」の作成");
 			createValueItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("getter", rb).doWork(e);
 				}
@@ -70,6 +72,7 @@ public class SContextMenuProvider {
 	private JMenuItem createNewGetterMenu() {
 		JMenuItem item = new JMenuItem("ゲッターメソッドの作成");
 		item.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				createNewGetterMethod("procedure");
 			}
@@ -81,6 +84,7 @@ public class SContextMenuProvider {
 	private JMenuItem createNewSetterMenu() {
 		JMenuItem item = new JMenuItem("セッターメソッドの作成");
 		item.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				createNewSetterMethod("procedure");
 			}
@@ -92,6 +96,7 @@ public class SContextMenuProvider {
 		if (createWriterItem == null) {
 			createWriterItem = new JMenuItem("「書込ブロック」の作成");
 			createWriterItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("setter", rb).doWork(e);
 				}
@@ -104,6 +109,7 @@ public class SContextMenuProvider {
 		if (createIncrementerItem == null) {
 			createIncrementerItem = new JMenuItem("「増やすブロック」の作成");
 			createIncrementerItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("inc", rb).doWork(e);
 				}
@@ -164,6 +170,7 @@ public class SContextMenuProvider {
 		if (createIncrementerItem == null) {
 			createIncrementerItem = new JMenuItem("文字列の長さを取得する");
 			createIncrementerItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					createCallMethod("length");
 				}
@@ -176,6 +183,7 @@ public class SContextMenuProvider {
 		if (createCallerItem == null) {
 			createCallerItem = new JMenuItem("「メソッド実行ブロック」の作成");
 			createCallerItem.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator("caller", rb).doWork(e);
 				}
@@ -246,6 +254,7 @@ public class SContextMenuProvider {
 			JMenuItem elementGetter = new JMenuItem("「書込ブロック（要素）」の作成");
 			//getterの作成
 			elementGetter.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator(getStubName(rb, "setter-arrayelement"), rb)
 							.doWork(e);
@@ -256,6 +265,7 @@ public class SContextMenuProvider {
 			//setter
 			JMenuItem elementSetter = new JMenuItem("「値ブロック（要素）」の作成");
 			elementSetter.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					new SStubCreator(getStubName(rb, "getter-arrayelement"), rb)
 							.doWork(e);
@@ -265,6 +275,7 @@ public class SContextMenuProvider {
 
 			JMenuItem arrayLength = new JMenuItem("配列の長さを取得する");
 			arrayLength.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					createFieldReference("length", "number");
 				}
@@ -607,6 +618,7 @@ public class SContextMenuProvider {
 			JMenuItem item = new JMenuItem(method.get("returnJavaType").get(0)
 					+ ":" + param);
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					createConstructor(method.get("name").get(0) + paramName);
 				}
@@ -615,6 +627,7 @@ public class SContextMenuProvider {
 		} else {
 			JMenuItem item = new JMenuItem("返り値の型:" + method.get("returnJavaType").get(0) + ", メソッド名:" + method.get("name").get(0) + param);
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					createCallMethod(method.get("name").get(0) + paramName);
 				}
@@ -641,6 +654,7 @@ public class SContextMenuProvider {
 			JMenuItem item = new JMenuItem(method.get("returnJavaType").get(0)
 					+ ":" + param);
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					createConstructor("コンストラクタ" + paramName);
 				}
@@ -650,6 +664,7 @@ public class SContextMenuProvider {
 			JMenuItem item = new JMenuItem("返り値の型:" + method.get("returnJavaType").get(0)
 					+ "," + "メソッド名:" +method.get("name").get(0) + param);
 			item.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					createCallElementMethod(method.get("name").get(0)
 							+ paramName);
@@ -678,6 +693,7 @@ public class SContextMenuProvider {
 	private JMenuItem createCallMethodMenu(final String name, String label) {
 		JMenuItem item = new JMenuItem(label);
 		item.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				createCallMethod(name);
 			}
@@ -688,6 +704,7 @@ public class SContextMenuProvider {
 	private JMenuItem createCallStaticMethodMenu(final String name, String label) {
 		JMenuItem item = new JMenuItem(label);
 		item.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				createCallStaticMethod(name);
 			}
@@ -698,6 +715,7 @@ public class SContextMenuProvider {
 	private JMenuItem createCallListMethodMenu(final String name, String label) {
 		JMenuItem item = new JMenuItem(label);
 		item.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				createListMethod(name);
 			}
@@ -726,9 +744,6 @@ public class SContextMenuProvider {
 			RenderableBlock newGetterRBlock = createActionGetterBlock(rb,
 					"callGetterMethod2");
 			connectByPlug(newGetterRBlock, 1, newCommandRBlock);
-
-			boolean returnObject = newCommandRBlock.getBlock().getPlug()
-					.getKind().equals("object");
 		}
 	}
 
@@ -747,9 +762,6 @@ public class SContextMenuProvider {
 			RenderableBlock newGetterRBlock = createActionElementGetterBlock(
 					rb, "callGetterMethod2");
 			connectByPlug(newGetterRBlock, 1, newCommandRBlock);
-
-			boolean returnObject = newCommandRBlock.getBlock().getPlug()
-					.getKind().equals("object");
 		}
 	}
 
@@ -758,7 +770,6 @@ public class SContextMenuProvider {
 				"length");
 		newCommandRBlock.getBlock().changeGenusTo("number");
 		newCommandRBlock.getBlock().setBlockLabel(name);
-		boolean cmd = newCommandRBlock.getBlock().getPlug() == null;
 		RenderableBlock newGetterRBlock = createActionGetterBlock(rb,
 				"callGetterMethod2");
 		connectByPlug(newGetterRBlock, 1, newCommandRBlock);

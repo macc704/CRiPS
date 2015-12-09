@@ -536,7 +536,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="private-final-var-int-number" kind="global-variable"
+<BlockGenus name="private-final-var-int-number" kind="constant-variable"
 	initlabel="i" header-label="int型の定数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
@@ -568,7 +568,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="private-final-var-string" kind="global-variable"
+<BlockGenus name="private-final-var-string" kind="constant-variable"
 	initlabel="s" header-label="String型の定数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
@@ -600,7 +600,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="private-final-var-boolean" kind="global-variable"
+<BlockGenus name="private-final-var-boolean" kind="constant-variable"
 	initlabel="b" header-label="boolean型の定数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
@@ -933,7 +933,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="private-final-var-double-number" kind="global-variable"
+<BlockGenus name="private-final-var-double-number" kind="constant-variable"
 	initlabel="d" header-label="double型の定数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
@@ -965,7 +965,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="private-final-var-object" kind="global-variable"
+<BlockGenus name="private-final-var-object" kind="constant-variable"
 	initlabel="t" header-label="Object型の定数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>

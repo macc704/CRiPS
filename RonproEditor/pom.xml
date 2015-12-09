@@ -82,18 +82,18 @@
 				</executions>
 			</plugin>
 
-			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId>
-				<configuration> <archive> <manifest> <addClasspath>true</addClasspath> <classpathPrefix>.</classpathPrefix>
-				<mainClass>ronproeditor.REApplication</mainClass> </manifest> </archive>
-				</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId> <executions> <execution>
-				<id>copy</id> <phase>package</phase> <goals> <goal>copy-dependencies</goal>
-				</goals> <configuration> <outputDirectory> ${project.build.directory}/lib
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-jar-plugin</artifactId> 
+				<configuration> <archive> <manifest> <addClasspath>true</addClasspath> <classpathPrefix>.</classpathPrefix> 
+				<mainClass>ronproeditor.REApplication</mainClass> </manifest> </archive> 
+				</configuration> </plugin> <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-dependency-plugin</artifactId> <executions> <execution> 
+				<id>copy</id> <phase>package</phase> <goals> <goal>copy-dependencies</goal> 
+				</goals> <configuration> <outputDirectory> ${project.build.directory}/lib 
 				</outputDirectory> </configuration> </execution> </executions> </plugin> -->
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
@@ -111,7 +111,7 @@
 											gmaven-plugin
 										</artifactId>
 										<versionRange>
-											[1.5,)
+											[1.,)
 										</versionRange>
 										<goals>
 											<goal>execute</goal>
@@ -132,11 +132,6 @@
 	<dependencies>
 		<dependency>
 			<groupId>info.matsuzawalab</groupId>
-			<artifactId>CSwing</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>info.matsuzawalab</groupId>
 			<artifactId>FlowViewer</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
@@ -155,19 +150,21 @@
 			<artifactId>CheCoPro</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
- 		<dependency>
-			<groupId>net.exkazuu</groupId>
- 			<artifactId>Junicoen</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
- 		</dependency>
-
 		<dependency>
 			<groupId>info.matsuzawalab</groupId>
 			<artifactId>CPreferenceFW</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
-
+		<dependency>
+			<groupId>net.exkazuu</groupId>
+			<artifactId>Junicoen</artifactId>
+			<version>0.0.2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>info.matsuzawalab</groupId>
+			<artifactId>CSwing</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>		
 	</dependencies>
 
 </project>

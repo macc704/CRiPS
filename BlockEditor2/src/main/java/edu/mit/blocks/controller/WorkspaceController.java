@@ -1,6 +1,7 @@
 package edu.mit.blocks.controller;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -21,6 +22,7 @@ import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -48,6 +50,7 @@ import org.xml.sax.SAXException;
 
 import clib.view.app.javainfo.CJavaInfoPanels;
 import clib.view.windowmanager.CWindowCentraizer;
+import edu.inf.shizuoka.blocks.blockeditor.SBlockEditor;
 import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
@@ -89,9 +92,9 @@ public class WorkspaceController {
 	protected SearchBar searchBar;
 	// private static String LANG_DEF_PATH;
 
-	// private String enc = "SJIS";
+	private static String RONPRO_FILE_ENCODING = "SJIS";
 
-	private String imagePath = "../support/images/";// added by macchan
+	private String imagePath = "ext/block2/images/";// added by macchan
 
 	public Workspace getWorkspace() {
 		return this.workspace;
@@ -103,7 +106,7 @@ public class WorkspaceController {
 	// flag to indicate if a workspace has been loaded/initialized
 	private boolean workspaceLoaded = false;
 	// last directory that was selected with open or save action
-	// private File lastDirectory;
+	 private File lastDirectory;
 	// file currently loaded in workspace
 	private File selectedFile;
 	// Reference kept to be able to update frame title with current loaded file
@@ -281,8 +284,7 @@ public class WorkspaceController {
 			Element documentElement = document.createElementNS(Constants.XML_CODEBLOCKS_NS, "cb:CODEBLOCKS");
 
 			// schema reference
-			documentElement.setAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi:schemaLocation",
-					Constants.XML_CODEBLOCKS_NS + " " + Constants.XML_CODEBLOCKS_SCHEMA_URI);
+			documentElement.setAttributeNS(XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI, "xsi:schemaLocation", Constants.XML_CODEBLOCKS_NS + " " + Constants.XML_CODEBLOCKS_SCHEMA_URI);
 
 			Node workspaceNode = workspace.getSaveNode(document);
 			if (workspaceNode != null) {
@@ -345,6 +347,15 @@ public class WorkspaceController {
 		setDirty(false);
 	}
 
+	private String createWindowTitle() {
+		return SBlockEditor.APP_NAME + " " + SBlockEditor.VERSION;
+	}
+
+	public void setCompileErrorTitle(String targetName) {
+		String title = createWindowTitle() + " - Javaのソースコードのコンパイルに失敗したため、ブロック化できません。";
+		frame.setTitle(title);
+	}
+
 	/**
 	 * Loads the programming project from the specified file path. This method
 	 * assumes that a Language Definition File has already been specified for
@@ -359,6 +370,20 @@ public class WorkspaceController {
 		final DocumentBuilder builder;
 		final Document doc;
 		try {
+			getWorkspace().addWorkspaceListener(new WorkspaceListener() {
+				@Override
+				public void workspaceEventOccurred(WorkspaceEvent event) {
+					if(event.getEventType() == WorkspaceEvent.WORKSPACE_FINISHED_LOADING){
+						for(Block block : getWorkspace().getBlocks()){
+							if(block.isMainMethod()){
+								//全部隠す
+								getWorkspace().getEnv().getRenderableBlock(block.getBlockID()).hideBlock();
+							}
+						}
+					}
+				}
+			});
+			
 			builder = factory.newDocumentBuilder();
 			doc = builder.parse(new File(path));
 
@@ -374,11 +399,7 @@ public class WorkspaceController {
 			// langDefRoot
 			workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
 			workspaceLoaded = true;
-
-			setDirty(false);
-
-			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(),
-					getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
+			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(), getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
 
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
@@ -445,8 +466,7 @@ public class WorkspaceController {
 
 			showAllTraceLine(workspace);
 
-			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(),
-					getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
+			getWorkspace().notifyListeners(new WorkspaceEvent(getWorkspace(), getWorkspace().getPageNamed(getWorkspace().getName()), WorkspaceEvent.WORKSPACE_FINISHED_LOADING));
 
 		} catch (ParserConfigurationException e) {
 			throw new RuntimeException(e);
@@ -500,31 +520,31 @@ public class WorkspaceController {
 		}
 		return workspacePanel;
 	}
+
 	//
 	// /**
 	// * Action bound to "Open" action.
 	// */
-	// private class OpenAction extends AbstractAction {
-	//
-	// private static final long serialVersionUID = -2119679269613495704L;
-	//
-	// OpenAction() {
-	// super("Open");
-	// }
-	//
-	// @Override
-	// public void actionPerformed(ActionEvent e) {
-	// JFileChooser fileChooser = new JFileChooser(lastDirectory);
-	// if (fileChooser.showOpenDialog((Component) e.getSource()) ==
-	// JFileChooser.APPROVE_OPTION) {
-	// setSelectedFile(fileChooser.getSelectedFile());
-	// lastDirectory = selectedFile.getParentFile();
-	// String selectedPath = selectedFile.getPath();
-	// loadFreshWorkspace();
-	// loadProjectFromPath(selectedPath);
-	// }
-	// }
-	// }
+	private class OpenAction extends AbstractAction {
+
+		private static final long serialVersionUID = -2119679269613495704L;
+
+		OpenAction() {
+			super("Open");
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser fileChooser = new JFileChooser(lastDirectory);
+			if (fileChooser.showOpenDialog((Component) e.getSource()) == JFileChooser.APPROVE_OPTION) {
+				setSelectedFile(fileChooser.getSelectedFile());
+				lastDirectory = selectedFile.getParentFile();
+				String selectedPath = selectedFile.getPath();
+				loadFreshWorkspace();
+				loadProjectFromPath(selectedPath);
+			}
+		}
+	}
 
 	// /**
 	// * Action bound to "Save" button.
@@ -591,14 +611,14 @@ public class WorkspaceController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
+				
 				saveToFile(selectedFile);
-				setDirty(false);
-
+				
 				BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
-				UniClassDec classDec = (UniClassDec) mapper.parse(selectedFile);
+				UniClassDec classDec = mapper.parse(selectedFile);
 
 				outputFileFromUni(classDec);
-
+				setDirty(false);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -610,7 +630,7 @@ public class WorkspaceController {
 		File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
 		try {
 			fileCreated |= !javaFile.exists();
-			PrintStream out = new PrintStream(javaFile);
+			PrintStream out = new PrintStream(javaFile, RONPRO_FILE_ENCODING);
 			JavaGeneratorForTurtle.generate(dec, out);
 			out.close();
 
@@ -621,7 +641,7 @@ public class WorkspaceController {
 		try {
 			File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
 			fileCreated |= !jsFile.exists();
-			PrintStream out = new PrintStream(jsFile);
+			PrintStream out = new PrintStream(jsFile, RONPRO_FILE_ENCODING);
 			JavaScriptGeneratorForTurtle.generate(dec, out);
 			out.close();
 			listener.blockConverted(jsFile);
@@ -633,7 +653,7 @@ public class WorkspaceController {
 		try {
 			File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".dlt");
 			fileCreated |= !dltFile.exists();
-			PrintStream out = new PrintStream(dltFile);
+			PrintStream out = new PrintStream(dltFile, RONPRO_FILE_ENCODING);
 			DolittleGenerator.generate(dec, out);
 			out.close();
 		} catch (Exception ex) {
@@ -678,8 +698,8 @@ public class WorkspaceController {
 	private JComponent getButtonPanel() {
 		JPanel buttonPanel = new JPanel();
 		// // Open
-		// OpenAction openAction = new OpenAction();
-		// buttonPanel.add(new JButton(openAction));
+		OpenAction openAction = new OpenAction();
+		buttonPanel.add(new JButton(openAction));
 		// // Save
 		// SaveAction saveAction = new SaveAction();
 		// buttonPanel.add(new JButton(saveAction));
@@ -694,6 +714,7 @@ public class WorkspaceController {
 		{// create compile button
 			JButton runButton = new JButton("Compile");
 			runButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (dirty) {
 						JOptionPane.showMessageDialog(frame, "ソースがセーブされていません", "コンパイルできません", JOptionPane.ERROR_MESSAGE);
@@ -708,6 +729,7 @@ public class WorkspaceController {
 		{// create run button
 			JButton runButton = new JButton("Run");
 			runButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (dirty) {
 						JOptionPane.showMessageDialog(frame, "コンパイルが成功していません", "実行できません", JOptionPane.ERROR_MESSAGE);
@@ -723,6 +745,7 @@ public class WorkspaceController {
 			final JToggleButton showTraceLineButton = new JToggleButton("Hide MeRV");
 			showTraceLineButton.setSelected(!workspace.getMeRVManager().isActive());
 			showTraceLineButton.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (showTraceLineButton.isSelected()) {
 						// 関数呼び出しをトレースするラインを非表示にする
@@ -744,8 +767,7 @@ public class WorkspaceController {
 	 * BlockCanvas and block drawers
 	 */
 	public JComponent getSearchBar() {
-		final SearchBar sb = new SearchBar("Search blocks", "Search for blocks in the drawers and workspace",
-				workspace);
+		final SearchBar sb = new SearchBar("Search blocks", "Search for blocks in the drawers and workspace", workspace);
 		for (SearchableContainer con : getAllSearchableContainers()) {
 			sb.addSearchableContainer(con);
 		}
@@ -777,6 +799,7 @@ public class WorkspaceController {
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(new ActionListener() {
 
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				//
 				frame.dispose();
@@ -787,6 +810,7 @@ public class WorkspaceController {
 		help.add(CJavaInfoPanels.createJavaInformationAction());
 		JMenuItem setting = new JMenuItem("Setting");
 		setting.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				openPreferenceFrame();
 			}
@@ -830,8 +854,14 @@ public class WorkspaceController {
 		}
 		// ダーティ状態付与するリスナを追加
 		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
+			@Override
 			public void workspaceEventOccurred(WorkspaceEvent event) {
-				setDirty(true);
+				if (event.getEventType() != WorkspaceEvent.WORKSPACE_FINISHED_LOADING || event.getEventType() != WorkspaceEvent.BLOCK_RENAMED) {// TODO
+																																				// should
+																																				// fix
+																																				// ワークスペース読み込み後にイベントが飛ぶ問題を修正する
+					setDirty(true);
+				}
 			}
 		});
 
@@ -984,4 +1014,5 @@ public class WorkspaceController {
 			}
 		}
 	}
+
 }
