@@ -20,6 +20,7 @@ import ch.conn.framework.packets.CHLoginResult;
 import ch.conn.framework.packets.CHLogoutResult;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
+import ch.library.CHLib;
 import ch.util.CHComponent;
 import ch.view.CHEntryDialog;
 import ch.view.CHMemberSelectorFrame;
@@ -99,7 +100,7 @@ public class CHProcessManager {
 			user = entryDialog.getUser();
 			password = entryDialog.getPassword();
 			if (!user.equals("")) {
-				conn.write(new CHEntryRequest(user, password));
+				conn.write(new CHEntryRequest(user, CHLib.encrypt(password)));
 			} else {
 				conn.close();
 			}
@@ -114,7 +115,7 @@ public class CHProcessManager {
 		// TODO ダイアログ
 		if (result.isResult()) {
 			// 登録成功
-			conn.write(new CHLoginRequest(user, password, color));
+			conn.write(new CHLoginRequest(user, CHLib.encrypt(password), color));
 		} else {
 			// 登録失敗
 			System.out.println("Entry failed");

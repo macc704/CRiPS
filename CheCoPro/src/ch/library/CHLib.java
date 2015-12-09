@@ -3,7 +3,9 @@ package ch.library;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CHMatcher {
+import org.apache.commons.codec.digest.DigestUtils;
+
+public class CHLib {
 
 	public static boolean isCorrectID(String id) {
 		String regex = "70[0-9]{6}";
@@ -18,6 +20,10 @@ public class CHMatcher {
 	public static Matcher createMatcher(String str, String regex) {
 		Pattern p = Pattern.compile(regex);
 		return p.matcher(str);
+	}
+	
+	public static String encrypt(String str) {
+		return DigestUtils.md5Hex(str);
 	}
 	
 	public static void main(String[] args) {

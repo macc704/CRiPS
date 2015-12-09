@@ -41,7 +41,7 @@ import ch.conn.framework.packets.CHFilelistRequest;
 import ch.conn.framework.packets.CHLogoutRequest;
 import ch.conn.framework.packets.CHSourceChanged;
 import ch.library.CHFileSystem;
-import ch.library.CHMatcher;
+import ch.library.CHLib;
 import ch.util.CHComponent;
 import ch.util.CHEvent;
 import ch.util.CHListener;
@@ -211,10 +211,10 @@ public class RECheCoProManager {
 	 ********************/
 
 	public void start() {
-		if (!CHMatcher.isCorrectID(user)) {
+		if (!CHLib.isCorrectID(user)) {
 			new CHErrorDialog(CHErrorDialog.ILLEGAL_ID).doOpen();
 			return;
-		} else if (!CHMatcher.isCorrectPass(password)) {
+		} else if (!CHLib.isCorrectPass(password)) {
 			new CHErrorDialog(CHErrorDialog.ILLEGAL_PASS).doOpen();
 			return;
 		}

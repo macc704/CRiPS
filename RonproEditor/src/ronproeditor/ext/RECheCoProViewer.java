@@ -8,6 +8,8 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -225,6 +227,7 @@ public class RECheCoProViewer {
 	 * @return actionOpenBlockEditor
 	 */
 	private Action initializeBlockEditorCommand() {
+		// TODO ブロックが開いている時に同期ボタンを押せないように
 		application.setChBlockEditorController(new CHBlockEditorController(user));
 		Action actionOpenBlockEditor = new AbstractAction() {
 			
@@ -369,7 +372,15 @@ public class RECheCoProViewer {
 			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
 					application.getLibraryManager().getLibsAsArray());
 		}
+		setEnabledForSyncButton(false);
 		bc.openBlockEditor(langDefFilePath, xmlFilePath);
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				addBlockEditorWindowListener(bc);
+			}
+		});
 	}
 	
 	private void reloadBlockEditor() {
@@ -389,6 +400,16 @@ public class RECheCoProViewer {
 			application.getChBlockEditorController().setFileOpened(false);
 		}
 		bc.reloadBlockEditor(langDefFilePath, xmlFilePath);
+	}
+	
+	private void addBlockEditorWindowListener(CHBlockEditorController bc) {
+		bc.getBlockEditorFrame().addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				setEnabledForSyncButton(true);
+			}
+		});
 	}
 	
 	/*******************
@@ -464,7 +485,6 @@ public class RECheCoProViewer {
 		for (int i = 0; i < files.size(); i++) {
 			paths[i] = files.get(i).getPath();
 		}
-		// TODO 上書きされるファイルが記録されていない
 		try {
 			PRLog log = new PRCheCoProLog(PRCheCoProLog.SubType.ALL_IMPORT, null, paths);
 			baseApplication.writePresLog(log, CHFileSystem.getFinalProjectDir());

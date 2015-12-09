@@ -7,6 +7,7 @@ import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHProcessManager;
 import ch.conn.framework.packets.CHLoginRequest;
 import ch.library.CHFileSystem;
+import ch.library.CHLib;
 import ch.util.CHComponent;
 import ch.view.CHErrorDialog;
 
@@ -83,7 +84,7 @@ public class CHCliant {
 	}
 
 	private boolean login() {
-		conn.write(new CHLoginRequest(user, password, color));
+		conn.write(new CHLoginRequest(user, CHLib.encrypt(password), color));
 		return conn.established();
 	}
 	

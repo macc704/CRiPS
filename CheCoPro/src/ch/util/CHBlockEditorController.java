@@ -2,6 +2,7 @@ package ch.util;
 
 import java.io.File;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import bc.apps.JavaToBlockMain;
@@ -52,6 +53,10 @@ public class CHBlockEditorController {
 
 	public void setFileOpened(boolean fileOpened) {
 		this.fileOpened = fileOpened;
+	}
+	
+	public JFrame getBlockEditorFrame() {
+		return wc.getFrame();
 	}
 
 	public boolean isFileOpened() {
