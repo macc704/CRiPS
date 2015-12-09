@@ -83,7 +83,6 @@ public class TrashCan extends JComponent implements MouseListener, WorkspaceWidg
 		}
 		Workspace.getInstance().repaint();
 
-		System.out.println("trashed");
 		// 変数の場合は、参照ブロックは赤くハイライト
 		if (block.getBlock().isVariableDeclBlock()) {
 			for (RenderableBlock rb : Workspace.getInstance().getBlockCanvas().getBlocks()) {
