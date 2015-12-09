@@ -49,6 +49,9 @@ public class RECreateCocoDataManager {
 
 		// 自動的にエクスポートしたファイルをCoco用データに変換する
 		convertCompileErrorData();
+		
+		JOptionPane.showMessageDialog(application.getFrame(), "CocoViewer用データ作成完了しました！", "CocoViewer用データ作成完了しました！",
+		        JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	private void autoExportCompileErrorCSV() {
