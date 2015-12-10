@@ -190,8 +190,8 @@ public class REBlockEditorManager2 {
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (IREResourceRepository.DOCUMENT_OPENED.equals(evt.getPropertyName())) {
 					if(blockEditor != null){
-						rewriteLangdefFile();
 						blockEditor.resetWorkspace();
+						rewriteLangdefFile();
 					}
 					doCompileBlock();
 				}
