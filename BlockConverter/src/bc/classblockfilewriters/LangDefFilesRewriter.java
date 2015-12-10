@@ -413,7 +413,7 @@ public class LangDefFilesRewriter {
 				return;
 			}
 		}
-		File cuiMenu = new File(System.getProperty("user.dir"), "ext/block2/lang_def_menu_cui.xml");
+		File cuiMenu = new File(System.getProperty("user.dir"), "ext/block/lang_def_menu_cui.xml");
 		printMenu(projectMenuFile, cuiMenu, false);
 		br.close();
 		reader.close();
