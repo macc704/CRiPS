@@ -71,16 +71,15 @@ public class MethodReturnTypeChecker implements WorkspaceListener {
 				methodsReturnBlocks.remove(sourceBlock.getBlockID());
 			}
 		}else if(event.getEventType() == WorkspaceEvent.WORKSPACE_FINISHED_LOADING){
-			for(Long id : returnParent.keySet()){
-				Block topBlock = getBlock(event.getWorkspace(), returnParent.get(id));
-
-				if(methodsReturnBlocks.get(topBlock.getBlockID()) != null){
-					methodsReturnBlocks.get(topBlock.getBlockID()).add(id);
-				}
-			}
-
-			updateReturnTypes(event.getWorkspace());
-
+//			for(Long id : returnParent.keySet()){
+//				Block topBlock = getBlock(event.getWorkspace(), returnParent.get(id));
+//
+//				if(methodsReturnBlocks.get(topBlock.getBlockID()) != null){
+//					methodsReturnBlocks.get(topBlock.getBlockID()).add(id);
+//				}
+//			}
+//
+//			updateReturnTypes(event.getWorkspace());
 		}
 
 	}

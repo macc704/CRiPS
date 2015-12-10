@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LibraryClasses>
+	<LibraryClass name="Turtle">
+		<CategoryName name="タートル（基本）" command="add">
+			<MethodName>Turtle-fd[@int]</MethodName>
+			<MethodName>Turtle-bk[@int]</MethodName>
+			<MethodName>Turtle-rt[@int]</MethodName>
+			<MethodName>Turtle-lt[@int]</MethodName>
+			<MethodName>Turtle-up[]</MethodName>
+			<MethodName>Turtle-down[]</MethodName>
+			<MethodName>Turtle-color[@int]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-random[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（座標と大きさ）" command="add">
+			<MethodName>Turtle-getX[]</MethodName>
+			<MethodName>Turtle-getY[]</MethodName>
+			<MethodName>Turtle-warp[@int@int]</MethodName>
+			<MethodName>Turtle-getWidth[]</MethodName>
+			<MethodName>Turtle-getHeight[]</MethodName>
+			<MethodName>Turtle-scale[@int]</MethodName>
+			<MethodName>Turtle-size[@int@int]</MethodName>
+			<MethodName>Turtle-large[@int]</MethodName>
+			<MethodName>Turtle-small[@int]</MethodName>
+			<MethodName>Turtle-wide[@int]</MethodName>
+			<MethodName>Turtle-narrow[@int]</MethodName>
+			<MethodName>Turtle-tall[@int]</MethodName>
+			<MethodName>Turtle-little[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（見た目と判定）" command="add">
+			<MethodName>Turtle-show[]</MethodName>
+			<MethodName>Turtle-hide[]</MethodName>
+			<MethodName>Turtle-isShow[]</MethodName>
+			<MethodName>Turtle-looks[@object]</MethodName>
+			<MethodName>Turtle-contains[@int@int]</MethodName>
+			<MethodName>Turtle-intersects[]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（キーとマウス）" command="add">
+			<MethodName>Turtle-key[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
+			<MethodName>Turtle-mouseX[]</MethodName>
+			<MethodName>Turtle-mouseY[]</MethodName>
+			<MethodName>Turtle-mouseClicked[]</MethodName>
+			<MethodName>Turtle-leftMouseClicked[]</MethodName>
+			<MethodName>Turtle-rightMouseClicked[]</MethodName>
+			<MethodName>Turtle-doubleClick[]</MethodName>
+			<MethodName>Turtle-mouseDown[]</MethodName>
+			<MethodName>Turtle-leftMouseDown[]</MethodName>
+			<MethodName>Turtle-rightMouseDown[]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（その他）" command="add">
+			<MethodName>Turtle-update[]</MethodName>
+			<MethodName>Turtle-sleep[@int]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="ImageTurtle">
+		<CategoryName name="ImageTurtle" command="add">
+			<MethodName>ImageTurtle-image[@string]</MethodName>
+		</CategoryName>
+		<CategoryName name="Turtle" command="copy" />
+	</LibraryClass>
+	<LibraryClass name="SoundTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="SoundTurtle" command="add">
+			<MethodName>SoundTurtle-file[@string]</MethodName>
+			<MethodName>SoundTurtle-play[]</MethodName>
+			<MethodName>SoundTurtle-loop[]</MethodName>
+			<MethodName>SoundTurtle-stop[]</MethodName>
+			<MethodName>SoundTurtle-isPlaying[]</MethodName>
+			<MethodName>SoundTurtle-getVolume[]</MethodName>
+			<MethodName>SoundTurtle-setVolume[]</MethodName>
+			<MethodName>SoundTurtle-loadOnMemory[]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="ListTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="ListTurtle" command="add">
+			<MethodName>ListTurtle-get[@int]</MethodName>
+			<MethodName>ListTurtle-getSize[]</MethodName>
+			<MethodName>ListTurtle-add[@int]</MethodName>
+			<MethodName>ListTurtle-addFirst[@turtle]</MethodName>
+			<MethodName>ListTurtle-addLast[@turtle]</MethodName>
+			<MethodName>ListTurtle-addAll[@listturtle]</MethodName>
+			<MethodName>ListTurtle-moveAllTo[@listturtle]</MethodName>
+			<MethodName>ListTurtle-removeFirst[]</MethodName>
+			<MethodName>ListTurtle-removeLast[]</MethodName>
+			<MethodName>ListTurtle-removeAll[]</MethodName>
+			<MethodName>ListTurtle-getCursor[]</MethodName>
+			<MethodName>ListTurtle-setCursor[@int]</MethodName>
+			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
+			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
+			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
+			<MethodName>ListTurtle-addToBeforeCursor[@turtle]</MethodName>
+			<MethodName>ListTurtle-addToAfterCursor[@turtle]</MethodName>
+			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
+			<MethodName>ListTurtle-shuffle[]</MethodName>
+			<MethodName>ListTurtle-setBgColor[@int]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="InputTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="InputTurtle" command="add">
+			<MethodName>InputTurtle-fontsize[@int]</MethodName>
+			<MethodName>InputTurtle-clearText[]</MethodName>
+			<MethodName>InputTurtle-setActive[@boolean]</MethodName>
+			<MethodName>InputTurtle-isActive[]</MethodName>
+			<MethodName>InputTurtle-toJapaneseMode[]</MethodName>
+			<MethodName>InputTurtle-toEnglishMode[]</MethodName>
+			<MethodName>InputTurtle-getText[]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="CardTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="CardTurtle" command="add">
+			<MethodName>CardTurtle-getText[]</MethodName>
+			<MethodName>CardTurtle-getNumber[]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="ButtonTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="ButtonTurtle" command="add">
+			<MethodName>ButtonTurtle-isClicked[]</MethodName>
+			<MethodName>ButtonTurtle-fontSize[@int]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="TextTurtle">
+		<CategoryName name="Turtle" command="copy" />
+		<CategoryName name="TextTurtle" command="add">
+			<MethodName>TextTurtle-text[@string]</MethodName>
+			<MethodName>TextTurtle-text[@int]</MethodName>
+			<MethodName>TextTurtle-getText[@int]</MethodName>			
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="Random">
+		<CategoryName name="Random" command="add">
+			<MethodName>Random-nextInt[]</MethodName>
+			<MethodName>Random-nextInt[@int]</MethodName>
+			<MethodName>Random-nextDouble[]</MethodName>			
+		</CategoryName>
+	</LibraryClass>	
+</LibraryClasses>

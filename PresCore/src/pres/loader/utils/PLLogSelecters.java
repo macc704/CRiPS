@@ -50,7 +50,10 @@ public class PLLogSelecters {
 	 * TODO H24.1.21 保井追加 BlockEditorのログチェッカー
 	 */
 	public static ICChecker<PLLog> BLOCKEDIT = CLogSelecter
-			.createByType("BLOCK_COMMAND_RECORD");
+			.createByType(PRCommandLog.Type.BLOCK_COMMAND_RECORD.toString());
+	
+	public static ICChecker<PLLog> IMAGEGETLOGS = CLogSelecter
+			.createBySubType("BLOCK_ADDED","BLOCKS_CONNECTED","BLOCKS_DISCONNECTED","BLOCKS_COPYED","BLOCKS_CONNECT_MISSED");
 }
 
 class CLogSelecter implements ICChecker<PLLog> {

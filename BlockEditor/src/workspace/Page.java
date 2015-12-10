@@ -273,6 +273,7 @@ public class Page
 	/**
 	 * @return all the RenderableBlocks that reside within this page
 	 */
+	@Override
 	public Collection<RenderableBlock> getBlocks() {
 		List<RenderableBlock> blocks = new ArrayList<RenderableBlock>();
 		for (Component block : this.pageJComponent.getComponents()) {
@@ -612,6 +613,7 @@ public class Page
 	/**
 	 * @ovverride WorkspaceWidget.blockDropped()
 	 */
+	@Override
 	public void blockDropped(RenderableBlock block) {
 		//add to view at the correct location
 		Component oldParent = block.getParent();
@@ -625,6 +627,7 @@ public class Page
 	/**
 	 * @ovverride WorkspaceWidget.blockDragged()
 	 */
+	@Override
 	public void blockDragged(RenderableBlock block) {
 		if (mouseIsInPage == false) {
 			mouseIsInPage = true;
@@ -635,6 +638,7 @@ public class Page
 	/**
 	 * @ovverride WorkspaceWidget.blockEntered()
 	 */
+	@Override
 	public void blockEntered(RenderableBlock block) {
 		if (mouseIsInPage == false) {
 			mouseIsInPage = true;
@@ -645,6 +649,7 @@ public class Page
 	/**
 	 * @ovverride WorkspaceWidget.blockExited()
 	 */
+	@Override
 	public void blockExited(RenderableBlock block) {
 		mouseIsInPage = false;
 		this.pageJComponent.repaint();
@@ -663,6 +668,7 @@ public class Page
 	/**
 	 * @ovverride WorkspaceWidget.addBlock()
 	 */
+	@Override
 	public void addBlock(RenderableBlock block) {
 		//update parent widget if dropped block
 		WorkspaceWidget oldParent = block.getParentWidget();
@@ -696,6 +702,8 @@ public class Page
 					oldParent, block.getBlockID(), WorkspaceEvent.BLOCK_MOVED));
 			Workspace.getInstance().notifyListeners(new WorkspaceEvent(this,
 					block.getBlockID(), WorkspaceEvent.BLOCK_ADDED, true));
+			Workspace.getInstance().notifyListeners(new WorkspaceEvent(this,
+					block.getBlockID(), WorkspaceEvent.BLOCK_ADDED2, true));
 		}
 
 		// if the block is off the edge, shift everything or grow as needed to fully show it
@@ -716,6 +724,7 @@ public class Page
 	 *          added.
 	 * @ovverride WorkspaceWidget.blockEntered()
 	 */
+	@Override
 	public void addBlocks(Collection<RenderableBlock> blocks) {
 		for (RenderableBlock block : blocks) {
 			this.addBlock(block);
@@ -727,6 +736,7 @@ public class Page
 	/**
 	 * @ovverride WorkspaceWidget.removeBlock()
 	 */
+	@Override
 	public void removeBlock(RenderableBlock block) {
 		if (block != null) {
 			Iterable<BlockConnector> sockets = block.getBlock().getSockets();
@@ -746,6 +756,7 @@ public class Page
 	/**
 	 * @ovverride WorkspaceWidget.getJComponent()
 	 */
+	@Override
 	public JComponent getJComponent() {
 		return this.pageJComponent;
 	}
@@ -754,12 +765,13 @@ public class Page
 	 * @return the RBParent representation of this Page
 	 */
 	public RBParent getRBParent() {
-		return (RBParent) this.pageJComponent;
+		return this.pageJComponent;
 	}
 
 	/**
 	 * @ovverride WorkspaceWidget.contains()
 	 */
+	@Override
 	public boolean contains(int x, int y) {
 		return this.pageJComponent.contains(x, y);
 	}
@@ -772,6 +784,7 @@ public class Page
 	}
 
 	/** Returns string representation of this */
+	@Override
 	public String toString() {
 		return "Page name: " + getPageName() + " page color " + getPageColor()
 				+ " page width " + getAbstractWidth() + " page drawer "
@@ -784,6 +797,7 @@ public class Page
 	/**
 	 * @ovverride SearchableContainer.getSearchableElements
 	 */
+	@Override
 	public Iterable<RenderableBlock> getSearchableElements() {
 		return getBlocks();
 	}
@@ -791,6 +805,7 @@ public class Page
 	/**
 	 * @ovverride SearchableContainer.updateContainerSearchResults
 	 */
+	@Override
 	public void updateContainsSearchResults(boolean containsSearchResults) {
 		// Do nothing, at least for now
 	}
@@ -1007,6 +1022,7 @@ public class Page
 	/**
 	 * @override ISupportMomento.getState
 	 */
+	@Override
 	public Object getState() {
 		PageState state = new PageState();
 		//Populate basic page information
@@ -1024,6 +1040,7 @@ public class Page
 	/**
 	 * @override ISupportMomento.loadState()
 	 */
+	@Override
 	public void loadState(Object memento) {
 		assert(memento instanceof PageState) : "ISupportMemento contract violated in Page";
 		if (memento instanceof PageState) {
@@ -1113,6 +1130,7 @@ public class Page
 			loadBounds(inFullview);
 		}
 
+		@Override
 		public JToolTip createToolTip() {
 			return new CToolTip(new Color(0xFFFFDD));
 		}
@@ -1169,6 +1187,7 @@ public class Page
 					w - 6 + charSet.length * (FONT_SIZE + 3), 3, 3);
 		}
 
+		@Override
 		public void paintComponent(Graphics g) {
 			int w = this.getWidth();
 
@@ -1224,6 +1243,7 @@ public class Page
 			}
 		}
 
+		@Override
 		public void mouseClicked(MouseEvent e) {
 
 			if ((!Page.this.hideMinimize)) {
@@ -1239,6 +1259,7 @@ public class Page
 			}
 		}
 
+		@Override
 		public void mousePressed(MouseEvent e) {
 			if ((!Page.this.hideMinimize)) {
 				pressed = true;
@@ -1250,6 +1271,7 @@ public class Page
 		public void mouseDragged(MouseEvent e) {
 		}
 
+		@Override
 		public void mouseReleased(MouseEvent e) {
 			if ((!Page.this.hideMinimize)) {
 				pressed = false;
@@ -1261,6 +1283,7 @@ public class Page
 		public void mouseMoved(MouseEvent e) {
 		}
 
+		@Override
 		public void mouseEntered(MouseEvent e) {
 			if ((!Page.this.hideMinimize)) {
 				focus = true;
@@ -1268,6 +1291,7 @@ public class Page
 			}
 		}
 
+		@Override
 		public void mouseExited(MouseEvent e) {
 			if ((!Page.this.hideMinimize)) {
 				focus = false;
@@ -1303,7 +1327,6 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	}
 
 	public void clearArrow(Object arrow) {
-		Component[] allComponents = getComponents();
 		Object[] arrows = getAllArrow();
 		for (Object o : arrows) {
 			if (o.equals(arrow)) {
@@ -1314,7 +1337,6 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	}
 
 	public void clearArrowLayer() {
-		Component[] allComponents = getComponents();
 		Object[] arrows = getAllArrow();
 		for (Object arrow : arrows) {
 			remove((Component) arrow);
@@ -1335,6 +1357,7 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	/**
 	 * renders this JComponent
 	 */
+	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		//paint page
@@ -1379,6 +1402,7 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	/**
 	 * @override RBParent.addToBlockLayer()
 	 */
+	@Override
 	public void addToBlockLayer(Component c) {
 		this.add(c, BLOCK_LAYER);
 	}
@@ -1391,6 +1415,7 @@ class PageJComponent extends JLayeredPane implements RBParent {
 	/**
 	 * @override RBParent.addToHighlightLayer()
 	 */
+	@Override
 	public void addToHighlightLayer(Component c) {
 		this.add(c, HIGHLIGHT_LAYER);
 	}
@@ -1414,6 +1439,7 @@ class BlockStackSorterUtil {
 			// ria for now they are ordered in y-coor order
 			//this naive ordering will also fail if two blocks have the same coordinates
 			new Comparator<RenderableBlock>() {
+				@Override
 				public int compare(RenderableBlock rb1, RenderableBlock rb2) {
 					if (rb1 == rb2)
 						return 0;

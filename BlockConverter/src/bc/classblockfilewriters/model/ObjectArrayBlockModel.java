@@ -1,4 +1,4 @@
-package bc.classblockfilewriters;
+package bc.classblockfilewriters.model;
 
 import java.io.PrintStream;
 
@@ -6,12 +6,10 @@ public class ObjectArrayBlockModel extends ObjectBlockModel {
 
 	public ObjectArrayBlockModel(String name, String kind, String initialLabel, String headerLabel, String footerLabel, String color) {
 		super(name, kind, initialLabel, headerLabel, footerLabel, color);
-		// TODO Auto-generated constructor stub
 	}
 
 	public void print(PrintStream out, int lineNumber) throws Exception {
-
-		out.println("<BlockGenus" + " " + "name=" + "\"" + getName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"");
+		out.println("<BlockGenus" + " " + "name=" + "\"" + getGenusName() + "\" " + "kind=" + "\"" + getKind() + "\" " + "initlabel=" + "\"" + getInitialLabel() + "\"");
 		makeIndent(out, ++lineNumber);
 		out.println(" header-label=" + "\"" + getHeaderLabel() + "\" " + "footer-label=" + "\"" + getFooterLabel() + "\" " + "editable-label=\"yes\" " + "label-unique=\"yes\" " + "color=\"" + getColor() + "\">");
 
@@ -54,7 +52,6 @@ public class ObjectArrayBlockModel extends ObjectBlockModel {
 
 			out.println();
 		}
-
 	}
 
 	protected void printStubs(PrintStream out, int lineNumber) {

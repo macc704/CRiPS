@@ -106,7 +106,7 @@ public class CCGraphFrame extends JFrame {
 		// rootPanel.setLayout(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(width, height);
-		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " - "
+		setTitle(CCMainFrame.APP_NAME + " " + CCMainFrame.VERSION + " - "
 				+ list.getMessage() + " の詳細");
 
 		addWindowListener(new WindowAdapter() {
@@ -120,9 +120,6 @@ public class CCGraphFrame extends JFrame {
 	}
 
 	private void setGraph() {
-		// 日本語が文字化けしないテーマ
-		// ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
-
 		// グラフデータ設定
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 0; i < list.getErrors().size(); i++) {
@@ -167,7 +164,6 @@ public class CCGraphFrame extends JFrame {
 
 		// グラフをchartpanelに載せる
 		ChartPanel chartpanel = new ChartPanel(chart);
-		// chartpanel.setBounds(0, 0, width - 15, height - 40);
 
 		// TODO: TOOLTIP表示
 		JToolTip tooltip = new JToolTip();
@@ -177,7 +173,6 @@ public class CCGraphFrame extends JFrame {
 		chartpanel.setDisplayToolTips(true);
 
 		rootPanel.add(chartpanel, BorderLayout.WEST);
-		// rootPanel.add(chartpanel);
 	}
 
 	private void setChangeGraphRangeComboBox(JPanel panel) {
@@ -201,7 +196,6 @@ public class CCGraphFrame extends JFrame {
 			}
 		});
 
-		// comboBox.setSize(new Dimension(width / 12, height / 12));
 		panel.add(comboBox, BorderLayout.NORTH);
 	}
 
@@ -231,10 +225,6 @@ public class CCGraphFrame extends JFrame {
 				if (e.getButton() == MouseEvent.BUTTON1
 						&& e.getClickCount() >= 2) {
 
-					// if (baseDir == null) {
-					// throw new RuntimeException("PPVのbaseとなるフォルダが指定されていません");
-					// }
-
 					// 事前にPPVにかけ，キャッシュ作成したかどうかのチェック
 					if (ppProjectSet == null) {
 						manager.writePresLog(
@@ -243,17 +233,6 @@ public class CCGraphFrame extends JFrame {
 						CErrorDialog.show(null, "PPVでコンパイルされていません",
 								new RuntimeException("PPVでコンパイルされていません"));
 						return;
-
-						// キャッシュをその場で作成する場合
-						// PPDataManager datamanager = new
-						// PPDataManager(baseDir);
-						// datamanager.setLibDir(libDir);
-						//
-						// CDirectory projectSetDir = datamanager
-						// .getDataDir()
-						// .findDirectory(compileError.getProjectName());
-						// ppProjectSet = new PPProjectSet(projectSetDir);
-						// datamanager.loadProjectSet(ppProjectSet, true, true);
 					}
 
 					int index = table.getSelectedRow();
@@ -279,6 +258,7 @@ public class CCGraphFrame extends JFrame {
 				IPLUnit model = null;
 				for (PLProject project : ppProjectSet.getProjects()) {
 					if (project.getName().equals(compileError.getProjectName())) {
+						// TODO: プロジェクトごと開くか，ファイルごとに開くか選択制にするでは？
 						// プロジェクト全体
 						model = project.getRootPackage();
 
@@ -294,16 +274,6 @@ public class CCGraphFrame extends JFrame {
 
 				return model;
 			}
-
-			// private boolean selectTarget() {
-			// int res = JOptionPane.showConfirmDialog(null, "プロジェクトごと開きますか？",
-			// "ソースコード比較画面 起動確認", JOptionPane.OK_CANCEL_OPTION);
-			// if (res == JOptionPane.OK_OPTION) {
-			// return true;
-			// } else {
-			// return false;
-			// }
-			// }
 
 			private void openCompileFrame(int index,
 					CCCompileError compileError, IPLUnit model) {

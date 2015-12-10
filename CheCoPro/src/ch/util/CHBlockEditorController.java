@@ -12,7 +12,7 @@ public class CHBlockEditorController {
 
 	private WorkspaceController wc;
 	private boolean fileOpened;
-	
+
 	public CHBlockEditorController(String user) {
 		wc = new WorkspaceController(user, true);
 	}
@@ -37,7 +37,7 @@ public class CHBlockEditorController {
 
 	public void reloadBlockEditor(final String langDefFilePath, final String xmlFilePath) {
 		SwingUtilities.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				if (wc.isOpened() && fileOpened) {
@@ -62,7 +62,7 @@ public class CHBlockEditorController {
 	public boolean isFileOpened() {
 		return fileOpened;
 	}
-	
+
 	public void close() {
 		if (wc.isOpened()) {
 			wc.getFrame().dispose();

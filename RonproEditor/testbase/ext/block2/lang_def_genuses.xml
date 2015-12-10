@@ -51,7 +51,7 @@
 <BlockGenus name="dowhile" kind="command" initlabel="1回以上繰返" color="255 80 0">
 	<BlockConnectors>
 		<BlockConnector label="真の間" connector-kind="socket"
-			connector-type="cmd"></BlockConnector>	
+			connector-type="cmd"></BlockConnector>
 		<BlockConnector label="かどうか調べて" connector-kind="socket"
 			connector-type="boolean">
 			<DefaultArg genus-name="lessthanorequalto" label="≤"></DefaultArg>
@@ -97,6 +97,10 @@
 
 <BlockGenus name="special" kind="command" color="255 0 0"
 	initlabel="special block" editable-label="no" is-label-value="yes">
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="special"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
 </BlockGenus>
 
 <BlockGenus name="special-expression" kind="function" color="255 0 0"

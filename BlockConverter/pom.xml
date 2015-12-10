@@ -4,16 +4,27 @@
 	<groupId>info.matsuzawalab</groupId>
 	<artifactId>BlockConverter</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
 	<repositories>
 		<repository>
 			<id>cripsrepository</id>
 			<name>commonlib</name>
-			<url>http://ohata1016.github.io/CRiPSLibraryRepository/</url>
+			<url>https://ohata1016.github.io/CRiPSLibraryRepository/</url>
 		</repository>
 	</repositories>
 
 	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
 	</build>
@@ -73,5 +84,16 @@
 			<artifactId>org.apache.commons.logging</artifactId>
 			<version>3.4.100.v20110207</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom2</artifactId>
+			<version>2.0.6</version>
+		</dependency>
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+
 	</dependencies>
 </project>

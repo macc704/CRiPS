@@ -16,12 +16,6 @@ public class ArrowPointCalcUtil {
 	public ArrowPointCalcUtil(Point2D p0,Point2D p1){
 		this.p0=p0;
 		this.p1=p1;
-
-		//p0-p1の長さを計算
-		double diffX=this.p0.getX()-this.p1.getX();
-		double diffY=this.p0.getY()-this.p1.getY();
-
-
 		setLength(POINTER_LENGTH);
 	}
 
@@ -51,7 +45,6 @@ public class ArrowPointCalcUtil {
 	}
 
 	private Point2D.Double getPoint2or3(int hosei){
-		Point p = new Point();
 		if( p0.getX()<p1.getX() ){
 			double radian=calcRadian(p0,p1);
 			double kakudo=radian/(Math.PI/180);

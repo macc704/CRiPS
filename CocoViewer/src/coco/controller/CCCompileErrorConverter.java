@@ -46,7 +46,6 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		buf.append("修正完了時刻");
 		buf.append(CAMMA);
 		buf.append("修正時間");
-		// buf.append("ErrorID,ファイル名,発生時刻,修正時間");
 		pw.println(buf.toString());
 	}
 
@@ -54,13 +53,12 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		StringBuffer buf = new StringBuffer();
 
 		// errorIDはmessageListをmanagerに作ってindexOfメソッドで解決
-		// 先にシンボルなどのチェックをしてからgetMessageIDをする形にし、（シンボル）などに対応した
 		int errorID = 0;
 		String element = "";
+		// （シンボル）などへの対処
 		if (lines.get(5) != null) {
 			element = "（" + lines.get(5) + "）";
 		}
-
 		String message = lines.get(3) + element;
 
 		try {
@@ -75,8 +73,7 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 			// addErrorID++;
 		}
 
-		// spiltは直接\\で区切ることができないので，いったん/に変換する
-		// 理由については後日調査すること
+		// splitは直接\\で区切ることができないので，いったん/に変換する
 		String filepath = lines.get(2).replace("\\", "/");
 
 		long beginTime = 0;
@@ -96,7 +93,6 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		// correctionTime は CT値
 		int correctTime = Integer.parseInt(lines.get(18));
 
-		// データを書き込む
 		buf.append(String.valueOf(errorID));
 		buf.append(CAMMA);
 		buf.append(filepath);
@@ -107,8 +103,6 @@ public class CCCompileErrorConverter extends CCCsvFileLoader {
 		buf.append(CAMMA);
 		buf.append(String.valueOf(correctTime));
 		pw.println(buf.toString());
-		// out.write(errorID + "," + filename + "," + beginTime + ","
-		// + correctTime + "\n");
 	}
 
 	private long changeDateStringToLong(String data) {

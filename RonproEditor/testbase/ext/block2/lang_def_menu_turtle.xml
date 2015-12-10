@@ -78,13 +78,7 @@
 
 		<BlockGenusMember>string-append</BlockGenusMember>
 
-		<BlockGenusMember>cui-random</BlockGenusMember>
-		<BlockGenusMember>sqrt</BlockGenusMember>
-		<BlockGenusMember>sin</BlockGenusMember>
-		<BlockGenusMember>cos</BlockGenusMember>
-		<BlockGenusMember>tan</BlockGenusMember>
-		<BlockGenusMember>log</BlockGenusMember>
-		<BlockGenusMember>toRadians</BlockGenusMember>
+		<BlockGenusMember>Math-random[]</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer name="変数の定義" type="factory" button-color="230 0 255">
@@ -163,14 +157,14 @@
 		<BlockGenusMember>Turtle-show[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-hide[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-isShow[]</BlockGenusMember>
-		<BlockGenusMember>Turtle-looks[]</BlockGenusMember>
+		<BlockGenusMember>Turtle-looks[@object]</BlockGenusMember>
 		<BlockGenusMember>Turtle-contains[@int@int]</BlockGenusMember>
 		<BlockGenusMember>Turtle-intersects[]</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer button-color="153 0 0" name="タートル（キーとマウス）">
 		<BlockGenusMember>Turtle-key[]</BlockGenusMember>
-		<BlockGenusMember>Turtle-keyDown[]</BlockGenusMember>
+		<BlockGenusMember>Turtle-keyDown[@int]</BlockGenusMember>
 		<BlockGenusMember>Turtle-mouseX[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-mouseY[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-mouseClicked[]</BlockGenusMember>

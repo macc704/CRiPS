@@ -13,7 +13,7 @@ import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CPath;
 
 public class CCCompileErrorManager {
-	// HashMapでは順序が保証されないのでLinkedHashMapに変更
+	// 順序保証のためLinkedHashMapを使用すること
 	private LinkedHashMap<Integer, CCCompileErrorKind> kinds = new LinkedHashMap<Integer, CCCompileErrorKind>();
 	private LinkedHashMap<String, Integer> ids = new LinkedHashMap<String, Integer>();
 
@@ -43,10 +43,6 @@ public class CCCompileErrorManager {
 		}
 		return kinds.get(id);
 	}
-
-	// public void totalErrorCountUp() {
-	// totalErrorCount++;
-	// }
 
 	public int getTotalErrorCount() {
 		return totalErrorCount;

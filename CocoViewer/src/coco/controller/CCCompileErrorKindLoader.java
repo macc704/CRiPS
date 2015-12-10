@@ -8,7 +8,7 @@ public class CCCompileErrorKindLoader extends CCCsvFileLoader {
 
 	private CCCompileErrorManager manager;
 
-	// private int linesNumber = 1;
+	private int linesNumber = 1;
 
 	public CCCompileErrorKindLoader(CCCompileErrorManager manager) {
 		this.manager = manager;
@@ -25,11 +25,11 @@ public class CCCompileErrorKindLoader extends CCCsvFileLoader {
 		String message = lines.get(2);
 
 		manager.put(index, rare, message);
-		// linesNumber++;
+		linesNumber++;
 	}
 
 	// 最初の状態で追加したエラーの数を保存しておく
-	// public int getLines() {
-	// return linesNumber;
-	// }
+	 public int getLines() {
+		 return linesNumber;
+	 }
 }

@@ -2,8 +2,6 @@ package a.slab.blockeditor;
 
 import javax.swing.UIManager;
 
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-
 import controller.WorkspaceController;
 
 /*
@@ -352,6 +350,8 @@ public class SBlockEditor {
 	public static final String ENCODING_BLOCK_XML = "UTF-8";
 	public static final boolean DEBUG = false;
 
+	private static final String wlaf = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+
 	/**
 	 * @param args
 	 */
@@ -378,7 +378,7 @@ public class SBlockEditor {
 
 	private void initializeLookAndFeel() {
 		try {
-			UIManager.setLookAndFeel(WindowsLookAndFeel.class.getName());
+			UIManager.setLookAndFeel(wlaf);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

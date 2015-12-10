@@ -13,11 +13,11 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import codeblocks.BlockConnector.PositionType;
 import renderable.BlockImageIcon;
 import renderable.BlockImageIcon.ImageLocation;
 import renderable.RenderableBlock;
 import workspace.ISupportMemento;
-import codeblocks.BlockConnector.PositionType;
 
 /**
  * Block holds the mutable prop (data) of a particular block. These mutable prop
@@ -85,19 +85,11 @@ public class Block implements ISupportMemento {
 	// argument descriptions
 	private ArrayList<String> argumentDescriptions;
 
-	// ohata added
-	private Map<String, List<Map<String, List<String>>>> methods = new HashMap<String, List<Map<String, List<String>>>>();
-
 	private ArrayList<String> parameterizedTypes;
 
-	public Map<String, List<Map<String, List<String>>>> getMethods() {
-		return methods;
-	}
 
 	public String getJavaType() {
-
 		return this.javaType;
-
 	}
 
 	/**
@@ -157,9 +149,6 @@ public class Block implements ISupportMemento {
 			this.genusName = genusName;
 
 			this.label = label;
-
-			this.methods = genus.getMethods();// ohata added
-
 			setHeaderLabel(BlockGenus.getGenusWithName(genusName)
 					.getInitHeaderLabel());
 			setFooterLabel(BlockGenus.getGenusWithName(genusName)
@@ -685,7 +674,7 @@ public class Block implements ISupportMemento {
 		// stubs use this as a reference to update
 		// its own sockets
 		// if block has stubs, update its stubs as well
-		if (hasStubs() && "BOTTOM".equals(disconnectedSocket.getPositionType())){
+		if (hasStubs()){
 				BlockStub.parentConnectorsChanged(blockID);
 		}
 	}
@@ -1618,6 +1607,7 @@ public class Block implements ISupportMemento {
 	/**
 	 * @returns current information about block
 	 */
+	@Override
 	public String toString() {
 		return "Block " + blockID + ": " + label + " with sockets: " + sockets
 				+ " and plug: " + plug + " before: " + before + " after: "
@@ -1631,6 +1621,7 @@ public class Block implements ISupportMemento {
 	 * @return true iff the other Object is an instance of Block and has the
 	 *         same blockID as this; false otherwise
 	 */
+	@Override
 	public boolean equals(Object other) {
 		if (other == null || !(other instanceof Block))
 			return false;
@@ -1644,6 +1635,7 @@ public class Block implements ISupportMemento {
 	 *
 	 * @return hash code of this
 	 */
+	@Override
 	public int hashCode() {
 		return blockID.hashCode();
 	}
@@ -2249,6 +2241,7 @@ public class Block implements ISupportMemento {
 		public Object after;
 	}
 
+	@Override
 	public Object getState() {
 		BlockState state = new BlockState();
 
@@ -2300,6 +2293,7 @@ public class Block implements ISupportMemento {
 		return state;
 	}
 
+	@Override
 	public void loadState(Object memento) {
 		if (memento instanceof BlockState) {
 			BlockState state = (BlockState) memento;

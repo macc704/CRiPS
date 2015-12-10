@@ -16,6 +16,20 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+
+import ch.util.CHBlockEditorController;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileElement;
+import clib.common.filesystem.CFileFilter;
+import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CFilename;
+import clib.common.filesystem.CPath;
+import clib.common.system.CJavaSystem;
+import clib.common.thread.ICTask;
+import clib.preference.app.CPreferenceManager;
+import clib.view.dialogs.CErrorDialog;
 import nd.com.sun.tools.example.debug.gui.CommandInterpreter;
 import nd.com.sun.tools.example.debug.gui.GUI;
 import nd.novicedebugger.NDebuggerListener;
@@ -48,20 +62,6 @@ import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.views.DummyConsole;
 import ronproeditor.views.REFrame;
 import ronproeditor.views.RESourceEditor;
-import ch.util.CHBlockEditorController;
-import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileElement;
-import clib.common.filesystem.CFileFilter;
-import clib.common.filesystem.CFileSystem;
-import clib.common.filesystem.CFilename;
-import clib.common.filesystem.CPath;
-import clib.common.system.CJavaSystem;
-import clib.common.thread.ICTask;
-import clib.preference.app.CPreferenceManager;
-import clib.view.dialogs.CErrorDialog;
-
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /*
  * Ronpro Editor Application
@@ -294,6 +294,10 @@ import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
  * 2015/01/14 version 2.29.1 kato           ・CheCoPro pullログ修正
  * 2015/09/04 version 2.30.1 matsuzawa		・REApplication　リファクタリング
  * 2015/09/04 version 2.30.2 matsuzawa		doCompile2()の設計が冗長なので再設計した
+ * 2015/10/07 version 2.31.0 tanaka			・BlockEditor上の画像を保存するように機能を追加
+ * 2015/10/07 version 2.31.1 ohata			・Blockの言語定義ファイルが自動生成されていなかった問題を修正
+ * 2015/12/09 version 2.31.2 hirao			・CocoViewerのKindファイルアップデート
+ *                                          ・Export時のDialog修正
  *
  * ＜懸案事項＞
  * ・
@@ -307,10 +311,10 @@ public class REApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.30.2";
-	public static final String BUILD_DATE = "2015/9/4";
+	public static final String VERSION = "2.31.3";
+	public static final String BUILD_DATE = "2015/12/9";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
-	public static final String COPYRIGHT = "Copyright(c) 2007-2014 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
+	public static final String COPYRIGHT = "Copyright(c) 2007-2015 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
 	public static final String SRC_ENCODING = "SJIS";
 	// public static final String SRC_ENCODING = "UTF-8"; // for test
@@ -881,10 +885,12 @@ public class REApplication {
 		deno = new GUI();
 		deno.run(args);
 		deno.getFrame().addWindowFocusListener(new WindowFocusListener() {
+			@Override
 			public void windowLostFocus(WindowEvent e) {
 				writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
 			}
 
+			@Override
 			public void windowGainedFocus(WindowEvent e) {
 				writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
 			}
@@ -895,42 +901,52 @@ public class REApplication {
 
 	private void hookDENOListener() {
 		NDebuggerManager.registerListener(new NDebuggerListener() {
+			@Override
 			public void stepPressed() {
 				writePresLog(PRCommandLog.SubType.STEP);
 			}
 
+			@Override
 			public void debugStarted() {
 				writePresLog(PRCommandLog.SubType.START_DEBUG);
 			}
 
+			@Override
 			public void debugFinished() {
 				writePresLog(PRCommandLog.SubType.STOP_DEBUG);
 			}
 
+			@Override
 			public void playPressed() {
 				writePresLog(PRCommandLog.SubType.DEBUG_PLAY);
 			}
 
+			@Override
 			public void stopPressed() {
 				writePresLog(PRCommandLog.SubType.DEBUG_STOP);
 			}
 
+			@Override
 			public void speedSet(int speed) {
 				writePresLog(PRCommandLog.SubType.DEBUG_SPEED, speed);
 			}
 
+			@Override
 			public void contPressed() {
 				writePresLog(PRCommandLog.SubType.DEBUG_CONT);
 			}
 
+			@Override
 			public void breakpointSet() {
 				writePresLog(PRCommandLog.SubType.DEBUG_BPSET);
 			}
 
+			@Override
 			public void breakpointClear() {
 				writePresLog(PRCommandLog.SubType.DEBUG_BPCLR);
 			}
 
+			@Override
 			public void changeAPMode(String mode) {
 				writePresLog(PRCommandLog.SubType.DEBUG_CHANGEMODE, mode);
 			}
@@ -1021,8 +1037,8 @@ public class REApplication {
 			CFile zip = dir.findOrCreateFile(name);
 			NewZipUtil.createZip(zip, project, project);
 
-			JOptionPane.showConfirmDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました",
-					JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました",
+			        JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (Exception ex) {
 			ex.printStackTrace(frame.getConsole().getErr());
