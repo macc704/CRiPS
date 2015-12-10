@@ -10,6 +10,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
+
 <BlockGenus name="cui-print[@int]" kind="command" initlabel="(CUI)出力する"
 	color="255 0 0">
 	<BlockConnectors>
@@ -18,6 +19,8 @@
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
+
+
 <BlockGenus name="cui-print[@object]" kind="command" initlabel="(CUI)出力する"
 	color="255 0 0">
 	<BlockConnectors>

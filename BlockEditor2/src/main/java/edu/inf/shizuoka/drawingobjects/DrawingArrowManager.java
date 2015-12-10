@@ -105,18 +105,22 @@ public class DrawingArrowManager implements WorkspaceListener {
 		}
 	}
 
+	@Override
 	public void workspaceEventOccurred(WorkspaceEvent event) {
 		if(event.getEventType() == WorkspaceEvent.BLOCK_ADDED && event.getWorkspace().getEnv().getBlock(event.getSourceBlockID()).getGenusName().equals("callerprocedure")){
 			//callerかつ表示状態ならcalleeとの矢印を作成
 			RenderableBlock sourceBlock = event.getWorkspace().getEnv().getRenderableBlock(event.getSourceBlockID());
 			RenderableBlock calleeBlock = event.getWorkspace().getEnv().getRenderableBlock(((BlockStub)sourceBlock.getBlock()).getParent().getBlockID());
-			ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, sourceBlock.isVisible(), isActive(), event.getWorkspace().getBlockCanvas().getCanvas().getBounds());
-			arrows.put(sourceBlock.getBlockID(), arrow);
-			getActivePage(event.getWorkspace()).addArrow(arrow);
+			if(calleeBlock.isVisible()){
+				ArrowObject arrow = new ArrowObject(sourceBlock, calleeBlock, sourceBlock.isVisible(), isActive(), event.getWorkspace().getBlockCanvas().getCanvas().getBounds());
+				arrows.put(sourceBlock.getBlockID(), arrow);
+				getActivePage(event.getWorkspace()).addArrow(arrow);
 
-			if(hasEmptySocket(sourceBlock.getBlock())){
-				arrow.changeColor(true);
+				if(hasEmptySocket(sourceBlock.getBlock())){
+					arrow.changeColor(true);
+				}				
 			}
+
 		}
 
 		if(event.getEventType() == WorkspaceEvent.BLOCK_COLLAPSED){

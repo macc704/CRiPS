@@ -34,6 +34,8 @@ import org.w3c.dom.NodeList;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblockutil.CToolTip;
 import edu.mit.blocks.renderable.RenderableBlock;
+import net.unicoen.parser.blockeditor.DOMUtil;
+import net.unicoen.parser.blockeditor.blockmodel.PageModel;
 
 /**
  * A Page serves as both an abstract container of blocks
@@ -130,6 +132,11 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
     private String pageId = null;
     /** Toggles to show/hide minimize page button. */
     private boolean hideMinimize = false;
+    
+    private List<String> superClasses = new ArrayList<>();
+    private List<String> interfaces = new ArrayList<>();
+    private List<String> modifiers = new ArrayList<>();
+    
     //////////////////////////////
     //Constructor/ Destructor	//
     //////////////////////////////
@@ -185,6 +192,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
 		this.pageJComponent.remove(p);
 	}
 
+	@Override
 	public void addArrow(Component p){
 		this.getRBParent().addToArrowLayer(p);
 		this.pageJComponent.revalidate();
@@ -725,7 +733,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
      * @return the RBParent representation of this Page
      */
     public RBParent getRBParent() {
-        return (RBParent) this.pageJComponent;
+        return this.pageJComponent;
     }
 
     /** @overrides WorkspaceWidget.contains() */
@@ -772,6 +780,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
         if (importingPage) {
             reset();
         }
+        
         for (int i = 0; i < pageChildren.getLength(); i++) {
             pageChild = pageChildren.item(i);
             if (pageChild.getNodeName().equals("PageBlocks")) {
@@ -784,9 +793,33 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
                     loadedBlocks.add(rb);
                 }
                 break;  //should only have one set of page blocks
+            }else if(pageChild.getNodeName().equals(PageModel.PAGE_INFO_NODE)){
+            	loadPageInfo(pageChild);
             }
         }
         return loadedBlocks;
+    }
+    
+    public void loadPageInfo(Node pageInfoNode){
+    	for(int i = 0; i < pageInfoNode.getChildNodes().getLength();i++){
+    		Node node = pageInfoNode.getChildNodes().item(i);
+    		if(PageModel.SUPER_CLASSES_NODE.equals(node.getNodeName())){
+    			this.superClasses = DOMUtil.getListFromNode(node, PageModel.SUPERCLASS_NAME_NODE);
+    		}else if(PageModel.MODIFIERS_NODE.equals(node.getNodeName())){
+    			this.modifiers = DOMUtil.getListFromNode(node, PageModel.MODIFIER_NODE);
+    		}else if(PageModel.INTERFASES_NODE.equals(node.getNodeName())){
+    			this.interfaces = DOMUtil.getListFromNode(node, PageModel.INTERFASE_NAME_NODE);
+    		}
+    	}
+    }
+
+    public void loadSuperClassesNode(Node superClassesNode){
+    	for(int i = 0; i < superClassesNode.getChildNodes().getLength();i++){
+    		Node node = superClassesNode.getChildNodes().item(i);
+    		if(PageModel.SUPERCLASS_NAME_NODE.equals(node.getNodeName())){
+    			superClasses.add(node.getTextContent());
+    		}
+    	}
     }
 
     public void addLoadedBlocks(Collection<RenderableBlock> loadedBlocks, boolean importingPage) {
@@ -840,6 +873,8 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
         if (pageId != null) {
             pageElement.setAttribute("page-id", pageId);
         }
+        
+       pageElement.appendChild(createPageInfoNode(document));
 
         //retrieve save strings of blocks within this Page
         Collection<RenderableBlock> blocks = this.getBlocks();
@@ -851,6 +886,36 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
             pageElement.appendChild(pageBlocksElement);
         }
     	return pageElement;
+    }
+    
+    public Node createPageInfoNode(Document document){
+    	Element pageInfo = document.createElement(PageModel.PAGE_INFO_NODE);
+    	Element superClassesNode =  document.createElement(PageModel.SUPER_CLASSES_NODE);
+    	for(String className : this.superClasses){
+    		Element element = document.createElement(PageModel.SUPERCLASS_NAME_NODE);
+    		element.setTextContent(className);
+    		superClassesNode.appendChild(element);
+    	}
+    	
+    	Element interfacesNode =  document.createElement(PageModel.INTERFASES_NODE);
+    	for(String interfaceName : this.interfaces){
+    		Element element = document.createElement(PageModel.INTERFASE_NAME_NODE);
+    		element.setTextContent(interfaceName);
+    		interfacesNode.appendChild(element);
+    	}
+    	
+    	Element modifiersNode =  document.createElement(PageModel.MODIFIERS_NODE);
+    	for(String interfaceName : this.modifiers){
+    		Element element = document.createElement(PageModel.MODIFIER_NODE);
+    		element.setTextContent(interfaceName);
+    		modifiersNode.appendChild(element);
+    	}
+    	
+    	pageInfo.appendChild(superClassesNode);
+    	pageInfo.appendChild(interfacesNode);
+    	pageInfo.appendChild(modifiersNode);
+    	
+    	return pageInfo;
     }
 
     ////////////////////////////////////
@@ -1148,6 +1213,7 @@ class PageJComponent extends JLayeredPane implements RBParent {
     private boolean fullview = true;
 
 
+	@Override
 	public void addToArrowLayer(Component c){
 		this.add(c, ARROW_LAYER);
 	}

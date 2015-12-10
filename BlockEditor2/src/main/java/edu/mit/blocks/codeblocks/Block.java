@@ -21,6 +21,7 @@ import edu.mit.blocks.renderable.BlockImageIcon.ImageLocation;
 import edu.mit.blocks.workspace.ISupportMemento;
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEnvironment;
+import net.unicoen.parser.blockeditor.blockmodel.BlockProcedureModel;
 
 /**
  * Block holds the mutable prop (data) of a particular block. These mutable prop
@@ -1638,6 +1639,12 @@ public class Block implements ISupportMemento {
 			Element nameElement = document.createElement("ParentMethod");
 			nameElement.appendChild(document.createTextNode(getTopBlock(this).getBlockID().toString()));
 			blockElement.appendChild(nameElement);
+		}
+		
+		if(isMain){
+			Element mainNode = document.createElement(BlockProcedureModel.MAIN_NODE);
+			mainNode.setTextContent("true");
+			blockElement.appendChild(mainNode);
 		}
 
 		// Location
