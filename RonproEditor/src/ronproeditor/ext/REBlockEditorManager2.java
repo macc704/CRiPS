@@ -96,9 +96,11 @@ public class REBlockEditorManager2 {
 				e.printStackTrace();
 			} catch (SAXException e) {
 				e.printStackTrace();
+			} catch (RuntimeException e){
+				e.printStackTrace();
+			}finally{
+				tmpSrcFile.delete();				
 			}
-
-			tmpSrcFile.delete();
 
 			return xmlfile.getAbsolutePath();
 		};
