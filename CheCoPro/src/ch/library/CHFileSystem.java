@@ -21,12 +21,21 @@ public class CHFileSystem {
 	public static final String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
 	public static final String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
 	
-	public static final String SYNCPROJECTPATH = "MyProjects/winter";
+	public static final String SYNCPROJECTNAME = "winter";
+	public static final String SYNCPROJECTPATH = "MyProjects/" + SYNCPROJECTNAME;
 	public static final String CHDIRPATH = "MyProjects/.CH";
 	
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
 				"CH/" + port);
+	}
+	
+	public static boolean existSyncProject() {
+		if (CFileSystem.getExecuteDirectory().findDirectory(SYNCPROJECTPATH) != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public static CDirectory getUserDirForServer(String user, int port) {
@@ -39,7 +48,7 @@ public class CHFileSystem {
 
 	public static CDirectory getUserDirForClient(String user) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/.CH/" + user + "/winter");
+				CHDIRPATH + "/" + user + "/" + SYNCPROJECTNAME);
 	}
 
 	// for plug-in

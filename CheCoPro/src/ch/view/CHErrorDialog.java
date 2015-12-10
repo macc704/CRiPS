@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import ch.library.CHFileSystem;
 import clib.view.windowmanager.CWindowCentraizer;
 
 public class CHErrorDialog extends JDialog {
@@ -24,6 +25,7 @@ public class CHErrorDialog extends JDialog {
 	public static final int ILLEGAL_PASS = 1;
 	public static final int CONNECTION_FAILED = 2;
 	public static final int CONNECTION_KILLED = 3;
+	public static final int PROJECT_MISSING = 4;
 	
 	private int errorCode;
 	
@@ -91,6 +93,8 @@ public class CHErrorDialog extends JDialog {
 			return "接続に失敗しました．";
 		case CONNECTION_KILLED:
 			return "接続が切れました．";
+		case PROJECT_MISSING:
+			return "プロジェクト「" + CHFileSystem.SYNCPROJECTNAME + "」が見つかりません．";
 		}
 		return "";
 	}

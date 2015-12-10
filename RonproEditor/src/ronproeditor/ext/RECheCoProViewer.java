@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -138,6 +139,19 @@ public class RECheCoProViewer {
 		}
 	};
 	
+	private WindowFocusListener windowFocuslistener = new WindowFocusListener() {
+		
+		@Override
+		public void windowLostFocus(WindowEvent e) {
+			writeFocusLostLog("JAVA");
+		}
+		
+		@Override
+		public void windowGainedFocus(WindowEvent e) {
+			writeFocusGainedLog("JAVA");
+		}
+	};
+	
 	// ログ用にコピーしたコード取得（ショートカットキー）
 	private KeyListener keyListener = new KeyAdapter() {
 		int mod;
@@ -159,10 +173,15 @@ public class RECheCoProViewer {
 	
 	private void initializeListeners() {
 		initializePropertyChangeListener();
+		initializeWindowFocusListener();
 	}
 	
 	private void initializePropertyChangeListener() {
 		application.getSourceManager().addPropertyChangeListener(propertyChangeListener);
+	}
+	
+	private void initializeWindowFocusListener() {
+		application.getFrame().addWindowFocusListener(windowFocuslistener);
 	}
 	
 	private void addKeyListener() {
@@ -380,6 +399,7 @@ public class RECheCoProViewer {
 			@Override
 			public void run() {
 				addBlockEditorWindowListener(bc);
+				addBlockEditorWindowForcusListener(bc);
 			}
 		});
 	}
@@ -409,6 +429,21 @@ public class RECheCoProViewer {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				setEnabledForSyncButton(true);
+			}
+		});
+	}
+	
+	private void addBlockEditorWindowForcusListener(CHBlockEditorController bc) {
+		bc.getBlockEditorFrame().addWindowFocusListener(new WindowFocusListener() {
+			
+			@Override
+			public void windowLostFocus(WindowEvent e) {
+				writeFocusLostLog("BLOCK");
+			}
+			
+			@Override
+			public void windowGainedFocus(WindowEvent e) {
+				writeFocusGainedLog("BLOCK");
 			}
 		});
 	}
@@ -481,17 +516,29 @@ public class RECheCoProViewer {
 	 * LOG
 	 ******/
 	
+	public void writePresLog(PRCheCoProLog.SubType subType, String... message) {
+		try {
+			PRLog log = new PRCheCoProLog(subType, null, message);
+			baseApplication.writePresLog(log, CHFileSystem.getSyncProjectDir());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
 	public void writeAllImportLog(List<CHFile> files) {
 		String[] paths = new String[files.size()];
 		for (int i = 0; i < files.size(); i++) {
 			paths[i] = files.get(i).getPath();
 		}
-		try {
-			PRLog log = new PRCheCoProLog(PRCheCoProLog.SubType.ALL_IMPORT, null, paths);
-			baseApplication.writePresLog(log, CHFileSystem.getSyncProjectDir());
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+		writePresLog(PRCheCoProLog.SubType.ALL_IMPORT, paths);
+	}
+	
+	public void writeFocusGainedLog(String viewType) {
+		writePresLog(PRCheCoProLog.SubType.FOCUS_GAINED, user, viewType);
+	}
+	
+	public void writeFocusLostLog(String viewType) {
+		writePresLog(PRCheCoProLog.SubType.FOCUS_LOST, user, viewType);
 	}
 	
 	public void doneCopyAction() {

@@ -16,10 +16,9 @@ public class PRCheCoProLog extends PRFileLog{
 		CH_COMMAND_RECORD
 	};
 	
-	// ALL_IMPORTはuser, java, resourceの順
 	// PARTIAL_IMPORTはuser, file name, source codeの順
 	public static enum SubType implements PRLogSubType {
-		LOGIN, LOGOUT, ALL_IMPORT, PARTIAL_IMPORT
+		LOGIN, LOGOUT, ALL_IMPORT, PARTIAL_IMPORT, FOCUS_GAINED, FOCUS_LOST
 	};
 	
 	/**

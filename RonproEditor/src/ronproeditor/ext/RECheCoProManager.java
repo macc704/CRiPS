@@ -17,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -104,12 +105,14 @@ public class RECheCoProManager {
 	private PropertyChangeListener rePropertyChangeListener;
 	private KeyListener reKeyListener;
 	private WindowListener reWindowListener;
+	private WindowFocusListener reWindowFocusListener;
 
 	private void initializeREListener() {
 
 		initializeREMenuListener();
 		initializeREPropertyChangeListener();
 		initializeREWindowListener();
+		initializeREWindowFocusListener();
 	}
 	
 	private void initializeREPropertyChangeListener() {
@@ -173,6 +176,22 @@ public class RECheCoProManager {
 		}
 	}
 	
+	private void initializeREWindowFocusListener() {
+		reWindowFocusListener = new WindowFocusListener() {
+			
+			@Override
+			public void windowLostFocus(WindowEvent e) {
+				writeFocusLostLog();
+			}
+			
+			@Override
+			public void windowGainedFocus(WindowEvent e) {
+				writeFocusGainedLog();
+			}
+		};
+		application.getFrame().addWindowFocusListener(reWindowFocusListener);
+	}
+	
 	private ActionListener pasteListener = new ActionListener() {
 		
 		@Override
@@ -214,16 +233,11 @@ public class RECheCoProManager {
 	 ********************/
 
 	public void start() {
-		if (!CHLib.isCorrectID(user)) {
-			new CHErrorDialog(CHErrorDialog.ILLEGAL_ID).doOpen();
-			return;
-		} else if (!CHLib.isCorrectPass(password)) {
-			new CHErrorDialog(CHErrorDialog.ILLEGAL_PASS).doOpen();
-			return;
+		if (canStart()) {
+			cliant = new CHCliant(port, user, password, color);
+			cliant.setComponent(addCHListener());
+			cliant.start();
 		}
-		cliant = new CHCliant(port, user, password, color);
-		cliant.setComponent(addCHListener());
-		cliant.start();
 	}
 	
 	/**
@@ -316,9 +330,9 @@ public class RECheCoProManager {
 	
 	private void processLoginResult() {
 		initializeREListener();
+		writePresLog(PRCheCoProLog.SubType.LOGIN);
 		application.doRefresh();
 		pref.getPage().setEnabled(false);
-		writePresLog(PRCheCoProLog.SubType.LOGIN);
 	}
 
 	private void processLoginMemberChanged(List<CHUserState> userStates) {
@@ -380,10 +394,11 @@ public class RECheCoProManager {
 		removeREKeyListner();
 		removeREMenuListener();
 		resetREWindowListener();
+		removeREWindowFocusListener();
 	}
 	
 	private void removeREKeyListner() {
-		if (reKeyListener != null) {
+		if (reKeyListener != null && application.getFrame().getEditor() != null) {
 			application.getFrame().getEditor().getViewer().getTextPane()
 					.removeKeyListener(reKeyListener);
 		}
@@ -408,6 +423,10 @@ public class RECheCoProManager {
 				application.doExit();
 			}
 		});
+	}
+	
+	private void removeREWindowFocusListener() {
+		application.getFrame().removeWindowFocusListener(reWindowFocusListener);
 	}
 
 	private void closeCHEditors() {
@@ -439,6 +458,20 @@ public class RECheCoProManager {
 	 */
 	public boolean isCopiedCode(String copyCode) {
 		return copyCode.equals(getClipbordString()) && !copyCode.equals("");
+	}
+	
+	public boolean canStart() {
+		if (!CHLib.isCorrectID(user)) {
+			new CHErrorDialog(CHErrorDialog.ILLEGAL_ID).doOpen();
+			return false;
+		} else if (!CHLib.isCorrectPass(password)) {
+			new CHErrorDialog(CHErrorDialog.ILLEGAL_PASS).doOpen();
+			return false;
+		} else if (!CHFileSystem.existSyncProject()) {
+			new CHErrorDialog(CHErrorDialog.PROJECT_MISSING).doOpen();
+			return false;
+		}
+		return true;
 	}
 	
 	/********************
@@ -491,7 +524,7 @@ public class RECheCoProManager {
 	public void writePresLog(PRCheCoProLog.SubType subType, String... message) {
 		try {
 			CPath path = null;
-			if (application.getSourceManager().getProjectDirectory() != null) {
+			if (application.getSourceManager().getCCurrentFile() != null) {
 				path = application.getSourceManager().getCCurrentFile()
 						.getRelativePath(application.getSourceManager().getCCurrentProject());
 			}
@@ -513,6 +546,14 @@ public class RECheCoProManager {
 			String copyFilePath = info.get(2);
 			writePresLog(PRCheCoProLog.SubType.PARTIAL_IMPORT, user, copyFilePath, copyCode);
 		}
+	}
+	
+	public void writeFocusGainedLog() {
+		writePresLog(PRCheCoProLog.SubType.FOCUS_GAINED, user);
+	}
+	
+	public void writeFocusLostLog() {
+		writePresLog(PRCheCoProLog.SubType.FOCUS_LOST, user);
 	}
 
 	/****************

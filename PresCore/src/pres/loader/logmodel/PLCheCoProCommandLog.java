@@ -31,6 +31,10 @@ public class PLCheCoProCommandLog extends PLFileLog{
 			return "全部取込";
 		} else if (subType.equals("PARTIAL_IMPORT")) {
 			return "部分取込";
+		} else if (subType.equals("FOCUS_GAINED")) {
+			return "フォーカスを得る";
+		} else if (subType.equals("FOCUS_LOST")) {
+			return "フォーカスを失う";	
 		} else {
 			return subType;
 		}

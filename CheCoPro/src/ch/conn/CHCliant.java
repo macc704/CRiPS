@@ -13,11 +13,13 @@ import ch.view.CHErrorDialog;
 
 public class CHCliant {
 	
+	public static final String ROOIBOS_SERVER = "160.16.89.112";
+	
 	public static final String DEFAULT_NAME = "";
 	public static final String DEFAULT_PASSWAOD = "";
 	public static final Color DEFAULT_COLOR = Color.WHITE;
 	public static final int DEFAULT_PORT = 20000;
-	public static final String IP = "160.16.89.112";
+	public static final String IP = "localhost";
 	public static final int DEFAULT_LANGUAGE = 0;
 	
 	private int port = DEFAULT_PORT;
