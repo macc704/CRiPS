@@ -62,8 +62,9 @@ public class NVariableTool extends JPanel {
 	private void init() {
 		setLayout(new BorderLayout());
 
+		String[] columnNames = { "変数名", "値", "型", "位置" };
 		tableModel = new DefaultTableModel(columnNames, 0);
-
+		
 		table = new JTable(tableModel) {
 			public TableCellRenderer getCellRenderer(int row, int column) {
 				return new DefaultTableCellRenderer() {
@@ -95,7 +96,7 @@ public class NVariableTool extends JPanel {
 		scroll.setPreferredSize(new java.awt.Dimension(300, 500));
 		this.add(scroll);
 	}
-
+	
 	private boolean reversed = false;
 
 	public void refreshVariableTable() {
@@ -116,8 +117,8 @@ public class NVariableTool extends JPanel {
 			StackFrame currentFrame = frames.getFirst();
 
 			int row = 0;
-			if (reversed == false) {// �Â����̂����->��(���\�b�h�́i�X�^�b�N�t���ɂȂ��Ă���̂Łj�t���ɁC
-									// �ϐ����͂��̂܂܁j
+			if (reversed == false) {// 古いものから上->下(メソッドは（スタック逆順になっているので）逆順に，
+									// 変数順はそのまま）
 				Collections.reverse(frames);
 				for (StackFrame frame : frames) {
 					currentFlag = frame == currentFrame;
@@ -145,7 +146,7 @@ public class NVariableTool extends JPanel {
 						row++;
 					}
 				}
-			} else {// �V�������̂����->���i���\�b�h���͂��̂܂܁C�ϐ����͋t���Ɂj
+			} else {// 新しいものから上->下（メソッド順はそのまま，変数順は逆順に）
 				for (StackFrame frame : frames) {
 					currentFlag = frame == currentFrame;
 					List<LocalVariable> vars = new ArrayList<LocalVariable>(
@@ -208,14 +209,12 @@ public class NVariableTool extends JPanel {
 		}
 	}
 
-	private String[] columnNames = { "�ϐ���", "�l", "�^", "�ʒu" };
-
 	private void addVariable(StackFrame stackFrame, String varName,
 			String typeName, Object value) {
 		String valString = value == null ? "null" : value.toString();
 		// String data[] = { methodName, varName + " (" + typeName +
-		// "�^)",valString };
-		Object data[] = { varName, valString, typeName + "�^",
+		// "型)",valString };
+		Object data[] = { varName, valString, typeName + "型",
 				toString(stackFrame) };
 		tableModel.addRow(data);
 		currentVariables.add(data);

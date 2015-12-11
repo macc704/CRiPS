@@ -93,9 +93,9 @@ public class NAutoRunTool extends JPanel {
 		// toggle = new JToggleButton("OFF");
 
 		// radio button
-		lineMode = new JRadioButton("�W�����[�h");
+		lineMode = new JRadioButton("標準モード");
 		lineMode.setSelected(false);
-		betweenMode = new JRadioButton("DENO���[�h");
+		betweenMode = new JRadioButton("DENOモード");
 		betweenMode.setSelected(true);
 		apModeBtns = new ButtonGroup();
 		apModeBtns.add(lineMode);
@@ -127,7 +127,7 @@ public class NAutoRunTool extends JPanel {
 		runbtn.setSelectedIcon(pauseIcon);
 
 		// label
-		label = new JLabel("���x�F");
+		label = new JLabel("速度：");
 
 		// scrollbar
 		// scroll = new JScrollBar(JDELAY.HORIZONTAL, -DELAY_DEFAULT, extent,
@@ -143,8 +143,8 @@ public class NAutoRunTool extends JPanel {
 				SLIDER_DEFAULT);
 		slider.setInverted(true);
 		Hashtable<Integer, JComponent> labeltable = new Hashtable<Integer, JComponent>();
-		labeltable.put(new Integer(SLIDER_MAX), new JLabel("�x"));
-		labeltable.put(new Integer(SLIDER_MIN), new JLabel("��"));
+		labeltable.put(new Integer(SLIDER_MAX), new JLabel("遅"));
+		labeltable.put(new Integer(SLIDER_MIN), new JLabel("速"));
 		slider.setLabelTable(labeltable);
 		slider.setPaintTicks(true);
 		slider.setMajorTickSpacing(1);
@@ -183,7 +183,7 @@ public class NAutoRunTool extends JPanel {
 
 		/*
 		 * contbtn.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { // ���O
+		 * actionPerformed(ActionEvent e) { // ログ
 		 * interpreter.executeCommand("cont"); } });
 		 */
 
@@ -212,7 +212,7 @@ public class NAutoRunTool extends JPanel {
 						}
 						timer.start();
 					} else {
-						// ���O�Ƃ�K�v
+						// ログとり必要
 						interpreter.executeCommand("cont");
 						source.setSelected(false);
 						stepbtn.setEnabled(true);
@@ -235,13 +235,13 @@ public class NAutoRunTool extends JPanel {
 		slider.addChangeListener(new SliderListener());
 		stepbtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				stepbtn.setEnabled(false);// matsuzawa stepbutton disable�@�\
+				stepbtn.setEnabled(false);// matsuzawa stepbutton disable機能
 				NDebuggerManager.fireStepPressed();
 				interpreter.executeCommand("step");
 				// System.out.println(env.getLinenum());
 			}
 		});
-		// matsuzawa stepbutton disable�@�\
+		// matsuzawa stepbutton disable機能
 		stepbtn.setEnabled(false);
 		env.getExecutionManager().addJDIListener(new JDIAdapter() {
 			@Override
