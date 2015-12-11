@@ -345,7 +345,7 @@ public class SourceTool extends JPanel {
 				int index, boolean isSelected, boolean cellHasFocus) {
 			// matsuzawa version (Textpane)
 			SourceModel.Line line = (SourceModel.Line) value;
-			// String linenum = String.format("%4d: ", index + 1);// <-縺壹ｌ縺ｦ縺ｪ縺�?
+			// String linenum = String.format("%4d: ", index + 1);// <-ずれてない?
 			String text = line.text;
 			try {
 				MyJTextPane pane = new MyJTextPane(new CJavaCodeDocument());
