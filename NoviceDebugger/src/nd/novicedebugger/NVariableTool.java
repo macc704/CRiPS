@@ -62,8 +62,9 @@ public class NVariableTool extends JPanel {
 	private void init() {
 		setLayout(new BorderLayout());
 
-		tableModel = new DefaultTableModel(fixColumnNamesEncoding(columnNames), 0);
-
+		String[] columnNames = { "変数名", "値", "型", "位置" };
+		tableModel = new DefaultTableModel(columnNames, 0);
+		
 		table = new JTable(tableModel) {
 			public TableCellRenderer getCellRenderer(int row, int column) {
 				return new DefaultTableCellRenderer() {
@@ -96,20 +97,6 @@ public class NVariableTool extends JPanel {
 		this.add(scroll);
 	}
 	
-	private String[] fixColumnNamesEncoding(String[] columnNames) {
-		String[] encodingfixedcolumnNames = new String[columnNames.length];
-		String encording = System.getProperty("file.encoding");
-		for(int i = 0; i < columnNames.length; i++) {
-			try {
-				encodingfixedcolumnNames[i] = new String(columnNames[i].getBytes(), encording);
-			} catch(Exception e) {
-				encodingfixedcolumnNames[i] = "";
-				e.printStackTrace();
-			}
-		}
-		return encodingfixedcolumnNames;
-	}
-
 	private boolean reversed = false;
 
 	public void refreshVariableTable() {
@@ -221,8 +208,6 @@ public class NVariableTool extends JPanel {
 			}
 		}
 	}
-
-	private String[] columnNames = { "変数名", "値", "型", "位置" };
 
 	private void addVariable(StackFrame stackFrame, String varName,
 			String typeName, Object value) {
