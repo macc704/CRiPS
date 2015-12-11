@@ -62,7 +62,7 @@ public class NVariableTool extends JPanel {
 	private void init() {
 		setLayout(new BorderLayout());
 
-		tableModel = new DefaultTableModel(columnNames, 0);
+		tableModel = new DefaultTableModel(fixColumnNamesEncoding(columnNames), 0);
 
 		table = new JTable(tableModel) {
 			public TableCellRenderer getCellRenderer(int row, int column) {
@@ -94,6 +94,20 @@ public class NVariableTool extends JPanel {
 		scroll = new JScrollPane(table);
 		scroll.setPreferredSize(new java.awt.Dimension(300, 500));
 		this.add(scroll);
+	}
+	
+	private String[] fixColumnNamesEncoding(String[] columnNames) {
+		String[] encodingfixedcolumnNames = new String[columnNames.length];
+		String encording = System.getProperty("file.encoding");
+		for(int i = 0; i < columnNames.length; i++) {
+			try {
+				encodingfixedcolumnNames[i] = new String(columnNames[i].getBytes(), encording);
+			} catch(Exception e) {
+				encodingfixedcolumnNames[i] = "";
+				e.printStackTrace();
+			}
+		}
+		return encodingfixedcolumnNames;
 	}
 
 	private boolean reversed = false;
