@@ -60,6 +60,7 @@ public class RECheCoProManager {
 	public static final int ITEM_INDEX_PASTE = 5;
 	public static final int ITEM_INDEX_SAVE = 8;
 	public static final int ITEM_INDEX_REFRESH = 12;
+	public static final int ITEM_INDEX_EXIT = 14;
 
 	private static int CTRL_MASK = InputEvent.CTRL_MASK;
 	static {
@@ -159,9 +160,7 @@ public class RECheCoProManager {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				if (cliant.getConn().established()) {
-					cliant.getConn().write(new CHLogoutRequest(user));
-				}
+				logout();
 				application.doExit();
 			}
 		};
@@ -218,6 +217,14 @@ public class RECheCoProManager {
 		}
 	};
 	
+	private ActionListener exitListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			logout();
+		}
+	};
+	
 	private void initializeREMenuListener() {
 		
 		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_EDIT).getItem(ITEM_INDEX_PASTE)
@@ -226,6 +233,8 @@ public class RECheCoProManager {
 				.addActionListener(saveListener);
 		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_FILE).getItem(ITEM_INDEX_REFRESH)
 				.addActionListener(refreshListener);
+		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_FILE).getItem(ITEM_INDEX_EXIT)
+				.addActionListener(exitListener);
 	}
 
 	/********************
@@ -303,7 +312,7 @@ public class RECheCoProManager {
 		} else if (message.equals("WindowClosing")) {
 			// 開いているCHEditorを閉じる
 			closeCHEditors();
-			cliant.getConn().write(new CHLogoutRequest(user));
+			logout();
 		}
 	}
 	
@@ -330,7 +339,7 @@ public class RECheCoProManager {
 	
 	private void processLoginResult() {
 		initializeREListener();
-		writePresLog(PRCheCoProLog.SubType.LOGIN);
+		writeLoginLog();
 		application.doRefresh();
 		pref.getPage().setEnabled(false);
 	}
@@ -363,7 +372,6 @@ public class RECheCoProManager {
 	
 	private void processLogoutResult() {
 		connectionKilled();
-		writePresLog(PRCheCoProLog.SubType.LOGOUT);
 	}
 	
 	/**
@@ -376,6 +384,13 @@ public class RECheCoProManager {
 				.getScroll().getViewport().getViewPosition();
 		
 		cliant.getProcessManager().sendText(source, currentFileName, point);
+	}
+	
+	private void logout() {
+		if (cliant.getConn().established()) {
+			cliant.getConn().write(new CHLogoutRequest(user));
+		}
+		writeLogoutLog();
 	}
 
 	/*********
@@ -412,6 +427,8 @@ public class RECheCoProManager {
 				.removeActionListener(saveListener);
 		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_FILE).getItem(ITEM_INDEX_REFRESH)
 				.removeActionListener(refreshListener);
+		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_FILE).getItem(ITEM_INDEX_EXIT)
+				.removeActionListener(exitListener);
 	}
 	
 	private void resetREWindowListener() {
@@ -554,6 +571,14 @@ public class RECheCoProManager {
 	
 	public void writeFocusLostLog() {
 		writePresLog(PRCheCoProLog.SubType.FOCUS_LOST, user);
+	}
+	
+	public void writeLoginLog() {
+		writePresLog(PRCheCoProLog.SubType.LOGIN);
+	}
+	
+	public void writeLogoutLog() {
+		writePresLog(PRCheCoProLog.SubType.LOGOUT);
 	}
 
 	/****************

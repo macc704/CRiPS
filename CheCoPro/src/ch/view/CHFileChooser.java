@@ -123,7 +123,11 @@ public class CHFileChooser extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				FileTreeNode selectedNode = (FileTreeNode) memberTree.getLastSelectedPathComponent();
 				if (selectedNode != null) {
-					userTree.insertNode(selectedNode);
+					if (selectedNode.getParent() == null) {
+						importAllFiles();
+					} else {
+						userTree.insertNode(selectedNode);
+					}
 				}
 			}
 		});
@@ -142,9 +146,7 @@ public class CHFileChooser extends JDialog {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for (int i = 0; i < memberTree.getRoot().getChildCount(); i++) {
-					userTree.insertNode((FileTreeNode) memberTree.getRoot().getChildAt(i));
-				}
+				importAllFiles();
 			}
 		});
 		
@@ -220,6 +222,12 @@ public class CHFileChooser extends JDialog {
 			}
 		});
 		return button;
+	}
+	
+	private void importAllFiles() {
+		for (int i = 0; i < memberTree.getRoot().getChildCount(); i++) {
+			userTree.insertNode((FileTreeNode) memberTree.getRoot().getChildAt(i));
+		}
 	}
 	
 	public void doOpen() {
