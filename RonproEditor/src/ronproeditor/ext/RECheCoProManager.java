@@ -289,6 +289,7 @@ public class RECheCoProManager {
 		} else if (message.equals("LogoutResultReceived")) {
 			processLogoutResult();
 		} else if (message.equals("ConnectionKilled")) {
+			writeABENDLog();
 			connectionKilled();
 		}
 	}
@@ -580,6 +581,10 @@ public class RECheCoProManager {
 	
 	public void writeLogoutLog() {
 		writePresLog(PRCheCoProLog.SubType.LOGOUT);
+	}
+	
+	public void writeABENDLog() {
+		writePresLog(PRCheCoProLog.SubType.ABEND);
 	}
 
 	/****************

@@ -35,6 +35,8 @@ public class PLCheCoProCommandLog extends PLFileLog{
 			return "フォーカスを得る";
 		} else if (subType.equals("FOCUS_LOST")) {
 			return "フォーカスを失う";	
+		} else if (subType.equals("ABEND")) {
+			return "異常終了";
 		} else {
 			return subType;
 		}
