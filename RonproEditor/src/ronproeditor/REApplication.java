@@ -434,7 +434,7 @@ public class REApplication {
 						"*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
 		this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
 
-		CFile preferenceFile = CFileSystem.findDirectory(DEFAULT_ROOT).findOrCreateFile(".pref/preference");
+		CFile preferenceFile = CFileSystem.findDirectory(root.getAbsolutePath()).findOrCreateFile(".pref/preference");
 		this.preferenceManager = new CPreferenceManager(preferenceFile);
 
 		this.libraryManager = new RELibraryManager(LIB_FOLDER);

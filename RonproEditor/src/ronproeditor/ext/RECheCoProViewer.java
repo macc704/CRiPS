@@ -33,6 +33,7 @@ import pres.core.model.PRLog;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
 import clib.common.system.CJavaSystem;
+import clib.preference.model.ICPreferenceCategory;
 import ch.conn.framework.CHConnection;
 import ch.conn.framework.CHFile;
 import ch.conn.framework.CHUserState;
@@ -43,6 +44,7 @@ import ch.util.CHBlockEditorController;
 import ch.view.CHFileChooser;
 import ronproeditor.REApplication;
 import ronproeditor.RESourceManager;
+import ronproeditor.ext.RECheCoProManager.CheCoProPreferenceCategory;
 
 public class RECheCoProViewer {
 
@@ -83,10 +85,19 @@ public class RECheCoProViewer {
 	 ***********/
 	
 	public void initialize() {
+		initializePref();
 		initializeFrame();
 		initializeListeners();
 		initializeMenuBer();
 		setEnabledForMenuBar(!synchronizing);
+	}
+	
+	private void initializePref() {
+		for (ICPreferenceCategory aCategory : application.getPreferenceManager().getCategories()) {
+			if (aCategory instanceof CheCoProPreferenceCategory) {
+				((CheCoProPreferenceCategory) aCategory).getPage().setEnabled(false);
+			}
+		}
 	}
 	
 	private void initializeFrame() {
