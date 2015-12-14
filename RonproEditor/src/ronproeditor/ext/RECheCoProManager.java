@@ -349,6 +349,7 @@ public class RECheCoProManager {
 		for (CHUserState aUserState : userStates) {
 			if (chViewers.containsKey(aUserState.getUser())) {
 				// ログイン状態に合わせて同期ボタン操作
+				chViewers.get(aUserState.getUser()).setUserStates(userStates);
 				chViewers.get(aUserState.getUser()).setEnabledForSyncButton(aUserState.isLogin());
 			}
 		}

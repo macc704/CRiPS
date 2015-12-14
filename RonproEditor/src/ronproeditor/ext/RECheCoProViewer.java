@@ -428,7 +428,11 @@ public class RECheCoProViewer {
 			
 			@Override
 			public void windowClosed(WindowEvent e) {
-				setEnabledForSyncButton(true);
+				for (CHUserState aUserState : userStates) {
+					if (aUserState.getUser().equals(user) && aUserState.isLogin()) {
+						setEnabledForSyncButton(true);
+					}
+				}
 			}
 		});
 	}
