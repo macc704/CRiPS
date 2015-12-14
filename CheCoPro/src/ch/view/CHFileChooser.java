@@ -123,7 +123,7 @@ public class CHFileChooser extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				FileTreeNode selectedNode = (FileTreeNode) memberTree.getLastSelectedPathComponent();
 				if (selectedNode != null) {
-					if (selectedNode.getParent() == null) {
+					if (selectedNode.getFileElement().getNameByString().equals(CHFileSystem.SYNCPROJECTNAME)) {
 						importAllFiles();
 					} else {
 						userTree.insertNode(selectedNode);
@@ -260,7 +260,7 @@ public class CHFileChooser extends JDialog {
 	public static void main(String[] args) {
 		
 		CDirectory userRootDir = new CDirectory(new CPath(CHFileSystem.SYNCPROJECTPATH));
-		CDirectory memberRootDir = new CDirectory(new CPath(CHFileSystem.CHDIRPATH + "/Jiro/final"));
+		CDirectory memberRootDir = new CDirectory(new CPath(CHFileSystem.CHDIRPATH + "/700511000/" + CHFileSystem.SYNCPROJECTNAME));
 		
 		CHFileChooser frame = new CHFileChooser(userRootDir, memberRootDir);
 		

@@ -18,6 +18,7 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreeSelectionModel;
 
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileElement;
@@ -47,6 +48,7 @@ public class CHFileTree extends JTree implements TreeSelectionListener, TreeCell
 	
 	public void initialize() {
 		this.setToggleClickCount(1);
+		this.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		renderer = (DefaultTreeCellRenderer) this.cellRenderer;
 		this.setCellRenderer(this);
 		addTreeSelectionListener(this);
