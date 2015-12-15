@@ -32,7 +32,6 @@ import pres.core.model.PRCheCoProLog;
 import pres.core.model.PRLog;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
-import clib.common.filesystem.CFileSystem;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.ICPreferenceCategory;
 import ch.conn.framework.CHConnection;

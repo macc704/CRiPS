@@ -10,7 +10,6 @@ import edu.mit.blocks.controller.WorkspaceController;
 
 public class CHBlockEditorController {
 
-	public static String DEFAULT_CUI_PATH = "templates/CUI";
 	public static String DEFAULT_LANGDEF_PATH = "ext/block2/lang_def_genuses_cui.xml";
 	
 	private WorkspaceController wc;
