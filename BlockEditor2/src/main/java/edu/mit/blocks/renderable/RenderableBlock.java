@@ -38,7 +38,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import edu.inf.shizuoka.blocks.extent.SAbstractionBlockShape;
-import edu.inf.shizuoka.blocks.extent.SMarkupBalloon;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
@@ -174,7 +173,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 
 	private BlockHilighter hilighter = new BlockHilighter();
 
-	private SMarkupBalloon balloon = new SMarkupBalloon(this);
+//	private SMarkupBalloon balloon = new SMarkupBalloon(this);
 
 	/**
 	 * Constructs a new RenderableBlock instance with the specified parent
@@ -1803,7 +1802,7 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 
 				// if this is the first call to mouseDragged
 				if (!dragging) {
-					balloon.myHide(getX() + e.getX(), getY() + e.getY());
+//					balloon.myHide(getX() + e.getX(), getY() + e.getY());
 					Block block = getBlock();
 					BlockConnector plug = BlockLinkChecker.getPlugEquivalent(block);
 					if (plug != null && plug.hasBlock()) {
@@ -1835,9 +1834,9 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		if (!dragging) {
-			balloon.show(getX() + getBlockWidth() / 2, getY());
-		}
+//		if (!dragging) {
+//			balloon.show(getX() + getBlockWidth() / 2, getY());
+//		}
 		dragHandler.mouseEntered(e);
 		// !dragging: don't redraw while dragging
 		// !SwingUtilities.isLeftMouseButton: dragging mouse moves into another
@@ -1851,9 +1850,9 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		if (!dragging) {
-			balloon.myHide(this.getX() + e.getX(), this.getY() + e.getY());
-		}
+//		if (!dragging) {
+//			balloon.myHide(this.getX() + e.getX(), this.getY() + e.getY());
+//		}
 		dragHandler.mouseExited(e);
 		// !dragging: don't redraw while dragging
 		// !SwingUtilities.isLeftMouseButton: dragging mouse moves into another
