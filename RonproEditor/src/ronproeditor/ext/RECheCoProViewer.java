@@ -54,6 +54,7 @@ public class RECheCoProViewer {
 	public static final int MENU_INDEX_EDIT = 1;
 	public static final int MENU_INDEX_TOOLS = 3;
 	public static final int MENU_INDEX_SYNC = 5;
+	public static final int ITEM_INDEX_BLOCK = 0;
 	public static final int ITEM_INDEX_CUT = 3;
 	public static final int ITEM_INDEX_COPY = 4;
 	
@@ -145,6 +146,8 @@ public class RECheCoProViewer {
 				addKeyListener();
 			} else if (property.equals(RESourceManager.PREPARE_DOCUMENT_CLOSE)) {
 				removeKeyListener();
+			} else if (property.equals(RESourceManager.DOCUMENT_CLOSED)) {
+				reloadBlockEditor();
 			}
 			setTitile();
 		}
@@ -411,6 +414,7 @@ public class RECheCoProViewer {
 				addBlockEditorWindowForcusListener(bc);
 				if (bc.getWorkspaceController().isOpened()) {
 					setEnabledForSyncButton(false);
+					setEnabledForBlockMenu(false);
 				}
 			}
 		});
@@ -422,13 +426,15 @@ public class RECheCoProViewer {
 		String langDefFilePath = CHBlockEditorController.DEFAULT_LANGDEF_PATH;
 		String xmlFilePath = "";
 		
-		if (bc.getWorkspaceController().isOpened()) {		
-			selectedFile = application.getResourceRepository().getCCurrentFile().toJavaFile();
-			langDefFilePath = application.getResourceRepository()
+		if (bc.getWorkspaceController().isOpened()) {
+			if (property.equals(RESourceManager.DOCUMENT_OPENED)) {
+				selectedFile = application.getResourceRepository().getCCurrentFile().toJavaFile();
+				langDefFilePath = application.getResourceRepository()
 						.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
-			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
+				xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
 						application.getLibraryManager().getLibsAsArray());
-			bc.reloadBlockEditor(langDefFilePath, xmlFilePath, property);
+			}
+			bc.reloadBlockEditor(langDefFilePath, xmlFilePath);
 		}
 	}
 	
@@ -438,8 +444,11 @@ public class RECheCoProViewer {
 			@Override
 			public void windowClosed(WindowEvent e) {
 				for (CHUserState aUserState : userStates) {
-					if (aUserState.getUser().equals(user) && aUserState.isLogin()) {
-						setEnabledForSyncButton(true);
+					if (aUserState.getUser().equals(user)) {
+						setEnabledForBlockMenu(true);
+						if (aUserState.isLogin()) {
+							setEnabledForSyncButton(true);
+						}
 					}
 				}
 			}
@@ -505,6 +514,11 @@ public class RECheCoProViewer {
 				getSyngButton().doClick();
 		}
 		getSyngButton().setEnabled(enabled);
+	}
+	
+	public void setEnabledForBlockMenu(boolean enabled) {
+		application.getFrame().getJMenuBar().getMenu(MENU_INDEX_TOOLS)
+		.getItem(ITEM_INDEX_BLOCK).setEnabled(enabled);
 	}
 	
 	/*********

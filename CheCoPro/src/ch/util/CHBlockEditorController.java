@@ -10,7 +10,7 @@ import edu.mit.blocks.controller.WorkspaceController;
 
 public class CHBlockEditorController {
 
-	public static String DEFAULT_LANGDEF_PATH = "ext/block2/lang_def_genuses_cui.xml";
+	public static String DEFAULT_LANGDEF_PATH = "ext/block/lang_def.xml";
 	
 	private WorkspaceController wc;
 
@@ -29,17 +29,25 @@ public class CHBlockEditorController {
 
 	public void openBlockEditor(String langDefFilePath, String xmlFilePath) {
 		wc.setLangDefFilePath(langDefFilePath);
-		wc.openBlockEditor(xmlFilePath);
+		if (xmlFilePath.equals("")) {
+			wc.loadFreshWorkspace();
+			wc.createAndShowGUI();
+		} else {
+			wc.openBlockEditor(xmlFilePath);
+		}
 	}
 
-	public void reloadBlockEditor(final String langDefFilePath, final String xmlFilePath, String property) {
+	public void reloadBlockEditor(String langDefFilePath, String xmlFilePath) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
 				wc.setLangDefFilePath(langDefFilePath);
 				wc.resetWorkspace();
-				wc.loadProjectFromPath(xmlFilePath);
+				wc.loadFreshWorkspace();
+				if (!xmlFilePath.equals("")) {
+					wc.loadProjectFromPath(xmlFilePath);
+				}
 			}
 		});
 	}
