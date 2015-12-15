@@ -385,7 +385,9 @@ public class RECheCoProManager {
 		Point point = application.getFrame().getEditor().getViewer()
 				.getScroll().getViewport().getViewPosition();
 		
-		cliant.getProcessManager().sendText(source, currentFileName, point);
+		if (cliant.getConn().established()) {
+			cliant.getProcessManager().sendText(source, currentFileName, point);	
+		}
 	}
 	
 	private void logout() {

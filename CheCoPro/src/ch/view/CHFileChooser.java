@@ -49,9 +49,9 @@ public class CHFileChooser extends JDialog {
 	public void createView() {
 	    
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 500, 250);
+		setBounds(100, 100, 620, 280);
 		setModal(true);
-		setResizable(false);
+		setResizable(true);
 		CWindowCentraizer.centerWindow(this);
 		
 		userTree = new CHFileTree(userRootDir);
@@ -101,7 +101,7 @@ public class CHFileChooser extends JDialog {
 		buttonPanel.add(createAllImportButton());
 		
 		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(450, 200));
+		panel.setPreferredSize(new Dimension(550, 200));
 		panel.add(createFileTreePanel(userTree, new JLabel("あなた")), BorderLayout.WEST);
 		panel.add(buttonPanel, BorderLayout.CENTER);
 		panel.add(createFileTreePanel(memberTree, 
