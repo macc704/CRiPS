@@ -32,6 +32,7 @@ import pres.core.model.PRCheCoProLog;
 import pres.core.model.PRLog;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFileFilter;
+import clib.common.filesystem.CFileSystem;
 import clib.common.system.CJavaSystem;
 import clib.preference.model.ICPreferenceCategory;
 import ch.conn.framework.CHConnection;
@@ -138,10 +139,10 @@ public class RECheCoProViewer {
 		public void propertyChange(PropertyChangeEvent evt) {
 			property = evt.getPropertyName();
 			setEnabledForTextPane(!synchronizing);
-			reloadBlockEditor();
 			
 			// エディタが開かれていたらKeyListener追加，閉じられたらリムーブ
 			if(property.equals(RESourceManager.DOCUMENT_OPENED)) {
+				reloadBlockEditor();
 				addKeyListener();
 			} else if (property.equals(RESourceManager.PREPARE_DOCUMENT_CLOSE)) {
 				removeKeyListener();
@@ -265,12 +266,12 @@ public class RECheCoProViewer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				File selectedFile = null;
-				String langDefFilePath = "";
-				if (application.getChBlockEditorController().isFileOpened()){
+				String langDefFilePath = CHBlockEditorController.DEFAULT_LANGDEF_PATH;
+				if (property.equals(RESourceManager.DOCUMENT_OPENED)){
 					selectedFile = application.getResourceRepository().getCCurrentFile().toJavaFile();
 					langDefFilePath = application.getResourceRepository().getCCurrentProject()
 							.getAbsolutePath().toString() + "/lang_def_project.xml";
-				}
+				} 
 				doOpenBlockEditorForCH(application.getChBlockEditorController(), selectedFile, langDefFilePath);
 			}
 		};
@@ -398,12 +399,10 @@ public class RECheCoProViewer {
 	
 	private void doOpenBlockEditorForCH(CHBlockEditorController bc,File selectedFile, String langDefFilePath) {
 		String xmlFilePath = "";
-		
 		if (selectedFile != null) {
 			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
 					application.getLibraryManager().getLibsAsArray());
 		}
-		setEnabledForSyncButton(false);
 		bc.openBlockEditor(langDefFilePath, xmlFilePath);
 		SwingUtilities.invokeLater(new Runnable() {
 			
@@ -411,6 +410,9 @@ public class RECheCoProViewer {
 			public void run() {
 				addBlockEditorWindowListener(bc);
 				addBlockEditorWindowForcusListener(bc);
+				if (bc.getWorkspaceController().isOpened()) {
+					setEnabledForSyncButton(false);
+				}
 			}
 		});
 	}
@@ -418,20 +420,17 @@ public class RECheCoProViewer {
 	private void reloadBlockEditor() {
 		CHBlockEditorController bc = application.getChBlockEditorController();
 		File selectedFile = null;
-		String langDefFilePath = "";
+		String langDefFilePath = CHBlockEditorController.DEFAULT_LANGDEF_PATH;
 		String xmlFilePath = "";
 		
-		if (property.equals(RESourceManager.DOCUMENT_OPENED)) {
-			application.getChBlockEditorController().setFileOpened(true);		
+		if (bc.getWorkspaceController().isOpened()) {		
 			selectedFile = application.getResourceRepository().getCCurrentFile().toJavaFile();
 			langDefFilePath = application.getResourceRepository()
-					.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
+						.getCCurrentProject().getAbsolutePath().toString() + "/lang_def_project.xml";
 			xmlFilePath = bc.createXmlFromJava(selectedFile, REApplication.SRC_ENCODING,
-					application.getLibraryManager().getLibsAsArray());
-		} else {
-			application.getChBlockEditorController().setFileOpened(false);
+						application.getLibraryManager().getLibsAsArray());
+			bc.reloadBlockEditor(langDefFilePath, xmlFilePath, property);
 		}
-		bc.reloadBlockEditor(langDefFilePath, xmlFilePath);
 	}
 	
 	private void addBlockEditorWindowListener(CHBlockEditorController bc) {
