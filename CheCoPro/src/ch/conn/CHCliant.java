@@ -54,7 +54,7 @@ public class CHCliant {
 			newConnectionOpened(conn);
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			connectionFailed();
+			connectionFailed(ex);
 		}
 	}
 
@@ -77,8 +77,8 @@ public class CHCliant {
 				processManager.doProcess(readFromServer());
 			}
 		} catch (Exception ex) {
-			connectionKilled();
 			ex.printStackTrace();
+			connectionKilled(ex);
 		}
 		conn.close();
 		System.out.println("client closed");
@@ -94,14 +94,18 @@ public class CHCliant {
 		return conn.read();
 	}
 	
+	public void connectionFailed(Exception ex) {
+		new CHErrorDialog(CHErrorDialog.CONNECTION_FAILED, ex).doOpen();
+	}
+	
 	public void connectionFailed() {
 		new CHErrorDialog(CHErrorDialog.CONNECTION_FAILED).doOpen();
 	}
 	
-	public void connectionKilled() {
+	public void connectionKilled(Exception ex) {
 		closeMemberSelector();
 		component.fireConnectionKilled();
-		new CHErrorDialog(CHErrorDialog.CONNECTION_KILLED).doOpen();
+		new CHErrorDialog(CHErrorDialog.CONNECTION_KILLED, ex).doOpen();
 	}
 	
 	public void closeMemberSelector() {

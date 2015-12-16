@@ -28,25 +28,36 @@ public class CHErrorDialog extends JDialog {
 	public static final int PROJECT_MISSING = 4;
 	
 	private int errorCode;
+	private JTextArea textArea = new JTextArea();
 	
 	public CHErrorDialog(int errorCode) {
 		this.errorCode = errorCode;
-		init();
+		init(300, 180);
 	}
 	
-	public void init() {
+	public CHErrorDialog(int errorCode, Exception ex) {
+		this.errorCode = errorCode;
+		init(600, 280);
+		printException(ex);
+	}
+	
+	public void init(int width, int height) {
 		setTitle("Error");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setBounds(width, height);
 		setModal(true);
-		setBounds(100, 100, 300, 150);
 		setResizable(false);
 		CWindowCentraizer.centerWindow(this);
 		
 		JPanel panel = new JPanel();
-		panel.add(createMassagePane(), BorderLayout.CENTER);
+		panel.add(createMassagePane(width-50, height-80), BorderLayout.CENTER);
 		panel.add(createOKButton(), BorderLayout.SOUTH);
 		
 		getContentPane().add(panel);
+	}
+	
+	public void setBounds(int width, int height) {
+		setBounds(100, 100, width, height);
 	}
 	
 	public void doOpen() {
@@ -69,18 +80,24 @@ public class CHErrorDialog extends JDialog {
 		return button;
 	}
 	
-	public JScrollPane createMassagePane() {
+	public JScrollPane createMassagePane(int width, int height) {
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.getViewport().setView(createMessageArea());
-		scrollPane.setPreferredSize(new Dimension(250, 80));
+		createMessageArea();
+		scrollPane.getViewport().setView(textArea);
+		scrollPane.setPreferredSize(new Dimension(width, height));
 		return scrollPane;
 	}
 	
-	public JTextArea createMessageArea() {
-		JTextArea textArea = new JTextArea();
+	public void createMessageArea() {
+		textArea = new JTextArea();
 		textArea.setText(getErrorMessage());
 		textArea.setEditable(false);
-		return textArea;
+	}
+	
+	public void addText(String text) {
+		String buf = textArea.getText();
+		buf = buf + "\n" + text;
+		textArea.setText(buf);
 	}
 	
 	public String getErrorMessage() {
@@ -90,13 +107,25 @@ public class CHErrorDialog extends JDialog {
 		case ILLEGAL_PASS:
 			return "パスワードの文字数が不正です．\nパスワードは4〜12文字で入力してください．";
 		case CONNECTION_FAILED:
-			return "接続に失敗しました．";
+			return "接続に失敗しました．\n";
 		case CONNECTION_KILLED:
-			return "接続が切れました．";
+			return "接続が切れました．\n";
 		case PROJECT_MISSING:
 			return "プロジェクト「" + CHFileSystem.SYNCPROJECTNAME + "」が見つかりません．";
 		}
 		return "";
+	}
+	
+	public void printException(Exception ex) {
+		if (ex.getCause() != null) {
+			for (StackTraceElement ste : ex.getCause().getStackTrace()) {
+				addText(ste.toString());
+			}
+		} else {
+			for (StackTraceElement ste : ex.getStackTrace()) {
+				addText(ste.toString());
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
