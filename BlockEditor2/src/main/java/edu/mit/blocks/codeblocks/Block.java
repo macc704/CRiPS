@@ -84,7 +84,7 @@ public class Block implements ISupportMemento {
 	private String type;
 	private String name;
 	private String returnType;
-	private boolean isMain = false;
+	private boolean visible = false;
 
 	/**
 	 * Constructs a new Block from the specified information. This class
@@ -1399,7 +1399,7 @@ public class Block implements ISupportMemento {
 	}
 	
 	public boolean isMainMethod(){
-		return this.isMain;
+		return this.visible;
 	}
 
 	/**
@@ -1641,8 +1641,8 @@ public class Block implements ISupportMemento {
 			blockElement.appendChild(nameElement);
 		}
 		
-		if(isMain){
-			Element mainNode = document.createElement(BlockProcedureModel.MAIN_NODE);
+		if(visible){
+			Element mainNode = document.createElement(BlockProcedureModel.INVISIBLE_NODE);
 			mainNode.setTextContent("true");
 			blockElement.appendChild(mainNode);
 		}
@@ -1758,7 +1758,7 @@ public class Block implements ISupportMemento {
 		Matcher nameMatcher;
 
 		String type = null;
-		boolean isMainMethod = false;
+		boolean invisible = false;
 
 		if (node.getNodeName().equals("BlockStub")) {
 			isStubBlock = true;
@@ -1847,8 +1847,8 @@ public class Block implements ISupportMemento {
 					}
 				} else if(child.getNodeName().equals("Name")){
 					name = child.getTextContent();
-				} else if(child.getNodeName().equals("MainMethod")){ 
-					isMainMethod = true;
+				} else if(child.getNodeName().equals(BlockProcedureModel.INVISIBLE_NODE)){ 
+					invisible = true;
 				} else if (child.getNodeName().equals("LangSpecProperties")) {
 					blockLangProperties = new HashMap<String, String>();
 					NodeList propertyNodes = child.getChildNodes();
@@ -1947,10 +1947,9 @@ public class Block implements ISupportMemento {
 				workspace.getEnv().updateNextID(block.getBlockID() + 1);
 			}
 			
-			if(isMainMethod){
-				block.isMain = true;
+			if(invisible){
+				block.visible = true;
 			}
-
 
 			return block;
 		}

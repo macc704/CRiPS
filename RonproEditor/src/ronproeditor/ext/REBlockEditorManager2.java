@@ -375,7 +375,6 @@ public class REBlockEditorManager2 {
 
 	protected void doRefleshBlock(final File javaFile) {
 		man.addTask(new ICTask() {
-
 			@Override
 			public void doTask() {
 				try {

@@ -38,6 +38,16 @@
 
 	<Item>
 		<UniModel unimodel="UniMethodCall">
+			<name>warp</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>window</name>
+			</receiver>
+		</UniModel>
+		<GenusName>TurtleFrame-warp[@int@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
 			<name>random</name>
 			<receiver unimodel="UniIdent">
 				<name>Math</name>
