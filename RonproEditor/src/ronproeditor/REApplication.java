@@ -311,8 +311,8 @@ public class REApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.31.4";
-	public static final String BUILD_DATE = "2015/12/16";
+	public static final String VERSION = "2.31.5";
+	public static final String BUILD_DATE = "2015/12/17";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2015 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
@@ -565,7 +565,7 @@ public class REApplication {
 			// blockManager.doRefleshBlock(); //TODO オブジェクト指向対応のため？
 			flowManager.refreshChart();
 			if (!fromText) {
-				checoproManager.send();
+				//checoproManager.send();
 			}
 
 			deleteRunnable(getSourceManager().getCurrentFile());

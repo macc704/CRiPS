@@ -553,6 +553,7 @@ public class RECheCoProViewer {
 	}
 	
 	public void writeAllImportLog(List<CHFile> files) {
+		// TODO 誰からか取れてない
 		String[] paths = new String[files.size()];
 		for (int i = 0; i < files.size(); i++) {
 			paths[i] = files.get(i).getPath();
