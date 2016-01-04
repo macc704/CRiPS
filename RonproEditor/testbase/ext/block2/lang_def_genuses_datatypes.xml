@@ -382,6 +382,7 @@
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="number"></BlockConnector>
 	</BlockConnectors>
+	<Name>toString</Name>
 	<Type>String</Type>
 </BlockGenus>
 

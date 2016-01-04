@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LibraryClasses>
+	<!-- basic -->
+	<LibraryClass name="Object">
+		<CategoryName name="Object" command="add">
+			<MethodName>Object-toString[]</MethodName>
+			<MethodName>Object-hashCode[]</MethodName>
+			<MethodName>Object-equals[@object]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+
+	<LibraryClass name="String">
+		<CategoryName name="Object" command="copy" />
+		<CategoryName name="String" command="add">
+			<MethodName>String-equals[@string]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+
+	<!-- Turtle -->
 	<LibraryClass name="Turtle">
+		<CategoryName name="Object" command="copy" />
 		<CategoryName name="タートル（基本）" command="add">
 			<MethodName>Turtle-fd[@int]</MethodName>
 			<MethodName>Turtle-bk[@int]</MethodName>
@@ -34,7 +52,7 @@
 			<MethodName>Turtle-isShow[]</MethodName>
 			<MethodName>Turtle-looks[@object]</MethodName>
 			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" command="add">
 			<MethodName>Turtle-key[]</MethodName>
@@ -57,12 +75,14 @@
 		</CategoryName>
 	</LibraryClass>
 	<LibraryClass name="ImageTurtle">
+		<CategoryName name="Object" command="copy" />
 		<CategoryName name="ImageTurtle" command="add">
 			<MethodName>ImageTurtle-image[@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="Turtle" command="copy" />
 	</LibraryClass>
 	<LibraryClass name="SoundTurtle">
+		<CategoryName name="Object" command="copy" />
 		<CategoryName name="Turtle" command="copy" />
 		<CategoryName name="SoundTurtle" command="add">
 			<MethodName>SoundTurtle-file[@string]</MethodName>
@@ -71,11 +91,12 @@
 			<MethodName>SoundTurtle-stop[]</MethodName>
 			<MethodName>SoundTurtle-isPlaying[]</MethodName>
 			<MethodName>SoundTurtle-getVolume[]</MethodName>
-			<MethodName>SoundTurtle-setVolume[]</MethodName>
+			<MethodName>SoundTurtle-setVolume[@int]</MethodName>
 			<MethodName>SoundTurtle-loadOnMemory[]</MethodName>
 		</CategoryName>
 	</LibraryClass>
 	<LibraryClass name="ListTurtle">
+		<CategoryName name="Object" command="copy" />
 		<CategoryName name="Turtle" command="copy" />
 		<CategoryName name="ListTurtle" command="add">
 			<MethodName>ListTurtle-get[@int]</MethodName>
@@ -101,6 +122,7 @@
 		</CategoryName>
 	</LibraryClass>
 	<LibraryClass name="InputTurtle">
+		<CategoryName name="Object" command="copy" />
 		<CategoryName name="Turtle" command="copy" />
 		<CategoryName name="InputTurtle" command="add">
 			<MethodName>InputTurtle-fontsize[@int]</MethodName>
@@ -113,6 +135,7 @@
 		</CategoryName>
 	</LibraryClass>
 	<LibraryClass name="CardTurtle">
+		<CategoryName name="Object" command="copy" />
 		<CategoryName name="Turtle" command="copy" />
 		<CategoryName name="CardTurtle" command="add">
 			<MethodName>CardTurtle-getText[]</MethodName>
@@ -131,14 +154,75 @@
 		<CategoryName name="TextTurtle" command="add">
 			<MethodName>TextTurtle-text[@string]</MethodName>
 			<MethodName>TextTurtle-text[@int]</MethodName>
-			<MethodName>TextTurtle-getText[@int]</MethodName>			
+			<MethodName>TextTurtle-getText[]</MethodName>
 		</CategoryName>
 	</LibraryClass>
+
+	<!-- Obpro -->
 	<LibraryClass name="Random">
+		<CategoryName name="Object" command="copy" />
 		<CategoryName name="Random" command="add">
 			<MethodName>Random-nextInt[]</MethodName>
 			<MethodName>Random-nextInt[@int]</MethodName>
-			<MethodName>Random-nextDouble[]</MethodName>			
+			<MethodName>Random-nextDouble[]</MethodName>
 		</CategoryName>
-	</LibraryClass>	
+	</LibraryClass>
+	<LibraryClass naame="BCanvas">
+		<CategoryName name="Object" command="copy" />
+		<CategoryName name="BCanvasのメソッド" command="add">
+			<MethodName>BCanvas-drawLine[@object@number@number@number@number]
+			</MethodName>
+			<MethodName>BCanvas-drawFillTriangle[@object@number@number@number@number@number@number]
+			</MethodName>
+			<MethodName>BCanvas-drawArc[@object@number@number@number@number@number@number]
+			</MethodName>
+			<MethodName>BCanvas-drawText[@object@string@number@number]
+			</MethodName>
+			<MethodName>BCanvas-isClick[]</MethodName>
+			<MethodName>BCanvas-isSingleClick[]</MethodName>
+			<MethodName>BCanvas-isDoubleClick[]</MethodName>
+			<MethodName>BCanvas-isDragging[]</MethodName>
+			<MethodName>BCanvas-isRightMouseDown[]</MethodName>
+			<MethodName>BCanvas-isLeftMouseDown[]</MethodName>
+			<MethodName>BCanvas-isMouseDown[]</MethodName>
+			<MethodName>BCanvas-getMouseX[]</MethodName>
+			<MethodName>BCanvas-getMouseY[]</MethodName>
+			<MethodName>BCanvas-isKeyPressing[@number]</MethodName>
+			<MethodName>BCanvas-isKeyDown[]</MethodName>
+			<MethodName>BCanvas-getKeyCode[]</MethodName>
+			<MethodName>BCanvas-clear[]</MethodName>
+			<MethodName>BCanvas-update[]</MethodName>
+			<MethodName>BCanvas-getImageWidth[@string]</MethodName>
+			<MethodName>BCanvas-getImageHeight[@string]</MethodName>
+			<MethodName>BCanvas-sleep[@number]</MethodName>
+			<MethodName>BCanvas-getCanvasWidth[]</MethodName>
+			<MethodName>BCanvas-getCanvasHeight[]</MethodName>
+			<MethodName>BCanvas-drawImage[@string@number@number@number@number]
+			</MethodName>
+			<MethodName>BCanvas-drawFillArc[@object@number@number@number@number@number@number]
+			</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="BWindow">
+		<CategoryName name="Object" command="copy" />
+		<CategoryName name="BWindowのメソッド" command="add">
+			<MethodName>BWindow-setLocation[@number@number]</MethodName>
+			<MethodName>BWindow-show[]</MethodName>
+			<MethodName>BWindow-setSize[@number@number]</MethodName>
+			<MethodName>BWindow-getCanvas[]</MethodName>
+		</CategoryName>
+	</LibraryClass>
+	<LibraryClass name="BSound">
+		<CategoryName name="Object" command="copy" />
+		<CategoryName name="BSoundのメソッド" command="add">
+			<MethodName>BSound-getVolume[]</MethodName>
+			<MethodName>BSound-setVolume[@number]</MethodName>
+			<MethodName>BSound-getDefaultVolume[]</MethodName>
+			<MethodName>BSound-play[@string]</MethodName>
+			<MethodName>BSound-loadOnMemory[@string]</MethodName>
+			<MethodName>BSound-loop[]</MethodName>
+			<MethodName>BSound-stop[]</MethodName>
+			<MethodName>BSound-isPlaying[]</MethodName>
+		</CategoryName>
+	</LibraryClass>
 </LibraryClasses>

@@ -17,19 +17,6 @@
 	<FamilyMember>true</FamilyMember>
 	<FamilyMember>false</FamilyMember>
 </BlockFamily>
-<BlockFamily>
-	<FamilyMember>min</FamilyMember>
-	<FamilyMember>max</FamilyMember>
-</BlockFamily>
-<BlockFamily>
-	<FamilyMember>sin</FamilyMember>
-	<FamilyMember>cos</FamilyMember>
-	<FamilyMember>tan</FamilyMember>
-</BlockFamily>
-<BlockFamily>
-	<FamilyMember>log</FamilyMember>
-	<FamilyMember>ln</FamilyMember>
-</BlockFamily>
 
 
 <BlockFamily>

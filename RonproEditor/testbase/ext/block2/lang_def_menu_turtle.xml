@@ -79,6 +79,12 @@
 		<BlockGenusMember>string-append</BlockGenusMember>
 
 		<BlockGenusMember>Math-random[]</BlockGenusMember>
+		<BlockGenusMember>Math-sqrt[@int]</BlockGenusMember>
+		<BlockGenusMember>Math-sin[@int]</BlockGenusMember>
+		<BlockGenusMember>Math-cos[@int]</BlockGenusMember>
+		<BlockGenusMember>Math-tan[@int]</BlockGenusMember>
+		<BlockGenusMember>Math-log[@int]</BlockGenusMember>
+		<BlockGenusMember>Math-toRadians[@int]</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer name="変数の定義" type="factory" button-color="230 0 255">
@@ -159,7 +165,7 @@
 		<BlockGenusMember>Turtle-isShow[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-looks[@object]</BlockGenusMember>
 		<BlockGenusMember>Turtle-contains[@int@int]</BlockGenusMember>
-		<BlockGenusMember>Turtle-intersects[]</BlockGenusMember>
+		<BlockGenusMember>Turtle-intersects[@object]</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer button-color="153 0 0" name="タートル（キーとマウス）">

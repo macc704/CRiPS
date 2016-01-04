@@ -163,7 +163,8 @@
 	</description>
 	<Type>int</Type>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket" connector-type="number">
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="number">
 			<DefaultArg genus-name="number" label="1"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -315,6 +316,11 @@
 			</LangSpecProperties>
 		</Stub>
 	</Stubs>
+	<ClassMethods>
+		<CategoryName name="String型のメソッド" classname="Turtle">
+			<MethodName>String-equals[@string]</MethodName>
+		</CategoryName>
+	</ClassMethods>	
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 		<LangSpecProperty key="type" value="string"></LangSpecProperty>
@@ -389,13 +395,13 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getterthis">
+		<Stub stub-genus="getterthis">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="inc">
+		<Stub stub-genus="inc">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-incglobal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
@@ -440,6 +446,11 @@
 			</LangSpecProperties>
 		</Stub>
 	</Stubs>
+	<ClassMethods>
+		<CategoryName name="String型のメソッド" classname="Turtle">
+			<MethodName>String-equals[@string]</MethodName>
+		</CategoryName>
+	</ClassMethods>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 		<LangSpecProperty key="type" value="string"></LangSpecProperty>
@@ -448,6 +459,21 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="String-equals[@string]" kind="function"
+	color="255 0 0" initlabel="同じ文字か調べる">
+	<Name>getText</Name>
+	<description>
+		<text>文字列が一致するかどうか調べます。</text>
+	</description>
+	<Type>boolean</Type>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-type="string" connector-kind="socket" label="調べる文字"></BlockConnector>
+	</BlockConnectors>
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
+</BlockGenus>
 
 <BlockGenus name="private-var-boolean" kind="global-variable"
 	initlabel="b" header-label="boolean型のインスタンス変数を作り、" footer-label="と名付ける"
@@ -760,7 +786,7 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -811,7 +837,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -861,7 +887,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -911,7 +937,7 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
@@ -955,7 +981,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-    </Stubs>
+	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 		<LangSpecProperty key="type" value="number"></LangSpecProperty>
@@ -977,7 +1003,7 @@
 	<BlockConnectors>
 		<BlockConnector label="値" connector-kind="socket"
 			connector-type="object">
-            <DefaultArg genus-name="new-object" label="1.0"></DefaultArg>
+			<DefaultArg genus-name="new-object" label="1.0"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -987,7 +1013,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-    </Stubs>
+	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 		<LangSpecProperty key="type" value="number"></LangSpecProperty>

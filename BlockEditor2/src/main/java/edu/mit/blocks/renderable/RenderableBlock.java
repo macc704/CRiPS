@@ -1616,7 +1616,6 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 		}
 
 		Component oldParent = renderable.getParent();
-
 		workspace.addToBlockLayer(renderable);
 		renderable.setLocation(SwingUtilities.convertPoint(oldParent, renderable.getLocation(), workspace));
 

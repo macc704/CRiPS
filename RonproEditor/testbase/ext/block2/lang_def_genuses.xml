@@ -97,10 +97,23 @@
 
 <BlockGenus name="special" kind="command" color="255 0 0"
 	initlabel="special block" editable-label="no" is-label-value="yes">
-	<LangSpecProperties>
-		<LangSpecProperty key="vm-cmd-name" value="special"></LangSpecProperty>
-		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
-	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="special-variable" kind="command" color="255 0 0" initlabel="special block" editable-label="no" is-label-value="yes">
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
 </BlockGenus>
 
 <BlockGenus name="special-expression" kind="function" color="255 0 0"

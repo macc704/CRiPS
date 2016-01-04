@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- number 計算　-->
+<!-- number 計算 -->
 
 <BlockGenus name="sum" kind="function" initlabel="+" color="15 20 220">
 	<BlockConnectors>
@@ -16,6 +16,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>int</Type>
+	<Operator>+</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="sum"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -37,6 +38,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>int</Type>
+	<Operator>-</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="difference"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -58,6 +60,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>int</Type>
+	<Operator>*</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="product"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -79,6 +82,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>int</Type>
+	<Operator>/</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="quotient"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -100,6 +104,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>int</Type>
+	<Operator>%</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="quotient"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -107,7 +112,7 @@
 </BlockGenus>
 
 
-<!-- number 比較演算　-->
+<!-- number 比較演算 -->
 
 <BlockGenus name="equals-number" kind="function" initlabel="等しい"
 	color="15 20 220">
@@ -124,6 +129,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>==</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -145,6 +151,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>!=</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -166,6 +173,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>&lt;</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="less-than"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -187,6 +195,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>&lt;=</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="less-than-or-equal-to"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -208,6 +217,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>&gt;</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="greater-than"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -229,6 +239,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>&gt;=</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="greater-than-or-equal-to"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -251,6 +262,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>double</Type>
+	<Operator>+</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="sum"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -272,6 +284,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>double</Type>
+	<Operator>-</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="difference"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -293,6 +306,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>double</Type>
+	<Operator>*</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="product"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -314,6 +328,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>double</Type>
+	<Operator>/</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="quotient"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -335,6 +350,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>double</Type>
+	<Operator>%</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="quotient"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -358,6 +374,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>==</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -379,6 +396,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>!=</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -400,6 +418,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>&lt;</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="less-than"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -421,6 +440,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>&lt;=</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="less-than-or-equal-to"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -462,13 +482,15 @@
 			<DefaultArg genus-name="double-number" label="1"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Type>boolean</Type>
+	<Operator>&gt;=</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="greater-than-or-equal-to"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
 
-<!-- String　計算 -->
+<!-- String 計算 -->
 
 <BlockGenus name="string-append" kind="function" initlabel="連結する"
 	color="45 201 255">
@@ -485,13 +507,14 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>String</Type>
+	<Operator>+</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="sentence"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
 
-<!-- String　比較演算 -->
+<!-- String 比較演算 -->
 <BlockGenus name="equals-string" kind="function" initlabel="等しい"
 	color="45 201 255">
 	<BlockConnectors>
@@ -507,6 +530,24 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Name>equals</Name>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="String-equals[@string]" kind="function" initlabel="等しい"
+	color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="string" position-type="single">
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>boolean</Type>
+	<Name>equals</Name>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -527,6 +568,7 @@
 			<DefaultArg genus-name="string" label="えお"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<Operator>!=</Operator>
 	<Type>boolean</Type>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
@@ -534,7 +576,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<!-- boolean　演算 -->
+<!-- boolean 演算 -->
 
 <BlockGenus name="or" kind="function" initlabel="もしくは" color="255 0 255">
 	<BlockConnectors>
@@ -550,6 +592,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>||</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="or"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -570,26 +613,29 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>&amp;&amp;</Operator>	
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="and"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="not" kind="function" initlabel="反転したもの" color="255 0 255">
+<BlockGenus name="not" kind="function" initlabel="反転したもの"
+	color="255 0 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"></BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="boolean"></BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>!</Operator>		
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="not"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
 
-<!-- boolean　比較演算 -->
+<!-- boolean 比較演算 -->
 
 <BlockGenus name="equals-boolean" kind="function" initlabel="等しい"
 	color="255 0 255">
@@ -606,6 +652,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>==</Operator>	
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -627,14 +674,15 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>!=</Operator>	
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="instanceof" kind="function"
-	initlabel="型が等しい" color="15 20 220">
+<BlockGenus name="instanceof" kind="function" initlabel="型が等しい"
+	color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
@@ -646,8 +694,51 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>instanceof</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
+
+<BlockGenus name="equals-object" kind="function" initlabel="等しい"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="object" position-type="bottom">
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="object" position-type="bottom">
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>boolean</Type>
+	<Operator>==</Operator>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="not-equals-object" kind="function" initlabel="等しくない"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="object" position-type="bottom">
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="object" position-type="bottom">
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>boolean</Type>
+	<Operator>!=</Operator>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+

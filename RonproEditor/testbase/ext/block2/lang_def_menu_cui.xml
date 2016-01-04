@@ -6,7 +6,7 @@
 		<BlockGenusMember>cui-print[@string]</BlockGenusMember>
 		<BlockGenusMember>cui-println[@string]</BlockGenusMember>
 		<BlockGenusMember>Math-random[]</BlockGenusMember>
-
+		<BlockGenusMember>Object-hashCode[]</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
  		<BlockGenusMember>input-isInteger</BlockGenusMember>
 		<BlockGenusMember>input-isDouble</BlockGenusMember>
@@ -99,12 +99,12 @@
 
 	<BlockDrawer name="数学" type="factory" button-color="102 129 255">
 		<BlockGenusMember>Math-random[]</BlockGenusMember>
-		<BlockGenusMember>sqrt</BlockGenusMember>
-		<BlockGenusMember>sin</BlockGenusMember>
-		<BlockGenusMember>cos</BlockGenusMember>
-		<BlockGenusMember>tan</BlockGenusMember>
-		<BlockGenusMember>log</BlockGenusMember>
-		<BlockGenusMember>toRadians</BlockGenusMember>
+		<BlockGenusMember>Math-sqrt[@int]</BlockGenusMember>
+		<BlockGenusMember>Math-sin[@int]</BlockGenusMember>
+		<BlockGenusMember>Math-cos[@int]</BlockGenusMember>
+		<BlockGenusMember>Math-tan[@int]</BlockGenusMember>
+		<BlockGenusMember>Math-log[@int]</BlockGenusMember>
+		<BlockGenusMember>Math-toRadians[@int]</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer name="変数の定義" type="factory" button-color="230 0 255">
@@ -122,7 +122,7 @@
 		<BlockGenusMember>private-final-var-int-number</BlockGenusMember>
 		<BlockGenusMember>private-final-var-string</BlockGenusMember>
 	</BlockDrawer>
-<!-- 
+	
 	<BlockDrawer name="配列・リスト" type="factory" button-color="230 0 255">
 		<BlockGenusMember>local-var-listobject</BlockGenusMember>
 		<BlockGenusMember>local-var-string-arrayobject</BlockGenusMember>
@@ -141,7 +141,7 @@
 		<BlockGenusMember>new-linkedlistobject</BlockGenusMember>
 		<BlockGenusMember>type-object</BlockGenusMember>			
 	</BlockDrawer>
- -->
+	
 
 	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
 		<BlockGenusMember>toIntFromDouble</BlockGenusMember>
@@ -160,8 +160,7 @@
 		<BlockGenusMember>true</BlockGenusMember>
 		<BlockGenusMember>false</BlockGenusMember>
 	</BlockDrawer>
-	
-<!-- 
+
 	<BlockDrawer name="色" type="factory" button-color="255 155 64">
 		<BlockGenusMember>local-var-object-color</BlockGenusMember>
 		<BlockGenusMember>private-var-object-color</BlockGenusMember>
@@ -177,5 +176,5 @@
 		<BlockGenusMember>private-var-object-bsound</BlockGenusMember>
 		<BlockGenusMember>local-var-object-bsound</BlockGenusMember>
 	</BlockDrawer>
- -->
+
 </BlockDrawerSet>

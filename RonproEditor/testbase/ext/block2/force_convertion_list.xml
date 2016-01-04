@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ConvertList>
+	<!-- 複数のユニモデルに対して1つのブロックに対応する物は例外としてここに記述する（ 例：Math.random(50) の場合，通常ならMath,random,50の3つのブロックに変換するが，Mathに対応するブロックがない， 
+		.演算子モデルを用いるよりスマートに処理が理解できることから，MathとrandomのUniModelを1つのrandomブロックに変換する -->
+	<!-- Sysout -->
 	<Item>
 		<UniModel unimodel="UniMethodCall">
 			<name>println</name>
@@ -27,9 +30,19 @@
 	</Item>
 
 	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>in</name>
+			<receiver unimodel="UniIdent">
+				<name>System</name>
+			</receiver>
+		</UniModel>
+		<GenusName>systemin</GenusName>
+	</Item>
+
+	<Item>
 		<UniModel unimodel="UniMethodCall">
 			<name>size</name>
-			<receiver unimodel="UniFieldAccess">
+			<receiver unimodel="UniIdent">
 				<name>window</name>
 			</receiver>
 		</UniModel>
@@ -39,13 +52,24 @@
 	<Item>
 		<UniModel unimodel="UniMethodCall">
 			<name>warp</name>
-			<receiver unimodel="UniFieldAccess">
+			<receiver unimodel="UniIdent">
 				<name>window</name>
 			</receiver>
 		</UniModel>
 		<GenusName>TurtleFrame-warp[@int@int]</GenusName>
 	</Item>
 
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>startTurtle</name>
+			<receiver unimodel="UniIdent">
+				<name>Turtle</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Turtle-startTurtle[@object@object]</GenusName>
+	</Item>
+
+	<!-- Math関連 -->
 	<Item>
 		<UniModel unimodel="UniMethodCall">
 			<name>random</name>
@@ -58,11 +82,341 @@
 
 	<Item>
 		<UniModel unimodel="UniMethodCall">
-			<name>startTurtle</name>
+			<name>sin</name>
 			<receiver unimodel="UniIdent">
-				<name>Turtle</name>
+				<name>Math</name>
 			</receiver>
 		</UniModel>
-		<GenusName>Turtle-startTurtle[@object@object]</GenusName>
+		<GenusName>Math-sin[@int]</GenusName>
 	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>sqrt</name>
+			<receiver unimodel="UniIdent">
+				<name>Math</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Math-sqrt[@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>cos</name>
+			<receiver unimodel="UniIdent">
+				<name>Math</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Math-cos[@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>tan</name>
+			<receiver unimodel="UniIdent">
+				<name>Math</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Math-tan[@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>log</name>
+			<receiver unimodel="UniIdent">
+				<name>Math</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Math-log[@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>toRadians</name>
+			<receiver unimodel="UniIdent">
+				<name>Math</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Math-toRadians[@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>acos</name>
+			<receiver unimodel="UniIdent">
+				<name>Math</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Math-acos[@int]</GenusName>
+	</Item>
+
+	<!-- 変換系 -->
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>toString</name>
+			<receiver unimodel="UniIdent">
+				<name>Integer</name>
+			</receiver>
+		</UniModel>
+		<GenusName>toStringFromInt</GenusName>
+	</Item>
+
+
+	<!-- Color系 -->
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>red</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>red</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>black</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>black</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>white</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>white</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>gray</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>gray</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>lightGray</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>lightGray</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>darkGray</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>darkGray</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>brown</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>brown</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>yellow</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>yellow</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>green</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>green</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>lime</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>lime</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>cyan</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>cyan</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>purple</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>purple</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>magenta</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>magenta</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>sky</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>sky</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>blue</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>blue</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniFieldAccess">
+			<name>pink</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>Color</name>
+				<receiver unimodel="UniFieldAccess">
+					<name>awt</name>
+					<receiver unimodel="UniIdent">
+						<name>java</name>
+					</receiver>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>pink</GenusName>
+	</Item>
+
 </ConvertList>

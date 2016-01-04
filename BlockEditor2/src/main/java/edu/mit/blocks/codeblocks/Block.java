@@ -47,7 +47,6 @@ public class Block implements ISupportMemento {
 	private BlockConnector before;
 	private BlockConnector after;
 
-
 	/**
 	 * The expand-groups. A list is used instead of a map, because we don't
 	 * expect a lot of groups in one block.
@@ -85,6 +84,7 @@ public class Block implements ISupportMemento {
 	private String name;
 	private String returnType;
 	private boolean visible = false;
+	private List<String> modifiers;
 
 	/**
 	 * Constructs a new Block from the specified information. This class
@@ -101,8 +101,7 @@ public class Block implements ISupportMemento {
 	 *            the String label of this Block
 	 */
 
-	protected Block(Workspace workspace, Long id, String genusName,
-			String label, boolean linkToStubs) {
+	protected Block(Workspace workspace, Long id, String genusName, String label, boolean linkToStubs) {
 
 		this.workspace = workspace;
 		this.env = workspace.getEnv();
@@ -123,13 +122,11 @@ public class Block implements ISupportMemento {
 
 		final BlockGenus genus = env.getGenusWithName(genusName);
 		if (genus == null) {
-			throw new RuntimeException("genusName: " + genusName
-					+ " does not exist.");
+			throw new RuntimeException("genusName: " + genusName + " does not exist.");
 		}
 
 		this.headerLabel = genus.getInitHeaderLabel();
 		this.footerLabel = genus.getInitFooterLabel();
-
 
 		// copy the block connectors from block genus
 		for (final BlockConnector con : genus.getInitSockets()) {
@@ -156,7 +153,7 @@ public class Block implements ISupportMemento {
 			this.name = genus.getName();
 		}
 
-		if(genus.getReturnType() != null){
+		if (genus.getReturnType() != null) {
 			this.returnType = genus.getReturnType();
 		}
 
@@ -169,8 +166,7 @@ public class Block implements ISupportMemento {
 			argumentDescriptions.add(arg.trim());
 		}
 
-		this.expandGroups = new ArrayList<List<BlockConnector>>(
-				genus.getExpandGroups());
+		this.expandGroups = new ArrayList<List<BlockConnector>>(genus.getExpandGroups());
 
 		// add itself to stubs hashmap
 		// however factory blocks will have entries in hashmap...
@@ -195,8 +191,7 @@ public class Block implements ISupportMemento {
 	 *            false, then this block even though the genus specifies it will
 	 *            not be linked to stubs
 	 */
-	public Block(Workspace workspace, String genusName, String label,
-			boolean linkToStubs) {
+	public Block(Workspace workspace, String genusName, String label, boolean linkToStubs) {
 		// more will go into constructor;
 		this(workspace, workspace.getEnv().getNextBlockID(), genusName, label, linkToStubs);
 	}
@@ -215,7 +210,7 @@ public class Block implements ISupportMemento {
 	 */
 	public Block(Workspace workspace, String genusName, String label) {
 		// more will go into constructor;
-		this(workspace, workspace.getEnv().getNextBlockID() , genusName, label, true);
+		this(workspace, workspace.getEnv().getNextBlockID(), genusName, label, true);
 	}
 
 	/**
@@ -294,8 +289,6 @@ public class Block implements ISupportMemento {
 		return blockID;
 	}
 
-
-
 	/**
 	 * Sets the block property with the specified property and value. If this
 	 * block's genus already contains a value with the same property, then the
@@ -322,8 +315,7 @@ public class Block implements ISupportMemento {
 	 * @return the block label of this
 	 */
 	public String getBlockLabel() {
-		return getGenus().getLabelPrefix() + label
-				+ getGenus().getLabelSuffix();
+		return getGenus().getLabelPrefix() + label + getGenus().getLabelSuffix();
 	}
 
 	/**
@@ -352,8 +344,7 @@ public class Block implements ISupportMemento {
 	 */
 	public void setBlockLabel(String newLabel) {
 		if (this.linkToStubs && this.hasStubs()) {
-			BlockStub.parentNameChanged(workspace, this.label, newLabel,
-					this.blockID);
+			BlockStub.parentNameChanged(workspace, this.label, newLabel, this.blockID);
 		}
 		label = newLabel;
 		if (isVariableDeclBlock() || isProcedureParamBlock()) {
@@ -370,8 +361,7 @@ public class Block implements ISupportMemento {
 	public void setPageLabel(String newPageLabel) {
 		// update stubs
 		if (this.linkToStubs && this.hasStubs()) {
-			BlockStub.parentPageLabelChanged(workspace, newPageLabel,
-					this.blockID);
+			BlockStub.parentPageLabelChanged(workspace, newPageLabel, this.blockID);
 		}
 		pageLabel = newPageLabel;
 	}
@@ -471,8 +461,7 @@ public class Block implements ISupportMemento {
 	 * Return the expand-group for the given group. Can be null if group doesn't
 	 * exist.
 	 */
-	private static List<BlockConnector> getExpandGroup(
-			List<List<BlockConnector>> groups, String group) {
+	private static List<BlockConnector> getExpandGroup(List<List<BlockConnector>> groups, String group) {
 		for (List<BlockConnector> list : groups) {
 			// Always at least one element in the group.
 			if (list.get(0).getExpandGroup().equals(group)) {
@@ -495,8 +484,7 @@ public class Block implements ISupportMemento {
 		String label = expandSockets.get(expandSockets.size() - 1).getLabel();
 		for (; index >= 0; index--) {
 			BlockConnector conn = sockets.get(index);
-			if (conn.getLabel().equals(label)
-					&& conn.getExpandGroup().equals(group)) {
+			if (conn.getLabel().equals(label) && conn.getExpandGroup().equals(group)) {
 				break;
 			}
 		}
@@ -525,8 +513,7 @@ public class Block implements ISupportMemento {
 		int index = getSocketIndex(socket);
 		for (; index >= 0; index--) {
 			BlockConnector con = sockets.get(index);
-			if (con.getLabel().equals(label)
-					&& con.getExpandGroup().equals(group)) {
+			if (con.getLabel().equals(label) && con.getExpandGroup().equals(group)) {
 				break;
 			}
 		}
@@ -538,8 +525,7 @@ public class Block implements ISupportMemento {
 		int total = expandSockets.size();
 		for (int i = 1; i < total;) {
 			BlockConnector con = sockets.get(index);
-			if (con.getLabel().equals(expandSockets.get(i).getLabel())
-					&& con.getExpandGroup().equals(group)) {
+			if (con.getLabel().equals(expandSockets.get(i).getLabel()) && con.getExpandGroup().equals(group)) {
 				removeSocket(index);
 				i++;
 			} else {
@@ -562,10 +548,7 @@ public class Block implements ISupportMemento {
 				} else {
 					return true;
 				}
-			} else if (conn.getPositionType().equals(socket.getPositionType())
-					&& conn.isExpandable() == socket.isExpandable()
-					&& conn.initKind().equals(socket.initKind())
-					&& conn.getExpandGroup().equals(socket.getExpandGroup())) {
+			} else if (conn.getPositionType().equals(socket.getPositionType()) && conn.isExpandable() == socket.isExpandable() && conn.initKind().equals(socket.initKind()) && conn.getExpandGroup().equals(socket.getExpandGroup())) {
 				if (first == -1) {
 					first = i;
 				} else {
@@ -583,8 +566,7 @@ public class Block implements ISupportMemento {
 	 * Informs this Block that a block with id connectedBlockID has connected to
 	 * the specified connectedSocket
 	 */
-	public void blockConnected(BlockConnector connectedSocket,
-			Long connectedBlockID) {
+	public void blockConnected(BlockConnector connectedSocket, Long connectedBlockID) {
 		if (connectedSocket.isExpandable()) {
 			if (connectedSocket.getExpandGroup().length() > 0) {
 				// Part of an expand group
@@ -593,16 +575,9 @@ public class Block implements ISupportMemento {
 				// expand into another one
 				int index = getSocketIndex(connectedSocket);
 				if (isProcedureDeclBlock()) {
-					addSocket(index + 1, connectedSocket.initKind(),
-							connectedSocket.getPositionType(), "",
-							connectedSocket.isLabelEditable(),
-							connectedSocket.isExpandable(), Block.NULL);
+					addSocket(index + 1, connectedSocket.initKind(), connectedSocket.getPositionType(), "", connectedSocket.isLabelEditable(), connectedSocket.isExpandable(), Block.NULL);
 				} else {
-					addSocket(index + 1, connectedSocket.initKind(),
-							connectedSocket.getPositionType(),
-							connectedSocket.getLabel(),
-							connectedSocket.isLabelEditable(),
-							connectedSocket.isExpandable(), Block.NULL);
+					addSocket(index + 1, connectedSocket.initKind(), connectedSocket.getPositionType(), connectedSocket.getLabel(), connectedSocket.isLabelEditable(), connectedSocket.isExpandable(), Block.NULL);
 				}
 			}
 		}
@@ -622,8 +597,7 @@ public class Block implements ISupportMemento {
 	 * @param disconnectedSocket
 	 */
 	public void blockDisconnected(BlockConnector disconnectedSocket) {
-		if (disconnectedSocket.isExpandable()
-				&& canRemoveSocket(disconnectedSocket)) {
+		if (disconnectedSocket.isExpandable() && canRemoveSocket(disconnectedSocket)) {
 			if (disconnectedSocket.getExpandGroup().length() > 0) {
 				shrinkSocketGroup(disconnectedSocket);
 			} else {
@@ -648,8 +622,7 @@ public class Block implements ISupportMemento {
 	 * @return an unmodifiable iterable over a safe copy of the Sockets of this
 	 */
 	public Iterable<BlockConnector> getSockets() {
-		return Collections.unmodifiableList(new ArrayList<BlockConnector>(
-				sockets));
+		return Collections.unmodifiableList(new ArrayList<BlockConnector>(sockets));
 	}
 
 	/**
@@ -669,9 +642,7 @@ public class Block implements ISupportMemento {
 	 * @return the socket (BlockConnector instance) at the specified index
 	 */
 	public BlockConnector getSocketAt(int index) {
-		assert index < sockets.size() : "Index " + index
-				+ " is greater than the num of sockets: " + sockets.size()
-				+ " of " + this;
+		assert index < sockets.size() : "Index " + index + " is greater than the num of sockets: " + sockets.size() + " of " + this;
 		if (sockets.size() == 0) {
 			return null;
 		}
@@ -688,11 +659,8 @@ public class Block implements ISupportMemento {
 	 *            is true iff this BlockConnector can have its labels edited.
 	 * @return true if socket successfully replaced
 	 */
-	public boolean setSocketAt(int index, String kind, PositionType pos,
-			String label, boolean isLabelEditable, boolean isExpandable,
-			Long blockID) {
-		return sockets.set(index, new BlockConnector(workspace, kind, pos,
-				label, isLabelEditable, isExpandable, blockID)) != null;
+	public boolean setSocketAt(int index, String kind, PositionType pos, String label, boolean isLabelEditable, boolean isExpandable, Long blockID) {
+		return sockets.set(index, new BlockConnector(workspace, kind, pos, label, isLabelEditable, isExpandable, blockID)) != null;
 	}
 
 	/**
@@ -731,10 +699,8 @@ public class Block implements ISupportMemento {
 	 * @param blockID
 	 *            the block id of the block attached to new socket
 	 */
-	public void addSocket(String kind, PositionType positionType, String label,
-			boolean isLabelEditable, boolean isExpandable, Long blockID) {
-		BlockConnector newSocket = new BlockConnector(workspace, kind,
-				positionType, label, isLabelEditable, isExpandable, blockID);
+	public void addSocket(String kind, PositionType positionType, String label, boolean isLabelEditable, boolean isExpandable, Long blockID) {
+		BlockConnector newSocket = new BlockConnector(workspace, kind, positionType, label, isLabelEditable, isExpandable, blockID);
 		sockets.add(newSocket);
 	}
 
@@ -759,11 +725,8 @@ public class Block implements ISupportMemento {
 	 * @param blockID
 	 *            the block id of the block attached to new socket
 	 */
-	public BlockConnector addSocket(int index, String kind,
-			PositionType positionType, String label, boolean isLabelEditable,
-			boolean isExpandable, Long blockID) {
-		BlockConnector newSocket = new BlockConnector(workspace, kind,
-				positionType, label, isLabelEditable, isExpandable, blockID);
+	public BlockConnector addSocket(int index, String kind, PositionType positionType, String label, boolean isLabelEditable, boolean isExpandable, Long blockID) {
+		BlockConnector newSocket = new BlockConnector(workspace, kind, positionType, label, isLabelEditable, isExpandable, blockID);
 		sockets.add(index, newSocket);
 		return newSocket;
 	}
@@ -787,13 +750,10 @@ public class Block implements ISupportMemento {
 	public void removeSocket(BlockConnector socket) {
 		// disconnect any blocks connected to socket
 		if (socket.getBlockID() != Block.NULL) {
-			Block connectedBlock = workspace.getEnv().getBlock(
-					socket.getBlockID());
-			connectedBlock.getConnectorTo(this.blockID).setConnectorBlockID(
-					Block.NULL);
+			Block connectedBlock = workspace.getEnv().getBlock(socket.getBlockID());
+			connectedBlock.getConnectorTo(this.blockID).setConnectorBlockID(Block.NULL);
 			socket.setConnectorBlockID(Block.NULL);
-			workspace.getEnv().getRenderableBlock(blockID)
-					.blockDisconnected(socket);
+			workspace.getEnv().getRenderableBlock(blockID).blockDisconnected(socket);
 		}
 		sockets.remove(socket);
 	}
@@ -831,10 +791,8 @@ public class Block implements ISupportMemento {
 	 * @param blockID
 	 *            the block id of the block attached to plug
 	 */
-	public void setPlug(String kind, PositionType positionType, String label,
-			boolean isLabelEditable, Long blockID) {
-		plug = new BlockConnector(workspace, kind, positionType, label,
-				isLabelEditable, false, blockID);
+	public void setPlug(String kind, PositionType positionType, String label, boolean isLabelEditable, Long blockID) {
+		plug = new BlockConnector(workspace, kind, positionType, label, isLabelEditable, false, blockID);
 	}
 
 	/**
@@ -1036,8 +994,7 @@ public class Block implements ISupportMemento {
 				defargIDs.add(id);
 				// if id not null, then connect def arg's plug to this block
 				if (id != Block.NULL) {
-					workspace.getEnv().getBlock(id).getPlug()
-							.setConnectorBlockID(this.blockID);
+					workspace.getEnv().getBlock(id).getPlug().setConnectorBlockID(this.blockID);
 				}
 			}
 			return defargIDs;
@@ -1062,8 +1019,8 @@ public class Block implements ISupportMemento {
 				int i = 0;
 				// arranged by sakai lab 2011/10/29
 
-				while(i < ws.getEnv().getGenusWithName(stubGenus).getFactorySize()){
-					BlockStub newStubBlock = new BlockStub(ws, this.getBlockID(),this.getGenusName(), this.getBlockLabel(),stubGenus);
+				while (i < ws.getEnv().getGenusWithName(stubGenus).getFactorySize()) {
+					BlockStub newStubBlock = new BlockStub(ws, this.getBlockID(), this.getGenusName(), this.getBlockLabel(), stubGenus);
 					newStubBlock.setFactoryName(ws.getEnv().getGenusWithName(stubGenus).getFactory(i));
 					newStubBlocks.add(newStubBlock);
 					i++;
@@ -1397,8 +1354,8 @@ public class Block implements ISupportMemento {
 	public boolean isMethodBlock() {
 		return getGenus().isMethodBlock();
 	}
-	
-	public boolean isMainMethod(){
+
+	public boolean isMainMethod() {
 		return this.visible;
 	}
 
@@ -1535,9 +1492,7 @@ public class Block implements ISupportMemento {
 	 */
 	@Override
 	public String toString() {
-		return "Block " + blockID + ": " + label + " with sockets: " + sockets
-				+ " and plug: " + plug + " before: " + before + " after: "
-				+ after;
+		return "Block " + blockID + ": " + label + " with sockets: " + sockets + " and plug: " + plug + " before: " + before + " after: " + after;
 	}
 
 	/**
@@ -1581,8 +1536,7 @@ public class Block implements ISupportMemento {
 	 * @return 新しく生成するブロック
 	 */
 	public Block createFreshStub(String stubGenus) {
-		return new BlockStub(getWorkspace(), this.getBlockID(),
-				this.getGenusName(), this.getBlockLabel(), stubGenus);
+		return new BlockStub(getWorkspace(), this.getBlockID(), this.getGenusName(), this.getBlockLabel(), stubGenus);
 	}
 
 	// //////////////////////
@@ -1635,16 +1589,26 @@ public class Block implements ISupportMemento {
 			blockElement.appendChild(nameElement);
 		}
 
-		if("return".equals(getGenusName())){
+		if ("return".equals(getGenusName())) {
 			Element nameElement = document.createElement("ParentMethod");
 			nameElement.appendChild(document.createTextNode(getTopBlock(this).getBlockID().toString()));
 			blockElement.appendChild(nameElement);
 		}
-		
-		if(visible){
+
+		if (visible) {
 			Element mainNode = document.createElement(BlockProcedureModel.INVISIBLE_NODE);
 			mainNode.setTextContent("true");
 			blockElement.appendChild(mainNode);
+		}
+
+		if (!modifiers.isEmpty()) {
+			Element modifiersNode = document.createElement(BlockProcedureModel.MODIFIERS_NODE);
+			for (String modifier : modifiers) {
+				Element modElement = document.createElement(BlockProcedureModel.MODIFIER_NODE);
+				modElement.setTextContent(modifier);
+				modifiersNode.appendChild(modElement);
+			}
+			blockElement.appendChild(modifiersNode);
 		}
 
 		// Location
@@ -1667,19 +1631,15 @@ public class Block implements ISupportMemento {
 			blockElement.appendChild(commentNode);
 		}
 
-		if (this.hasBeforeConnector()
-				&& !this.getBeforeBlockID().equals(Block.NULL)) {
+		if (this.hasBeforeConnector() && !this.getBeforeBlockID().equals(Block.NULL)) {
 			Element blockIdElement = document.createElement("BeforeBlockId");
-			blockIdElement.appendChild(document.createTextNode(String
-					.valueOf(getBeforeBlockID())));
+			blockIdElement.appendChild(document.createTextNode(String.valueOf(getBeforeBlockID())));
 			blockElement.appendChild(blockIdElement);
 		}
 
-		if (this.hasAfterConnector()
-				&& !this.getAfterBlockID().equals(Block.NULL)) {
+		if (this.hasAfterConnector() && !this.getAfterBlockID().equals(Block.NULL)) {
 			Element blockIdElement = document.createElement("AfterBlockId");
-			blockIdElement.appendChild(document.createTextNode(String
-					.valueOf(getAfterBlockID())));
+			blockIdElement.appendChild(document.createTextNode(String.valueOf(getAfterBlockID())));
 			blockElement.appendChild(blockIdElement);
 		}
 
@@ -1692,8 +1652,7 @@ public class Block implements ISupportMemento {
 
 		if (sockets.size() > 0) {
 			Element socketsElement = document.createElement("Sockets");
-			socketsElement.setAttribute("num-sockets",
-					String.valueOf(getNumSockets()));
+			socketsElement.setAttribute("num-sockets", String.valueOf(getNumSockets()));
 			for (BlockConnector con : getSockets()) {
 				Node blockConnectorNode = con.getSaveNode(document, "socket");
 				socketsElement.appendChild(blockConnectorNode);
@@ -1709,11 +1668,9 @@ public class Block implements ISupportMemento {
 		// i.e. properties that were created/specified during runtime
 
 		if (!properties.isEmpty()) {
-			Element propertiesElement = document
-					.createElement("LangSpecProperties");
+			Element propertiesElement = document.createElement("LangSpecProperties");
 			for (Entry<String, String> property : properties.entrySet()) {
-				Element propertyElement = document
-						.createElement("LangSpecProperty");
+				Element propertyElement = document.createElement("LangSpecProperty");
 				propertyElement.setAttribute("key", property.getKey());
 				propertyElement.setAttribute("value", property.getValue());
 
@@ -1759,6 +1716,7 @@ public class Block implements ISupportMemento {
 
 		String type = null;
 		boolean invisible = false;
+		List<String> modifiers = new ArrayList<>();
 
 		if (node.getNodeName().equals("BlockStub")) {
 			isStubBlock = true;
@@ -1779,14 +1737,11 @@ public class Block implements ISupportMemento {
 
 		if (node.getNodeName().equals("Block")) {
 			// load attributes
-			nameMatcher = attrExtractor.matcher(node.getAttributes()
-					.getNamedItem("id").toString());
+			nameMatcher = attrExtractor.matcher(node.getAttributes().getNamedItem("id").toString());
 			if (nameMatcher.find()) {
-				id = translateLong(workspace,
-						Long.parseLong(nameMatcher.group(1)), idMapping);
+				id = translateLong(workspace, Long.parseLong(nameMatcher.group(1)), idMapping);
 			}
-			nameMatcher = attrExtractor.matcher(node.getAttributes()
-					.getNamedItem("genus-name").toString());
+			nameMatcher = attrExtractor.matcher(node.getAttributes().getNamedItem("genus-name").toString());
 			if (nameMatcher.find()) {
 				genusName = nameMatcher.group(1);
 			}
@@ -1796,8 +1751,7 @@ public class Block implements ISupportMemento {
 				nameMatcher = attrExtractor.matcher(opt_item.toString());
 				if (nameMatcher.find()) // will be true
 				{
-					hasFocus = nameMatcher.group(1).equals("yes") ? true
-							: false;
+					hasFocus = nameMatcher.group(1).equals("yes") ? true : false;
 				}
 			}
 
@@ -1808,18 +1762,16 @@ public class Block implements ISupportMemento {
 				child = children.item(i);
 				if (child.getNodeName().equals("Label")) {
 					label = child.getTextContent();
-				}else if (child.getNodeName().equals("Type")){
+				} else if (child.getNodeName().equals("Type")) {
 					type = child.getTextContent();
 				} else if (child.getNodeName().equals("PageLabel")) {
 					pagelabel = child.getTextContent();
 				} else if (child.getNodeName().equals("CompilerErrorMsg")) {
 					badMsg = child.getTextContent();
 				} else if (child.getNodeName().equals("BeforeBlockId")) {
-					beforeID = translateLong(workspace,
-							Long.parseLong(child.getTextContent()), idMapping);
+					beforeID = translateLong(workspace, Long.parseLong(child.getTextContent()), idMapping);
 				} else if (child.getNodeName().equals("AfterBlockId")) {
-					afterID = translateLong(workspace,
-							Long.parseLong(child.getTextContent()), idMapping);
+					afterID = translateLong(workspace, Long.parseLong(child.getTextContent()), idMapping);
 				} else if (child.getNodeName().equals("Plug")) {
 					NodeList plugs = child.getChildNodes(); // there should only
 															// one child
@@ -1841,13 +1793,13 @@ public class Block implements ISupportMemento {
 						socketNode = socketNodes.item(k);
 						if (socketNode.getNodeName().equals("BlockConnector")) {
 							BlockGenus genus = workspace.getEnv().getGenusWithName(genusName);
-							sockets.add(BlockConnector.loadBlockConnector(workspace, socketNode, idMapping,genus.getSocketsLabel(socketNum)));
+							sockets.add(BlockConnector.loadBlockConnector(workspace, socketNode, idMapping, genus.getSocketsLabel(socketNum)));
 							socketNum++;
 						}
 					}
-				} else if(child.getNodeName().equals("Name")){
+				} else if (child.getNodeName().equals("Name")) {
 					name = child.getTextContent();
-				} else if(child.getNodeName().equals(BlockProcedureModel.INVISIBLE_NODE)){ 
+				} else if (child.getNodeName().equals(BlockProcedureModel.INVISIBLE_NODE)) {
 					invisible = true;
 				} else if (child.getNodeName().equals("LangSpecProperties")) {
 					blockLangProperties = new HashMap<String, String>();
@@ -1857,20 +1809,15 @@ public class Block implements ISupportMemento {
 					String value = null;
 					for (int m = 0; m < propertyNodes.getLength(); m++) {
 						propertyNode = propertyNodes.item(m);
-						if (propertyNode.getNodeName().equals(
-								"LangSpecProperty")) {
-							nameMatcher = attrExtractor.matcher(propertyNode
-									.getAttributes().getNamedItem("key")
-									.toString());
+						if (propertyNode.getNodeName().equals("LangSpecProperty")) {
+							nameMatcher = attrExtractor.matcher(propertyNode.getAttributes().getNamedItem("key").toString());
 							if (nameMatcher.find()) // will be true
 							{
 								key = nameMatcher.group(1);
 							}
-							opt_item = propertyNode.getAttributes()
-									.getNamedItem("value");
+							opt_item = propertyNode.getAttributes().getNamedItem("value");
 							if (opt_item != null) {
-								nameMatcher = attrExtractor.matcher(opt_item
-										.toString());
+								nameMatcher = attrExtractor.matcher(opt_item.toString());
 								if (nameMatcher.find()) // will be true
 								{
 									value = nameMatcher.group(1);
@@ -1885,11 +1832,18 @@ public class Block implements ISupportMemento {
 							}
 						}
 					}
+				} else if (child.getNodeName().equals(BlockProcedureModel.MODIFIERS_NODE)) {
+					NodeList modifierNodes = child.getChildNodes();
+					for (int m = 0; m < modifierNodes.getLength(); m++) {
+						Node modifier = modifierNodes.item(m);
+						if (BlockProcedureModel.MODIFIER_NODE.equals(modifier.getNodeName())) {
+							modifiers.add(modifier.getTextContent());
+						}
+					}
 				}
 			}
 
-			assert genusName != null && id != null : "Block did not contain required info id: "
-					+ id + " genus: " + genusName;
+			assert genusName != null && id != null : "Block did not contain required info id: " + id + " genus: " + genusName;
 			// create block or block stub instance
 			if (!isStubBlock) {
 				if (label == null) {
@@ -1899,8 +1853,7 @@ public class Block implements ISupportMemento {
 				}
 			} else {
 				assert label != null : "Loading a block stub, but has a null label!";
-				block = new BlockStub(workspace, id, genusName, label,
-						stubParentName, stubParentGenus);
+				block = new BlockStub(workspace, id, genusName, label, stubParentName, stubParentGenus);
 			}
 
 			if (plug != null) {
@@ -1914,7 +1867,7 @@ public class Block implements ISupportMemento {
 			if (sockets.size() > 0) {
 				block.sockets = sockets;
 			}
-
+			System.out.println(genusName + "lable" + label);
 			if (beforeID != null) {
 				block.before.setConnectorBlockID(beforeID);
 			}
@@ -1928,11 +1881,11 @@ public class Block implements ISupportMemento {
 				block.isBad = true;
 				block.badMsg = badMsg;
 			}
-			if(name != null){
+			if (name != null) {
 				block.name = name;
 			}
 
-			if(type != null){
+			if (type != null) {
 				block.type = type;
 			}
 
@@ -1943,13 +1896,15 @@ public class Block implements ISupportMemento {
 				block.properties = blockLangProperties;
 			}
 
-			if(block.getBlockID()>workspace.getEnv().getNextID()){
+			if (block.getBlockID() > workspace.getEnv().getNextID()) {
 				workspace.getEnv().updateNextID(block.getBlockID() + 1);
 			}
-			
-			if(invisible){
+
+			if (invisible) {
 				block.visible = true;
 			}
+
+			block.modifiers = modifiers;
 
 			return block;
 		}
@@ -1957,8 +1912,7 @@ public class Block implements ISupportMemento {
 		return null;
 	}
 
-	public static Long translateLong(Workspace workspace, Long input,
-			HashMap<Long, Long> mapping) {
+	public static Long translateLong(Workspace workspace, Long input, HashMap<Long, Long> mapping) {
 		if (mapping == null) {
 			return input;
 		}
@@ -1970,11 +1924,11 @@ public class Block implements ISupportMemento {
 		return newID;
 	}
 
-	public void setName(String name){
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public void setType(String type){
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -2078,28 +2032,24 @@ public class Block implements ISupportMemento {
 			if (state.plug == null) {
 				this.plug = null;
 			} else {
-				this.plug = BlockConnector.instantiateFromState(workspace,
-						state.plug);
+				this.plug = BlockConnector.instantiateFromState(workspace, state.plug);
 			}
 
 			if (state.before == null) {
 				this.before = null;
 			} else {
-				this.before = BlockConnector.instantiateFromState(workspace,
-						state.before);
+				this.before = BlockConnector.instantiateFromState(workspace, state.before);
 			}
 
 			if (state.after == null) {
 				this.after = null;
 			} else {
-				this.after = BlockConnector.instantiateFromState(workspace,
-						state.after);
+				this.after = BlockConnector.instantiateFromState(workspace, state.after);
 			}
 
 			for (int i = 0; i < state.numberOfSockets; i++) {
 				if (i >= this.getNumSockets()) {
-					this.sockets.add(BlockConnector.instantiateFromState(
-							workspace, state.sockets.get(i)));
+					this.sockets.add(BlockConnector.instantiateFromState(workspace, state.sockets.get(i)));
 				} else {
 					this.sockets.get(i).loadState(state.sockets.get(i));
 				}
@@ -2113,7 +2063,7 @@ public class Block implements ISupportMemento {
 
 	public static Block getTopBlock(Block block) {
 		Block tmpBlock = block;
-		if(tmpBlock == null){
+		if (tmpBlock == null) {
 			return null;
 		}
 		while ((tmpBlock.getBeforeBlockID() != -1 && tmpBlock.getBeforeBlockID() != null)) {
@@ -2122,15 +2072,15 @@ public class Block implements ISupportMemento {
 		return tmpBlock;
 	}
 
-	public String getReturnType(){
+	public String getReturnType() {
 		return this.returnType;
 	}
 
-	public void setReturnType(String type){
+	public void setReturnType(String type) {
 		this.returnType = type;
 	}
 
-	public String getType(){
+	public String getType() {
 		return this.type;
 	}
 }

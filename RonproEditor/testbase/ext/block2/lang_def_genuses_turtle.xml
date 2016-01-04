@@ -202,7 +202,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Turtle-print[@number]" kind="command"
+<BlockGenus name="Turtle-print[@int]" kind="command"
 	initlabel="コンソールに出力する" color="255 0 0">
 	<description>
 		<text>セットした文字をコンソールに出力します。</text>
@@ -854,7 +854,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-intersects[]" kind="function"
+<BlockGenus name="Turtle-intersects[@object]" kind="function"
 	initlabel="オブジェクトが重なっているかどうか調べる" color="255 0 0">
 	<Name>intersects</Name>
 	<Type>boolean</Type>
@@ -951,7 +951,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-setVolume[]" kind="command"
+<BlockGenus name="SoundTurtle-setVolume[@int]" kind="command"
 	initlabel="音量を設定する" color="30 30 200">
 	<Name>setVolume</Name>
 	<BlockConnectors>
@@ -1001,7 +1001,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addFirst[@turtle]" kind="command"
+<BlockGenus name="ListTurtle-addFirst[@object]" kind="command"
 	initlabel="最初に追加する" color="255 255 100">
 	<Name>addFirst</Name>
 	<BlockConnectors>
@@ -1010,7 +1010,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addLast[@turtle]" kind="command"
+<BlockGenus name="ListTurtle-addLast[@object]" kind="command"
 	initlabel="最後に追加する" color="255 255 100">
 	<Name>addLast</Name>
 	<BlockConnectors>
@@ -1019,7 +1019,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addAll[@listturtle]" kind="command"
+<BlockGenus name="ListTurtle-addAll[@object]" kind="command"
 	initlabel="中身を全て追加する" color="255 255 100">
 	<Name>addAll</Name>
 	<BlockConnectors>
@@ -1028,7 +1028,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-moveAllTo[@listturtle]" kind="command"
+<BlockGenus name="ListTurtle-moveAllTo[@object]" kind="command"
 	initlabel="全ての中身を移動する" color="255 255 100">
 	<Name>moveAllTo</Name>
 	<BlockConnectors>
@@ -1098,7 +1098,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addToBeforeCursor[@turtle]"
+<BlockGenus name="ListTurtle-addToBeforeCursor[@object]"
 	kind="command" initlabel="カーソルの前に追加する" color="255 255 100">
 	<!-- <Name>addToBeforeCursor</Name> -->
 	<BlockConnectors>
@@ -1107,7 +1107,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addToAfterCursor[@turtle]" kind="command"
+<BlockGenus name="ListTurtle-addToAfterCursor[@object]" kind="command"
 	initlabel="カーソルの後に追加する" color="255 255 100">
 	<Name>addToAfterCursor</Name>
 	<BlockConnectors>
@@ -1275,6 +1275,29 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="TurtleFrame-warp[@int@int]" kind="command"
+	initlabel="ウインドウの位置を設定する" color="255 0 0">
+	<description>
+		<text>プログラム実行時のウィンドウの位置を指定します。</text>
+	</description>
+	<Name>size</Name>
+	<BlockConnectors>
+		<BlockConnector label="x座標" connector-kind="socket"
+			connector-type="number" position-type="single">
+			<DefaultArg genus-name="number" label="480"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="y座標" connector-kind="socket"
+			connector-type="number" position-type="single">
+			<DefaultArg genus-name="number" label="420"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="pu"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
 <BlockGenus name="local-var-object-Text" kind="local-variable"
 	initlabel="tt" header-label="TextTurtle型の変数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
@@ -1339,7 +1362,7 @@
 			<MethodName>Turtle-isShow[]</MethodName>
 			<MethodName>Turtle-looks[]</MethodName>
 			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）">
 			<MethodName>Turtle-key[]</MethodName>
@@ -1360,9 +1383,9 @@
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
 		</CategoryName>
-		<CategoryName name="TextTurtleへの命令">
+		<CategoryName name="TextTurtle">
 			<MethodName>TextTurtle-text[@string]</MethodName>
-			<MethodName>TextTurtle-getText[@string]</MethodName>
+			<MethodName>TextTurtle-getText[]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -1430,7 +1453,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="new-object-Scanner[@string]" kind="function"
+<BlockGenus name="new-object-Scanner[@object]" kind="function"
 	initlabel="Scanner" editable-label="yes" header-label="新しく"
 	footer-label="を作る" color="16 240 27">
 	<Type>Scanner</Type>
@@ -1592,7 +1615,7 @@
 			<MethodName>Turtle-isShow[]</MethodName>
 			<MethodName>Turtle-looks[@object]</MethodName>
 			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
 			<MethodName>Turtle-key[]</MethodName>
@@ -1682,7 +1705,7 @@
 			<MethodName>Turtle-isShow[]</MethodName>
 			<MethodName>Turtle-looks[@object]</MethodName>
 			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
 			<MethodName>Turtle-key[]</MethodName>
@@ -1780,7 +1803,7 @@
 			<MethodName>Turtle-isShow[]</MethodName>
 			<MethodName>Turtle-looks[@object]</MethodName>
 			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
 			<MethodName>Turtle-key[]</MethodName>
@@ -1879,7 +1902,7 @@
 			<MethodName>Turtle-isShow[]</MethodName>
 			<MethodName>Turtle-looks[@object]</MethodName>
 			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
 			<MethodName>Turtle-key[]</MethodName>
@@ -1990,7 +2013,7 @@
 			<MethodName>Turtle-isShow[]</MethodName>
 			<MethodName>Turtle-looks[@object]</MethodName>
 			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
 			<MethodName>Turtle-key[]</MethodName>
@@ -2088,7 +2111,7 @@
 			<MethodName>Turtle-isShow[]</MethodName>
 			<MethodName>Turtle-looks[@object]</MethodName>
 			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
 			<MethodName>Turtle-key[]</MethodName>
@@ -2181,7 +2204,7 @@
 			<MethodName>Turtle-isShow[]</MethodName>
 			<MethodName>Turtle-looks[@object]</MethodName>
 			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
 			<MethodName>Turtle-key[]</MethodName>

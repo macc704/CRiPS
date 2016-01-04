@@ -117,9 +117,9 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-Color[@number@number@number]" kind="function"
-	initlabel="Color" editable-label="yes" header-label="新しく" footer-label="を作る"
-	color="16 240 27">
+<BlockGenus name="new-object-Color[@number@number@number]"
+	kind="function" initlabel="Color" editable-label="yes" header-label="新しく"
+	footer-label="を作る" color="16 240 27">
 	<Type>Color</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
@@ -346,8 +346,8 @@
 </BlockGenus>
 
 
-<BlockGenus name="new-linkedlistobject" kind="function" initlabel="LinkedList"
-	header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-linkedlistobject" kind="function"
+	initlabel="LinkedList" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			指定した型のリストを生成します
@@ -857,7 +857,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -942,6 +942,11 @@
 			</LangSpecProperties>
 		</Stub>
 	</Stubs>
+	<ClassMethods>
+		<CategoryName name="Object型のメソッド" classname="Turtle">
+			<MethodName>Object-equals[@object]</MethodName>
+		</CategoryName>
+	</ClassMethods>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 		<LangSpecProperty key="type" value="object"></LangSpecProperty>
@@ -1064,17 +1069,21 @@
 	color="255 255 100">
 </BlockGenus>
 
-<BlockGenus name="size" kind="data" initlabel="リストの大きさ" color="255 255 100">
-    <BlockConnectors>
-        <BlockConnector label="" connector-kind="plug" connector-type="number" />
-    </BlockConnectors>
+<BlockGenus name="size" kind="data" initlabel="リストの大きさ"
+	color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="number" />
+	</BlockConnectors>
 </BlockGenus>
 
 
-<BlockGenus name="add[@object]" kind="command" initlabel="追加する" color="255 255 100">
-    <BlockConnectors>
-        <BlockConnector label="何を？" connector-kind="socket" connector-type="object" />
-    </BlockConnectors>
+<BlockGenus name="add[@object]" kind="command" initlabel="追加する"
+	color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="何を？" connector-kind="socket"
+			connector-type="object" />
+	</BlockConnectors>
 </BlockGenus>
 
 
@@ -1098,7 +1107,7 @@
 
 <BlockGenus name="remove" kind="command" initlabel="要素を削除する"
 	color="255 255 100">
-    <JavaLabel>remove</JavaLabel>
+	<JavaLabel>remove</JavaLabel>
 	<BlockConnectors>
 		<BlockConnector label="どれを？" connector-kind="socket"
 			connector-type="poly" />
@@ -1107,35 +1116,39 @@
 
 <BlockGenus name="get[@number]" kind="data" initlabel="要素を取り出す"
 	color="255 255 100">
-    <JavaLabel>get</JavaLabel>
+	<JavaLabel>get</JavaLabel>
 	<BlockConnectors>
-        <BlockConnector label="" connector-kind="plug"
-        connector-type="object" />
-        <BlockConnector label="どこの？" connector-kind="socket"
-        connector-type="number" />
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="object" />
+		<BlockConnector label="どこの？" connector-kind="socket"
+			connector-type="number" />
 	</BlockConnectors>
 </BlockGenus>
 
-<!--
-<BlockGenus name="remove[@object]" kind="command" initlabel="要素を削除する"
-	color="255 255 100">
-    <JavaLabel>remove</JavaLabel>
-	<BlockConnectors>
-		<BlockConnector label="どれを？" connector-kind="socket"
-        connector-type="object" />
-	</BlockConnectors>
-</BlockGenus>
--->
+<!-- <BlockGenus name="remove[@object]" kind="command" initlabel="要素を削除する" 
+	color="255 255 100"> <JavaLabel>remove</JavaLabel> <BlockConnectors> <BlockConnector 
+	label="どれを？" connector-kind="socket" connector-type="object" /> </BlockConnectors> 
+	</BlockGenus> -->
 
-<BlockGenus name="length" kind="data" initlabel="文字数"
-	color="255 255 100">
-    <JavaLabel>length</JavaLabel>
+<BlockGenus name="length" kind="data" initlabel="文字数" color="255 255 100">
+	<JavaLabel>length</JavaLabel>
 	<BlockConnectors>
-	    <BlockConnector label="" connector-kind="plug"
-        connector-type="number" />
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="number" />
 	</BlockConnectors>
 </BlockGenus>
 
-
-
+<BlockGenus name="Object-equals[@object]" kind="function"
+	color="255 0 0" initlabel="等しいか調べる">
+	<Name>equals</Name>
+	<description>
+		<text>一致するかどうか調べます。</text>
+	</description>
+	<Type>boolean</Type>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="boolean"
+			position-type="single"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="object" label=""></BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
 
