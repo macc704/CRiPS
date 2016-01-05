@@ -136,6 +136,28 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<BlockGenus name="equals-double-number" kind="function" initlabel="等しい"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>boolean</Type>
+	<Operator>==</Operator>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
 <BlockGenus name="not-equals-number" kind="function"
 	initlabel="等しくない" color="15 20 220">
 	<BlockConnectors>
@@ -154,6 +176,28 @@
 	<Operator>!=</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="not-equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="not-equals-double-number" kind="function" initlabel="等しい"
+	color="15 20 220">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="boolean" position-type="mirror"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="bottom">
+			<DefaultArg genus-name="number" label="1"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>boolean</Type>
+	<Operator>!=</Operator>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
 	</LangSpecProperties>
 </BlockGenus>
@@ -541,7 +585,7 @@
 	color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
-			connector-type="boolean" position-type="mirror"></BlockConnector>
+			connector-type="boolean" position-type="single"></BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="string" position-type="single">
 		</BlockConnector>

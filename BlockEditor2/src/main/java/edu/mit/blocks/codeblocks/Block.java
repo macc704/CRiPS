@@ -21,6 +21,7 @@ import edu.mit.blocks.renderable.BlockImageIcon.ImageLocation;
 import edu.mit.blocks.workspace.ISupportMemento;
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEnvironment;
+import net.unicoen.parser.blockeditor.blockmodel.BlockExCallGetterModel;
 import net.unicoen.parser.blockeditor.blockmodel.BlockProcedureModel;
 
 /**
@@ -1577,9 +1578,9 @@ public class Block implements ISupportMemento {
 			blockElement.appendChild(msgElement);
 		}
 
-		if (this.type != null) {
+		if (getType() != null) {
 			Element typeElement = document.createElement("Type");
-			typeElement.appendChild(document.createTextNode(type));
+			typeElement.appendChild(document.createTextNode(getType()));
 			blockElement.appendChild(typeElement);
 		}
 
@@ -2081,6 +2082,16 @@ public class Block implements ISupportMemento {
 	}
 
 	public String getType() {
-		return this.type;
+		if(this.genusName.equals(BlockExCallGetterModel.GENUS_NAME)){
+			Block caller = getWorkspace().getEnv().getBlock(getSocketAt(getNumSockets()-1).getBlockID());
+			if(caller == null){
+				return null;
+			}else{
+				return caller.getType();
+			}
+		}else{
+			return this.type;			
+		}
 	}
+	
 }
