@@ -102,7 +102,7 @@
 
 <BlockGenus name="Scanner-nextLine[]" kind="function"
 	initlabel="入力を受け取る（文字列型）" color="255 255 100" label-suffix="">
-	<Name>next</Name>
+	<Name>nextLine</Name>
 	<Type>String</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"

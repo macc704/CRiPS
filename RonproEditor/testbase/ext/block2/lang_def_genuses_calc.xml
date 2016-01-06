@@ -506,6 +506,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
+	<Operator>&gt;</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="greater-than"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -574,7 +575,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
-	<Name>equals</Name>
+	<Operator>==</Operator>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
