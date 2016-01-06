@@ -1,6 +1,7 @@
 package edu.mit.blocks.controller;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,6 +53,9 @@ import clib.view.app.javainfo.CJavaInfoPanels;
 import clib.view.windowmanager.CWindowCentraizer;
 import edu.inf.shizuoka.blocks.blockeditor.SBlockEditor;
 import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
+import edu.inf.shizuoka.blocks.syntaxchecker.BlockSyntaxErrorChecker;
+import edu.inf.shizuoka.blocks.syntaxchecker.ErrorInformation;
+import edu.inf.shizuoka.blocks.syntaxchecker.ParamChecker;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
@@ -106,7 +110,7 @@ public class WorkspaceController {
 	// flag to indicate if a workspace has been loaded/initialized
 	private boolean workspaceLoaded = false;
 	// last directory that was selected with open or save action
-	 private File lastDirectory;
+	private File lastDirectory;
 	// file currently loaded in workspace
 	private File selectedFile;
 	// Reference kept to be able to update frame title with current loaded file
@@ -123,6 +127,8 @@ public class WorkspaceController {
 
 	private SBlockEditorListener listener;
 
+	private BlockSyntaxErrorChecker checker = new BlockSyntaxErrorChecker();
+
 	/**
 	 * Constructs a WorkspaceController instance that manages the interaction
 	 * with the codeblocks.Workspace
@@ -130,12 +136,27 @@ public class WorkspaceController {
 	 */
 	public WorkspaceController() {
 		this.workspace = new Workspace();
+		initializeChecker();
+	}
+
+	public void initializeChecker() {
+		checker.addChecker(new ParamChecker());
+		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
+			private BlockSyntaxErrorChecker checker = WorkspaceController.this.checker;
+			@Override
+			public void workspaceEventOccurred(WorkspaceEvent event) {
+				if(event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED){
+					checker.removeError(workspace.getEnv().getBlock(event.getSourceLink().getSocketBlockID()));
+				}
+			}
+		});
 	}
 
 	public WorkspaceController(String user, boolean openedFromCH) {
 		this.openedFromCH = openedFromCH;
 		this.user = user;
 		this.workspace = new Workspace();
+		initializeChecker();
 	}
 
 	/**
@@ -373,17 +394,17 @@ public class WorkspaceController {
 			getWorkspace().addWorkspaceListener(new WorkspaceListener() {
 				@Override
 				public void workspaceEventOccurred(WorkspaceEvent event) {
-					if(event.getEventType() == WorkspaceEvent.WORKSPACE_FINISHED_LOADING){
-						for(Block block : getWorkspace().getBlocks()){
-							if(block.isMainMethod()){
-								//全部隠す
+					if (event.getEventType() == WorkspaceEvent.WORKSPACE_FINISHED_LOADING) {
+						for (Block block : getWorkspace().getBlocks()) {
+							if (block.isMainMethod()) {
+								// 全部隠す
 								getWorkspace().getEnv().getRenderableBlock(block.getBlockID()).hideBlock();
 							}
 						}
 					}
 				}
 			});
-			
+
 			builder = factory.newDocumentBuilder();
 			doc = builder.parse(new File(path));
 
@@ -610,17 +631,23 @@ public class WorkspaceController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			try {
-				
-				saveToFile(selectedFile);
-				
-				BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
-				UniClassDec classDec = mapper.parse(selectedFile);
+			List<ErrorInformation> errs = checker.checkSyntax(workspace.getBlocks());
+			if(errs.isEmpty()){
+				try {
+					saveToFile(selectedFile);
 
-				outputFileFromUni(classDec);
-				setDirty(false);
-			} catch (Exception e1) {
-				e1.printStackTrace();
+					BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
+					UniClassDec classDec = mapper.parse(selectedFile);
+
+					outputFileFromUni(classDec);
+					setDirty(false);
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}				
+			}else{
+				for(ErrorInformation err : errs){
+					workspace.getEnv().getRenderableBlock(err.geterrBlock().getBlockID()).setBlockHighlightColor(Color.RED);					
+				}
 			}
 		}
 	}
@@ -856,10 +883,7 @@ public class WorkspaceController {
 		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
 			@Override
 			public void workspaceEventOccurred(WorkspaceEvent event) {
-				if (event.getEventType() != WorkspaceEvent.WORKSPACE_FINISHED_LOADING || event.getEventType() != WorkspaceEvent.BLOCK_RENAMED) {// TODO
-																																				// should
-																																				// fix
-																																				// ワークスペース読み込み後にイベントが飛ぶ問題を修正する
+				if (event.getEventType() != WorkspaceEvent.WORKSPACE_FINISHED_LOADING || event.getEventType() != WorkspaceEvent.BLOCK_RENAMED) {																															// ワークスペース読み込み後にイベントが飛ぶ問題を修正する
 					setDirty(true);
 				}
 			}

@@ -1602,7 +1602,7 @@ public class Block implements ISupportMemento {
 			blockElement.appendChild(mainNode);
 		}
 
-		if (!modifiers.isEmpty()) {
+		if (modifiers != null && !modifiers.isEmpty()) {
 			Element modifiersNode = document.createElement(BlockProcedureModel.MODIFIERS_NODE);
 			for (String modifier : modifiers) {
 				Element modElement = document.createElement(BlockProcedureModel.MODIFIER_NODE);
