@@ -424,7 +424,7 @@ public class LangDefFilesRewriter {
 	 */
 	public void parseDirectry(String enc, String[] classpaths) throws IOException {
 		for (String name : langDefGenusesFile.getParentFile().list()) {
-			if (name.endsWith(".java")) {
+			if (name.endsWith(".java") && !name.startsWith(".")) {
 				// javaファイル生成
 				File javaFile = new File(langDefGenusesFile.getParentFile().getPath() + "/" + name);
 				name = name.substring(0, name.indexOf(".java"));

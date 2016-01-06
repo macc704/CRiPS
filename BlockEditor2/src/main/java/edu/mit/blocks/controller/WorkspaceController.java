@@ -55,7 +55,7 @@ import edu.inf.shizuoka.blocks.blockeditor.SBlockEditor;
 import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
 import edu.inf.shizuoka.blocks.syntaxchecker.BlockSyntaxErrorChecker;
 import edu.inf.shizuoka.blocks.syntaxchecker.ErrorInformation;
-import edu.inf.shizuoka.blocks.syntaxchecker.ParamChecker;
+import edu.inf.shizuoka.blocks.syntaxchecker.SocketChecker;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
@@ -140,7 +140,7 @@ public class WorkspaceController {
 	}
 
 	public void initializeChecker() {
-		checker.addChecker(new ParamChecker());
+		checker.addChecker(new SocketChecker());
 		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
 			private BlockSyntaxErrorChecker checker = WorkspaceController.this.checker;
 

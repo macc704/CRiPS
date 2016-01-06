@@ -191,7 +191,7 @@ public class REBlockEditorManager2 {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (IREResourceRepository.DOCUMENT_OPENED.equals(evt.getPropertyName())) {
-					if(blockEditor != null){
+					if(blockEditor != null && blockEditor.isOpened()){
 						blockEditor.resetWorkspace();
 						rewriteLangdefFile();
 					}

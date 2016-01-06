@@ -4,7 +4,7 @@ import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import net.unicoen.parser.blockeditor.blockmodel.BlockExCallerModel;
 
-public class ParamChecker implements SyntaxChecker {
+public class SocketChecker implements SyntaxChecker {
 
 	private static String ERR_CONTEXT = "のソケットにブロックが結合されていません！";
 	
