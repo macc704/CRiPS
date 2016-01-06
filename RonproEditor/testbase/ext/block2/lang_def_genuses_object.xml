@@ -117,7 +117,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-Color[@number@number@number]"
+<BlockGenus name="new-object-Color[@int@int@int]"
 	kind="function" initlabel="Color" editable-label="yes" header-label="新しく"
 	footer-label="を作る" color="16 240 27">
 	<Type>Color</Type>
@@ -1114,7 +1114,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="get[@number]" kind="data" initlabel="要素を取り出す"
+<BlockGenus name="get[@int]" kind="data" initlabel="要素を取り出す"
 	color="255 255 100">
 	<JavaLabel>get</JavaLabel>
 	<BlockConnectors>

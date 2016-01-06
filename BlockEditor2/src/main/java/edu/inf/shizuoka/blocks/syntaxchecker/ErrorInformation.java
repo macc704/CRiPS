@@ -17,7 +17,7 @@ public class ErrorInformation {
 	}
 	
 	public String getErrContext(){
-		return this.errContext;
+		return errBlock.getBlockLabel() + this.errContext;
 	}
 	
 }

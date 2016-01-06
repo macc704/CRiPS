@@ -17,6 +17,7 @@ public class LangDefFileDtdCopier extends Copier {
 		this.enc = "ISO-8859-1";
 	}
 
+	@Override
 	public void print(File file) {
 		try {
 			BufferedReader br = createBufferReader(LANG_DEF_DTD_FILE);
@@ -68,6 +69,7 @@ public class LangDefFileDtdCopier extends Copier {
 		ps.println("<!ENTITY lang_def_genuses_math SYSTEM \"" + home + getBaseDir() + "lang_def_genuses_math.xml\">");
 		ps.println("<!ENTITY lang_def_genuses_cui SYSTEM \"" + home + getBaseDir() + "lang_def_genuses_cui.xml\">");
 		ps.println("<!ENTITY lang_def_genuses_turtle SYSTEM \"" + home + getBaseDir() + "lang_def_genuses_turtle.xml\">");
+		ps.println("<!ENTITY lang_def_genuses_obprogui SYSTEM \"" + home + getBaseDir() + "lang_def_genuses_obprogui.xml\">");
 		ps.println("<!ENTITY lang_def_families SYSTEM \"lang_def_families.xml\">");
 		ps.println("<!ENTITY lang_def_etc SYSTEM \"" + home + getBaseDir() + "lang_def_etc.xml\">");
 	}

@@ -152,7 +152,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="new-object-Color" kind="function"
+<BlockGenus name="new-object-Color[@int@int@int]" kind="function"
 	initlabel="Color" editable-label="yes" header-label="新しく" footer-label="を作る"
 	color="16 240 27">
 	<BlockConnectors>

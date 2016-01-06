@@ -638,7 +638,6 @@
 	<Name>isPlaying</Name>
 </BlockGenus>
 
-<!-- MethodStubの都合上，メソッドのブロックを先読みさせるために変数宣言ブロックは後ろに記述している -->
 <BlockGenus name="private-var-object-bcanvas" kind="global-variable"
 	initlabel="canvas" header-label="BCanvas型のインスタンス変数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255">

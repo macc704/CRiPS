@@ -168,7 +168,6 @@
 <!ENTITY lang_def_connectorshapes SYSTEM "lang_def_connectorshapes.xml">
 <!ENTITY lang_def_genuses SYSTEM "lang_def_genuses.xml">
 <!ENTITY lang_def_genuses_obprogui SYSTEM "lang_def_genuses_obprogui.xml">
-<!ENTITY lang_def_genuses_obprogui SYSTEM "lang_def_genuses_obprocui.xml">
 <!ENTITY lang_def_genuses_stubs SYSTEM "lang_def_genuses_stubs.xml">
 <!ENTITY lang_def_genuses_datatypes SYSTEM "lang_def_genuses_datatypes.xml">
 <!ENTITY lang_def_genuses_variable SYSTEM "lang_def_genuses_variable.xml">

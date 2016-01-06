@@ -6,7 +6,7 @@ import net.unicoen.parser.blockeditor.blockmodel.BlockExCallerModel;
 
 public class ParamChecker implements SyntaxChecker {
 
-	private static String ERR_CONTEXT = "ソケットにブロックが結合されていません！";
+	private static String ERR_CONTEXT = "のソケットにブロックが結合されていません！";
 	
 	/**
 	 * ブロックに空のソケットがないかどうかチェックする．

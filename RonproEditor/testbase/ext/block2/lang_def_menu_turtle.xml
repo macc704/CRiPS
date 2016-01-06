@@ -138,7 +138,7 @@
 		<BlockGenusMember>lightGray</BlockGenusMember>
 		<BlockGenusMember>darkGray</BlockGenusMember>
 		<BlockGenusMember>black</BlockGenusMember>
-		<!-- <BlockGenusMember>new-object-Color</BlockGenusMember> -->
+		<!-- <BlockGenusMember>new-object-Color[@int@int@int]</BlockGenusMember> -->
 	</BlockDrawer>
 
 	<BlockDrawer name="タートル(座標と大きさ)" type="factory"

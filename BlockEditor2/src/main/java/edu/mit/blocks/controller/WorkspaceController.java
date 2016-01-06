@@ -143,9 +143,10 @@ public class WorkspaceController {
 		checker.addChecker(new ParamChecker());
 		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
 			private BlockSyntaxErrorChecker checker = WorkspaceController.this.checker;
+
 			@Override
 			public void workspaceEventOccurred(WorkspaceEvent event) {
-				if(event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED){
+				if (event.getEventType() == WorkspaceEvent.BLOCKS_CONNECTED) {
 					checker.removeError(workspace.getEnv().getBlock(event.getSourceLink().getSocketBlockID()));
 				}
 			}
@@ -632,7 +633,7 @@ public class WorkspaceController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			List<ErrorInformation> errs = checker.checkSyntax(workspace.getBlocks());
-			if(errs.isEmpty()){
+			if (errs.isEmpty()) {
 				try {
 					saveToFile(selectedFile);
 
@@ -641,13 +642,18 @@ public class WorkspaceController {
 
 					outputFileFromUni(classDec);
 					setDirty(false);
-				} catch (Exception e1) {
+				} catch (Exception e1) {				
+					JOptionPane.showMessageDialog(frame, "変換時にエラーが発生しました：" + System.lineSeparator() + e1.getStackTrace() ,"変換エラー", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
-				}				
-			}else{
-				for(ErrorInformation err : errs){
-					workspace.getEnv().getRenderableBlock(err.geterrBlock().getBlockID()).setBlockHighlightColor(Color.RED);					
 				}
+			} else {
+				String massage = "変換できません！：" + System.lineSeparator();
+				for (ErrorInformation err : errs) {
+					workspace.getEnv().getRenderableBlock(err.geterrBlock().getBlockID()).setBlockHighlightColor(Color.RED);
+					massage +=err.getErrContext()+System.lineSeparator();
+				}
+				
+				JOptionPane.showMessageDialog(frame,  massage,"プログラムにエラーがあります", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -883,7 +889,7 @@ public class WorkspaceController {
 		getWorkspace().addWorkspaceListener(new WorkspaceListener() {
 			@Override
 			public void workspaceEventOccurred(WorkspaceEvent event) {
-				if (event.getEventType() != WorkspaceEvent.WORKSPACE_FINISHED_LOADING || event.getEventType() != WorkspaceEvent.BLOCK_RENAMED) {																															// ワークスペース読み込み後にイベントが飛ぶ問題を修正する
+				if (event.getEventType() != WorkspaceEvent.WORKSPACE_FINISHED_LOADING || event.getEventType() != WorkspaceEvent.BLOCK_RENAMED) { // ワークスペース読み込み後にイベントが飛ぶ問題を修正する
 					setDirty(true);
 				}
 			}
