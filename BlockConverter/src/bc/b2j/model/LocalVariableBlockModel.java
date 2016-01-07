@@ -24,7 +24,6 @@ public class LocalVariableBlockModel extends VariableBlockModel {
 
 	@Override
 	public void print(PrintStream out, int indent) {
-
 		// Listの場合、コネクター先を先読みする必要がある
 		if (getName().contains("listobject")) {
 			makeIndent(out, indent);
@@ -41,16 +40,20 @@ public class LocalVariableBlockModel extends VariableBlockModel {
 				out.print(getType() + "<" + typeDecl.getLabel() + "> "
 						+ getLabel());
 			} else {
-				out.print(getType() + "<");
-				ArrayList<String> parameterizedType = getParameterizedType();
-				for (int i = 0; i < parameterizedType.size(); i++) {
-					String type = parameterizedType.get(i);
-					out.print(type);
-					if (i + 1 < parameterizedType.size()) {
-						out.print(",");
+				out.print(getType());
+				if(!getType().contains("<")){
+					out.print("<");
+					ArrayList<String> parameterizedType = getParameterizedType();
+					for (int i = 0; i < parameterizedType.size(); i++) {
+						String type = parameterizedType.get(i);
+						out.print(type);
+						if (i + 1 < parameterizedType.size()) {
+							out.print(",");
+						}
 					}
+					out.print(">");	
 				}
-				out.print("> " + getLabel());
+				out.print(" " + getLabel());
 			}
 
 			for (int connectorID : connectorIDs) {
