@@ -21,10 +21,7 @@ public class CCCompileErrorKind {
 	}
 
 	public void addError(CCCompileError error) {
-		// CompileError.csv のコンパイルエラーの発生日時の順序が正しくないことがあるので
-		// リスト格納時に正しい発生日時順になるよう処理
-		// errors.add(error);
-
+		// 正しい日時順になるようソート
 		if (errors.size() == 0) {
 			errors.add(error);
 		} else {

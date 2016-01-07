@@ -31,7 +31,7 @@ public class CCAchivementFrame extends JFrame {
 		setLayout(null);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setSize(width, height);
-		setTitle(CCMainFrame2.APP_NAME + " " + CCMainFrame2.VERSION + " 実績画面");
+		setTitle(CCMainFrame.APP_NAME + " " + CCMainFrame.VERSION + " 実績画面");
 	}
 
 	public void openFrame() {
@@ -83,7 +83,7 @@ public class CCAchivementFrame extends JFrame {
 
 	private void compileErrorCorrectTimeAchive(CCAchivementData data) {
 		// コンパイルエラー修正時間による報酬
-		int correctTime = manager.getErrorTotalCorrectionTime();
+		int correctTime = manager.getTotalErrorCorrectionTime();
 		if (data.getThreshold() > correctTime) {
 			System.out.println("CorrectTime : " + data.getHirotitle() + " : "
 					+ data.getExplanation());

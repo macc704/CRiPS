@@ -76,6 +76,8 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 		buttonPanel.add(okButton);
 		buttonPanel.add(cancelButton);
 
+		setEnableds(false);
+		
 		this.add(gridPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.PAGE_END);
 	}
@@ -111,6 +113,12 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 	private void showWarningLabel() {
 
 	}
+	
+	public void setEnableds(boolean enabled) {
+		userField.setEnabled(enabled);
+		passwordField.setEnabled(enabled);
+		confirmField.setEnabled(enabled);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -122,6 +130,8 @@ public class CHEntryDialog extends JDialog implements ActionListener {
 				close();
 			}
 		} else if (actionCommand.equals("Cancel")) {
+			user = "";
+			password = "";
 			close();
 		}
 	}

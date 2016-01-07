@@ -458,9 +458,9 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	@SuppressWarnings("unchecked")
 	private void createStub(MethodDeclaration method) {
 		if (method.isConstructor()) {
-			methodResolver.putUserConstructor(method.getName().toString(), (List<SingleVariableDeclaration>) method.parameters());
+			methodResolver.putUserConstructor(method.getName().toString(), method.parameters());
 		} else {
-			methodResolver.putUserMethod(method.getName().toString(), (List<SingleVariableDeclaration>) method.parameters(), method.getReturnType2().toString());
+			methodResolver.putUserMethod(method.getName().toString(), method.parameters(), method.getReturnType2().toString());
 		}
 
 	}
@@ -493,7 +493,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			model = createPrivateVariable(variableType, variableName, compilationUnit.getLineNumber(node.getStartPosition()), fragment, isArray, isFinal);
 			// parameterizedtypeの付与
 			for (Object parameterizedType : type.typeArguments()) {
-				((StPrivateVariableDeclarationModel) (model)).setParameterizedType(parameterizedType.toString());
+				(model).setParameterizedType(parameterizedType.toString());
 			}
 			model.setJavaVariableType(variableType);
 		} else {
@@ -1182,7 +1182,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 
 			StLocalVariableModel model = createLocalVariableModel(type.getType().toString(), fragment.getName().toString(), fragment.getInitializer(), false, false);
 			for (Object parameterizedType : type.typeArguments()) {
-				((StLocalVariableModel) (model)).setParameterizedType(parameterizedType.toString());
+				(model).setParameterizedType(parameterizedType.toString());
 			}
 
 			model.setJavaVariableType(type.getType().toString());
@@ -1324,11 +1324,11 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	public ExpressionModel parseExpression(Expression node) {
 		try {
 			if (node instanceof InfixExpression) {
-				return (ExpressionModel) parseInfixExpression((InfixExpression) node);
+				return parseInfixExpression((InfixExpression) node);
 			} else if (node instanceof NumberLiteral || node instanceof BooleanLiteral || node instanceof StringLiteral || node instanceof NullLiteral) {
-				return (ExpressionModel) parseLeteralExpression(node);
+				return parseLeteralExpression(node);
 			} else if (node instanceof SimpleName || node instanceof ThisExpression) {
-				ExpressionModel model = (ExpressionModel) parseVariableGetterExpression(node.toString());
+				ExpressionModel model = parseVariableGetterExpression(node.toString());
 				model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
 				return model;
 			} else if (node instanceof Assignment) {
@@ -1340,23 +1340,23 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			} else if (node instanceof PostfixExpression) {
 				return (ExpressionModel) parsePostfixExpression((PostfixExpression) node);
 			} else if (node instanceof PrefixExpression) {
-				return (ExpressionModel) parsePrefixExpression((PrefixExpression) node);
+				return parsePrefixExpression((PrefixExpression) node);
 			} else if (node instanceof QualifiedName) {
-				return (ExpressionModel) parseQualifiedName((QualifiedName) node);
+				return parseQualifiedName((QualifiedName) node);
 			} else if (node instanceof ParenthesizedExpression) {
-				return (ExpressionModel) parseParenthesizedExpression((ParenthesizedExpression) node);
+				return parseParenthesizedExpression((ParenthesizedExpression) node);
 			} else if (node instanceof ClassInstanceCreation) {
-				return (ExpressionModel) parseClassInstanceCreation((ClassInstanceCreation) node);
+				return parseClassInstanceCreation((ClassInstanceCreation) node);
 			} else if (node instanceof CastExpression) {
-				return (ExpressionModel) parseCastExpression((CastExpression) node);
+				return parseCastExpression((CastExpression) node);
 			} else if (node instanceof ArrayCreation) {
-				return (ExpressionModel) parseArrayInstanceCreation((ArrayCreation) node);
+				return parseArrayInstanceCreation((ArrayCreation) node);
 			} else if (node instanceof FieldAccess) {
-				return (ExpressionModel) parseFieldAccess(((FieldAccess) node));
+				return parseFieldAccess(((FieldAccess) node));
 			} else if (node instanceof ArrayAccess) {
-				return (ExpressionModel) parseArrayAccess((ArrayAccess) node);
+				return parseArrayAccess((ArrayAccess) node);
 			} else if (node instanceof InstanceofExpression) {
-				return (ExpressionModel) parseInstanceofExpression((InstanceofExpression) node);
+				return parseInstanceofExpression((InstanceofExpression) node);
 			}
 			throw new RuntimeException("The node type has not been supported yet node: " + node.getClass() + ", " + node.toString());
 		} catch (Exception ex) {
@@ -1551,7 +1551,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 				thisSetterModel.setId(idCounter.getNextId());
 				thisSetterModel.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
 
-				ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
+				ExpressionModel thisModel = parseVariableGetterExpression("this");
 				thisModel.setType("object");
 
 				String name = node.toString();
@@ -1617,7 +1617,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			return model;
 		}
 		if (node.getOperator().toString().equals("-")) {// -expression など
-			ExpressionModel model = parseExpression((Expression) node.getOperand());
+			ExpressionModel model = parseExpression(node.getOperand());
 			model.setId(idCounter.getNextId());
 			model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
 
@@ -1670,7 +1670,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	}
 
 	public ExpressionModel parseMethodInvocationExpression(SuperMethodInvocation node) {
-		ExpressionModel superVariable = (ExpressionModel) parseVariableGetterExpression("super");
+		ExpressionModel superVariable = parseVariableGetterExpression("super");
 		superVariable.setType("object");
 		superVariable.setId(idCounter.getNextId());
 		superVariable.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
@@ -1839,7 +1839,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			}
 			if (receiver instanceof ThisExpression) {
 				// thisキーワードブロック作成
-				ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
+				ExpressionModel thisModel = parseVariableGetterExpression("this");
 				thisModel.setType("object");
 
 				// model.setReceiver(thisModel);
@@ -2360,25 +2360,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 	 */
 	private ExpressionModel parseClassInstanceCreation(ClassInstanceCreation node) {
 
-		if (node.getType().isParameterizedType()) {
-			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
-			ParameterizedType type = (ParameterizedType) node.getType();
-			model.setValue(type.getType().toString());
-
-			model.setId(idCounter.getNextId());
-			model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
-			for (Object argument : type.typeArguments()) {
-				// 型ブロックを作成する
-				ExTypeModel typeModel = new ExTypeModel();
-				typeModel.setId(idCounter.getNextId());
-				typeModel.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
-				typeModel.setType(argument.toString());
-				typeModel.setLabel(argument.toString());
-				typeModel.setParent(model);
-				model.addArgument(typeModel);
-			}
-			return model;
-		} else {
 			ExClassInstanceCreationModel model = new ExClassInstanceCreationModel();
 			model.setValue(typeString(node.getType()));
 			model.setId(idCounter.getNextId());
@@ -2401,8 +2382,6 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 			}
 
 			return model;
-
-		}
 	}
 
 	// ohata
@@ -2463,7 +2442,7 @@ public class JavaToBlockAnalyzer extends ASTVisitor {
 		model.setLineNumber(compilationUnit.getLineNumber(node.getStartPosition()));
 		// ExCallMethodModel callMethod = new ExCallMethodModel();
 		// thisキーワードブロック作成
-		ExpressionModel thisModel = (ExpressionModel) parseVariableGetterExpression("this");
+		ExpressionModel thisModel = parseVariableGetterExpression("this");
 		thisModel.setType("object");
 
 		// 変数名を解析したモデルとthisをExCallActionブロックにセット

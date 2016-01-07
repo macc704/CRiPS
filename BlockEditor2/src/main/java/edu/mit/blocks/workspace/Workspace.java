@@ -890,7 +890,6 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
 			// load the block drawers specified in the file (may contain
 			// custom drawers) and/or the lang def file if the contents specify
 			PageDrawerLoadingUtils.loadBlockDrawerSets(this, originalLangRoot, factory);
-			PageDrawerLoadingUtils.loadBlockDrawerSets(this, newRoot, factory);
 			loadWorkspaceSettings(newRoot);
 		} else {
 			// load from original language/workspace root specification

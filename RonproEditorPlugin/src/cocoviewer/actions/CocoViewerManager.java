@@ -7,12 +7,6 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchWindow;
 
-import ppv.app.datamanager.PPProjectSet;
-import pres.core.IPRRecordingProject;
-import pres.core.model.PRLog;
-import pres.loader.logmodel.PRCocoViewerLog;
-import presplugin.PresPlugin;
-import ronproeditorplugin.Activator;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
 import clib.common.filesystem.CFileSystem;
@@ -21,7 +15,13 @@ import coco.controller.CCCompileErrorKindLoader;
 import coco.controller.CCCompileErrorLoader;
 import coco.controller.CCMetricsLoader;
 import coco.model.CCCompileErrorManager;
-import coco.view.CCMainFrame2;
+import coco.view.CCMainFrame;
+import ppv.app.datamanager.PPProjectSet;
+import pres.core.IPRRecordingProject;
+import pres.core.model.PRLog;
+import pres.loader.logmodel.PRCocoViewerLog;
+import presplugin.PresPlugin;
+import ronproeditorplugin.Activator;
 
 public class CocoViewerManager {
 
@@ -73,7 +73,7 @@ public class CocoViewerManager {
 		manager.setProjectPath(path);
 		manager.setRecordingProject(project);
 
-		CCMainFrame2 frame = new CCMainFrame2(manager);
+		CCMainFrame frame = new CCMainFrame(manager);
 		frame.toFront();
 		frame.setVisible(true);
 	}

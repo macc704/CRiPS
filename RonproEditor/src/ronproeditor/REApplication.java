@@ -294,6 +294,8 @@ import ronproeditor.views.RESourceEditor;
  * 2015/09/04 version 2.30.2 matsuzawa		doCompile2()の設計が冗長なので再設計した
  * 2015/10/07 version 2.31.0 tanaka			・BlockEditor上の画像を保存するように機能を追加
  * 2015/10/07 version 2.31.1 ohata			・Blockの言語定義ファイルが自動生成されていなかった問題を修正
+ * 2015/12/09 version 2.31.2 hirao			・CocoViewerのKindファイルアップデート
+ *                                          ・Export時のDialog修正
  *
  * ＜懸案事項＞
  * ・
@@ -307,10 +309,10 @@ public class REApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.31.1";
-	public static final String BUILD_DATE = "2015/9/4";
+	public static final String VERSION = "2.31.7";
+	public static final String BUILD_DATE = "2015/12/17";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
-	public static final String COPYRIGHT = "Copyright(c) 2007-2014 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
+	public static final String COPYRIGHT = "Copyright(c) 2007-2015 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
 	public static final String SRC_ENCODING = "SJIS";
 	// public static final String SRC_ENCODING = "UTF-8"; // for test
@@ -382,7 +384,7 @@ public class REApplication {
 	}
 
 	private void openApplication(String rootDirName) {
-		File root = prepareRootDirectory(DEFAULT_ROOT);
+		File root = prepareRootDirectory(rootDirName);
 		this.extDir = CFileSystem.getExecuteDirectory().findOrCreateDirectory(EXTENSION_FOLDER);
 		initializeManagers(root);
 		createAndOpenWindow();
@@ -430,7 +432,7 @@ public class REApplication {
 						"*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
 		this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
 
-		CFile preferenceFile = CFileSystem.findDirectory(DEFAULT_ROOT).findOrCreateFile(".pref/preference");
+		CFile preferenceFile = CFileSystem.findDirectory(root.getAbsolutePath()).findOrCreateFile(".pref/preference");
 		this.preferenceManager = new CPreferenceManager(preferenceFile);
 
 		this.libraryManager = new RELibraryManager(LIB_FOLDER);
@@ -560,9 +562,8 @@ public class REApplication {
 			}
 			// blockManager.doRefleshBlock(); //TODO オブジェクト指向対応のため？
 			flowManager.refreshChart();
-			if (fromText) {
-				checoproManager.sendText();
-				checoproManager.sendFiles();
+			if (!fromText) {
+				//checoproManager.send();
 			}
 
 			deleteRunnable(getSourceManager().getCurrentFile());
@@ -1033,8 +1034,8 @@ public class REApplication {
 			CFile zip = dir.findOrCreateFile(name);
 			NewZipUtil.createZip(zip, project, project);
 
-			JOptionPane.showConfirmDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました",
-					JOptionPane.OK_OPTION);
+			JOptionPane.showMessageDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました",
+			        JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (Exception ex) {
 			ex.printStackTrace(frame.getConsole().getErr());
@@ -1134,7 +1135,7 @@ public class REApplication {
 
 	// CheCoPro(kato)
 	public void doStartCheCoPro() {
-		checoproManager.startCheCoPro();
+		checoproManager.start();
 	}
 
 	private CHBlockEditorController chBlockEditorController;
@@ -1222,6 +1223,14 @@ public class REApplication {
 	public void writePresLog(PRLog log) {
 		try {
 			presManager.getRecordingProject(getSourceManager().getCCurrentProject()).record(log);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void writePresLog(PRLog log, CDirectory project) {
+		try {
+			presManager.getRecordingProject(project).record(log);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

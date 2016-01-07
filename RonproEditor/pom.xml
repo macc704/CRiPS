@@ -151,6 +151,7 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+
 			<groupId>info.matsuzawalab</groupId>
 			<artifactId>CPreferenceFW</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -165,6 +166,11 @@
 			<artifactId>CSwing</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>		
+		<dependency>
+			<groupId>info.matsuzawalab</groupId>
+			<artifactId>CheCoPro</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 </project>

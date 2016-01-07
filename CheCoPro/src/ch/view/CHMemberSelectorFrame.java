@@ -2,6 +2,10 @@ package ch.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ch.conn.framework.CHUserState;
+import ch.util.CHComponent;
 
 public class CHMemberSelectorFrame extends JFrame {
 
@@ -19,16 +24,22 @@ public class CHMemberSelectorFrame extends JFrame {
 
 	private String user;
 	private List<JButton> buttons = new ArrayList<JButton>();
+	private List<String> editorOpens = new ArrayList<String>();
+	private CHComponent component;
 
-	public CHMemberSelectorFrame(String myName) {
-		this.user = myName;
+	public CHMemberSelectorFrame(String user) {
+		this.user = user;
 	}
 
-	public void open() {
+	public void doOpen() {
 		this.setTitle("CheCoProMemberSelector " + user);
 		this.setBounds(100, 100, 150, 500);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setVisible(true);
+	}
+	
+	public void doClose() {
+		dispose();
 	}
 
 	public void setMembers(List<CHUserState> userStates) {
@@ -71,6 +82,45 @@ public class CHMemberSelectorFrame extends JFrame {
 		this.getContentPane().validate();
 
 	}
+	
+	public void initListener() {
+		initButtonListener();
+		initWindowListener();
+	}
+	
+	private void initButtonListener() {
+		List<JButton> buttons = new ArrayList<JButton>(getButtons());
+		for (JButton aButton : buttons) {
+			aButton.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String user = e.getActionCommand();
+
+					if (user.equals(getUser())) { // 自分の名前
+						component.fireMyNameClicked();
+					} else if (editorOpens.contains(user)) { // メンバーのエディタ開かれていたら
+						component.fireAlreadyOpened(user);
+					} else if (!editorOpens.contains(user)) { // 開かれていなかったら
+						component.fireNewOpened(user);
+						addEditorOpens(user);
+					}
+				}
+			});
+		}
+	}
+	
+	private void initWindowListener() {
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// 開いているCHエディタを閉じる
+				editorOpens.clear();
+				// コネクションを切る
+				component.fireWindowClosing();
+			}
+		});
+	}
 
 	public List<JButton> getButtons() {
 		return buttons;
@@ -83,6 +133,18 @@ public class CHMemberSelectorFrame extends JFrame {
 	public void setUser(String user) {
 		this.user = user;
 	}
+	
+	public void addEditorOpens(String user) {
+		editorOpens.add(user);
+	}
+	
+	public void removeEditorOpens(String user) {
+		editorOpens.remove(user);
+	}
+	
+	public void setComponent(CHComponent component) {
+		this.component = component;
+	}
 
 	public static void main(String[] args) {
 		CHMemberSelectorFrame frame = new CHMemberSelectorFrame("name");
@@ -90,7 +152,7 @@ public class CHMemberSelectorFrame extends JFrame {
 		userStates.add(new CHUserState("user1", true, Color.CYAN));
 		userStates.add(new CHUserState("name", true, Color.LIGHT_GRAY));
 		userStates.add(new CHUserState("user2", false, Color.MAGENTA));
-		frame.open();
+		frame.doOpen();
 		frame.setMembers(userStates);
 		userStates.add(new CHUserState("user3", true, Color.YELLOW));
 		frame.setMembers(userStates);

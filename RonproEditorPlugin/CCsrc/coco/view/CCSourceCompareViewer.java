@@ -24,6 +24,8 @@ import clib.view.timeline.model.CTimeModel;
 import clib.view.timeline.model.CTimeTransformationModel;
 import coco.model.CCCompileErrorManager;
 
+
+// TODO: 簡易なインターフェースへの変更
 public class CCSourceCompareViewer extends JFrame {
 	private static final long serialVersionUID = 1L;
 

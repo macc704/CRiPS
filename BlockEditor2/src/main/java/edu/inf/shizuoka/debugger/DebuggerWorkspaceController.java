@@ -42,7 +42,6 @@ public class DebuggerWorkspaceController extends WorkspaceController {
 		loadProjectFromPath(selectedFile.getPath());
 
 		createDebugGUI();
-		
 	}
 
 	public UniClassDec parse() throws IOException, SAXException {
