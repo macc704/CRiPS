@@ -744,7 +744,7 @@
 
 <BlockGenus name="Turtle-mouseY[]" kind="function" color="255 0 0"
 	initlabel="マウスの現在地のY座標を取得する">
-	<Name>mouseX</Name>
+	<Name>mouseY</Name>
 	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"

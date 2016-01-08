@@ -18,15 +18,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import javax.swing.SwingUtilities;
 
 import org.xml.sax.SAXException;
-
-import com.google.common.collect.Lists;
 
 import bc.BlockConverter;
 import bc.apps.JavaToBlockMain;
@@ -39,10 +36,7 @@ import clib.view.dialogs.CErrorDialog;
 import edu.mit.blocks.controller.WorkspaceController;
 import net.unicoen.mapper.JavaMapper;
 import net.unicoen.mapper.JavaScriptMapper;
-import net.unicoen.node.UniArg;
 import net.unicoen.node.UniClassDec;
-import net.unicoen.node.UniMemberDec;
-import net.unicoen.node.UniMethodDec;
 import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRLog;
 import ronproeditor.IREResourceRepository;
@@ -72,19 +66,6 @@ public class REBlockEditorManager2 {
 			File tmpSrcFile = createUTFDummyFile(srcfile);
 
 			UniClassDec classDec = convertJavaToUni(tmpSrcFile);
-			//TODO mapperが完成次第消す
-			if(isTurtle()){
-				classDec.superClass = Lists.newArrayList("Turtle");
-				for(UniMemberDec dec : classDec.members){
-					if(dec instanceof UniMethodDec){
-						UniMethodDec method = (UniMethodDec)dec;
-						if(method.methodName.equals("main")){
-							method.args = new ArrayList<>();
-							method.args.add(new UniArg("String[]", "args"));
-						}
-					}
-				}
-			}
 			
 			File xmlfile = new File(dir.getPath() + "/" + classDec.className + ".xml");
 			try {
