@@ -26,7 +26,7 @@
 			<MethodName>Turtle-lt[@int]</MethodName>
 			<MethodName>Turtle-up[]</MethodName>
 			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@int]</MethodName>
+			<MethodName>Turtle-color[@object]</MethodName>
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
 			<MethodName>Turtle-random[@int]</MethodName>

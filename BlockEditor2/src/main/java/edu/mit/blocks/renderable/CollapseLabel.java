@@ -86,6 +86,7 @@ public class CollapseLabel extends BlockControlLabel {
      */
     void collapseBlock(long blockID) {
         RenderableBlock rBlock;
+        System.out.println(blockID);
         rBlock = workspace.getEnv().getRenderableBlock(blockID);
         rBlock.setVisible(!isActive());
         if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {

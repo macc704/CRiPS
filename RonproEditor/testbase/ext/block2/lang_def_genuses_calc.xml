@@ -575,7 +575,7 @@
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>boolean</Type>
-	<Operator>==</Operator>
+	<Name>equals</Name>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
 		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
@@ -786,4 +786,72 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+<!-- Integer -->
+<BlockGenus name="Integer-parseInt" kind="function" initlabel="int型に変換する"
+	color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="number" position-type="single"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="poly" position-type="single">
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>int</Type>
+	<Name>Integer.parseInt</Name>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
 
+<BlockGenus name="Integer-toString" kind="function" initlabel="String型に変換する"
+	color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="string" position-type="single"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="number" position-type="single">
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>String</Type>
+	<Name>toString</Name>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<!-- Double -->
+<BlockGenus name="Double-parseDouble" kind="function" initlabel="int型に変換する"
+	color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="double-number" position-type="single"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="poly" position-type="single">
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>double</Type>
+	<Name>parseDouble</Name>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="Double-toString" kind="function" initlabel="String型に変換する"
+	color="45 201 255">
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="plug"
+			connector-type="string" position-type="single"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket"
+			connector-type="double-number" position-type="single">
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>String</Type>
+	<Name>toString</Name>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="equals"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>

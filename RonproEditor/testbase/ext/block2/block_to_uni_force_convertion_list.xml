@@ -2,7 +2,8 @@
 <ConvertList>
 	<!-- 複数のユニモデルに対して1つのブロックに対応する物は例外としてここに記述する（ 例：Math.random(50) の場合，通常ならMath,random,50の3つのブロックに変換するが，Mathに対応するブロックがない， 
 		.演算子モデルを用いるよりスマートに処理が理解できることから，MathとrandomのUniModelを1つのrandomブロックに変換する -->
-	<!-- Sysout -->
+	<!--強制変換マップをUni->Block,Block->Uniで分けた．Uni->Block時の強制変換リストから作成するマップでは変換できないブロックが出てきたため -->
+	<!--具体的には，Integer-parseInt[@string],Integer-parseInt, Integer-parseInt[@int]などはuni->block時にはキーが同一Uniモデルになるため，キーが重複する-->
 	<Item>
 		<UniModel unimodel="UniMethodCall">
 			<name>println</name>
@@ -165,10 +166,30 @@
 		<UniModel unimodel="UniMethodCall">
 			<name>toString</name>
 			<receiver unimodel="UniIdent">
+				<name>Integer</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Integer-toString[@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>toString</name>
+			<receiver unimodel="UniIdent">
 				<name>Double</name>
 			</receiver>
 		</UniModel>
 		<GenusName>Double-toString</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>toString</name>
+			<receiver unimodel="UniIdent">
+				<name>Double</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Double-toString[@int]</GenusName>
 	</Item>
 
 	<Item>
@@ -183,6 +204,26 @@
 
 	<Item>
 		<UniModel unimodel="UniMethodCall">
+			<name>parseDouble</name>
+			<receiver unimodel="UniIdent">
+				<name>Double</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Double-parseDouble[@string]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
+			<name>parseDouble</name>
+			<receiver unimodel="UniIdent">
+				<name>Double</name>
+			</receiver>
+		</UniModel>
+		<GenusName>Double-parseDouble[@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
 			<name>parseInt</name>
 			<receiver unimodel="UniIdent">
 				<name>Integer</name>
@@ -191,7 +232,7 @@
 		<GenusName>Integer-parseInt</GenusName>
 	</Item>
 
-	<!--				 Color系						 -->
+	<!-- Color系 -->
 	<Item>
 		<UniModel unimodel="UniFieldAccess">
 			<name>red</name>
@@ -222,22 +263,6 @@
 			</receiver>
 		</UniModel>
 		<GenusName>black</GenusName>
-	</Item>
-
-	<Item>
-		<UniModel unimodel="UniFieldAccess">
-			<name>orange</name>
-			<receiver unimodel="UniFieldAccess">
-				<name>Color</name>
-				<receiver unimodel="UniFieldAccess">
-					<name>awt</name>
-					<receiver unimodel="UniIdent">
-						<name>java</name>
-					</receiver>
-				</receiver>
-			</receiver>
-		</UniModel>
-		<GenusName>orange</GenusName>
 	</Item>
 
 	<Item>

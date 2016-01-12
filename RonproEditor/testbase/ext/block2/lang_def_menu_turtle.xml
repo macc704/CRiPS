@@ -10,7 +10,7 @@
 		<BlockGenusMember>Turtle-lt[@int]</BlockGenusMember>
 		<BlockGenusMember>Turtle-up[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-down[]</BlockGenusMember>
-		<BlockGenusMember>Turtle-color[@int]</BlockGenusMember>
+		<BlockGenusMember>Turtle-color[@object]</BlockGenusMember>
 		<BlockGenusMember>Turtle-input[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-print[@string]</BlockGenusMember>
 		<BlockGenusMember>Turtle-random[@int]</BlockGenusMember>

@@ -20,30 +20,6 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-withtext" kind="function"
-	initlabel="Turtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="" connector-kind="socket"
-			connector-type="string">
-			<DefaultArg genus-name="string" label="abc"></DefaultArg>
-		</BlockConnector>
-	</BlockConnectors>
-</BlockGenus>
-
-<BlockGenus name="new-object-withobject" kind="function"
-	initlabel="Turtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
-	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="" connector-kind="socket"
-			connector-type="poly">
-			<DefaultArg genus-name="special-expression" label="System.in"></DefaultArg>
-		</BlockConnector>
-	</BlockConnectors>
-</BlockGenus>
-
 <BlockGenus name="local-var-object" kind="local-variable"
 	initlabel="t" header-label="Object型の変数を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
@@ -117,9 +93,9 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-Color[@int@int@int]"
-	kind="function" initlabel="Color" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-Color[@int@int@int]" kind="function"
+	initlabel="Color" editable-label="yes" header-label="新しく" footer-label="を作る"
+	color="16 240 27">
 	<Type>Color</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
@@ -219,6 +195,7 @@
 			新しいint型の配列オブジェクトを生成します。
 		</text>
 	</description>
+	<Type>int[]</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
 		<BlockConnector label="サイズ" connector-kind="socket"
@@ -240,6 +217,7 @@
 			新しいstring型の配列オブジェクトを生成します。
 		</text>
 	</description>
+	<Type>String[]</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
 		<BlockConnector label="サイズ" connector-kind="socket"
@@ -261,6 +239,7 @@
 			新しいdouble型の配列オブジェクトを生成します。
 		</text>
 	</description>
+	<Type>double[]</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
 		<BlockConnector label="サイズ" connector-kind="socket"
@@ -282,6 +261,7 @@
 			新しいobject型の配列オブジェクトを生成します。
 		</text>
 	</description>
+	<Type>Object[]</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
 		<BlockConnector label="サイズ" connector-kind="socket"
@@ -318,6 +298,7 @@
 			指定した型のリストを生成します
 		</text>
 	</description>
+	<Type>ArrayList</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
 		<BlockConnector label="何型の？" connector-kind="socket"
@@ -353,6 +334,7 @@
 			指定した型のリストを生成します
 		</text>
 	</description>
+	<Type>LinkedList</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="object" connector-type="object"></BlockConnector>
 		<BlockConnector label="何型の？" connector-kind="socket"
@@ -825,6 +807,7 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="poly"></BlockConnector>
 	</BlockConnectors>
+	<Type>poly</Type>
 </BlockGenus>
 
 
@@ -1067,10 +1050,12 @@
 
 <BlockGenus name="clear" kind="command" initlabel="中身をすべて削除する"
 	color="255 255 100">
+	<Name>clear</Name>
 </BlockGenus>
 
 <BlockGenus name="size" kind="data" initlabel="リストの大きさ"
 	color="255 255 100">
+	<Name>size</Name>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="number" />
@@ -1080,6 +1065,7 @@
 
 <BlockGenus name="add[@object]" kind="command" initlabel="追加する"
 	color="255 255 100">
+	<Name>add</Name>
 	<BlockConnectors>
 		<BlockConnector label="何を？" connector-kind="socket"
 			connector-type="object" />
@@ -1089,6 +1075,7 @@
 
 <BlockGenus name="isEmpty" kind="data" initlabel="空か調べる"
 	color="255 255 100">
+	<Name>isEmpty</Name>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" />
@@ -1097,6 +1084,7 @@
 
 <BlockGenus name="contains" kind="data" initlabel="要素があるか調べる"
 	color="255 255 100">
+	<Name>contains</Name>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" />
@@ -1107,7 +1095,7 @@
 
 <BlockGenus name="remove" kind="command" initlabel="要素を削除する"
 	color="255 255 100">
-	<JavaLabel>remove</JavaLabel>
+	<Name>remove</Name>
 	<BlockConnectors>
 		<BlockConnector label="どれを？" connector-kind="socket"
 			connector-type="poly" />
@@ -1116,7 +1104,7 @@
 
 <BlockGenus name="get[@int]" kind="data" initlabel="要素を取り出す"
 	color="255 255 100">
-	<JavaLabel>get</JavaLabel>
+	<Name>get</Name>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="object" />
@@ -1131,7 +1119,7 @@
 	</BlockGenus> -->
 
 <BlockGenus name="length" kind="data" initlabel="文字数" color="255 255 100">
-	<JavaLabel>length</JavaLabel>
+	<Name>length</Name>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="number" />
@@ -1148,7 +1136,8 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="single"></BlockConnector>
-		<BlockConnector connector-kind="socket" connector-type="object" label=""></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="object"
+			label=""></BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 

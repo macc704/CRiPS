@@ -118,6 +118,7 @@
 		</arg-description>
 	</description>
 	<Name>random</Name>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
 		<BlockConnector label="0から" connector-kind="socket"
@@ -131,7 +132,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-color[@int]" kind="command"
+<BlockGenus name="Turtle-color[@object]" kind="command"
 	initlabel="ペンの色を変える" color="255 0 0">
 	<description>
 		<text>タートルの軌跡に使用したい色を指定します。</text>
@@ -690,6 +691,7 @@
 <BlockGenus name="TextTurtle-getText[]" kind="function"
 	color="255 0 0" initlabel="テキストを取得する">
 	<Name>getText</Name>
+	<Type>String</Type>
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
@@ -704,6 +706,7 @@
 <BlockGenus name="Turtle-key[]" kind="function" color="255 0 0"
 	initlabel="押されているキーのキーコードを調べる">
 	<Name>key</Name>
+	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
 			position-type="mirror"></BlockConnector>
@@ -717,6 +720,7 @@
 <BlockGenus name="Turtle-keyDown[@int]" kind="function"
 	color="255 0 0" initlabel="指定したキーが押されているか調べる">
 	<Name>keyDown</Name>
+	<Type>boolean</Type>
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean"
 			connector-kind="plug" position-type="single"></BlockConnector>
@@ -1061,6 +1065,7 @@
 <BlockGenus name="ListTurtle-getCursor[]" kind="function"
 	initlabel="カーソル位置" color="255 255 100">
 	<Name>getCursor</Name>
+	<Type>Turtle</Type>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="number" />
@@ -1101,6 +1106,7 @@
 <BlockGenus name="ListTurtle-addToBeforeCursor[@object]"
 	kind="command" initlabel="カーソルの前に追加する" color="255 255 100">
 	<!-- <Name>addToBeforeCursor</Name> -->
+	<Name>addToBeforeCursor</Name>
 	<BlockConnectors>
 		<BlockConnector label="誰を？" connector-kind="socket"
 			connector-type="object" position-type="single" />

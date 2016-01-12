@@ -240,9 +240,9 @@ public class BlockGenus {
 	 *         false otherwise.
 	 */
 	public boolean isFunctionBlock() {
-		return kind.equals("function");
+		return kind.equals("function") || kind.equals("cast");
 	}
-
+	
 	/**
 	 * Returns true if this block is a variable declaration block; false
 	 * otherwise
@@ -1072,6 +1072,7 @@ public class BlockGenus {
 				if (nameMatcher.find()) {
 					newGenus.genusName = nameMatcher.group(1);
 				}
+				System.out.println(newGenus.genusName);
 				// assert that no other genus has this name
 				assert env.getGenusWithName(newGenus.genusName) == null : "Block genus names must be unique.  A block genus already exists with this name: "
 						+ newGenus.genusName;
@@ -1385,6 +1386,7 @@ public class BlockGenus {
 	/**
 	 * Returns String representation of this
 	 */
+	@Override
 	public String toString() {
 		StringBuffer out = new StringBuffer("BlockGenus ");
 
