@@ -25,7 +25,7 @@ var sNum = document.getElementsByClassName('cell c2 email');
 var zp = document.getElementsByClassName('cell c5 timemodified');
 
 // zipファイルのpathを取得するパターン
-var zipURLPattarn = /https\:\/\/edu2\.cs\.inf\.shizuoka\.ac\.jp\/in\/moodle22\/pluginfile\.php\/\d{4}\/mod\_assignment\/submission\/\d{4}\/.+?\.zip/;
+var zipURLPattarn = /https\:\/\/edu2\.cs\.inf\.shizuoka\.ac\.jp\/in\/moodle22\/pluginfile\.php\/\d{0,5}\/mod\_assignment\/submission\/\d{0,5}\/.+?\.zip/;
 
 // DOMから学生の名前を抽出
 var studentNames = [];
