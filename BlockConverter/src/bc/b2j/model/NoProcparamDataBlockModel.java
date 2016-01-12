@@ -169,24 +169,44 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		} else if ("pi".equals(getGenusName()) || "e".equals(getGenusName())) {
 			out.print("Math." + getGenusName());
 		} else if (getGenusName().startsWith("new-object")) {// new-object-withtextを作った
-			// #matsuzawa 2012.11.06
-			out.print("new " + typeString(getLabel()));
-			// 引数（なんだろね） CallMethodからコピー　#matsuzawa 2012.11.06
-			out.print("(");
-			ArrayList<Integer> connectorIDs = getConnectorIDs();
-			boolean first = true;
-			for (int connectorID : connectorIDs) {
-				BlockModel block = BlockToJavaAnalyzer.getBlock(connectorID);
-				if (block == null) {
-					continue;
+			if(getLabel().equals("ListTurtle")){
+				out.print("new " + typeString(getLabel()));
+				out.print("<");
+				ArrayList<Integer> connectorIDs = getConnectorIDs();
+				boolean first = true;
+				for (int connectorID : connectorIDs) {
+					BlockModel block = BlockToJavaAnalyzer.getBlock(connectorID);
+					if (block == null) {
+						continue;
+					}
+					if (!first) {
+						out.print(",");
+					}
+					block.print(out, indent);
+					first = false;
 				}
-				if (!first) {
-					out.print(",");
+				out.print(">");
+				out.print("()");
+			}else{
+				// #matsuzawa 2012.11.06
+				out.print("new " + typeString(getLabel()));
+				// 引数（なんだろね） CallMethodからコピー　#matsuzawa 2012.11.06
+				out.print("(");
+				ArrayList<Integer> connectorIDs = getConnectorIDs();
+				boolean first = true;
+				for (int connectorID : connectorIDs) {
+					BlockModel block = BlockToJavaAnalyzer.getBlock(connectorID);
+					if (block == null) {
+						continue;
+					}
+					if (!first) {
+						out.print(",");
+					}
+					block.print(out, indent);
+					first = false;
 				}
-				block.print(out, indent);
-				first = false;
+				out.print(")");				
 			}
-			out.print(")");
 		} else if (getGenusName().startsWith("new-arrayobject")) {
 			out.print("new "
 					+ typeString(getLabel()).substring(0,
@@ -239,6 +259,7 @@ public class NoProcparamDataBlockModel extends BlockModel {
 		}
 	}
 
+	@Override
 	public String getType() {
 		if (this.getGenusName().equals("null")) {
 			return "null";

@@ -21,23 +21,34 @@ public class CHFileSystem {
 	public static final String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
 	public static final String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
 	
+	public static final String SYNCPROJECTNAME = "winter";
+	public static final String SYNCPROJECTPATH = "MyProjects/" + SYNCPROJECTNAME;
+	public static final String CHDIRPATH = "MyProjects/.CH";
+	
 	private static CDirectory getBaseDir(int port) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
 				"CH/" + port);
+	}
+	
+	public static boolean existSyncProject() {
+		if (CFileSystem.getExecuteDirectory().findDirectory(SYNCPROJECTPATH) != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public static CDirectory getUserDirForServer(String user, int port) {
 		return getBaseDir(port).findOrCreateDirectory(user);
 	}
 
-	public static CDirectory getFinalProjectDir() {
-		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/final");
+	public static CDirectory getSyncProjectDir() {
+		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(SYNCPROJECTPATH);
 	}
 
 	public static CDirectory getUserDirForClient(String user) {
 		return CFileSystem.getExecuteDirectory().findOrCreateDirectory(
-				"MyProjects/.CH/" + user + "/final");
+				CHDIRPATH + "/" + user + "/" + SYNCPROJECTNAME);
 	}
 
 	// for plug-in
@@ -62,8 +73,8 @@ public class CHFileSystem {
 	}
 
 	// processFilelistRequest client
-	public static CFileHashList getFinalProjectFileList() {
-		return createFileList(getFinalProjectDir());
+	public static CFileHashList getSyncProjectFileList() {
+		return createFileList(getSyncProjectDir());
 	}
 
 	// for plug-in
@@ -84,11 +95,12 @@ public class CHFileSystem {
 		CHFileSystem.saveFiles(files, to);
 	}
 
-	public static void pull(CDirectory from, CDirectory to, CFileFilter filter) {
+	public static List<CHFile> pull(CDirectory from, CDirectory to, CFileFilter filter) {
 		List<String> requestFilePaths = CHFileSystem.getRequestFilePaths1(
 				createFileList(from, filter), to);
 		List<CHFile> files = CHFileSystem.getCHFiles(requestFilePaths, from);
 		CHFileSystem.saveFiles(files, to);
+		return files;
 	}
 
 	public static CFileHashList createFileList(CDirectory dir) {
@@ -219,4 +231,17 @@ public class CHFileSystem {
 		table.add(header);
 		CCSVFileIO.saveByListList(table, file);
 	}
+	
+	public static CFileFilter createCFileFilterForPull(boolean java, boolean material) {
+		if (java && material) {
+			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", ".*xml");
+		} else if (java && !material) {
+			return CFileFilter.ACCEPT_BY_NAME_FILTER("*.java");
+		} else if (!java && material) {
+			return CFileFilter.IGNORE_BY_NAME_FILTER(".*", "*.class", "*.xml",
+					"*.java");
+		}
+		return null;
+	}
+
 }

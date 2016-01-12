@@ -19,14 +19,14 @@ public class CHPullDialog extends JDialog implements ActionListener {
 
 	private String user;
 	private JCheckBox javaCheckBox = new JCheckBox("Javaのプログラム", true);
-	private JCheckBox materialCheckBox = new JCheckBox("素材(画像・音楽ファイル)", true);
+	private JCheckBox resourceCheckBox = new JCheckBox("素材(画像・音楽ファイル)", true);
 	private boolean javaChecked;
-	private boolean materialChecked;
-	private int language = 0;
+	private boolean resourceChecked;
+	// private int language = 0;
 
 	public CHPullDialog(String user, int language) {
 		this.user = user;
-		this.language = language;
+		// this.language = language;
 		initialize(language);
 	}
 
@@ -41,13 +41,13 @@ public class CHPullDialog extends JDialog implements ActionListener {
 			label.setText(user + "さんのプロジェクトをfinalに取り込みます．");
 			cancelButton.setText("キャンセル");
 			javaCheckBox.setText("Javaのプログラム");
-			materialCheckBox.setText("素材(画像・音楽ファイル)");
+			resourceCheckBox.setText("素材(画像・音楽ファイル)");
 		} else {
 			this.setTitle("PULL (Import)");
 			label.setText("Import " + user + "'s project into final.");
 			cancelButton.setText("CANCEL");
 			javaCheckBox.setText("Source (Java)");
-			materialCheckBox.setText("Materials (Image & Music files)");
+			resourceCheckBox.setText("Materials (Image & Music files)");
 		}
 		
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -58,7 +58,7 @@ public class CHPullDialog extends JDialog implements ActionListener {
 
 		JPanel checkBoxPanel = new JPanel(new FlowLayout());
 		checkBoxPanel.add(javaCheckBox);
-		checkBoxPanel.add(materialCheckBox);
+		checkBoxPanel.add(resourceCheckBox);
 
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.add(cancelButton);
@@ -89,12 +89,13 @@ public class CHPullDialog extends JDialog implements ActionListener {
 			this.dispose();
 		} else if (actionCommand.equals("ok")) {
 			setJavaChecked(javaCheckBox.isSelected());
-			setMaterialChecked(materialCheckBox.isSelected());
+			setMaterialChecked(resourceCheckBox.isSelected());
 			if (isJavaChecked()) {
-				CHWarningDialog warningDialog = new CHWarningDialog(language);
-				if (warningDialog.isOk()) {
-					this.dispose();
-				}
+				// インタフェース移行に伴い無効化
+				// CHWarningDialog warningDialog = new CHWarningDialog(language);
+//				if (warningDialog.isOk()) {
+//					this.dispose();
+//				}
 			} else {
 				this.dispose();
 			}
@@ -105,8 +106,8 @@ public class CHPullDialog extends JDialog implements ActionListener {
 		return javaChecked;
 	}
 
-	public boolean isMaterialCecked() {
-		return materialChecked;
+	public boolean isResourceCecked() {
+		return resourceChecked;
 	}
 
 	public void setJavaChecked(boolean javaChecked) {
@@ -114,7 +115,7 @@ public class CHPullDialog extends JDialog implements ActionListener {
 	}
 
 	public void setMaterialChecked(boolean materialChecked) {
-		this.materialChecked = materialChecked;
+		this.resourceChecked = materialChecked;
 	}
 
 	public static void main(String[] args) {

@@ -2,6 +2,7 @@ package ch.util;
 
 import java.io.File;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import bc.apps.JavaToBlockMain;
@@ -9,8 +10,9 @@ import edu.mit.blocks.controller.WorkspaceController;
 
 public class CHBlockEditorController {
 
+	public static String DEFAULT_LANGDEF_PATH = "ext/block/lang_def.xml";
+	
 	private WorkspaceController wc;
-	private boolean fileOpened;
 
 	public CHBlockEditorController(String user) {
 		wc = new WorkspaceController(user, true);
@@ -26,36 +28,36 @@ public class CHBlockEditorController {
 	}
 
 	public void openBlockEditor(String langDefFilePath, String xmlFilePath) {
-		if (fileOpened) {
-			wc.setLangDefFilePath(langDefFilePath);
-			wc.openBlockEditor(xmlFilePath);
-		} else {
+		wc.setLangDefFilePath(langDefFilePath);
+		if (xmlFilePath.equals("")) {
 			wc.loadFreshWorkspace();
+			wc.createAndShowGUI();
+		} else {
+			wc.openBlockEditor(xmlFilePath);
 		}
 	}
 
-	public void reloadBlockEditor(final String langDefFilePath, final String xmlFilePath) {
+	public void reloadBlockEditor(String langDefFilePath, String xmlFilePath) {
 		SwingUtilities.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
-				if (wc.isOpened() && fileOpened) {
-					wc.setLangDefFilePath(langDefFilePath);
-					wc.resetWorkspace();
+				wc.setLangDefFilePath(langDefFilePath);
+				wc.resetWorkspace();
+				wc.loadFreshWorkspace();
+				if (!xmlFilePath.equals("")) {
 					wc.loadProjectFromPath(xmlFilePath);
-				} else if (wc.isOpened() && !fileOpened) {
-					wc.loadFreshWorkspace();
 				}
 			}
 		});
 	}
-
-	public void setFileOpened(boolean fileOpened) {
-		this.fileOpened = fileOpened;
+	
+	public WorkspaceController getWorkspaceController() {
+		return wc;
 	}
-
-	public boolean isFileOpened() {
-		return fileOpened;
+	
+	public JFrame getBlockEditorFrame() {
+		return wc.getFrame();
 	}
 
 	public void close() {

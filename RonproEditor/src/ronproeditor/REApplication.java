@@ -16,6 +16,20 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+
+import ch.util.CHBlockEditorController;
+import clib.common.filesystem.CDirectory;
+import clib.common.filesystem.CFile;
+import clib.common.filesystem.CFileElement;
+import clib.common.filesystem.CFileFilter;
+import clib.common.filesystem.CFileSystem;
+import clib.common.filesystem.CFilename;
+import clib.common.filesystem.CPath;
+import clib.common.system.CJavaSystem;
+import clib.common.thread.ICTask;
+import clib.preference.app.CPreferenceManager;
+import clib.view.dialogs.CErrorDialog;
 import nd.com.sun.tools.example.debug.gui.CommandInterpreter;
 import nd.com.sun.tools.example.debug.gui.GUI;
 import nd.novicedebugger.NDebuggerListener;
@@ -48,20 +62,6 @@ import ronproeditor.helpers.RECommandExecuter;
 import ronproeditor.views.DummyConsole;
 import ronproeditor.views.REFrame;
 import ronproeditor.views.RESourceEditor;
-import ch.util.CHBlockEditorController;
-import clib.common.filesystem.CDirectory;
-import clib.common.filesystem.CFile;
-import clib.common.filesystem.CFileElement;
-import clib.common.filesystem.CFileFilter;
-import clib.common.filesystem.CFileSystem;
-import clib.common.filesystem.CFilename;
-import clib.common.filesystem.CPath;
-import clib.common.system.CJavaSystem;
-import clib.common.thread.ICTask;
-import clib.preference.app.CPreferenceManager;
-import clib.view.dialogs.CErrorDialog;
-
-import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
 
 /*
  * Ronpro Editor Application
@@ -311,8 +311,8 @@ public class REApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.31.2";
-	public static final String BUILD_DATE = "2015/12/9";
+	public static final String VERSION = "2.31.7";
+	public static final String BUILD_DATE = "2015/12/17";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2015 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
@@ -386,7 +386,7 @@ public class REApplication {
 	}
 
 	private void openApplication(String rootDirName) {
-		File root = prepareRootDirectory(DEFAULT_ROOT);
+		File root = prepareRootDirectory(rootDirName);
 		this.extDir = CFileSystem.getExecuteDirectory().findOrCreateDirectory(EXTENSION_FOLDER);
 		initializeManagers(root);
 		createAndOpenWindow();
@@ -434,7 +434,7 @@ public class REApplication {
 						"*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
 		this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
 
-		CFile preferenceFile = CFileSystem.findDirectory(DEFAULT_ROOT).findOrCreateFile(".pref/preference");
+		CFile preferenceFile = CFileSystem.findDirectory(root.getAbsolutePath()).findOrCreateFile(".pref/preference");
 		this.preferenceManager = new CPreferenceManager(preferenceFile);
 
 		this.libraryManager = new RELibraryManager(LIB_FOLDER);
@@ -564,9 +564,8 @@ public class REApplication {
 			}
 			// blockManager.doRefleshBlock(); //TODO オブジェクト指向対応のため？
 			flowManager.refreshChart();
-			if (fromText) {
-				checoproManager.sendText();
-				checoproManager.sendFiles();
+			if (!fromText) {
+				//checoproManager.send();
 			}
 
 			deleteRunnable(getSourceManager().getCurrentFile());
@@ -885,10 +884,12 @@ public class REApplication {
 		deno = new GUI();
 		deno.run(args);
 		deno.getFrame().addWindowFocusListener(new WindowFocusListener() {
+			@Override
 			public void windowLostFocus(WindowEvent e) {
 				writePresLog(PRCommandLog.SubType.FOCUS_LOST, "DENO");
 			}
 
+			@Override
 			public void windowGainedFocus(WindowEvent e) {
 				writePresLog(PRCommandLog.SubType.FOCUS_GAINED, "DENO");
 			}
@@ -899,42 +900,52 @@ public class REApplication {
 
 	private void hookDENOListener() {
 		NDebuggerManager.registerListener(new NDebuggerListener() {
+			@Override
 			public void stepPressed() {
 				writePresLog(PRCommandLog.SubType.STEP);
 			}
 
+			@Override
 			public void debugStarted() {
 				writePresLog(PRCommandLog.SubType.START_DEBUG);
 			}
 
+			@Override
 			public void debugFinished() {
 				writePresLog(PRCommandLog.SubType.STOP_DEBUG);
 			}
 
+			@Override
 			public void playPressed() {
 				writePresLog(PRCommandLog.SubType.DEBUG_PLAY);
 			}
 
+			@Override
 			public void stopPressed() {
 				writePresLog(PRCommandLog.SubType.DEBUG_STOP);
 			}
 
+			@Override
 			public void speedSet(int speed) {
 				writePresLog(PRCommandLog.SubType.DEBUG_SPEED, speed);
 			}
 
+			@Override
 			public void contPressed() {
 				writePresLog(PRCommandLog.SubType.DEBUG_CONT);
 			}
 
+			@Override
 			public void breakpointSet() {
 				writePresLog(PRCommandLog.SubType.DEBUG_BPSET);
 			}
 
+			@Override
 			public void breakpointClear() {
 				writePresLog(PRCommandLog.SubType.DEBUG_BPCLR);
 			}
 
+			@Override
 			public void changeAPMode(String mode) {
 				writePresLog(PRCommandLog.SubType.DEBUG_CHANGEMODE, mode);
 			}
@@ -1126,7 +1137,7 @@ public class REApplication {
 
 	// CheCoPro(kato)
 	public void doStartCheCoPro() {
-		checoproManager.startCheCoPro();
+		checoproManager.start();
 	}
 
 	private CHBlockEditorController chBlockEditorController;
@@ -1214,6 +1225,14 @@ public class REApplication {
 	public void writePresLog(PRLog log) {
 		try {
 			presManager.getRecordingProject(getSourceManager().getCCurrentProject()).record(log);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	public void writePresLog(PRLog log, CDirectory project) {
+		try {
+			presManager.getRecordingProject(project).record(log);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
