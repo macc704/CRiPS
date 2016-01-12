@@ -1,8 +1,9 @@
 package ppv.analytics.metrics;
 
+import clib.common.time.CTimeInterval;
 import pres.loader.model.IPLUnit;
 import pres.loader.utils.PLMetricsCalculator;
-import clib.common.time.CTimeInterval;
+import tea.analytics.CompileErrorAnalyzer;
 
 public class PPMetrics {
 
@@ -15,6 +16,10 @@ public class PPMetrics {
 	private long lineCount = 0;
 	private int compileCount = 0;
 	private int runCount = 0;
+
+	private int compileErrorCount = 0;
+	private long correctionTime = 0;
+
 	// for debugger by hakamata
 	private int debugCount = 0;
 	private int stepCount = 0;
@@ -34,13 +39,18 @@ public class PPMetrics {
 		this.lineCount = metrics.getLineCount();
 		this.compileCount = metrics.getCompileCount();
 		this.runCount = metrics.getRunCount();
-		
+
 		// for debugger by hakamata
 		this.debugCount = metrics.getDebugCount();
 		this.stepCount = metrics.getStepCount();
 		this.playCount = metrics.getPlayCount();
 		this.aveSpeed = metrics.getAverageSpeed();
 		this.ndWorkingTime = metrics.getNDWorkingTime().getTime();
+	}
+
+	public void setCompileElements(CompileErrorAnalyzer analyzer) {
+		this.compileErrorCount = analyzer.getHistories().size();
+		this.correctionTime = analyzer.getCorrectionTime().getTime();
 	}
 
 	public void addMetrics(PPMetrics another) {
@@ -50,7 +60,10 @@ public class PPMetrics {
 		this.lineCount += another.lineCount;
 		this.compileCount += another.compileCount;
 		this.runCount += another.runCount;
-		
+
+		this.compileErrorCount += another.compileErrorCount;
+		this.correctionTime += another.correctionTime;
+
 		// for debugger by hakamata
 		this.debugCount += another.debugCount;
 		this.stepCount += another.stepCount;
@@ -104,8 +117,7 @@ public class PPMetrics {
 
 		// Time/Compile
 		if (compileCount > 0) {
-			buf.append(new CTimeInterval(workingTime / compileCount)
-					.getMajorString());
+			buf.append(new CTimeInterval(workingTime / compileCount).getMajorString());
 		} else {
 			buf.append("");
 		}
@@ -113,8 +125,7 @@ public class PPMetrics {
 
 		// Time/Run
 		if (runCount > 0) {
-			buf.append(new CTimeInterval(workingTime / runCount)
-					.getMajorString());
+			buf.append(new CTimeInterval(workingTime / runCount).getMajorString());
 		} else {
 			buf.append("");
 		}
@@ -122,58 +133,73 @@ public class PPMetrics {
 
 		if (beWorkingTime > 0) {
 			CTimeInterval interval = new CTimeInterval(beWorkingTime);
-			buf.append(interval.getDay() * 24 * 60 + interval.getHour() * 60
-					+ interval.getMinute());
+			buf.append(interval.getDay() * 24 * 60 + interval.getHour() * 60 + interval.getMinute());
 		} else {
 			buf.append("0");
 		}
 		buf.append(CAMMA);
 
-		
 		// for debugger by hakamata
 		// debugCount
 		buf.append(debugCount);
 		buf.append(CAMMA);
-		
+
 		// stepCount
 		buf.append(stepCount);
 		buf.append(CAMMA);
-		
+
 		// playCount
 		buf.append(playCount);
 		buf.append(CAMMA);
-		
+
 		// average speed
 		buf.append(aveSpeed);
 		buf.append(CAMMA);
-		
+
 		// NDWorkingTime(min)
 		if (ndWorkingTime > 0) {
 			CTimeInterval interval = new CTimeInterval(ndWorkingTime);
 			ndTime = interval.getDay() * 24 * 60 + interval.getHour() * 60 + interval.getMinute();
-			
+
 		} else {
 			ndTime = 0;
 		}
 		buf.append(ndTime);
 		buf.append(CAMMA);
-		
+
 		// NDWorkingTime / WorkingTime
 		if (wTime > 0) {
-			double percent = (int)((double)ndTime / wTime * 10000 + 0.5) / 100d;
+			double percent = (int) ((double) ndTime / wTime * 10000 + 0.5) / 100d;
 			buf.append(percent + "%");
 		} else {
 			buf.append("");
 		}
 		buf.append(CAMMA);
-		
+
 		// NDWorkingTime / DebugCount
 		if (debugCount > 0) {
-			buf.append(new CTimeInterval(ndWorkingTime / debugCount)
-					.getMajorString());
+			buf.append(new CTimeInterval(ndWorkingTime / debugCount).getMajorString());
 		} else {
 			buf.append("");
 		}
+		buf.append(CAMMA);
+
+		return buf.toString();
+	}
+
+	public String getCompileElementPrintString() {
+		StringBuilder buf = new StringBuilder();
+		// CompileErrorCount
+		buf.append(compileErrorCount);
+		buf.append(CAMMA);
+
+		// Total Correction Time
+		buf.append(new CTimeInterval(correctionTime));
+		buf.append(CAMMA);
+
+		// rate
+		double rate = (double) correctionTime / workingTime * 100;
+		buf.append(rate);
 		buf.append(CAMMA);
 
 		return buf.toString();
@@ -215,6 +241,13 @@ public class PPMetrics {
 		buf.append("NDWorkingTime/WorkingTime");
 		buf.append(CAMMA);
 		buf.append("NDWorkingTime/DebugCount");
+
+		buf.append(CAMMA);
+		buf.append("CompileErrorCount");
+		buf.append(CAMMA);
+		buf.append("CompileErrorCT");
+		buf.append(CAMMA);
+		buf.append("CompileErrorRate");
 		buf.append(CAMMA);
 		return buf.toString();
 	}

@@ -12,11 +12,12 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.List;
 
+import clib.common.utils.ICProgressMonitor;
 import ppv.app.datamanager.PPProjectSet;
 import pres.loader.model.PLFile;
 import pres.loader.model.PLPackage;
 import pres.loader.model.PLProject;
-import clib.common.utils.ICProgressMonitor;
+import tea.analytics.CompileErrorAnalyzer;
 
 /**
  * @author macchan 作り中
@@ -32,11 +33,9 @@ public class PPMetricsPrinter {
 	public PPMetricsPrinter() {
 	}
 
-	public void printMetrics(PPProjectSet projectSet, OutputStream out,
-			ICProgressMonitor monitor) throws Exception {
+	public void printMetrics(PPProjectSet projectSet, OutputStream out, ICProgressMonitor monitor) throws Exception {
 		// PrintWriter
-		pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(out,
-				"sjis")));
+		pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(out, "sjis")));
 		pw.println(PPMetrics.createHeader());
 		pw.flush();
 
@@ -66,8 +65,10 @@ public class PPMetricsPrinter {
 		if (!loaded) {
 			project.load();
 		}
+
 		PLPackage pack = project.getRootPackage();
-		String pjName = pack.getName();		
+		String pjName = pack.getName();
+
 		for (PLFile plFile : pack.getFilesRecursively()) {
 			printOneUnit(pjName, plFile);
 		}
@@ -78,11 +79,20 @@ public class PPMetricsPrinter {
 	}
 
 	private void printOneUnit(String pjName, PLFile plFile) {
+		CompileErrorAnalyzer analyzer = new CompileErrorAnalyzer(plFile);
 		StringBuffer buf = new StringBuffer();
 		buf.append(pjName);
 		buf.append(CAMMA);
 		PPMetrics metrics = new PPMetrics(plFile);
 		buf.append(metrics.getMetricsPrintString());
+
+		if (plFile.getProject().isCompiled()) {
+			analyzer.analyze();
+			metrics.setCompileElements(analyzer);
+			buf.append(metrics.getCompileElementPrintString());
+		} else {
+			buf.append("0,0,0,");
+		}
 		pw.println(buf.toString());
 		pw.flush();
 	}
