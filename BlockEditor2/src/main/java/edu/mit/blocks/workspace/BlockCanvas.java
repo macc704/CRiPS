@@ -27,6 +27,8 @@ import edu.mit.blocks.codeblockutil.CHoverScrollPane;
 import edu.mit.blocks.codeblockutil.CScrollPane;
 import edu.mit.blocks.codeblockutil.CScrollPane.ScrollPolicy;
 import edu.mit.blocks.renderable.RenderableBlock;
+import net.unicoen.parser.blockeditor.DOMUtil;
+import net.unicoen.parser.blockeditor.blockmodel.PagesModel;
 
 /**
  * A BlockCanvas is a container of Pages and is a scrollable
@@ -59,6 +61,8 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
     private boolean collapsible = false;
 
     private static int MAX_HEIGHT = 1600;
+    
+    private List<String> importsStatements = new ArrayList<>();
 
     //////////////////////////////
     //Constructor/Destructor	//
@@ -89,6 +93,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
         canvas.removeAll();
         dividers.clear();
         scrollPane.revalidate();
+        importsStatements.clear();
     }
 
     //////////////////////////////
@@ -454,6 +459,16 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
                 pageElement.setAttribute("drawer-with-page", "yes");
             }
             pageElement.setAttribute("collapsible-pages", collapsible ? "yes" : "no");
+            
+            Element importStatementsNode = document.createElement(PagesModel.IMPORT_STATEMENTS_NODE);
+            for(String importStatement : importsStatements){
+            	Element element = document.createElement(PagesModel.IMPORT_STATEMENT_NODE); 
+            	element.setTextContent(importStatement);
+            	importStatementsNode.appendChild(element);
+            }
+            
+            pageElement.appendChild(importStatementsNode);
+            
             for (Page page : pages) {
                 Node pageNode = page.getSaveNode(document);
                 pageElement.appendChild(pageNode);
@@ -486,8 +501,18 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
             if (pagesNode != null) {
                 collapsible = PageDrawerLoadingUtils.getBooleanValue(pagesNode, "collapsible-pages");
             }
+            
+            //ohata added
+            Element importStatements = (Element)DOMUtil.getChildNode(pagesNode, PagesModel.IMPORT_STATEMENTS_NODE);
+            if(importStatements != null){
+            	NodeList importStatementsNode = importStatements.getElementsByTagName(PagesModel.IMPORT_STATEMENT_NODE);
+                for(int i = 0; i < importStatementsNode.getLength();i++){
+                	this.importsStatements.add(importStatementsNode.item(i).getTextContent());
+                }
+            }
         }
-
+        
+        
         // FIXME: this UI code should not be here, fails unit tests that run in headless mode
         // As a workaround, only execute if we have a UI
         if (!GraphicsEnvironment.isHeadless()) {
@@ -505,7 +530,8 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
     //REDO/UNOD					//
     //////////////////////////////
     /** @overrides ISupportMomento.getState */
-    public Object getState() {
+    @Override
+	public Object getState() {
         Map<String, Object> pageStates = new HashMap<String, Object>();
         for (Page page : pages) {
             pageStates.put(page.getPageName(), page.getState());
@@ -514,7 +540,8 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
     }
 
     /** @overrides ISupportMomento.loadState() */
-    @SuppressWarnings("unchecked")
+    @Override
+	@SuppressWarnings("unchecked")
     public void loadState(Object memento) {
         assert (memento instanceof HashMap) : "ISupportMemento contract violated in BlockCanvas";
         if (memento instanceof HashMap) {
@@ -573,15 +600,18 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
             this.addMouseMotionListener(this);
         }
 
-        public void mousePressed(MouseEvent e) {
+        @Override
+		public void mousePressed(MouseEvent e) {
             p = e.getPoint();
         }
 
-        public void mouseClicked(MouseEvent e) {
+        @Override
+		public void mouseClicked(MouseEvent e) {
 
         }
 
-        public void mouseDragged(MouseEvent e) {
+        @Override
+		public void mouseDragged(MouseEvent e) {
             if (p == null) {
                 //do nothing
             } else {
@@ -592,17 +622,21 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
             }
         }
 
-        public void mouseReleased(MouseEvent e) {
+        @Override
+		public void mouseReleased(MouseEvent e) {
             this.p = null;
         }
 
-        public void mouseMoved(MouseEvent e) {
+        @Override
+		public void mouseMoved(MouseEvent e) {
         }
 
-        public void mouseEntered(MouseEvent e) {
+        @Override
+		public void mouseEntered(MouseEvent e) {
         }
 
-        public void mouseExited(MouseEvent e) {
+        @Override
+		public void mouseExited(MouseEvent e) {
         }
     }
 }
