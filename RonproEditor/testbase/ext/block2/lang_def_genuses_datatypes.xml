@@ -430,7 +430,7 @@
 	<Type>String</Type>
 </BlockGenus>
 
-<BlockGenus name="cast" kind="cast" initlabel="" footerlabel="型に変換する" color="45 201 255">
+<BlockGenus name="cast" initlabel="" kind="cast" footerlabel="型に変換する" color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="poly"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="poly"></BlockConnector>

@@ -118,7 +118,7 @@
 			<MethodName>ListTurtle-addToAfterCursor[@turtle]</MethodName>
 			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
 			<MethodName>ListTurtle-shuffle[]</MethodName>
-			<MethodName>ListTurtle-setBgColor[@int]</MethodName>
+			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
 		</CategoryName>
 	</LibraryClass>
 	<LibraryClass name="InputTurtle">

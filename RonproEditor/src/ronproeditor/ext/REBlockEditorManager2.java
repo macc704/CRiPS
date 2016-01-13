@@ -22,6 +22,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import javax.swing.SwingUtilities;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 
 import org.xml.sax.SAXException;
 
@@ -37,6 +39,7 @@ import edu.mit.blocks.controller.WorkspaceController;
 import net.unicoen.mapper.JavaMapper;
 import net.unicoen.mapper.JavaScriptMapper;
 import net.unicoen.node.UniClassDec;
+import net.unicoen.node.UniFile;
 import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRLog;
 import ronproeditor.IREResourceRepository;
@@ -60,14 +63,40 @@ public class REBlockEditorManager2 {
 
 	public void doOpenNewBlockEditor() {
 		// Java->Block変換処理
+//		BiFunction<File, REApplication, String> convertAction = (sourceFile, app) -> {
+//			File srcfile = app.getSourceManager().getCurrentFile();
+//			File dir = srcfile.getParentFile();
+//			File tmpSrcFile = createUTFDummyFile(srcfile);
+//
+//			UniClassDec classDec = convertJavaToUni(tmpSrcFile);
+//			
+//			File xmlfile = new File(dir.getPath() + "/" + classDec.className + ".xml");
+//			try {
+//				xmlfile.createNewFile();
+//				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, BLOCK_ENC);
+//				BlockGenerator blockParser = new BlockGenerator(out, sourceFile.getParent() + "/");
+//				blockParser.parse(classDec);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			} catch (SAXException e) {
+//				e.printStackTrace();
+//			} catch (RuntimeException e){
+//				e.printStackTrace();
+//			}finally{
+//				tmpSrcFile.delete();				
+//			}
+//
+//			return xmlfile.getAbsolutePath();
+//		};
 		BiFunction<File, REApplication, String> convertAction = (sourceFile, app) -> {
 			File srcfile = app.getSourceManager().getCurrentFile();
 			File dir = srcfile.getParentFile();
 			File tmpSrcFile = createUTFDummyFile(srcfile);
 
-			UniClassDec classDec = convertJavaToUni(tmpSrcFile);
+			UniFile classDec = convertJavaToUniFileModel(tmpSrcFile);;
+			String[] names = srcfile.getName().split("\\.");
 			
-			File xmlfile = new File(dir.getPath() + "/" + classDec.className + ".xml");
+			File xmlfile = new File(dir.getPath() + "/" + names[0] + ".xml");
 			try {
 				xmlfile.createNewFile();
 				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, BLOCK_ENC);
@@ -79,13 +108,17 @@ public class REBlockEditorManager2 {
 				e.printStackTrace();
 			} catch (RuntimeException e){
 				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+				e.printStackTrace();
+			} catch (TransformerException e) {
+				e.printStackTrace();
 			}finally{
 				tmpSrcFile.delete();				
 			}
 
 			return xmlfile.getAbsolutePath();
 		};
-
+		
 		// Managerの初期化処理
 		Function<File, WorkspaceController> initBlockEditorAction = (sourceFile) -> {
 			WorkspaceController blockEditor = new WorkspaceController();
@@ -403,6 +436,33 @@ public class REBlockEditorManager2 {
 			Object node = mapper.parseFile(file.getPath());
 			if (node instanceof UniClassDec) {
 				return (UniClassDec) node;
+			} else {
+				CErrorDialog.show(null, "UniClassモデルが作成できませんでした");
+				return null;
+			}
+		}
+		throw new RuntimeException("unknown file type");
+	}
+	
+	/*
+	 * JavaをUnicoenモデルへ変換して返す
+	 */
+	public UniFile convertJavaToUniFileModel(File file) {
+		if (file.getPath().endsWith(".java")) {
+			JavaMapper mapper = new JavaMapper();
+			Object node = mapper.parseFile(file.getPath());
+
+			if (node instanceof UniFile) {
+				return (UniFile) node;
+			} else {
+				CErrorDialog.show(null, "UniClassモデルが作成できませんでした");
+				return null;
+			}
+		} else if (file.getPath().endsWith(".js")) {
+			JavaScriptMapper mapper = new JavaScriptMapper();
+			Object node = mapper.parseFile(file.getPath());
+			if (node instanceof UniFile) {
+				return (UniFile) node;
 			} else {
 				CErrorDialog.show(null, "UniClassモデルが作成できませんでした");
 				return null;

@@ -74,7 +74,7 @@ import edu.mit.blocks.workspace.WorkspaceListener;
 import net.unicoen.generator.DolittleGenerator;
 import net.unicoen.generator.JavaGeneratorForTurtle;
 import net.unicoen.generator.JavaScriptGeneratorForTurtle;
-import net.unicoen.node.UniClassDec;
+import net.unicoen.node.UniFile;
 import net.unicoen.parser.blockeditor.BlockMapper;
 
 /**
@@ -635,9 +635,9 @@ public class WorkspaceController {
 					saveToFile(selectedFile);
 
 					BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
-					UniClassDec classDec = mapper.parse(selectedFile);
-
-					outputFileFromUni(classDec);
+					UniFile file = mapper.parseToUniFile(selectedFile);
+					
+					outputFileFromUni(file, file.classes.get(0).className);
 					setDirty(false);
 				} catch (Exception e1) {				
 					JOptionPane.showMessageDialog(frame, "変換時にエラーが発生しました：" + System.lineSeparator() + e1.getStackTrace() ,"変換エラー", JOptionPane.ERROR_MESSAGE);
@@ -655,9 +655,9 @@ public class WorkspaceController {
 		}
 	}
 
-	public void outputFileFromUni(UniClassDec dec) throws FileNotFoundException {
+	public void outputFileFromUni(UniFile dec, String className) throws FileNotFoundException {
 		boolean fileCreated = false;
-		File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".java");
+		File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + className + ".java");
 		try {
 			fileCreated |= !javaFile.exists();
 			PrintStream out = new PrintStream(javaFile, RONPRO_FILE_ENCODING);
@@ -669,10 +669,10 @@ public class WorkspaceController {
 		}
 
 		try {
-			File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".js");
+			File jsFile = new File(selectedFile.getParentFile().getPath() + File.separator + className + ".js");
 			fileCreated |= !jsFile.exists();
 			PrintStream out = new PrintStream(jsFile, RONPRO_FILE_ENCODING);
-			JavaScriptGeneratorForTurtle.generate(dec, out);
+			JavaScriptGeneratorForTurtle.generate(dec.classes.get(0), out);
 			out.close();
 			listener.blockConverted(jsFile);
 
@@ -681,10 +681,10 @@ public class WorkspaceController {
 		}
 
 		try {
-			File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + dec.className + ".dlt");
+			File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + className + ".dlt");
 			fileCreated |= !dltFile.exists();
 			PrintStream out = new PrintStream(dltFile, RONPRO_FILE_ENCODING);
-			DolittleGenerator.generate(dec, out);
+			DolittleGenerator.generate(dec.classes.get(0), out);
 			out.close();
 		} catch (Exception ex) {
 			ex.printStackTrace();
