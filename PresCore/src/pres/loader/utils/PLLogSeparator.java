@@ -122,8 +122,8 @@ public class PLLogSeparator {
 				if ("JAVA_TO_BLOCK".equals(log.getSubType())) {
 					inLoading = true;
 				}
-				if (((PLBlockCommandLog) log).getMessage().indexOf(
-						"BLOCK_ADDED: Block 1:") != -1) {//いきなりブロックの初期化が始まった(1であることが重要)
+				if (((PLBlockCommandLog) log).getMessage()
+						.indexOf("BLOCK_ADDED: Block 1:") != -1) {//いきなりブロックの初期化が始まった(1であることが重要)
 					inLoading = true;
 				}
 			}
@@ -136,7 +136,8 @@ public class PLLogSeparator {
 					|| log.getSubType().equals("BLOCK_TO_JAVA")) {
 				nonseparated.add(log);
 			}
-			if (!inLoading && log.getSubType().startsWith("BLOCK")) {
+			if (!inLoading && log.getSubType().startsWith("BLOCK")
+					|| log.getSubType().equals("FOCUS_LOST")) {
 				nonseparated.add(log);
 			} else {
 				separated.add(log);
