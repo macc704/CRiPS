@@ -4,8 +4,7 @@
 
 <!-- MOVEMENT -->
 
-<BlockGenus name="Turtle-fd[@int]" kind="command" initlabel="進む"
-	color="255 0 0">
+<BlockGenus name="Turtle-fd[@int]" kind="command" initlabel="進む" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -18,8 +17,7 @@
 	</description>
 	<Name>fd</Name>
 	<BlockConnectors>
-		<BlockConnector label="歩数" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="歩数" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -29,8 +27,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-bk[@int]" kind="command" initlabel="戻る"
-	color="255 0 0">
+<BlockGenus name="Turtle-bk[@int]" kind="command" initlabel="戻る" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -43,8 +40,7 @@
 	</description>
 	<Name>bk</Name>
 	<BlockConnectors>
-		<BlockConnector label="歩数" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="歩数" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -54,8 +50,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-lt[@int]" kind="command" initlabel="左へ回る"
-	color="255 0 0">
+<BlockGenus name="Turtle-lt[@int]" kind="command" initlabel="左へ回る" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -68,8 +63,7 @@
 	</description>
 	<Name>lt</Name>
 	<BlockConnectors>
-		<BlockConnector label="角度" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="角度" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="90"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -79,8 +73,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-rt[@int]" kind="command" initlabel="右へ回る"
-	color="255 0 0">
+<BlockGenus name="Turtle-rt[@int]" kind="command" initlabel="右へ回る" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -93,8 +86,7 @@
 	</description>
 	<Name>rt</Name>
 	<BlockConnectors>
-		<BlockConnector label="角度" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="角度" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="90"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -104,8 +96,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-random[@int]" kind="function"
-	initlabel="乱数を作り、その値" color="15 20 220">
+<BlockGenus name="Turtle-random[@int]" kind="function" initlabel="乱数を作り、その値" color="15 20 220">
 	<description>
 		<text>
 			0から指定した値
@@ -121,8 +112,7 @@
 	<Type>int</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
-		<BlockConnector label="0から" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="0から" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="10" />
 		</BlockConnector>
 	</BlockConnectors>
@@ -132,15 +122,13 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-color[@object]" kind="command"
-	initlabel="ペンの色を変える" color="255 0 0">
+<BlockGenus name="Turtle-color[@object]" kind="command" initlabel="ペンの色を変える" color="255 0 0">
 	<description>
 		<text>タートルの軌跡に使用したい色を指定します。</text>
 	</description>
 	<Name>color</Name>
 	<BlockConnectors>
-		<BlockConnector label="色" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="色" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="red" label="赤"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -150,8 +138,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-up[]" kind="command" initlabel="ペンを上げる"
-	color="255 0 0">
+<BlockGenus name="Turtle-up[]" kind="command" initlabel="ペンを上げる" color="255 0 0">
 	<description>
 		<text>ペンを上げます。ペンを上げている間は、タートルの軌跡が描かれません。</text>
 	</description>
@@ -162,8 +149,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-down[]" kind="command" initlabel="ペンを下ろす"
-	color="255 0 0">
+<BlockGenus name="Turtle-down[]" kind="command" initlabel="ペンを下ろす" color="255 0 0">
 	<description>
 		<text>ペンを下げます。ペンを下げている間は、タートルの軌跡が描かれます。</text>
 	</description>
@@ -174,8 +160,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-input[]" kind="function" initlabel="コンソールから入力し、その値"
-	color="255 0 0">
+<BlockGenus name="Turtle-input[]" kind="function" initlabel="コンソールから入力し、その値" color="255 0 0">
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
@@ -190,8 +175,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-print[@string]" kind="command"
-	initlabel="コンソールに出力する" color="255 0 0">
+<BlockGenus name="Turtle-print[@string]" kind="command" initlabel="コンソールに出力する" color="255 0 0">
 	<description>
 		<text>セットした文字をコンソールに出力します。</text>
 	</description>
@@ -203,8 +187,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Turtle-print[@int]" kind="command"
-	initlabel="コンソールに出力する" color="255 0 0">
+<BlockGenus name="Turtle-print[@int]" kind="command" initlabel="コンソールに出力する" color="255 0 0">
 	<description>
 		<text>セットした文字をコンソールに出力します。</text>
 	</description>
@@ -216,8 +199,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Turtle-sleep[@int]" kind="command"
-	initlabel="待つ" color="255 0 0">
+<BlockGenus name="Turtle-sleep[@int]" kind="command" initlabel="待つ" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -230,8 +212,7 @@
 	</description>
 	<Name>sleep</Name>
 	<BlockConnectors>
-		<BlockConnector label="秒" connector-kind="socket"
-			connector-type="double-number">
+		<BlockConnector label="秒" connector-kind="socket" connector-type="double-number">
 			<DefaultArg genus-name="number" label="1.0"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -241,8 +222,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-warp[@int@int]" kind="command"
-	initlabel="ワープする" color="255 0 0">
+<BlockGenus name="Turtle-warp[@int@int]" kind="command" initlabel="ワープする" color="255 0 0">
 	<description>
 		<text>
 			タートルが指定したX座標
@@ -260,12 +240,10 @@
 	</description>
 	<Name>warp</Name>
 	<BlockConnectors>
-		<BlockConnector label="X座標" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="X座標" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="Y座標" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="Y座標" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -275,16 +253,13 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-warpByTopLeft[@int@int]" kind="command"
-	initlabel="(左上の座標指定で)ワープする" color="255 0 0">
+<BlockGenus name="Turtle-warpByTopLeft[@int@int]" kind="command" initlabel="(左上の座標指定で)ワープする" color="255 0 0">
 	<Name>warpByTopLeft</Name>
 	<BlockConnectors>
-		<BlockConnector label="X座標" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="X座標" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="Y座標" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="Y座標" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -294,8 +269,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-getX[]" kind="function" initlabel="X座標の値"
-	color="255 0 0">
+<BlockGenus name="Turtle-getX[]" kind="function" initlabel="X座標の値" color="255 0 0">
 	<description>
 		<text>
 			タートルがいる位置のX座標を調べ、その値を返します。
@@ -312,8 +286,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-getY[]" kind="function" initlabel="Y座標の値"
-	color="255 0 0">
+<BlockGenus name="Turtle-getY[]" kind="function" initlabel="Y座標の値" color="255 0 0">
 	<description>
 		<text>
 			タートルがいる位置のY座標を調べ、その値を返します。
@@ -331,8 +304,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="Turtle-size[@int@int]" kind="command"
-	initlabel="大きさを変える" color="255 0 0">
+<BlockGenus name="Turtle-size[@int@int]" kind="command" initlabel="大きさを変える" color="255 0 0">
 	<description>
 		<text>
 			タートルが指定した横の長さ
@@ -350,12 +322,10 @@
 	</description>
 	<Name>size</Name>
 	<BlockConnectors>
-		<BlockConnector label="横の長さ" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="横の長さ" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="縦の長さ" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="縦の長さ" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -367,8 +337,7 @@
 
 
 
-<BlockGenus name="Turtle-getWidth[]" kind="function"
-	initlabel="幅を調べ、その値" color="255 0 0">
+<BlockGenus name="Turtle-getWidth[]" kind="function" initlabel="幅を調べ、その値" color="255 0 0">
 	<description>
 		<text>
 			タートルが自分の横の幅を調べ、その値を返します。
@@ -385,8 +354,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-getHeight[]" kind="function"
-	initlabel="高さを調べ、その値" color="255 0 0">
+<BlockGenus name="Turtle-getHeight[]" kind="function" initlabel="高さを調べ、その値" color="255 0 0">
 	<description>
 		<text>
 			タートルが自分の縦の幅を調べ、その値を返します。
@@ -403,8 +371,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-scale[@int]" kind="command"
-	initlabel="大きさを変える" color="255 0 0">
+<BlockGenus name="Turtle-scale[@int]" kind="command" initlabel="大きさを変える" color="255 0 0">
 	<description>
 		<text>
 			タートルが指定した倍率
@@ -417,8 +384,7 @@
 	</description>
 	<Name>scale</Name>
 	<BlockConnectors>
-		<BlockConnector label="倍率" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="倍率" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -428,8 +394,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-large[@int]" kind="command"
-	initlabel="縦・横の幅を大きくする" color="255 0 0">
+<BlockGenus name="Turtle-large[@int]" kind="command" initlabel="縦・横の幅を大きくする" color="255 0 0">
 	<description>
 		<text>
 			タートルが縦横の幅が指定した数値
@@ -442,8 +407,7 @@
 	</description>
 	<Name>large</Name>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="長さ" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -453,8 +417,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-small[@int]" kind="command"
-	initlabel="縦・横の幅を小さくする" color="255 0 0">
+<BlockGenus name="Turtle-small[@int]" kind="command" initlabel="縦・横の幅を小さくする" color="255 0 0">
 	<description>
 		<text>
 			タートルが縦横の幅が指定した数値
@@ -467,8 +430,7 @@
 	</description>
 	<Name>small</Name>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="長さ" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -478,8 +440,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-wide[@int]" kind="command"
-	initlabel="横の幅を大きくする" color="255 0 0">
+<BlockGenus name="Turtle-wide[@int]" kind="command" initlabel="横の幅を大きくする" color="255 0 0">
 	<description>
 		<text>
 			タートルが横の幅が指定した数値
@@ -492,8 +453,7 @@
 	</description>
 	<Name>wide</Name>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="長さ" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -503,8 +463,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-narrow[@int]" kind="command"
-	initlabel="横の幅を小さくする" color="255 0 0">
+<BlockGenus name="Turtle-narrow[@int]" kind="command" initlabel="横の幅を小さくする" color="255 0 0">
 	<description>
 		<text>
 			タートルが横の幅が指定した数値
@@ -517,8 +476,7 @@
 	</description>
 	<Name>narrow</Name>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="長さ" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -528,8 +486,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-tall[@int]" kind="command"
-	initlabel="縦の幅を大きくする" color="255 0 0">
+<BlockGenus name="Turtle-tall[@int]" kind="command" initlabel="縦の幅を大きくする" color="255 0 0">
 	<description>
 		<text>
 			タートルが縦の幅が指定した数値
@@ -542,8 +499,7 @@
 	</description>
 	<Name>tall</Name>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="長さ" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -553,8 +509,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-little[@int]" kind="command"
-	initlabel="縦の幅を小さくする" color="255 0 0">
+<BlockGenus name="Turtle-little[@int]" kind="command" initlabel="縦の幅を小さくする" color="255 0 0">
 	<description>
 		<text>
 			タートル横の幅が指定した数値
@@ -567,8 +522,7 @@
 	</description>
 	<Name>little</Name>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="長さ" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -578,8 +532,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-update[]" kind="command" initlabel="再描画する"
-	color="255 0 0">
+<BlockGenus name="Turtle-update[]" kind="command" initlabel="再描画する" color="255 0 0">
 	<description>
 		<text>
 			再描画されます。
@@ -592,8 +545,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-show[]" kind="command" initlabel="表示する"
-	color="255 0 0">
+<BlockGenus name="Turtle-show[]" kind="command" initlabel="表示する" color="255 0 0">
 	<description>
 		<text>
 			タートルが表示されます。
@@ -606,8 +558,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-hide[]" kind="command" initlabel="非表示にする"
-	color="255 0 0">
+<BlockGenus name="Turtle-hide[]" kind="command" initlabel="非表示にする" color="255 0 0">
 	<description>
 		<text>
 			タートルが非表示になります。
@@ -620,8 +571,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-setShow[]" kind="command" initlabel="表示状態を設定する"
-	color="255 0 0">
+<BlockGenus name="Turtle-setShow[]" kind="command" initlabel="表示状態を設定する" color="255 0 0">
 	<description>
 		<text>
 			タートルが表示されます。
@@ -635,8 +585,7 @@
 </BlockGenus>
 
 <!-- Ishikawa 2012 -->
-<BlockGenus name="Turtle-isShow[]" kind="function" initlabel="表示されているかどうか調べる"
-	color="255 0 0">
+<BlockGenus name="Turtle-isShow[]" kind="function" initlabel="表示されているかどうか調べる" color="255 0 0">
 	<description>
 		<text>タートルが表示されているかどうかを調べます。表示されていれば真を、されていなかれば偽を返します
 		</text>
@@ -644,8 +593,7 @@
 	<Name>isShow</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="boolean"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="boolean" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="isShow"></LangSpecProperty>
@@ -653,8 +601,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-looks[@object]" kind="command"
-	initlabel="見た目を変える" color="255 0 0">
+<BlockGenus name="Turtle-looks[@object]" kind="command" initlabel="見た目を変える" color="255 0 0">
 	<Name>looks</Name>
 	<BlockConnectors>
 		<BlockConnector connector-kind="socket" connector-type="object">
@@ -665,8 +612,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 <!-- image -->
-<BlockGenus name="ImageTurtle-image[@string]" kind="command"
-	color="255 0 0" initlabel="画像ファイルを設定する">
+<BlockGenus name="ImageTurtle-image[@string]" kind="command" color="255 0 0" initlabel="画像ファイルを設定する">
 	<Name>image</Name>
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
@@ -677,8 +623,7 @@
 </BlockGenus>
 
 <!-- TextTurtle -->
-<BlockGenus name="TextTurtle-text[@string]" kind="command"
-	color="255 0 0" initlabel="テキストを設定する">
+<BlockGenus name="TextTurtle-text[@string]" kind="command" color="255 0 0" initlabel="テキストを設定する">
 	<Name>text</Name>
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
@@ -688,28 +633,23 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="TextTurtle-getText[]" kind="function"
-	color="255 0 0" initlabel="テキストを取得する">
+<BlockGenus name="TextTurtle-getText[]" kind="function" color="255 0 0" initlabel="テキストを取得する">
 	<Name>getText</Name>
 	<Type>String</Type>
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="string"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="string" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
-	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> <LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
-<BlockGenus name="Turtle-key[]" kind="function" color="255 0 0"
-	initlabel="押されているキーのキーコードを調べる">
+<BlockGenus name="Turtle-key[]" kind="function" color="255 0 0" initlabel="押されているキーのキーコードを調べる">
 	<Name>key</Name>
 	<Type>int</Type>
 	<BlockConnectors>
-		<BlockConnector connector-type="number" connector-kind="plug"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-type="number" connector-kind="plug" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="eval-num"></LangSpecProperty>
@@ -717,13 +657,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-keyDown[@int]" kind="function"
-	color="255 0 0" initlabel="指定したキーが押されているか調べる">
+<BlockGenus name="Turtle-keyDown[@int]" kind="function" color="255 0 0" initlabel="指定したキーが押されているか調べる">
 	<Name>keyDown</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-type="boolean"
-			connector-kind="plug" position-type="single"></BlockConnector>
+		<BlockConnector connector-type="boolean" connector-kind="plug" position-type="single"></BlockConnector>
 		<BlockConnector connector-type="number" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
@@ -732,13 +670,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-mouseX[]" kind="function" color="255 0 0"
-	initlabel="マウスの現在地のX座標を取得する">
+<BlockGenus name="Turtle-mouseX[]" kind="function" color="255 0 0" initlabel="マウスの現在地のX座標を取得する">
 	<Name>mouseX</Name>
 	<Type>int</Type>
 	<BlockConnectors>
-		<BlockConnector connector-type="number" connector-kind="plug"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-type="number" connector-kind="plug" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="mouseX"></LangSpecProperty>
@@ -746,13 +682,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-mouseY[]" kind="function" color="255 0 0"
-	initlabel="マウスの現在地のY座標を取得する">
+<BlockGenus name="Turtle-mouseY[]" kind="function" color="255 0 0" initlabel="マウスの現在地のY座標を取得する">
 	<Name>mouseY</Name>
 	<Type>int</Type>
 	<BlockConnectors>
-		<BlockConnector connector-type="number" connector-kind="plug"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-type="number" connector-kind="plug" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="mouseY"></LangSpecProperty>
@@ -760,13 +694,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-mouseClicked[]" kind="function"
-	initlabel="マウスがクリックされたか調べる" color="255 0 0">
+<BlockGenus name="Turtle-mouseClicked[]" kind="function" initlabel="マウスがクリックされたか調べる" color="255 0 0">
 	<Name>mouseClicked</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="boolean"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="boolean" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="mouseClicked"></LangSpecProperty>
@@ -774,13 +706,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-leftMouseClicked[]" kind="function"
-	initlabel="マウスが左クリックされたか調べる" color="255 0 0">
+<BlockGenus name="Turtle-leftMouseClicked[]" kind="function" initlabel="マウスが左クリックされたか調べる" color="255 0 0">
 	<Name>leftMouseClicked</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="boolean"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="boolean" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="leftMouseClicked"></LangSpecProperty>
@@ -788,13 +718,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-rightMouseClicked[]" kind="function"
-	initlabel="マウスが右クリックされたか調べる" color="255 0 0">
+<BlockGenus name="Turtle-rightMouseClicked[]" kind="function" initlabel="マウスが右クリックされたか調べる" color="255 0 0">
 	<Name>rightMouseClicked</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="boolean"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="boolean" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="rightMouseClicked"></LangSpecProperty>
@@ -802,13 +730,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-doubleClick[]" kind="function"
-	initlabel="マウスがダブルクリックされたか調べる" color="255 0 0">
+<BlockGenus name="Turtle-doubleClick[]" kind="function" initlabel="マウスがダブルクリックされたか調べる" color="255 0 0">
 	<Name>doubleClick</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="boolean"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="boolean" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="doubleClick"></LangSpecProperty>
@@ -816,13 +742,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-mouseDown[]" kind="function"
-	initlabel="マウスが押されたか調べる" color="255 0 0">
+<BlockGenus name="Turtle-mouseDown[]" kind="function" initlabel="マウスが押されたか調べる" color="255 0 0">
 	<Name>mouseDown</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="boolean"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="boolean" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="mouseDown"></LangSpecProperty>
@@ -830,13 +754,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-leftMouseDown[]" kind="function"
-	initlabel="マウスの左ボタンが押されたか調べる" color="255 0 0">
-	<Name>leftMouseDonw</Name>
+<BlockGenus name="Turtle-leftMouseDown[]" kind="function" initlabel="マウスの左ボタンが押されたか調べる" color="255 0 0">
+	<Name>leftMouseDown</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="boolean"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="boolean" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="leftMouseDown"></LangSpecProperty>
@@ -844,13 +766,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-rightMouseDown[]" kind="function"
-	initlabel="マウスの右ボタンが押されたか調べる" color="255 0 0">
+<BlockGenus name="Turtle-rightMouseDown[]" kind="function" initlabel="マウスの右ボタンが押されたか調べる" color="255 0 0">
 	<Name>rightMouseDown</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="boolean"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="boolean" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="rightMouseDown"></LangSpecProperty>
@@ -858,13 +778,11 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-intersects[@object]" kind="function"
-	initlabel="オブジェクトが重なっているかどうか調べる" color="255 0 0">
+<BlockGenus name="Turtle-intersects[@object]" kind="function" initlabel="オブジェクトが重なっているかどうか調べる" color="255 0 0">
 	<Name>intersects</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-type="boolean"
-			connector-kind="plug"></BlockConnector>
+		<BlockConnector connector-type="boolean" connector-kind="plug"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="object">
 		</BlockConnector>
 	</BlockConnectors>
@@ -874,19 +792,15 @@
 </BlockGenus>
 
 
-<BlockGenus name="Turtle-contains[@int@int]" kind="function"
-	initlabel="オブジェクトが指定した座標を含む位置にいるか調べる" color="255 0 0">
+<BlockGenus name="Turtle-contains[@int@int]" kind="function" initlabel="オブジェクトが指定した座標を含む位置にいるか調べる" color="255 0 0">
 	<Name>contains</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-type="boolean"
-			connector-kind="plug"></BlockConnector>
-		<BlockConnector label="X座標" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector connector-type="boolean" connector-kind="plug"></BlockConnector>
+		<BlockConnector label="X座標" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="Y座標" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="Y座標" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -897,20 +811,65 @@
 </BlockGenus>
 
 
-<BlockGenus name="Turtle-createTurtle[]" kind="function"
-	initlabel="新しくタートルを作る" color="255 0 0">
+<BlockGenus name="Turtle-createTurtle[]" kind="function" initlabel="新しくタートルを作る" color="255 0 0">
 	<Name>createTurtle</Name>
 	<Type>Turtle</Type>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="object"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="object" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="Turtle-saveToFile[@string]" kind="command" initlabel="ファイルに文字列を保存する" color="255 0 0">
+	<description>
+		<text>セットした文字をコンソールに出力します。</text>
+	</description>
+	<Name>saveToFile</Name>
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="string" label="ファイルパス">
+			<DefaultArg genus-name="string" label="a.txt"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="string" label="保存するテキスト">
+			<DefaultArg genus-name="string" label="あいうえお"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="Turtle-loadFromFile[@string]" kind="function" color="255 0 0" initlabel="ファイルから文字列を取得する">
+	<Name>loadFromFile</Name>
+	<Type>String</Type>
+	<description>
+		<text>ファイルから文字列を取得します。</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="string" label="ファイルパス">
+			<DefaultArg genus-name="string" label="a.txt"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> <LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
+</BlockGenus>
+
+<BlockGenus name="Turtle-loadFromFile[@string@string]" kind="function" color="255 0 0" initlabel="文字コードを指定してファイルを読み込みます">
+	<Name>loadFromFile</Name>
+	<Type>String</Type>
+	<description>
+		<text>文字コードを指定してファイルから文字列を取得します。</text>
+	</description>
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="string" label="ファイルパス">
+			<DefaultArg genus-name="string" label="a.txt"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="string" label="文字コード">
+			<DefaultArg genus-name="string" label="UTF-8"></DefaultArg>
+		</BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
+	</BlockConnectors>
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> <LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
 <!-- SoundTurtle -->
 
-<BlockGenus name="SoundTurtle-file[@string]" kind="command"
-	initlabel="ファイルを設定する" color="30 30 200">
+<BlockGenus name="SoundTurtle-file[@string]" kind="command" initlabel="ファイルを設定する" color="30 30 200">
 	<Name>file</Name>
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket">
@@ -919,34 +878,28 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-play[]" kind="command"
-	initlabel="再生する" color="30 30 200">
+<BlockGenus name="SoundTurtle-play[]" kind="command" initlabel="再生する" color="30 30 200">
 	<Name>play</Name>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-loop[]" kind="command"
-	initlabel="ループ再生する" color="30 30 200">
+<BlockGenus name="SoundTurtle-loop[]" kind="command" initlabel="ループ再生する" color="30 30 200">
 	<Name>loop</Name>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-stop[]" kind="command"
-	initlabel="停止する" color="30 30 200">
+<BlockGenus name="SoundTurtle-stop[]" kind="command" initlabel="停止する" color="30 30 200">
 	<Name>stop</Name>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-isPlaying[]" kind="function"
-	initlabel="再生しているかどうか" color="30 30 200">
+<BlockGenus name="SoundTurtle-isPlaying[]" kind="function" initlabel="再生しているかどうか" color="30 30 200">
 	<Name>isPlaying</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector connector-type="boolean"
-			connector-kind="plug">
+		<BlockConnector connector-type="boolean" connector-kind="plug">
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-getVolume[]" kind="function"
-	initlabel="音量の値" color="30 30 200">
+<BlockGenus name="SoundTurtle-getVolume[]" kind="function" initlabel="音量の値" color="30 30 200">
 	<Name>getVolume</Name>
 	<Type>int</Type>
 	<BlockConnectors>
@@ -955,8 +908,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-setVolume[@int]" kind="command"
-	initlabel="音量を設定する" color="30 30 200">
+<BlockGenus name="SoundTurtle-setVolume[@int]" kind="command" initlabel="音量を設定する" color="30 30 200">
 	<Name>setVolume</Name>
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="socket">
@@ -965,241 +917,191 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-loadOnMemory[]" kind="command"
-	initlabel="メモリに読み込む" color="30 30 200">
+<BlockGenus name="SoundTurtle-loadOnMemory[]" kind="command" initlabel="メモリに読み込む" color="30 30 200">
 	<Name>loadOnMemory</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-get[@int]" kind="function"
-	initlabel="要素" color="255 255 100">
+<BlockGenus name="ListTurtle-get[@int]" kind="function" initlabel="要素" color="255 255 100">
 	<Name>get</Name>
 	<Type>Turtle</Type>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="object" />
-		<!-- <BlockConnector label="の" connector-kind="socket" connector-type="object" 
-			position-type="single"/> -->
-		<BlockConnector label="番地" connector-kind="socket"
-			connector-type="number" position-type="single">
+		<BlockConnector label="" connector-kind="plug" connector-type="object" />
+		<!-- <BlockConnector label="の" connector-kind="socket" connector-type="object" position-type="single"/> -->
+		<BlockConnector label="番地" connector-kind="socket" connector-type="number" position-type="single">
 			<DefaultArg genus-name="number" label="0"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-getSize[]" kind="function"
-	initlabel="要素数" color="255 255 100">
+<BlockGenus name="ListTurtle-getSize[]" kind="function" initlabel="要素数" color="255 255 100">
 	<Name>getSize</Name>
 	<Type>int</Type>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="number" />
+		<BlockConnector label="" connector-kind="plug" connector-type="number" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-add[@int]" kind="command"
-	initlabel="追加する" color="255 255 100">
+<BlockGenus name="ListTurtle-add[@int]" kind="command" initlabel="追加する" color="255 255 100">
 	<Name>add</Name>
 	<BlockConnectors>
-		<BlockConnector label="誰を？" connector-kind="socket"
-			connector-type="object" position-type="single" />
+		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addFirst[@object]" kind="command"
-	initlabel="最初に追加する" color="255 255 100">
+<BlockGenus name="ListTurtle-addFirst[@object]" kind="command" initlabel="最初に追加する" color="255 255 100">
 	<Name>addFirst</Name>
 	<BlockConnectors>
-		<BlockConnector label="誰を？" connector-kind="socket"
-			connector-type="object" position-type="single" />
+		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addLast[@object]" kind="command"
-	initlabel="最後に追加する" color="255 255 100">
+<BlockGenus name="ListTurtle-addLast[@object]" kind="command" initlabel="最後に追加する" color="255 255 100">
 	<Name>addLast</Name>
 	<BlockConnectors>
-		<BlockConnector label="誰を？" connector-kind="socket"
-			connector-type="object" position-type="single" />
+		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addAll[@object]" kind="command"
-	initlabel="中身を全て追加する" color="255 255 100">
+<BlockGenus name="ListTurtle-addAll[@object]" kind="command" initlabel="中身を全て追加する" color="255 255 100">
 	<Name>addAll</Name>
 	<BlockConnectors>
-		<BlockConnector label="誰の？" connector-kind="socket"
-			connector-type="object" position-type="single" />
+		<BlockConnector label="誰の？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-moveAllTo[@object]" kind="command"
-	initlabel="全ての中身を移動する" color="255 255 100">
+<BlockGenus name="ListTurtle-moveAllTo[@object]" kind="command" initlabel="全ての中身を移動する" color="255 255 100">
 	<Name>moveAllTo</Name>
 	<BlockConnectors>
-		<BlockConnector label="どこに？" connector-kind="socket"
-			connector-type="object" position-type="single" />
+		<BlockConnector label="どこに？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-removeFirst[]" kind="function"
-	initlabel="最初の要素を削除して取り出す" color="255 255 100">
+<BlockGenus name="ListTurtle-removeFirst[]" kind="function" initlabel="最初の要素を削除して取り出す" color="255 255 100">
 	<Name>remveFirst</Name>
 	<Type>Turtle</Type>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="object" position-type="single" />
+		<BlockConnector label="" connector-kind="plug" connector-type="object" position-type="single" />
 	</BlockConnectors>
 	<JavaType>Object</JavaType>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-removeLast[]" kind="command"
-	initlabel="最後の要素を削除する" color="255 255 100">
+<BlockGenus name="ListTurtle-removeLast[]" kind="command" initlabel="最後の要素を削除する" color="255 255 100">
 	<Name>removeLast</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-removeAll[]" kind="command"
-	initlabel="全ての要素を削除する" color="255 255 100">
+<BlockGenus name="ListTurtle-removeAll[]" kind="command" initlabel="全ての要素を削除する" color="255 255 100">
 	<Name>removeAll</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-getCursor[]" kind="function"
-	initlabel="カーソル位置" color="255 255 100">
+<BlockGenus name="ListTurtle-getCursor[]" kind="function" initlabel="カーソル位置" color="255 255 100">
 	<Name>getCursor</Name>
 	<Type>Turtle</Type>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="number" />
+		<BlockConnector label="" connector-kind="plug" connector-type="number" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-setCursor[@int]" kind="command"
-	initlabel="カーソル位置を設定する" color="255 255 100">
+<BlockGenus name="ListTurtle-setCursor[@int]" kind="command" initlabel="カーソル位置を設定する" color="255 255 100">
 	<Name>setCursor</Name>
 	<BlockConnectors>
-		<BlockConnector label="新しい位置" connector-kind="socket"
-			connector-type="number" position-type="single">
+		<BlockConnector label="新しい位置" connector-kind="socket" connector-type="number" position-type="single">
 			<DefaultArg genus-name="number" label="0"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-moveCursorToNext[]" kind="command"
-	initlabel="カーソルを進める" color="255 255 100">
+<BlockGenus name="ListTurtle-moveCursorToNext[]" kind="command" initlabel="カーソルを進める" color="255 255 100">
 	<Name>moveCursorToNext</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-moveCursorToPrevious[]" kind="command"
-	initlabel="カーソルを戻す" color="255 255 100">
+<BlockGenus name="ListTurtle-moveCursorToPrevious[]" kind="command" initlabel="カーソルを戻す" color="255 255 100">
 	<Name>moveCursorToPrevious</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-getObjectAtCursor[]" kind="function"
-	initlabel="カーソル位置の要素" color="255 255 100">
+<BlockGenus name="ListTurtle-getObjectAtCursor[]" kind="function" initlabel="カーソル位置の要素" color="255 255 100">
 	<Name>getObjectAtCursor</Name>
 	<Type>Turtle</Type>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="object" />
+		<BlockConnector label="" connector-kind="plug" connector-type="object" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addToBeforeCursor[@object]"
-	kind="command" initlabel="カーソルの前に追加する" color="255 255 100">
+<BlockGenus name="ListTurtle-addToBeforeCursor[@object]" kind="command" initlabel="カーソルの前に追加する" color="255 255 100">
 	<!-- <Name>addToBeforeCursor</Name> -->
 	<Name>addToBeforeCursor</Name>
 	<BlockConnectors>
-		<BlockConnector label="誰を？" connector-kind="socket"
-			connector-type="object" position-type="single" />
+		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addToAfterCursor[@object]" kind="command"
-	initlabel="カーソルの後に追加する" color="255 255 100">
+<BlockGenus name="ListTurtle-addToAfterCursor[@object]" kind="command" initlabel="カーソルの後に追加する" color="255 255 100">
 	<Name>addToAfterCursor</Name>
 	<BlockConnectors>
-		<BlockConnector label="誰を？" connector-kind="socket"
-			connector-type="object" position-type="single" />
+		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-removeAtCursor[]" kind="command"
-	initlabel="カーソルの位置にある要素を削除する" color="255 255 100">
+<BlockGenus name="ListTurtle-removeAtCursor[]" kind="command" initlabel="カーソルの位置にある要素を削除する" color="255 255 100">
 	<Name>removeAtCursor</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-shuffle[]" kind="command"
-	initlabel="かき混ぜる" color="255 255 100">
+<BlockGenus name="ListTurtle-shuffle[]" kind="command" initlabel="かき混ぜる" color="255 255 100">
 	<Name>shuffle</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-setBgColor[@object]" kind="command"
-	initlabel="背景色を設定する" color="255 255 100">
+<BlockGenus name="ListTurtle-setBgColor[@object]" kind="command" initlabel="背景色を設定する" color="255 255 100">
 	<Name>setBgColor</Name>
 	<BlockConnectors>
-		<BlockConnector label="色" connector-kind="socket"
-			connector-type="color" position-type="single" />
+		<BlockConnector label="色" connector-kind="socket" connector-type="color" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
 <!-- card turtle -->
 
-<BlockGenus name="CardTurtle-getNumber[]" kind="function"
-	initlabel="番号" color="255 255 100">
+<BlockGenus name="CardTurtle-getNumber[]" kind="function" initlabel="番号" color="255 255 100">
 	<Name>getNumber</Name>
 	<Type>int</Type>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="number" />
+		<BlockConnector label="" connector-kind="plug" connector-type="number" />
 	</BlockConnectors>
 </BlockGenus>
 
-<!-- <BlockGenus name="fontsize" kind="command" initlabel="フォントサイズを設定する" 
-	color="255 255 100"> <BlockConnectors> <BlockConnector label="pt？" connector-kind="socket" 
-	connector-type="number" position-type="single"/> </BlockConnectors> </BlockGenus> -->
+<!-- <BlockGenus name="fontsize" kind="command" initlabel="フォントサイズを設定する" color="255 255 100"> <BlockConnectors> <BlockConnector label="pt？" connector-kind="socket" connector-type="number" position-type="single"/> </BlockConnectors> </BlockGenus> -->
 
 <!-- button turtle -->
-<BlockGenus name="ButtonTurtle-isClicked[]" kind="function"
-	initlabel="クリックされた" color="255 255 100">
+<BlockGenus name="ButtonTurtle-isClicked[]" kind="function" initlabel="クリックされた" color="255 255 100">
 	<Name>isClicked</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="boolean" />
+		<BlockConnector label="" connector-kind="plug" connector-type="boolean" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ButtonTurtle-fontsize[@int]" kind="command"
-	initlabel="フォントサイズを設定する" color="255 255 100">
+<BlockGenus name="ButtonTurtle-fontsize[@int]" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
 	<Name>fontsize</Name>
 	<BlockConnectors>
-		<BlockConnector label="サイズ" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="サイズ" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="20"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 <!-- input turtle -->
-<BlockGenus name="InputTurtle-fontsize[@int]" kind="command"
-	initlabel="フォントサイズを設定する" color="255 255 100">
+<BlockGenus name="InputTurtle-fontsize[@int]" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
 	<Name>fontsize</Name>
 	<BlockConnectors>
-		<BlockConnector label="サイズ" connector-kind="socket"
-			connector-type="number">
+		<BlockConnector label="サイズ" connector-kind="socket" connector-type="number">
 			<DefaultArg genus-name="number" label="20"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
-<BlockGenus name="InputTurtle-clearText[]" kind="command"
-	initlabel="テキストを空にする" color="255 255 100">
+<BlockGenus name="InputTurtle-clearText[]" kind="command" initlabel="テキストを空にする" color="255 255 100">
 	<Name>clearText</Name>
 </BlockGenus>
 
-<BlockGenus name="InputTurtle-setActive[@boolean]" kind="command"
-	initlabel="活動状態を変える" color="255 255 100">
+<BlockGenus name="InputTurtle-setActive[@boolean]" kind="command" initlabel="活動状態を変える" color="255 255 100">
 	<Name>setActive</Name>
 	<BlockConnectors>
-		<BlockConnector label="活動状態" connector-kind="socket"
-			connector-type="boolean">
+		<BlockConnector label="活動状態" connector-kind="socket" connector-type="boolean">
 			<!-- <DefaultArg genus-name="boolean" label="true"></DefaultArg> -->
 		</BlockConnector>
 	</BlockConnectors>
@@ -1209,69 +1111,56 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="InputTurtle-isActive[]" kind="function"
-	initlabel="活動中か" color="255 255 100">
+<BlockGenus name="InputTurtle-isActive[]" kind="function" initlabel="活動中か" color="255 255 100">
 	<Name>isActive</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="plug"
-			connector-type="boolean" />
+		<BlockConnector label="" connector-kind="plug" connector-type="boolean" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="InputTurtle-toJapaneseMode[]" kind="command"
-	initlabel="日本語モードにする" color="255 255 100">
+<BlockGenus name="InputTurtle-toJapaneseMode[]" kind="command" initlabel="日本語モードにする" color="255 255 100">
 	<Name>toJapaneseMode</Name>
 </BlockGenus>
 
-<BlockGenus name="InputTurtle-toEnglishMode[]" kind="command"
-	initlabel="英語モードにする" color="255 255 100">
+<BlockGenus name="InputTurtle-toEnglishMode[]" kind="command" initlabel="英語モードにする" color="255 255 100">
 	<Name>toEnglishMode</Name>
 </BlockGenus>
 
-<BlockGenus name="InputTurtle-getText[]" kind="function"
-	color="255 0 0" initlabel="テキストを取得する">
+<BlockGenus name="InputTurtle-getText[]" kind="function" color="255 0 0" initlabel="テキストを取得する">
 	<Name>getText</Name>
 	<Type>String</Type>
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="string"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="string" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
-	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> <LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
-<BlockGenus name="CardTurtle-getText[]" kind="function"
-	color="255 0 0" initlabel="カードのテキストを取得する">
+<BlockGenus name="CardTurtle-getText[]" kind="function" color="255 0 0" initlabel="カードのテキストを取得する">
 	<Name>getText</Name>
 	<Type>String</Type>
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector connector-kind="plug" connector-type="string"
-			position-type="mirror"></BlockConnector>
+		<BlockConnector connector-kind="plug" connector-type="string" position-type="mirror"></BlockConnector>
 	</BlockConnectors>
-	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> 
-		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
+	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> <LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
-<BlockGenus name="TurtleFrame-size[@int@int]" kind="command"
-	initlabel="ウインドウサイズを指定する" color="255 0 0">
+<BlockGenus name="TurtleFrame-size[@int@int]" kind="command" initlabel="ウインドウサイズを指定する" color="255 0 0">
 	<description>
 		<text>プログラム実行時のウィンドウのサイズを指定します。</text>
 	</description>
 	<Name>size</Name>
 	<BlockConnectors>
-		<BlockConnector label="横幅" connector-kind="socket"
-			connector-type="number" position-type="single">
+		<BlockConnector label="横幅" connector-kind="socket" connector-type="number" position-type="single">
 			<DefaultArg genus-name="number" label="480"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="縦幅" connector-kind="socket"
-			connector-type="number" position-type="single">
+		<BlockConnector label="縦幅" connector-kind="socket" connector-type="number" position-type="single">
 			<DefaultArg genus-name="number" label="420"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -1281,19 +1170,16 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="TurtleFrame-warp[@int@int]" kind="command"
-	initlabel="ウインドウの位置を設定する" color="255 0 0">
+<BlockGenus name="TurtleFrame-warp[@int@int]" kind="command" initlabel="ウインドウの位置を設定する" color="255 0 0">
 	<description>
 		<text>プログラム実行時のウィンドウの位置を指定します。</text>
 	</description>
 	<Name>size</Name>
 	<BlockConnectors>
-		<BlockConnector label="x座標" connector-kind="socket"
-			connector-type="number" position-type="single">
+		<BlockConnector label="x座標" connector-kind="socket" connector-type="number" position-type="single">
 			<DefaultArg genus-name="number" label="480"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="y座標" connector-kind="socket"
-			connector-type="number" position-type="single">
+		<BlockConnector label="y座標" connector-kind="socket" connector-type="number" position-type="single">
 			<DefaultArg genus-name="number" label="420"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -1304,19 +1190,15 @@
 </BlockGenus>
 
 
-<BlockGenus name="local-var-object-Text" kind="local-variable"
-	initlabel="tt" header-label="TextTurtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">
+<BlockGenus name="local-var-object-Text" kind="local-variable" initlabel="tt" header-label="TextTurtle型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
-			<DefaultArg genus-name="new-object-TextTurtle[@string]"
-				label="TextTurtle"></DefaultArg>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-TextTurtle[@string]" label="TextTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>TextTurtle</Type>
@@ -1402,79 +1284,61 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-TextTurtle[@string]" kind="function"
-	initlabel="TextTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-TextTurtle[@string]" kind="function" initlabel="TextTurtle" editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<Type>TextTurtle</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="テキスト" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="テキスト" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="abc"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="new-object-ImageTurtle[@string]" kind="function"
-	initlabel="ImageTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ImageTurtle[@string]" kind="function" initlabel="ImageTurtle" editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<Type>ImageTurtle</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="ファイルパス" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="ファイルパス" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="abc"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="new-object-ImageTurtle[]" kind="function"
-	initlabel="ImageTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ImageTurtle[]" kind="function" initlabel="ImageTurtle" editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<Type>ImageTurtle</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="new-object-SoundTurtle[@string]" kind="function"
-	initlabel="SoundTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-SoundTurtle[@string]" kind="function" initlabel="SoundTurtle" editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<Type>SoundTurtle</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="ファイルパス" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="ファイルパス" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="abc"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="new-object-SoundTurtle[]" kind="function"
-	initlabel="SoundTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-SoundTurtle[]" kind="function" initlabel="SoundTurtle" editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<Type>SoundTurtle</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="new-object-Scanner[@object]" kind="function"
-	initlabel="Scanner" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-Scanner[@object]" kind="function" initlabel="Scanner" editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<Type>Scanner</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="abc"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="new-object-Turtle[]" kind="function"
-	initlabel="Turtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-Turtle[]" kind="function" initlabel="Turtle" editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1490,9 +1354,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;Turtle&gt;[]"
-	kind="function" initlabel="ListTurtle&lt;Turtle&gt;" editable-label="no"
-	header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;Turtle&gt;[]" kind="function" initlabel="ListTurtle&lt;Turtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1508,9 +1370,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;ImageTurtle&gt;[]"
-	kind="function" initlabel="ListTurtle&lt;ImageTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;ImageTurtle&gt;[]" kind="function" initlabel="ListTurtle&lt;ImageTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1527,9 +1387,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="new-object-ListTurtle&lt;TextTurtle&gt;[]"
-	kind="function" initlabel="ListTurtle&lt;TextTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;TextTurtle&gt;[]" kind="function" initlabel="ListTurtle&lt;TextTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1545,9 +1403,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;CardTurtle&gt;[]"
-	kind="function" initlabel="ListTurtle&lt;CardTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;CardTurtle&gt;[]" kind="function" initlabel="ListTurtle&lt;CardTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1564,9 +1420,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="new-object-ListTurtle&lt;ButtonTurtle&gt;[]"
-	kind="function" initlabel="ListTurtle&lt;ButtonTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;ButtonTurtle&gt;[]" kind="function" initlabel="ListTurtle&lt;ButtonTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1582,9 +1436,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;SoundTurtle&gt;[]"
-	kind="function" initlabel="ListTurtle&lt;SoundTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;SoundTurtle&gt;[]" kind="function" initlabel="ListTurtle&lt;SoundTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1600,9 +1452,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;InputTurtle&gt;[]"
-	kind="function" initlabel="ListTurtle&lt;InputTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;InputTurtle&gt;[]" kind="function" initlabel="ListTurtle&lt;InputTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1619,9 +1469,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="new-object-ListTurtle&lt;Turtle&gt;[@boolean@string]"
-	kind="function" initlabel="ListTurtle&lt;Turtle&gt;" editable-label="no"
-	header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;Turtle&gt;[@boolean@string]" kind="function" initlabel="ListTurtle&lt;Turtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1630,15 +1478,13 @@
 	<Type>ListTurtle&lt;Turtle&gt;</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-				<BlockConnector label="オートハイドモードかどうか" connector-kind="socket"
-			connector-type="boolean">
+		<BlockConnector label="オートハイドモードかどうか" connector-kind="socket" connector-type="boolean">
 			<DefaultArg genus-name="true" label="真"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="名前" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="名前" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="リスト"></DefaultArg>
 		</BlockConnector>
-		
+
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
@@ -1646,9 +1492,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;ImageTurtle&gt;[@boolean@string]"
-	kind="function" initlabel="ListTurtle&lt;ImageTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;ImageTurtle&gt;[@boolean@string]" kind="function" initlabel="ListTurtle&lt;ImageTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1657,15 +1501,13 @@
 	<Type>ListTurtle&lt;ImageTurtle&gt;</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-				<BlockConnector label="オートハイドモードかどうか" connector-kind="socket"
-			connector-type="boolean">
+		<BlockConnector label="オートハイドモードかどうか" connector-kind="socket" connector-type="boolean">
 			<DefaultArg genus-name="true" label="真"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="名前" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="名前" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="リスト"></DefaultArg>
 		</BlockConnector>
-		
+
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
@@ -1673,9 +1515,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;ButtonTurtle&gt;[@boolean@string]"
-	kind="function" initlabel="ListTurtle&lt;ButtonTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;ButtonTurtle&gt;[@boolean@string]" kind="function" initlabel="ListTurtle&lt;ButtonTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1684,15 +1524,13 @@
 	<Type>ListTurtle&lt;ButtonTurtle&gt;</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-				<BlockConnector label="オートハイドモードかどうか" connector-kind="socket"
-			connector-type="boolean">
+		<BlockConnector label="オートハイドモードかどうか" connector-kind="socket" connector-type="boolean">
 			<DefaultArg genus-name="true" label="真"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="名前" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="名前" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="リスト"></DefaultArg>
 		</BlockConnector>
-		
+
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
@@ -1700,9 +1538,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;TextTurtle&gt;[@boolean@string]"
-	kind="function" initlabel="ListTurtle&lt;TextTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;TextTurtle&gt;[@boolean@string]" kind="function" initlabel="ListTurtle&lt;TextTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1711,15 +1547,13 @@
 	<Type>ListTurtle&lt;TextTurtle&gt;</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-				<BlockConnector label="オートハイドモードかどうか" connector-kind="socket"
-			connector-type="boolean" >
+		<BlockConnector label="オートハイドモードかどうか" connector-kind="socket" connector-type="boolean">
 			<DefaultArg genus-name="true" label="真"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="名前" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="名前" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="リスト"></DefaultArg>
 		</BlockConnector>
-		
+
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
@@ -1727,9 +1561,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;CardTurtle&gt;[@boolean@string]"
-	kind="function" initlabel="ListTurtle&lt;CardTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;CardTurtle&gt;[@boolean@string]" kind="function" initlabel="ListTurtle&lt;CardTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1738,15 +1570,13 @@
 	<Type>ListTurtle&lt;CardTurtle&gt;</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-				<BlockConnector label="オートハイドモードかどうか" connector-kind="socket"
-			connector-type="boolean">
+		<BlockConnector label="オートハイドモードかどうか" connector-kind="socket" connector-type="boolean">
 			<DefaultArg genus-name="true" label="真"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="名前" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="名前" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="リスト"></DefaultArg>
 		</BlockConnector>
-		
+
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
@@ -1754,9 +1584,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;SoundTurtle&gt;[@boolean@string]"
-	kind="function" initlabel="ListTurtle&lt;SoundTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;SoundTurtle&gt;[@boolean@string]" kind="function" initlabel="ListTurtle&lt;SoundTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1765,15 +1593,13 @@
 	<Type>ListTurtle&lt;SoundTurtle&gt;</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-				<BlockConnector label="オートハイドモードかどうか" connector-kind="socket"
-			connector-type="boolean">
+		<BlockConnector label="オートハイドモードかどうか" connector-kind="socket" connector-type="boolean">
 			<DefaultArg genus-name="true" label="真"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="名前" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="名前" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="リスト"></DefaultArg>
 		</BlockConnector>
-		
+
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="new-object"></LangSpecProperty>
@@ -1781,9 +1607,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ListTurtle&lt;InputTurtle&gt;[@boolean@string]"
-	kind="function" initlabel="ListTurtle&lt;InputTurtle&gt;"
-	editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ListTurtle&lt;InputTurtle&gt;[@boolean@string]" kind="function" initlabel="ListTurtle&lt;InputTurtle&gt;" editable-label="no" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1792,12 +1616,10 @@
 	<Type>ListTurtle&lt;InputTurtle&gt;</Type>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="object"></BlockConnector>
-		<BlockConnector label="オートハイドモードかどうか" connector-kind="socket"
-			connector-type="boolean">
+		<BlockConnector label="オートハイドモードかどうか" connector-kind="socket" connector-type="boolean">
 			<DefaultArg genus-name="true" label="真"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="名前" connector-kind="socket"
-			connector-type="string">
+		<BlockConnector label="名前" connector-kind="socket" connector-type="string">
 			<DefaultArg genus-name="string" label="リスト"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -1808,9 +1630,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="new-object-InputTurtle[]" kind="function"
-	initlabel="InputTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-InputTurtle[]" kind="function" initlabel="InputTurtle" editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1826,9 +1646,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-CardTurtle[]" kind="function"
-	initlabel="CardTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-CardTurtle[]" kind="function" initlabel="CardTurtle" editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1844,9 +1662,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="new-object-ButtonTurtle[]" kind="function"
-	initlabel="ButtonTurtle" editable-label="yes" header-label="新しく"
-	footer-label="を作る" color="16 240 27">
+<BlockGenus name="new-object-ButtonTurtle[]" kind="function" initlabel="ButtonTurtle" editable-label="yes" header-label="新しく" footer-label="を作る" color="16 240 27">
 	<description>
 		<text>
 			新しいオブジェクトを生成します。このブロックはオブジェクト型の変数に代入します。
@@ -1862,12 +1678,9 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="local-var-object-Turtle" kind="local-variable"
-	initlabel="t" header-label="Turtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">
+<BlockGenus name="local-var-object-Turtle" kind="local-variable" initlabel="t" header-label="Turtle型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
 			<DefaultArg genus-name="new-object-Turtle[]" label="Turtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -1941,6 +1754,9 @@
 			<MethodName>Turtle-sleep[@int]</MethodName>
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -1951,14 +1767,10 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="local-var-object-Image" kind="local-variable"
-	initlabel="it" header-label="ImageTurtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">
+<BlockGenus name="local-var-object-Image" kind="local-variable" initlabel="it" header-label="ImageTurtle型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
-			<DefaultArg genus-name="new-object-ImageTurtle[@string]"
-				label="ImageTurtle"></DefaultArg>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-ImageTurtle[@string]" label="ImageTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>ImageTurtle</Type>
@@ -2031,6 +1843,9 @@
 			<MethodName>Turtle-sleep[@int]</MethodName>
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ImageTurtle" classname="ImageTurtle">
 			<MethodName>ImageTurtle-image[@string]</MethodName>
@@ -2044,9 +1859,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="local-var-object-Sound" kind="local-variable"
-	initlabel="st" header-label="SoundTurtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">
+<BlockGenus name="local-var-object-Sound" kind="local-variable" initlabel="st" header-label="SoundTurtle型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
@@ -2054,10 +1867,8 @@
 	</description>
 	<Type>SoundTurtle</Type>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
-			<DefaultArg genus-name="new-object-SoundTurtle[@string]"
-				label="SoundTurtle"></DefaultArg>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-SoundTurtle[@string]" label="SoundTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -2129,6 +1940,9 @@
 			<MethodName>Turtle-sleep[@int]</MethodName>
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="SoundTurtle" classname="SoundTurtle">
 			<MethodName>SoundTurtle-file[@string]</MethodName>
@@ -2137,7 +1951,7 @@
 			<MethodName>SoundTurtle-stop[]</MethodName>
 			<MethodName>SoundTurtle-isPlaying[]</MethodName>
 			<MethodName>SoundTurtle-getVolume[]</MethodName>
-			<MethodName>SoundTurtle-setVolume[]</MethodName>
+			<MethodName>SoundTurtle-setVolume[@int]</MethodName>
 			<MethodName>SoundTurtle-loadOnMemory[]</MethodName>
 		</CategoryName>
 	</ClassMethods>
@@ -2149,12 +1963,9 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="local-var-object-List" kind="local-variable"
-	initlabel="turtles" header-label="ListTurtle＜Turtle＞型の変数を作り、"
-	footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+<BlockGenus name="local-var-object-ListTurtle&lt;Turtle&gt;" kind="local-variable" initlabel="turtles" header-label="ListTurtle&lt;Turtle&gt;型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
 			<DefaultArg genus-name="new-object-ListTurtle[]" label="ListTurtle＜Turtle＞"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -2228,6 +2039,9 @@
 			<MethodName>Turtle-sleep[@int]</MethodName>
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ListTurtle" classname="ListTurtle">
 			<MethodName>ListTurtle-get[@int]</MethodName>
@@ -2260,12 +2074,677 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="local-var-object-Input" kind="local-variable"
-	initlabel="turtles" header-label="InputTurtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="255 255 100">
+<BlockGenus name="local-var-object-ListTurtle&lt;CardTurtle&gt;" kind="local-variable" initlabel="turtles" header-label="ListTurtle&lt;CardTurtle&gt;型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-ListTurtle&lt;CardTurtle&gt;[]" label="ListTurtle＜Turtle＞"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>ListTurtle&lt;CardTurtle&gt;</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<ClassMethods>
+		<CategoryName name="タートル（基本）" classname="Turtle">
+			<MethodName>Turtle-fd[@int]</MethodName>
+			<MethodName>Turtle-bk[@int]</MethodName>
+			<MethodName>Turtle-rt[@int]</MethodName>
+			<MethodName>Turtle-lt[@int]</MethodName>
+			<MethodName>Turtle-up[]</MethodName>
+			<MethodName>Turtle-down[]</MethodName>
+			<MethodName>Turtle-color[@object]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-print[@int]</MethodName>
+			<MethodName>Turtle-random[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
+			<MethodName>Turtle-getX[]</MethodName>
+			<MethodName>Turtle-getY[]</MethodName>
+			<MethodName>Turtle-warp[@int@int]</MethodName>
+			<MethodName>Turtle-getWidth[]</MethodName>
+			<MethodName>Turtle-getHeight[]</MethodName>
+			<MethodName>Turtle-scale[@int]</MethodName>
+			<MethodName>Turtle-size[@int@int]</MethodName>
+			<MethodName>Turtle-large[@int]</MethodName>
+			<MethodName>Turtle-small[@int]</MethodName>
+			<MethodName>Turtle-wide[@int]</MethodName>
+			<MethodName>Turtle-narrow[@int]</MethodName>
+			<MethodName>Turtle-tall[@int]</MethodName>
+			<MethodName>Turtle-little[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
+			<MethodName>Turtle-show[]</MethodName>
+			<MethodName>Turtle-hide[]</MethodName>
+			<MethodName>Turtle-isShow[]</MethodName>
+			<MethodName>Turtle-looks[@object]</MethodName>
+			<MethodName>Turtle-contains[@int@int]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
+			<MethodName>Turtle-key[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
+			<MethodName>Turtle-mouseX[]</MethodName>
+			<MethodName>Turtle-mouseY[]</MethodName>
+			<MethodName>Turtle-mouseClicked[]</MethodName>
+			<MethodName>Turtle-leftMouseClicked[]</MethodName>
+			<MethodName>Turtle-rightMouseClicked[]</MethodName>
+			<MethodName>Turtle-doubleClick[]</MethodName>
+			<MethodName>Turtle-mouseDown[]</MethodName>
+			<MethodName>Turtle-leftMouseDown[]</MethodName>
+			<MethodName>Turtle-rightMouseDown[]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（その他）" classname="Turtle">
+			<MethodName>Turtle-update[]</MethodName>
+			<MethodName>Turtle-sleep[@int]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+		</CategoryName>
+		<CategoryName name="ListTurtle" classname="ListTurtle">
+			<MethodName>ListTurtle-get[@int]</MethodName>
+			<MethodName>ListTurtle-getSize[]</MethodName>
+			<MethodName>ListTurtle-add[@int]</MethodName>
+			<MethodName>ListTurtle-addFirst[@object]</MethodName>
+			<MethodName>ListTurtle-addLast[@object]</MethodName>
+			<MethodName>ListTurtle-addAll[@object]</MethodName>
+			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
+			<MethodName>ListTurtle-removeFirst[]</MethodName>
+			<MethodName>ListTurtle-removeLast[]</MethodName>
+			<MethodName>ListTurtle-removeAll[]</MethodName>
+			<MethodName>ListTurtle-getCursor[]</MethodName>
+			<MethodName>ListTurtle-setCursor[@int]</MethodName>
+			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
+			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
+			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
+			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
+			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
+			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
+			<MethodName>ListTurtle-shuffle[]</MethodName>
+			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+		</CategoryName>
+	</ClassMethods>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-ListTurtle&lt;ImageTurtle&gt;" kind="local-variable" initlabel="turtles" header-label="ListTurtle&lt;ImageTurtle&gt;型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-ListTurtle&lt;ImageTurtle&gt;[]" label="ListTurtle＜Turtle＞"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>ListTurtle&lt;ImageTurtle&gt;</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<ClassMethods>
+		<CategoryName name="タートル（基本）" classname="Turtle">
+			<MethodName>Turtle-fd[@int]</MethodName>
+			<MethodName>Turtle-bk[@int]</MethodName>
+			<MethodName>Turtle-rt[@int]</MethodName>
+			<MethodName>Turtle-lt[@int]</MethodName>
+			<MethodName>Turtle-up[]</MethodName>
+			<MethodName>Turtle-down[]</MethodName>
+			<MethodName>Turtle-color[@object]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-print[@int]</MethodName>
+			<MethodName>Turtle-random[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
+			<MethodName>Turtle-getX[]</MethodName>
+			<MethodName>Turtle-getY[]</MethodName>
+			<MethodName>Turtle-warp[@int@int]</MethodName>
+			<MethodName>Turtle-getWidth[]</MethodName>
+			<MethodName>Turtle-getHeight[]</MethodName>
+			<MethodName>Turtle-scale[@int]</MethodName>
+			<MethodName>Turtle-size[@int@int]</MethodName>
+			<MethodName>Turtle-large[@int]</MethodName>
+			<MethodName>Turtle-small[@int]</MethodName>
+			<MethodName>Turtle-wide[@int]</MethodName>
+			<MethodName>Turtle-narrow[@int]</MethodName>
+			<MethodName>Turtle-tall[@int]</MethodName>
+			<MethodName>Turtle-little[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
+			<MethodName>Turtle-show[]</MethodName>
+			<MethodName>Turtle-hide[]</MethodName>
+			<MethodName>Turtle-isShow[]</MethodName>
+			<MethodName>Turtle-looks[@object]</MethodName>
+			<MethodName>Turtle-contains[@int@int]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
+			<MethodName>Turtle-key[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
+			<MethodName>Turtle-mouseX[]</MethodName>
+			<MethodName>Turtle-mouseY[]</MethodName>
+			<MethodName>Turtle-mouseClicked[]</MethodName>
+			<MethodName>Turtle-leftMouseClicked[]</MethodName>
+			<MethodName>Turtle-rightMouseClicked[]</MethodName>
+			<MethodName>Turtle-doubleClick[]</MethodName>
+			<MethodName>Turtle-mouseDown[]</MethodName>
+			<MethodName>Turtle-leftMouseDown[]</MethodName>
+			<MethodName>Turtle-rightMouseDown[]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（その他）" classname="Turtle">
+			<MethodName>Turtle-update[]</MethodName>
+			<MethodName>Turtle-sleep[@int]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+		</CategoryName>
+		<CategoryName name="ListTurtle" classname="ListTurtle">
+			<MethodName>ListTurtle-get[@int]</MethodName>
+			<MethodName>ListTurtle-getSize[]</MethodName>
+			<MethodName>ListTurtle-add[@int]</MethodName>
+			<MethodName>ListTurtle-addFirst[@object]</MethodName>
+			<MethodName>ListTurtle-addLast[@object]</MethodName>
+			<MethodName>ListTurtle-addAll[@object]</MethodName>
+			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
+			<MethodName>ListTurtle-removeFirst[]</MethodName>
+			<MethodName>ListTurtle-removeLast[]</MethodName>
+			<MethodName>ListTurtle-removeAll[]</MethodName>
+			<MethodName>ListTurtle-getCursor[]</MethodName>
+			<MethodName>ListTurtle-setCursor[@int]</MethodName>
+			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
+			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
+			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
+			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
+			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
+			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
+			<MethodName>ListTurtle-shuffle[]</MethodName>
+			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+		</CategoryName>
+	</ClassMethods>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-ListTurtle&lt;TextTurtle&gt;" kind="local-variable" initlabel="turtles" header-label="ListTurtle&lt;TextTurtle&gt;型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-ListTurtle&lt;TextTurtle&gt;[]" label="ListTurtle＜Turtle＞"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>ListTurtle&lt;TextTurtle&gt;</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<ClassMethods>
+		<CategoryName name="タートル（基本）" classname="Turtle">
+			<MethodName>Turtle-fd[@int]</MethodName>
+			<MethodName>Turtle-bk[@int]</MethodName>
+			<MethodName>Turtle-rt[@int]</MethodName>
+			<MethodName>Turtle-lt[@int]</MethodName>
+			<MethodName>Turtle-up[]</MethodName>
+			<MethodName>Turtle-down[]</MethodName>
+			<MethodName>Turtle-color[@object]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-print[@int]</MethodName>
+			<MethodName>Turtle-random[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
+			<MethodName>Turtle-getX[]</MethodName>
+			<MethodName>Turtle-getY[]</MethodName>
+			<MethodName>Turtle-warp[@int@int]</MethodName>
+			<MethodName>Turtle-getWidth[]</MethodName>
+			<MethodName>Turtle-getHeight[]</MethodName>
+			<MethodName>Turtle-scale[@int]</MethodName>
+			<MethodName>Turtle-size[@int@int]</MethodName>
+			<MethodName>Turtle-large[@int]</MethodName>
+			<MethodName>Turtle-small[@int]</MethodName>
+			<MethodName>Turtle-wide[@int]</MethodName>
+			<MethodName>Turtle-narrow[@int]</MethodName>
+			<MethodName>Turtle-tall[@int]</MethodName>
+			<MethodName>Turtle-little[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
+			<MethodName>Turtle-show[]</MethodName>
+			<MethodName>Turtle-hide[]</MethodName>
+			<MethodName>Turtle-isShow[]</MethodName>
+			<MethodName>Turtle-looks[@object]</MethodName>
+			<MethodName>Turtle-contains[@int@int]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
+			<MethodName>Turtle-key[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
+			<MethodName>Turtle-mouseX[]</MethodName>
+			<MethodName>Turtle-mouseY[]</MethodName>
+			<MethodName>Turtle-mouseClicked[]</MethodName>
+			<MethodName>Turtle-leftMouseClicked[]</MethodName>
+			<MethodName>Turtle-rightMouseClicked[]</MethodName>
+			<MethodName>Turtle-doubleClick[]</MethodName>
+			<MethodName>Turtle-mouseDown[]</MethodName>
+			<MethodName>Turtle-leftMouseDown[]</MethodName>
+			<MethodName>Turtle-rightMouseDown[]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（その他）" classname="Turtle">
+			<MethodName>Turtle-update[]</MethodName>
+			<MethodName>Turtle-sleep[@int]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+		</CategoryName>
+		<CategoryName name="ListTurtle" classname="ListTurtle">
+			<MethodName>ListTurtle-get[@int]</MethodName>
+			<MethodName>ListTurtle-getSize[]</MethodName>
+			<MethodName>ListTurtle-add[@int]</MethodName>
+			<MethodName>ListTurtle-addFirst[@object]</MethodName>
+			<MethodName>ListTurtle-addLast[@object]</MethodName>
+			<MethodName>ListTurtle-addAll[@object]</MethodName>
+			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
+			<MethodName>ListTurtle-removeFirst[]</MethodName>
+			<MethodName>ListTurtle-removeLast[]</MethodName>
+			<MethodName>ListTurtle-removeAll[]</MethodName>
+			<MethodName>ListTurtle-getCursor[]</MethodName>
+			<MethodName>ListTurtle-setCursor[@int]</MethodName>
+			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
+			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
+			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
+			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
+			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
+			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
+			<MethodName>ListTurtle-shuffle[]</MethodName>
+			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+		</CategoryName>
+	</ClassMethods>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
+<BlockGenus name="local-var-object-ListTurtle&lt;SoundTurtle&gt;" kind="local-variable" initlabel="turtles" header-label="ListTurtle&lt;SoundTurtle&gt;型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-ListTurtle&lt;SoundTurtle&gt;[]" label="ListTurtle＜Turtle＞"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>ListTurtle&lt;SoundTurtle&gt;</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<ClassMethods>
+		<CategoryName name="タートル（基本）" classname="Turtle">
+			<MethodName>Turtle-fd[@int]</MethodName>
+			<MethodName>Turtle-bk[@int]</MethodName>
+			<MethodName>Turtle-rt[@int]</MethodName>
+			<MethodName>Turtle-lt[@int]</MethodName>
+			<MethodName>Turtle-up[]</MethodName>
+			<MethodName>Turtle-down[]</MethodName>
+			<MethodName>Turtle-color[@object]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-print[@int]</MethodName>
+			<MethodName>Turtle-random[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
+			<MethodName>Turtle-getX[]</MethodName>
+			<MethodName>Turtle-getY[]</MethodName>
+			<MethodName>Turtle-warp[@int@int]</MethodName>
+			<MethodName>Turtle-getWidth[]</MethodName>
+			<MethodName>Turtle-getHeight[]</MethodName>
+			<MethodName>Turtle-scale[@int]</MethodName>
+			<MethodName>Turtle-size[@int@int]</MethodName>
+			<MethodName>Turtle-large[@int]</MethodName>
+			<MethodName>Turtle-small[@int]</MethodName>
+			<MethodName>Turtle-wide[@int]</MethodName>
+			<MethodName>Turtle-narrow[@int]</MethodName>
+			<MethodName>Turtle-tall[@int]</MethodName>
+			<MethodName>Turtle-little[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
+			<MethodName>Turtle-show[]</MethodName>
+			<MethodName>Turtle-hide[]</MethodName>
+			<MethodName>Turtle-isShow[]</MethodName>
+			<MethodName>Turtle-looks[@object]</MethodName>
+			<MethodName>Turtle-contains[@int@int]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
+			<MethodName>Turtle-key[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
+			<MethodName>Turtle-mouseX[]</MethodName>
+			<MethodName>Turtle-mouseY[]</MethodName>
+			<MethodName>Turtle-mouseClicked[]</MethodName>
+			<MethodName>Turtle-leftMouseClicked[]</MethodName>
+			<MethodName>Turtle-rightMouseClicked[]</MethodName>
+			<MethodName>Turtle-doubleClick[]</MethodName>
+			<MethodName>Turtle-mouseDown[]</MethodName>
+			<MethodName>Turtle-leftMouseDown[]</MethodName>
+			<MethodName>Turtle-rightMouseDown[]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（その他）" classname="Turtle">
+			<MethodName>Turtle-update[]</MethodName>
+			<MethodName>Turtle-sleep[@int]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+		</CategoryName>
+		<CategoryName name="ListTurtle" classname="ListTurtle">
+			<MethodName>ListTurtle-get[@int]</MethodName>
+			<MethodName>ListTurtle-getSize[]</MethodName>
+			<MethodName>ListTurtle-add[@int]</MethodName>
+			<MethodName>ListTurtle-addFirst[@object]</MethodName>
+			<MethodName>ListTurtle-addLast[@object]</MethodName>
+			<MethodName>ListTurtle-addAll[@object]</MethodName>
+			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
+			<MethodName>ListTurtle-removeFirst[]</MethodName>
+			<MethodName>ListTurtle-removeLast[]</MethodName>
+			<MethodName>ListTurtle-removeAll[]</MethodName>
+			<MethodName>ListTurtle-getCursor[]</MethodName>
+			<MethodName>ListTurtle-setCursor[@int]</MethodName>
+			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
+			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
+			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
+			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
+			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
+			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
+			<MethodName>ListTurtle-shuffle[]</MethodName>
+			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+		</CategoryName>
+	</ClassMethods>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-ListTurtle&lt;ButtonTurtle&gt;" kind="local-variable" initlabel="turtles" header-label="ListTurtle&lt;ButtonTurtle&gt;型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-ListTurtle&lt;ButtonTurtle&gt;[]" label="ListTurtle＜Turtle＞"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>ListTurtle&lt;ButtonTurtle&gt;</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<ClassMethods>
+		<CategoryName name="タートル（基本）" classname="Turtle">
+			<MethodName>Turtle-fd[@int]</MethodName>
+			<MethodName>Turtle-bk[@int]</MethodName>
+			<MethodName>Turtle-rt[@int]</MethodName>
+			<MethodName>Turtle-lt[@int]</MethodName>
+			<MethodName>Turtle-up[]</MethodName>
+			<MethodName>Turtle-down[]</MethodName>
+			<MethodName>Turtle-color[@object]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-print[@int]</MethodName>
+			<MethodName>Turtle-random[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
+			<MethodName>Turtle-getX[]</MethodName>
+			<MethodName>Turtle-getY[]</MethodName>
+			<MethodName>Turtle-warp[@int@int]</MethodName>
+			<MethodName>Turtle-getWidth[]</MethodName>
+			<MethodName>Turtle-getHeight[]</MethodName>
+			<MethodName>Turtle-scale[@int]</MethodName>
+			<MethodName>Turtle-size[@int@int]</MethodName>
+			<MethodName>Turtle-large[@int]</MethodName>
+			<MethodName>Turtle-small[@int]</MethodName>
+			<MethodName>Turtle-wide[@int]</MethodName>
+			<MethodName>Turtle-narrow[@int]</MethodName>
+			<MethodName>Turtle-tall[@int]</MethodName>
+			<MethodName>Turtle-little[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
+			<MethodName>Turtle-show[]</MethodName>
+			<MethodName>Turtle-hide[]</MethodName>
+			<MethodName>Turtle-isShow[]</MethodName>
+			<MethodName>Turtle-looks[@object]</MethodName>
+			<MethodName>Turtle-contains[@int@int]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
+			<MethodName>Turtle-key[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
+			<MethodName>Turtle-mouseX[]</MethodName>
+			<MethodName>Turtle-mouseY[]</MethodName>
+			<MethodName>Turtle-mouseClicked[]</MethodName>
+			<MethodName>Turtle-leftMouseClicked[]</MethodName>
+			<MethodName>Turtle-rightMouseClicked[]</MethodName>
+			<MethodName>Turtle-doubleClick[]</MethodName>
+			<MethodName>Turtle-mouseDown[]</MethodName>
+			<MethodName>Turtle-leftMouseDown[]</MethodName>
+			<MethodName>Turtle-rightMouseDown[]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（その他）" classname="Turtle">
+			<MethodName>Turtle-update[]</MethodName>
+			<MethodName>Turtle-sleep[@int]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+		</CategoryName>
+		<CategoryName name="ListTurtle" classname="ListTurtle">
+			<MethodName>ListTurtle-get[@int]</MethodName>
+			<MethodName>ListTurtle-getSize[]</MethodName>
+			<MethodName>ListTurtle-add[@int]</MethodName>
+			<MethodName>ListTurtle-addFirst[@object]</MethodName>
+			<MethodName>ListTurtle-addLast[@object]</MethodName>
+			<MethodName>ListTurtle-addAll[@object]</MethodName>
+			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
+			<MethodName>ListTurtle-removeFirst[]</MethodName>
+			<MethodName>ListTurtle-removeLast[]</MethodName>
+			<MethodName>ListTurtle-removeAll[]</MethodName>
+			<MethodName>ListTurtle-getCursor[]</MethodName>
+			<MethodName>ListTurtle-setCursor[@int]</MethodName>
+			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
+			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
+			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
+			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
+			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
+			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
+			<MethodName>ListTurtle-shuffle[]</MethodName>
+			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+		</CategoryName>
+	</ClassMethods>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="local-var-object-ListTurtle&lt;InputTurtle&gt;" kind="local-variable" initlabel="turtles" header-label="ListTurtle&lt;InputTurtle&gt;型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-ListTurtle&lt;InputTurtle&gt;[]" label="ListTurtle＜Turtle＞"></DefaultArg>
+		</BlockConnector>
+	</BlockConnectors>
+	<Type>ListTurtle&lt;InputTurtle&gt;</Type>
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<ClassMethods>
+		<CategoryName name="タートル（基本）" classname="Turtle">
+			<MethodName>Turtle-fd[@int]</MethodName>
+			<MethodName>Turtle-bk[@int]</MethodName>
+			<MethodName>Turtle-rt[@int]</MethodName>
+			<MethodName>Turtle-lt[@int]</MethodName>
+			<MethodName>Turtle-up[]</MethodName>
+			<MethodName>Turtle-down[]</MethodName>
+			<MethodName>Turtle-color[@object]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-print[@int]</MethodName>
+			<MethodName>Turtle-random[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
+			<MethodName>Turtle-getX[]</MethodName>
+			<MethodName>Turtle-getY[]</MethodName>
+			<MethodName>Turtle-warp[@int@int]</MethodName>
+			<MethodName>Turtle-getWidth[]</MethodName>
+			<MethodName>Turtle-getHeight[]</MethodName>
+			<MethodName>Turtle-scale[@int]</MethodName>
+			<MethodName>Turtle-size[@int@int]</MethodName>
+			<MethodName>Turtle-large[@int]</MethodName>
+			<MethodName>Turtle-small[@int]</MethodName>
+			<MethodName>Turtle-wide[@int]</MethodName>
+			<MethodName>Turtle-narrow[@int]</MethodName>
+			<MethodName>Turtle-tall[@int]</MethodName>
+			<MethodName>Turtle-little[@int]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
+			<MethodName>Turtle-show[]</MethodName>
+			<MethodName>Turtle-hide[]</MethodName>
+			<MethodName>Turtle-isShow[]</MethodName>
+			<MethodName>Turtle-looks[@object]</MethodName>
+			<MethodName>Turtle-contains[@int@int]</MethodName>
+			<MethodName>Turtle-intersects[@object]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
+			<MethodName>Turtle-key[]</MethodName>
+			<MethodName>Turtle-keyDown[@int]</MethodName>
+			<MethodName>Turtle-mouseX[]</MethodName>
+			<MethodName>Turtle-mouseY[]</MethodName>
+			<MethodName>Turtle-mouseClicked[]</MethodName>
+			<MethodName>Turtle-leftMouseClicked[]</MethodName>
+			<MethodName>Turtle-rightMouseClicked[]</MethodName>
+			<MethodName>Turtle-doubleClick[]</MethodName>
+			<MethodName>Turtle-mouseDown[]</MethodName>
+			<MethodName>Turtle-leftMouseDown[]</MethodName>
+			<MethodName>Turtle-rightMouseDown[]</MethodName>
+		</CategoryName>
+		<CategoryName name="タートル（その他）" classname="Turtle">
+			<MethodName>Turtle-update[]</MethodName>
+			<MethodName>Turtle-sleep[@int]</MethodName>
+			<MethodName>Turtle-input[]</MethodName>
+			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+		</CategoryName>
+		<CategoryName name="ListTurtle" classname="ListTurtle">
+			<MethodName>ListTurtle-get[@int]</MethodName>
+			<MethodName>ListTurtle-getSize[]</MethodName>
+			<MethodName>ListTurtle-add[@int]</MethodName>
+			<MethodName>ListTurtle-addFirst[@object]</MethodName>
+			<MethodName>ListTurtle-addLast[@object]</MethodName>
+			<MethodName>ListTurtle-addAll[@object]</MethodName>
+			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
+			<MethodName>ListTurtle-removeFirst[]</MethodName>
+			<MethodName>ListTurtle-removeLast[]</MethodName>
+			<MethodName>ListTurtle-removeAll[]</MethodName>
+			<MethodName>ListTurtle-getCursor[]</MethodName>
+			<MethodName>ListTurtle-setCursor[@int]</MethodName>
+			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
+			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
+			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
+			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
+			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
+			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
+			<MethodName>ListTurtle-shuffle[]</MethodName>
+			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+		</CategoryName>
+	</ClassMethods>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
+<BlockGenus name="local-var-object-Input" kind="local-variable" initlabel="turtles" header-label="InputTurtle型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+	<BlockConnectors>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
 			<DefaultArg genus-name="new-object-InputTurtle[]" label="InputTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -2339,6 +2818,9 @@
 			<MethodName>Turtle-sleep[@int]</MethodName>
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="InputTurtle" classname="InputTurtle">
 			<MethodName>InputTurtle-fontsize[@int]</MethodName>
@@ -2358,12 +2840,9 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="local-var-object-Card" kind="local-variable"
-	initlabel="turtles" header-label="CardTurtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="255 255 100">
+<BlockGenus name="local-var-object-Card" kind="local-variable" initlabel="turtles" header-label="CardTurtle型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
 			<DefaultArg genus-name="new-object-CardTurtle[]" label="CardTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -2437,6 +2916,9 @@
 			<MethodName>Turtle-sleep[@int]</MethodName>
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="CardTurtle" classname="CardTurtle">
 			<MethodName>CardTurtle-getText[]</MethodName>
@@ -2451,12 +2933,9 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="local-var-object-Button" kind="local-variable"
-	initlabel="turtles" header-label="ButtonTurtle型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="255 255 100">
+<BlockGenus name="local-var-object-Button" kind="local-variable" initlabel="turtles" header-label="ButtonTurtle型の変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
 			<DefaultArg genus-name="new-object-ButtonTurtle[]" label="ButtonTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -2530,10 +3009,13 @@
 			<MethodName>Turtle-sleep[@int]</MethodName>
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>Turtle-saveToFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string]</MethodName>
+			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ButtonTurtle" classname="ButtonTurtle">
 			<MethodName>ButtonTurtle-isClicked[]</MethodName>
-			<MethodName>ButtonTurtle-fontSize[@int]</MethodName>
+			<MethodName>ButtonTurtle-fontsize[@int]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -2545,19 +3027,15 @@
 </BlockGenus>
 
 
-<BlockGenus name="private-var-object-Text" kind="global-variable"
-	initlabel="tt" header-label="TextTurtle型のインスタンス変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">
+<BlockGenus name="private-var-object-Text" kind="global-variable" initlabel="tt" header-label="TextTurtle型のインスタンス変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
-			<DefaultArg genus-name="new-object-TextTurtle[@string]"
-				label="TextTurtle"></DefaultArg>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-TextTurtle[@string]" label="TextTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>TextTurtle</Type>
@@ -2583,14 +3061,10 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="private-var-object-Image" kind="global-variable"
-	initlabel="it" header-label="ImageTurtle型のインスタンス変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">
+<BlockGenus name="private-var-object-Image" kind="global-variable" initlabel="it" header-label="ImageTurtle型のインスタンス変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
-			<DefaultArg genus-name="new-object-ImageTurtle[@string]"
-				label="ImageTurtle"></DefaultArg>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-ImageTurtle[@string]" label="ImageTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>ImageTurtle</Type>
@@ -2616,19 +3090,15 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="private-var-object-Sound" kind="global-variable"
-	initlabel="st" header-label="SoundTurtle型のインスタンス変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255 ">
+<BlockGenus name="private-var-object-Sound" kind="global-variable" initlabel="st" header-label="SoundTurtle型のインスタンス変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="object">
-			<DefaultArg genus-name="new-object-SoundTurtle[@string]"
-				label="SoundTurtle"></DefaultArg>
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="object">
+			<DefaultArg genus-name="new-object-SoundTurtle[@string]" label="SoundTurtle"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Type>SoundTurtle</Type>
@@ -2654,12 +3124,9 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="private-var-object-List" kind="global-variable"
-	initlabel="turtles" header-label="ListTurtle&lt;Turtle&gt;型のインスタンス変数を作り、"
-	footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
+<BlockGenus name="private-var-object-ListTurtle&lt;Turtle&gt;" kind="global-variable" initlabel="turtles" header-label="ListTurtle&lt;Turtle&gt;型のインスタンス変数を作り、" footer-label="と名付ける" editable-label="yes" label-unique="yes" color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
-			connector-type="poly">
+		<BlockConnector label="初期値" connector-kind="socket" connector-type="poly">
 			<DefaultArg genus-name="new-object-ListTurtle[]" label="ListTurtle＜Turtle＞"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -2686,13 +3153,17 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-startTurtle[@object@object]" kind="command"
-	initlabel="プログラムを開始する" color="255 255 100">
+<BlockGenus name="Turtle-startTurtle[@object@object]" kind="command" initlabel="プログラムを開始する" color="255 255 100">
 	<Name>startTurtle</Name>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="socket"
-			connector-type="object" position-type="single" />
-		<BlockConnector label="" connector-kind="socket"
-			connector-type="object" position-type="single" />
+		<BlockConnector label="" connector-kind="socket" connector-type="object" position-type="single" />
+		<BlockConnector label="" connector-kind="socket" connector-type="object" position-type="single" />
+	</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="Turtle-startTurtle[@object]" kind="command" initlabel="プログラムを開始する" color="255 255 100">
+	<Name>startTurtle</Name>
+	<BlockConnectors>
+		<BlockConnector label="" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>

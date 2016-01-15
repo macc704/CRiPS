@@ -3,6 +3,7 @@ package edu.mit.blocks.controller;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -47,7 +48,9 @@ import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import clib.common.filesystem.CFilename;
 import clib.view.app.javainfo.CJavaInfoPanels;
+import clib.view.screenshot.CScreenShotTaker;
 import clib.view.windowmanager.CWindowCentraizer;
 import edu.inf.shizuoka.blocks.blockeditor.SBlockEditor;
 import edu.inf.shizuoka.blocks.extent.SBlockEditorListener;
@@ -65,6 +68,8 @@ import edu.mit.blocks.codeblocks.InfixRule;
 import edu.mit.blocks.codeblocks.ParamRule;
 import edu.mit.blocks.codeblocks.PolyRule;
 import edu.mit.blocks.codeblocks.SocketRule;
+import edu.mit.blocks.renderable.RenderableBlock;
+import edu.mit.blocks.workspace.BlockCanvas;
 import edu.mit.blocks.workspace.SearchBar;
 import edu.mit.blocks.workspace.SearchableContainer;
 import edu.mit.blocks.workspace.TrashCan;
@@ -74,7 +79,7 @@ import edu.mit.blocks.workspace.WorkspaceListener;
 import net.unicoen.generator.DolittleGenerator;
 import net.unicoen.generator.JavaGeneratorForTurtle;
 import net.unicoen.generator.JavaScriptGeneratorForTurtle;
-import net.unicoen.node.UniFile;
+import net.unicoen.node.UniProgram;
 import net.unicoen.parser.blockeditor.BlockMapper;
 
 /**
@@ -635,7 +640,7 @@ public class WorkspaceController {
 					saveToFile(selectedFile);
 
 					BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
-					UniFile file = mapper.parseToUniFile(selectedFile);
+					UniProgram file = mapper.parseToUniFile(selectedFile);
 					
 					outputFileFromUni(file, file.classes.get(0).className);
 					setDirty(false);
@@ -655,7 +660,7 @@ public class WorkspaceController {
 		}
 	}
 
-	public void outputFileFromUni(UniFile dec, String className) throws FileNotFoundException {
+	public void outputFileFromUni(UniProgram dec, String className) throws FileNotFoundException {
 		boolean fileCreated = false;
 		File javaFile = new File(selectedFile.getParentFile().getPath() + File.separator + className + ".java");
 		try {
@@ -818,24 +823,56 @@ public class WorkspaceController {
 
 		// open other blockeditor
 		JMenu menu = new JMenu("Tools");
-		JMenuItem debugItem = new JMenuItem("Open other BlockEditor");
-		debugItem.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				runDebbuger();
-			}
-		});
+//		JMenuItem debugItem = new JMenuItem("Open other BlockEditor");
+//		debugItem.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				runDebbuger();
+//			}
+//		});
+//		menu.add(debugItem);
 
-		JMenuItem exit = new JMenuItem("Exit");
-		exit.addActionListener(new ActionListener() {
+//		JMenuItem exit = new JMenuItem("Exit");
+//		exit.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				//
+//				frame.dispose();
+//			}
+//		});
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//
-				frame.dispose();
-			}
-		});
-
+		{
+			// JButton b = new JButton("SS");
+			JMenuItem item = new JMenuItem("SS_Once");
+			item.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					CScreenShotTaker taker = createSSTaker();
+					String name = new CFilename(selectedFile.getName()).getName();
+					taker.getChooser().setSelectedFile(new File(selectedFile.getParent() + "/" + name + "Once"));
+					taker.takeToFile();
+				}
+			});
+			// topPane.add(b);
+			menu.add(item);
+		}
+		
+		{
+			// JButton b = new JButton("SS");
+			JMenuItem item = new JMenuItem("SS_Twice");
+			item.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					CScreenShotTaker taker = createSSTaker();
+					String name = new CFilename(selectedFile.getName()).getName();
+					taker.getChooser().setSelectedFile(new File(selectedFile.getParent() + "/" + name + "Twice"));
+					taker.takeToFile();
+				}
+			});
+			// topPane.add(b);
+			menu.add(item);
+		}
 		JMenu help = new JMenu("help");
 		help.add(CJavaInfoPanels.createJavaInformationAction());
 		JMenuItem setting = new JMenuItem("Setting");
@@ -847,8 +884,7 @@ public class WorkspaceController {
 		});
 		help.add(setting);
 
-		menu.add(debugItem);
-		menu.add(exit);
+//		menu.add(exit);
 
 		menuBar.add(menu);
 		menuBar.add(help);
@@ -856,6 +892,32 @@ public class WorkspaceController {
 		return menuBar;
 	}
 
+	private CScreenShotTaker createSSTaker() {
+		Workspace ws = getWorkspace();
+		BlockCanvas canvas = ws.getBlockCanvas();
+		JComponent comp = canvas.getCanvas();
+
+		Rectangle r = new Rectangle(0, 0, 100, 100);
+		int i = 0;
+		for (RenderableBlock block : canvas.getBlocks()) {
+			if (!block.isVisible()) {
+				continue;
+			}
+			if (i == 0) {
+				r = block.getBounds();
+			} else {
+				r.add(block.getBounds());
+			}
+			i++;
+		}
+		r.grow(10, 10);// margin
+		r = r.intersection(comp.getBounds());// マイナスにはみ出さない
+
+		CScreenShotTaker taker = new CScreenShotTaker(comp);
+		taker.setClipbounds(r);
+		return taker;
+	}
+	
 	public void openPreferenceFrame() {
 		JFrame frame = new JFrame();
 		frame.setTitle("Preference");
@@ -981,14 +1043,14 @@ public class WorkspaceController {
 	// return null;
 	// }
 
-	private void runDebbuger() {
-		// try {
-		// debugger = new
-		// DebuggerWorkspaceController(langDefRootPath,selectedFile);
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-	}
+//	private void runDebbuger() {
+//		// try {
+//		// debugger = new
+//		// DebuggerWorkspaceController(langDefRootPath,selectedFile);
+//		// } catch (IOException e) {
+//		// e.printStackTrace();
+//		// }
+//	}
 
 	public boolean isOpened() {
 		return getWorkspace().isShowing();

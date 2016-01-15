@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ConvertList>
-	<!-- 複数のユニモデルに対して1つのブロックに対応する物は例外としてここに記述する（ 例：Math.random(50) の場合，通常ならMath,random,50の3つのブロックに変換するが，Mathに対応するブロックがない， 
-		.演算子モデルを用いるよりスマートに処理が理解できることから，MathとrandomのUniModelを1つのrandomブロックに変換する -->
+	<!-- 複数のユニモデルに対して1つのブロックに対応する物は例外としてここに記述する（ 例：Math.random(50) の場合，通常ならMath,random,50の3つのブロックに変換するが，Mathに対応するブロックがない， .演算子モデルを用いるよりスマートに処理が理解できることから，MathとrandomのUniModelを1つのrandomブロックに変換する -->
 	<!--強制変換マップをUni->Block,Block->Uniで分けた．Uni->Block時の強制変換リストから作成するマップでは変換できないブロックが出てきたため -->
-	<!--具体的には，Integer-parseInt[@string],Integer-parseInt, Integer-parseInt[@int]などはuni->block時にはキーが同一Uniモデルになるため，キーが重複する-->
+	<!--具体的には，Integer-parseInt[@string],Integer-parseInt, Integer-parseInt[@int]などはuni->block時にはキーが同一Uniモデルになるため，キーが重複する -->
 	<Item>
 		<UniModel unimodel="UniMethodCall">
 			<name>println</name>
@@ -52,6 +51,19 @@
 
 	<Item>
 		<UniModel unimodel="UniMethodCall">
+			<name>size</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>window</name>
+				<receiver unimodel="UniIdent">
+					<name>Turtle</name>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>TurtleFrame-size[@int@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
 			<name>warp</name>
 			<receiver unimodel="UniIdent">
 				<name>window</name>
@@ -67,7 +79,7 @@
 				<name>Turtle</name>
 			</receiver>
 		</UniModel>
-		<GenusName>Turtle-startTurtle[@object@object]</GenusName>
+		<GenusName>Turtle-startTurtle[@object]</GenusName>
 	</Item>
 
 	<!-- Math関連 -->

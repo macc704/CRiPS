@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ConvertList>
-	<!-- 複数のユニモデルに対して1つのブロックに対応する物は例外としてここに記述する（ 例：Math.random(50) の場合，通常ならMath,random,50の3つのブロックに変換するが，Mathに対応するブロックがない， 
-		.演算子モデルを用いるよりスマートに処理が理解できることから，MathとrandomのUniModelを1つのrandomブロックに変換する -->
+	<!-- 複数のユニモデルに対して1つのブロックに対応する物は例外としてここに記述する（ 例：Math.random(50) の場合，通常ならMath,random,50の3つのブロックに変換するが，Mathに対応するブロックがない， .演算子モデルを用いるよりスマートに処理が理解できることから，MathとrandomのUniModelを1つのrandomブロックに変換する -->
 	<!-- Sysout -->
 	<Item>
 		<UniModel unimodel="UniMethodCall">
@@ -51,6 +50,19 @@
 
 	<Item>
 		<UniModel unimodel="UniMethodCall">
+			<name>size</name>
+			<receiver unimodel="UniFieldAccess">
+				<name>window</name>
+				<receiver unimodel="UniIdent">
+					<name>Turtle</name>
+				</receiver>
+			</receiver>
+		</UniModel>
+		<GenusName>TurtleFrame-size[@int@int]</GenusName>
+	</Item>
+
+	<Item>
+		<UniModel unimodel="UniMethodCall">
 			<name>warp</name>
 			<receiver unimodel="UniIdent">
 				<name>window</name>
@@ -66,7 +78,7 @@
 				<name>Turtle</name>
 			</receiver>
 		</UniModel>
-		<GenusName>Turtle-startTurtle[@object@object]</GenusName>
+		<GenusName>Turtle-startTurtle[@object]</GenusName>
 	</Item>
 
 	<!-- Math関連 -->
@@ -191,7 +203,7 @@
 		<GenusName>Integer-parseInt</GenusName>
 	</Item>
 
-	<!--				 Color系						 -->
+	<!-- Color系 -->
 	<Item>
 		<UniModel unimodel="UniFieldAccess">
 			<name>red</name>

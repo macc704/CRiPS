@@ -752,8 +752,8 @@ public class WorkspaceController {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						CScreenShotTaker taker = createSSTaker();
-						String name = new CFilename(wc.getSelectedJavaFile())
-								.getName();
+						String name = new CFilename(wc.getSelectedJavaFile()).getName();
+						System.out.println(name);
 						taker.getChooser().setSelectedFile(new File(name));
 						taker.takeToFile();
 					}

@@ -136,8 +136,7 @@ public class DrawingArrowManager implements WorkspaceListener {
 				arrows.remove(event.getSourceBlockID());
 			} else if (sourceBlock.isProcedureDeclBlock()) {
 				//子のarrowを全て削除
-				for (long stubID : BlockStub.getStubsOfParent(sourceBlock
-						.getBlockID())) {
+				for (long stubID : BlockStub.getStubsOfParent(sourceBlock.getBlockID())) {
 					if (hasArrow(stubID)) {
 						Workspace.getInstance().getPageNamed(Workspace.getInstance().getWorkSpaceController().calcClassName()).removeArrow(arrows.get(stubID));
 						arrows.remove(stubID);

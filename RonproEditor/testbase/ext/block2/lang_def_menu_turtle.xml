@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<BlockDrawerSet name="factory" type="stack" location="southwest"
-	window-per-drawer="no" drawer-draggable="no">
+<BlockDrawerSet name="factory" type="stack" location="southwest" window-per-drawer="no" drawer-draggable="no">
 
 	<BlockDrawer name="タートル" type="factory" button-color="247 0 0">
+		<BlockGenusMember>local-var-object-Turtle</BlockGenusMember>
 		<BlockGenusMember>Turtle-createTurtle[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-fd[@int]</BlockGenusMember>
 		<BlockGenusMember>Turtle-bk[@int]</BlockGenusMember>
@@ -28,9 +28,7 @@
 		<BlockGenusMember>callActionMethod2</BlockGenusMember>
 		<BlockGenusMember>callGetterMethod2</BlockGenusMember>
 	</BlockDrawer>
-	<!-- <BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20"> 
-		<BlockGenusMember>callActionMethod2</BlockGenusMember> <BlockGenusMember>callGetterMethod2</BlockGenusMember> 
-		</BlockDrawer> -->
+	<!-- <BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20"> <BlockGenusMember>callActionMethod2</BlockGenusMember> <BlockGenusMember>callGetterMethod2</BlockGenusMember> </BlockDrawer> -->
 	<BlockDrawer name="分岐、繰返" type="factory" button-color="255 80 0">
 		<BlockGenusMember>ifelse</BlockGenusMember>
 		<BlockGenusMember>while</BlockGenusMember>
@@ -95,31 +93,6 @@
 		<BlockGenusMember>local-var-object</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="タートル型変数の定義" type="factory" button-color="230 0 255">
-		<BlockGenusMember>local-var-object-Turtle</BlockGenusMember>
-		<BlockGenusMember>local-var-object-Text</BlockGenusMember>
-		<BlockGenusMember>local-var-object-Image</BlockGenusMember>
-		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>
-		<BlockGenusMember>local-var-object-List</BlockGenusMember>
-		<BlockGenusMember>local-var-object-Input</BlockGenusMember>
-		<BlockGenusMember>local-var-object-Button</BlockGenusMember>
-		<BlockGenusMember>local-var-object-Card</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;Turtle&gt;[]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;ImageTurtle&gt;[]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;CardTurtle&gt;[]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;TextTurtle&gt;[]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;SoundTurtle&gt;[]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;ButtonTurtle&gt;[]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;InputTurtle&gt;[]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;Turtle&gt;[@boolean@string]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;ImageTurtle&gt;[@boolean@string]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;CardTurtle&gt;[@boolean@string]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;TextTurtle&gt;[@boolean@string]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;SoundTurtle&gt;[@boolean@string]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;ButtonTurtle&gt;[@boolean@string]</BlockGenusMember>
-		<BlockGenusMember>new-object-ListTurtle&lt;InputTurtle&gt;[@boolean@string]</BlockGenusMember>
-	</BlockDrawer>
-
 	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
 		<BlockGenusMember>toIntFromDouble</BlockGenusMember>
 		<BlockGenusMember>toIntFromString</BlockGenusMember>
@@ -155,8 +128,7 @@
 		<!-- <BlockGenusMember>new-object-Color[@int@int@int]</BlockGenusMember> -->
 	</BlockDrawer>
 
-	<BlockDrawer name="タートル(座標と大きさ)" type="factory"
-		button-color="153 0 0">
+	<BlockDrawer name="タートル(座標と大きさ)" type="factory" button-color="153 0 0">
 		<BlockGenusMember>Turtle-getX[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-getY[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-warp[@int@int]</BlockGenusMember>
@@ -172,8 +144,7 @@
 		<BlockGenusMember>Turtle-little[@int]</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="タートル（見た目と判定）" type="factory"
-		button-color="153 0 0">
+	<BlockDrawer name="タートル（見た目と判定）" type="factory" button-color="153 0 0">
 		<BlockGenusMember>Turtle-show[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-hide[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-isShow[]</BlockGenusMember>
@@ -201,29 +172,101 @@
 		<BlockGenusMember>Turtle-sleep[@int]</BlockGenusMember>
 		<BlockGenusMember>Turtle-input[]</BlockGenusMember>
 		<BlockGenusMember>Turtle-print[@string]</BlockGenusMember>
+		<BlockGenusMember>Turtle-saveToFile[@string]</BlockGenusMember>
+		<BlockGenusMember>Turtle-loadFromFile[@string]</BlockGenusMember>
+		<BlockGenusMember>Turtle-loadFromFile[@string@string]</BlockGenusMember>
 	</BlockDrawer>
 
-	<!-- <BlockDrawer name="ImageTurtle" type="factory" button-color="153 0 
-		102"> <BlockGenusMember>local-var-object-Image</BlockGenusMember> <BlockGenusMember>image</BlockGenusMember> 
-		<BlockGenusMember>getImage</BlockGenusMember> </BlockDrawer> <BlockDrawer 
-		name="SoundTurtle" type="factory" button-color="153 0 102"> <BlockGenusMember>local-var-object-Sound</BlockGenusMember> 
-		<BlockGenusMember>file</BlockGenusMember> <BlockGenusMember>play</BlockGenusMember> 
-		<BlockGenusMember>loop</BlockGenusMember> <BlockGenusMember>stop</BlockGenusMember> 
-		<BlockGenusMember>isPlaying</BlockGenusMember> <BlockGenusMember>getVolume</BlockGenusMember> 
-		<BlockGenusMember>setVolume</BlockGenusMember> <BlockGenusMember>loadOnMemory</BlockGenusMember> 
-		</BlockDrawer> -->
+	<BlockDrawer name="ImageTurtle" type="factory" button-color="230 0 255">
+		<BlockGenusMember>local-var-object-Image</BlockGenusMember>
+		<BlockGenusMember>ImageTurtle-image[@string]</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="TextTurtle" type="factory" button-color="230 0 255">
+		<BlockGenusMember>local-var-object-Text</BlockGenusMember>
+		<BlockGenusMember>TextTurtle-text[@string]</BlockGenusMember>
+		<BlockGenusMember>TextTurtle-getText[]</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="SoundTurtle" type="factory" button-color="230 0 255">
+		<BlockGenusMember>local-var-object-Sound</BlockGenusMember>
+		<BlockGenusMember>SoundTurtle-file[@string]</BlockGenusMember>
+		<BlockGenusMember>SoundTurtle-play[]</BlockGenusMember>
+		<BlockGenusMember>SoundTurtle-loop[]</BlockGenusMember>
+		<BlockGenusMember>SoundTurtle-stop[]</BlockGenusMember>
+		<BlockGenusMember>SoundTurtle-isPlaying[]</BlockGenusMember>
+		<BlockGenusMember>SoundTurtle-getVolume[]</BlockGenusMember>
+		<BlockGenusMember>SoundTurtle-setVolume[@int]</BlockGenusMember>
+		<BlockGenusMember>SoundTurtle-loadOnMemory[]</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="CardTurtle" type="factory" button-color="255 255 100">
+		<BlockGenusMember>local-var-object-Card</BlockGenusMember>
+		<BlockGenusMember>CardTurtle-getText[]</BlockGenusMember>
+		<BlockGenusMember>CardTurtle-getNumber[]</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="ListTurtle" type="factory" button-color="255 255 100">
+		<BlockGenusMember>local-var-object-ListTurtle&lt;Turtle&gt;</BlockGenusMember>
+		<BlockGenusMember>local-var-object-ListTurtle&lt;CardTurtle&gt;</BlockGenusMember>
+		<BlockGenusMember>local-var-object-ListTurtle&lt;ImageTurtle&gt;</BlockGenusMember>
+		<BlockGenusMember>local-var-object-ListTurtle&lt;TextTurtle&gt;</BlockGenusMember>
+		<BlockGenusMember>local-var-object-ListTurtle&lt;SoundTurtle&gt;</BlockGenusMember>
+		<BlockGenusMember>local-var-object-ListTurtle&lt;ButtonTurtle&gt;</BlockGenusMember>
+		<BlockGenusMember>local-var-object-ListTurtle&lt;InputTurtle&gt;</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;Turtle&gt;[]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;ImageTurtle&gt;[]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;CardTurtle&gt;[]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;TextTurtle&gt;[]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;SoundTurtle&gt;[]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;ButtonTurtle&gt;[]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;InputTurtle&gt;[]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;Turtle&gt;[@boolean@string]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;ImageTurtle&gt;[@boolean@string]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;CardTurtle&gt;[@boolean@string]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;TextTurtle&gt;[@boolean@string]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;SoundTurtle&gt;[@boolean@string]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;ButtonTurtle&gt;[@boolean@string]</BlockGenusMember>
+		<BlockGenusMember>new-object-ListTurtle&lt;InputTurtle&gt;[@boolean@string]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-get[@int]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-getSize[]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-add[@int]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-addFirst[@object]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-addLast[@object]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-addAll[@object]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-moveAllTo[@object]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-removeFirst[]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-removeLast[]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-removeAll[]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-getCursor[]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-setCursor[@int]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-moveCursorToNext[]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-moveCursorToPrevious[]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-getObjectAtCursor[]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-addToBeforeCursor[@object]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-addToAfterCursor[@object]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-removeAtCursor[]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-shuffle[]</BlockGenusMember>
+		<BlockGenusMember>ListTurtle-setBgColor[@object]</BlockGenusMember>
+	</BlockDrawer>
+
+	<BlockDrawer name="ButtonTurtle" type="factory" button-color="255 255 100">
+		<BlockGenusMember>local-var-object-Button</BlockGenusMember>
+		<BlockGenusMember>ButtonTurtle-isClicked[]</BlockGenusMember>
+		<BlockGenusMember>ButtonTurtle-fontsize[@int]</BlockGenusMember>
+	</BlockDrawer>
 
 
-	<!-- <BlockDrawer name="ButtonTurtle" type="factory" button-color="255 255 
-		100"> <BlockGenusMember>new-object-ButtonTurtle</BlockGenusMember> <BlockGenusMember>isClicked</BlockGenusMember> 
-		<BlockGenusMember>fontsize</BlockGenusMember> </BlockDrawer> -->
-
-	<!-- <BlockDrawer name="InputTurtle" type="factory" button-color="255 255 
-		100"> <BlockGenusMember>new-object-InputTurtle</BlockGenusMember> <BlockGenusMember>getText</BlockGenusMember> 
-		<BlockGenusMember>text</BlockGenusMember> <BlockGenusMember>clearText</BlockGenusMember> 
-		<BlockGenusMember>setActive</BlockGenusMember> <BlockGenusMember>isActive</BlockGenusMember> 
-		<BlockGenusMember>toJapaneseMode</BlockGenusMember> <BlockGenusMember>toEnglishMode</BlockGenusMember> 
-		<BlockGenusMember>fontsize</BlockGenusMember> </BlockDrawer> -->
+	<BlockDrawer name="InputTurtle" type="factory" button-color="255 255  100">
+		<BlockGenusMember>local-var-object-Input</BlockGenusMember>
+		<BlockGenusMember>InputTurtle-fontsize[@int]</BlockGenusMember>
+		<BlockGenusMember>InputTurtle-clearText[]</BlockGenusMember>
+		<BlockGenusMember>InputTurtle-setActive[@boolean]</BlockGenusMember>
+		<BlockGenusMember>InputTurtle-isActive[]</BlockGenusMember>
+		<BlockGenusMember>InputTurtle-toJapaneseMode[]</BlockGenusMember>
+		<BlockGenusMember>InputTurtle-toEnglishMode[]</BlockGenusMember>
+		<BlockGenusMember>InputTurtle-getText[]</BlockGenusMember>
+	</BlockDrawer>
 
 
 </BlockDrawerSet>

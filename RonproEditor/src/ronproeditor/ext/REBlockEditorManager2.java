@@ -39,7 +39,7 @@ import edu.mit.blocks.controller.WorkspaceController;
 import net.unicoen.mapper.JavaMapper;
 import net.unicoen.mapper.JavaScriptMapper;
 import net.unicoen.node.UniClassDec;
-import net.unicoen.node.UniFile;
+import net.unicoen.node.UniProgram;
 import net.unicoen.parser.blockeditor.BlockGenerator;
 import pres.core.model.PRLog;
 import ronproeditor.IREResourceRepository;
@@ -93,7 +93,7 @@ public class REBlockEditorManager2 {
 			File dir = srcfile.getParentFile();
 			File tmpSrcFile = createUTFDummyFile(srcfile);
 
-			UniFile classDec = convertJavaToUniFileModel(tmpSrcFile);;
+			UniProgram classDec = convertJavaToUniFileModel(tmpSrcFile);
 			String[] names = srcfile.getName().split("\\.");
 			
 			File xmlfile = new File(dir.getPath() + "/" + names[0] + ".xml");
@@ -400,10 +400,10 @@ public class REBlockEditorManager2 {
 						throw new RuntimeException();
 					}
 
-					blockEditor.setSelectedFile(new File(xmlFilePath));
 					SwingUtilities.invokeAndWait(new Runnable() {
 						@Override
 						public void run() {
+							blockEditor.setSelectedFile(new File(xmlFilePath));
 							blockEditor.loadProjectFromPath(xmlFilePath);
 							writeBlockEditingLog(REBlockEditorLog.SubType.LOADING_END);
 						}
@@ -447,13 +447,13 @@ public class REBlockEditorManager2 {
 	/*
 	 * JavaをUnicoenモデルへ変換して返す
 	 */
-	public UniFile convertJavaToUniFileModel(File file) {
+	public UniProgram convertJavaToUniFileModel(File file) {
 		if (file.getPath().endsWith(".java")) {
 			JavaMapper mapper = new JavaMapper();
 			Object node = mapper.parseFile(file.getPath());
 
-			if (node instanceof UniFile) {
-				return (UniFile) node;
+			if (node instanceof UniProgram) {
+				return (UniProgram) node;
 			} else {
 				CErrorDialog.show(null, "UniClassモデルが作成できませんでした");
 				return null;
@@ -461,8 +461,8 @@ public class REBlockEditorManager2 {
 		} else if (file.getPath().endsWith(".js")) {
 			JavaScriptMapper mapper = new JavaScriptMapper();
 			Object node = mapper.parseFile(file.getPath());
-			if (node instanceof UniFile) {
-				return (UniFile) node;
+			if (node instanceof UniProgram) {
+				return (UniProgram) node;
 			} else {
 				CErrorDialog.show(null, "UniClassモデルが作成できませんでした");
 				return null;
