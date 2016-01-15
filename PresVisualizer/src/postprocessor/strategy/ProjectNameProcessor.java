@@ -59,6 +59,7 @@ public class ProjectNameProcessor {
 
 		// body
 		size = table.size();
+		System.out.println("table" + size);
 		for (int i = 1; i < size; i++) {// ヘッダを飛ばすので１から
 			List<String> record = table.get(i);
 			newTable.add(processOne(record));
@@ -73,6 +74,7 @@ public class ProjectNameProcessor {
 		newRecord.add(getLecture(record.get(0)));
 		// 残りをコピー
 		int size = record.size();
+		// System.out.println("record" + size);
 		for (int i = 1; i < size; i++) {// 一つ目を飛ばすので１から
 			newRecord.add(record.get(i));
 		}
@@ -82,19 +84,22 @@ public class ProjectNameProcessor {
 	// 7011-1066-1(Root) -> 7011-1066
 	private String getStudentNumber(String org) {
 		String[] tokens = org.split("-");
-		if (tokens.length != 3) {
-			throw new RuntimeException();
+		// System.out.println(org);
+		if (tokens.length != 2) {
+			return "";
+			// throw new RuntimeException(org);
 		}
-		return tokens[0] + "-" + tokens[1];
+		return tokens[0];
 	}
 
 	// 7011-1066-1(Root) -> 1
 	private String getLecture(String org) {
 		String[] tokens = org.split("-");
-		if (tokens.length != 3) {
-			throw new RuntimeException();
+		if (tokens.length != 2) {
+			return "";
+			// throw new RuntimeException();
 		}
-		String moodleNo = tokens[2].substring(0, tokens[2].indexOf("("));
+		String moodleNo = tokens[1].substring(0, tokens[1].indexOf("("));
 		if (!moodleToLecture.containsKey(moodleNo)) {
 			throw new RuntimeException("no moodleNo = " + moodleNo);
 		}

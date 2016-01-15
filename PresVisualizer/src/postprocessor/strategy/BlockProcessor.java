@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import postprocessor.strategy.NQuestion.LanguageRequirement;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
 import clib.common.table.CCSVFileIO;
+import postprocessor.strategy.NQuestion.LanguageRequirement;
 
 /**
  * @author macchan BlockProcessor
@@ -34,8 +34,8 @@ public class BlockProcessor {
 		String[][] loaded = CCSVFileIO.load(file);
 		for (int i = 1; i < loaded.length; i++) {// ヘッダを飛ばすので１から
 			String[] r = loaded[i];
-			questions.add(new NQuestion(r[0], r[1], r[2], Integer
-					.parseInt(r[3]) == 1, LanguageRequirement.valueOf(r[4])));
+			questions.add(
+					new NQuestion(r[0], r[1], r[2], Integer.parseInt(r[3]) == 1, LanguageRequirement.valueOf(r[4])));
 		}
 		return questions;
 	}
@@ -91,8 +91,7 @@ public class BlockProcessor {
 			record.add(student);
 			for (NQuestion question : questions) {
 				if (isProcessQuestion(question)) {
-					String key = student + question.getLecture()
-							+ question.getFilename();
+					String key = student + question.getLecture() + question.getFilename();
 					List<String> data = dataMap.get(key);
 					if (data != null) {
 						/*
@@ -102,7 +101,7 @@ public class BlockProcessor {
 						 */
 						// blockrate
 						// String d = getBERate(data.get(4), data.get(10));
-						// String d = Integer.toString(data.get(5));
+						// // String d = Integer.toString(data.get(5));
 						// record.add(d);
 
 						// loc
@@ -113,11 +112,20 @@ public class BlockProcessor {
 						// record.add(loc);
 
 						// WT
-						String wt = data.get(4);
-						if (wt == null || wt.equals("0")) {
-							wt = "-";
-						}
-						record.add(wt);
+						// String wt = data.get(4);
+						// if (wt == null || wt.equals("0")) {
+						// wt = "-";
+						// }
+						// record.add(wt);
+
+						// compileCorrectTime
+						// String compileCT = data.get(19);
+						// record.add(compileCT);
+
+						// compileCorrectTimeRate
+						// String compileCTRate = data.get(20);
+						// record.add(compileCTRate);
+
 					} else {
 						record.add("-");
 					}
@@ -129,8 +137,7 @@ public class BlockProcessor {
 	}
 
 	private boolean isProcessQuestion(NQuestion q) {
-		return q.isMandatory()
-				&& q.getLangReq() == NQuestion.LanguageRequirement.ANY;
+		return q.isMandatory() && q.getLangReq() == NQuestion.LanguageRequirement.ANY;
 	}
 
 	/**
