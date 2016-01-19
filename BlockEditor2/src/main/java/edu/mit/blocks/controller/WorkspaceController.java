@@ -16,6 +16,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.nio.channels.FileChannel;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -76,7 +77,6 @@ import edu.mit.blocks.workspace.TrashCan;
 import edu.mit.blocks.workspace.Workspace;
 import edu.mit.blocks.workspace.WorkspaceEvent;
 import edu.mit.blocks.workspace.WorkspaceListener;
-import net.unicoen.generator.DolittleGenerator;
 import net.unicoen.generator.JavaGeneratorForTurtle;
 import net.unicoen.generator.JavaScriptGeneratorForTurtle;
 import net.unicoen.node.UniProgram;
@@ -684,16 +684,16 @@ public class WorkspaceController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
-		try {
-			File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + className + ".dlt");
-			fileCreated |= !dltFile.exists();
-			PrintStream out = new PrintStream(dltFile, RONPRO_FILE_ENCODING);
-			DolittleGenerator.generate(dec.classes.get(0), out);
-			out.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
+//
+//		try {
+//			File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + className + ".dlt");
+//			fileCreated |= !dltFile.exists();
+//			PrintStream out = new PrintStream(dltFile, RONPRO_FILE_ENCODING);
+//			DolittleGenerator.generate(dec.classes.get(0), out);
+//			out.close();
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//		}
 
 		if (fileCreated) {
 			listener.newFileCreated();
@@ -873,6 +873,59 @@ public class WorkspaceController {
 			// topPane.add(b);
 			menu.add(item);
 		}
+		
+		{
+			// JButton b = new JButton("SS");
+			JMenuItem item = new JMenuItem("Save XML First");
+			item.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String name = new CFilename(selectedFile.getName()).getName();
+					File copyFile = new File(selectedFile.getParent() + "/" + name + "First.xml");
+					File copyJavaFile = new File(selectedFile.getParent() + "/" + name + "First.java");
+					try {
+						copyFile(selectedFile, copyFile);
+						copyFile(new File(selectedFile.getParent() + "/" + name + ".java"), copyJavaFile);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					
+//					CScreenShotTaker taker = createSSTaker();
+//					String name = new CFilename(selectedFile.getName()).getName();
+//					taker.getChooser().setSelectedFile(new File(selectedFile.getParent() + "/" + name + "Twice"));
+//					taker.takeToFile();
+				}
+			});
+			// topPane.add(b);
+			menu.add(item);
+		}
+		
+		{
+			// JButton b = new JButton("SS");
+			JMenuItem item = new JMenuItem("Save XML Second");
+			item.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String name = new CFilename(selectedFile.getName()).getName();
+					File copyFile = new File(selectedFile.getParent() + "/" + name + "Second.xml");
+					File copyJavaFile = new File(selectedFile.getParent() + "/" + name + "Second.java");
+					try {
+						copyFile(selectedFile, copyFile);
+						copyFile(new File(selectedFile.getParent() + "/" + name + ".java"), copyJavaFile);
+					} catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					
+//					CScreenShotTaker taker = createSSTaker();
+//					String name = new CFilename(selectedFile.getName()).getName();
+//					taker.getChooser().setSelectedFile(new File(selectedFile.getParent() + "/" + name + "Twice"));
+//					taker.takeToFile();
+				}
+			});
+			// topPane.add(b);
+			menu.add(item);
+		}
+		
 		JMenu help = new JMenu("help");
 		help.add(CJavaInfoPanels.createJavaInformationAction());
 		JMenuItem setting = new JMenuItem("Setting");
@@ -891,6 +944,23 @@ public class WorkspaceController {
 
 		return menuBar;
 	}
+	
+	public static void copyFile(File in, File out) throws IOException {
+        @SuppressWarnings("resource")
+		FileChannel inChannel = new FileInputStream(in).getChannel();
+        @SuppressWarnings("resource")
+		FileChannel outChannel = new FileOutputStream(out).getChannel();
+        try {
+            inChannel.transferTo(0, inChannel.size(),outChannel);
+        } 
+        catch (IOException e) {
+            throw e;
+        }
+        finally {
+            if (inChannel != null) inChannel.close();
+            if (outChannel != null) outChannel.close();
+        }
+    }
 
 	private CScreenShotTaker createSSTaker() {
 		Workspace ws = getWorkspace();

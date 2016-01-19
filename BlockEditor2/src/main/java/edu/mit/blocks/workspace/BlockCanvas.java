@@ -60,7 +60,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
 
     private boolean collapsible = false;
 
-    private static int MAX_HEIGHT = 1600;
+    private static int MAX_HEIGHT = 3000;
     
     private List<String> importsStatements = new ArrayList<>();
 
