@@ -21,7 +21,7 @@ public class CHFileSystem {
 	public static final String MEMBERDIRPATH = "runtime-EclipseApplication/.ch";
 	public static final String PREFPATH = "runtime-EclipseApplication/.ch/.pref";
 	
-	public static final String SYNCPROJECTNAME = "winter";
+	public static final String SYNCPROJECTNAME = "final";
 	public static final String SYNCPROJECTPATH = "MyProjects/" + SYNCPROJECTNAME;
 	public static final String CHDIRPATH = "MyProjects/.CH";
 	
