@@ -298,6 +298,7 @@ import ronproeditor.views.RESourceEditor;
  * 2015/10/07 version 2.31.1 ohata			・Blockの言語定義ファイルが自動生成されていなかった問題を修正
  * 2015/12/09 version 2.31.2 hirao			・CocoViewerのKindファイルアップデート
  *                                          ・Export時のDialog修正
+ * 2015/01/19 version 2.31.8 kato			・2015年度CheCoPro実験に向けたアップデート
  *
  * ＜懸案事項＞
  * ・
@@ -311,8 +312,8 @@ public class REApplication {
 
 	// Application's Information.
 	public static final String APP_NAME = "Ronpro Editor";
-	public static final String VERSION = "2.31.7";
-	public static final String BUILD_DATE = "2015/12/17";
+	public static final String VERSION = "2.31.8";
+	public static final String BUILD_DATE = "2015/01/19";
 	public static final String DEVELOPERS = "Yoshiaki Matsuzawa & CreW Project & Sakai Lab";
 	public static final String COPYRIGHT = "Copyright(c) 2007-2015 Yoshiaki Matsuzawa & CreW Project & Sakai Lab. All Rights Reserved.";
 
