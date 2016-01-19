@@ -40,7 +40,7 @@ public class BlockProcessor {
 		return questions;
 	}
 
-	public List<List<String>> process(List<List<String>> table) {
+	public List<List<String>> process(List<List<String>> table, String reqData) {
 		// データの準備
 		Map<String, List<String>> dataMap = new HashMap<String, List<String>>();
 		int size = table.size();
@@ -73,7 +73,7 @@ public class BlockProcessor {
 			}
 			newTable.add(record);
 		}
-		newTable.add(new ArrayList<String>());
+		// newTable.add(new ArrayList<String>());
 		// {
 		// List<String> record = new ArrayList<String>();
 		// record.add("");
@@ -84,6 +84,17 @@ public class BlockProcessor {
 		// }
 		// out.add(record);
 		// }
+
+		{
+			List<String> record = new ArrayList<String>();
+			record.add("");
+			for (NQuestion question : questions) {
+				if (isProcessQuestion(question)) {
+					record.add(question.getLangReq().toString());
+				}
+			}
+			newTable.add(record);
+		}
 
 		// Body
 		for (String student : students) {
@@ -99,6 +110,35 @@ public class BlockProcessor {
 						 * LineCount CompileCount RunCount Time/Compile Time/Run
 						 * BEWorkingTime(min) total => 4, BE = 10 LineCount = 5
 						 */
+						if (reqData == null) {
+							System.err.println("reqData is null");
+							return newTable;
+						} else
+							switch (reqData) {
+							case "AllWorkingTime":
+								String wt = data.get(4);
+								if (wt == null || wt.equals("0")) {
+									wt = "-";
+								}
+								record.add(wt);
+								break;
+							case "BlockWorkingTimeRate":
+								String d = getBERate(data.get(4), data.get(10));
+								record.add(d);
+								break;
+							case "CompileCorrectTime":
+								String compileCT = convertCompileCT(data.get(19));
+								record.add(compileCT);
+								break;
+
+							case "CompileCorrectTimeRate":
+								String compileCTRate = data.get(20);
+								record.add(compileCTRate);
+								break;
+
+							default:
+								break;
+							}
 						// blockrate
 						// String d = getBERate(data.get(4), data.get(10));
 						// // String d = Integer.toString(data.get(5));
@@ -138,11 +178,22 @@ public class BlockProcessor {
 
 	private boolean isProcessQuestion(NQuestion q) {
 		return q.isMandatory() && q.getLangReq() == NQuestion.LanguageRequirement.ANY;
+		// return q.isMandatory();
 	}
 
 	/**
 	 */
-	@SuppressWarnings("unused")
+	// @SuppressWarnings("unused")
+
+	private String convertCompileCT(String stringTime) {
+		// stringTimeType is 00:00(:00:0000)
+
+		StringBuilder tmp = new StringBuilder(stringTime);
+		int hour = Integer.parseInt(tmp.substring(0, 2));
+		int min = Integer.parseInt(tmp.substring(3, 5));
+		return String.valueOf((hour * 60 + min));
+	}
+
 	private String getBERate(String total, String be) {
 		int totalInt = 0;
 		try {
