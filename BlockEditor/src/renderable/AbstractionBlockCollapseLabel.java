@@ -30,10 +30,12 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 	/**
 	 * setup current visual state of button
 	 */
+	@Override
 	public void update() {
 		//refreshFigure();//original
 	}
 
+	@Override
 	public void updateCollapse() {
 		updateCollapse(false);
 	}
@@ -162,4 +164,7 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 			collapseAfterBlocks(insideFirstBlockId);
 		}
 	}
+	
+	
+	
 }

@@ -2,10 +2,10 @@ package renderable;
 
 import java.awt.event.MouseEvent;
 
-import workspace.Workspace;
-import workspace.WorkspaceEvent;
 import codeblocks.Block;
 import codeblocks.BlockConnector;
+import workspace.Workspace;
+import workspace.WorkspaceEvent;
 
 public class CollapseLabel extends BlockControlLabel {
 
@@ -18,6 +18,7 @@ public class CollapseLabel extends BlockControlLabel {
 	/**
 	 * setup current visual state of button
 	 */
+	@Override
 	public void update() {
 
 	}
@@ -86,6 +87,7 @@ public class CollapseLabel extends BlockControlLabel {
 		RenderableBlock rBlock;
 		
 		rBlock = RenderableBlock.getRenderableBlock(blockID);
+		
 		rBlock.setVisible(!isActive());
 		
 		
@@ -145,6 +147,7 @@ public class CollapseLabel extends BlockControlLabel {
 	 * Implement MouseListener interface toggle collapse state of block if
 	 * button pressed
 	 */
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		toggle();
 		collapseBlockAndStack();

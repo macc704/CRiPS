@@ -31,7 +31,7 @@ class BlockControlLabel extends JLabel implements MouseListener {
      */
 	 BlockControlLabel(long blockID) {
 		this.blockID = blockID;
-		this.setFont(new Font("Courier", Font.BOLD, (int)(14)));
+		this.setFont(new Font("Courier", Font.BOLD, (14)));
 		this.setForeground(new Color(255,255,255));
 		this.setBorder(BorderFactory.createLineBorder(Color.gray));//show white border
 		this.setOpaque(false);
@@ -71,6 +71,7 @@ class BlockControlLabel extends JLabel implements MouseListener {
 	/**
 	 * updates BlockControlLbabel before painting
 	 */
+	@Override
 	public void paint(Graphics g) {
 		update();
 		super.paint(g);
@@ -132,6 +133,7 @@ class BlockControlLabel extends JLabel implements MouseListener {
      * Implement MouseListener interface
      * toggle collapse state of block if button pressed
      */
+	@Override
 	public void mouseClicked(MouseEvent e) {
 		//Nothing to do on mouseClicked
 	}
@@ -140,6 +142,7 @@ class BlockControlLabel extends JLabel implements MouseListener {
      * Implement MouseListener interface
      * highlight button state
 	 */
+	@Override
 	public void mouseEntered(MouseEvent e) {			
 		this.setBorder(BorderFactory.createLineBorder(Color.white));
 	}
@@ -148,6 +151,7 @@ class BlockControlLabel extends JLabel implements MouseListener {
      * Implement MouseListener interface
      * de-highlight button state
 	 */
+	@Override
 	public void mouseExited(MouseEvent e) {
 		this.setBorder(BorderFactory.createLineBorder(Color.gray));
 	}
@@ -155,6 +159,7 @@ class BlockControlLabel extends JLabel implements MouseListener {
     /**
      * Implement MouseListener interface
 	 */
+	@Override
 	public void mousePressed(MouseEvent e) {
 		//Nothing to do on mousePressed
 	}
@@ -162,6 +167,7 @@ class BlockControlLabel extends JLabel implements MouseListener {
     /**
      * Implement MouseListener interface
 	 */
+	@Override
 	public void mouseReleased(MouseEvent e) {
 		//Nothing to do on mouseReleased
 	}

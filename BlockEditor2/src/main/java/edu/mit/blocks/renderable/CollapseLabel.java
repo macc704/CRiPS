@@ -6,7 +6,6 @@ import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.workspace.Workspace;
-import edu.mit.blocks.workspace.WorkspaceEvent;
 
 /**
  * CollapseLabel is a label that can be added to a renderable block that
@@ -86,7 +85,6 @@ public class CollapseLabel extends BlockControlLabel {
      */
     void collapseBlock(long blockID) {
         RenderableBlock rBlock;
-        System.out.println(blockID);
         rBlock = workspace.getEnv().getRenderableBlock(blockID);
         rBlock.setVisible(!isActive());
         if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
@@ -96,7 +94,9 @@ public class CollapseLabel extends BlockControlLabel {
         rBlock.getHighlightHandler().updateImage();
         rBlock.repaintBlock();
 
-		workspace.notifyListeners(new WorkspaceEvent(workspace, workspace.getEnv().getRenderableBlock(getBlockID()).getParentWidget(), getBlockID(), WorkspaceEvent.BLOCK_COLLAPSED));
+		if (rBlock.isCollapsed()) {
+			return;
+		}
 
         collapseSockets(blockID);
     }
@@ -127,4 +127,56 @@ public class CollapseLabel extends BlockControlLabel {
         update();
     }
 
+	public void initialBlockCollapse(Workspace workspace){
+		toggle();
+		initcallapseBlockAndStack(workspace);
+		update();
+	}
+	
+	public void initcallapseBlockAndStack(Workspace workspace){
+		RenderableBlock rb = workspace.getEnv().getRenderableBlock(getBlockID());
+
+		if (rb != null) {
+			initialCollapseAfterBlocks(rb.getBlockID(), workspace);
+			rb.repaintBlock();
+			if (rb.getHighlightHandler() != null) {
+				rb.getHighlightHandler().updateImage();
+				if (rb.getHighlightHandler().getParent() != null
+						&& rb.getHighlightHandler().getParent().getParent() != null)
+					rb.getHighlightHandler().getParent().getParent().repaint(); //force redraw to erase highlight
+			}
+		}
+	}
+	
+	
+	public void initialCollapseAfterBlocks(Long blockID, Workspace workspace){
+		Block block = workspace.getEnv().getBlock(blockID);
+		if (block.getAfterBlockID() != Block.NULL) {
+			do {
+				block = workspace.getEnv().getBlock(block.getAfterBlockID());
+				initialCollapseBlock(block.getBlockID(), workspace);
+			} while (block.getAfterBlockID() != Block.NULL);
+		}
+	}
+	
+	public void initialCollapseBlock(long blockID, Workspace workspace){
+		RenderableBlock rBlock;
+		
+		rBlock = workspace.getEnv().getRenderableBlock(blockID);
+		rBlock.setVisible(!isActive());
+		
+		if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
+			rBlock.getComment().setVisible(!isActive());
+		}
+
+		rBlock.getHighlightHandler().updateImage();
+		rBlock.repaintBlock();
+		
+		if (rBlock.isCollapsed()) {
+			return;
+		}
+		
+		collapseSockets(blockID);
+	}
+    
 }

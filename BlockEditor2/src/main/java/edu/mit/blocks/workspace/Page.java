@@ -843,9 +843,10 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
         //now we need to redraw all the blocks now that all renderable blocks
         //within this page have been loaded, to update the socket dimensions of
         //blocks, etc.
-        for (RenderableBlock rb : this.getTopLevelBlocks()) {
+        for (RenderableBlock rb : getBlocks()) {
             rb.redrawFromTop();
             if (rb.isCollapsed()) {
+				rb.callBlockCollapse();
                 //This insures that blocks connected to a collapsed top level block
                 //are located properly and have the proper visibility set.
                 //This doesn't work until all blocks are loaded and dimensions are set.

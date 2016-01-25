@@ -2412,6 +2412,10 @@ public class RenderableBlock extends JComponent implements SearchableElement, Mo
 			afterBlock.hideBlock();	
 		}		
 	}
+	
+	public void callBlockCollapse() {
+		collapseLabel.initialBlockCollapse(getWorkspace());
+	}
 
 }
 
@@ -2476,5 +2480,7 @@ class BlockHilighter {
 		}
 		hilightBlocks.clear();
 	}
+	
+	
 
 }

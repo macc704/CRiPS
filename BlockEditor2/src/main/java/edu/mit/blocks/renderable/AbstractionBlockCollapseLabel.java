@@ -32,14 +32,16 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 	/**
 	 * setup current visual state of button
 	 */
+	@Override
 	public void update() {
 		//refreshFigure();//original
 	}
 
+	@Override
 	public void updateCollapse() {
 		updateCollapse(false);
 	}
-
+	
 	private void updateCollapse(boolean init) {
 		originalUpdateCollapse();
 		refreshFigure();
@@ -166,5 +168,37 @@ class AbstractionBlockCollapseLabel extends CollapseLabel {
 			collapseBlock(insideFirstBlockId);
 			collapseAfterBlocks(insideFirstBlockId);
 		}
+	}
+	
+	@Override
+	public void initialCollapseAfterBlocks(Long blockID, Workspace workspace){
+		collapseInsideBlocks();
+	}
+	
+	@Override
+	public void initialBlockCollapse(Workspace workspace){
+		initcallapseBlockAndStack(workspace);
+		update();
+	}
+	
+	@Override
+	public void initialCollapseBlock(long blockID, Workspace workspace){
+		RenderableBlock rBlock;
+		
+		rBlock = workspace.getEnv().getRenderableBlock(blockID);
+		rBlock.setVisible(!isActive());
+		
+		if (rBlock.hasComment() && rBlock.getComment().getCommentLabel().isActive()) {
+			rBlock.getComment().setVisible(!isActive());
+		}
+
+		rBlock.getHighlightHandler().updateImage();
+		rBlock.repaintBlock();
+		
+		if (rBlock.isCollapsed()) {
+			return;
+		}
+		
+		collapseSockets(blockID);
 	}
 }

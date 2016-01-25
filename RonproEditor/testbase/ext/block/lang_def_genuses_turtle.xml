@@ -27,6 +27,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
+
 <BlockGenus name="bk" kind="command" initlabel="戻る" color="255 0 0">
 	<description>
 		<text>
