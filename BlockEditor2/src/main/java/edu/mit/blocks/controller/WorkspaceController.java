@@ -640,7 +640,7 @@ public class WorkspaceController {
 					saveToFile(selectedFile);
 
 					BlockMapper mapper = new BlockMapper(WorkspaceController.langDefRootPath);
-					UniProgram file = mapper.parseToUniFile(selectedFile);
+					UniProgram file = mapper.parseBlockSouceFile(selectedFile.getPath());
 					
 					outputFileFromUni(file, file.classes.get(0).className);
 					setDirty(false);
@@ -684,16 +684,6 @@ public class WorkspaceController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-//
-//		try {
-//			File dltFile = new File(selectedFile.getParentFile().getPath() + File.separator + className + ".dlt");
-//			fileCreated |= !dltFile.exists();
-//			PrintStream out = new PrintStream(dltFile, RONPRO_FILE_ENCODING);
-//			DolittleGenerator.generate(dec.classes.get(0), out);
-//			out.close();
-//		} catch (Exception ex) {
-//			ex.printStackTrace();
-//		}
 
 		if (fileCreated) {
 			listener.newFileCreated();

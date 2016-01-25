@@ -27,7 +27,7 @@ import edu.mit.blocks.codeblockutil.CHoverScrollPane;
 import edu.mit.blocks.codeblockutil.CScrollPane;
 import edu.mit.blocks.codeblockutil.CScrollPane.ScrollPolicy;
 import edu.mit.blocks.renderable.RenderableBlock;
-import net.unicoen.parser.blockeditor.DOMUtil;
+import net.unicoen.parser.blockeditor.MyDOMUtil;
 import net.unicoen.parser.blockeditor.blockmodel.PagesModel;
 
 /**
@@ -503,7 +503,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
             }
             
             //ohata added
-            Element importStatements = (Element)DOMUtil.getChildNode(pagesNode, PagesModel.IMPORT_STATEMENTS_NODE);
+            Element importStatements = (Element)MyDOMUtil.getChildNode(pagesNode, PagesModel.IMPORT_STATEMENTS_NODE);
             if(importStatements != null){
             	NodeList importStatementsNode = importStatements.getElementsByTagName(PagesModel.IMPORT_STATEMENT_NODE);
                 for(int i = 0; i < importStatementsNode.getLength();i++){

@@ -34,7 +34,7 @@ import org.w3c.dom.NodeList;
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblockutil.CToolTip;
 import edu.mit.blocks.renderable.RenderableBlock;
-import net.unicoen.parser.blockeditor.DOMUtil;
+import net.unicoen.parser.blockeditor.MyDOMUtil;
 import net.unicoen.parser.blockeditor.blockmodel.PageModel;
 
 /**
@@ -804,11 +804,11 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
     	for(int i = 0; i < pageInfoNode.getChildNodes().getLength();i++){
     		Node node = pageInfoNode.getChildNodes().item(i);
     		if(PageModel.SUPER_CLASSES_NODE.equals(node.getNodeName())){
-    			this.superClasses = DOMUtil.getListFromNode(node, PageModel.SUPERCLASS_NAME_NODE);
+    			this.superClasses = MyDOMUtil.getListFromNode(node, PageModel.SUPERCLASS_NAME_NODE);
     		}else if(PageModel.MODIFIERS_NODE.equals(node.getNodeName())){
-    			this.modifiers = DOMUtil.getListFromNode(node, PageModel.MODIFIER_NODE);
+    			this.modifiers = MyDOMUtil.getListFromNode(node, PageModel.MODIFIER_NODE);
     		}else if(PageModel.INTERFASES_NODE.equals(node.getNodeName())){
-    			this.interfaces = DOMUtil.getListFromNode(node, PageModel.INTERFASE_NAME_NODE);
+    			this.interfaces = MyDOMUtil.getListFromNode(node, PageModel.INTERFASE_NAME_NODE);
     		}
     	}
     }

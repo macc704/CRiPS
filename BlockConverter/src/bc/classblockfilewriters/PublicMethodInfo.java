@@ -213,6 +213,8 @@ public class PublicMethodInfo extends BasicModel {
 
 	public Element createMethodElement(Document doc) {
 		Element methodElement = doc.createElement("Method");
+		
+		
 		methodElement.setAttribute(METHOD_NAME, methodName);
 		methodElement.setAttribute(RETURN_TYPE, returnType);
 		methodElement.setAttribute(PARAM_NUM, String.valueOf(parameters.size()));
