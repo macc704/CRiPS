@@ -37,7 +37,15 @@ public class NayosePreProcessor {
 		List<List<String>> table = CCSVFileIO.loadAsListList(file);
 		for (int i = 1; i < table.size(); i++) {// ヘッダを飛ばすので１から
 			List<String> record = table.get(i);
+			// String student = record.get(0);
+
 			String student = record.get(0);
+			// 7011-1066 -> 70111066
+			StringBuilder stmp = new StringBuilder(record.get(0));
+			int hyphenIndex = stmp.indexOf("-");
+			if (hyphenIndex != -1) {
+				student = stmp.deleteCharAt(hyphenIndex).toString();
+			}
 			String lecture = record.get(1);
 			String correctName = record.get(2);
 			for (String wrongName : record.get(3).split(",[ ]*")) {
