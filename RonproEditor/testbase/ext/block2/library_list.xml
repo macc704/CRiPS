@@ -13,7 +13,6 @@
 		<CategoryName name="Object" command="copy" />
 		<CategoryName name="String" command="add">
 			<MethodName>String-equals[@string]</MethodName>
-			<MethodName>String-split[@string]</MethodName>
 		</CategoryName>
 	</LibraryClass>
 
@@ -73,9 +72,6 @@
 			<MethodName>Turtle-sleep[@int]</MethodName>
 			<MethodName>Turtle-input[]</MethodName>
 			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 	</LibraryClass>
 	<LibraryClass name="ImageTurtle">
@@ -106,10 +102,10 @@
 			<MethodName>ListTurtle-get[@int]</MethodName>
 			<MethodName>ListTurtle-getSize[]</MethodName>
 			<MethodName>ListTurtle-add[@int]</MethodName>
-			<MethodName>ListTurtle-addFirst[@object]</MethodName>
-			<MethodName>ListTurtle-addLast[@object]</MethodName>
-			<MethodName>ListTurtle-addAll[@object]</MethodName>
-			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
+			<MethodName>ListTurtle-addFirst[@turtle]</MethodName>
+			<MethodName>ListTurtle-addLast[@turtle]</MethodName>
+			<MethodName>ListTurtle-addAll[@listturtle]</MethodName>
+			<MethodName>ListTurtle-moveAllTo[@listturtle]</MethodName>
 			<MethodName>ListTurtle-removeFirst[]</MethodName>
 			<MethodName>ListTurtle-removeLast[]</MethodName>
 			<MethodName>ListTurtle-removeAll[]</MethodName>
@@ -118,8 +114,8 @@
 			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
 			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
 			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
-			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
-			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
+			<MethodName>ListTurtle-addToBeforeCursor[@turtle]</MethodName>
+			<MethodName>ListTurtle-addToAfterCursor[@turtle]</MethodName>
 			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
 			<MethodName>ListTurtle-shuffle[]</MethodName>
 			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
@@ -150,7 +146,7 @@
 		<CategoryName name="Turtle" command="copy" />
 		<CategoryName name="ButtonTurtle" command="add">
 			<MethodName>ButtonTurtle-isClicked[]</MethodName>
-			<MethodName>ButtonTurtle-fontsize[@int]</MethodName>
+			<MethodName>ButtonTurtle-fontSize[@int]</MethodName>
 		</CategoryName>
 	</LibraryClass>
 	<LibraryClass name="TextTurtle">
@@ -174,10 +170,14 @@
 	<LibraryClass naame="BCanvas">
 		<CategoryName name="Object" command="copy" />
 		<CategoryName name="BCanvasのメソッド" command="add">
-			<MethodName>BCanvas-drawLine[@object@int@int@int@int]</MethodName>
-			<MethodName>BCanvas-drawFillTriangle[@object@int@int@int@int@int@int]</MethodName>
-			<MethodName>BCanvas-drawArc[@object@int@int@int@int@int@int]</MethodName>
-			<MethodName>BCanvas-drawText[@object@string@int@int]</MethodName>
+			<MethodName>BCanvas-drawLine[@object@number@number@number@number]
+			</MethodName>
+			<MethodName>BCanvas-drawFillTriangle[@object@number@number@number@number@number@number]
+			</MethodName>
+			<MethodName>BCanvas-drawArc[@object@number@number@number@number@number@number]
+			</MethodName>
+			<MethodName>BCanvas-drawText[@object@string@number@number]
+			</MethodName>
 			<MethodName>BCanvas-isClick[]</MethodName>
 			<MethodName>BCanvas-isSingleClick[]</MethodName>
 			<MethodName>BCanvas-isDoubleClick[]</MethodName>
@@ -187,26 +187,28 @@
 			<MethodName>BCanvas-isMouseDown[]</MethodName>
 			<MethodName>BCanvas-getMouseX[]</MethodName>
 			<MethodName>BCanvas-getMouseY[]</MethodName>
-			<MethodName>BCanvas-isKeyPressing[@int]</MethodName>
+			<MethodName>BCanvas-isKeyPressing[@number]</MethodName>
 			<MethodName>BCanvas-isKeyDown[]</MethodName>
 			<MethodName>BCanvas-getKeyCode[]</MethodName>
 			<MethodName>BCanvas-clear[]</MethodName>
 			<MethodName>BCanvas-update[]</MethodName>
 			<MethodName>BCanvas-getImageWidth[@string]</MethodName>
 			<MethodName>BCanvas-getImageHeight[@string]</MethodName>
-			<MethodName>BCanvas-sleep[@int]</MethodName>
+			<MethodName>BCanvas-sleep[@number]</MethodName>
 			<MethodName>BCanvas-getCanvasWidth[]</MethodName>
 			<MethodName>BCanvas-getCanvasHeight[]</MethodName>
-			<MethodName>BCanvas-drawImage[@string@int@int@int@int]</MethodName>
-			<MethodName>BCanvas-drawFillArc[@object@int@int@int@int@int@int]</MethodName>
+			<MethodName>BCanvas-drawImage[@string@number@number@number@number]
+			</MethodName>
+			<MethodName>BCanvas-drawFillArc[@object@number@number@number@number@number@number]
+			</MethodName>
 		</CategoryName>
 	</LibraryClass>
 	<LibraryClass name="BWindow">
 		<CategoryName name="Object" command="copy" />
 		<CategoryName name="BWindowのメソッド" command="add">
-			<MethodName>BWindow-setLocation[@int@int]</MethodName>
+			<MethodName>BWindow-setLocation[@number@number]</MethodName>
 			<MethodName>BWindow-show[]</MethodName>
-			<MethodName>BWindow-setSize[@int@int]</MethodName>
+			<MethodName>BWindow-setSize[@number@number]</MethodName>
 			<MethodName>BWindow-getCanvas[]</MethodName>
 		</CategoryName>
 	</LibraryClass>
@@ -214,7 +216,7 @@
 		<CategoryName name="Object" command="copy" />
 		<CategoryName name="BSoundのメソッド" command="add">
 			<MethodName>BSound-getVolume[]</MethodName>
-			<MethodName>BSound-setVolume[@int]</MethodName>
+			<MethodName>BSound-setVolume[@number]</MethodName>
 			<MethodName>BSound-getDefaultVolume[]</MethodName>
 			<MethodName>BSound-play[@string]</MethodName>
 			<MethodName>BSound-loadOnMemory[@string]</MethodName>

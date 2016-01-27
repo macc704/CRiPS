@@ -4,7 +4,7 @@
 
 <!-- MOVEMENT -->
 
-<BlockGenus name="Turtle-fd[@int]" kind="command" initlabel="進む" color="255 0 0">
+<BlockGenus name="fd[@int]" kind="command" initlabel="進む" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -27,7 +27,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-bk[@int]" kind="command" initlabel="戻る" color="255 0 0">
+<BlockGenus name="bk[@int]" kind="command" initlabel="戻る" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -50,7 +50,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-lt[@int]" kind="command" initlabel="左へ回る" color="255 0 0">
+<BlockGenus name="lt[@int]" kind="command" initlabel="左へ回る" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -73,7 +73,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-rt[@int]" kind="command" initlabel="右へ回る" color="255 0 0">
+<BlockGenus name="rt[@int]" kind="command" initlabel="右へ回る" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -96,7 +96,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-random[@int]" kind="function" initlabel="乱数を作り、その値" color="15 20 220">
+<BlockGenus name="random[@int]" kind="function" initlabel="乱数を作り、その値" color="15 20 220">
 	<description>
 		<text>
 			0から指定した値
@@ -122,7 +122,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-color[@object]" kind="command" initlabel="ペンの色を変える" color="255 0 0">
+<BlockGenus name="color[@object]" kind="command" initlabel="ペンの色を変える" color="255 0 0">
 	<description>
 		<text>タートルの軌跡に使用したい色を指定します。</text>
 	</description>
@@ -138,7 +138,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-up[]" kind="command" initlabel="ペンを上げる" color="255 0 0">
+<BlockGenus name="up[]" kind="command" initlabel="ペンを上げる" color="255 0 0">
 	<description>
 		<text>ペンを上げます。ペンを上げている間は、タートルの軌跡が描かれません。</text>
 	</description>
@@ -149,7 +149,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-down[]" kind="command" initlabel="ペンを下ろす" color="255 0 0">
+<BlockGenus name="down[]" kind="command" initlabel="ペンを下ろす" color="255 0 0">
 	<description>
 		<text>ペンを下げます。ペンを下げている間は、タートルの軌跡が描かれます。</text>
 	</description>
@@ -160,7 +160,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-input[]" kind="function" initlabel="コンソールから入力し、その値" color="255 0 0">
+<BlockGenus name="input[]" kind="function" initlabel="コンソールから入力し、その値" color="255 0 0">
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
@@ -175,7 +175,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-print[@string]" kind="command" initlabel="コンソールに出力する" color="255 0 0">
+<BlockGenus name="print[@string]" kind="command" initlabel="コンソールに出力する" color="255 0 0">
 	<description>
 		<text>セットした文字をコンソールに出力します。</text>
 	</description>
@@ -187,7 +187,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Turtle-print[@int]" kind="command" initlabel="コンソールに出力する" color="255 0 0">
+<BlockGenus name="print[@int]" kind="command" initlabel="コンソールに出力する" color="255 0 0">
 	<description>
 		<text>セットした文字をコンソールに出力します。</text>
 	</description>
@@ -199,7 +199,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Turtle-sleep[@int]" kind="command" initlabel="待つ" color="255 0 0">
+<BlockGenus name="sleep[@int]" kind="command" initlabel="待つ" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -222,7 +222,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-warp[@int@int]" kind="command" initlabel="ワープする" color="255 0 0">
+<BlockGenus name="warp[@int@int]" kind="command" initlabel="ワープする" color="255 0 0">
 	<description>
 		<text>
 			タートルが指定したX座標
@@ -253,7 +253,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-warpByTopLeft[@int@int]" kind="command" initlabel="(左上の座標指定で)ワープする" color="255 0 0">
+<BlockGenus name="warpByTopLeft[@int@int]" kind="command" initlabel="(左上の座標指定で)ワープする" color="255 0 0">
 	<Name>warpByTopLeft</Name>
 	<BlockConnectors>
 		<BlockConnector label="X座標" connector-kind="socket" connector-type="number">
@@ -269,7 +269,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-getX[]" kind="function" initlabel="X座標の値" color="255 0 0">
+<BlockGenus name="getX[]" kind="function" initlabel="X座標の値" color="255 0 0">
 	<description>
 		<text>
 			タートルがいる位置のX座標を調べ、その値を返します。
@@ -286,7 +286,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-getY[]" kind="function" initlabel="Y座標の値" color="255 0 0">
+<BlockGenus name="getY[]" kind="function" initlabel="Y座標の値" color="255 0 0">
 	<description>
 		<text>
 			タートルがいる位置のY座標を調べ、その値を返します。
@@ -304,7 +304,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="Turtle-size[@int@int]" kind="command" initlabel="大きさを変える" color="255 0 0">
+<BlockGenus name="size[@int@int]" kind="command" initlabel="大きさを変える" color="255 0 0">
 	<description>
 		<text>
 			タートルが指定した横の長さ
@@ -337,7 +337,7 @@
 
 
 
-<BlockGenus name="Turtle-getWidth[]" kind="function" initlabel="幅を調べ、その値" color="255 0 0">
+<BlockGenus name="getWidth[]" kind="function" initlabel="幅を調べ、その値" color="255 0 0">
 	<description>
 		<text>
 			タートルが自分の横の幅を調べ、その値を返します。
@@ -354,7 +354,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-getHeight[]" kind="function" initlabel="高さを調べ、その値" color="255 0 0">
+<BlockGenus name="getHeight[]" kind="function" initlabel="高さを調べ、その値" color="255 0 0">
 	<description>
 		<text>
 			タートルが自分の縦の幅を調べ、その値を返します。
@@ -371,7 +371,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-scale[@int]" kind="command" initlabel="大きさを変える" color="255 0 0">
+<BlockGenus name="scale[@int]" kind="command" initlabel="大きさを変える" color="255 0 0">
 	<description>
 		<text>
 			タートルが指定した倍率
@@ -394,7 +394,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-large[@int]" kind="command" initlabel="縦・横の幅を大きくする" color="255 0 0">
+<BlockGenus name="large[@int]" kind="command" initlabel="縦・横の幅を大きくする" color="255 0 0">
 	<description>
 		<text>
 			タートルが縦横の幅が指定した数値
@@ -417,7 +417,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-small[@int]" kind="command" initlabel="縦・横の幅を小さくする" color="255 0 0">
+<BlockGenus name="small[@int]" kind="command" initlabel="縦・横の幅を小さくする" color="255 0 0">
 	<description>
 		<text>
 			タートルが縦横の幅が指定した数値
@@ -440,7 +440,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-wide[@int]" kind="command" initlabel="横の幅を大きくする" color="255 0 0">
+<BlockGenus name="wide[@int]" kind="command" initlabel="横の幅を大きくする" color="255 0 0">
 	<description>
 		<text>
 			タートルが横の幅が指定した数値
@@ -463,7 +463,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-narrow[@int]" kind="command" initlabel="横の幅を小さくする" color="255 0 0">
+<BlockGenus name="narrow[@int]" kind="command" initlabel="横の幅を小さくする" color="255 0 0">
 	<description>
 		<text>
 			タートルが横の幅が指定した数値
@@ -486,7 +486,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-tall[@int]" kind="command" initlabel="縦の幅を大きくする" color="255 0 0">
+<BlockGenus name="tall[@int]" kind="command" initlabel="縦の幅を大きくする" color="255 0 0">
 	<description>
 		<text>
 			タートルが縦の幅が指定した数値
@@ -509,7 +509,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-little[@int]" kind="command" initlabel="縦の幅を小さくする" color="255 0 0">
+<BlockGenus name="little[@int]" kind="command" initlabel="縦の幅を小さくする" color="255 0 0">
 	<description>
 		<text>
 			タートル横の幅が指定した数値
@@ -532,7 +532,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-update[]" kind="command" initlabel="再描画する" color="255 0 0">
+<BlockGenus name="update[]" kind="command" initlabel="再描画する" color="255 0 0">
 	<description>
 		<text>
 			再描画されます。
@@ -545,7 +545,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-show[]" kind="command" initlabel="表示する" color="255 0 0">
+<BlockGenus name="show[]" kind="command" initlabel="表示する" color="255 0 0">
 	<description>
 		<text>
 			タートルが表示されます。
@@ -558,7 +558,44 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-hide[]" kind="command" initlabel="非表示にする" color="255 0 0">
+
+<BlockGenus name="show[@boolean]" kind="command" initlabel="表示する" color="255 0 0">
+	<description>
+		<text>
+			タートルが表示されます。
+		</text>
+	</description>
+	<Name>show</Name>
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="boolean" position-type="single"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="hide"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
+<BlockGenus name="setSize[@int@int]" kind="command" initlabel="サイズをセットする" color="255 0 0">
+	<description>
+		<text>
+			タートルが表示されます。
+		</text>
+	</description>
+	<Name>show</Name>
+	<BlockConnectors>
+		<BlockConnector connector-kind="socket" connector-type="number" position-type="single"></BlockConnector>
+		<BlockConnector connector-kind="socket" connector-type="number" position-type="single"></BlockConnector>
+	</BlockConnectors>
+	<LangSpecProperties>
+		<LangSpecProperty key="vm-cmd-name" value="hide"></LangSpecProperty>
+		<LangSpecProperty key="stack-type" value="breed"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+
+
+<BlockGenus name="hide[]" kind="command" initlabel="非表示にする" color="255 0 0">
 	<description>
 		<text>
 			タートルが非表示になります。
@@ -571,7 +608,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-setShow[]" kind="command" initlabel="表示状態を設定する" color="255 0 0">
+<BlockGenus name="setShow[]" kind="command" initlabel="表示状態を設定する" color="255 0 0">
 	<description>
 		<text>
 			タートルが表示されます。
@@ -585,7 +622,7 @@
 </BlockGenus>
 
 <!-- Ishikawa 2012 -->
-<BlockGenus name="Turtle-isShow[]" kind="function" initlabel="表示されているかどうか調べる" color="255 0 0">
+<BlockGenus name="isShow[]" kind="function" initlabel="表示されているかどうか調べる" color="255 0 0">
 	<description>
 		<text>タートルが表示されているかどうかを調べます。表示されていれば真を、されていなかれば偽を返します
 		</text>
@@ -601,7 +638,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-looks[@object]" kind="command" initlabel="見た目を変える" color="255 0 0">
+<BlockGenus name="looks[@object]" kind="command" initlabel="見た目を変える" color="255 0 0">
 	<Name>looks</Name>
 	<BlockConnectors>
 		<BlockConnector connector-kind="socket" connector-type="object">
@@ -612,7 +649,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 <!-- image -->
-<BlockGenus name="ImageTurtle-image[@string]" kind="command" color="255 0 0" initlabel="画像ファイルを設定する">
+<BlockGenus name="image[@string]" kind="command" color="255 0 0" initlabel="画像ファイルを設定する">
 	<Name>image</Name>
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
@@ -623,7 +660,7 @@
 </BlockGenus>
 
 <!-- TextTurtle -->
-<BlockGenus name="TextTurtle-text[@string]" kind="command" color="255 0 0" initlabel="テキストを設定する">
+<BlockGenus name="text[@string]" kind="command" color="255 0 0" initlabel="テキストを設定する">
 	<Name>text</Name>
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
@@ -633,7 +670,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="TextTurtle-text[@int]" kind="command" color="255 0 0" initlabel="テキストを設定する">
+<BlockGenus name="text[@int]" kind="command" color="255 0 0" initlabel="テキストを設定する">
 	<Name>text</Name>
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
@@ -643,7 +680,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="TextTurtle-getText[]" kind="function" color="255 0 0" initlabel="テキストを取得する">
+<BlockGenus name="getText[]" kind="function" color="255 0 0" initlabel="テキストを取得する">
 	<Name>getText</Name>
 	<Type>String</Type>
 	<description>
@@ -655,7 +692,7 @@
 	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> <LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
-<BlockGenus name="Turtle-key[]" kind="function" color="255 0 0" initlabel="押されているキーのキーコードを調べる">
+<BlockGenus name="key[]" kind="function" color="255 0 0" initlabel="押されているキーのキーコードを調べる">
 	<Name>key</Name>
 	<Type>int</Type>
 	<BlockConnectors>
@@ -667,7 +704,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-keyDown[@int]" kind="function" color="255 0 0" initlabel="指定したキーが押されているか調べる">
+<BlockGenus name="keyDown[@int]" kind="function" color="255 0 0" initlabel="指定したキーが押されているか調べる">
 	<Name>keyDown</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -680,7 +717,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-mouseX[]" kind="function" color="255 0 0" initlabel="マウスの現在地のX座標を取得する">
+<BlockGenus name="mouseX[]" kind="function" color="255 0 0" initlabel="マウスの現在地のX座標を取得する">
 	<Name>mouseX</Name>
 	<Type>int</Type>
 	<BlockConnectors>
@@ -692,7 +729,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-mouseY[]" kind="function" color="255 0 0" initlabel="マウスの現在地のY座標を取得する">
+<BlockGenus name="mouseY[]" kind="function" color="255 0 0" initlabel="マウスの現在地のY座標を取得する">
 	<Name>mouseY</Name>
 	<Type>int</Type>
 	<BlockConnectors>
@@ -704,7 +741,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-mouseClicked[]" kind="function" initlabel="マウスがクリックされたか調べる" color="255 0 0">
+<BlockGenus name="mouseClicked[]" kind="function" initlabel="マウスがクリックされたか調べる" color="255 0 0">
 	<Name>mouseClicked</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -716,7 +753,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-leftMouseClicked[]" kind="function" initlabel="マウスが左クリックされたか調べる" color="255 0 0">
+<BlockGenus name="leftMouseClicked[]" kind="function" initlabel="マウスが左クリックされたか調べる" color="255 0 0">
 	<Name>leftMouseClicked</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -728,7 +765,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-rightMouseClicked[]" kind="function" initlabel="マウスが右クリックされたか調べる" color="255 0 0">
+<BlockGenus name="rightMouseClicked[]" kind="function" initlabel="マウスが右クリックされたか調べる" color="255 0 0">
 	<Name>rightMouseClicked</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -740,7 +777,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-doubleClick[]" kind="function" initlabel="マウスがダブルクリックされたか調べる" color="255 0 0">
+<BlockGenus name="doubleClick[]" kind="function" initlabel="マウスがダブルクリックされたか調べる" color="255 0 0">
 	<Name>doubleClick</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -752,7 +789,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-mouseDown[]" kind="function" initlabel="マウスが押されたか調べる" color="255 0 0">
+<BlockGenus name="mouseDown[]" kind="function" initlabel="マウスが押されたか調べる" color="255 0 0">
 	<Name>mouseDown</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -764,7 +801,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-leftMouseDown[]" kind="function" initlabel="マウスの左ボタンが押されたか調べる" color="255 0 0">
+<BlockGenus name="leftMouseDown[]" kind="function" initlabel="マウスの左ボタンが押されたか調べる" color="255 0 0">
 	<Name>leftMouseDown</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -776,7 +813,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-rightMouseDown[]" kind="function" initlabel="マウスの右ボタンが押されたか調べる" color="255 0 0">
+<BlockGenus name="rightMouseDown[]" kind="function" initlabel="マウスの右ボタンが押されたか調べる" color="255 0 0">
 	<Name>rightMouseDown</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -788,7 +825,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-intersects[@object]" kind="function" initlabel="オブジェクトが重なっているかどうか調べる" color="255 0 0">
+<BlockGenus name="intersects[@object]" kind="function" initlabel="オブジェクトが重なっているかどうか調べる" color="255 0 0">
 	<Name>intersects</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -802,7 +839,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="Turtle-contains[@int@int]" kind="function" initlabel="オブジェクトが指定した座標を含む位置にいるか調べる" color="255 0 0">
+<BlockGenus name="contains[@int@int]" kind="function" initlabel="オブジェクトが指定した座標を含む位置にいるか調べる" color="255 0 0">
 	<Name>contains</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -821,7 +858,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="Turtle-createTurtle[]" kind="function" initlabel="新しくタートルを作る" color="255 0 0">
+<BlockGenus name="createTurtle[]" kind="function" initlabel="新しくタートルを作る" color="255 0 0">
 	<Name>createTurtle</Name>
 	<Type>Turtle</Type>
 	<BlockConnectors>
@@ -829,7 +866,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Turtle-saveToFile[@string]" kind="command" initlabel="ファイルに文字列を保存する" color="255 0 0">
+<BlockGenus name="saveToFile[@string]" kind="command" initlabel="ファイルに文字列を保存する" color="255 0 0">
 	<description>
 		<text>セットした文字をコンソールに出力します。</text>
 	</description>
@@ -844,7 +881,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Turtle-loadFromFile[@string]" kind="function" color="255 0 0" initlabel="ファイルから文字列を取得する">
+<BlockGenus name="loadFromFile[@string]" kind="function" color="255 0 0" initlabel="ファイルから文字列を取得する">
 	<Name>loadFromFile</Name>
 	<Type>String</Type>
 	<description>
@@ -859,7 +896,7 @@
 	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> <LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
-<BlockGenus name="Turtle-loadFromFile[@string@string]" kind="function" color="255 0 0" initlabel="文字コードを指定してファイルを読み込みます">
+<BlockGenus name="loadFromFile[@string@string]" kind="function" color="255 0 0" initlabel="文字コードを指定してファイルを読み込みます">
 	<Name>loadFromFile</Name>
 	<Type>String</Type>
 	<description>
@@ -879,7 +916,7 @@
 
 <!-- SoundTurtle -->
 
-<BlockGenus name="SoundTurtle-file[@string]" kind="command" initlabel="ファイルを設定する" color="30 30 200">
+<BlockGenus name="file[@string]" kind="command" initlabel="ファイルを設定する" color="30 30 200">
 	<Name>file</Name>
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket">
@@ -888,19 +925,19 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-play[]" kind="command" initlabel="再生する" color="30 30 200">
+<BlockGenus name="play[]" kind="command" initlabel="再生する" color="30 30 200">
 	<Name>play</Name>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-loop[]" kind="command" initlabel="ループ再生する" color="30 30 200">
+<BlockGenus name="loop[]" kind="command" initlabel="ループ再生する" color="30 30 200">
 	<Name>loop</Name>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-stop[]" kind="command" initlabel="停止する" color="30 30 200">
+<BlockGenus name="stop[]" kind="command" initlabel="停止する" color="30 30 200">
 	<Name>stop</Name>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-isPlaying[]" kind="function" initlabel="再生しているかどうか" color="30 30 200">
+<BlockGenus name="isPlaying[]" kind="function" initlabel="再生しているかどうか" color="30 30 200">
 	<Name>isPlaying</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -909,7 +946,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-getVolume[]" kind="function" initlabel="音量の値" color="30 30 200">
+<BlockGenus name="getVolume[]" kind="function" initlabel="音量の値" color="30 30 200">
 	<Name>getVolume</Name>
 	<Type>int</Type>
 	<BlockConnectors>
@@ -918,7 +955,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-setVolume[@int]" kind="command" initlabel="音量を設定する" color="30 30 200">
+<BlockGenus name="setVolume[@int]" kind="command" initlabel="音量を設定する" color="30 30 200">
 	<Name>setVolume</Name>
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="socket">
@@ -927,11 +964,11 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="SoundTurtle-loadOnMemory[]" kind="command" initlabel="メモリに読み込む" color="30 30 200">
+<BlockGenus name="loadOnMemory[]" kind="command" initlabel="メモリに読み込む" color="30 30 200">
 	<Name>loadOnMemory</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-get[@int]" kind="function" initlabel="要素" color="255 255 100">
+<BlockGenus name="get[@int]" kind="function" initlabel="要素" color="255 255 100">
 	<Name>get</Name>
 	<Type>Turtle</Type>
 	<BlockConnectors>
@@ -943,7 +980,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-getSize[]" kind="function" initlabel="要素数" color="255 255 100">
+<BlockGenus name="getSize[]" kind="function" initlabel="要素数" color="255 255 100">
 	<Name>getSize</Name>
 	<Type>int</Type>
 	<BlockConnectors>
@@ -951,42 +988,42 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-add[@int]" kind="command" initlabel="追加する" color="255 255 100">
+<BlockGenus name="add[@int]" kind="command" initlabel="追加する" color="255 255 100">
 	<Name>add</Name>
 	<BlockConnectors>
 		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addFirst[@object]" kind="command" initlabel="最初に追加する" color="255 255 100">
+<BlockGenus name="addFirst[@object]" kind="command" initlabel="最初に追加する" color="255 255 100">
 	<Name>addFirst</Name>
 	<BlockConnectors>
 		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addLast[@object]" kind="command" initlabel="最後に追加する" color="255 255 100">
+<BlockGenus name="addLast[@object]" kind="command" initlabel="最後に追加する" color="255 255 100">
 	<Name>addLast</Name>
 	<BlockConnectors>
 		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addAll[@object]" kind="command" initlabel="中身を全て追加する" color="255 255 100">
+<BlockGenus name="addAll[@object]" kind="command" initlabel="中身を全て追加する" color="255 255 100">
 	<Name>addAll</Name>
 	<BlockConnectors>
 		<BlockConnector label="誰の？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-moveAllTo[@object]" kind="command" initlabel="全ての中身を移動する" color="255 255 100">
+<BlockGenus name="moveAllTo[@object]" kind="command" initlabel="全ての中身を移動する" color="255 255 100">
 	<Name>moveAllTo</Name>
 	<BlockConnectors>
 		<BlockConnector label="どこに？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-removeFirst[]" kind="function" initlabel="最初の要素を削除して取り出す" color="255 255 100">
+<BlockGenus name="removeFirst[]" kind="function" initlabel="最初の要素を削除して取り出す" color="255 255 100">
 	<Name>remveFirst</Name>
 	<Type>Turtle</Type>
 	<BlockConnectors>
@@ -995,15 +1032,15 @@
 	<JavaType>Object</JavaType>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-removeLast[]" kind="command" initlabel="最後の要素を削除する" color="255 255 100">
+<BlockGenus name="removeLast[]" kind="command" initlabel="最後の要素を削除する" color="255 255 100">
 	<Name>removeLast</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-removeAll[]" kind="command" initlabel="全ての要素を削除する" color="255 255 100">
+<BlockGenus name="removeAll[]" kind="command" initlabel="全ての要素を削除する" color="255 255 100">
 	<Name>removeAll</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-getCursor[]" kind="function" initlabel="カーソル位置" color="255 255 100">
+<BlockGenus name="getCursor[]" kind="function" initlabel="カーソル位置" color="255 255 100">
 	<Name>getCursor</Name>
 	<Type>Turtle</Type>
 	<BlockConnectors>
@@ -1011,7 +1048,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-setCursor[@int]" kind="command" initlabel="カーソル位置を設定する" color="255 255 100">
+<BlockGenus name="setCursor[@int]" kind="command" initlabel="カーソル位置を設定する" color="255 255 100">
 	<Name>setCursor</Name>
 	<BlockConnectors>
 		<BlockConnector label="新しい位置" connector-kind="socket" connector-type="number" position-type="single">
@@ -1020,15 +1057,15 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-moveCursorToNext[]" kind="command" initlabel="カーソルを進める" color="255 255 100">
+<BlockGenus name="moveCursorToNext[]" kind="command" initlabel="カーソルを進める" color="255 255 100">
 	<Name>moveCursorToNext</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-moveCursorToPrevious[]" kind="command" initlabel="カーソルを戻す" color="255 255 100">
+<BlockGenus name="moveCursorToPrevious[]" kind="command" initlabel="カーソルを戻す" color="255 255 100">
 	<Name>moveCursorToPrevious</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-getObjectAtCursor[]" kind="function" initlabel="カーソル位置の要素" color="255 255 100">
+<BlockGenus name="getObjectAtCursor[]" kind="function" initlabel="カーソル位置の要素" color="255 255 100">
 	<Name>getObjectAtCursor</Name>
 	<Type>Turtle</Type>
 	<BlockConnectors>
@@ -1036,7 +1073,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addToBeforeCursor[@object]" kind="command" initlabel="カーソルの前に追加する" color="255 255 100">
+<BlockGenus name="addToBeforeCursor[@object]" kind="command" initlabel="カーソルの前に追加する" color="255 255 100">
 	<!-- <Name>addToBeforeCursor</Name> -->
 	<Name>addToBeforeCursor</Name>
 	<BlockConnectors>
@@ -1044,22 +1081,22 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-addToAfterCursor[@object]" kind="command" initlabel="カーソルの後に追加する" color="255 255 100">
+<BlockGenus name="addToAfterCursor[@object]" kind="command" initlabel="カーソルの後に追加する" color="255 255 100">
 	<Name>addToAfterCursor</Name>
 	<BlockConnectors>
 		<BlockConnector label="誰を？" connector-kind="socket" connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-removeAtCursor[]" kind="command" initlabel="カーソルの位置にある要素を削除する" color="255 255 100">
+<BlockGenus name="removeAtCursor[]" kind="command" initlabel="カーソルの位置にある要素を削除する" color="255 255 100">
 	<Name>removeAtCursor</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-shuffle[]" kind="command" initlabel="かき混ぜる" color="255 255 100">
+<BlockGenus name="shuffle[]" kind="command" initlabel="かき混ぜる" color="255 255 100">
 	<Name>shuffle</Name>
 </BlockGenus>
 
-<BlockGenus name="ListTurtle-setBgColor[@object]" kind="command" initlabel="背景色を設定する" color="255 255 100">
+<BlockGenus name="setBgColor[@object]" kind="command" initlabel="背景色を設定する" color="255 255 100">
 	<Name>setBgColor</Name>
 	<BlockConnectors>
 		<BlockConnector label="色" connector-kind="socket" connector-type="color" position-type="single" />
@@ -1068,7 +1105,7 @@
 
 <!-- card turtle -->
 
-<BlockGenus name="CardTurtle-getNumber[]" kind="function" initlabel="番号" color="255 255 100">
+<BlockGenus name="getNumber[]" kind="function" initlabel="番号" color="255 255 100">
 	<Name>getNumber</Name>
 	<Type>int</Type>
 	<BlockConnectors>
@@ -1079,7 +1116,7 @@
 <!-- <BlockGenus name="fontsize" kind="command" initlabel="フォントサイズを設定する" color="255 255 100"> <BlockConnectors> <BlockConnector label="pt？" connector-kind="socket" connector-type="number" position-type="single"/> </BlockConnectors> </BlockGenus> -->
 
 <!-- button turtle -->
-<BlockGenus name="ButtonTurtle-isClicked[]" kind="function" initlabel="クリックされた" color="255 255 100">
+<BlockGenus name="isClicked[]" kind="function" initlabel="クリックされた" color="255 255 100">
 	<Name>isClicked</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -1087,7 +1124,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="ButtonTurtle-fontsize[@int]" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
+<BlockGenus name="fontsize[@int]" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
 	<Name>fontsize</Name>
 	<BlockConnectors>
 		<BlockConnector label="サイズ" connector-kind="socket" connector-type="number">
@@ -1096,7 +1133,7 @@
 	</BlockConnectors>
 </BlockGenus>
 <!-- input turtle -->
-<BlockGenus name="InputTurtle-fontsize[@int]" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
+<BlockGenus name="fontsize[@int]" kind="command" initlabel="フォントサイズを設定する" color="255 255 100">
 	<Name>fontsize</Name>
 	<BlockConnectors>
 		<BlockConnector label="サイズ" connector-kind="socket" connector-type="number">
@@ -1104,11 +1141,11 @@
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
-<BlockGenus name="InputTurtle-clearText[]" kind="command" initlabel="テキストを空にする" color="255 255 100">
+<BlockGenus name="clearText[]" kind="command" initlabel="テキストを空にする" color="255 255 100">
 	<Name>clearText</Name>
 </BlockGenus>
 
-<BlockGenus name="InputTurtle-setActive[@boolean]" kind="command" initlabel="活動状態を変える" color="255 255 100">
+<BlockGenus name="setActive[@boolean]" kind="command" initlabel="活動状態を変える" color="255 255 100">
 	<Name>setActive</Name>
 	<BlockConnectors>
 		<BlockConnector label="活動状態" connector-kind="socket" connector-type="boolean">
@@ -1121,7 +1158,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="InputTurtle-isActive[]" kind="function" initlabel="活動中か" color="255 255 100">
+<BlockGenus name="isActive[]" kind="function" initlabel="活動中か" color="255 255 100">
 	<Name>isActive</Name>
 	<Type>boolean</Type>
 	<BlockConnectors>
@@ -1129,15 +1166,15 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="InputTurtle-toJapaneseMode[]" kind="command" initlabel="日本語モードにする" color="255 255 100">
+<BlockGenus name="toJapaneseMode[]" kind="command" initlabel="日本語モードにする" color="255 255 100">
 	<Name>toJapaneseMode</Name>
 </BlockGenus>
 
-<BlockGenus name="InputTurtle-toEnglishMode[]" kind="command" initlabel="英語モードにする" color="255 255 100">
+<BlockGenus name="toEnglishMode[]" kind="command" initlabel="英語モードにする" color="255 255 100">
 	<Name>toEnglishMode</Name>
 </BlockGenus>
 
-<BlockGenus name="InputTurtle-getText[]" kind="function" color="255 0 0" initlabel="テキストを取得する">
+<BlockGenus name="getText[]" kind="function" color="255 0 0" initlabel="テキストを取得する">
 	<Name>getText</Name>
 	<Type>String</Type>
 	<description>
@@ -1149,7 +1186,7 @@
 	<!-- <LangSpecProperties> <LangSpecProperty key="vm-cmd-name" value="getText"></LangSpecProperty> <LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty> </LangSpecProperties> -->
 </BlockGenus>
 
-<BlockGenus name="CardTurtle-getText[]" kind="function" color="255 0 0" initlabel="カードのテキストを取得する">
+<BlockGenus name="getText[]" kind="function" color="255 0 0" initlabel="カードのテキストを取得する">
 	<Name>getText</Name>
 	<Type>String</Type>
 	<description>
@@ -1228,62 +1265,62 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="TextTurtle">
-			<MethodName>TextTurtle-text[@string]</MethodName>
-			<MethodName>TextTurtle-getText[]</MethodName>
+			<MethodName>text[@string]</MethodName>
+			<MethodName>getText[]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -1711,62 +1748,62 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -1800,65 +1837,65 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ImageTurtle" classname="ImageTurtle">
-			<MethodName>ImageTurtle-image[@string]</MethodName>
+			<MethodName>image[@string]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -1897,72 +1934,72 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="SoundTurtle" classname="SoundTurtle">
-			<MethodName>SoundTurtle-file[@string]</MethodName>
-			<MethodName>SoundTurtle-play[]</MethodName>
-			<MethodName>SoundTurtle-loop[]</MethodName>
-			<MethodName>SoundTurtle-stop[]</MethodName>
-			<MethodName>SoundTurtle-isPlaying[]</MethodName>
-			<MethodName>SoundTurtle-getVolume[]</MethodName>
-			<MethodName>SoundTurtle-setVolume[@int]</MethodName>
-			<MethodName>SoundTurtle-loadOnMemory[]</MethodName>
+			<MethodName>file[@string]</MethodName>
+			<MethodName>play[]</MethodName>
+			<MethodName>loop[]</MethodName>
+			<MethodName>stop[]</MethodName>
+			<MethodName>isPlaying[]</MethodName>
+			<MethodName>getVolume[]</MethodName>
+			<MethodName>setVolume[@int]</MethodName>
+			<MethodName>loadOnMemory[]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -1996,84 +2033,84 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ListTurtle" classname="ListTurtle">
-			<MethodName>ListTurtle-get[@int]</MethodName>
-			<MethodName>ListTurtle-getSize[]</MethodName>
-			<MethodName>ListTurtle-add[@int]</MethodName>
-			<MethodName>ListTurtle-addFirst[@object]</MethodName>
-			<MethodName>ListTurtle-addLast[@object]</MethodName>
-			<MethodName>ListTurtle-addAll[@object]</MethodName>
-			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
-			<MethodName>ListTurtle-removeFirst[]</MethodName>
-			<MethodName>ListTurtle-removeLast[]</MethodName>
-			<MethodName>ListTurtle-removeAll[]</MethodName>
-			<MethodName>ListTurtle-getCursor[]</MethodName>
-			<MethodName>ListTurtle-setCursor[@int]</MethodName>
-			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
-			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
-			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
-			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
-			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
-			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
-			<MethodName>ListTurtle-shuffle[]</MethodName>
-			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+			<MethodName>get[@int]</MethodName>
+			<MethodName>getSize[]</MethodName>
+			<MethodName>add[@int]</MethodName>
+			<MethodName>addFirst[@object]</MethodName>
+			<MethodName>addLast[@object]</MethodName>
+			<MethodName>addAll[@object]</MethodName>
+			<MethodName>moveAllTo[@object]</MethodName>
+			<MethodName>removeFirst[]</MethodName>
+			<MethodName>removeLast[]</MethodName>
+			<MethodName>removeAll[]</MethodName>
+			<MethodName>getCursor[]</MethodName>
+			<MethodName>setCursor[@int]</MethodName>
+			<MethodName>moveCursorToNext[]</MethodName>
+			<MethodName>moveCursorToPrevious[]</MethodName>
+			<MethodName>getObjectAtCursor[]</MethodName>
+			<MethodName>addToBeforeCursor[@object]</MethodName>
+			<MethodName>addToAfterCursor[@object]</MethodName>
+			<MethodName>removeAtCursor[]</MethodName>
+			<MethodName>shuffle[]</MethodName>
+			<MethodName>setBgColor[@object]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -2107,84 +2144,84 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ListTurtle" classname="ListTurtle">
-			<MethodName>ListTurtle-get[@int]</MethodName>
-			<MethodName>ListTurtle-getSize[]</MethodName>
-			<MethodName>ListTurtle-add[@int]</MethodName>
-			<MethodName>ListTurtle-addFirst[@object]</MethodName>
-			<MethodName>ListTurtle-addLast[@object]</MethodName>
-			<MethodName>ListTurtle-addAll[@object]</MethodName>
-			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
-			<MethodName>ListTurtle-removeFirst[]</MethodName>
-			<MethodName>ListTurtle-removeLast[]</MethodName>
-			<MethodName>ListTurtle-removeAll[]</MethodName>
-			<MethodName>ListTurtle-getCursor[]</MethodName>
-			<MethodName>ListTurtle-setCursor[@int]</MethodName>
-			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
-			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
-			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
-			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
-			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
-			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
-			<MethodName>ListTurtle-shuffle[]</MethodName>
-			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+			<MethodName>get[@int]</MethodName>
+			<MethodName>getSize[]</MethodName>
+			<MethodName>add[@int]</MethodName>
+			<MethodName>addFirst[@object]</MethodName>
+			<MethodName>addLast[@object]</MethodName>
+			<MethodName>addAll[@object]</MethodName>
+			<MethodName>moveAllTo[@object]</MethodName>
+			<MethodName>removeFirst[]</MethodName>
+			<MethodName>removeLast[]</MethodName>
+			<MethodName>removeAll[]</MethodName>
+			<MethodName>getCursor[]</MethodName>
+			<MethodName>setCursor[@int]</MethodName>
+			<MethodName>moveCursorToNext[]</MethodName>
+			<MethodName>moveCursorToPrevious[]</MethodName>
+			<MethodName>getObjectAtCursor[]</MethodName>
+			<MethodName>addToBeforeCursor[@object]</MethodName>
+			<MethodName>addToAfterCursor[@object]</MethodName>
+			<MethodName>removeAtCursor[]</MethodName>
+			<MethodName>shuffle[]</MethodName>
+			<MethodName>setBgColor[@object]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -2218,84 +2255,84 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ListTurtle" classname="ListTurtle">
-			<MethodName>ListTurtle-get[@int]</MethodName>
-			<MethodName>ListTurtle-getSize[]</MethodName>
-			<MethodName>ListTurtle-add[@int]</MethodName>
-			<MethodName>ListTurtle-addFirst[@object]</MethodName>
-			<MethodName>ListTurtle-addLast[@object]</MethodName>
-			<MethodName>ListTurtle-addAll[@object]</MethodName>
-			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
-			<MethodName>ListTurtle-removeFirst[]</MethodName>
-			<MethodName>ListTurtle-removeLast[]</MethodName>
-			<MethodName>ListTurtle-removeAll[]</MethodName>
-			<MethodName>ListTurtle-getCursor[]</MethodName>
-			<MethodName>ListTurtle-setCursor[@int]</MethodName>
-			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
-			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
-			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
-			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
-			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
-			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
-			<MethodName>ListTurtle-shuffle[]</MethodName>
-			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+			<MethodName>get[@int]</MethodName>
+			<MethodName>getSize[]</MethodName>
+			<MethodName>add[@int]</MethodName>
+			<MethodName>addFirst[@object]</MethodName>
+			<MethodName>addLast[@object]</MethodName>
+			<MethodName>addAll[@object]</MethodName>
+			<MethodName>moveAllTo[@object]</MethodName>
+			<MethodName>removeFirst[]</MethodName>
+			<MethodName>removeLast[]</MethodName>
+			<MethodName>removeAll[]</MethodName>
+			<MethodName>getCursor[]</MethodName>
+			<MethodName>setCursor[@int]</MethodName>
+			<MethodName>moveCursorToNext[]</MethodName>
+			<MethodName>moveCursorToPrevious[]</MethodName>
+			<MethodName>getObjectAtCursor[]</MethodName>
+			<MethodName>addToBeforeCursor[@object]</MethodName>
+			<MethodName>addToAfterCursor[@object]</MethodName>
+			<MethodName>removeAtCursor[]</MethodName>
+			<MethodName>shuffle[]</MethodName>
+			<MethodName>setBgColor[@object]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -2329,84 +2366,84 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ListTurtle" classname="ListTurtle">
-			<MethodName>ListTurtle-get[@int]</MethodName>
-			<MethodName>ListTurtle-getSize[]</MethodName>
-			<MethodName>ListTurtle-add[@int]</MethodName>
-			<MethodName>ListTurtle-addFirst[@object]</MethodName>
-			<MethodName>ListTurtle-addLast[@object]</MethodName>
-			<MethodName>ListTurtle-addAll[@object]</MethodName>
-			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
-			<MethodName>ListTurtle-removeFirst[]</MethodName>
-			<MethodName>ListTurtle-removeLast[]</MethodName>
-			<MethodName>ListTurtle-removeAll[]</MethodName>
-			<MethodName>ListTurtle-getCursor[]</MethodName>
-			<MethodName>ListTurtle-setCursor[@int]</MethodName>
-			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
-			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
-			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
-			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
-			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
-			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
-			<MethodName>ListTurtle-shuffle[]</MethodName>
-			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+			<MethodName>get[@int]</MethodName>
+			<MethodName>getSize[]</MethodName>
+			<MethodName>add[@int]</MethodName>
+			<MethodName>addFirst[@object]</MethodName>
+			<MethodName>addLast[@object]</MethodName>
+			<MethodName>addAll[@object]</MethodName>
+			<MethodName>moveAllTo[@object]</MethodName>
+			<MethodName>removeFirst[]</MethodName>
+			<MethodName>removeLast[]</MethodName>
+			<MethodName>removeAll[]</MethodName>
+			<MethodName>getCursor[]</MethodName>
+			<MethodName>setCursor[@int]</MethodName>
+			<MethodName>moveCursorToNext[]</MethodName>
+			<MethodName>moveCursorToPrevious[]</MethodName>
+			<MethodName>getObjectAtCursor[]</MethodName>
+			<MethodName>addToBeforeCursor[@object]</MethodName>
+			<MethodName>addToAfterCursor[@object]</MethodName>
+			<MethodName>removeAtCursor[]</MethodName>
+			<MethodName>shuffle[]</MethodName>
+			<MethodName>setBgColor[@object]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -2441,84 +2478,84 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ListTurtle" classname="ListTurtle">
-			<MethodName>ListTurtle-get[@int]</MethodName>
-			<MethodName>ListTurtle-getSize[]</MethodName>
-			<MethodName>ListTurtle-add[@int]</MethodName>
-			<MethodName>ListTurtle-addFirst[@object]</MethodName>
-			<MethodName>ListTurtle-addLast[@object]</MethodName>
-			<MethodName>ListTurtle-addAll[@object]</MethodName>
-			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
-			<MethodName>ListTurtle-removeFirst[]</MethodName>
-			<MethodName>ListTurtle-removeLast[]</MethodName>
-			<MethodName>ListTurtle-removeAll[]</MethodName>
-			<MethodName>ListTurtle-getCursor[]</MethodName>
-			<MethodName>ListTurtle-setCursor[@int]</MethodName>
-			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
-			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
-			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
-			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
-			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
-			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
-			<MethodName>ListTurtle-shuffle[]</MethodName>
-			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+			<MethodName>get[@int]</MethodName>
+			<MethodName>getSize[]</MethodName>
+			<MethodName>add[@int]</MethodName>
+			<MethodName>addFirst[@object]</MethodName>
+			<MethodName>addLast[@object]</MethodName>
+			<MethodName>addAll[@object]</MethodName>
+			<MethodName>moveAllTo[@object]</MethodName>
+			<MethodName>removeFirst[]</MethodName>
+			<MethodName>removeLast[]</MethodName>
+			<MethodName>removeAll[]</MethodName>
+			<MethodName>getCursor[]</MethodName>
+			<MethodName>setCursor[@int]</MethodName>
+			<MethodName>moveCursorToNext[]</MethodName>
+			<MethodName>moveCursorToPrevious[]</MethodName>
+			<MethodName>getObjectAtCursor[]</MethodName>
+			<MethodName>addToBeforeCursor[@object]</MethodName>
+			<MethodName>addToAfterCursor[@object]</MethodName>
+			<MethodName>removeAtCursor[]</MethodName>
+			<MethodName>shuffle[]</MethodName>
+			<MethodName>setBgColor[@object]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -2552,84 +2589,84 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ListTurtle" classname="ListTurtle">
-			<MethodName>ListTurtle-get[@int]</MethodName>
-			<MethodName>ListTurtle-getSize[]</MethodName>
-			<MethodName>ListTurtle-add[@int]</MethodName>
-			<MethodName>ListTurtle-addFirst[@object]</MethodName>
-			<MethodName>ListTurtle-addLast[@object]</MethodName>
-			<MethodName>ListTurtle-addAll[@object]</MethodName>
-			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
-			<MethodName>ListTurtle-removeFirst[]</MethodName>
-			<MethodName>ListTurtle-removeLast[]</MethodName>
-			<MethodName>ListTurtle-removeAll[]</MethodName>
-			<MethodName>ListTurtle-getCursor[]</MethodName>
-			<MethodName>ListTurtle-setCursor[@int]</MethodName>
-			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
-			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
-			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
-			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
-			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
-			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
-			<MethodName>ListTurtle-shuffle[]</MethodName>
-			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+			<MethodName>get[@int]</MethodName>
+			<MethodName>getSize[]</MethodName>
+			<MethodName>add[@int]</MethodName>
+			<MethodName>addFirst[@object]</MethodName>
+			<MethodName>addLast[@object]</MethodName>
+			<MethodName>addAll[@object]</MethodName>
+			<MethodName>moveAllTo[@object]</MethodName>
+			<MethodName>removeFirst[]</MethodName>
+			<MethodName>removeLast[]</MethodName>
+			<MethodName>removeAll[]</MethodName>
+			<MethodName>getCursor[]</MethodName>
+			<MethodName>setCursor[@int]</MethodName>
+			<MethodName>moveCursorToNext[]</MethodName>
+			<MethodName>moveCursorToPrevious[]</MethodName>
+			<MethodName>getObjectAtCursor[]</MethodName>
+			<MethodName>addToBeforeCursor[@object]</MethodName>
+			<MethodName>addToAfterCursor[@object]</MethodName>
+			<MethodName>removeAtCursor[]</MethodName>
+			<MethodName>shuffle[]</MethodName>
+			<MethodName>setBgColor[@object]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -2663,84 +2700,84 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ListTurtle" classname="ListTurtle">
-			<MethodName>ListTurtle-get[@int]</MethodName>
-			<MethodName>ListTurtle-getSize[]</MethodName>
-			<MethodName>ListTurtle-add[@int]</MethodName>
-			<MethodName>ListTurtle-addFirst[@object]</MethodName>
-			<MethodName>ListTurtle-addLast[@object]</MethodName>
-			<MethodName>ListTurtle-addAll[@object]</MethodName>
-			<MethodName>ListTurtle-moveAllTo[@object]</MethodName>
-			<MethodName>ListTurtle-removeFirst[]</MethodName>
-			<MethodName>ListTurtle-removeLast[]</MethodName>
-			<MethodName>ListTurtle-removeAll[]</MethodName>
-			<MethodName>ListTurtle-getCursor[]</MethodName>
-			<MethodName>ListTurtle-setCursor[@int]</MethodName>
-			<MethodName>ListTurtle-moveCursorToNext[]</MethodName>
-			<MethodName>ListTurtle-moveCursorToPrevious[]</MethodName>
-			<MethodName>ListTurtle-getObjectAtCursor[]</MethodName>
-			<MethodName>ListTurtle-addToBeforeCursor[@object]</MethodName>
-			<MethodName>ListTurtle-addToAfterCursor[@object]</MethodName>
-			<MethodName>ListTurtle-removeAtCursor[]</MethodName>
-			<MethodName>ListTurtle-shuffle[]</MethodName>
-			<MethodName>ListTurtle-setBgColor[@object]</MethodName>
+			<MethodName>get[@int]</MethodName>
+			<MethodName>getSize[]</MethodName>
+			<MethodName>add[@int]</MethodName>
+			<MethodName>addFirst[@object]</MethodName>
+			<MethodName>addLast[@object]</MethodName>
+			<MethodName>addAll[@object]</MethodName>
+			<MethodName>moveAllTo[@object]</MethodName>
+			<MethodName>removeFirst[]</MethodName>
+			<MethodName>removeLast[]</MethodName>
+			<MethodName>removeAll[]</MethodName>
+			<MethodName>getCursor[]</MethodName>
+			<MethodName>setCursor[@int]</MethodName>
+			<MethodName>moveCursorToNext[]</MethodName>
+			<MethodName>moveCursorToPrevious[]</MethodName>
+			<MethodName>getObjectAtCursor[]</MethodName>
+			<MethodName>addToBeforeCursor[@object]</MethodName>
+			<MethodName>addToAfterCursor[@object]</MethodName>
+			<MethodName>removeAtCursor[]</MethodName>
+			<MethodName>shuffle[]</MethodName>
+			<MethodName>setBgColor[@object]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -2775,71 +2812,71 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="InputTurtle" classname="InputTurtle">
-			<MethodName>InputTurtle-fontsize[@int]</MethodName>
-			<MethodName>InputTurtle-clearText[]</MethodName>
-			<MethodName>InputTurtle-setActive[@boolean]</MethodName>
-			<MethodName>InputTurtle-isActive[]</MethodName>
-			<MethodName>InputTurtle-toJapaneseMode[]</MethodName>
-			<MethodName>InputTurtle-toEnglishMode[]</MethodName>
-			<MethodName>InputTurtle-getText[]</MethodName>
+			<MethodName>fontsize[@int]</MethodName>
+			<MethodName>clearText[]</MethodName>
+			<MethodName>setActive[@boolean]</MethodName>
+			<MethodName>isActive[]</MethodName>
+			<MethodName>toJapaneseMode[]</MethodName>
+			<MethodName>toEnglishMode[]</MethodName>
+			<MethodName>getText[]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -2873,66 +2910,66 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="CardTurtle" classname="CardTurtle">
-			<MethodName>CardTurtle-getText[]</MethodName>
-			<MethodName>CardTurtle-getNumber[]</MethodName>
+			<MethodName>getText[]</MethodName>
+			<MethodName>getNumber[]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -2966,66 +3003,66 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="タートル（基本）" classname="Turtle">
-			<MethodName>Turtle-fd[@int]</MethodName>
-			<MethodName>Turtle-bk[@int]</MethodName>
-			<MethodName>Turtle-rt[@int]</MethodName>
-			<MethodName>Turtle-lt[@int]</MethodName>
-			<MethodName>Turtle-up[]</MethodName>
-			<MethodName>Turtle-down[]</MethodName>
-			<MethodName>Turtle-color[@object]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-print[@int]</MethodName>
-			<MethodName>Turtle-random[@int]</MethodName>
+			<MethodName>fd[@int]</MethodName>
+			<MethodName>bk[@int]</MethodName>
+			<MethodName>rt[@int]</MethodName>
+			<MethodName>lt[@int]</MethodName>
+			<MethodName>up[]</MethodName>
+			<MethodName>down[]</MethodName>
+			<MethodName>color[@object]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>print[@int]</MethodName>
+			<MethodName>random[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（座標と大きさ）" classname="Turtle">
-			<MethodName>Turtle-getX[]</MethodName>
-			<MethodName>Turtle-getY[]</MethodName>
-			<MethodName>Turtle-warp[@int@int]</MethodName>
-			<MethodName>Turtle-getWidth[]</MethodName>
-			<MethodName>Turtle-getHeight[]</MethodName>
-			<MethodName>Turtle-scale[@int]</MethodName>
-			<MethodName>Turtle-size[@int@int]</MethodName>
-			<MethodName>Turtle-large[@int]</MethodName>
-			<MethodName>Turtle-small[@int]</MethodName>
-			<MethodName>Turtle-wide[@int]</MethodName>
-			<MethodName>Turtle-narrow[@int]</MethodName>
-			<MethodName>Turtle-tall[@int]</MethodName>
-			<MethodName>Turtle-little[@int]</MethodName>
+			<MethodName>getX[]</MethodName>
+			<MethodName>getY[]</MethodName>
+			<MethodName>warp[@int@int]</MethodName>
+			<MethodName>getWidth[]</MethodName>
+			<MethodName>getHeight[]</MethodName>
+			<MethodName>scale[@int]</MethodName>
+			<MethodName>size[@int@int]</MethodName>
+			<MethodName>large[@int]</MethodName>
+			<MethodName>small[@int]</MethodName>
+			<MethodName>wide[@int]</MethodName>
+			<MethodName>narrow[@int]</MethodName>
+			<MethodName>tall[@int]</MethodName>
+			<MethodName>little[@int]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（見た目と判定）" classname="Turtle">
-			<MethodName>Turtle-show[]</MethodName>
-			<MethodName>Turtle-hide[]</MethodName>
-			<MethodName>Turtle-isShow[]</MethodName>
-			<MethodName>Turtle-looks[@object]</MethodName>
-			<MethodName>Turtle-contains[@int@int]</MethodName>
-			<MethodName>Turtle-intersects[@object]</MethodName>
+			<MethodName>show[]</MethodName>
+			<MethodName>hide[]</MethodName>
+			<MethodName>isShow[]</MethodName>
+			<MethodName>looks[@object]</MethodName>
+			<MethodName>contains[@int@int]</MethodName>
+			<MethodName>intersects[@object]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（キーとマウス）" classname="Turtle">
-			<MethodName>Turtle-key[]</MethodName>
-			<MethodName>Turtle-keyDown[@int]</MethodName>
-			<MethodName>Turtle-mouseX[]</MethodName>
-			<MethodName>Turtle-mouseY[]</MethodName>
-			<MethodName>Turtle-mouseClicked[]</MethodName>
-			<MethodName>Turtle-leftMouseClicked[]</MethodName>
-			<MethodName>Turtle-rightMouseClicked[]</MethodName>
-			<MethodName>Turtle-doubleClick[]</MethodName>
-			<MethodName>Turtle-mouseDown[]</MethodName>
-			<MethodName>Turtle-leftMouseDown[]</MethodName>
-			<MethodName>Turtle-rightMouseDown[]</MethodName>
+			<MethodName>key[]</MethodName>
+			<MethodName>keyDown[@int]</MethodName>
+			<MethodName>mouseX[]</MethodName>
+			<MethodName>mouseY[]</MethodName>
+			<MethodName>mouseClicked[]</MethodName>
+			<MethodName>leftMouseClicked[]</MethodName>
+			<MethodName>rightMouseClicked[]</MethodName>
+			<MethodName>doubleClick[]</MethodName>
+			<MethodName>mouseDown[]</MethodName>
+			<MethodName>leftMouseDown[]</MethodName>
+			<MethodName>rightMouseDown[]</MethodName>
 		</CategoryName>
 		<CategoryName name="タートル（その他）" classname="Turtle">
-			<MethodName>Turtle-update[]</MethodName>
-			<MethodName>Turtle-sleep[@int]</MethodName>
-			<MethodName>Turtle-input[]</MethodName>
-			<MethodName>Turtle-print[@string]</MethodName>
-			<MethodName>Turtle-saveToFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string]</MethodName>
-			<MethodName>Turtle-loadFromFile[@string@string]</MethodName>
+			<MethodName>update[]</MethodName>
+			<MethodName>sleep[@int]</MethodName>
+			<MethodName>input[]</MethodName>
+			<MethodName>print[@string]</MethodName>
+			<MethodName>saveToFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string]</MethodName>
+			<MethodName>loadFromFile[@string@string]</MethodName>
 		</CategoryName>
 		<CategoryName name="ButtonTurtle" classname="ButtonTurtle">
-			<MethodName>ButtonTurtle-isClicked[]</MethodName>
-			<MethodName>ButtonTurtle-fontsize[@int]</MethodName>
+			<MethodName>isClicked[]</MethodName>
+			<MethodName>fontsize[@int]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -3163,7 +3200,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Turtle-startTurtle[@object@object]" kind="command" initlabel="プログラムを開始する" color="255 255 100">
+<BlockGenus name="startTurtle[@object@object]" kind="command" initlabel="プログラムを開始する" color="255 255 100">
 	<Name>startTurtle</Name>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="socket" connector-type="object" position-type="single" />
@@ -3171,7 +3208,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Turtle-startTurtle[@object]" kind="command" initlabel="プログラムを開始する" color="255 255 100">
+<BlockGenus name="startTurtle[@object]" kind="command" initlabel="プログラムを開始する" color="255 255 100">
 	<Name>startTurtle</Name>
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="socket" connector-type="object" position-type="single" />

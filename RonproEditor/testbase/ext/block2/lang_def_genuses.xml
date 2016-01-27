@@ -16,18 +16,14 @@
 &lang_def_genuses_obprogui;
 <!-- LOGIC -->
 
-<BlockGenus name="ifelse" kind="command" initlabel="分岐"
-	color="255 80 0">
+<BlockGenus name="ifelse" kind="command" initlabel="分岐" color="255 80 0">
 	<BlockConnectors>
-		<BlockConnector label="かどうか調べて" connector-kind="socket"
-			connector-type="boolean">
+		<BlockConnector label="かどうか調べて" connector-kind="socket" connector-type="boolean">
 			<DefaultArg genus-name="equals-number" label="等しい"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="真のとき" connector-kind="socket"
-			connector-type="cmd">
+		<BlockConnector label="真のとき" connector-kind="socket" connector-type="cmd">
 		</BlockConnector>
-		<BlockConnector label="偽のとき" connector-kind="socket"
-			connector-type="cmd"></BlockConnector>
+		<BlockConnector label="偽のとき" connector-kind="socket" connector-type="cmd"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="ifelse"></LangSpecProperty>
@@ -36,12 +32,10 @@
 
 <BlockGenus name="while" kind="command" initlabel="繰返" color="255 80 0">
 	<BlockConnectors>
-		<BlockConnector label="かどうか調べて" connector-kind="socket"
-			connector-type="boolean">
+		<BlockConnector label="かどうか調べて" connector-kind="socket" connector-type="boolean">
 			<DefaultArg genus-name="lessthanorequalto" label="≤"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="真の間" connector-kind="socket"
-			connector-type="cmd"></BlockConnector>
+		<BlockConnector label="真の間" connector-kind="socket" connector-type="cmd"></BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
 		<LangSpecProperty key="vm-cmd-name" value="repeat"></LangSpecProperty>
@@ -50,10 +44,8 @@
 
 <BlockGenus name="dowhile" kind="command" initlabel="1回以上繰返" color="255 80 0">
 	<BlockConnectors>
-		<BlockConnector label="真の間" connector-kind="socket"
-			connector-type="cmd"></BlockConnector>
-		<BlockConnector label="かどうか調べて" connector-kind="socket"
-			connector-type="boolean">
+		<BlockConnector label="真の間" connector-kind="socket" connector-type="cmd"></BlockConnector>
+		<BlockConnector label="かどうか調べて" connector-kind="socket" connector-type="boolean">
 			<DefaultArg genus-name="lessthanorequalto" label="≤"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
@@ -62,18 +54,15 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="break" kind="command" color="255 80 0"
-	initlabel="繰返脱出" editable-label="no" is-label-value="yes">
+<BlockGenus name="break" kind="command" color="255 80 0" initlabel="繰返脱出" editable-label="no" is-label-value="yes">
 </BlockGenus>
 
-<BlockGenus name="continue" kind="command" color="255 80 0"
-	initlabel="繰返継続" editable-label="no" is-label-value="yes">
+<BlockGenus name="continue" kind="command" color="255 80 0" initlabel="繰返継続" editable-label="no" is-label-value="yes">
 </BlockGenus>
 
 <!-- 抽象化ブロック -->
 
-<BlockGenus name="abstraction" kind="abstraction" initlabel="XXをYYする。"
-	editable-label="yes" is-label-value="yes" color="255 255 255">
+<BlockGenus name="abstraction" kind="abstraction" initlabel="XXをYYする。" editable-label="yes" is-label-value="yes" color="255 255 255">
 	<description>
 		<text>
 			プログラムを段階的に抽象化。ブロック上部にはその抽象化ブロックの中にあるプログラムの目的を記述。
@@ -82,12 +71,10 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="" connector-kind="socket"
-			connector-type="cmd"></BlockConnector>
+		<BlockConnector label="" connector-kind="socket" connector-type="cmd"></BlockConnector>
 	</BlockConnectors>
 	<Images>
-		<Image block-location="southwest" image-editable="yes" width="15"
-			height="15">
+		<Image block-location="southwest" image-editable="yes" width="15" height="15">
 			<FileLocation>support/forever_switch_on.png</FileLocation>
 		</Image>
 	</Images>
@@ -95,11 +82,10 @@
 
 <!-- スペシャルJavaブロック -->
 
-<BlockGenus name="special" kind="command" color="255 0 0"
-	initlabel="special block" editable-label="no" is-label-value="yes">
+<BlockGenus name="special" kind="command" color="255 0 0" initlabel="special block" editable-label="no" is-label-value="yes">
 </BlockGenus>
 
-<BlockGenus name="special-variable" kind="command" color="255 0 0" initlabel="special block" editable-label="no" is-label-value="yes">
+<BlockGenus name="special-variable" kind="local-variable" color="230 0 255" header-label="変数を作り、" footer-label="と名付ける" initlabel="special block" editable-label="no" is-label-value="yes">
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -114,14 +100,43 @@
 			</LangSpecProperties>
 		</Stub>
 	</Stubs>
+	<Type>special</Type>
+		<LangSpecProperties>
+		<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+		<LangSpecProperty key="type" value="object"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+</BlockGenus>
+
+<BlockGenus name="special-private-variable" kind="global-variable" color="230 0 255" header-label="変数を作り、" footer-label="と名付ける" initlabel="special block" editable-label="no" is-label-value="yes">
+	<Stubs>
+		<Stub stub-genus="getter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+		<Stub stub-genus="setter">
+			<LangSpecProperties>
+				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
+			</LangSpecProperties>
+		</Stub>
+	</Stubs>
+	<LangSpecProperties>
+		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+		<LangSpecProperty key="is-owned-by-breed" value="yes"></LangSpecProperty>
+		<LangSpecProperty key="is-monitorable" value="yes"></LangSpecProperty>
+	</LangSpecProperties>
+	<Type>special</Type>
 </BlockGenus>
 
 <BlockGenus name="special-ident" kind="data" color="255 0 0" initlabel="special block" editable-label="no" is-label-value="yes">
 	<Type>poly</Type>
 </BlockGenus>
 
-<BlockGenus name="special-expression" kind="function" color="255 0 0"
-	initlabel="special block" editable-label="no" is-label-value="yes">
+<BlockGenus name="special-expression" kind="function" color="255 0 0" initlabel="special block" editable-label="no" is-label-value="yes">
 	<BlockConnectors>
 		<BlockConnector connector-type="poly" connector-kind="plug" />
 	</BlockConnectors>
@@ -130,8 +145,7 @@
 
 <!-- Emptyブロック -->
 
-<BlockGenus name="empty" kind="command" color="20 20 20"
-	initlabel="何もしない" editable-label="no" is-label-value="yes">
+<BlockGenus name="empty" kind="command" color="20 20 20" initlabel="何もしない" editable-label="no" is-label-value="yes">
 </BlockGenus>
 
 

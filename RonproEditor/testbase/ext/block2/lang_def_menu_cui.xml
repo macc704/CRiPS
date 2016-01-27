@@ -6,13 +6,13 @@
 		<BlockGenusMember>cui-print[@string]</BlockGenusMember>
 		<BlockGenusMember>cui-println[@string]</BlockGenusMember>
 		<BlockGenusMember>Math-random[]</BlockGenusMember>
-		<BlockGenusMember>Object-hashCode[]</BlockGenusMember>
+		<BlockGenusMember>hashCode[]</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Scanner</BlockGenusMember>
- 		<BlockGenusMember>Input-isInteger[@string]</BlockGenusMember>
-		<BlockGenusMember>Input-isDouble[@string]</BlockGenusMember>
-		<BlockGenusMember>Input-getInt[]</BlockGenusMember>
-		<BlockGenusMember>Input-getDouble[]</BlockGenusMember>
-		<BlockGenusMember>Input-getString[]</BlockGenusMember>
+ 		<BlockGenusMember>isInteger[@string]</BlockGenusMember>
+		<BlockGenusMember>isDouble[@string]</BlockGenusMember>
+		<BlockGenusMember>getInt[]</BlockGenusMember>
+		<BlockGenusMember>getDouble[]</BlockGenusMember>
+		<BlockGenusMember>getString[]</BlockGenusMember>
 	</BlockDrawer>
 
 	<BlockDrawer name="構造化" type="factory" button-color="255 255 255">

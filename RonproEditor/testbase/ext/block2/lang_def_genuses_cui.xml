@@ -2,7 +2,7 @@
 
 <!-- CUI -->
 
-<BlockGenus name="new-object-Scanner[@object]" kind="function"
+<BlockGenus name="new-Scanner[@object]" kind="function"
 	initlabel="Scanner" editable-label="yes" header-label="新しく"
 	footer-label="を作る" color="16 240 27">
 	<Type>Scanner</Type>
@@ -41,7 +41,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Scanner-next[]" kind="function" initlabel="入力を受け取る（文字列型）"
+<BlockGenus name="next[]" kind="function" initlabel="入力を受け取る（文字列型）"
 	color="255 255 100" label-suffix="">
 	<Name>next</Name>
 	<Type>String</Type>
@@ -52,7 +52,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Scanner-nextLine[]" kind="function"
+<BlockGenus name="nextLine[]" kind="function"
 	initlabel="入力を受け取る（文字列型）" color="255 255 100" label-suffix="">
 	<Name>nextLine</Name>
 	<Type>String</Type>
@@ -63,7 +63,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Scanner-nextInt[]" kind="function"
+<BlockGenus name="nextInt[]" kind="function"
 	initlabel="入力を受け取る(int型)" color="255 0 0">
 	<Name>nextInt</Name>
 	<Type>int</Type>
@@ -73,7 +73,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Scanner-nextDouble[]" kind="function"
+<BlockGenus name="nextDouble[]" kind="function"
 	initlabel="入力を受け取る(double型)" color="255 0 0">
 	<Name>nextDouble</Name>
 	<Type>double</Type>
@@ -83,7 +83,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Scanner-hasNextDouble[]" kind="data"
+<BlockGenus name="hasNextDouble[]" kind="data"
 	initlabel="入力がdouble型か調べる" color="255 0 0">
 	<Name>hasNextDouble</Name>
 	<Type>boolean</Type>
@@ -94,7 +94,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="Scanner-hasNextInt[]" kind="data"
+<BlockGenus name="hasNextInt[]" kind="data"
 	initlabel="入力がint型か調べる" color="255 0 0">
 	<Name>hasNextInt</Name>
 	<Type>boolean</Type>
@@ -112,7 +112,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object-withobject" label="Scanner"></DefaultArg>
+			<DefaultArg genus-name="new-withobject" label="Scanner"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -131,12 +131,12 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="Scanner" classname="Scanner">
-			<MethodName>Scanner-nextInt[]</MethodName>
-			<MethodName>Scanner-nextDouble[]</MethodName>
-			<MethodName>Scanner-next[]</MethodName>
-			<MethodName>Scanner-nextLine[]</MethodName>
-			<MethodName>Scanner-hasNextDouble[]</MethodName>
-			<MethodName>Scanner-hasNextInt[]</MethodName>
+			<MethodName>nextInt[]</MethodName>
+			<MethodName>nextDouble[]</MethodName>
+			<MethodName>next[]</MethodName>
+			<MethodName>nextLine[]</MethodName>
+			<MethodName>hasNextDouble[]</MethodName>
+			<MethodName>hasNextInt[]</MethodName>
 		</CategoryName>
 
 	</ClassMethods>
@@ -155,14 +155,14 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object-withobject" label="Scanner"></DefaultArg>
+			<DefaultArg genus-name="new-withobject" label="Scanner"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
-				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
-				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
+				<LangSpecProperty key="vm-cmd-name" value="eval-local"></LangSpecProperty>
+				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
 		<Stub stub-genus="setter">
@@ -174,12 +174,12 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="Scanner" classname="Scanner">
-			<MethodName>Scanner-nextInt[]</MethodName>
-			<MethodName>Scanner-nextDouble[]</MethodName>
-			<MethodName>Scanner-next[]</MethodName>
-			<MethodName>Scanner-nextLine[]</MethodName>
-			<MethodName>Scanner-hasNextDouble[]</MethodName>
-			<MethodName>Scanner-hasNextInt[]</MethodName>
+			<MethodName>nextInt[]</MethodName>
+			<MethodName>nextDouble[]</MethodName>
+			<MethodName>next[]</MethodName>
+			<MethodName>nextLine[]</MethodName>
+			<MethodName>hasNextDouble[]</MethodName>
+			<MethodName>hasNextInt[]</MethodName>
 		</CategoryName>
 
 	</ClassMethods>
@@ -198,7 +198,7 @@
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="object">
-			<DefaultArg genus-name="new-object-Random[]" label="Random"></DefaultArg>
+			<DefaultArg genus-name="new-Random[]" label="Random"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -217,9 +217,9 @@
 	</Stubs>
 	<ClassMethods>
 		<CategoryName name="Random" className="Random">
-			<MethodName>Random-nextInt[]</MethodName>
-			<MethodName>Random-nextInt[@int]</MethodName>
-			<MethodName>Random-nextDouble[]</MethodName>
+			<MethodName>nextInt[]</MethodName>
+			<MethodName>nextInt[@int]</MethodName>
+			<MethodName>nextDouble[]</MethodName>
 		</CategoryName>
 	</ClassMethods>
 	<LangSpecProperties>
@@ -231,7 +231,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="Random-nextInt[]" kind="function"
+<BlockGenus name="nextInt[]" kind="function"
 	initlabel="乱数を生成する(int型)" color="255 0 0">
 	<Name>nextInt</Name>
 	<Type>int</Type>
@@ -241,7 +241,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="new-object-Random[]" kind="function"
+<BlockGenus name="new-Random[]" kind="function"
 	initlabel="Random" editable-label="yes" header-label="新しく"
 	footer-label="を作る" color="16 240 27">
 	<description>
@@ -259,7 +259,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="Random-nextInt[@int]" kind="function"
+<BlockGenus name="nextInt[@int]" kind="function"
 	initlabel="上限値より小さい乱数を生成する(int型)" color="255 0 0">
 	<Name>nextInt</Name>
 	<Type>int</Type>
@@ -273,7 +273,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Random-nextDouble[]" kind="function"
+<BlockGenus name="nextDouble[]" kind="function"
 	initlabel="乱数を生成する(double型)" color="255 0 0">
 	<Name>nextDouble</Name>
 	<Type>int</Type>
@@ -288,7 +288,7 @@
 	connector-kind="plug" connector-type="string"> </BlockConnector> </BlockConnectors> 
 	</BlockGenus> -->
 
-<BlockGenus name="String-hashCode[@string]" kind="function"
+<BlockGenus name="hashCode[@string]" kind="function"
 	initlabel="ハッシュ値を求める" color="255 0 0">
 	<Type>int</Type>
 	<Name>hashCode</Name>
@@ -298,7 +298,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="String-split[@string]" kind="function"
+<BlockGenus name="split[@string]" kind="function"
 	initlabel="文字列を指定した文字で区切る" color="255 0 0">
 	<Type>String[]</Type>
 	<Name>split</Name>
@@ -308,8 +308,16 @@
 	</BlockConnectors>
 </BlockGenus>
 
+<BlockGenus name="length" kind="function" initlabel="文字数を取得する" color="255 0 0">
+	<Type>int</Type>
+	<Name>length</Name>
+	<BlockConnectors>
+		<BlockConnector connector-kind="plug" connector-type="number" />
+	</BlockConnectors>
+</BlockGenus>
 
-<BlockGenus name="Input-getInt[]" kind="function" initlabel="キーボードから整数を入力し、その値"
+
+<BlockGenus name="getInt[]" kind="function" initlabel="キーボードから整数を入力し、その値"
 	color="255 0 0">
 	<Type>int</Type>
 	<Name>getInt</Name>
@@ -318,7 +326,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Input-getString[]" kind="function"
+<BlockGenus name="getString[]" kind="function"
 	initlabel="キーボードから文字列を入力し、その値" color="255 0 0">
 	<Type>String</Type>
 	<Name>getString</Name>
@@ -327,7 +335,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Input-getDouble[]" kind="function"
+<BlockGenus name="getDouble[]" kind="function"
 	initlabel="キーボードから実数を入力し、その値" color="255 0 0">
 	<Type>double</Type>
 	<Name>getDouble</Name>
@@ -336,7 +344,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Input-isInteger[@string]" kind="function"
+<BlockGenus name="isInteger[@string]" kind="function"
 	initlabel="整数かどうか調べる" color="255 0 0">
 	<Type>boolean</Type>
 	<Name>isInteger</Name>
@@ -347,7 +355,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Input-isDouble[@string]" kind="function"
+<BlockGenus name="isDouble[@string]" kind="function"
 	initlabel="実数かどうか調べる" color="255 0 0">
 	<Type>boolean</Type>
 	<Name>isDouble</Name>
@@ -358,7 +366,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="Object-hashCode[]" kind="function"
+<BlockGenus name="hashCode[]" kind="function"
 	initlabel="ハッシュ値を求める" color="255 0 0">
 	<Name>hashCode</Name>
 	<Type>int</Type>

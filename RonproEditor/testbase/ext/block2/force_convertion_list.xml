@@ -78,7 +78,7 @@
 				<name>Turtle</name>
 			</receiver>
 		</UniModel>
-		<GenusName>Turtle-startTurtle[@object]</GenusName>
+		<GenusName>startTurtle[@object]</GenusName>
 	</Item>
 
 	<!-- Math関連 -->
