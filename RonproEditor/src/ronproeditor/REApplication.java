@@ -429,7 +429,7 @@ public class REApplication {
 		this.sourceManager.setRootDirectory(root);
 		this.sourceManager.setFileFilter(
 				CFileFilter.ACCEPT_BY_NAME_FILTER("*.java", "*.hcp", "*.c", "*.cpp", "Makefile", "*.oil", "*.rb",
-						"*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dlt", "*.js"));
+						"*.bat", "*.tex", "*.jpg", "*.gif", "*.png", "*.wav", "*.mp3", "*.csv", "*.dtl", "*.js"));
 		this.sourceManager.setDirFilter(CFileFilter.IGNORE_BY_NAME_FILTER(".*"));
 
 		CFile preferenceFile = CFileSystem.findDirectory(root.getAbsolutePath()).findOrCreateFile(".pref/preference");
@@ -536,7 +536,7 @@ public class REApplication {
 	public void doOpen(File file) {
 		doClose();
 
-		if (file.getName().endsWith("java") || file.getName().endsWith("js") || file.getName().endsWith("dlt")) {// @TODO
+		if (file.getName().endsWith("java") || file.getName().endsWith("js") || file.getName().endsWith("dtl")) {// @TODO
 																													// きちんと実装すること
 																													// 2011/11/22
 			getSourceManager().open(file);

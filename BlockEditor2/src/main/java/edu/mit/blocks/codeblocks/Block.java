@@ -1868,7 +1868,6 @@ public class Block implements ISupportMemento {
 			if (sockets.size() > 0) {
 				block.sockets = sockets;
 			}
-			System.out.println(genusName + "lable" + label);
 			if (beforeID != null) {
 				block.before.setConnectorBlockID(beforeID);
 			}

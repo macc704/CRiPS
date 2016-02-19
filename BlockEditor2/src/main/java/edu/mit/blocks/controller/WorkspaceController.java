@@ -684,6 +684,18 @@ public class WorkspaceController {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		
+//		try {
+//			File dtlFile = new File(selectedFile.getParentFile().getPath() + File.separator + className + ".dtl");
+//			fileCreated |= !dtlFile.exists();
+//			PrintStream out = new PrintStream(dtlFile, RONPRO_FILE_ENCODING);
+//			DolittleGenerator.generate(dec.classes.get(0), out);
+//			out.close();
+//			listener.blockConverted(dtlFile);
+//
+//		} catch (Exception ex) {
+//			ex.printStackTrace();
+//		}
 
 		if (fileCreated) {
 			listener.newFileCreated();

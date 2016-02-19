@@ -1072,7 +1072,7 @@ public class BlockGenus {
 				if (nameMatcher.find()) {
 					newGenus.genusName = nameMatcher.group(1);
 				}
-				System.out.println(newGenus.genusName);
+//				System.out.println(newGenus.genusName);
 				// assert that no other genus has this name
 				assert env.getGenusWithName(newGenus.genusName) == null : "Block genus names must be unique.  A block genus already exists with this name: "
 						+ newGenus.genusName;
