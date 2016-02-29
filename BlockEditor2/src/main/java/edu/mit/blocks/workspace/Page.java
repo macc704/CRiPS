@@ -136,7 +136,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
     private List<String> superClasses = new ArrayList<>();
     private List<String> interfaces = new ArrayList<>();
     private List<String> modifiers = new ArrayList<>();
-    
+    private String comment = null;
     //////////////////////////////
     //Constructor/ Destructor	//
     //////////////////////////////
@@ -809,6 +809,8 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
     			this.modifiers = MyDOMUtil.getListFromNode(node, PageModel.MODIFIER_NODE);
     		}else if(PageModel.INTERFASES_NODE.equals(node.getNodeName())){
     			this.interfaces = MyDOMUtil.getListFromNode(node, PageModel.INTERFASE_NAME_NODE);
+    		}else if(PageModel.COMMENT_NODE.equals(node.getNodeName())){
+    			this.comment = node.getTextContent();
     		}
     	}
     }
@@ -912,9 +914,17 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
     		modifiersNode.appendChild(element);
     	}
     	
+    	
+    	if(comment != null){
+    		Element commentNode = document.createElement(PageModel.COMMENT_NODE);
+        	commentNode.setTextContent(comment);    
+        	pageInfo.appendChild(commentNode);
+    	}
+    	
     	pageInfo.appendChild(superClassesNode);
     	pageInfo.appendChild(interfacesNode);
     	pageInfo.appendChild(modifiersNode);
+    	
     	
     	return pageInfo;
     }

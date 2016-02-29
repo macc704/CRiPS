@@ -140,7 +140,8 @@ public class Comment extends JPanel {
         undoManager.setLimit(1000);
         textArea.getDocument().addUndoableEditListener(undoManager);
         textArea.addKeyListener(new KeyAdapter() {
-            public void keyPressed(KeyEvent e) {
+            @Override
+			public void keyPressed(KeyEvent e) {
                 Comment.this.workspace.notifyListeners(new WorkspaceEvent(Comment.this.workspace, getCommentSource().getParentWidget(), WorkspaceEvent.BLOCK_COMMENT_CHANGED));
 
                 if(e.getKeyCode() == KeyEvent.VK_ENTER){
@@ -181,7 +182,8 @@ public class Comment extends JPanel {
             /**
              * Implement MouseListener interface
              */
-            public void mouseEntered(MouseEvent e) {
+            @Override
+			public void mouseEntered(MouseEvent e) {
                 Comment comment = Comment.this;
                 comment.setPressed(true);
                 comment.showOnTop();
@@ -449,8 +451,6 @@ public class Comment extends JPanel {
                 RenderableBlock.extractBoxSizeInfo(commentChild, boxSize);
             } else if (commentChild.getNodeName().equals("Collapsed")) {
                 commentCollapsed = true;
-            } else {
-                System.out.println("Uknown Comment Node: " + commentChild.getNodeName());
             }
         }
 
@@ -468,7 +468,8 @@ public class Comment extends JPanel {
     /**
      * overrides javax.Swing.JPanel.paint()
      */
-    public void paint(Graphics g) {
+    @Override
+	public void paint(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         g2.addRenderingHints(new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON));
 
@@ -529,7 +530,8 @@ public class Comment extends JPanel {
      * 			if not, then set this.location.y to closest boundary value.
      * Override javax.Swing.JComponent.setLocation()
      */
-    public void setLocation(int x, int y) {
+    @Override
+	public void setLocation(int x, int y) {
         if (isConstrainComment() && this.getParent() != null) {
             //If x<0, set this.location.x to 0.
             //If 0<x<this.parent.width, then set this.location.x to x.
@@ -562,7 +564,8 @@ public class Comment extends JPanel {
      *
      * Override javax.Swing.JComponent.setLocation()
      */
-    public void setLocation(Point p) {
+    @Override
+	public void setLocation(Point p) {
         setLocation(p.x, p.y);
     }
 
@@ -595,7 +598,8 @@ public class Comment extends JPanel {
     /**
      * Over rides the standard setVisible to make sure the arrow's visibility is also set.
      */
-    public void setVisible(boolean b) {
+    @Override
+	public void setVisible(boolean b) {
         super.setVisible(b);
         if (arrow.arrow != null) {
             arrow.setVisible(b);
@@ -641,7 +645,8 @@ public class Comment extends JPanel {
     /**
      * String representation of this
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return "Comment ID: " + " at " + this.getLocation() + " with text: \"" + getText() + "\"";
     }
 
@@ -665,19 +670,22 @@ public class Comment extends JPanel {
     private class CommentEventListener implements FocusListener, MouseListener, MouseMotionListener {
 
         /**When focus lost, force a repaint**/
-        public void focusGained(FocusEvent e) {
+        @Override
+		public void focusGained(FocusEvent e) {
             active = true;
             repaint();
         }
 
         /**When focuses gained, force a repaint**/
-        public void focusLost(FocusEvent e) {
+        @Override
+		public void focusLost(FocusEvent e) {
             active = false;
             repaint();
         }
 
         /**when clicked upon, switch to editing mode*/
-        public void mouseClicked(MouseEvent e) {
+        @Override
+		public void mouseClicked(MouseEvent e) {
             //prevent users from clicking multiple times and crashing the system
             if (e.getClickCount() > 1) {
                 return;
@@ -685,13 +693,15 @@ public class Comment extends JPanel {
         }
 
         /**highlight this comment when a mouse begins to hover over this*/
-        public void mouseEntered(MouseEvent e) {
+        @Override
+		public void mouseEntered(MouseEvent e) {
             showOnTop();
             jCompDH.mouseEntered(e);
         }
 
         /**highlight this comment when a mouse hovers over this*/
-        public void mouseMoved(MouseEvent e) {
+        @Override
+		public void mouseMoved(MouseEvent e) {
             if (textArea.isEditable()) {
                 if (e.getX() > (width - 2 * margin) && e.getY() > (height - 2 * margin)) {
                     Comment.this.setCursor(new Cursor(Cursor.SE_RESIZE_CURSOR));
@@ -704,12 +714,14 @@ public class Comment extends JPanel {
         }
 
         /**stop highlighting this comment when a mouse leaves this*/
-        public void mouseExited(MouseEvent e) {
+        @Override
+		public void mouseExited(MouseEvent e) {
             jCompDH.mouseExited(e);
         }
 
         /**prepare for a drag when mouse is pressed down*/
-        public void mousePressed(MouseEvent e) {
+        @Override
+		public void mousePressed(MouseEvent e) {
             Comment.this.grabFocus();  //atimer.stop();
             showOnTop();
             jCompDH.mousePressed(e);
@@ -728,7 +740,8 @@ public class Comment extends JPanel {
         }
 
         /**when mouse is released*/
-        public void mouseReleased(MouseEvent e) {
+        @Override
+		public void mouseReleased(MouseEvent e) {
             jCompDH.mouseReleased(e);
             setResizing(false);
             setPressed(false);
@@ -736,7 +749,8 @@ public class Comment extends JPanel {
         }
 
         /**drag this when mouse is dragged*/
-        public void mouseDragged(MouseEvent e) {
+        @Override
+		public void mouseDragged(MouseEvent e) {
             if (isResizing()) {
                 double ww = e.getX() > MINIMUM_WIDTH * zoom ? e.getX() : MINIMUM_WIDTH * zoom;
                 double hh = e.getY() > MINIMUM_HEIGHT * zoom ? e.getY() : MINIMUM_HEIGHT * zoom;

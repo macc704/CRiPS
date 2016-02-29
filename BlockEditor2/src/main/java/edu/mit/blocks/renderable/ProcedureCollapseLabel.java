@@ -19,9 +19,16 @@ class ProcedureCollapseLabel extends CollapseLabel {
 		super(workspace, blockID);
 	}
 
+	@Override
+	public void initialBlockCollapse(Workspace workspace){
+		initcallapseBlockAndStack(workspace);
+		update();
+	}
+	
 	/**
 	 * setup current visual state of button
 	 */
+	@Override
 	public void update() {
 		RenderableBlock rb = workspace.getEnv().getRenderableBlock(getBlockID());
 
@@ -48,6 +55,7 @@ class ProcedureCollapseLabel extends CollapseLabel {
 	/**
 	 * Sets visibility of afterBlocks and sockets of a procedure block
 	 */
+	@Override
 	public void updateCollapse() {
 		RenderableBlock rb = workspace.getEnv().getRenderableBlock(getBlockID());
 		//トレース矢印の座標の再設定
