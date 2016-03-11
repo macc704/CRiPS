@@ -5,12 +5,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-abstract class CCFileLoader {
+public abstract class CCFileLoader {
 	/***************************
 	 * 継承:CCAddCompileErrorKinds, CCompileErrorLoader
 	 ***************************/
 
-	protected void loadData(String filename) {
+	public void loadData(String filename) {
 		try {
 			BufferedReader breader = new BufferedReader(new InputStreamReader(
 					new FileInputStream(filename), "SJIS"));
