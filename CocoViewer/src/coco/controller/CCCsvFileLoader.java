@@ -9,7 +9,7 @@ import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
 
-abstract class CCCsvFileLoader {
+public abstract class CCCsvFileLoader {
 	/***************************
 	 * 継承:CCCompileErrorConverter, CCCompileErrorKindLoader
 	 ***************************/
