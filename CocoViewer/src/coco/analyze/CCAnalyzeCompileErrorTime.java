@@ -12,24 +12,41 @@ import java.util.Map;
 
 import coco.controller.CCCsvFileLoader;
 
+/**
+ * コンパイルエラー修正履歴から学生ごとの修正時間を計測するプログラム
+ * 
+ * @author Motoki Hirao
+ */
 public class CCAnalyzeCompileErrorTime extends CCCsvFileLoader {
 
 	LinkedHashMap<String, Integer> map = new LinkedHashMap<String, Integer>();
 	public static final String CAMMA = ",";
 	PrintWriter pw;
 
+	/*
+	 * 対象データ:Terastation内の研究成果物/平尾/csvdata内/lectureXX/CCCompileError.csv
+	 * パス指定が絶対パスのほうが容易であったため、CCCompileError.csvを活用
+	 * 以下のmain文ではそれらをlectureごとに名付けを行い、測定
+	 */
 	public static void main(String[] args) {
 		CCAnalyzeCompileErrorTime main = new CCAnalyzeCompileErrorTime();
-		for(int i = 2; i < 14; i++) {
-			if(i == 8) continue; // lecture08データはない
+
+		// lecture分
+		for (int i = 2; i < 14; i++) {
+			if (i == 8)
+				continue; // lecture08データは存在しないため
 			main.loadData("compileerrordata/CCCompileError" + String.format("%02d", i) + ".csv");
 		}
 
-		for(int i = 35; i <= 105; i += 35) {
-			main.loadData("compileerrordata/CCCompileErrorM" + String.format("%02d", i) + ".csv");	
+		// 中間課題分
+		for (int i = 35; i <= 105; i += 35) {
+			main.loadData("compileerrordata/CCCompileErrorM" + String.format("%02d", i) + ".csv");
 		}
+
+		// lecture11 chance課題（上記の命名規則から外れるため）
 		main.loadData("compileerrordata/CCCompileError11c.csv");
-		
+
+		// 書き出し処理
 		main.writeData("result/CCResult.csv");
 		System.out.println("SUCCUESS!");
 	}

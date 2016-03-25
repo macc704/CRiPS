@@ -11,31 +11,43 @@ import java.util.List;
 import java.util.Map;
 
 import coco.controller.CCCsvFileLoader;
-import coco.controller.CCFileLoader;
 
+/**
+ * メトリクスファイルから学生ごとの作業時間を計測するプログラム
+ * 
+ * @author Motoki Hirao
+ */
 public class CCAnalyzeMatricsTime extends CCCsvFileLoader {
 
 	LinkedHashMap<String, Integer> map = new LinkedHashMap<String, Integer>();
 	public static final String CAMMA = ",";
 	PrintWriter pw;
 
+	/*
+	 * 対象データ:Terastation内の研究成果物/平尾/csvdata内/lectureXX/FileMetrics.csv
+	 * 以下のmain文ではそれらをlectureごとに名付けを行い、測定
+	 */
 	public static void main(String[] args) {
 		CCAnalyzeMatricsTime main = new CCAnalyzeMatricsTime();
 		// main.loadData("metricsdata/FileMetrics.csv");
 
+		// lecture分
 		for (int i = 2; i < 14; i++) {
 			if (i == 8)
-				continue; // lecture08データはない
+				continue; // lecture08データは存在しないため
 			main.loadData("metricsdata/FileMetrics" + String.format("%02d", i) + ".csv");
 		}
 
+		// 中間課題分
 		for (int i = 35; i <= 105; i += 35) {
 			main.loadData("metricsdata/FileMetricsM" + String.format("%02d", i) + ".csv");
 		}
+
+		// lecture11 chance課題（上記の命名規則から外れるため）
 		main.loadData("metricsdata/FileMetrics11c.csv");
 
+		// 書き出し処理
 		main.writeData("result/CCMetricsResult.csv");
-
 		System.out.println("SUCCUESS!");
 	}
 
@@ -43,7 +55,7 @@ public class CCAnalyzeMatricsTime extends CCCsvFileLoader {
 	protected void separeteData(List<String> lines) throws IOException {
 		String name = lines.get(0).split("-")[0];
 		int time = Integer.parseInt(lines.get(3));
-		
+
 		if (map.containsKey(name)) {
 			map.put(name, map.get(name) + time);
 		} else {
