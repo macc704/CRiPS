@@ -61,6 +61,9 @@ public class PostProcessorStrategy implements DropStrategy {
 		saveTable = blockProcessor.process(table, "CompileCorrectTimeRate");
 		save(dir, basename + "CompileCorrectTimeRate", saveTable);
 
+		// LOC
+		saveTable = blockProcessor.process(table, "LOC");
+		save(dir, basename + "LOC", saveTable);
 	}
 
 	void save(CDirectory dir, String name, List<List<String>> table) {

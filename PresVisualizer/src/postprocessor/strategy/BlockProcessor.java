@@ -136,6 +136,14 @@ public class BlockProcessor {
 								record.add(compileCTRate);
 								break;
 
+							case "LOC":
+								String loc = data.get(5);
+								if (loc == null || loc.equals("0")) {
+									loc = "-";
+								}
+								record.add(loc);
+								break;
+
 							default:
 								break;
 							}
@@ -177,8 +185,9 @@ public class BlockProcessor {
 	}
 
 	private boolean isProcessQuestion(NQuestion q) {
-		return q.isMandatory() && q.getLangReq() == NQuestion.LanguageRequirement.ANY;
-		// return q.isMandatory();
+		// return q.isMandatory() && q.getLangReq() ==
+		// NQuestion.LanguageRequirement.ANY;
+		return q.isMandatory();
 	}
 
 	/**
