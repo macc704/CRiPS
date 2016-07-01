@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- Stubは先に読み込まれている必要がある -->
 &lang_def_genuses_stubs;
@@ -21,7 +21,7 @@
 	<BlockConnectors>
 		<BlockConnector label="Condition" connector-kind="socket"
 			connector-type="boolean">
-			<DefaultArg genus-name="equals-number" label="等しい"></DefaultArg>
+			<DefaultArg genus-name="equals-number" label="equal"></DefaultArg>
 		</BlockConnector>
 		<BlockConnector label="true" connector-kind="socket"
 			connector-type="cmd">

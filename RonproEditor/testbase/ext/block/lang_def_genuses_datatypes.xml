@@ -31,7 +31,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="string" kind="data" initlabel="abcde"
+<BlockGenus name="string" kind="data" initlabel="あいうえお"
 	editable-label="yes" is-label-value="yes" color="255 0 255">
 	<description>
 		<text>
@@ -60,7 +60,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="false" kind="data" initlabel="fase" color="255 0 255">
+<BlockGenus name="false" kind="data" initlabel="false" color="255 0 255">
 	<!--<description> <text> 偽値です。 </text> </description> -->
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
@@ -74,7 +74,7 @@
 
 <!-- COLORS -->
 
-<BlockGenus name="red" kind="data" initlabel="赤" color="255 0 0">
+<BlockGenus name="red" kind="data" initlabel="red" color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -85,7 +85,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="black" kind="data" initlabel="黒" color="0 0 0">
+<BlockGenus name="black" kind="data" initlabel="black" color="0 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -96,7 +96,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="white" kind="data" initlabel="白" color="255 255 255">
+<BlockGenus name="white" kind="data" initlabel="white" color="255 255 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -107,7 +107,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="gray" kind="data" initlabel="灰色" color="128 128 128">
+<BlockGenus name="gray" kind="data" initlabel="gray" color="128 128 128">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -118,7 +118,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="lightGray" kind="data" initlabel="ライトグレイ"
+<BlockGenus name="lightGray" kind="data" initlabel="light gray"
 	color="211 211 211">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
@@ -130,7 +130,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="darkGray" kind="data" initlabel="ダークグレイ"
+<BlockGenus name="darkGray" kind="data" initlabel="dark gray"
 	color="169 169 169">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
@@ -142,7 +142,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="orange" kind="data" initlabel="オレンジ" color="255 165 0">
+<BlockGenus name="orange" kind="data" initlabel="orange" color="255 165 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -153,7 +153,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="brown" kind="data" initlabel="茶" color="165 42 42">
+<BlockGenus name="brown" kind="data" initlabel="braun" color="165 42 42">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -164,7 +164,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="yellow" kind="data" initlabel="黄" color="255 255 0">
+<BlockGenus name="yellow" kind="data" initlabel="yello" color="255 255 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -175,7 +175,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="green" kind="data" initlabel="緑" color="50 205 50">
+<BlockGenus name="green" kind="data" initlabel="green" color="50 205 50">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -186,7 +186,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="lime" kind="data" initlabel="ライム" color="0 255 0">
+<BlockGenus name="lime" kind="data" initlabel="lime" color="0 255 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -209,7 +209,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="cyan" kind="data" initlabel="シアン" color="0 255 255">
+<BlockGenus name="cyan" kind="data" initlabel="cian" color="0 255 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -220,7 +220,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="purple" kind="data" initlabel="紫" color="128 0 128">
+<BlockGenus name="purple" kind="data" initlabel="purple" color="128 0 128">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -231,7 +231,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="magenta" kind="data" initlabel="マゼンタ"
+<BlockGenus name="magenta" kind="data" initlabel="magenta"
 	color="255 0 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
@@ -243,7 +243,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="sky" kind="data" initlabel="空色" color="135 206 255">
+<BlockGenus name="sky" kind="data" initlabel="lite brue" color="135 206 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -254,7 +254,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="blue" kind="data" initlabel="青" color="0 0 255">
+<BlockGenus name="blue" kind="data" initlabel="brue" color="0 0 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -265,7 +265,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="pink" kind="data" initlabel="ピンク" color="255 192 203">
+<BlockGenus name="pink" kind="data" initlabel="pink" color="255 192 203">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"
 			position-type="mirror"></BlockConnector>
@@ -278,7 +278,7 @@
 
 <!-- 型変換（松澤） -->
 
-<BlockGenus name="toInt" kind="function" initlabel="int型に変換する"
+<BlockGenus name="toInt" kind="function" initlabel="Change to int"
 	color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
@@ -291,7 +291,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="toDouble" kind="function" initlabel="double型に変換する"
+<BlockGenus name="toDouble" kind="function" initlabel="Change to double"
 	color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
@@ -303,7 +303,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="toBoolean" kind="function" initlabel="真偽値型に変換する"
+<BlockGenus name="toBoolean" kind="function" initlabel="Change to boolean"
 	color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"></BlockConnector>
@@ -315,7 +315,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="toString" kind="function" initlabel="文字列型に変換する"
+<BlockGenus name="toString" kind="function" initlabel="Change to String"
 	color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
@@ -327,7 +327,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="toIntFromDouble" kind="function" initlabel="int型に変換する"
+<BlockGenus name="toIntFromDouble" kind="function" initlabel="Change to int"
 	color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
@@ -336,7 +336,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="toIntFromString" kind="function" initlabel="int型に変換する"
+<BlockGenus name="toIntFromString" kind="function" initlabel="Change to int"
 	color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
@@ -345,7 +345,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="toDoubleFromInt" kind="function" initlabel="double型に変換する"
+<BlockGenus name="toDoubleFromInt" kind="function" initlabel="Change to double"
 	color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
@@ -355,7 +355,7 @@
 </BlockGenus>
 
 <BlockGenus name="toDoubleFromString" kind="function"
-	initlabel="double型に変換する" color="15 20 220">
+	initlabel="Change to double" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="string">
@@ -363,7 +363,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="toStringFromInt" kind="function" initlabel="文字列型に変換する"
+<BlockGenus name="toStringFromInt" kind="function" initlabel="Change to String"
 	color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
@@ -372,7 +372,7 @@
 </BlockGenus>
 
 <BlockGenus name="toStringFromDouble" kind="function"
-	initlabel="文字列型に変換する" color="45 201 255">
+	initlabel="Change to String" color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="double-number"></BlockConnector>
@@ -380,7 +380,7 @@
 </BlockGenus>
 
 <BlockGenus name="toStringFromObject" kind="function"
-	initlabel="文字列型に変換する" color="45 201 255">
+	initlabel="Change to String" color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="object"></BlockConnector>
@@ -388,7 +388,7 @@
 </BlockGenus>
 
 <BlockGenus name="toStringFromString" kind="function"
-	initlabel="文字列型に変換する" color="45 201 255">
+	initlabel="Change to String" color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"></BlockConnector>
 		<BlockConnector connector-kind="socket" connector-type="string"></BlockConnector>

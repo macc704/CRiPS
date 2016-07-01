@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- number 計算　-->
 
@@ -81,7 +81,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="remainder" kind="function" initlabel="reminder"
+<BlockGenus name="remainder" kind="function" initlabel="eminder"
 	color="15 20 220">	
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
@@ -125,7 +125,7 @@
 </BlockGenus>
 
 <BlockGenus name="not-equals-number" kind="function"
-	initlabel="not equals" color="15 20 220">
+	initlabel="Not equal" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
@@ -306,7 +306,7 @@
 </BlockGenus>
 
 <BlockGenus name="remainder-double" kind="function"
-	initlabel="割り算の余り" color="15 20 220">
+	initlabel="%" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="double-number" position-type="mirror"></BlockConnector>
@@ -328,7 +328,7 @@
 <!-- double 比較演算 -->
 
 <BlockGenus name="equals-number-double" kind="function"
-	initlabel="equals" color="15 20 220">
+	initlabel="equal" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
@@ -348,7 +348,7 @@
 </BlockGenus>
 
 <BlockGenus name="not-equals-number-double" kind="function"
-	initlabel="not equals" color="15 20 220">
+	initlabel="Not equal" color="15 20 220">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
@@ -449,18 +449,18 @@
 
 <!-- String　計算 -->
 
-<BlockGenus name="string-append" kind="function" initlabel="連結する"
+<BlockGenus name="string-append" kind="function" initlabel="connect"
 	color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="string"
 			position-type="mirror"></BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="string" position-type="bottom">
-			<DefaultArg genus-name="string" label="あいう"></DefaultArg>
+			<DefaultArg genus-name="string" label="ABC"></DefaultArg>
 		</BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="string" position-type="bottom">
-			<DefaultArg genus-name="string" label="えお"></DefaultArg>
+			<DefaultArg genus-name="string" label="DE"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
@@ -470,18 +470,18 @@
 </BlockGenus>
 
 <!-- String　比較演算 -->
-<BlockGenus name="equals-string" kind="function" initlabel="equals"
+<BlockGenus name="equals-string" kind="function" initlabel="equal"
 	color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="string" position-type="bottom">
-			<DefaultArg genus-name="string" label="あいう"></DefaultArg>
+			<DefaultArg genus-name="string" label="ABC"></DefaultArg>
 		</BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="string" position-type="bottom">
-			<DefaultArg genus-name="string" label="あいう"></DefaultArg>
+			<DefaultArg genus-name="string" label="ABC"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
@@ -491,17 +491,17 @@
 </BlockGenus>
 
 <BlockGenus name="not-equals-string" kind="function"
-	initlabel="not equals" color="45 201 255">
+	initlabel="Not equal" color="45 201 255">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="string" position-type="bottom">
-			<DefaultArg genus-name="string" label="あいう"></DefaultArg>
+			<DefaultArg genus-name="string" label="ABC"></DefaultArg>
 		</BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="string" position-type="bottom">
-			<DefaultArg genus-name="string" label="えお"></DefaultArg>
+			<DefaultArg genus-name="string" label="DE"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
@@ -512,17 +512,17 @@
 
 <!-- boolean　演算 -->
 
-<BlockGenus name="or" kind="function" initlabel="もしくは" color="255 0 255">
+<BlockGenus name="or" kind="function" initlabel="or" color="255 0 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="boolean" position-type="bottom">
-			<DefaultArg genus-name="true" label="真"></DefaultArg>
+			<DefaultArg genus-name="true" label="true"></DefaultArg>
 		</BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="boolean" position-type="bottom">
-			<DefaultArg genus-name="true" label="真"></DefaultArg>
+			<DefaultArg genus-name="true" label="ture"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
@@ -531,17 +531,17 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="and" kind="function" initlabel="かつ" color="255 0 255">
+<BlockGenus name="and" kind="function" initlabel="and" color="255 0 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="boolean" position-type="bottom">
-			<DefaultArg genus-name="true" label="真"></DefaultArg>
+			<DefaultArg genus-name="true" label="true"></DefaultArg>
 		</BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="boolean" position-type="bottom">
-			<DefaultArg genus-name="true" label="真"></DefaultArg>
+			<DefaultArg genus-name="true" label="ture"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
@@ -550,7 +550,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="not" kind="function" initlabel="反転したもの" color="255 0 255">
+<BlockGenus name="not" kind="function" initlabel="not" color="255 0 255">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"></BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
@@ -564,18 +564,18 @@
 
 <!-- boolean　比較演算 -->
 
-<BlockGenus name="equals-boolean" kind="function" initlabel="equals"
+<BlockGenus name="equals-boolean" kind="function" initlabel="equal"
 	color="255 0 255">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="boolean" position-type="bottom">
-			<DefaultArg genus-name="true" label="真"></DefaultArg>
+			<DefaultArg genus-name="true" label="ture"></DefaultArg>
 		</BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="boolean" position-type="bottom">
-			<DefaultArg genus-name="true" label="真"></DefaultArg>
+			<DefaultArg genus-name="true" label="false"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
@@ -585,17 +585,17 @@
 </BlockGenus>
 
 <BlockGenus name="not-equals-boolean" kind="function"
-	initlabel="not equals" color="255 0 255">
+	initlabel="Not equal" color="255 0 255">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
 			connector-type="boolean" position-type="mirror"></BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="boolean" position-type="bottom">
-			<DefaultArg genus-name="true" label="真"></DefaultArg>
+			<DefaultArg genus-name="true" label="ture"></DefaultArg>
 		</BlockConnector>
 		<BlockConnector label="" connector-kind="socket"
 			connector-type="boolean" position-type="bottom">
-			<DefaultArg genus-name="false" label="偽"></DefaultArg>
+			<DefaultArg genus-name="false" label="false"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>

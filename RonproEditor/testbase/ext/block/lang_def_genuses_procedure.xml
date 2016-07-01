@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- Procedure and parameters -->
 
@@ -33,7 +33,6 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
 	</BlockConnectors>
-	<JavaType>int</JavaType>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -67,7 +66,6 @@
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="double-number"></BlockConnector>
 	</BlockConnectors>
-	<JavaType>double</JavaType>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>

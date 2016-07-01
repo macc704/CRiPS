@@ -128,9 +128,9 @@
 		<text>タートルの軌跡に使用したい色を指定します。</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="color" connector-kind="socket"
+		<BlockConnector label="色" connector-kind="socket"
 			connector-type="number">
-			<DefaultArg genus-name="red" label="赤"></DefaultArg>
+			<DefaultArg genus-name="red" label="red"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<LangSpecProperties>
@@ -182,7 +182,7 @@
 	</description>
 	<BlockConnectors>
 		<BlockConnector connector-kind="socket" connector-type="string">
-			<DefaultArg genus-name="string" label="あいうえお"></DefaultArg>
+			<DefaultArg genus-name="string" label="ABCDE"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 </BlockGenus>
@@ -246,11 +246,11 @@
 <BlockGenus name="warpByTopLeft" kind="command" initlabel="Warp by top to left"
 	color="255 0 0">
 	<BlockConnectors>
-		<BlockConnector label="X座標" connector-kind="socket"
+		<BlockConnector label="X" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="Y座標" connector-kind="socket"
+		<BlockConnector label="Y" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
@@ -374,7 +374,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="倍率" connector-kind="socket"
+		<BlockConnector label="times" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
@@ -422,7 +422,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
+		<BlockConnector label="length" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
@@ -470,7 +470,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="length" connector-kind="socket"
+		<BlockConnector label="長さ" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
@@ -615,7 +615,7 @@
 </BlockGenus>
 
 <BlockGenus name="image" kind="command" color="255 0 0"
-	initlabel="Set image file">
+	initlabel="Set image gile">
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
@@ -828,7 +828,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="play" kind="command" initlabel="Play sound"
+<BlockGenus name="play" kind="command" initlabel="Pley sound"
 	color="30 30 200">
 </BlockGenus>
 
@@ -884,7 +884,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="getSize" kind="function" initlabel="Number of elements"
+<BlockGenus name="getSize" kind="function" initlabel="要素数"
 	color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
@@ -892,38 +892,38 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="add" kind="command" initlabel="Add element" color="255 255 100">
+<BlockGenus name="add" kind="command" initlabel="追加する" color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="which?" connector-kind="socket"
+		<BlockConnector label="誰を？" connector-kind="socket"
 			connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="addFirst" kind="command" initlabel="Add element to the first"
+<BlockGenus name="addFirst" kind="command" initlabel="最初に追加する"
 	color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="which?" connector-kind="socket"
+		<BlockConnector label="誰を？" connector-kind="socket"
 			connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="addLast" kind="command" initlabel="Add element to the last"
+<BlockGenus name="addLast" kind="command" initlabel="最後に追加する"
 	color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="which?" connector-kind="socket"
+		<BlockConnector label="誰を？" connector-kind="socket"
 			connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="addAll" kind="command" initlabel="Add all elementws"
+<BlockGenus name="addAll" kind="command" initlabel="中身を全て追加する"
 	color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="which?" connector-kind="socket"
+		<BlockConnector label="誰の？" connector-kind="socket"
 			connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="moveAllTo" kind="command" initlabel="Move all elements to"
+<BlockGenus name="moveAllTo" kind="command" initlabel="全ての中身を移動する"
 	color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="どこに？" connector-kind="socket"
