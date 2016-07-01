@@ -45,7 +45,7 @@ public class LangDefFilesRewriter {
 	private Map<String, String> addedMethodsJavaType = new HashMap<String, String>();
 	private List<String> addedClasses = new ArrayList<String>();
 	private Map<String, List<String>> libaryMethod = new HashMap<>();
-	
+
 	private String enc;
 	private String[] classPaths;
 
@@ -55,23 +55,24 @@ public class LangDefFilesRewriter {
 		this.enc = enc;
 		this.classPaths = classPaths;
 	}
-	
-	public LangDefFilesRewriter(File file, String javaFileName, String enc, String[] classPaths, String libraryXMLPath) {
-		this(file, javaFileName, enc,classPaths);
-		
-		//ライブラリリストを読み込んで、ライブラリクラスとそのブロック名のマップを作成
+
+	public LangDefFilesRewriter(File file, String javaFileName, String enc, String[] classPaths,
+			String libraryXMLPath) {
+		this(file, javaFileName, enc, classPaths);
+
+		// ライブラリリストを読み込んで、ライブラリクラスとそのブロック名のマップを作成
 		Document doc = DomParserWrapper.parse(libraryXMLPath);
 		createLibraryMethodsMap(doc.getFirstChild());
 	}
-	
-	public void createLibraryMethodsMap(Node node){
-		//LibClassノードで行う処理の定義
+
+	public void createLibraryMethodsMap(Node node) {
+		// LibClassノードで行う処理の定義
 		Consumer<Node> parseLibNode = new Consumer<Node>() {
 			@Override
 			public void accept(Node node) {
 				String className = DomParserWrapper.getAttribute(node, "name");
 				libaryMethod.put(className, new ArrayList<>());
-				//CategoryNameタグの全ノードで行う処理の定義
+				// CategoryNameタグの全ノードで行う処理の定義
 				Consumer<Node> parseCategory = new Consumer<Node>() {
 					@Override
 					public void accept(Node t) {
@@ -81,37 +82,41 @@ public class LangDefFilesRewriter {
 								libaryMethod.get(className).add(t.getTextContent());
 							}
 						};
-						
-						if("add".equals(DomParserWrapper.getAttribute(t, "command"))){
-							DomParserWrapper.doAnythingToNodeList(t, "MethodName", c);							
-						}else if("copy".equals(DomParserWrapper.getAttribute(t, "command"))){
+
+						if ("add".equals(DomParserWrapper.getAttribute(t, "command"))) {
+							DomParserWrapper.doAnythingToNodeList(t, "MethodName", c);
+						} else if ("copy".equals(DomParserWrapper.getAttribute(t, "command"))) {
 							List<String> methods = libaryMethod.get(DomParserWrapper.getAttribute(t, "name"));
-							for(String method : methods){
+							for (String method : methods) {
 								libaryMethod.get(className).add(method);
 							}
 						}
 					}
 				};
-				
+
 				DomParserWrapper.doAnythingToNodeList(node, "CategoryName", parseCategory);
 			}
 		};
-		DomParserWrapper.doAnythingToNodeList(node, "LibraryClass", parseLibNode);		
+		DomParserWrapper.doAnythingToNodeList(node, "LibraryClass", parseLibNode);
 	}
-	
+
 	public void setSelDefClassModel(List<ObjectBlockModel> models) {
 		for (ObjectBlockModel model : models) {
 			requestObjectBlock.add(model);
 		}
 	}
 
-	public void setLocalVariableBlockModel(String fileName, Map<String, List<PublicMethodInfo>> methods, String superClassName) {
+	public void setLocalVariableBlockModel(String fileName, Map<String, List<PublicMethodInfo>> methods,
+			String superClassName) {
 		createLocalVariableModel(superClassName, fileName, methods);
 
-//		createLocalVariableArrayModel(superClassName, fileName, methods);
+		// createLocalVariableArrayModel(superClassName, fileName, methods);
 	}
-	public void createLocalVariableModel(String superClassName, String fileName, Map<String, List<PublicMethodInfo>> methods){
-		ObjectBlockModel classObjectModel = new ObjectBlockModel("local-var-object-" + fileName, "local-variable", "initname", fileName + "型の変数をつくり", "と名付ける", "230 0 255");
+
+	public void createLocalVariableModel(String superClassName, String fileName,
+			Map<String, List<PublicMethodInfo>> methods) {
+		ObjectBlockModel classObjectModel = new ObjectBlockModel("local-var-object-" + fileName, "local-variable",
+				"initname", fileName + "型の変数をつくり", "と名付ける", "230 0 255");
 		// 定義クラスブロックのプロパティをセットする
 		classObjectModel.setMethods(methods);
 		classObjectModel.setClassName(fileName);
@@ -120,35 +125,44 @@ public class LangDefFilesRewriter {
 		classObjectModel.setSuperClassName(superClassName);
 	}
 
-	public void createLocalVariableArrayModel(String superClassName, String fileName, Map<String, List<PublicMethodInfo>> methods){
+	public void createLocalVariableArrayModel(String superClassName, String fileName,
+			Map<String, List<PublicMethodInfo>> methods) {
 		// // 配列の追加
-		ObjectBlockModel classObjectArrayModel = new ObjectArrayBlockModel("local-var-object-" + fileName + "-arrayobject", "local-variable", "initname", fileName + "[]" + "型の変数をつくり", "と名付ける", "230 0 255");
+		ObjectBlockModel classObjectArrayModel = new ObjectArrayBlockModel(
+				"local-var-object-" + fileName + "-arrayobject", "local-variable", "initname",
+				fileName + "[]" + "型の変数をつくり", "と名付ける", "230 0 255");
 		classObjectArrayModel.setSuperClassName(superClassName);
 		// 定義クラスブロックのプロパティをセットする
 		classObjectArrayModel.setMethods(methods);
-		
+
 		classObjectArrayModel.setClassName(fileName + "[]");
 	}
 
 	public void setConvertBlockModel(String className) {
-		ConvertBlockModel model = new ConvertBlockModel("to" + className + "FromObject", "function", className + "型に変換する", "", "", "45 201 255", className);
+		ConvertBlockModel model = new ConvertBlockModel("to" + className + "FromObject", "function",
+				className + "型に変換する", "", "", "45 201 255", className);
 		requestConvertBlockModel.add(model);
 	}
 
 	public void setParameterBlockModel(String className, Map<String, List<PublicMethodInfo>> methods) {
-		ParameterBlockModel model = new ParameterBlockModel("proc-param-object-" + className.toLowerCase(), "param", className + "型引数", className + "型の仮引数を作り、", "と名付ける", "200 200 200", className);
+		ParameterBlockModel model = new ParameterBlockModel("proc-param-object-" + className.toLowerCase(), "param",
+				className + "型引数", className + "型の仮引数を作り、", "と名付ける", "200 200 200", className);
 		model.setMethods(methods);
 		requestParameterBlockModel.add(model);
 	}
 
 	public void setArrayParameterBlockModel(String className, Map<String, List<PublicMethodInfo>> methods) {
-		ParameterBlockModel model = new ParameterBlockModel("proc-param-object-" + className.toLowerCase() + "-arrayobject", "param", className + "[]型引数", className + "[]型の仮引数を作り、", "と名付ける", "200 200 200", className);
+		ParameterBlockModel model = new ParameterBlockModel(
+				"proc-param-object-" + className.toLowerCase() + "-arrayobject", "param", className + "[]型引数",
+				className + "[]型の仮引数を作り、", "と名付ける", "200 200 200", className);
 		// model.setMethods(methods);
 		requestParameterBlockModel.add(model);
 	}
 
-	public void setInstanceVariableBlockMode(String fileName, Map<String, List<PublicMethodInfo>> methods, String superClassName) {
-		ObjectBlockModel classModel = new ObjectBlockModel("private-var-object-" + fileName, "global-variable", "initname", fileName + "型のインスタンス変数をつくり", "と名付ける", "230 0 255");
+	public void setInstanceVariableBlockMode(String fileName, Map<String, List<PublicMethodInfo>> methods,
+			String superClassName) {
+		ObjectBlockModel classModel = new ObjectBlockModel("private-var-object-" + fileName, "global-variable",
+				"initname", fileName + "型のインスタンス変数をつくり", "と名付ける", "230 0 255");
 		// 定義クラスブロックのプロパティをセットする
 		classModel.setMethods(methods);
 		classModel.setClassName(fileName);
@@ -156,7 +170,9 @@ public class LangDefFilesRewriter {
 		classModel.setSuperClassName(superClassName);
 
 		// 配列の追加
-		ObjectBlockModel classObjectArrayModel = new ObjectArrayBlockModel("private-var-object-" + fileName + "-arrayobject", "global-variable", "initname", fileName + "[]" + "型のインスタンス変数をつくり", "と名付ける", "230 0 255");
+		ObjectBlockModel classObjectArrayModel = new ObjectArrayBlockModel(
+				"private-var-object-" + fileName + "-arrayobject", "global-variable", "initname",
+				fileName + "[]" + "型のインスタンス変数をつくり", "と名付ける", "230 0 255");
 		classObjectArrayModel.setSuperClassName(superClassName);
 		// 定義クラスブロックのプロパティをセットする
 		classObjectArrayModel.setMethods(methods);
@@ -183,7 +199,8 @@ public class LangDefFilesRewriter {
 		}
 
 		String blockString = byteArray.toString();
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(langDefGenusesFile), "UTF-8"));
+		BufferedWriter bw = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(langDefGenusesFile), "UTF-8"));
 		bw.write(blockString);
 		bw.flush();
 		bw.close();
@@ -208,7 +225,8 @@ public class LangDefFilesRewriter {
 		}
 
 		String blockString = byteArray.toString();
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(langDefGenusesFile), "UTF-8"));
+		BufferedWriter bw = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(langDefGenusesFile), "UTF-8"));
 		bw.write(blockString);
 		bw.flush();
 		bw.close();
@@ -244,7 +262,7 @@ public class LangDefFilesRewriter {
 			makeIndent(ps, --lineNum);
 			ps.println("</BlockDrawer>");
 
-			if(forAD){
+			if (forAD) {
 				makeIndent(ps, ++lineNum);
 
 				ps.println("<BlockDrawer name=\"Project-Converter\" type=\"factory\" button-color=\"255 155 64\">");
@@ -268,7 +286,7 @@ public class LangDefFilesRewriter {
 				ps.println("</BlockDrawer>");
 
 				makeIndent(ps, lineNum++);
-				ps.println("<BlockDrawer name=\"継承メソッド\" type=\"factory\" button-color=\"255 155 64\">");
+				ps.println("<BlockDrawer name=\"Inheritance Methods\" type=\"factory\" button-color=\"255 155 64\">");
 
 				addInheritanceMethodBlocksToMenu(ps, lineNum);
 
@@ -291,7 +309,9 @@ public class LangDefFilesRewriter {
 			ldfWriter.flush();
 			ldfWriter.close();
 		} catch (Exception e) {
-			int res = JOptionPane.showConfirmDialog(null, "Blockへの変換中にエラーが発生しました：lang_def_files message:" + e.getStackTrace().toString(), "警告", JOptionPane.DEFAULT_OPTION);
+			int res = JOptionPane.showConfirmDialog(null,
+					"Blockへの変換中にエラーが発生しました：lang_def_files message:" + e.getStackTrace().toString(), "警告",
+					JOptionPane.DEFAULT_OPTION);
 			if (res == 1) {
 				e.printStackTrace();
 				return;
@@ -401,7 +421,7 @@ public class LangDefFilesRewriter {
 	}
 
 	public void printMenu(File projectMenuFile, String baseDir) throws IOException {
-		FileReader reader = new FileReader(new File(langDefGenusesFile.getParent() + "/" + javaFileName  + ".java"));
+		FileReader reader = new FileReader(new File(langDefGenusesFile.getParent() + "/" + javaFileName + ".java"));
 		BufferedReader br = new BufferedReader(reader);
 		String str;
 		// 親クラスがタートルならメニューをコピー
@@ -435,13 +455,13 @@ public class LangDefFilesRewriter {
 				// ローカル変数ブロックのモデルを追加
 				setLocalVariableBlockModel(name, methods, superClassName);// メソッドリストを引数に追加
 				// // インスタンス変数ブロックのモデルを追加
-//				setInstanceVariableBlockMode(name, methods, superClassName);
+				// setInstanceVariableBlockMode(name, methods, superClassName);
 				// 型変換ブロックモデルの追加
-//				setConvertBlockModel(name);
+				// setConvertBlockModel(name);
 				// 引数ブロックモデルの追加
-//				setParameterBlockModel(name, methods);
+				// setParameterBlockModel(name, methods);
 				// //配列ブロックモデルの追加
-//				setArrayParameterBlockModel(name, methods);
+				// setArrayParameterBlockModel(name, methods);
 
 				// キャッシュに登録済みクラスを追加する
 				addedClasses.add(name);
@@ -449,11 +469,12 @@ public class LangDefFilesRewriter {
 		}
 	}
 
-	public List<String> getAddedClasses(){
+	public List<String> getAddedClasses() {
 		return this.addedClasses;
 	}
 
-	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name, File file, String childName) throws IOException {
+	private Map<String, List<PublicMethodInfo>> analyzeJavaFile(String name, File file, String childName)
+			throws IOException {
 		// javaファイル解析して、クラス名とメソッドのセットを取得する
 		CompilationUnit unit = ASTParserWrapper.parse(file, enc, classPaths);
 		MethodAnalyzer visitor = new MethodAnalyzer();
@@ -464,13 +485,14 @@ public class LangDefFilesRewriter {
 
 		// 親クラスのクラス名と，メソッド情報を取得し，先に登録する
 		if (superClassName != null && existCurrentDirectry(superClassName + ".java")) {
-			methods = analyzeJavaFile(superClassName, new File(file.getParentFile().getPath() + "/" + superClassName + ".java"), childName);
-		}else{
+			methods = analyzeJavaFile(superClassName,
+					new File(file.getParentFile().getPath() + "/" + superClassName + ".java"), childName);
+		} else {
 			methods.put(superClassName, new ArrayList<>());
 		}
 		// 最後に，自クラス名とメソッド情報を登録して返す
 		methods.put(name, visitor.getMethods());
-		
+
 		return methods;
 	}
 
@@ -519,7 +541,7 @@ public class LangDefFilesRewriter {
 		Copier langDefDtd = new LangDefFileDtdCopier(copyFilesBaseDir);
 		langDefDtd.print(langDefGenusesFile);
 
-		// genuseファイルを作成する　その際にprojectファイルの場所を追記する
+		// genuseファイルを作成する その際にprojectファイルの場所を追記する
 		Copier genusCopier = new LangDefGenusesCopier(copyFilesBaseDir);
 		genusCopier.print(langDefGenusesFile);
 	}

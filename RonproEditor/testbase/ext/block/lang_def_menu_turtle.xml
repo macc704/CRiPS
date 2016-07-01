@@ -2,7 +2,7 @@
 <BlockDrawerSet name="factory" type="stack" location="southwest"
 	window-per-drawer="no" drawer-draggable="no">
 
-	<BlockDrawer name="タートル" type="factory" button-color="247 0 0">
+	<BlockDrawer name="Turtle" type="factory" button-color="247 0 0">
 		<BlockGenusMember>fd</BlockGenusMember>
 		<BlockGenusMember>bk</BlockGenusMember>
 		<BlockGenusMember>rt</BlockGenusMember>
@@ -15,7 +15,7 @@
 		<BlockGenusMember>random</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="構造化・オブジェクト" type="factory" button-color="255 255 255">
+	<BlockDrawer name="Structure" type="factory" button-color="255 255 255">
 		<BlockGenusMember>abstraction</BlockGenusMember>
 		<BlockGenusMember>procedure</BlockGenusMember>
 		<BlockGenusMember>proc-param-number</BlockGenusMember>
@@ -24,11 +24,10 @@
 		<BlockGenusMember>proc-param-string</BlockGenusMember>
 		<BlockGenusMember>return</BlockGenusMember>
 	</BlockDrawer>
-	 <BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20">
-		<BlockGenusMember>callActionMethod2</BlockGenusMember>
-		 <BlockGenusMember>callGetterMethod2</BlockGenusMember>
-		</BlockDrawer>
-	<BlockDrawer name="分岐、繰返" type="factory" button-color="255 80 0">
+	<!-- <BlockDrawer name="オブジェクト" type="factory" button-color="20 20 20"> 
+		<BlockGenusMember>callActionMethod2</BlockGenusMember> <BlockGenusMember>callGetterMethod2</BlockGenusMember> 
+		</BlockDrawer> -->
+	<BlockDrawer name="Control" type="factory" button-color="255 80 0">
 		<BlockGenusMember>ifelse</BlockGenusMember>
 		<BlockGenusMember>while</BlockGenusMember>
 		<BlockGenusMember>dowhile</BlockGenusMember>
@@ -36,7 +35,7 @@
 		<BlockGenusMember>continue</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="調べる" type="factory" button-color="204 204 102">
+	<BlockDrawer name="Logical Operation" type="factory" button-color="204 204 102">
 		<BlockGenusMember>equals-number</BlockGenusMember>
 		<BlockGenusMember>not-equals-number</BlockGenusMember>
 		<BlockGenusMember>lessthan</BlockGenusMember>
@@ -60,7 +59,7 @@
 	</BlockDrawer>
 
 
-	<BlockDrawer name="計算" type="factory" button-color="102 129 255">
+	<BlockDrawer name="Operator" type="factory" button-color="102 129 255">
 		<BlockGenusMember>sum</BlockGenusMember>
 		<BlockGenusMember>difference</BlockGenusMember>
 		<BlockGenusMember>product</BlockGenusMember>
@@ -83,28 +82,28 @@
 		<BlockGenusMember>log</BlockGenusMember>
 		<BlockGenusMember>toRadians</BlockGenusMember>
 	</BlockDrawer>
-	<!-- <BlockDrawer name="数学" type="factory" button-color="102 129 255"> <BlockGenusMember>cui-random</BlockGenusMember>
-		<BlockGenusMember>sqrt</BlockGenusMember> <BlockGenusMember>sin</BlockGenusMember>
-		<BlockGenusMember>cos</BlockGenusMember> <BlockGenusMember>tan</BlockGenusMember>
-		<BlockGenusMember>log</BlockGenusMember> <BlockGenusMember>toRadians</BlockGenusMember>
+	<!-- <BlockDrawer name="数学" type="factory" button-color="102 129 255"> <BlockGenusMember>cui-random</BlockGenusMember> 
+		<BlockGenusMember>sqrt</BlockGenusMember> <BlockGenusMember>sin</BlockGenusMember> 
+		<BlockGenusMember>cos</BlockGenusMember> <BlockGenusMember>tan</BlockGenusMember> 
+		<BlockGenusMember>log</BlockGenusMember> <BlockGenusMember>toRadians</BlockGenusMember> 
 		</BlockDrawer> -->
-	<!--<BlockGenusMember>pi</BlockGenusMember> <BlockGenusMember>e</BlockGenusMember>
-		<BlockGenusMember>int</BlockGenusMember> <BlockGenusMember>pow</BlockGenusMember>
-		<BlockGenusMember>round</BlockGenusMember> <BlockGenusMember>min</BlockGenusMember>
-		<BlockGenusMember>max</BlockGenusMember> <BlockGenusMember>abs</BlockGenusMember>
-		<BlockGenusMember>sqrt</BlockGenusMember> <BlockGenusMember>sin</BlockGenusMember>
-		<BlockGenusMember>cos</BlockGenusMember> <BlockGenusMember>tan</BlockGenusMember>
-		<BlockGenusMember>asin</BlockGenusMember> <BlockGenusMember>acos</BlockGenusMember>
-		<BlockGenusMember>log</BlockGenusMember> <BlockGenusMember>ln</BlockGenusMember>
+	<!--<BlockGenusMember>pi</BlockGenusMember> <BlockGenusMember>e</BlockGenusMember> 
+		<BlockGenusMember>int</BlockGenusMember> <BlockGenusMember>pow</BlockGenusMember> 
+		<BlockGenusMember>round</BlockGenusMember> <BlockGenusMember>min</BlockGenusMember> 
+		<BlockGenusMember>max</BlockGenusMember> <BlockGenusMember>abs</BlockGenusMember> 
+		<BlockGenusMember>sqrt</BlockGenusMember> <BlockGenusMember>sin</BlockGenusMember> 
+		<BlockGenusMember>cos</BlockGenusMember> <BlockGenusMember>tan</BlockGenusMember> 
+		<BlockGenusMember>asin</BlockGenusMember> <BlockGenusMember>acos</BlockGenusMember> 
+		<BlockGenusMember>log</BlockGenusMember> <BlockGenusMember>ln</BlockGenusMember> 
 		<BlockGenusMember>atan</BlockGenusMember> -->
 
-	<BlockDrawer name="変数の定義" type="factory" button-color="230 0 255">
+	<BlockDrawer name="Variable Definition" type="factory" button-color="230 0 255">
 		<BlockGenusMember>local-var-int-number</BlockGenusMember>
 		<BlockGenusMember>local-var-double-number</BlockGenusMember>
 		<BlockGenusMember>local-var-string</BlockGenusMember>
 		<BlockGenusMember>local-var-boolean</BlockGenusMember>
 	</BlockDrawer>
-	<BlockDrawer name="変数（タートル）の定義" type="factory"
+	<BlockDrawer name="Turtle Variable Definition" type="factory"
 		button-color="230 0 255">
 		<BlockGenusMember>local-var-object-Turtle</BlockGenusMember>
 		<BlockGenusMember>local-var-object-Text</BlockGenusMember>
@@ -116,7 +115,7 @@
 		<BlockGenusMember>local-var-object-List</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="変換" type="factory" button-color="204 0 255">
+	<BlockDrawer name="Convertion" type="factory" button-color="204 0 255">
 		<BlockGenusMember>toIntFromDouble</BlockGenusMember>
 		<BlockGenusMember>toIntFromString</BlockGenusMember>
 		<BlockGenusMember>toDoubleFromInt</BlockGenusMember>
@@ -126,7 +125,7 @@
 		<BlockGenusMember>toStringFromObject</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="値" type="factory" button-color="255 61 200">
+	<BlockDrawer name="Value" type="factory" button-color="255 61 200">
 		<BlockGenusMember>number</BlockGenusMember>
 		<BlockGenusMember>double-number</BlockGenusMember>
 		<BlockGenusMember>string</BlockGenusMember>
@@ -134,7 +133,7 @@
 		<BlockGenusMember>false</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="色" type="factory" button-color="255 155 64">
+	<BlockDrawer name="Color" type="factory" button-color="255 155 64">
 		<BlockGenusMember>blue</BlockGenusMember>
 		<BlockGenusMember>cyan</BlockGenusMember>
 		<BlockGenusMember>green</BlockGenusMember>
@@ -151,7 +150,7 @@
 		<!-- <BlockGenusMember>new-object-Color</BlockGenusMember> -->
 	</BlockDrawer>
 
-	<BlockDrawer name="タートル(座標と大きさ)" type="factory"
+	<BlockDrawer name="Turtle(coordinates，size)" type="factory"
 		button-color="153 0 0">
 		<BlockGenusMember>getX</BlockGenusMember>
 		<BlockGenusMember>getY</BlockGenusMember>
@@ -167,15 +166,15 @@
 		<BlockGenusMember>tall</BlockGenusMember>
 		<BlockGenusMember>little</BlockGenusMember>
 	</BlockDrawer>
-	<!-- <BlockDrawer name="タートル(大きさ)" type="factory" button-color="153 0 0">
-		<BlockGenusMember>getWidth</BlockGenusMember> <BlockGenusMember>getHeight</BlockGenusMember>
-		<BlockGenusMember>scale</BlockGenusMember> <BlockGenusMember>size</BlockGenusMember>
-		<BlockGenusMember>large</BlockGenusMember> <BlockGenusMember>small</BlockGenusMember>
-		<BlockGenusMember>wide</BlockGenusMember> <BlockGenusMember>narrow</BlockGenusMember>
-		<BlockGenusMember>tall</BlockGenusMember> <BlockGenusMember>little</BlockGenusMember>
+	<!-- <BlockDrawer name="タートル(大きさ)" type="factory" button-color="153 0 0"> 
+		<BlockGenusMember>getWidth</BlockGenusMember> <BlockGenusMember>getHeight</BlockGenusMember> 
+		<BlockGenusMember>scale</BlockGenusMember> <BlockGenusMember>size</BlockGenusMember> 
+		<BlockGenusMember>large</BlockGenusMember> <BlockGenusMember>small</BlockGenusMember> 
+		<BlockGenusMember>wide</BlockGenusMember> <BlockGenusMember>narrow</BlockGenusMember> 
+		<BlockGenusMember>tall</BlockGenusMember> <BlockGenusMember>little</BlockGenusMember> 
 		</BlockDrawer> -->
 
-	<BlockDrawer name="タートル（見た目と判定）" type="factory"
+	<BlockDrawer name="Turtle（looks）" type="factory"
 		button-color="153 0 0">
 		<BlockGenusMember>show</BlockGenusMember>
 		<BlockGenusMember>hide</BlockGenusMember>
@@ -186,7 +185,7 @@
 		<BlockGenusMember>setShow</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer button-color="153 0 0" name="タートル（キーとマウス）">
+	<BlockDrawer button-color="153 0 0" name="Turtle（key and mouse）">
 		<BlockGenusMember>key</BlockGenusMember>
 		<BlockGenusMember>keyDown</BlockGenusMember>
 		<BlockGenusMember>mouseX</BlockGenusMember>
@@ -200,32 +199,32 @@
 		<BlockGenusMember>rightMouseDown</BlockGenusMember>
 	</BlockDrawer>
 
-	<BlockDrawer name="タートル(その他)" type="factory" button-color="153 0 0">
+	<BlockDrawer name="Turtle(other)" type="factory" button-color="153 0 0">
 		<BlockGenusMember>update</BlockGenusMember>
 		<BlockGenusMember>sleep</BlockGenusMember>
 		<BlockGenusMember>input</BlockGenusMember>
 		<BlockGenusMember>print</BlockGenusMember>
 	</BlockDrawer>
 
-	<!-- <BlockDrawer name="ImageTurtle" type="factory" button-color="153 0
-		102"> <BlockGenusMember>local-var-object-Image</BlockGenusMember> <BlockGenusMember>image</BlockGenusMember>
-		<BlockGenusMember>getImage</BlockGenusMember> </BlockDrawer> <BlockDrawer
-		name="SoundTurtle" type="factory" button-color="153 0 102"> <BlockGenusMember>local-var-object-Sound</BlockGenusMember>
-		<BlockGenusMember>file</BlockGenusMember> <BlockGenusMember>play</BlockGenusMember>
-		<BlockGenusMember>loop</BlockGenusMember> <BlockGenusMember>stop</BlockGenusMember>
-		<BlockGenusMember>isPlaying</BlockGenusMember> <BlockGenusMember>getVolume</BlockGenusMember>
-		<BlockGenusMember>setVolume</BlockGenusMember> <BlockGenusMember>loadOnMemory</BlockGenusMember>
+	<!-- <BlockDrawer name="ImageTurtle" type="factory" button-color="153 0 
+		102"> <BlockGenusMember>local-var-object-Image</BlockGenusMember> <BlockGenusMember>image</BlockGenusMember> 
+		<BlockGenusMember>getImage</BlockGenusMember> </BlockDrawer> <BlockDrawer 
+		name="SoundTurtle" type="factory" button-color="153 0 102"> <BlockGenusMember>local-var-object-Sound</BlockGenusMember> 
+		<BlockGenusMember>file</BlockGenusMember> <BlockGenusMember>play</BlockGenusMember> 
+		<BlockGenusMember>loop</BlockGenusMember> <BlockGenusMember>stop</BlockGenusMember> 
+		<BlockGenusMember>isPlaying</BlockGenusMember> <BlockGenusMember>getVolume</BlockGenusMember> 
+		<BlockGenusMember>setVolume</BlockGenusMember> <BlockGenusMember>loadOnMemory</BlockGenusMember> 
 		</BlockDrawer> -->
 
-	<!-- <BlockDrawer name="ButtonTurtle" type="factory" button-color="255 255
-		100"> <BlockGenusMember>new-object-ButtonTurtle</BlockGenusMember> <BlockGenusMember>isClicked</BlockGenusMember>
+	<!-- <BlockDrawer name="ButtonTurtle" type="factory" button-color="255 255 
+		100"> <BlockGenusMember>new-object-ButtonTurtle</BlockGenusMember> <BlockGenusMember>isClicked</BlockGenusMember> 
 		<BlockGenusMember>fontsize</BlockGenusMember> </BlockDrawer> -->
 
-	<!-- <BlockDrawer name="InputTurtle" type="factory" button-color="255 255
-		100"> <BlockGenusMember>new-object-InputTurtle</BlockGenusMember> <BlockGenusMember>getText</BlockGenusMember>
-		<BlockGenusMember>text</BlockGenusMember> <BlockGenusMember>clearText</BlockGenusMember>
-		<BlockGenusMember>setActive</BlockGenusMember> <BlockGenusMember>isActive</BlockGenusMember>
-		<BlockGenusMember>toJapaneseMode</BlockGenusMember> <BlockGenusMember>toEnglishMode</BlockGenusMember>
+	<!-- <BlockDrawer name="InputTurtle" type="factory" button-color="255 255 
+		100"> <BlockGenusMember>new-object-InputTurtle</BlockGenusMember> <BlockGenusMember>getText</BlockGenusMember> 
+		<BlockGenusMember>text</BlockGenusMember> <BlockGenusMember>clearText</BlockGenusMember> 
+		<BlockGenusMember>setActive</BlockGenusMember> <BlockGenusMember>isActive</BlockGenusMember> 
+		<BlockGenusMember>toJapaneseMode</BlockGenusMember> <BlockGenusMember>toEnglishMode</BlockGenusMember> 
 		<BlockGenusMember>fontsize</BlockGenusMember> </BlockDrawer> -->
 
 

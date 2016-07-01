@@ -151,15 +151,16 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-int-number" kind="local-variable"
-	initlabel="i" header-label="int型の変数を作り、" footer-label="と名付ける"
-	editable-label="yes" label-unique="yes" color="230 0 255">
+	initlabel="i" header-label="Variable "
+	footer-label="" editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
 		<text>
 			数値型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<JavaType>int</JavaType>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
+		<BlockConnector label="initializer" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="1"></DefaultArg>
 		</BlockConnector>
@@ -193,15 +194,16 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-double-number" kind="local-variable"
-	initlabel="d" header-label="double型の変数を作り、" footer-label="と名付ける"
+	initlabel="d" header-label="Variable " footer-label=""
 	editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
 		<text>
 			数値型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<JavaType>double</JavaType>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
+		<BlockConnector label="initializer" connector-kind="socket"
 			connector-type="double-number">
 			<DefaultArg genus-name="double-number" label="1.0"></DefaultArg>
 		</BlockConnector>
@@ -235,15 +237,16 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-string" kind="local-variable"
-	initlabel="s" header-label="String型の変数を作り、" footer-label="と名付ける"
+	initlabel="s" header-label="Variable " footer-label=""
 	editable-label="yes" label-unique="yes" color="230 0 255">
 	<description>
 		<text>
 			テキスト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<JavaType>String</JavaType>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
+		<BlockConnector label="initializer" connector-kind="socket"
 			connector-type="string">
 			<DefaultArg genus-name="string" label="あいうえお"></DefaultArg>
 		</BlockConnector>
@@ -271,17 +274,18 @@
 </BlockGenus>
 
 <BlockGenus name="local-var-boolean" kind="local-variable"
-	initlabel="b" header-label="boolean型の変数を作り、" footer-label="と名付ける"
+	initlabel="b" header-label="Variable " footer-label=""
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
 			真偽値型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<JavaType>boolean</JavaType>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket"
+		<BlockConnector label="initializer" connector-kind="socket"
 			connector-type="boolean">
-			<DefaultArg genus-name="false" label="偽"></DefaultArg>
+			<DefaultArg genus-name="false" label="false"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -321,6 +325,7 @@
 			<DefaultArg genus-name="number" label="1"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<JavaType>int</JavaType>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -334,13 +339,13 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getterthis">
+		<Stub stub-genus="getterthis">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-global"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="inc">
+		<Stub stub-genus="inc">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-incglobal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
@@ -370,6 +375,7 @@
 			<DefaultArg genus-name="string" label="あいうえお"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<JavaType>String</JavaType>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -407,6 +413,7 @@
 			<DefaultArg genus-name="false" label="偽"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
+	<JavaType>boolean</JavaType>
 	<Stubs>
 		<Stub stub-genus="getter">
 			<LangSpecProperties>
@@ -443,6 +450,7 @@
 			数値型のプライベート変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<JavaType>double</JavaType>
 	<BlockConnectors>
 		<BlockConnector label="初期値" connector-kind="socket"
 			connector-type="double-number">
@@ -486,6 +494,7 @@
 			整数型の定数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<JavaType>int</JavaType>
 	<BlockConnectors>
 		<BlockConnector label="値" connector-kind="socket"
 			connector-type="number">
@@ -517,6 +526,7 @@
 			テキスト型の定数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<JavaType>String</JavaType>	
 	<BlockConnectors>
 		<BlockConnector label="値" connector-kind="socket"
 			connector-type="string">
@@ -548,6 +558,7 @@
 			真偽値型のプライベート変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<JavaType>boolean</JavaType>		
 	<BlockConnectors>
 		<BlockConnector label="値" connector-kind="socket"
 			connector-type="boolean">
@@ -578,9 +589,12 @@
 			オブジェクト型のローカル変数を宣言します。変数名を設定してください。
 		</text>
 	</description>
+	<JavaType>String[]</JavaType>		
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket" connector-type="object" connector-javatype="String[]">
-			<DefaultArg genus-name="new-arrayobject-stringarray" label="String[]"></DefaultArg>
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
+			<DefaultArg genus-name="new-arrayobject-stringarray"
+				label="String[]"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -694,7 +708,7 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -717,7 +731,7 @@
 
 
 <BlockGenus name="local-var-double-number-arrayobject" kind="local-variable"
-	initlabel="d" header-label="double[]型の配列を作り、" footer-label="と名付ける"
+	initlabel="i" header-label="double[]型の配列を作り、" footer-label="と名付ける"
 	editable-label="yes" label-unique="yes" color="230 0 255 ">
 	<description>
 		<text>
@@ -725,7 +739,8 @@
 		</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="初期値" connector-kind="socket" connector-type="object" connector-javatype="double[]">
+		<BlockConnector label="初期値" connector-kind="socket"
+			connector-type="object">
 			<DefaultArg genus-name="new-arrayobject-doublearray"
 				label="double[]"></DefaultArg>
 		</BlockConnector>
@@ -743,7 +758,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -792,7 +807,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
@@ -841,7 +856,7 @@
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-        <Stub stub-genus="getter-arrayelement">
+		<Stub stub-genus="getter-arrayelement">
 			<LangSpecProperties>
 				<LangSpecProperty key="vm-cmd-name" value="eval-setlocal"></LangSpecProperty>
 				<LangSpecProperty key="scope" value="global"></LangSpecProperty>
@@ -884,7 +899,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-    </Stubs>
+	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 		<LangSpecProperty key="type" value="number"></LangSpecProperty>
@@ -905,7 +920,7 @@
 	<BlockConnectors>
 		<BlockConnector label="値" connector-kind="socket"
 			connector-type="object">
-            <DefaultArg genus-name="new-object" label="1.0"></DefaultArg>
+			<DefaultArg genus-name="new-object" label="1.0"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
 	<Stubs>
@@ -915,7 +930,7 @@
 				<LangSpecProperty key="scope" value="local"></LangSpecProperty>
 			</LangSpecProperties>
 		</Stub>
-    </Stubs>
+	</Stubs>
 	<LangSpecProperties>
 		<LangSpecProperty key="scope" value="global"></LangSpecProperty>
 		<LangSpecProperty key="type" value="number"></LangSpecProperty>

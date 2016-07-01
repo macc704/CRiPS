@@ -4,7 +4,7 @@
 
 <!-- MOVEMENT -->
 
-<BlockGenus name="fd" kind="command" initlabel="進む" color="255 0 0">
+<BlockGenus name="fd" kind="command" initlabel="Forward" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -16,7 +16,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="歩数" connector-kind="socket"
+		<BlockConnector label="steps" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
@@ -27,7 +27,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="bk" kind="command" initlabel="戻る" color="255 0 0">
+<BlockGenus name="bk" kind="command" initlabel="Back" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -39,7 +39,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="歩数" connector-kind="socket"
+		<BlockConnector label="steps" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
@@ -50,7 +50,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="lt" kind="command" initlabel="左へ回る" color="255 0 0">
+<BlockGenus name="lt" kind="command" initlabel="Turn left" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -62,7 +62,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="角度" connector-kind="socket"
+		<BlockConnector label="degs" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="90"></DefaultArg>
 		</BlockConnector>
@@ -73,7 +73,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="rt" kind="command" initlabel="右へ回る" color="255 0 0">
+<BlockGenus name="rt" kind="command" initlabel="Turn right" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -85,7 +85,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="角度" connector-kind="socket"
+		<BlockConnector label="degs" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="90"></DefaultArg>
 		</BlockConnector>
@@ -96,7 +96,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="random" kind="function" initlabel="乱数を作り、その値"
+<BlockGenus name="random" kind="function" initlabel="Make random number"
 	color="15 20 220">
 	<description>
 		<text>
@@ -111,7 +111,7 @@
 	</description>
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="number"></BlockConnector>
-		<BlockConnector label="0から" connector-kind="socket"
+		<BlockConnector label="0~" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="10" />
 		</BlockConnector>
@@ -122,13 +122,13 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="color" kind="command" initlabel="ペンの色を変える"
+<BlockGenus name="color" kind="command" initlabel="Change pen color"
 	color="255 0 0">
 	<description>
 		<text>タートルの軌跡に使用したい色を指定します。</text>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="色" connector-kind="socket"
+		<BlockConnector label="color" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="red" label="赤"></DefaultArg>
 		</BlockConnector>
@@ -139,7 +139,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="up" kind="command" initlabel="ペンを上げる"
+<BlockGenus name="up" kind="command" initlabel="Pen up"
 	color="255 0 0">
 	<description>
 		<text>ペンを上げます。ペンを上げている間は、タートルの軌跡が描かれません。</text>
@@ -150,7 +150,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="down" kind="command" initlabel="ペンを下ろす"
+<BlockGenus name="down" kind="command" initlabel="Pen down"
 	color="255 0 0">
 	<description>
 		<text>ペンを下げます。ペンを下げている間は、タートルの軌跡が描かれます。</text>
@@ -161,7 +161,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="input" kind="function" initlabel="コンソールから入力し、その値"
+<BlockGenus name="input" kind="function" initlabel="The value inputted in console"
 	color="255 0 0">
 	<description>
 		<text>コンソールから文字を入力します。</text>
@@ -175,7 +175,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="print" kind="command" initlabel="コンソールに出力する"
+<BlockGenus name="print" kind="command" initlabel="Output to the console"
 	color="255 0 0">
 	<description>
 		<text>セットした文字をコンソールに出力します。</text>
@@ -187,7 +187,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="sleep" kind="command" initlabel="待つ" color="255 0 0">
+<BlockGenus name="sleep" kind="command" initlabel="Sleep" color="255 0 0">
 	<description>
 		<text>
 			タートルを
@@ -199,7 +199,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="秒" connector-kind="socket"
+		<BlockConnector label="time" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="1"></DefaultArg>
 		</BlockConnector>
@@ -210,7 +210,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="warp" kind="command" initlabel="ワープする"
+<BlockGenus name="warp" kind="command" initlabel="Warp"
 	color="255 0 0">
 	<description>
 		<text>
@@ -228,11 +228,11 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="X座標" connector-kind="socket"
+		<BlockConnector label="X" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="Y座標" connector-kind="socket"
+		<BlockConnector label="Y" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
@@ -243,7 +243,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="warpByTopLeft" kind="command" initlabel="(左上の座標指定で)ワープする"
+<BlockGenus name="warpByTopLeft" kind="command" initlabel="Warp by top to left"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector label="X座標" connector-kind="socket"
@@ -261,7 +261,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getX" kind="function" initlabel="X座標の値"
+<BlockGenus name="getX" kind="function" initlabel="X position"
 	color="255 0 0">
 	<description>
 		<text>
@@ -277,7 +277,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getY" kind="function" initlabel="Y座標の値"
+<BlockGenus name="getY" kind="function" initlabel="Y position"
 	color="255 0 0">
 	<description>
 		<text>
@@ -294,7 +294,7 @@
 </BlockGenus>
 
 
-<BlockGenus name="size" kind="command" initlabel="大きさを変える"
+<BlockGenus name="size" kind="command" initlabel="Change size"
 	color="255 0 0">
 	<description>
 		<text>
@@ -312,11 +312,11 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="横の長さ" connector-kind="socket"
+		<BlockConnector label="width" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="縦の長さ" connector-kind="socket"
+		<BlockConnector label="height" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
@@ -329,7 +329,7 @@
 
 
 
-<BlockGenus name="getWidth" kind="function" initlabel="幅を調べ、その値"
+<BlockGenus name="getWidth" kind="function" initlabel="Get width"
 	color="255 0 0">
 	<description>
 		<text>
@@ -345,7 +345,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="getHeight" kind="function" initlabel="高さを調べ、その値"
+<BlockGenus name="getHeight" kind="function" initlabel="Get height"
 	color="255 0 0">
 	<description>
 		<text>
@@ -361,7 +361,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="scale" kind="command" initlabel="大きさを変える"
+<BlockGenus name="scale" kind="command" initlabel="Change scale"
 	color="255 0 0">
 	<description>
 		<text>
@@ -385,7 +385,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="large" kind="command" initlabel="縦・横の幅を大きくする"
+<BlockGenus name="large" kind="command" initlabel="Large width and height"
 	color="255 0 0">
 	<description>
 		<text>
@@ -398,7 +398,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
+		<BlockConnector label="length" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
@@ -409,7 +409,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="small" kind="command" initlabel="縦・横の幅を小さくする"
+<BlockGenus name="small" kind="command" initlabel="Small width and height"
 	color="255 0 0">
 	<description>
 		<text>
@@ -433,7 +433,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="wide" kind="command" initlabel="横の幅を大きくする"
+<BlockGenus name="wide" kind="command" initlabel="Wide"
 	color="255 0 0">
 	<description>
 		<text>
@@ -446,7 +446,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
+		<BlockConnector label="length" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
@@ -457,7 +457,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="narrow" kind="command" initlabel="横の幅を小さくする"
+<BlockGenus name="narrow" kind="command" initlabel="Narrow"
 	color="255 0 0">
 	<description>
 		<text>
@@ -470,7 +470,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
+		<BlockConnector label="length" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
@@ -481,7 +481,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="tall" kind="command" initlabel="縦の幅を大きくする"
+<BlockGenus name="tall" kind="command" initlabel="Tall"
 	color="255 0 0">
 	<description>
 		<text>
@@ -494,7 +494,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
+		<BlockConnector label="length" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
@@ -505,7 +505,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="little" kind="command" initlabel="縦の幅を小さくする"
+<BlockGenus name="little" kind="command" initlabel="Micrify"
 	color="255 0 0">
 	<description>
 		<text>
@@ -518,7 +518,7 @@
 		</arg-description>
 	</description>
 	<BlockConnectors>
-		<BlockConnector label="長さ" connector-kind="socket"
+		<BlockConnector label="length" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="50"></DefaultArg>
 		</BlockConnector>
@@ -529,7 +529,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="update" kind="command" initlabel="再描画する"
+<BlockGenus name="update" kind="command" initlabel="Update"
 	color="255 0 0">
 	<description>
 		<text>
@@ -542,7 +542,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="show" kind="command" initlabel="表示する"
+<BlockGenus name="show" kind="command" initlabel="Show"
 	color="255 0 0">
 	<description>
 		<text>
@@ -555,7 +555,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="hide" kind="command" initlabel="非表示にする"
+<BlockGenus name="hide" kind="command" initlabel="Hide"
 	color="255 0 0">
 	<description>
 		<text>
@@ -568,7 +568,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="setShow" kind="command" initlabel="表示状態を設定する"
+<BlockGenus name="setShow" kind="command" initlabel="Set display state"
 	color="255 0 0">
 	<description>
 		<text>
@@ -587,7 +587,7 @@
 </BlockGenus>
 
 <!-- Ishikawa 2012 -->
-<BlockGenus name="isShow" kind="function" initlabel="表示されているかどうか調べる"
+<BlockGenus name="isShow" kind="function" initlabel="isShow"
 	color="255 0 0">
 	<description>
 		<text>タートルが表示されているかどうかを調べます。表示されていれば真を、されていなかれば偽を返します
@@ -603,7 +603,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="looks" kind="command" initlabel="見た目を変える"
+<BlockGenus name="looks" kind="command" initlabel="Change looks"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="socket" connector-type="object">
@@ -615,7 +615,7 @@
 </BlockGenus>
 
 <BlockGenus name="image" kind="command" color="255 0 0"
-	initlabel="画像ファイルを設定する">
+	initlabel="Set image file">
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
@@ -630,7 +630,7 @@
 	value="show"></LangSpecProperty> </LangSpecProperties> </BlockGenus> -->
 
 <BlockGenus name="text" kind="command" color="255 0 0"
-	initlabel="テキストを設定する">
+	initlabel="Set text">
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket"></BlockConnector>
 	</BlockConnectors>
@@ -640,7 +640,7 @@
 </BlockGenus>
 
 <BlockGenus name="getText" kind="function" color="255 0 0"
-	initlabel="テキストを取得する">
+	initlabel="Get text">
 	<description>
 		<text>コンソールから文字を入力します。</text>
 	</description>
@@ -653,7 +653,7 @@
 </BlockGenus>
 
 <BlockGenus name="key" kind="function" color="255 0 0"
-	initlabel="押されているキーのキーコードを調べる">
+	initlabel="Check pressed key code">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
 			position-type="mirror"></BlockConnector>
@@ -665,7 +665,7 @@
 </BlockGenus>
 
 <BlockGenus name="keyDown" kind="function" color="255 0 0"
-	initlabel="指定したキーが押されているか調べる">
+	initlabel="Check the key is down">
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean"
 			connector-kind="plug" position-type="single"></BlockConnector>
@@ -678,7 +678,7 @@
 </BlockGenus>
 
 <BlockGenus name="mouseX" kind="function" color="255 0 0"
-	initlabel="マウスの現在地のX座標を取得する">
+	initlabel="Get mouse X">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
 			position-type="mirror"></BlockConnector>
@@ -690,7 +690,7 @@
 </BlockGenus>
 
 <BlockGenus name="mouseY" kind="function" color="255 0 0"
-	initlabel="マウスの現在地のY座標を取得する">
+	initlabel="Get mouse Y">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug"
 			position-type="mirror"></BlockConnector>
@@ -701,7 +701,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="mouseClicked" kind="function" initlabel="マウスがクリックされたか調べる"
+<BlockGenus name="mouseClicked" kind="function" initlabel="Check the mouse is clicked"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
@@ -714,7 +714,7 @@
 </BlockGenus>
 
 <BlockGenus name="leftMouseClicked" kind="function"
-	initlabel="マウスが左クリックされたか調べる" color="255 0 0">
+	initlabel="Check the mouse is left-clicked" color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
@@ -726,7 +726,7 @@
 </BlockGenus>
 
 <BlockGenus name="rightMouseClicked" kind="function"
-	initlabel="マウスが右クリックされたか調べる" color="255 0 0">
+	initlabel="Check the mouse is right-clicked" color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
 			position-type="mirror"></BlockConnector>
@@ -737,7 +737,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="doubleClick" kind="function" initlabel="マウスがダブルクリックされたか調べる"
+<BlockGenus name="doubleClick" kind="function" initlabel="Check the mouse is double-clicked"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
@@ -749,7 +749,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="mouseDown" kind="function" initlabel="マウスが押されたか調べる"
+<BlockGenus name="mouseDown" kind="function" initlabel="Check the mouse is down"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
@@ -761,7 +761,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="leftMouseDown" kind="function" initlabel="マウスの左ボタンが押されたか調べる"
+<BlockGenus name="leftMouseDown" kind="function" initlabel="Check the mouse is left-down"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
@@ -773,7 +773,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="rightMouseDown" kind="function" initlabel="マウスの右ボタンが押されたか調べる"
+<BlockGenus name="rightMouseDown" kind="function" initlabel="Check the mouse is right-down"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="boolean"
@@ -785,7 +785,7 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="intersects" kind="function" initlabel="オブジェクトが重なっているかどうか調べる"
+<BlockGenus name="intersects" kind="function" initlabel="Check the object is overlapping"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean"
@@ -798,16 +798,16 @@
 	</LangSpecProperties>
 </BlockGenus>
 
-<BlockGenus name="contains" kind="function" initlabel="オブジェクトが指定した座標を含む位置にいるか調べる"
+<BlockGenus name="contains" kind="function" initlabel="Check the object is in the position"
 	color="255 0 0">
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean"
 			connector-kind="plug"></BlockConnector>
-		<BlockConnector label="X座標" connector-kind="socket"
+		<BlockConnector label="X" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
-		<BlockConnector label="Y座標" connector-kind="socket"
+		<BlockConnector label="Y" connector-kind="socket"
 			connector-type="number">
 			<DefaultArg genus-name="number" label="100"></DefaultArg>
 		</BlockConnector>
@@ -819,7 +819,7 @@
 </BlockGenus>
 <!-- SoundTurtle -->
 
-<BlockGenus name="file" kind="command" initlabel="ファイルを設定する"
+<BlockGenus name="file" kind="command" initlabel="Set file"
 	color="30 30 200">
 	<BlockConnectors>
 		<BlockConnector connector-type="string" connector-kind="socket">
@@ -828,19 +828,19 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="play" kind="command" initlabel="再生する"
+<BlockGenus name="play" kind="command" initlabel="Play sound"
 	color="30 30 200">
 </BlockGenus>
 
-<BlockGenus name="loop" kind="command" initlabel="ループ再生する"
+<BlockGenus name="loop" kind="command" initlabel="Repeat sound"
 	color="30 30 200">
 </BlockGenus>
 
-<BlockGenus name="stop" kind="command" initlabel="停止する"
+<BlockGenus name="stop" kind="command" initlabel="Stop sound"
 	color="30 30 200">
 </BlockGenus>
 
-<BlockGenus name="isPlaying" kind="function" initlabel="再生しているかどうか"
+<BlockGenus name="isPlaying" kind="function" initlabel="Check id playing"
 	color="30 30 200">
 	<BlockConnectors>
 		<BlockConnector connector-type="boolean"
@@ -849,7 +849,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="getVolume" kind="function" initlabel="音量の値"
+<BlockGenus name="getVolume" kind="function" initlabel="Get volume value"
 	color="30 30 200">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="plug">
@@ -857,7 +857,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="setVolume" kind="command" initlabel="音量を設定する"
+<BlockGenus name="setVolume" kind="command" initlabel="Set volume"
 	color="30 30 200">
 	<BlockConnectors>
 		<BlockConnector connector-type="number" connector-kind="socket">
@@ -866,7 +866,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="loadOnMemory" kind="command" initlabel="メモリに読み込む"
+<BlockGenus name="loadOnMemory" kind="command" initlabel="Load a sound on memoly"
 	color="30 30 200">
 </BlockGenus>
 
@@ -884,7 +884,7 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="getSize" kind="function" initlabel="要素数"
+<BlockGenus name="getSize" kind="function" initlabel="Number of elements"
 	color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="" connector-kind="plug"
@@ -892,38 +892,38 @@
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="add" kind="command" initlabel="追加する" color="255 255 100">
+<BlockGenus name="add" kind="command" initlabel="Add element" color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="誰を？" connector-kind="socket"
+		<BlockConnector label="which?" connector-kind="socket"
 			connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="addFirst" kind="command" initlabel="最初に追加する"
+<BlockGenus name="addFirst" kind="command" initlabel="Add element to the first"
 	color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="誰を？" connector-kind="socket"
+		<BlockConnector label="which?" connector-kind="socket"
 			connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="addLast" kind="command" initlabel="最後に追加する"
+<BlockGenus name="addLast" kind="command" initlabel="Add element to the last"
 	color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="誰を？" connector-kind="socket"
+		<BlockConnector label="which?" connector-kind="socket"
 			connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="addAll" kind="command" initlabel="中身を全て追加する"
+<BlockGenus name="addAll" kind="command" initlabel="Add all elementws"
 	color="255 255 100">
 	<BlockConnectors>
-		<BlockConnector label="誰の？" connector-kind="socket"
+		<BlockConnector label="which?" connector-kind="socket"
 			connector-type="object" position-type="single" />
 	</BlockConnectors>
 </BlockGenus>
 
-<BlockGenus name="moveAllTo" kind="command" initlabel="全ての中身を移動する"
+<BlockGenus name="moveAllTo" kind="command" initlabel="Move all elements to"
 	color="255 255 100">
 	<BlockConnectors>
 		<BlockConnector label="どこに？" connector-kind="socket"

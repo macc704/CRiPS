@@ -24,8 +24,6 @@ import java.util.function.Function;
 
 import javax.swing.SwingUtilities;
 
-import org.xml.sax.SAXException;
-
 import com.google.common.collect.Lists;
 
 import bc.BlockConverter;
@@ -72,30 +70,30 @@ public class REBlockEditorManager2 {
 			File tmpSrcFile = createUTFDummyFile(srcfile);
 
 			UniClassDec classDec = convertJavaToUni(tmpSrcFile);
-			//TODO mapperが完成次第消す
-			if(isTurtle()){
+			// TODO mapperが完成次第消す
+			if (isTurtle()) {
 				classDec.superClass = Lists.newArrayList("Turtle");
-				for(UniMemberDec dec : classDec.members){
-					if(dec instanceof UniMethodDec){
-						UniMethodDec method = (UniMethodDec)dec;
-						if(method.methodName.equals("main")){
+				for (UniMemberDec dec : classDec.members) {
+					if (dec instanceof UniMethodDec) {
+						UniMethodDec method = (UniMethodDec) dec;
+						if (method.methodName.equals("main")) {
 							method.args = new ArrayList<>();
 							method.args.add(new UniArg("String[]", "args"));
 						}
 					}
 				}
 			}
-			
+
 			File xmlfile = new File(dir.getPath() + "/" + classDec.className + ".xml");
 			try {
 				xmlfile.createNewFile();
-				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false, BLOCK_ENC);
+				PrintStream out = new PrintStream(new BufferedOutputStream(new FileOutputStream(xmlfile)), false,
+						BLOCK_ENC);
 				BlockGenerator blockParser = new BlockGenerator(out, sourceFile.getParent() + "/");
 				blockParser.parse(classDec);
 			} catch (IOException e) {
 				e.printStackTrace();
-			} catch (SAXException e) {
-				e.printStackTrace();
+
 			}
 
 			tmpSrcFile.delete();
@@ -106,9 +104,10 @@ public class REBlockEditorManager2 {
 		// Managerの初期化処理
 		Function<File, WorkspaceController> initBlockEditorAction = (sourceFile) -> {
 			WorkspaceController blockEditor = new WorkspaceController();
-			if(sourceFile != null){
+			if (sourceFile != null) {
 				// プロジェクトを解析して、言語定義ファイルを書き換える
-				LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(sourceFile, REApplication.SRC_ENCODING, new String[] {}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
+				LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(sourceFile,
+						REApplication.SRC_ENCODING, new String[] {}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
 				try {
 					rewriter.rewrite();
 				} catch (Exception e) {
@@ -116,8 +115,8 @@ public class REBlockEditorManager2 {
 				}
 
 				blockEditor.setLangDefFilePath(sourceFile.getParent() + "/" + "lang_def_project.xml");
-			}else{
-					blockEditor.setLangDefFilePath(LANG_DEF_BASE_DIR + "lang_def.xml");
+			} else {
+				blockEditor.setLangDefFilePath(LANG_DEF_BASE_DIR + "lang_def.xml");
 			}
 
 			blockEditor.loadFreshWorkspace();
@@ -129,7 +128,7 @@ public class REBlockEditorManager2 {
 		doOpenBlockEditor(initBlockEditorAction, convertAction);
 	}
 
-	public File createUTFDummyFile(File srcfile){
+	public File createUTFDummyFile(File srcfile) {
 		File tmpSrcFile = new File(srcfile.getParent() + "/" + ".tmp" + srcfile.getName());
 		try {
 			FileInputStream fs = new FileInputStream(srcfile);
@@ -139,7 +138,7 @@ public class REBlockEditorManager2 {
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fo, BLOCK_ENC));
 			String convertedText = "";
 			String line = reader.readLine();
-			while(line != null){
+			while (line != null) {
 				convertedText += new String(line.getBytes(BLOCK_ENC)) + System.lineSeparator();
 				line = reader.readLine();
 			}
@@ -189,7 +188,7 @@ public class REBlockEditorManager2 {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (IREResourceRepository.DOCUMENT_OPENED.equals(evt.getPropertyName())) {
-					if(blockEditor != null){
+					if (blockEditor != null) {
 						rewriteLangdefFile();
 						blockEditor.resetWorkspace();
 					}
@@ -199,10 +198,11 @@ public class REBlockEditorManager2 {
 		});
 	}
 
-	public void rewriteLangdefFile(){
+	public void rewriteLangdefFile() {
 		File currentFile = app.getSourceManager().getCurrentFile();
-		if(isJavaFile(currentFile)){
-			LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(currentFile, REApplication.SRC_ENCODING, new String[] {}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
+		if (isJavaFile(currentFile)) {
+			LangDefFilesReWriterMain2 rewriter = new LangDefFilesReWriterMain2(currentFile, REApplication.SRC_ENCODING,
+					new String[] {}, REBlockEditorManager2.LANG_DEF_BASE_DIR);
 			try {
 				rewriter.rewrite();
 			} catch (Exception e) {
@@ -211,11 +211,12 @@ public class REBlockEditorManager2 {
 		}
 	}
 
-	public boolean isJavaFile(File file){
+	public boolean isJavaFile(File file) {
 		return file.getName().endsWith(".java");
 	}
 
-	public void doOpenBlockEditor(Function<File, WorkspaceController> initAction, BiFunction<File, REApplication, String> convertionAction) {
+	public void doOpenBlockEditor(Function<File, WorkspaceController> initAction,
+			BiFunction<File, REApplication, String> convertionAction) {
 		if (isWorkspaceOpened()) { // already opened
 			CFrameUtils.toFront(blockEditor.getFrame());
 			return;
@@ -297,8 +298,8 @@ public class REBlockEditorManager2 {
 		return blockEditor != null && blockEditor.getFrame() != null && blockEditor.getFrame().isVisible();
 	}
 
-	private boolean isOpenableTextFile(File file){
-		if(file == null){
+	private boolean isOpenableTextFile(File file) {
+		if (file == null) {
 			return false;
 		}
 		String ext = CFileSystem.convertToCFile(file).getName().getExtension();
@@ -313,7 +314,7 @@ public class REBlockEditorManager2 {
 
 	public void doCompileBlock() {
 		final File target = app.getSourceManager().getCurrentFile();
-		if(!isOpenableTextFile(target)){
+		if (!isOpenableTextFile(target)) {
 			return;
 		}
 		man.addTask(new ICTask() {
@@ -458,7 +459,8 @@ public class REBlockEditorManager2 {
 		StringBuffer blockEditorFile = new StringBuffer();
 		blockEditorFile.append("<?xml version=\"1.0\" encoding=\"" + BlockConverter.ENCODING_BLOCK_XML + "\"?>");
 		blockEditorFile.append("<CODEBLOCKS><Pages>");
-		blockEditorFile.append("<Page page-name=\"BlockEditor\"" + " page-color=\" 40 40 40\" page-width=\"4000\"" + " page-infullview=\"yes\" page-drawer=\"NewClass\">");
+		blockEditorFile.append("<Page page-name=\"BlockEditor\"" + " page-color=\" 40 40 40\" page-width=\"4000\""
+				+ " page-infullview=\"yes\" page-drawer=\"NewClass\">");
 		blockEditorFile.append("<PageBlocks></PageBlocks></Page></Pages></CODEBLOCKS>");
 		return blockEditorFile.toString();
 	}
@@ -480,7 +482,8 @@ public class REBlockEditorManager2 {
 				return;
 			}
 
-			CPath path = app.getSourceManager().getCCurrentFile().getRelativePath(app.getSourceManager().getCCurrentProject());
+			CPath path = app.getSourceManager().getCCurrentFile()
+					.getRelativePath(app.getSourceManager().getCCurrentProject());
 			PRLog log = new REBlockEditorLog(subType, path, texts);
 			app.writePresLog(log);
 		} catch (Exception ex) {
