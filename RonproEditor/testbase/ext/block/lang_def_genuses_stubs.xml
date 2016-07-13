@@ -29,7 +29,7 @@
 </BlockGenus>
 
 <BlockGenus name="getter" kind="data" initlabel="" color="0 0 0"
-	label-suffix="の値">
+	label-suffix="">
 	<BlockConnectors>
 		<BlockConnector connector-kind="plug" connector-type="poly"
 			position-type="mirror"></BlockConnector>
@@ -40,7 +40,7 @@
 </BlockGenus>
 
 <BlockGenus name="setter" kind="command" initlabel="" color="0 0 0"
-	label-suffix="に書き込む">
+	label-suffix="">
 	<BlockConnectors>
 		<BlockConnector connector-kind="socket" connector-type="poly"
 			position-type="single" label="値"></BlockConnector>
@@ -128,10 +128,10 @@
 </BlockGenus>
 
 <BlockGenus name="inc" kind="command" initlabel="" color="0 0 0"
-	label-suffix="を増やす">
+	label-suffix=" increment">
 	<BlockConnectors>
 		<BlockConnector connector-kind="socket" connector-type="number"
-			position-type="single" label="値">
+			position-type="single" label="">
 			<DefaultArg genus-name="number" label="1"></DefaultArg>
 		</BlockConnector>
 	</BlockConnectors>
