@@ -132,7 +132,7 @@ public class BlockProcessor {
 								break;
 
 							case "CompileCorrectTimeRate":
-								String compileCTRate = data.get(20);
+								String compileCTRate = getCCETRate(data.get(20));
 								record.add(compileCTRate);
 								break;
 
@@ -193,7 +193,6 @@ public class BlockProcessor {
 	/**
 	 */
 	// @SuppressWarnings("unused")
-
 	private String convertCompileCT(String stringTime) {
 		// stringTimeType is 00:00(:00:0000)
 
@@ -203,27 +202,44 @@ public class BlockProcessor {
 		return String.valueOf((hour * 60 + min));
 	}
 
-	private String getBERate(String total, String be) {
-		int totalInt = 0;
+	private String getCCETRate(String ccetr) {
+		double tmp = 0;
 		try {
-			totalInt = Integer.parseInt(total);
+			tmp = Double.parseDouble(ccetr);
+		} catch (Exception ex) {
+			return "-1";
+		}
+		if (tmp < 0 || Double.isNaN(tmp)) {
+			return "-1";
+		}
+		String formated = format.format(tmp);
+		// System.out.println(tmp + " : " + formated);
+		return formated;
+		// return String.valueOf(tmp);
+	}
+
+	private String getBERate(String total, String be) {
+		double totalDouble = 0;
+		try {
+			totalDouble = Double.parseDouble(total);
 		} catch (Exception ex) {
 			return "-";
 		}
-		if (totalInt <= 0) {
+		if (totalDouble <= 0) {
 			return "-";
 		}
 
-		int beInt = 0;
+		double beDouble = 0;
 		try {
-			beInt = Integer.parseInt(be);
+			beDouble = Double.parseDouble(be);
 		} catch (Exception ex) {
 			return "0";
 		}
 
-		double rate = (double) beInt / (double) totalInt;
+		double rate = beDouble / totalDouble;
 		return format.format(rate);
+		// return String.valueOf(rate);
 	}
 
-	private static final DecimalFormat format = new DecimalFormat("###.#");
+	private static final DecimalFormat format = new DecimalFormat("###.##");
 }
