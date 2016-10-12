@@ -15,9 +15,7 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-
 import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
-
 import ch.util.CHBlockEditorController;
 import clib.common.filesystem.CDirectory;
 import clib.common.filesystem.CFile;
@@ -755,8 +753,7 @@ public class REApplication {
 		frame.getConsole().setText("");
 
 		// 記録
-		long compileTimeMilles = System.currentTimeMillis();
-		System.out.println(compileTimeMilles);
+		long compileTimeMilles = System.currentTimeMillis();// 各ログ用のタイムスタンプ
 		writePresLog(compileTimeMilles, PRCommandLog.SubType.COMPILE);
 
 		// コンパイル実行

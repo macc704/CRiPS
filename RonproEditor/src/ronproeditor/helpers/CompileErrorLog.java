@@ -17,7 +17,8 @@ public class CompileErrorLog {
 	}
 
 	public void saveLog(List<String> outPutList) {
-		if (timestamp < 0) {
+		// 内部的なコンパイルエラーの場合orコンパイルエラーが無い場合はreturn
+		if (timestamp < 0||outPutList.isEmpty()) {
 			return;
 		}
 
