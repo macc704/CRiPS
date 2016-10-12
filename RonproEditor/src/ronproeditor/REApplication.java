@@ -54,6 +54,7 @@ import ronproeditor.ext.RECreateCocoDataManager;
 import ronproeditor.ext.REFlowViewerManager;
 import ronproeditor.ext.REGeneRefManager;
 import ronproeditor.ext.REPresVisualizerManager;
+import ronproeditor.helpers.CompileErrorLog;
 import ronproeditor.helpers.FileSystemUtil;
 import ronproeditor.helpers.IConsole;
 import ronproeditor.helpers.JavaEnv;
@@ -566,7 +567,7 @@ public class REApplication {
 			// blockManager.doRefleshBlock(); //TODO オブジェクト指向対応のため？
 			flowManager.refreshChart();
 			if (!fromText) {
-				//checoproManager.send();
+				// checoproManager.send();
 			}
 
 			deleteRunnable(getSourceManager().getCurrentFile());
@@ -754,7 +755,9 @@ public class REApplication {
 		frame.getConsole().setText("");
 
 		// 記録
-		writePresLog(PRCommandLog.SubType.COMPILE);
+		long compileTimeMilles = System.currentTimeMillis();
+		System.out.println(compileTimeMilles);
+		writePresLog(compileTimeMilles, PRCommandLog.SubType.COMPILE);
 
 		// コンパイル実行
 		executeCompile(false, frame.getConsole(), false, new ICTask() {
@@ -762,7 +765,7 @@ public class REApplication {
 			public void doTask() {
 				generefManager.handleCompileDone();
 			}
-		});
+		}, new CompileErrorLog(getSourceManager().getProjectDirectory(), compileTimeMilles));
 
 	}
 
@@ -782,7 +785,8 @@ public class REApplication {
 		return out.toString();
 	}
 
-	private void executeCompile(boolean verbose, IConsole console, boolean wait, ICTask finishedHandler) {
+	private void executeCompile(boolean verbose, IConsole console, boolean wait, ICTask finishedHandler,
+			CompileErrorLog compileErrorLog) {
 		JavaEnv env = FileSystemUtil.createJavaEnv(sourceManager.getRootDirectory(), sourceManager.getCurrentFile());
 
 		// コマンド作成
@@ -806,14 +810,22 @@ public class REApplication {
 		if (wait) {// blocking
 			try {
 				RECommandExecuter.executeCommandWait(commands, env.dir, console,
-						getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()));
+						getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()), compileErrorLog);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {// non blocking
 			RECommandExecuter.executeCommand(commands, env.dir, console,
-					getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()), finishedHandler);
+					getFrame().getConsole().getFontMetrics(getFrame().getConsole().getFont()), finishedHandler,
+					compileErrorLog);
 		}
+
+	}
+
+	// make dummy CompileErrorLog
+	private void executeCompile(boolean verbose, IConsole console, boolean wait, ICTask finishedHandler) {
+		executeCompile(verbose, console, wait, finishedHandler,
+				new CompileErrorLog(getSourceManager().getProjectDirectory(), -1));
 	}
 
 	/**
@@ -847,7 +859,7 @@ public class REApplication {
 					public void doTask() {
 						writePresLog(PRCommandLog.SubType.STOP_RUN);
 					}
-				});
+				}, new CompileErrorLog(getSourceManager().getProjectDirectory(), -1));
 	}
 
 	public void doDebugRun() {
@@ -1038,7 +1050,7 @@ public class REApplication {
 			NewZipUtil.createZip(zip, project, project);
 
 			JOptionPane.showMessageDialog(frame, name.toString() + "としてzipファイルをExportしました．", "成功しました",
-			        JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.INFORMATION_MESSAGE);
 
 		} catch (Exception ex) {
 			ex.printStackTrace(frame.getConsole().getErr());
@@ -1197,6 +1209,22 @@ public class REApplication {
 
 	private CFile lastFile;
 
+	public void writePresLog(long timestamp, PRCommandLog.SubType subType, Object... args) {
+		try {
+			CFile file = getSourceManager().getCCurrentFile();
+			if (file == null) {
+				file = lastFile;
+			} else {
+				lastFile = file;
+			}
+			CPath path = file.getRelativePath(getSourceManager().getCCurrentProject());
+			PRLog log = new PRCommandLog(timestamp, subType, path, args);
+			writePresLog(log);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
 	public void writePresLog(PRCommandLog.SubType subType, Object... args) {
 		try {
 			CFile file = getSourceManager().getCCurrentFile();
@@ -1230,12 +1258,16 @@ public class REApplication {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public void writePresLog(PRLog log, CDirectory project) {
 		try {
 			presManager.getRecordingProject(project).record(log);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	public void writeCompileErrorLog() {
+
 	}
 }

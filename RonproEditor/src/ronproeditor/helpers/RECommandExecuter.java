@@ -55,12 +55,13 @@ public class RECommandExecuter {
 	// executeCommand(commands, dir, console, font, null);
 	// }
 
+	// 引数compileErrorLogのtimestampはコンパイル時以外は-1とする
 	public static void executeCommand(final List<String> commands, final File dir, final IConsole console,
-			final FontMetrics font, ICTask handler) {
+			final FontMetrics font, ICTask handler, final CompileErrorLog compileErrorLog) {
 		new Thread() {
 			public void run() {
 				try {
-					RECommandExecuter.run(commands, dir, console, font);
+					RECommandExecuter.run(commands, dir, console, font, compileErrorLog);
 					if (handler != null) {
 						handler.doTask();
 					}
@@ -72,14 +73,19 @@ public class RECommandExecuter {
 	}
 
 	public static void executeCommandWait(final List<String> commands, final File dir, final IConsole console,
+			FontMetrics font, final CompileErrorLog compileErrorLog) throws Exception {
+		run(commands, dir, console, font, compileErrorLog);
+	}
+	
+	// make Dummy CompileErrorLog
+	public static void executeCommandWait(final List<String> commands, final File dir, final IConsole console,
 			FontMetrics font) throws Exception {
-		run(commands, dir, console, font);
+		executeCommandWait(commands, dir, console, font,new CompileErrorLog(new File(""), -1));
 	}
 
-	public static void run(List<String> commands, File dir, IConsole console, FontMetrics fontMetrics)
-			throws Exception {
+	public static void run(List<String> commands, File dir, IConsole console, FontMetrics fontMetrics,
+			CompileErrorLog compileErrorLog) throws Exception {
 		console.toLast();
-
 		Runtime rt = Runtime.getRuntime();
 		console.getOut().println("コマンド実行(" + new Date(System.currentTimeMillis()) + "):" + getCommandString(commands));
 
@@ -87,8 +93,8 @@ public class RECommandExecuter {
 
 		processes.add(p);
 
-		createPrintStreamThread(p.getInputStream(), console.getOut(), fontMetrics).start();
-		createPrintStreamThread(p.getErrorStream(), console.getErr(), fontMetrics).start();
+		createPrintOutStreamThread(p.getInputStream(), console.getOut(), fontMetrics).start();
+		createPrintErrStreamThread(p.getErrorStream(), console.getErr(), fontMetrics, compileErrorLog).start();
 
 		console.setConsoleToStream(new PrintStream(p.getOutputStream()));
 		InputStream in = console.getIn();
@@ -122,24 +128,53 @@ public class RECommandExecuter {
 		return array;
 	}
 
-	private static Thread createPrintStreamThread(final InputStream in, final PrintStream out,
+	private static Thread createPrintOutStreamThread(final InputStream in, final PrintStream out,
 			final FontMetrics fontMetrics) {
 		return new Thread() {
 			public void run() {
-				try {
-					InputStreamReader reader = new InputStreamReader(in, commandEncoding);
-					char[] buf = new char[1024];
-					int n;
-					while ((n = reader.read(buf)) > 0) {
-						char[] text = new char[n];
-						System.arraycopy(buf, 0, text, 0, text.length);
-						out.print(fixErrorMessage(String.valueOf(text), fontMetrics));
-					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
+				List<String> outPutList = getConsoleLine(in);
+				for (String s : outPutList) {
+					out.print(fixErrorMessage(s, fontMetrics));
 				}
 			}
 		};
+	}
+
+	private static Thread createPrintErrStreamThread(final InputStream in, final PrintStream out,
+			final FontMetrics fontMetrics, final CompileErrorLog compileErrorLog) {
+		return new Thread() {
+			public synchronized void run() {
+				List<String> outPutList = getConsoleLine(in);
+
+				compileErrorLog.saveLog(outPutList);
+				
+					for (String s : outPutList) {
+						out.print(fixErrorMessage(s, fontMetrics));
+					}
+
+			}
+		};
+	}
+
+	private static List<String> getConsoleLine(InputStream in) {
+		InputStreamReader reader;
+		ArrayList<String> outPutList = new ArrayList<>();
+		try {
+			reader = new InputStreamReader(in, commandEncoding);
+
+			char[] buf = new char[1024];
+			int n;
+			while ((n = reader.read(buf)) > 0) {
+				char[] text = new char[n];
+				System.arraycopy(buf, 0, text, 0, text.length);
+				outPutList.add(String.valueOf(text));
+
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return outPutList;
 	}
 
 	private static String fixErrorMessage(String message, FontMetrics fontMetrics) {
