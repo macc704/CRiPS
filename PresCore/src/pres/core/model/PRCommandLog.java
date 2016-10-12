@@ -27,4 +27,8 @@ public class PRCommandLog extends PRFileLog {
 		super(Type.COMMAND_RECORD, subType, path, args);
 	}
 
+	public PRCommandLog(long timestamp, SubType subType, CPath path,
+			Object... args) {
+		super(timestamp, Type.COMMAND_RECORD, subType, path, args);
+	}
 }

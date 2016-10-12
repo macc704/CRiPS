@@ -25,6 +25,14 @@ public abstract class PRFileLog extends PRLog {
 		this.path = path;
 	}
 
+	public PRFileLog(long timestamp, PRLogType type, PRLogSubType subType,
+			CPath path, Object... args) {
+		super(timestamp, type, subType);
+		addArgument(path);
+		addArguments(args);
+		this.path = path;
+	}
+
 	/**
 	 * @return the path
 	 */
