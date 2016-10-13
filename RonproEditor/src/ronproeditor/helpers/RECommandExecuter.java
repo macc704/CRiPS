@@ -76,11 +76,11 @@ public class RECommandExecuter {
 			FontMetrics font, final CompileErrorLog compileErrorLog) throws Exception {
 		run(commands, dir, console, font, compileErrorLog);
 	}
-	
+
 	// make Dummy CompileErrorLog
 	public static void executeCommandWait(final List<String> commands, final File dir, final IConsole console,
 			FontMetrics font) throws Exception {
-		executeCommandWait(commands, dir, console, font,new CompileErrorLog(new File(""), -1));
+		executeCommandWait(commands, dir, console, font, new CompileErrorLog(new File(""), -1));
 	}
 
 	public static void run(List<String> commands, File dir, IConsole console, FontMetrics fontMetrics,
@@ -132,10 +132,8 @@ public class RECommandExecuter {
 			final FontMetrics fontMetrics) {
 		return new Thread() {
 			public void run() {
-				List<String> outPutList = getConsoleLine(in);
-				for (String s : outPutList) {
-					out.print(fixErrorMessage(s, fontMetrics));
-				}
+				printOut2Console(in, out, fontMetrics);
+
 			}
 		};
 	}
@@ -144,31 +142,26 @@ public class RECommandExecuter {
 			final FontMetrics fontMetrics, final CompileErrorLog compileErrorLog) {
 		return new Thread() {
 			public synchronized void run() {
-				List<String> outPutList = getConsoleLine(in);
-
+				List<String> outPutList = printOut2Console(in, out, fontMetrics);
 				compileErrorLog.saveLog(outPutList);
-				
-					for (String s : outPutList) {
-						out.print(fixErrorMessage(s, fontMetrics));
-					}
 
 			}
 		};
 	}
 
-	private static List<String> getConsoleLine(InputStream in) {
+	private static List<String> printOut2Console(final InputStream in, final PrintStream out,
+			final FontMetrics fontMetrics) {
 		InputStreamReader reader;
 		ArrayList<String> outPutList = new ArrayList<>();
 		try {
 			reader = new InputStreamReader(in, commandEncoding);
-
 			char[] buf = new char[1024];
 			int n;
 			while ((n = reader.read(buf)) > 0) {
 				char[] text = new char[n];
 				System.arraycopy(buf, 0, text, 0, text.length);
+				out.print(fixErrorMessage(String.valueOf(text), fontMetrics));
 				outPutList.add(String.valueOf(text));
-
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
