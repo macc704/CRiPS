@@ -7,6 +7,7 @@ package ronproeditor.views;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -15,9 +16,11 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.net.URL;
+import java.util.Arrays;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.GrayFilter;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
@@ -298,8 +301,8 @@ public class REFrame extends JFrame {
 
 		// アクションの追加
 		menuTools.add(actionOpenBlockEditor);
-//		menuTools.add(actionOpenNewBlockEditor);
-//		menuTools.add(actionOpenSemiNewBlockEditor);
+		// menuTools.add(actionOpenNewBlockEditor);
+		// menuTools.add(actionOpenSemiNewBlockEditor);
 		menuTools.add(actionOpenFlowViewer);
 		menuTools.add(actionOpenGeneRefBrowser);
 		// menuTools.add(useRSSystem);
@@ -930,27 +933,35 @@ public class REFrame extends JFrame {
 			} else {
 				if (CJavaSystem.getInstance().isMac()) {
 					fontName = "Osaka";
+					// 環境上のFontにConsolaが存在するか確認
+				} else if (Arrays
+						.asList(GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames())
+						.contains("Consolas")) {
+					fontName = "Consolas";
 				} else {
-					if (panel.getFont() != null) {
-						fontName = panel.getFont().getName();
-					} else {
-						fontName = "Dialog";
-					}
+					fontName = "Dialog";
 				}
+
 			}
 			checkbox.setSelectedFontByName(fontName);
 
-			int size = 12;
+			int size = 16;
 			try {
 				if (getRepository().exists(FONT_SIZE)) {
 					size = Integer.parseInt(getRepository().get(FONT_SIZE));
 				}
-			} catch (Exception ex) {
+			} catch (
+
+			Exception ex)
+
+			{
 				// do nothing
 			}
 			field.setText(Integer.toString(size));
 			console.setFont(category.getSelectedFont());
-			if (editor != null) {
+			if (editor != null)
+
+			{
 				editor.getViewer().changeFont(getSelectedFont());
 			}
 		}
